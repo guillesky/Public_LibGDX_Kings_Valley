@@ -12,6 +12,7 @@ import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
@@ -34,7 +35,7 @@ public class Main extends ApplicationAdapter
 	@Override
 	public void create()
 	{
-		String fileName = "maps/level_03.tmx";
+		String fileName = "maps/level_01.tmx";
 		manager = new AssetManager();
 		manager.setLoader(TiledMap.class, new TmxMapLoader());
 		manager.load(fileName, TiledMap.class);
@@ -53,13 +54,15 @@ public class Main extends ApplicationAdapter
 		camera.position.x = mapWidthInPixels * .5f;
 		camera.position.y = mapHeightInPixels * .5f;
 		renderer = new OrthogonalTiledMapRenderer(map);
-		MapLayer layerFront = map.getLayers().get(1);
-		
-		Iterator it=map.getTileSets().iterator();
-		while(it.hasNext())
-			System.out.println(it.next());
-		System.out.println(map.getTileSets().getTileSet(0).size());
-		
+		TiledMapTileLayer layerFront = (TiledMapTileLayer) map.getLayers().get(1);
+		System.out.println(layerFront.toString()+ "   Width: "+layerFront.getWidth()+"  Height: "+layerFront.getHeight());
+		for(int i=0;i<layerFront.getHeight();i++)
+			for(int j=0;j<layerFront.getWidth();j++) 
+			{
+				
+	System.out.println("i: "+i+" j:"+j+"       "+layerFront.getCell(j, i));
+					
+			}
 	}
 
 	@Override
