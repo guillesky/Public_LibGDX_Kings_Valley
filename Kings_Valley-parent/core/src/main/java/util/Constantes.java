@@ -24,7 +24,7 @@ public class Constantes
 	public static final int It_push_out = 79;
 	public static final HashMap<Integer, String> identificacion = new HashMap<Integer, String>();
 	public static final HashMap<String, Integer> stringToInteger = new HashMap<String, Integer>();
-
+	public static final HashMap<Integer, String> levelFileName = new HashMap<Integer, String>();
 	static
 	{
 		identificacion.put(It_brick, "Brick");
@@ -45,17 +45,26 @@ public class Constantes
 
 		identificacion.put(It_push_in, "It_push_in");
 		identificacion.put(It_push_out, "It_push_out");
-		
-		
-		
-		stringToInteger.put("Dagger",It_dagger);
-		stringToInteger.put("Picker",It_picker);
-		stringToInteger.put("Jewel",It_jewel);
-		stringToInteger.put("Door",It_door);
-		stringToInteger.put("Wall",It_wall);
-		stringToInteger.put("Mummy",It_mummy);
-		stringToInteger.put("Stairs",It_stairs);
-		stringToInteger.put("Giratory",It_giratory);
+
+		stringToInteger.put("Dagger", It_dagger);
+		stringToInteger.put("Picker", It_picker);
+		stringToInteger.put("Jewel", It_jewel);
+		stringToInteger.put("Door", It_door);
+		stringToInteger.put("Wall", It_wall);
+		stringToInteger.put("Mummy", It_mummy);
+		stringToInteger.put("Stairs", It_stairs);
+		stringToInteger.put("Giratory", It_giratory);
+
+		for (int i = 1; i <= 15; i++)
+		{
+			if (i < 10)
+			{
+				levelFileName.put(i, "maps/level_0" + i + ".tmx");
+			} else
+				levelFileName.put(i, "maps/level_" + i + ".tmx");
+
+		}
+
 	}
 
 }
