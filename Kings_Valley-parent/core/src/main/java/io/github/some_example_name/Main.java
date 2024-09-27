@@ -19,100 +19,101 @@ import vista2D.Grafica2D;
  */
 public class Main implements IMyApplicationnListener
 {
-	private AssetManager manager;
-	private IMyApplicationnListener grafica;
-	private int tileWidth, tileHeight, mapWidthInTiles, mapHeightInTiles, mapWidthInPixels, mapHeightInPixels;
+    private AssetManager manager;
+    private IMyApplicationnListener grafica;
+    private int tileWidth, tileHeight, mapWidthInTiles, mapHeightInTiles, mapWidthInPixels, mapHeightInPixels;
 
-	@Override
-	public void create()
+    @Override
+    public void create()
+    {
+
+	manager = new AssetManager();
+	manager.setLoader(TiledMap.class, new TmxMapLoader());
+	for (int i = 1; i <= 15; i++)
+	    manager.load(Constantes.levelFileName.get(i), TiledMap.class);
+	grafica = new Grafica2D(manager);
+
+	manager.finishLoading();
+
+	for (int i = 1; i <= 15; i++)
 	{
-
-		manager = new AssetManager();
-		manager.setLoader(TiledMap.class, new TmxMapLoader());
-		for (int i = 1; i <= 15; i++)
-			manager.load(Constantes.levelFileName.get(i), TiledMap.class);
-		grafica = new Grafica2D(manager);
-
-		manager.finishLoading();
-		this.grafica.create();
-		for (int i = 1; i <= 15; i++)
-		{
-			TiledMap map = manager.get(Constantes.levelFileName.get(i), TiledMap.class);
-			Juego.getInstance().addPyramid(new Pyramid(map));
-		}
-
+	    TiledMap map = manager.get(Constantes.levelFileName.get(i), TiledMap.class);
+	    Juego.getInstance().addPyramid(new Pyramid(map));
 	}
+	this.grafica.create();
 
-	@Override
-	public void render()
-	{
-		this.grafica.render();
-	}
+    }
 
-	@Override
-	public void dispose()
-	{
-		manager.dispose();
-		this.grafica.dispose();
-		
+    @Override
+    public void render()
+    {
+	this.grafica.render();
+    }
 
-	}
+    @Override
+    public void dispose()
+    {
+	manager.dispose();
+	this.grafica.dispose();
+	Juego.getInstance().dispose();
 
-	private void updateInput()
-	{
-		Controles controles = Juego.getInstance().getControles();
+    }
 
-		float x = 0, y = 0;
+    private void updateInput()
+    {
+	Controles controles = Juego.getInstance().getControles();
 
-		Vector2 aux;
-		if (Gdx.input.isKeyPressed(Input.Keys.UP))
-			y += 1;
-		if (Gdx.input.isKeyPressed(Input.Keys.DOWN))
-			y -= 1;
-		if (Gdx.input.isKeyPressed(Input.Keys.RIGHT))
-			x += 1;
-		if (Gdx.input.isKeyPressed(Input.Keys.LEFT))
-			x -= 1;
-		aux = new Vector2(x, y);
+	float x = 0, y = 0;
 
-		controles.setNuevoRumbo(aux);
-		controles.setShot(Gdx.input.isKeyPressed(Input.Keys.SPACE));
-		Juego.getInstance().actualizaframe(Gdx.graphics.getDeltaTime());
-	}
+	Vector2 aux;
+	if (Gdx.input.isKeyPressed(Input.Keys.UP))
+	    y += 1;
+	if (Gdx.input.isKeyPressed(Input.Keys.DOWN))
+	    y -= 1;
+	if (Gdx.input.isKeyPressed(Input.Keys.RIGHT))
+	    x += 1;
+	if (Gdx.input.isKeyPressed(Input.Keys.LEFT))
+	    x -= 1;
+	aux = new Vector2(x, y);
 
-	@Override
-	public void addGraphicElement(Object element)
-	{
-		// TODO Auto-generated method stub
+	controles.setNuevoRumbo(aux);
+	controles.setShot(Gdx.input.isKeyPressed(Input.Keys.SPACE));
+	Juego.getInstance().actualizaframe(Gdx.graphics.getDeltaTime());
+    }
 
-	}
+    @Override
+    public void addGraphicElement(Object element)
+    {
+	// TODO Auto-generated method stub
 
-	@Override
-	public void removeGraphicElement(Object element)
-	{
-		// TODO Auto-generated method stub
+    }
 
-	}
+    @Override
+    public void removeGraphicElement(Object element)
+    {
+	// TODO Auto-generated method stub
 
-	@Override
-	public void resize(int width, int height)
-	{
-		// TODO Auto-generated method stub
+    }
 
-	}
+    @Override
+    public void resize(int width, int height)
+    {
+	this.grafica.resize(width, height);
 
-	@Override
-	public void pause()
-	{
-		// TODO Auto-generated method stub
+    }
 
-	}
+    @Override
+    public void pause()
+    {
+	this.grafica.pause();
 
-	@Override
-	public void resume()
-	{
-		// TODO Auto-generated method stub
+    }
 
-	}
+    @Override
+    public void resume()
+    {
+	this.grafica.resume();
+
+    }
 
 }
