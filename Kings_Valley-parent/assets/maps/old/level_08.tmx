@@ -166,163 +166,163 @@
     <property name="p1" value="0"/>
     </properties>
   </object>
-<object id="20" type="Stairs" gid="251" x="40" y="40" width="5" height="2">
+<object id="20" type="Stairs" gid="251" x="40" y="40" width="10" height="10">
 <properties>
     <property name="p0" value="1"/>
     <property name="p1" value="0"/>
     </properties>
   </object>
-<object id="21" type="Stairs" gid="251" x="280" y="170" width="5" height="2">
+<object id="21" type="Stairs" gid="251" x="280" y="170" width="10" height="10">
 <properties>
     <property name="p0" value="1"/>
     <property name="p1" value="0"/>
     </properties>
   </object>
-<object id="22" type="Stairs" gid="251" x="440" y="60" width="5" height="2">
+<object id="22" type="Stairs" gid="251" x="440" y="60" width="10" height="10">
 <properties>
     <property name="p0" value="1"/>
     <property name="p1" value="0"/>
     </properties>
   </object>
-<object id="23" type="Stairs" gid="251" x="530" y="60" width="5" height="2">
+<object id="23" type="Stairs" gid="251" x="530" y="60" width="10" height="10">
 <properties>
     <property name="p0" value="1"/>
     <property name="p1" value="0"/>
     </properties>
   </object>
-<object id="24" type="Stairs" gid="251" x="540" y="160" width="5" height="2">
+<object id="24" type="Stairs" gid="251" x="540" y="160" width="10" height="10">
 <properties>
     <property name="p0" value="1"/>
     <property name="p1" value="0"/>
     </properties>
   </object>
-<object id="25" type="Stairs" gid="250" x="20" y="60" width="5" height="2">
+<object id="25" type="Stairs" gid="250" x="20" y="60" width="10" height="10">
 <properties>
     <property name="p0" value="0"/>
     <property name="p1" value="0"/>
     </properties>
   </object>
-<object id="26" type="Stairs" gid="250" x="240" y="210" width="5" height="2">
+<object id="26" type="Stairs" gid="250" x="240" y="210" width="10" height="10">
 <properties>
     <property name="p0" value="0"/>
     <property name="p1" value="0"/>
     </properties>
   </object>
-<object id="27" type="Stairs" gid="250" x="410" y="90" width="5" height="2">
+<object id="27" type="Stairs" gid="250" x="410" y="90" width="10" height="10">
 <properties>
     <property name="p0" value="0"/>
     <property name="p1" value="0"/>
     </properties>
   </object>
-<object id="28" type="Stairs" gid="250" x="500" y="90" width="5" height="2">
+<object id="28" type="Stairs" gid="250" x="500" y="90" width="10" height="10">
 <properties>
     <property name="p0" value="0"/>
     <property name="p1" value="0"/>
     </properties>
   </object>
-<object id="29" type="Stairs" gid="250" x="500" y="200" width="5" height="2">
+<object id="29" type="Stairs" gid="250" x="500" y="200" width="10" height="10">
 <properties>
     <property name="p0" value="0"/>
     <property name="p1" value="0"/>
     </properties>
   </object>
-<object id="30" type="Stairs" gid="253" x="560" y="30" width="5" height="2">
+<object id="30" type="Stairs" gid="253" x="560" y="30" width="10" height="10">
 <properties>
     <property name="p0" value="3"/>
     <property name="p1" value="0"/>
     </properties>
   </object>
-<object id="31" type="Stairs" gid="253" x="560" y="100" width="5" height="2">
+<object id="31" type="Stairs" gid="253" x="560" y="100" width="10" height="10">
 <properties>
     <property name="p0" value="3"/>
     <property name="p1" value="0"/>
     </properties>
   </object>
-<object id="32" type="Stairs" gid="253" x="430" y="180" width="5" height="2">
+<object id="32" type="Stairs" gid="253" x="430" y="180" width="10" height="10">
 <properties>
     <property name="p0" value="3"/>
     <property name="p1" value="0"/>
     </properties>
   </object>
-<object id="33" type="Stairs" gid="253" x="350" y="170" width="5" height="2">
+<object id="33" type="Stairs" gid="253" x="350" y="170" width="10" height="10">
 <properties>
     <property name="p0" value="3"/>
     <property name="p1" value="0"/>
     </properties>
   </object>
-<object id="34" type="Stairs" gid="253" x="60" y="160" width="5" height="2">
+<object id="34" type="Stairs" gid="253" x="60" y="160" width="10" height="10">
 <properties>
     <property name="p0" value="3"/>
     <property name="p1" value="0"/>
     </properties>
   </object>
-<object id="35" type="Stairs" gid="253" x="50" y="110" width="5" height="2">
+<object id="35" type="Stairs" gid="253" x="50" y="110" width="10" height="10">
 <properties>
     <property name="p0" value="3"/>
     <property name="p1" value="0"/>
     </properties>
   </object>
-<object id="36" type="Stairs" gid="253" x="50" y="70" width="5" height="2">
+<object id="36" type="Stairs" gid="253" x="50" y="70" width="10" height="10">
 <properties>
     <property name="p0" value="3"/>
     <property name="p1" value="0"/>
     </properties>
   </object>
-<object id="37" type="Stairs" gid="252" x="80" y="100" width="5" height="2">
+<object id="37" type="Stairs" gid="252" x="80" y="100" width="10" height="10">
 <properties>
     <property name="p0" value="2"/>
     <property name="p1" value="0"/>
     </properties>
   </object>
-<object id="38" type="Stairs" gid="252" x="90" y="150" width="5" height="2">
+<object id="38" type="Stairs" gid="252" x="90" y="150" width="10" height="10">
 <properties>
     <property name="p0" value="2"/>
     <property name="p1" value="0"/>
     </properties>
   </object>
-<object id="39" type="Stairs" gid="252" x="100" y="200" width="5" height="2">
+<object id="39" type="Stairs" gid="252" x="100" y="200" width="10" height="10">
 <properties>
     <property name="p0" value="2"/>
     <property name="p1" value="0"/>
     </properties>
   </object>
-<object id="40" type="Stairs" gid="252" x="380" y="200" width="5" height="2">
+<object id="40" type="Stairs" gid="252" x="380" y="200" width="10" height="10">
 <properties>
     <property name="p0" value="2"/>
     <property name="p1" value="0"/>
     </properties>
   </object>
-<object id="41" type="Stairs" gid="252" x="460" y="210" width="5" height="2">
+<object id="41" type="Stairs" gid="252" x="460" y="210" width="10" height="10">
 <properties>
     <property name="p0" value="2"/>
     <property name="p1" value="0"/>
     </properties>
   </object>
-<object id="42" type="Stairs" gid="252" x="610" y="150" width="5" height="2">
+<object id="42" type="Stairs" gid="252" x="610" y="150" width="10" height="10">
 <properties>
     <property name="p0" value="2"/>
     <property name="p1" value="0"/>
     </properties>
   </object>
-<object id="43" type="Stairs" gid="252" x="580" y="50" width="5" height="2">
+<object id="43" type="Stairs" gid="252" x="580" y="50" width="10" height="10">
 <properties>
     <property name="p0" value="2"/>
     <property name="p1" value="0"/>
     </properties>
   </object>
-<object id="44" type="Mummy" gid="243" x="230" y="40" width="6" height="18">
+<object id="44" type="Mummy" gid="243" x="230" y="40" width="10" height="10">
 <properties>
     <property name="p0" value="2"/>
     <property name="p1" value="0"/>
     </properties>
   </object>
-<object id="45" type="Mummy" gid="242" x="290" y="200" width="6" height="18">
+<object id="45" type="Mummy" gid="242" x="290" y="200" width="10" height="10">
 <properties>
     <property name="p0" value="1"/>
     <property name="p1" value="0"/>
     </properties>
   </object>
-<object id="46" type="Mummy" gid="241" x="560" y="150" width="6" height="18">
+<object id="46" type="Mummy" gid="241" x="560" y="150" width="10" height="10">
 <properties>
     <property name="p0" value="0"/>
     <property name="p1" value="0"/>

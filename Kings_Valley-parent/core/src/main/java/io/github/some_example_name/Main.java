@@ -11,7 +11,7 @@ import modelo.Controles;
 import modelo.Juego;
 import modelo.Pyramid;
 import util.Constantes;
-import vista2D.Grafica2D;
+import vista2D.TileMapGrafica2D;
 
 /**
  * {@link com.badlogic.gdx.ApplicationListener} implementation shared by all
@@ -21,8 +21,7 @@ public class Main implements IMyApplicationnListener
 {
     private AssetManager manager;
     private IMyApplicationnListener grafica;
-    private int tileWidth, tileHeight, mapWidthInTiles, mapHeightInTiles, mapWidthInPixels, mapHeightInPixels;
-
+   
     @Override
     public void create()
     {
@@ -31,14 +30,14 @@ public class Main implements IMyApplicationnListener
 	manager.setLoader(TiledMap.class, new TmxMapLoader());
 	for (int i = 1; i <= 15; i++)
 	    manager.load(Constantes.levelFileName.get(i), TiledMap.class);
-	grafica = new Grafica2D(manager);
+	grafica = new TileMapGrafica2D(manager);
 
 	manager.finishLoading();
 
 	for (int i = 1; i <= 15; i++)
 	{
 	    TiledMap map = manager.get(Constantes.levelFileName.get(i), TiledMap.class);
-	    Juego.getInstance().addPyramid(new Pyramid(map));
+	    Juego.getInstance().addPyramid(new Pyramid(map,grafica));
 	}
 	this.grafica.create();
 
@@ -47,6 +46,7 @@ public class Main implements IMyApplicationnListener
     @Override
     public void render()
     {
+	this.updateInput();
 	this.grafica.render();
     }
 

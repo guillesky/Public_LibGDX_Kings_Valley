@@ -3,67 +3,75 @@ package modelo;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class Juego implements IGrafica
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+
+public class Juego
 {
-	private static Juego instance = null;
-	private Controles controles = new Controles();
-	private IGrafica interfaz = null;
-	private ArrayList<Pyramid> pyramids = new ArrayList<Pyramid>();
-	private int currentPyramid = 0;
+    private static Juego instance = new Juego();
+    private Controles controles = new Controles();
+    private ArrayList<Pyramid> pyramids = new ArrayList<Pyramid>();
+    private int currentPyramid = 0;
 
-	
+    private Juego()
+    {
+    }
 
-	private Juego()
-	{
-	}
+    public static Juego getInstance()
+    {
+	return instance;
+    }
 
-	@Override
-	public void addGraphicElement(Object element)
-	{
-		// TODO Auto-generated method stub
+    public void actualizaframe(float deltaTime)
+    {
+	Player player=this.getCurrentPyramid().getPlayer();
+	player.move(this.controles.getNuevoRumbo().scl(deltaTime));
+	if(this.isFloorDown(player))
+	    player.setState(1000);
+	else
+	    player.setState(7);
+	    
 
-	}
+    }
 
-	@Override
-	public void removeGraphicElement(Object element)
-	{
-		// TODO Auto-generated method stub
+    private boolean isFloorDown(Character character)
+    {
+	int x1 = (int) ((character.getX()+character.getWidth()/2) / 10);
+	int x2 = (int) ((character.getX()-character.getWidth()/2) / 10);
+	int y = (int) (character.getY()-1 / 10);
+	TiledMapTileLayer layer = (TiledMapTileLayer) this.getCurrentPyramid().getMap().getLayers().get("front");
 
-	}
+	return (layer.getCell(x1, y) != null || layer.getCell(x2, y) != null);
+    }
 
-	public static Juego getInstance()
-	{
-		if (instance == null)
-			instance = new Juego();
-		return instance;
-	}
+    private void aplicaGravedad(Character character)
+    {
 
-	public void actualizaframe(float deltaTime)
-	{
-		// TODO Auto-generated method stub
+    }
 
-	}
+    public Controles getControles()
+    {
+	return controles;
+    }
 
-	public Controles getControles()
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public void setControles(Controles controles)
+    {
+	this.controles = controles;
+    }
 
-	public void addPyramid(Pyramid pyramid)
-	{
-		this.pyramids.add(pyramid);
-	}
+    public void addPyramid(Pyramid pyramid)
+    {
+	this.pyramids.add(pyramid);
+    }
 
-	public Pyramid getCurrentPyramid()
-	{
-		return this.pyramids.get(currentPyramid);
-	}
+    public Pyramid getCurrentPyramid()
+    {
+	return this.pyramids.get(currentPyramid);
+    }
 
-	public void dispose()
-	{
-		Iterator<Pyramid> it=this.pyramids.iterator();
-		while(it.hasNext())
-			it.next().getMap().dispose();
-	}
+    public void dispose()
+    {
+	Iterator<Pyramid> it = this.pyramids.iterator();
+	while (it.hasNext())
+	    it.next().getMap().dispose();
+    }
 }
