@@ -7,6 +7,7 @@ import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 import util.Constantes;
 
@@ -28,7 +29,6 @@ public class Pyramid implements IGrafica
 
     public Pyramid(TiledMap map, IGrafica interfaz)
     {
-
 	this.map = map;
 	MapProperties properties = map.getProperties();
 	tileWidth = properties.get("tilewidth", Integer.class);
@@ -42,23 +42,22 @@ public class Pyramid implements IGrafica
 	LevelItem puerta = this.doorIn;
 	if (puerta == null)
 	    puerta = this.doorOut;
-	this.player = new Player(puerta);
-
+	this.player = new Player(puerta,(TiledMapTileLayer) this.map.getLayers().get("front"));
     }
 
     private void readLevelItem()
     {
 	MapLayers mapLayers = map.getLayers();
-	MapLayer layerObject = mapLayers.get(2);
+	MapLayer layerObject = mapLayers.get("items");
 	this.levelItems = new LevelItem[layerObject.getObjects().getCount()];
 	for (int i = 0; i < layerObject.getObjects().getCount(); i++)
 	{
 	    MapObject objeto = layerObject.getObjects().get(i);
-
 	    MapProperties mp = objeto.getProperties();
 	    String stype = (String) mp.get("type");
 	    float fx = (float) mp.get("x");
 	    float fy = (float) mp.get("y");
+	    fx+=5;
 	    String sp0 = (String) mp.get("p0");
 	    String sp1 = (String) mp.get("p1");
 
@@ -71,7 +70,7 @@ public class Pyramid implements IGrafica
 	    LevelItem levelItem;
 	    if (type == Constantes.It_mummy)
 	    {
-		levelItem = new Mummy(type, fx, fy, p0, p1, width, height);
+		levelItem = new Mummy(type, fx, fy, p0, p1, width, height,(TiledMapTileLayer) this.map.getLayers().get("front"));
 		this.mummys.add((Mummy) levelItem);
 	    } else
 		levelItem = new LevelItem(type, fx, fy, p0, p1, width, height);

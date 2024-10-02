@@ -24,8 +24,8 @@ public class Juego
     public void actualizaframe(float deltaTime)
     {
 	Player player=this.getCurrentPyramid().getPlayer();
-	player.move(this.controles.getNuevoRumbo().scl(deltaTime));
-	if(this.isFloorDown(player))
+	player.move(this.controles.getNuevoRumbo(),this.controles.getShot(),deltaTime);
+	if(player.isFloorDown())
 	    player.setState(1000);
 	else
 	    player.setState(7);
@@ -33,20 +33,7 @@ public class Juego
 
     }
 
-    private boolean isFloorDown(Character character)
-    {
-	int x1 = (int) ((character.getX()+character.getWidth()/2) / 10);
-	int x2 = (int) ((character.getX()-character.getWidth()/2) / 10);
-	int y = (int) (character.getY()-1 / 10);
-	TiledMapTileLayer layer = (TiledMapTileLayer) this.getCurrentPyramid().getMap().getLayers().get("front");
-
-	return (layer.getCell(x1, y) != null || layer.getCell(x2, y) != null);
-    }
-
-    private void aplicaGravedad(Character character)
-    {
-
-    }
+   
 
     public Controles getControles()
     {

@@ -31,10 +31,10 @@ public class MySpriteKV extends Sprite implements IGraphicRenderer
     {
 	float x = this.levelItem.getX();
 	float y = this.levelItem.getY();
-
+	x = this.levelItem.getX() - this.getWidth() / 2;
 	if (this.levelItem.getClass() == Player.class)
 	{
-	    x = this.levelItem.getX() -this.getWidth() / 2;
+
 	    Player p = (Player) this.levelItem;
 	    if (p.getState() == 7)
 		this.setFlip(true, true);

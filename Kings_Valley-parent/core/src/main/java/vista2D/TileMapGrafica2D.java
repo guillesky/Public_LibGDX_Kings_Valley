@@ -82,10 +82,18 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 		this.instances.add(sprite);
 		
 	    }
+	    
+	    if (item.getType() == Constantes.It_stairs)
+	    {
+		MySpriteKV sprite = new MySpriteKV(tileSet.getTile(item.getP0()+250).getTextureRegion(), item);
+		this.instances.add(sprite);
+		
+	    }
+	    
+	    
 
 	}
-System.out.println(pyramid.getDoorIn());
-System.out.println(pyramid.getDoorOut());
+
     }
 
     @Override
