@@ -52,38 +52,65 @@ public class Character extends LevelItem
 			this.state = Character.st_walk;
 			this.motionVector.y = 0;
 			if (b)
+			{
 				this.motionVector.y = this.speedJump;
+				this.state = Character.st_jump_top;
+			}
 		}
 
 		Vector2 escalado = this.motionVector.cpy().scl(deltaTime);
 		this.x += escalado.x;
 		this.y += escalado.y;
-		this.colision();
+		this.colision1();
 
+	}
+
+	private void colision1()
+	{
+		if (this.state != Character.st_walk)
+		{
+			if (this.colisionDownLeft() || this.colisionDownRight())
+				this.correctDown();
+			
+			if (this.colisionDownLeft() && this.colisionUpLeft())
+				this.correctLeft();
+			
+			if (this.colisionDownRight() && this.colisionUpRight())
+				this.correctRight();
+
+		}
+
+
+			else
+		 {
+				if (this.motionVector.x > 0 && (this.colisionDownRight() || this.colisionUpRight()))
+					this.correctRight();
+				if (this.motionVector.x < 0 && (this.colisionDownLeft() || this.colisionUpLeft()))
+					this.correctLeft();
+			}
+				/*
+		 * if (this.motionVector.x > 0) { if (this.colisionDownRight()) { if
+		 * (this.colisionUpRight()) this.correctRight(); else if
+		 * (this.colisionDownLeft()) this.correctDown(); else {
+		 * System.out.println("DE PUNTA 1"); }
+		 * 
+		 * }
+		 * 
+		 * } else if (this.motionVector.x < 0) { if (this.colisionDownLeft()) { if
+		 * (this.colisionUpLeft()) this.correctLeft(); else if
+		 * (this.colisionDownRight()) this.correctDown(); else {
+		 * System.out.println("DE PUNTA 2"); } } } if (this.motionVector.y > 0) { if
+		 * (this.colisionUpRight()) { if (this.colisionUpLeft()) this.correctUp(); else
+		 * if (this.colisionDownRight()) this.correctRight(); else {
+		 * System.out.println("DE PUNTA 3"); } } } else if (this.motionVector.y < 0) {
+		 * if (this.colisionUpRight()) { if (this.colisionUpLeft()) this.correctUp();
+		 * else if (this.colisionDownRight()) this.correctRight(); else {
+		 * System.out.println("DE PUNTA 3"); } } }
+		 */
 	}
 
 	private void colision()
 	{
-		if (this.motionVector.x > 0) // si mueve a la derecha calculo colisiones por derecha
-		{
-			if (isCellBlocked(this.x + this.getWidth() / 2, this.y) // Esquina inferior derecha
-					|| isCellBlocked(this.x + this.getWidth() / 2, this.y + this.getHeight())) // Esquina superior
-																								// derecha
-			{
-				this.motionVector.x = 0;
-				int aux = (int) ((this.x + this.getWidth() / 2) / this.layer.getTileWidth());
-			//	this.x = aux - this.getWidth() / 2;
-			}
-		} else if (this.motionVector.x < 0) // si mueve a la izquierda calculo colisiones por izquierda
-			if (isCellBlocked(this.x - this.getWidth() / 2, this.y) // Esquina inferior izq.
-					|| isCellBlocked(this.x - this.getWidth() / 2, this.y + this.getHeight())) // Esquina superior
-																								// izq.
-			{
-				this.motionVector.x = 0;
-				int aux = (int) (this.x  / this.layer.getTileWidth());
-			//	this.x = aux + this.getWidth() / 2;
-			}
-
 		if (this.motionVector.y > 0) // si mueve hacia arriba calculo colisiones arriba
 		{
 			if (isCellBlocked(this.x + this.getWidth() / 2, this.y + this.getHeight()) // Esquina superior derecha
@@ -92,25 +119,46 @@ public class Character extends LevelItem
 			{
 				this.motionVector.y = 0;
 				int aux = (int) ((this.y + this.getHeight() / 2) / this.layer.getTileHeight());
-			//	this.y = aux - this.getHeight() / 2;
+				this.y = aux * this.layer.getTileHeight() - this.getHeight() / 2;
 			}
-		} else if (this.motionVector.y < 0) // si mueve hacia abajo calculo colisiones abajo
+		}
+		if (this.motionVector.x > 0) // si mueve a la derecha calculo colisiones por derecha
+		{
+			if (isCellBlocked(this.x + this.getWidth() / 2, this.y) // Esquina inferior derecha
+					|| isCellBlocked(this.x + this.getWidth() / 2, this.y + this.getHeight())) // Esquina superior
+																								// derecha
+			{
+				this.motionVector.x = 0;
+				float aux = (int) ((this.x + 0.1 + this.getWidth() / 2) / this.layer.getTileWidth());
+				System.out.println(" DERECHA actual: " + this.x + " " + this.y + "  Iria a: "
+						+ (aux * this.layer.getTileWidth() - this.getWidth() / 2));
+				this.x = aux * this.layer.getTileWidth() - this.getWidth() / 2;
+			}
+		} else if (this.motionVector.x < 0) // si mueve a la izquierda calculo colisiones por izquierda
+			if (isCellBlocked(this.x - this.getWidth() / 2, this.y) // Esquina inferior izq.
+					|| isCellBlocked(this.x - this.getWidth() / 2, this.y + this.getHeight())) // Esquina superior
+																								// izq.
+			{
+				this.motionVector.x = 0;
+				float aux = (int) (this.x / this.layer.getTileWidth());
+				this.x = aux * this.layer.getTileWidth() + this.getWidth() / 2;
+			}
+
+		if (this.motionVector.y < 0) // si mueve hacia abajo calculo colisiones abajo
 			if (isCellBlocked(this.x - this.getWidth() / 2, this.y) // Esquina inferior izq.
 					|| isCellBlocked(this.x + this.getWidth() / 2, this.y)) // Esquina inferior derecha. // izq.
 			{
 				this.motionVector.y = 0;
-				int aux = (int) (this.y  / this.layer.getTileHeight());
-				//this.y = aux + this.getHeight() / 2;
+				float aux = (int) (this.y / this.layer.getTileHeight());
+				this.y = (aux + 1) * this.layer.getTileHeight();
 			}
 
 	}
 
-	
-
 	public int getState()
-    {
-	return state;
-    }
+	{
+		return state;
+	}
 
 	public void setState(int state)
 	{
@@ -119,20 +167,56 @@ public class Character extends LevelItem
 
 	public boolean isFloorDown()
 	{
-		int x1 = (int) ((this.getX() + this.getWidth() / 2) / this.layer.getTileWidth());
-		int x2 = (int) ((this.getX() - this.getWidth() / 2) / this.layer.getTileWidth());
-		int y = (int) ((this.getY() - 1) / this.layer.getTileHeight());
-		return (layer.getCell(x1, y) != null || layer.getCell(x2, y) != null);
+		return (this.isCellBlocked(this.getX() + this.getWidth() / 2, (this.getY() - 1))
+				|| this.isCellBlocked(this.getX() - this.getWidth() / 2, (this.getY() - 1)));
 	}
 
-	private boolean isColliding()
+	private boolean colisionUpRight()
 	{
-		// Revisamos las esquinas superior izquierda e inferior izquierda (para
-		// colisiones en X)
-		return isCellBlocked(this.x - this.getWidth() / 2, this.y) // Esquina inferior izquierda
-				|| isCellBlocked(this.x - this.getWidth() / 2, this.y + this.getHeight()) // Esquina superior izquierda
-				|| isCellBlocked(this.x + this.getWidth() / 2, this.y) // Esquina inferior derecha
-				|| isCellBlocked(this.x + this.getWidth() / 2, this.y + this.getHeight()); // Esquina superior derecha
+		return isCellBlocked(this.x + this.getWidth() / 2, this.y + this.getHeight());
+	}
+
+	private boolean colisionUpLeft()
+	{
+		return isCellBlocked(this.x - this.getWidth() / 2, this.y + this.getHeight());
+	}
+
+	private boolean colisionDownLeft()
+	{
+		return isCellBlocked(this.x - this.getWidth() / 2, this.y);
+	}
+
+	private boolean colisionDownRight()
+	{
+		return isCellBlocked(this.x + this.getWidth() / 2, this.y);
+	}
+
+	private void correctRight()
+	{
+		this.motionVector.x = 0;
+		float aux = (int) ((this.x + this.getWidth() / 2) / this.layer.getTileWidth());
+		this.x = (aux) * this.layer.getTileWidth() - this.getWidth() / 2 - 0.1f;
+	}
+
+	private void correctLeft()
+	{
+		this.motionVector.x = 0;
+		float aux = (int) (this.x / this.layer.getTileWidth());
+		this.x = aux * this.layer.getTileWidth() + this.getWidth() / 2;
+	}
+
+	private void correctUp()
+	{
+		this.motionVector.y = 0;
+		int aux = (int) ((this.y + this.getHeight()) / this.layer.getTileHeight());
+		this.y = aux * this.layer.getTileHeight() - this.getHeight();
+	}
+
+	private void correctDown()
+	{
+		this.motionVector.y = 0;
+		float aux = (int) (this.y / this.layer.getTileHeight());
+		this.y = (aux + 1) * this.layer.getTileHeight();
 	}
 
 	private boolean isCellBlocked(float x, float y)
