@@ -9,6 +9,7 @@ import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
+import util.Config;
 import util.Constantes;
 
 public class Pyramid implements IGrafica
@@ -42,7 +43,7 @@ public class Pyramid implements IGrafica
 	LevelItem puerta = this.doorIn;
 	if (puerta == null)
 	    puerta = this.doorOut;
-	this.player = new Player(puerta,(TiledMapTileLayer) this.map.getLayers().get("front"));
+	this.player = new Player(puerta, (TiledMapTileLayer) this.map.getLayers().get("front"));
     }
 
     private void readLevelItem()
@@ -57,7 +58,7 @@ public class Pyramid implements IGrafica
 	    String stype = (String) mp.get("type");
 	    float fx = (float) mp.get("x");
 	    float fy = (float) mp.get("y");
-	    fx+=5;
+	    fx += 5;
 	    String sp0 = (String) mp.get("p0");
 	    String sp1 = (String) mp.get("p1");
 
@@ -70,7 +71,43 @@ public class Pyramid implements IGrafica
 	    LevelItem levelItem;
 	    if (type == Constantes.It_mummy)
 	    {
-		levelItem = new Mummy(type, fx, fy, p0, p1, width, height,(TiledMapTileLayer) this.map.getLayers().get("front"));
+		int speedFall = Config.getInstance().getCharacterSpeedFall(), speedWalk = 0, speedWalkStairs = 0,
+			speedJump = 0;
+		switch (p0)
+		{
+		case 0:
+		{
+		    speedJump = Config.getInstance().getMummyWhiteSpeedJump();
+		    speedWalk = Config.getInstance().getMummyWhiteSpeedWalk();
+		    speedWalkStairs = Config.getInstance().getMummyWhiteSpeedWalkStairs();
+		    break;
+		}
+
+		case 1:
+		{
+		    speedJump = Config.getInstance().getMummyBlueSpeedJump();
+		    speedWalk = Config.getInstance().getMummyBlueSpeedWalk();
+		    speedWalkStairs = Config.getInstance().getMummyBlueSpeedWalkStairs();
+		    break;
+		}
+		case 2:
+		{
+		    speedJump = Config.getInstance().getMummyOrangeSpeedJump();
+		    speedWalk = Config.getInstance().getMummyOrangeSpeedWalk();
+		    speedWalkStairs = Config.getInstance().getMummyOrangeSpeedWalkStairs();
+		    break;
+		}
+		case 3:
+		{
+		    speedJump = Config.getInstance().getMummyRedSpeedJump();
+		    speedWalk = Config.getInstance().getMummyRedSpeedWalk();
+		    speedWalkStairs = Config.getInstance().getMummyRedSpeedWalkStairs();
+		    break;
+		}
+
+		}
+		levelItem = new Mummy(fx, fy, p0, (TiledMapTileLayer) this.map.getLayers().get("front"), speedFall,
+			speedWalk, speedWalkStairs, speedJump);
 		this.mummys.add((Mummy) levelItem);
 	    } else
 		levelItem = new LevelItem(type, fx, fy, p0, p1, width, height);

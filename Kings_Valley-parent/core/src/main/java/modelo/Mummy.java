@@ -2,13 +2,18 @@ package modelo;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
+import util.Config;
+import util.Constantes;
+
 public class Mummy extends Character
 {
 
-    public Mummy(int type, float x, float y, int p0, int p1, float width,float height,TiledMapTileLayer layer)
+    public Mummy(float x, float y, int p0, TiledMapTileLayer layer,
+	    int speedFall, int speedWalk, int speedWalkStairs, int speedJump)
     {
-	super(type, x, y, p0, p1, width, height,layer);
-	// TODO Auto-generated constructor stub
+	super(Constantes.It_mummy, x, y, p0, 0, Config.getInstance().getCharacterWidth(), Config.getInstance().getCharacterHeight(), layer, speedFall, speedWalk, speedWalkStairs, speedJump);
+	
     }
 
+   
 }
