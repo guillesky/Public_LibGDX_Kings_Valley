@@ -1,44 +1,27 @@
 package modelo;
 
+import com.badlogic.gdx.math.Rectangle;
+
 import util.Constantes;
 
-public class LevelItem implements IGraphicRenderer
+public class LevelItem extends Rectangle implements IGraphicRenderer
 {
     private int type;
-    protected float x;
-    protected float y;
     private int p0;
     private int p1;
     private IGraphicRenderer graphicRenderer;
-    private float width;
-    private float height;
 
-    public LevelItem(int type, float x, float y, int p0, int p1,float width,float height)
+    public LevelItem(int type, float x, float y, int p0, int p1, float width, float height)
     {
-	super();
+	super(x, y, width, height);
 	this.type = type;
-	this.x = x;
-	this.y = y;
 	this.p0 = p0;
 	this.p1 = p1;
-	this.width=width;
-	this.height=height;
-	
     }
 
     public int getType()
     {
 	return type;
-    }
-
-    public float getX()
-    {
-	return x;
-    }
-
-    public float getY()
-    {
-	return y;
     }
 
     public int getP0()
@@ -76,14 +59,10 @@ public class LevelItem implements IGraphicRenderer
 
     }
 
-    public float getWidth()
+    public boolean isColision(Rectangle another)
     {
-        return width;
+	float overlapX = Math.min(x + width, another.x + another.width) - Math.max(x, another.x);
+	float overlapY = Math.min(y + height, another.y + another.height) - Math.max(y, another.y);
+	return (overlapX > 0 && overlapY > 0);
     }
-
-    public float getHeight()
-    {
-        return height;
-    }
-    
 }

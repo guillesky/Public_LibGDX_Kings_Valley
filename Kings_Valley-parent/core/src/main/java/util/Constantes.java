@@ -23,6 +23,11 @@ public class Constantes
     public static final int It_stair_dr = 51;
     public static final int It_push_in = 73;
     public static final int It_push_out = 79;
+    public static final int UP = 1000;
+    public static final int DOWN = 1001;
+    public static final int LEFT = 1002;
+    public static final int RIGHT = 1003;
+    
     public static final HashMap<Integer, String> identificacion = new HashMap<Integer, String>();
     public static final HashMap<String, Integer> stringToInteger = new HashMap<String, Integer>();
     public static final HashMap<Integer, String> levelFileName = new HashMap<Integer, String>();

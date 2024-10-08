@@ -58,7 +58,6 @@ public class Pyramid implements IGrafica
 	    String stype = (String) mp.get("type");
 	    float fx = (float) mp.get("x");
 	    float fy = (float) mp.get("y");
-	    fx += 5;
 	    String sp0 = (String) mp.get("p0");
 	    String sp1 = (String) mp.get("p1");
 

@@ -6,7 +6,7 @@ public class Controles
 {
 	private boolean[] teclas = new boolean[5];
 	private Vector2 nuevoRumbo;
-	
+	private boolean shotEnabled=true;
 
 	public Vector2 getNuevoRumbo()
 	{
@@ -21,12 +21,15 @@ public class Controles
 	
 	public boolean getShot()
 	{
-		return this.teclas[0];
+	    boolean r=this.teclas[0];
+	    this.teclas[0]=false;
+		return r;
 	}
 
-	public void setShot(boolean param)
+	public void shot()
 	{
-		this.teclas[0] = param;
+		this.teclas[0] = true;
+		this.shotEnabled=false;
 	}
 
 	public boolean getSpawnKamikaze()
@@ -42,6 +45,16 @@ public class Controles
 	public boolean getSpawnAcechador()
 	{
 		return this.teclas[2];
+	}
+
+	public boolean isShotEnabled()
+	{
+	    return shotEnabled;
+	}
+
+	public void enableShotEnabled()
+	{
+	    this.shotEnabled = true;
 	}
 
 	public void setSpawnAcechador(boolean param)

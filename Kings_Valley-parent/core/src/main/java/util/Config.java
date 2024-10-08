@@ -34,6 +34,7 @@ public class Config
 
     private float levelTileWidthUnits = 10;
     private float levelTileHeightUnits = 10;
+    private float speedGame=1;
 
     private static final Config instance = new Config();
 
@@ -323,6 +324,16 @@ public class Config
     public static Config getInstance()
     {
 	return instance;
+    }
+
+    public float getSpeedGame()
+    {
+        return speedGame;
+    }
+
+    public void setSpeedGame(float speedGame)
+    {
+        this.speedGame = speedGame;
     }
 
 }

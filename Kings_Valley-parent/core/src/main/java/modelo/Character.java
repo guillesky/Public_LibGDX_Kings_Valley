@@ -43,8 +43,7 @@ public abstract class Character extends LevelItem
 
     public void move(Vector2 v, boolean b, float deltaTime)
     {
-	this.motionVector.x = v.x * this.speedWalk;
-
+	deltaTime *= Config.getInstance().getSpeedGame();
 	if (!this.isFloorDown())
 	{
 	    this.state = Character.st_falling;
@@ -55,11 +54,15 @@ public abstract class Character extends LevelItem
 
 	else
 	{
+	    this.motionVector.x = v.x * this.speedWalk;
+
 	    this.state = Character.st_walk;
 	    this.motionVector.y = 0;
 	    if (b)
 	    {
 		this.motionVector.y = this.speedJump;
+		
+
 		this.state = Character.st_jump_top;
 	    }
 	}
@@ -67,96 +70,7 @@ public abstract class Character extends LevelItem
 	Vector2 escalado = this.motionVector.cpy().scl(deltaTime);
 	this.x += escalado.x;
 	this.y += escalado.y;
-	this.colision1();
-
-    }
-
-    private void colision1()
-    {
-	if (this.state != Character.st_walk)
-	{
-	    if (this.colisionDownLeft() || this.colisionDownRight())
-		this.correctDown();
-
-	    if (this.colisionDownLeft() && this.colisionUpLeft())
-		this.correctLeft();
-
-	    if (this.colisionDownRight() && this.colisionUpRight())
-		this.correctRight();
-
-	}
-
-	else
-	{
-	    if (this.motionVector.x > 0 && (this.colisionDownRight() || this.colisionUpRight()))
-		this.correctRight();
-	    if (this.motionVector.x < 0 && (this.colisionDownLeft() || this.colisionUpLeft()))
-		this.correctLeft();
-	}
-	/*
-	 * if (this.motionVector.x > 0) { if (this.colisionDownRight()) { if
-	 * (this.colisionUpRight()) this.correctRight(); else if
-	 * (this.colisionDownLeft()) this.correctDown(); else {
-	 * System.out.println("DE PUNTA 1"); }
-	 * 
-	 * }
-	 * 
-	 * } else if (this.motionVector.x < 0) { if (this.colisionDownLeft()) { if
-	 * (this.colisionUpLeft()) this.correctLeft(); else if
-	 * (this.colisionDownRight()) this.correctDown(); else {
-	 * System.out.println("DE PUNTA 2"); } } } if (this.motionVector.y > 0) { if
-	 * (this.colisionUpRight()) { if (this.colisionUpLeft()) this.correctUp(); else
-	 * if (this.colisionDownRight()) this.correctRight(); else {
-	 * System.out.println("DE PUNTA 3"); } } } else if (this.motionVector.y < 0) {
-	 * if (this.colisionUpRight()) { if (this.colisionUpLeft()) this.correctUp();
-	 * else if (this.colisionDownRight()) this.correctRight(); else {
-	 * System.out.println("DE PUNTA 3"); } } }
-	 */
-    }
-
-    private void colision()
-    {
-	if (this.motionVector.y > 0) // si mueve hacia arriba calculo colisiones arriba
-	{
-	    if (isCellBlocked(this.x + this.getWidth() / 2, this.y + this.getHeight()) // Esquina superior derecha
-		    || isCellBlocked(this.x - this.getWidth() / 2, this.y + this.getHeight())) // Esquina superior
-											       // izq.
-	    {
-		this.motionVector.y = 0;
-		int aux = (int) ((this.y + this.getHeight() / 2) / this.layer.getTileHeight());
-		this.y = aux * this.layer.getTileHeight() - this.getHeight() / 2;
-	    }
-	}
-	if (this.motionVector.x > 0) // si mueve a la derecha calculo colisiones por derecha
-	{
-	    if (isCellBlocked(this.x + this.getWidth() / 2, this.y) // Esquina inferior derecha
-		    || isCellBlocked(this.x + this.getWidth() / 2, this.y + this.getHeight())) // Esquina superior
-											       // derecha
-	    {
-		this.motionVector.x = 0;
-		float aux = (int) ((this.x + 0.1 + this.getWidth() / 2) / this.layer.getTileWidth());
-		System.out.println(" DERECHA actual: " + this.x + " " + this.y + "  Iria a: "
-			+ (aux * this.layer.getTileWidth() - this.getWidth() / 2));
-		this.x = aux * this.layer.getTileWidth() - this.getWidth() / 2;
-	    }
-	} else if (this.motionVector.x < 0) // si mueve a la izquierda calculo colisiones por izquierda
-	    if (isCellBlocked(this.x - this.getWidth() / 2, this.y) // Esquina inferior izq.
-		    || isCellBlocked(this.x - this.getWidth() / 2, this.y + this.getHeight())) // Esquina superior
-											       // izq.
-	    {
-		this.motionVector.x = 0;
-		float aux = (int) (this.x / this.layer.getTileWidth());
-		this.x = aux * this.layer.getTileWidth() + this.getWidth() / 2;
-	    }
-
-	if (this.motionVector.y < 0) // si mueve hacia abajo calculo colisiones abajo
-	    if (isCellBlocked(this.x - this.getWidth() / 2, this.y) // Esquina inferior izq.
-		    || isCellBlocked(this.x + this.getWidth() / 2, this.y)) // Esquina inferior derecha. // izq.
-	    {
-		this.motionVector.y = 0;
-		float aux = (int) (this.y / this.layer.getTileHeight());
-		this.y = (aux + 1) * this.layer.getTileHeight();
-	    }
+	this.colision3();
 
     }
 
@@ -172,64 +86,193 @@ public abstract class Character extends LevelItem
 
     public boolean isFloorDown()
     {
-	return (this.isCellBlocked(this.getX() + this.getWidth() / 2, (this.getY() - 1))
-		|| this.isCellBlocked(this.getX() - this.getWidth() / 2, (this.getY() - 1)));
+	return (isCellBlocked(this.x + this.getWidth(), this.y - 0.00001f) || isCellBlocked(this.x, this.y - 0.00001f));
     }
 
     private boolean colisionUpRight()
     {
-	return isCellBlocked(this.x + this.getWidth() / 2, this.y + this.getHeight());
+	return isCellBlocked(this.x + this.getWidth(), this.y + this.getHeight());
     }
 
     private boolean colisionUpLeft()
     {
-	return isCellBlocked(this.x - this.getWidth() / 2, this.y + this.getHeight());
+	return isCellBlocked(this.x, this.y + this.getHeight());
+    }
+
+    private boolean colisionMiddleRight()
+    {
+	return isCellBlocked(this.x + this.getWidth(), this.y + this.getHeight() / 2);
+    }
+
+    private boolean colisionMiddleLeft()
+    {
+	return isCellBlocked(this.x, this.y + this.getHeight() / 2);
     }
 
     private boolean colisionDownLeft()
     {
-	return isCellBlocked(this.x - this.getWidth() / 2, this.y);
+	return isCellBlocked(this.x, this.y);
     }
 
     private boolean colisionDownRight()
     {
-	return isCellBlocked(this.x + this.getWidth() / 2, this.y);
+	return isCellBlocked(this.x + this.getWidth(), this.y);
     }
 
     private void correctRight()
     {
-	this.motionVector.x = 0;
-	float aux = (int) ((this.x + this.getWidth() / 2) / Config.getInstance().getLevelTileWidthUnits());
-	this.x = (aux) * Config.getInstance().getLevelTileWidthUnits() - this.getWidth() / 2 - 0.1f;
+
+	float aux = (int) ((this.x + this.getWidth()) / Config.getInstance().getLevelTileWidthUnits());
+	this.x = (aux) * Config.getInstance().getLevelTileWidthUnits() - this.getWidth() - 0.1f;
+	if (this.motionVector.y < 30)
+	    this.motionVector.x = 0;
     }
 
     private void correctLeft()
     {
-	this.motionVector.x = 0;
+
 	float aux = (int) (this.x / Config.getInstance().getLevelTileWidthUnits());
-	this.x = aux * Config.getInstance().getLevelTileWidthUnits() + this.getWidth() / 2;
+	this.x = (aux + 1) * Config.getInstance().getLevelTileWidthUnits();
+	if (this.motionVector.y < 30)
+	    this.motionVector.x = 0;
     }
 
     private void correctUp()
     {
 	this.motionVector.y = 0;
 	int aux = (int) ((this.y + this.getHeight()) / Config.getInstance().getLevelTileHeightUnits());
-	this.y = aux * Config.getInstance().getLevelTileHeightUnits() - this.getHeight();
+	this.y = aux * Config.getInstance().getLevelTileHeightUnits() - this.getHeight() - 0.1f;
     }
 
     private void correctDown()
     {
-	this.motionVector.y = 0;
+
 	float aux = (int) (this.y / Config.getInstance().getLevelTileHeightUnits());
 	this.y = (aux + 1) * Config.getInstance().getLevelTileHeightUnits();
+	this.state = Character.st_walk;
+	this.motionVector.y = 0;
+
     }
 
     private boolean isCellBlocked(float x, float y)
     {
-	// Convertimos la posición del mundo a la celda del mapa de tiles
+
 	TiledMapTileLayer.Cell cell = this.layer.getCell((int) (x / Config.getInstance().getLevelTileWidthUnits()),
 		(int) (y / Config.getInstance().getLevelTileHeightUnits()));
-	return cell != null; // Si la celda no es nula, entonces es un bloque sólido
+	return cell != null;
+    }
+
+    private void colision3()
+    {
+	if (this.colisionMiddleLeft())
+	{
+
+	    this.correctLeft();
+
+	} else if (this.colisionMiddleRight())
+	{
+	    this.correctRight();
+	}
+
+	else if (this.colisionDownLeft())
+	{
+	    if (this.colisionDownRight())
+	    {
+		this.correctDown();
+	    } else if (this.colisionUpLeft())
+	    {
+		this.correctLeft();
+	    } else
+	    {
+		this.buscarColisionPorVertice(this.x, this.y);
+	    }
+	} else if (this.colisionUpRight())
+	{
+	    if (this.colisionDownRight())
+	    {
+		this.correctRight();
+	    } else if (this.colisionUpLeft())
+	    {
+		this.correctUp();
+	    } else
+	    {
+		this.buscarColisionPorVertice(this.x + this.width, this.y + this.height);
+
+	    }
+
+	} else if (this.colisionDownRight())
+	{
+	    this.buscarColisionPorVertice(this.x + this.width, this.y);
+
+	} else if (this.colisionUpLeft())
+	{
+	    this.buscarColisionPorVertice(this.x, this.y + this.height);
+	}
+    }
+
+    private void buscarColisionPorVertice(float x, float y)
+    {
+	int r = 0;
+	if (this.motionVector.x == 0)
+	{
+	    if (this.motionVector.y > 0)
+		r = Constantes.UP;
+	    else
+		r = Constantes.DOWN;
+	}
+
+	else
+	{
+
+	    float m = this.motionVector.y / this.motionVector.x;
+	    float b = y - x * m;
+	    float valorX;
+	    int tileX = (int) (x / Config.getInstance().getLevelTileWidthUnits());
+	    int tileY = (int) (y / Config.getInstance().getLevelTileHeightUnits());
+
+	    int respuestaLateral = 0;
+	    if (this.motionVector.x > 0)
+	    {
+		valorX = tileX * Config.getInstance().getLevelTileWidthUnits();
+		respuestaLateral = Constantes.RIGHT;
+	    } else
+	    {
+		valorX = (tileX + 1) * Config.getInstance().getLevelTileWidthUnits();
+		respuestaLateral = Constantes.LEFT;
+	    }
+
+	    float yBuscado = m * valorX + b;
+	    float abajo = tileY * Config.getInstance().getLevelTileHeightUnits();
+	    float arriba = (tileY + 1) * Config.getInstance().getLevelTileHeightUnits();
+	    if (abajo <= yBuscado && yBuscado <= arriba)
+		r = respuestaLateral;
+	    else
+	    {
+		if (this.motionVector.y > 0 && y != this.y)
+		    r = Constantes.UP;
+		else
+		    r = Constantes.DOWN;
+	    }
+
+	}
+
+	switch (r)
+	{
+	case Constantes.UP:
+	    this.correctUp();
+	    break;
+	case Constantes.DOWN:
+	    this.correctDown();
+	    break;
+	case Constantes.LEFT:
+	    this.correctLeft();
+	    break;
+	case Constantes.RIGHT:
+	    this.correctRight();
+	    break;
+
+	}
+
     }
 
 }

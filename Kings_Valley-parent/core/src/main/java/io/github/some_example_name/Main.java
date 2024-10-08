@@ -21,7 +21,7 @@ public class Main implements IMyApplicationnListener
 {
     private AssetManager manager;
     private IMyApplicationnListener grafica;
-   
+
     @Override
     public void create()
     {
@@ -37,7 +37,7 @@ public class Main implements IMyApplicationnListener
 	for (int i = 1; i <= 15; i++)
 	{
 	    TiledMap map = manager.get(Constantes.levelFileName.get(i), TiledMap.class);
-	    Juego.getInstance().addPyramid(new Pyramid(map,grafica));
+	    Juego.getInstance().addPyramid(new Pyramid(map, grafica));
 	}
 	this.grafica.create();
 
@@ -77,7 +77,11 @@ public class Main implements IMyApplicationnListener
 	aux = new Vector2(x, y);
 
 	controles.setNuevoRumbo(aux);
-	controles.setShot(Gdx.input.isKeyPressed(Input.Keys.SPACE));
+	if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && controles.isShotEnabled())
+	    controles.shot();
+	if(!Gdx.input.isKeyPressed(Input.Keys.SPACE) &&!controles.isShotEnabled())
+	    controles.enableShotEnabled();
+
 	Juego.getInstance().actualizaframe(Gdx.graphics.getDeltaTime());
     }
 
