@@ -25,6 +25,9 @@ public class Config
 
     private float characterWidth = 6;
     private float characterHeight = 18;
+    private float characterFeetWidth = 1;
+    private float characterFeetHeight = 1;
+    
 
     private float levelItemWidth = 10;
     private float levelItemHeight = 10;
@@ -71,6 +74,9 @@ public class Config
 
 	this.characterWidth = this.levelTileWidthUnits * 0.6f;
 	this.characterHeight = this.levelTileHeightUnits * 1.8f;
+	this.characterFeetHeight=this.levelTileHeightUnits * 0.1f;
+	this.characterFeetWidth=this.levelTileWidthUnits * 0.1f;
+	
 	;
 
 	this.levelItemWidth = this.levelTileWidthUnits;
@@ -336,4 +342,26 @@ public class Config
         this.speedGame = speedGame;
     }
 
+	public float getCharacterFeetWidth()
+	{
+		return characterFeetWidth;
+	}
+
+	public void setCharacterFeetWidth(float characterFeetWidth)
+	{
+		this.characterFeetWidth = characterFeetWidth;
+	}
+
+	public float getCharacterFeetHeight()
+	{
+		return characterFeetHeight;
+	}
+
+	public void setCharacterFeetHeight(float characterFeetHeight)
+	{
+		this.characterFeetHeight = characterFeetHeight;
+	}
+
+    
+    
 }

@@ -25,10 +25,7 @@ public class Juego
     {
 	Player player=this.getCurrentPyramid().getPlayer();
 	player.move(this.controles.getNuevoRumbo(),this.controles.getShot(),deltaTime);
-	if(player.isFloorDown())
-	    player.setState(1000);
-	else
-	    player.setState(7);
+	
 	    
 
     }

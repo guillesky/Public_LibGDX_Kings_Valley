@@ -1,6 +1,7 @@
 package modelo;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapLayers;
@@ -14,180 +15,217 @@ import util.Constantes;
 
 public class Pyramid implements IGrafica
 {
-    private TiledMap map;
-    private int tileWidth;
-    private int tileHeight;
-    private int mapWidthInTiles;
-    private int mapHeightInTiles;
-    private int mapWidthInPixels;
-    private int mapHeightInPixels;
-    private LevelItem[] levelItems;
-    private IGrafica interfaz = null;
-    private Player player = null;
-    private LevelItem doorIn = null;
-    private LevelItem doorOut = null;
-    private ArrayList<Mummy> mummys = new ArrayList<Mummy>();
+	private TiledMap map;
+	private int tileWidth;
+	private int tileHeight;
+	private int mapWidthInTiles;
+	private int mapHeightInTiles;
+	private int mapWidthInPixels;
+	private int mapHeightInPixels;
+	private IGrafica interfaz = null;
+	private Player player = null;
+	private LevelItem doorIn = null;
+	private LevelItem doorOut = null;
+	private ArrayList<Mummy> mummys = new ArrayList<Mummy>();
+	private ArrayList<LevelItem> jewels = new ArrayList<LevelItem>();
+	private ArrayList<LevelItem> stairs = new ArrayList<LevelItem>();
+	private ArrayList<LevelItem> pickers = new ArrayList<LevelItem>();
+	private ArrayList<LevelItem> daggers = new ArrayList<LevelItem>();
+	private ArrayList<LevelItem> giratorys = new ArrayList<LevelItem>();
+	private ArrayList<LevelItem> walls = new ArrayList<LevelItem>();
 
-    public Pyramid(TiledMap map, IGrafica interfaz)
-    {
-	this.map = map;
-	MapProperties properties = map.getProperties();
-	tileWidth = properties.get("tilewidth", Integer.class);
-	tileHeight = properties.get("tileheight", Integer.class);
-	mapWidthInTiles = properties.get("width", Integer.class);
-	mapHeightInTiles = properties.get("height", Integer.class);
-	this.mapHeightInPixels = mapHeightInTiles * tileHeight;
-	this.mapWidthInPixels = mapWidthInTiles * tileWidth;
-	this.interfaz = interfaz;
-	this.readLevelItem();
-	LevelItem puerta = this.doorIn;
-	if (puerta == null)
-	    puerta = this.doorOut;
-	this.player = new Player(puerta, (TiledMapTileLayer) this.map.getLayers().get("front"));
-    }
-
-    private void readLevelItem()
-    {
-	MapLayers mapLayers = map.getLayers();
-	MapLayer layerObject = mapLayers.get("items");
-	this.levelItems = new LevelItem[layerObject.getObjects().getCount()];
-	for (int i = 0; i < layerObject.getObjects().getCount(); i++)
+	public Pyramid(TiledMap map, IGrafica interfaz)
 	{
-	    MapObject objeto = layerObject.getObjects().get(i);
-	    MapProperties mp = objeto.getProperties();
-	    String stype = (String) mp.get("type");
-	    float fx = (float) mp.get("x");
-	    float fy = (float) mp.get("y");
-	    String sp0 = (String) mp.get("p0");
-	    String sp1 = (String) mp.get("p1");
+		this.map = map;
+		MapProperties properties = map.getProperties();
+		tileWidth = properties.get("tilewidth", Integer.class);
+		tileHeight = properties.get("tileheight", Integer.class);
+		mapWidthInTiles = properties.get("width", Integer.class);
+		mapHeightInTiles = properties.get("height", Integer.class);
+		this.mapHeightInPixels = mapHeightInTiles * tileHeight;
+		this.mapWidthInPixels = mapWidthInTiles * tileWidth;
+		this.interfaz = interfaz;
+		this.readLevelItem();
+		LevelItem puerta = this.doorIn;
+		if (puerta == null)
+			puerta = this.doorOut;
+		this.player = new Player(puerta, (TiledMapTileLayer) this.map.getLayers().get("front"));
+	}
 
-	    int type = Constantes.stringToInteger.get(stype);
+	private void readLevelItem()
+	{
+		MapLayers mapLayers = map.getLayers();
+		MapLayer layerObject = mapLayers.get("items");
+		// this.levelItems = new LevelItem[layerObject.getObjects().getCount()];
+		for (int i = 0; i < layerObject.getObjects().getCount(); i++)
+		{
+			MapObject objeto = layerObject.getObjects().get(i);
+			MapProperties mp = objeto.getProperties();
+			String stype = (String) mp.get("type");
+			float fx = (float) mp.get("x");
+			float fy = (float) mp.get("y");
+			String sp0 = (String) mp.get("p0");
+			String sp1 = (String) mp.get("p1");
 
-	    int p0 = Integer.parseInt(sp0);
-	    int p1 = Integer.parseInt(sp1);
-	    float width = (float) mp.get("width");
-	    float height = (float) mp.get("height");
-	    LevelItem levelItem;
-	    if (type == Constantes.It_mummy)
-	    {
-		int speedFall = Config.getInstance().getCharacterSpeedFall(), speedWalk = 0, speedWalkStairs = 0,
-			speedJump = 0;
+			int type = Constantes.stringToInteger.get(stype);
+
+			int p0 = Integer.parseInt(sp0);
+			int p1 = Integer.parseInt(sp1);
+			float width = (float) mp.get("width");
+			float height = (float) mp.get("height");
+			LevelItem levelItem = new LevelItem(type, fx, fy, p0, p1, width, height);
+			switch (type)
+			{
+			case Constantes.It_mummy:
+				this.addMummy(fx, fy, p0);
+				break;
+			case Constantes.It_door:
+				if (levelItem.getP0() == 0)
+					this.doorIn = levelItem;
+				else
+					this.doorOut = levelItem;
+				break;
+			case Constantes.It_jewel:
+				this.jewels.add(levelItem);
+				break;
+			case Constantes.It_picker:
+				this.pickers.add(levelItem);
+				break;
+
+			case Constantes.It_dagger:
+				this.daggers.add(levelItem);
+				break;
+			case Constantes.It_stairs:
+				this.stairs.add(levelItem);
+				break;
+			case Constantes.It_giratory:
+				this.giratorys.add(levelItem);
+				break;
+			case Constantes.It_wall:
+				this.walls.add(levelItem);
+				break;
+
+			}
+
+		}
+	}
+
+	private void addMummy(float fx, float fy, int p0)
+	{
+		int speedFall = Config.getInstance().getCharacterSpeedFall(), speedWalk = 0, speedWalkStairs = 0, speedJump = 0;
 		switch (p0)
 		{
 		case 0:
 		{
-		    speedJump = Config.getInstance().getMummyWhiteSpeedJump();
-		    speedWalk = Config.getInstance().getMummyWhiteSpeedWalk();
-		    speedWalkStairs = Config.getInstance().getMummyWhiteSpeedWalkStairs();
-		    break;
+			speedJump = Config.getInstance().getMummyWhiteSpeedJump();
+			speedWalk = Config.getInstance().getMummyWhiteSpeedWalk();
+			speedWalkStairs = Config.getInstance().getMummyWhiteSpeedWalkStairs();
+			break;
 		}
 
 		case 1:
 		{
-		    speedJump = Config.getInstance().getMummyBlueSpeedJump();
-		    speedWalk = Config.getInstance().getMummyBlueSpeedWalk();
-		    speedWalkStairs = Config.getInstance().getMummyBlueSpeedWalkStairs();
-		    break;
+			speedJump = Config.getInstance().getMummyBlueSpeedJump();
+			speedWalk = Config.getInstance().getMummyBlueSpeedWalk();
+			speedWalkStairs = Config.getInstance().getMummyBlueSpeedWalkStairs();
+			break;
 		}
 		case 2:
 		{
-		    speedJump = Config.getInstance().getMummyOrangeSpeedJump();
-		    speedWalk = Config.getInstance().getMummyOrangeSpeedWalk();
-		    speedWalkStairs = Config.getInstance().getMummyOrangeSpeedWalkStairs();
-		    break;
+			speedJump = Config.getInstance().getMummyOrangeSpeedJump();
+			speedWalk = Config.getInstance().getMummyOrangeSpeedWalk();
+			speedWalkStairs = Config.getInstance().getMummyOrangeSpeedWalkStairs();
+			break;
 		}
 		case 3:
 		{
-		    speedJump = Config.getInstance().getMummyRedSpeedJump();
-		    speedWalk = Config.getInstance().getMummyRedSpeedWalk();
-		    speedWalkStairs = Config.getInstance().getMummyRedSpeedWalkStairs();
-		    break;
+			speedJump = Config.getInstance().getMummyRedSpeedJump();
+			speedWalk = Config.getInstance().getMummyRedSpeedWalk();
+			speedWalkStairs = Config.getInstance().getMummyRedSpeedWalkStairs();
+			break;
 		}
 
 		}
-		levelItem = new Mummy(fx, fy, p0, (TiledMapTileLayer) this.map.getLayers().get("front"), speedFall,
-			speedWalk, speedWalkStairs, speedJump);
-		this.mummys.add((Mummy) levelItem);
-	    } else
-		levelItem = new LevelItem(type, fx, fy, p0, p1, width, height);
-	    this.levelItems[i] = levelItem;
-	    if (levelItem.getType() == Constantes.It_door)
-	    {
-		if (levelItem.getP0() == 0)
-		    this.doorIn = levelItem;
-		else
-		    this.doorOut = levelItem;
-	    }
+		Mummy mummy = new Mummy(fx, fy, p0, (TiledMapTileLayer) this.map.getLayers().get("front"), speedFall, speedWalk,
+				speedWalkStairs, speedJump);
+		this.mummys.add(mummy);
+
 	}
-    }
 
-    public TiledMap getMap()
-    {
-	return map;
-    }
+	public TiledMap getMap()
+	{
+		return map;
+	}
 
-    public int getTileWidth()
-    {
-	return tileWidth;
-    }
+	public int getTileWidth()
+	{
+		return tileWidth;
+	}
 
-    public int getTileHeight()
-    {
-	return tileHeight;
-    }
+	public int getTileHeight()
+	{
+		return tileHeight;
+	}
 
-    public int getMapWidthInTiles()
-    {
-	return mapWidthInTiles;
-    }
+	public int getMapWidthInTiles()
+	{
+		return mapWidthInTiles;
+	}
 
-    public int getMapHeightInTiles()
-    {
-	return mapHeightInTiles;
-    }
+	public int getMapHeightInTiles()
+	{
+		return mapHeightInTiles;
+	}
 
-    public LevelItem[] getLevelItems()
-    {
-	return levelItems;
-    }
+	public Iterator<LevelItem> getLevelItems()
+	{
+		ArrayList<LevelItem> li=new ArrayList<LevelItem>();
+		li.addAll(this.pickers);
+		li.addAll(this.jewels);
+		li.addAll(this.daggers);
+		li.addAll(this.stairs);
+		
+		
+		return li.iterator();
+	}
 
-    public int getMapWidthInPixels()
-    {
-	return mapWidthInPixels;
-    }
+	public int getMapWidthInPixels()
+	{
+		return mapWidthInPixels;
+	}
 
-    public int getMapHeightInPixels()
-    {
-	return mapHeightInPixels;
-    }
+	public int getMapHeightInPixels()
+	{
+		return mapHeightInPixels;
+	}
 
-    @Override
-    public void addGraphicElement(Object element)
-    {
-	// TODO Auto-generated method stub
+	@Override
+	public void addGraphicElement(Object element)
+	{
+		// TODO Auto-generated method stub
 
-    }
+	}
 
-    @Override
-    public void removeGraphicElement(Object element)
-    {
-	// TODO Auto-generated method stub
+	@Override
+	public void removeGraphicElement(Object element)
+	{
+		// TODO Auto-generated method stub
 
-    }
+	}
 
-    public Player getPlayer()
-    {
-	return player;
-    }
+	public Player getPlayer()
+	{
+		return player;
+	}
 
-    public LevelItem getDoorIn()
-    {
-	return doorIn;
-    }
+	public LevelItem getDoorIn()
+	{
+		return doorIn;
+	}
 
-    public LevelItem getDoorOut()
-    {
-	return doorOut;
-    }
+	public LevelItem getDoorOut()
+	{
+		return doorOut;
+	}
 
 }
