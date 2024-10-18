@@ -17,16 +17,23 @@ public class Constantes
     public static final int It_wall = 85;
     public static final int It_mummy = 77;
     public static final int It_stairs = 69;
-    public static final int It_stair_ur = 48;
-    public static final int It_stair_dl = 49;
-    public static final int It_stair_ul = 50;
-    public static final int It_stair_dr = 51;
     public static final int It_push_in = 73;
     public static final int It_push_out = 79;
+    
     public static final int UP = 1000;
     public static final int DOWN = 1001;
     public static final int LEFT = 1002;
     public static final int RIGHT = 1003;
+    
+    public static final int STAIR_UR = 0;
+    public static final int STAIR_DL = 1;
+    public static final int STAIR_UL = 2;
+    public static final int STAIR_DR = 3;
+    
+    
+    
+    
+    
     
     public static final HashMap<Integer, String> identificacion = new HashMap<Integer, String>();
     public static final HashMap<String, Integer> stringToInteger = new HashMap<String, Integer>();
@@ -44,10 +51,7 @@ public class Constantes
 	identificacion.put(It_wall, "Wall");
 	identificacion.put(It_mummy, "Mummy");
 	identificacion.put(It_stairs, "Stairs");
-	identificacion.put(It_stair_ur, "It_stair_ur");
-	identificacion.put(It_stair_dr, "It_stair_dr");
-	identificacion.put(It_stair_ul, "It_stair_ul");
-	identificacion.put(It_stair_dl, "It_stair_dl");
+	
 
 	identificacion.put(It_push_in, "It_push_in");
 	identificacion.put(It_push_out, "It_push_out");

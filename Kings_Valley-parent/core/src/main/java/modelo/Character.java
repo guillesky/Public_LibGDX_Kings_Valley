@@ -27,23 +27,22 @@ public abstract class Character extends LevelItem
 	protected int speedWalkStairs;
 	protected int speedJump;
 	protected int stairInit = Constantes.It_none;
-	protected TiledMapTileLayer layer;
 	protected float speedY = 0;
 	protected float feetWidth;
 	protected float feetHeight;
+	protected Pyramid pyramid;
 
-	public Character(int type, float x, float y, int p0, int p1, float width, float height, TiledMapTileLayer layer,
-			int speedFall, int speedWalk, int speedWalkStairs, int speedJump)
+	public Character(int type, float x, float y, int p0, int p1, float width, float height, 
+			int speedFall, int speedWalk, int speedWalkStairs, int speedJump,Pyramid pyramid)
 	{
 		super(type, x, y, p0, p1, width, height);
-		this.layer = layer;
 		this.speedFall = speedFall;
-
 		this.speedWalk = speedWalk;
 		this.speedWalkStairs = speedWalkStairs;
 		this.speedJump = speedJump;
 		this.feetHeight = Config.getInstance().getCharacterFeetHeight();
 		this.feetWidth = Config.getInstance().getCharacterFeetWidth();
+		this.pyramid=pyramid;
 	}
 
 	public void move(Vector2 v, boolean b, float deltaTime)
@@ -173,7 +172,8 @@ public abstract class Character extends LevelItem
 
 	private TiledMapTileLayer.Cell getCell(float x, float y)
 	{
-		TiledMapTileLayer.Cell cell = this.layer.getCell((int) (x / Config.getInstance().getLevelTileWidthUnits()),
+		TiledMapTileLayer layer=(TiledMapTileLayer) this.pyramid.getMap().getLayers().get("front");
+		TiledMapTileLayer.Cell cell = layer.getCell((int) (x / Config.getInstance().getLevelTileWidthUnits()),
 				(int) (y / Config.getInstance().getLevelTileHeightUnits()));
 		return cell;
 	}
