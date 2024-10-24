@@ -64,15 +64,18 @@ public class LevelItem extends Rectangle implements IGraphicRenderer
 		return LevelItem.rectangleColision(this, another);
 	}
 
-	
-
-	protected static boolean rectangleColision(Rectangle rrectangleA, Rectangle rectangleB)
+	protected static boolean rectangleColision(Rectangle rectangleA, Rectangle rectangleB)
 	{
-		float overlapX = Math.min(rrectangleA.x + rrectangleA.width, rectangleB.x + rectangleB.width)
-				- Math.max(rrectangleA.x, rectangleB.x);
-		float overlapY = Math.min(rrectangleA.y + rrectangleA.height, rectangleB.y + rectangleB.height)
-				- Math.max(rrectangleA.y, rectangleB.y);
-		return (overlapX > 0 && overlapY > 0);
+		boolean respuesta = false;
+		if (rectangleA != null && rectangleB != null)
+		{
+			float overlapX = Math.min(rectangleA.x + rectangleA.width, rectangleB.x + rectangleB.width)
+					- Math.max(rectangleA.x, rectangleB.x);
+			float overlapY = Math.min(rectangleA.y + rectangleA.height, rectangleB.y + rectangleB.height)
+					- Math.max(rectangleA.y, rectangleB.y);
+			respuesta = (overlapX > 0 && overlapY > 0);
+		}
+		return respuesta;
 	}
 
 }

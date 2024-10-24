@@ -5,7 +5,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import util.Config;
 import util.Constantes;
 
-public class Mummy extends Character
+public class Mummy extends GameCharacter
 {
 
     public Mummy(float x, float y, int p0, 

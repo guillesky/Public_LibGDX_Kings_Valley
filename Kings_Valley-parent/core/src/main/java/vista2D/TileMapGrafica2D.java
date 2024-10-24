@@ -52,7 +52,12 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 	@Override
 	public void removeGraphicElement(Object element)
 	{
-		// TODO Auto-generated method stub
+		ArrayIterator<MySpriteKV> it = this.instances.iterator();
+		while (it.hasNext() && it.next().getLevelItem() != element)
+		{
+
+		}
+		it.remove();
 
 	}
 
@@ -84,12 +89,7 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 
 			}
 
-			if (item.getType() == Constantes.It_stairs)
-			{
-				MySpriteKV sprite = new MySpriteKV(tileSet.getTile(item.getP0() + 250).getTextureRegion(), item);
-				this.instances.add(sprite);
-
-			}
+			
 
 		}
 

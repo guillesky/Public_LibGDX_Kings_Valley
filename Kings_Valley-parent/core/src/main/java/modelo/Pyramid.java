@@ -164,8 +164,7 @@ public class Pyramid implements IGrafica
 		}
 
 		}
-		Mummy mummy = new Mummy(fx, fy, p0, speedFall, speedWalk,
-				speedWalkStairs, speedJump,this);
+		Mummy mummy = new Mummy(fx, fy, p0, speedFall, speedWalk, speedWalkStairs, speedJump, this);
 		this.mummys.add(mummy);
 
 	}
@@ -221,15 +220,16 @@ public class Pyramid implements IGrafica
 	@Override
 	public void addGraphicElement(Object element)
 	{
-		// TODO Auto-generated method stub
+		this.interfaz.addGraphicElement(element);
 
 	}
 
 	@Override
 	public void removeGraphicElement(Object element)
 	{
-		// TODO Auto-generated method stub
-
+		LevelItem joya=(LevelItem) element;
+		this.jewels.remove(joya);
+		this.interfaz.removeGraphicElement(element);
 	}
 
 	public Player getPlayer()
@@ -297,6 +297,13 @@ public class Pyramid implements IGrafica
 		return giratorys;
 	}
 
+	public void CheckJewelPickup()
+	{
+		LevelItem item = this.player.checkItemFeetColision(this.jewels);
+		if (item != null)
+			this.removeGraphicElement(item);
+	}
+
 	
-	
+
 }

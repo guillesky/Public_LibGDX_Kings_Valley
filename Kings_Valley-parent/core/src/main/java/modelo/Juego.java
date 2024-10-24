@@ -7,55 +7,52 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 public class Juego
 {
-    private static Juego instance = new Juego();
-    private Controles controles = new Controles();
-    private ArrayList<Pyramid> pyramids = new ArrayList<Pyramid>();
-    private int currentPyramid = 0;
+	private static Juego instance = new Juego();
+	private Controles controles = new Controles();
+	private ArrayList<Pyramid> pyramids = new ArrayList<Pyramid>();
+	private int currentPyramid = 0;
 
-    private Juego()
-    {
-    }
+	private Juego()
+	{
+	}
 
-    public static Juego getInstance()
-    {
-	return instance;
-    }
+	public static Juego getInstance()
+	{
+		return instance;
+	}
 
-    public void actualizaframe(float deltaTime)
-    {
-	Player player=this.getCurrentPyramid().getPlayer();
-	player.move(this.controles.getNuevoRumbo(),this.controles.getShot(),deltaTime);
-	
-	    
+	public void actualizaframe(float deltaTime)
+	{
+		Player player = this.getCurrentPyramid().getPlayer();
+		player.move(this.controles.getNuevoRumbo(), this.controles.getShot(), deltaTime);
+		this.getCurrentPyramid().CheckJewelPickup();
+			
+	}
 
-    }
+	public Controles getControles()
+	{
+		return controles;
+	}
 
-   
+	public void setControles(Controles controles)
+	{
+		this.controles = controles;
+	}
 
-    public Controles getControles()
-    {
-	return controles;
-    }
+	public void addPyramid(Pyramid pyramid)
+	{
+		this.pyramids.add(pyramid);
+	}
 
-    public void setControles(Controles controles)
-    {
-	this.controles = controles;
-    }
+	public Pyramid getCurrentPyramid()
+	{
+		return this.pyramids.get(currentPyramid);
+	}
 
-    public void addPyramid(Pyramid pyramid)
-    {
-	this.pyramids.add(pyramid);
-    }
-
-    public Pyramid getCurrentPyramid()
-    {
-	return this.pyramids.get(currentPyramid);
-    }
-
-    public void dispose()
-    {
-	Iterator<Pyramid> it = this.pyramids.iterator();
-	while (it.hasNext())
-	    it.next().getMap().dispose();
-    }
+	public void dispose()
+	{
+		Iterator<Pyramid> it = this.pyramids.iterator();
+		while (it.hasNext())
+			it.next().getMap().dispose();
+	}
 }
