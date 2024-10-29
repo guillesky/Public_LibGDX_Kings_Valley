@@ -8,8 +8,10 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -25,6 +27,8 @@ import util.Constantes;
 public class TileMapGrafica2D implements IMyApplicationnListener
 {
 	private final String archiPlayer = "pics/player.png";
+	private final String archiPlayerAnimation = "pics/vick.png";
+
 	private OrthographicCamera camera;
 	private OrthogonalTiledMapRenderer renderer;
 	private AssetManager manager;
@@ -33,12 +37,37 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 	private Array<MySpriteKV> instances = new Array<MySpriteKV>();
 	private HashMap<Integer, Texture> textures = new HashMap<Integer, Texture>();
 
+	private Animation<TextureRegion> animation = null;
+
 	public TileMapGrafica2D(AssetManager manager)
 	{
 		this.manager = manager;
 		this.manager.load(this.archiPlayer, Texture.class);
+		this.manager.load(this.archiPlayerAnimation, Texture.class);
+
 		// TODO Auto-generated constructor stub
 // agergar codigo de carga en el manager
+
+	}
+
+	private void lalala()
+	{
+		Texture spriteSheet = manager.get(this.archiPlayerAnimation, Texture.class);
+		int frameWidth = 16; // Ancho de cada frame
+		int frameHeight = 20; // Alto de cada frame
+
+		TextureRegion[][] tmpFrames = TextureRegion.split(spriteSheet, frameWidth, frameHeight);
+		Array<TextureRegion> frames = new Array<>();
+
+		// Convertimos la matriz 2D a una lista de frames 1D
+		for (int i = 0; i < tmpFrames.length; i++)
+		{
+			for (int j = 0; j < tmpFrames[i].length; j++)
+			{
+				frames.add(tmpFrames[i][j]);
+			}
+		}
+		this.animation = new Animation<>(0.1f, frames);
 
 	}
 
@@ -70,6 +99,7 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 		camera.position.x = pyramid.getMapWidthInPixels() * .5f;
 		camera.position.y = pyramid.getMapHeightInPixels() * .5f;
 		Texture texturePlayer = manager.get(this.archiPlayer, Texture.class);
+		this.lalala();
 		this.textures.put(Constantes.PLAYER, texturePlayer);
 		this.instances.add(new MySpriteKV(texturePlayer, pyramid.getPlayer()));
 		renderer = new OrthogonalTiledMapRenderer(map);
@@ -88,8 +118,6 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 				this.instances.add(sprite);
 
 			}
-
-			
 
 		}
 
@@ -125,6 +153,7 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 			mskv.updateElement(null);
 			mskv.draw(spriteBatch);
 		}
+		TextureRegion currentFrame = animation.getKeyFrame(0, true);
 		spriteBatch.end();
 	}
 
@@ -146,6 +175,9 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 	public void dispose()
 	{
 		this.renderer.dispose();
+		this.manager.dispose();
+		this.spriteBatch.dispose();
+
 	}
 
 }

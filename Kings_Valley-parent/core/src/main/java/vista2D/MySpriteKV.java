@@ -45,6 +45,7 @@ public class MySpriteKV extends Sprite implements IGraphicRenderer
 				this.setFlip(false, false);
 		}
 		this.setPosition(x, y);
+		
 
 	}
 
