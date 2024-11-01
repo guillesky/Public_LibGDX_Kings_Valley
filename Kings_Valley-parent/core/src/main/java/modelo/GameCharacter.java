@@ -13,19 +13,20 @@ import util.Constantes;
 public abstract class GameCharacter extends LevelItem
 {
 
-	public static final int ST_INIT = 0; // Inicializando
-	public static final int ST_WALK = 1; // Andando
+	public static final int ST_IDDLE = 0; // Inicializando
+	public static final int ST_WALK_RIGHT = 11; // Andando
 	public static final int ST_ONSTAIRS_POSITIVE = 2; // En una escalera pendiente positiva
 	public static final int ST_ONSTAIRS_NEGATIVE = 3; // En una escalera pendiente negativa
 
-	public static final int ST_SUMP_LEFT = 4; // Saltando izquierda
+	public static final int ST_JUMP_LEFT = 4; // Saltando izquierda
 	public static final int ST_JUMP_TOP = 5; // Saltando arriba
 	public static final int ST_JUMP_RIGHT = 6; // Saltando derecha
 	public static final int ST_FALLING = 7; // Cayendo
 
 	public static final int ST_DYING = 8; // Muriendo
+	public static final int ST_WALK_LEFT = 12;
 
-	protected int state = GameCharacter.ST_INIT;
+	protected int state = GameCharacter.ST_IDDLE;
 	protected Vector2 inputVector = new Vector2();
 	protected Vector2 motionVector = new Vector2();
 	protected int speedFall;
@@ -37,7 +38,8 @@ public abstract class GameCharacter extends LevelItem
 	protected float feetWidth;
 	protected float feetHeight;
 	protected Pyramid pyramid;
-	private int cont = 0;
+	private boolean lookRight = true;
+	private float animationDelta = 0;
 
 	public GameCharacter(int type, float x, float y, int p0, int p1, float width, float height, int speedFall,
 			int speedWalk, int speedWalkStairs, int speedJump, Pyramid pyramid)
@@ -54,18 +56,16 @@ public abstract class GameCharacter extends LevelItem
 
 	public void move(Vector2 v, boolean b, float deltaTime)
 	{
-		this.cont++;
+
 		deltaTime *= Config.getInstance().getSpeedGame();
-		if (this.state != GameCharacter.ST_ONSTAIRS_POSITIVE && this.state != GameCharacter.ST_ONSTAIRS_NEGATIVE) // Si
-																													// no
-																													// estoy
-		// en
-		// escalera
+		if (this.state != GameCharacter.ST_ONSTAIRS_POSITIVE && this.state != GameCharacter.ST_ONSTAIRS_NEGATIVE)
+		// Si no estoy en escalera
 		{
 			if (!this.isFloorDown()) // aplico gravedad
 			{
 
-				if (this.state == GameCharacter.ST_WALK)
+				if (this.state == GameCharacter.ST_WALK_RIGHT || this.state == GameCharacter.ST_WALK_LEFT
+						|| this.state == GameCharacter.ST_IDDLE)
 				{
 
 					this.state = GameCharacter.ST_FALLING;
@@ -80,6 +80,39 @@ public abstract class GameCharacter extends LevelItem
 			else // estoy caminando
 			{
 
+				if (v.x == 0)
+				{
+					if (this.state != ST_IDDLE)
+					{
+						this.animationDelta = 0;
+						this.state = ST_IDDLE;
+					} else
+						this.animationDelta += deltaTime;
+
+				} else if (v.x > 0)
+				{
+					if (this.state != ST_WALK_RIGHT)
+					{
+						this.animationDelta = 0;
+						this.state = ST_WALK_RIGHT;
+						this.lookRight = true;
+					} else
+					{
+						this.animationDelta += deltaTime;
+					}
+
+				} else
+				{
+					if (this.state != ST_WALK_LEFT)
+					{
+						this.animationDelta = 0;
+						this.state = ST_WALK_LEFT;
+						this.lookRight = false;
+					} else
+					{
+						this.animationDelta += deltaTime;
+					}
+				}
 				this.motionVector.x = v.x * this.speedWalk;
 
 				// this.motionVector.y = 0;
@@ -101,7 +134,11 @@ public abstract class GameCharacter extends LevelItem
 				this.motionVector.y = -v.x * this.speedWalkStairs;
 			}
 			if (v.x != 0)
+			{
 				this.checkExitStair(v);
+				this.animationDelta += deltaTime;
+				this.lookRight = v.x > 0;
+			}
 		}
 
 		Vector2 escalado = this.motionVector.cpy().scl(deltaTime);
@@ -141,7 +178,12 @@ public abstract class GameCharacter extends LevelItem
 		}
 		if (escalera != null)
 		{
-			this.state = GameCharacter.ST_WALK;
+			if (v.x > 0)
+			{
+				this.state = GameCharacter.ST_WALK_RIGHT;
+			} else
+				this.state = GameCharacter.ST_WALK_LEFT;
+			this.animationDelta = 0;
 			this.y = escalera.y;
 			this.motionVector.y = 0;
 		}
@@ -184,6 +226,7 @@ public abstract class GameCharacter extends LevelItem
 	{
 		this.motionVector.y = this.speedJump;
 		this.state = GameCharacter.ST_JUMP_TOP;
+		this.animationDelta = 0;
 	}
 
 	public int getState()
@@ -272,7 +315,13 @@ public abstract class GameCharacter extends LevelItem
 
 		float aux = (int) ((this.y + vectMove.y) / Config.getInstance().getLevelTileHeightUnits());
 		vectMove.y = (aux + 1) * Config.getInstance().getLevelTileHeightUnits() - this.y;
-		this.state = GameCharacter.ST_WALK;
+		if (vectMove.x == 0)
+			this.state = GameCharacter.ST_IDDLE;
+		else if (vectMove.x > 0)
+			this.state = GameCharacter.ST_WALK_RIGHT;
+		else
+			this.state = GameCharacter.ST_WALK_LEFT;
+
 		this.motionVector.y = 0;
 
 	}
@@ -298,7 +347,8 @@ public abstract class GameCharacter extends LevelItem
 
 	private boolean colision3(Vector2 vectMove)
 	{
-		if (this.state != ST_WALK)
+		if (this.state != GameCharacter.ST_WALK_RIGHT && this.state != GameCharacter.ST_WALK_RIGHT
+				&& this.state != GameCharacter.ST_IDDLE)
 			this.checkLanding(vectMove);
 
 		int r = -1;
@@ -324,9 +374,9 @@ public abstract class GameCharacter extends LevelItem
 			if (r == Constantes.DOWN)
 			{
 				r = Constantes.LEFT;
-				//TODO
+				// TODO
 				System.out.println("ABERRACION");
-				//TODO
+				// TODO
 			}
 		} else if (this.isCellSolid(this.x + vectMove.x, this.y + vectMove.y)
 				&& this.buscarColisionPorVertice(this.x, this.y, vectMove) == Constantes.LEFT)
@@ -338,12 +388,14 @@ public abstract class GameCharacter extends LevelItem
 
 		if (this.colisionMiddleLeft(vectMove))
 		{
-			this.correctLeft(vectMove);r=-1;
-			
+			this.correctLeft(vectMove);
+			r = -1;
+
 		} else if (this.colisionMiddleRight(vectMove))
 		{
-			this.correctRight(vectMove);r=-1;
-			
+			this.correctRight(vectMove);
+			r = -1;
+
 		}
 
 		this.corrigeDirecciones(r, vectMove);
@@ -475,6 +527,16 @@ public abstract class GameCharacter extends LevelItem
 		}
 
 		return respuesta;
+	}
+
+	public float getAnimationDelta()
+	{
+		return animationDelta;
+	}
+
+	public boolean isLookRight()
+	{
+		return lookRight;
 	}
 
 }

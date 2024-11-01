@@ -11,6 +11,7 @@ public class Juego
 	private Controles controles = new Controles();
 	private ArrayList<Pyramid> pyramids = new ArrayList<Pyramid>();
 	private int currentPyramid = 0;
+	private float delta = 0;
 
 	private Juego()
 	{
@@ -23,10 +24,11 @@ public class Juego
 
 	public void actualizaframe(float deltaTime)
 	{
+		this.delta = deltaTime;
 		Player player = this.getCurrentPyramid().getPlayer();
 		player.move(this.controles.getNuevoRumbo(), this.controles.getShot(), deltaTime);
 		this.getCurrentPyramid().CheckJewelPickup();
-			
+
 	}
 
 	public Controles getControles()
@@ -55,4 +57,10 @@ public class Juego
 		while (it.hasNext())
 			it.next().getMap().dispose();
 	}
+
+	public float getDelta()
+	{
+		return delta;
+	}
+	
 }

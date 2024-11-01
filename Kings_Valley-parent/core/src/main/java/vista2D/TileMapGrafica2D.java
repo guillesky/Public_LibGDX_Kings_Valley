@@ -27,7 +27,8 @@ import util.Constantes;
 public class TileMapGrafica2D implements IMyApplicationnListener
 {
 	private final String archiPlayer = "pics/player.png";
-	private final String archiPlayerAnimation = "pics/vick.png";
+	private final String archiPlayerAnimationWalk = "pics/player_walk.png";
+	private final String archiPlayerAnimationIddle = "pics/player_iddle.png";
 
 	private OrthographicCamera camera;
 	private OrthogonalTiledMapRenderer renderer;
@@ -36,25 +37,31 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 	private SpriteBatch spriteBatch = new SpriteBatch();;
 	private Array<MySpriteKV> instances = new Array<MySpriteKV>();
 	private HashMap<Integer, Texture> textures = new HashMap<Integer, Texture>();
+	private GameCharacterAnimated2D playerAnimated2D;
 
-	private Animation<TextureRegion> animation = null;
+	private Animation<TextureRegion> animationPlayerWalk = null;
+	private Animation<TextureRegion> animationPlayerStair = null;
+	private Animation<TextureRegion> animationPlayerIddle = null;
+	private Animation<TextureRegion> animationPlayerJump = null;
+	private Animation<TextureRegion> animationPlayerFall = null;
+	private Animation<TextureRegion> animationPlayerDeath = null;
 
 	public TileMapGrafica2D(AssetManager manager)
 	{
 		this.manager = manager;
 		this.manager.load(this.archiPlayer, Texture.class);
-		this.manager.load(this.archiPlayerAnimation, Texture.class);
+		this.manager.load(this.archiPlayerAnimationWalk, Texture.class);
+		this.manager.load(this.archiPlayerAnimationIddle, Texture.class);
 
 		// TODO Auto-generated constructor stub
 // agergar codigo de carga en el manager
 
 	}
 
-	private void lalala()
+	private Animation<TextureRegion> lalala(String nombreArchi, int frameWidth, int frameHeight, float frameDuration)
 	{
-		Texture spriteSheet = manager.get(this.archiPlayerAnimation, Texture.class);
-		int frameWidth = 16; // Ancho de cada frame
-		int frameHeight = 20; // Alto de cada frame
+
+		Texture spriteSheet = manager.get(nombreArchi, Texture.class);
 
 		TextureRegion[][] tmpFrames = TextureRegion.split(spriteSheet, frameWidth, frameHeight);
 		Array<TextureRegion> frames = new Array<>();
@@ -67,7 +74,7 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 				frames.add(tmpFrames[i][j]);
 			}
 		}
-		this.animation = new Animation<>(0.1f, frames);
+		return new Animation<TextureRegion>(frameDuration, frames);
 
 	}
 
@@ -99,9 +106,14 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 		camera.position.x = pyramid.getMapWidthInPixels() * .5f;
 		camera.position.y = pyramid.getMapHeightInPixels() * .5f;
 		Texture texturePlayer = manager.get(this.archiPlayer, Texture.class);
-		this.lalala();
+		this.animationPlayerWalk = this.lalala(this.archiPlayerAnimationWalk, 16, 20, 0.1f);
+		this.animationPlayerStair = this.animationPlayerWalk;
+
+		this.animationPlayerIddle = this.lalala(this.archiPlayerAnimationIddle, 16, 20, 0.1f);
+		this.animationPlayerJump = this.animationPlayerIddle;
+		this.animationPlayerFall = this.animationPlayerIddle;
 		this.textures.put(Constantes.PLAYER, texturePlayer);
-		this.instances.add(new MySpriteKV(texturePlayer, pyramid.getPlayer()));
+		// this.instances.add(new MySpriteKV(texturePlayer, pyramid.getPlayer()));
 		renderer = new OrthogonalTiledMapRenderer(map);
 
 		TiledMapTileSet tileSet = pyramid.getMap().getTileSets().getTileSet(0);
@@ -120,6 +132,8 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 			}
 
 		}
+		this.playerAnimated2D = new GameCharacterAnimated2D(pyramid.getPlayer(), animationPlayerIddle, animationPlayerWalk,
+				animationPlayerStair, animationPlayerJump, animationPlayerFall, null);
 
 	}
 
@@ -153,7 +167,8 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 			mskv.updateElement(null);
 			mskv.draw(spriteBatch);
 		}
-		TextureRegion currentFrame = animation.getKeyFrame(0, true);
+		this.playerAnimated2D.update(Juego.getInstance().getDelta());
+		this.playerAnimated2D.render(spriteBatch);
 		spriteBatch.end();
 	}
 
