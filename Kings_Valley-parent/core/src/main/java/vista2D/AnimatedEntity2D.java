@@ -35,4 +35,10 @@ public class AnimatedEntity2D
     {
 	sprite.draw(batch);
     }
+
+    public LevelItem getLevelItem()
+    {
+        return levelItem;
+    }
+    
 }

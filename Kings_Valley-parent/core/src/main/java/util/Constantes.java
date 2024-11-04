@@ -30,6 +30,16 @@ public class Constantes
     public static final int STAIR_UL = 2;
     public static final int STAIR_DR = 3;
     
+    public static final int JEWEL_1=114;
+    public static final int JEWEL_2=134;
+    public static final int JEWEL_3=141;
+    public static final int JEWEL_4=148;
+    public static final int JEWEL_5=155;
+    public static final int JEWEL_6=162;
+    public static final int JEWEL_7=169;
+    
+    
+    
     
     
     

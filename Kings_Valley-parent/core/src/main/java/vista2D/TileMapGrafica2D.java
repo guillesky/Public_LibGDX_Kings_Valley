@@ -1,5 +1,6 @@
 package vista2D;
 
+import java.util.HashMap;
 import java.util.Iterator;
 
 import com.badlogic.gdx.Gdx;
@@ -32,9 +33,9 @@ public class TileMapGrafica2D implements IMyApplicationnListener
     private OrthogonalTiledMapRenderer renderer;
     private AssetManager manager;
     private SpriteBatch spriteBatch = new SpriteBatch();;
-    private Array<MySpriteKV> instances = new Array<MySpriteKV>();
+   // private Array<MySpriteKV> instances = new Array<MySpriteKV>();
     private Array<AnimatedEntity2D> animatedEntities = new Array<AnimatedEntity2D>();
-    private GameCharacterAnimated2D playerAnimated2D;
+    private HashMap<LevelItem, AnimatedEntity2D> hashMapLevelAnimation = new HashMap<LevelItem, AnimatedEntity2D>();
 
     private Animation<TextureRegion> animationPlayerWalk = null;
     private Animation<TextureRegion> animationPlayerStair = null;
@@ -42,8 +43,11 @@ public class TileMapGrafica2D implements IMyApplicationnListener
     private Animation<TextureRegion> animationPlayerJump = null;
     private Animation<TextureRegion> animationPlayerFall = null;
     private Animation<TextureRegion> animationPlayerDeath = null;
+
     private Animation<TextureRegion> animationPlayerKnife = null;
     private Animation<TextureRegion> animationPlayerPicker = null;
+
+    private HashMap<Integer, Animation<TextureRegion>> animationsColectables = new HashMap<Integer, Animation<TextureRegion>>();
 
     public TileMapGrafica2D(AssetManager manager)
     {
@@ -72,6 +76,7 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 	int countKnife = 7;
 	int starPicker = 7;
 	int countPicker = 7;
+	int countJewel = 7;
 
 	Texture spriteSheet = manager.get(this.archiPlayer, Texture.class);
 	Texture colectablesSheet = manager.get(this.archiColectables, Texture.class);
@@ -105,8 +110,25 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 	    }
 	}
 
-	this.animationPlayerKnife = this.framesToAnimation(linearFrames, startKnife, countKnife, frameDuration);
-	this.animationPlayerPicker = this.framesToAnimation(linearFrames, starPicker, countPicker, frameDuration);
+	this.animationsColectables.put(Constantes.It_dagger,
+		this.framesToAnimation(linearFrames, startKnife, countKnife, frameDuration));
+	this.animationsColectables.put(Constantes.It_picker,
+		this.framesToAnimation(linearFrames, starPicker, countPicker, frameDuration));
+
+	this.animationsColectables.put(Constantes.JEWEL_1,
+		this.framesToAnimation(linearFrames, 7, countJewel, frameDuration));
+	this.animationsColectables.put(Constantes.JEWEL_2,
+		this.framesToAnimation(linearFrames, 14, countJewel, frameDuration));
+	this.animationsColectables.put(Constantes.JEWEL_3,
+		this.framesToAnimation(linearFrames, 21, countJewel, frameDuration));
+	this.animationsColectables.put(Constantes.JEWEL_4,
+		this.framesToAnimation(linearFrames, 28, countJewel, frameDuration));
+	this.animationsColectables.put(Constantes.JEWEL_5,
+		this.framesToAnimation(linearFrames, 35, countJewel, frameDuration));
+	this.animationsColectables.put(Constantes.JEWEL_6,
+		this.framesToAnimation(linearFrames, 42, countJewel, frameDuration));
+	this.animationsColectables.put(Constantes.JEWEL_7,
+		this.framesToAnimation(linearFrames, 49, countJewel, frameDuration));
 
     }
 
@@ -124,19 +146,26 @@ public class TileMapGrafica2D implements IMyApplicationnListener
     @Override
     public void addGraphicElement(Object element)
     {
-	// TODO Auto-generated method stub
-
+	LevelItem item = (LevelItem) element;
+	AnimatedEntity2D animatedEntity2D = null;
+	int id = 0;
+	if (item.getType() == Constantes.It_jewel)
+	    id = item.getP0();
+	else
+	    id = item.getType();
+	animatedEntity2D = new AnimatedEntity2D(item, this.animationsColectables.get(id));
+	this.animatedEntities.add(animatedEntity2D);
+	this.hashMapLevelAnimation.put(item, animatedEntity2D);
     }
 
     @Override
     public void removeGraphicElement(Object element)
     {
-	ArrayIterator<MySpriteKV> it = this.instances.iterator();
-	while (it.hasNext() && it.next().getLevelItem() != element)
-	{
 
-	}
-	it.remove();
+	LevelItem item = (LevelItem) element;
+
+	AnimatedEntity2D animatedEntity2D = this.hashMapLevelAnimation.get(item);
+	this.animatedEntities.removeValue(animatedEntity2D, true);
 
     }
 
@@ -147,8 +176,8 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 	Pyramid pyramid = Juego.getInstance().getCurrentPyramid();
 	camera = new OrthographicCamera(pyramid.getMapHeightInPixels() * 4 / 3, pyramid.getMapHeightInPixels());
 	camera.position.x = pyramid.getMapWidthInPixels() * .5f;
-	this.calculateCamera();
-	
+	this.calculateCameraFull();
+
 	this.loadAnimations();
 	renderer = new OrthogonalTiledMapRenderer(map);
 
@@ -159,21 +188,14 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 
 	{
 	    LevelItem item = levelItems.next();
-	    if (item.getType() == Constantes.It_jewel)
-	    {
-		MySpriteKV sprite = new MySpriteKV(tileSet.getTile(item.getP0()).getTextureRegion(), item);
-		this.instances.add(sprite);
-
-	    } else if (item.getType() == Constantes.It_dagger)
-	    {
-		this.animatedEntities.add(new AnimatedEntity2D(item, this.animationPlayerKnife));
-	    } else if (item.getType() == Constantes.It_picker)
-		this.animatedEntities.add(new AnimatedEntity2D(item, this.animationPlayerPicker));
+	    if (item.getType() == Constantes.It_jewel || item.getType() == Constantes.It_dagger
+		    || item.getType() == Constantes.It_picker)
+		this.addGraphicElement(item);
 	}
-	this.playerAnimated2D = new GameCharacterAnimated2D(pyramid.getPlayer(), animationPlayerIddle,
-		animationPlayerWalk, animationPlayerStair, animationPlayerJump, animationPlayerFall,
-		animationPlayerDeath);
-	this.animatedEntities.add(this.playerAnimated2D);
+
+	this.animatedEntities
+		.add(new GameCharacterAnimated2D(pyramid.getPlayer(), animationPlayerIddle, animationPlayerWalk,
+			animationPlayerStair, animationPlayerJump, animationPlayerFall, animationPlayerDeath));
 
     }
 
@@ -187,7 +209,7 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 	if (height != 0)
 	{
 	    camera.setToOrtho(false, ancho, alto);
-	    this.calculateCamera();
+	    this.calculateCameraFull();
 	}
     }
 
@@ -203,14 +225,14 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 	renderer.render();
 
 	this.spriteBatch.begin();
-	ArrayIterator<MySpriteKV> it = this.instances.iterator();
+/*	ArrayIterator<MySpriteKV> it = this.instances.iterator();
 	while (it.hasNext())
 	{
 	    MySpriteKV mskv = it.next();
 	    mskv.updateElement(null);
 	    mskv.draw(spriteBatch);
 	}
-
+*/
 	ArrayIterator<AnimatedEntity2D> it2 = this.animatedEntities.iterator();
 	while (it2.hasNext())
 	{
@@ -248,13 +270,33 @@ public class TileMapGrafica2D implements IMyApplicationnListener
     private void calculateCamera()
     {
 	Pyramid pyramid = Juego.getInstance().getCurrentPyramid();
-	float aux_X=Juego.getInstance().getCurrentPyramid().getPlayer().getX();
-	
-	
-	if(aux_X>=(camera.viewportWidth/2) && aux_X+(camera.viewportWidth/2)<=pyramid.getMapWidthInPixels())
+	float aux_X = Juego.getInstance().getCurrentPyramid().getPlayer().getX();
+
+	if (aux_X >= (camera.viewportWidth / 2) && aux_X + (camera.viewportWidth / 2) <= pyramid.getMapWidthInPixels())
 	    camera.position.x = Juego.getInstance().getCurrentPyramid().getPlayer().getX();
-	
-	
+
 	camera.position.y = pyramid.getMapHeightInPixels() * .55f;
     }
+    
+    private void calculateCameraFull()
+    {
+	Pyramid pyramid = Juego.getInstance().getCurrentPyramid();
+	float aux_X = Juego.getInstance().getCurrentPyramid().getPlayer().getX();
+
+	if (aux_X >= (camera.viewportWidth / 2) && aux_X + (camera.viewportWidth / 2) <= pyramid.getMapWidthInPixels())
+	    camera.position.x = Juego.getInstance().getCurrentPyramid().getPlayer().getX();
+	else 
+	{
+	    if(camera.viewportWidth>=pyramid.getMapWidthInPixels())
+		camera.position.x = pyramid.getMapWidthInPixels() * .5f;
+	    else  
+	    {
+	//TODO 
+		//ACA SEGUILO
+		
+	    }
+	}
+	camera.position.y = pyramid.getMapHeightInPixels() * .55f;
+    }
+    
 }
