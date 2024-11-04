@@ -344,7 +344,7 @@ public abstract class GameCharacter extends LevelItem
 	private boolean isCellSolid(float x, float y)
 	{
 		TiledMapTileLayer.Cell cell = this.getCell(x, y);
-		return cell != null && cell.getTile().getId() < 100;
+		return cell != null && cell.getTile().getId() < 220;
 	}
 
 	private boolean colision3(Vector2 vectMove)
