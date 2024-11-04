@@ -24,7 +24,7 @@ public class Juego
 
 	public void actualizaframe(float deltaTime)
 	{
-		this.delta = deltaTime;
+		this.delta += deltaTime;
 		Player player = this.getCurrentPyramid().getPlayer();
 		player.move(this.controles.getNuevoRumbo(), this.controles.getShot(), deltaTime);
 		this.getCurrentPyramid().CheckJewelPickup();

@@ -70,7 +70,9 @@ public abstract class GameCharacter extends LevelItem
 
 					this.state = GameCharacter.ST_FALLING;
 					this.motionVector.x = 0;
+					this.animationDelta=0;
 				}
+				else {this.animationDelta+=deltaTime;}
 				this.motionVector.y += this.speedFall * deltaTime;
 				if (this.motionVector.y < this.speedFall)
 					this.motionVector.y = speedFall;

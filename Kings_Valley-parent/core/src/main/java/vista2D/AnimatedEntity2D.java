@@ -5,27 +5,34 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+import modelo.LevelItem;
+
 public class AnimatedEntity2D
 {
-	protected Animation<TextureRegion> animation;
-	protected float stateTime;
-	protected Sprite sprite;
+    protected LevelItem levelItem;
+    protected Animation<TextureRegion> animation;
+    protected float stateTime;
+    protected Sprite sprite;
 
-	public AnimatedEntity2D(Animation<TextureRegion> animation)
-	{
-		this.animation = animation;
-		this.sprite = new Sprite(animation.getKeyFrame(0));
-		this.stateTime = 0f;
-	}
+    public AnimatedEntity2D(LevelItem levelItem,Animation<TextureRegion> animation)
+    {
+	this.animation = animation;
+	this.sprite = new Sprite(animation.getKeyFrame(0));
+	this.stateTime = 0f;
+	this.levelItem=levelItem;
+    }
 
-	public void update(float deltaTime)
-	{
+    public void update(float deltaTime)
+    {
 
-		sprite.setRegion(animation.getKeyFrame(deltaTime, true));
-	}
+	sprite.setRegion(animation.getKeyFrame(deltaTime, true));
+	float x = this.levelItem.getX() + (this.levelItem.getWidth() - this.sprite.getWidth()) / 2;
+	float y = this.levelItem.getY();
+	this.sprite.setPosition(x, y);
+    }
 
-	public void render(SpriteBatch batch)
-	{
-		sprite.draw(batch);
-	}
+    public void render(SpriteBatch batch)
+    {
+	sprite.draw(batch);
+    }
 }

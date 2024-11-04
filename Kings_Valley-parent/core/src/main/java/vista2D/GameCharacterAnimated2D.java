@@ -7,7 +7,6 @@ import modelo.GameCharacter;
 
 public class GameCharacterAnimated2D extends AnimatedEntity2D
 {
-	protected GameCharacter character;
 	protected Animation<TextureRegion> animationIddle;
 	protected Animation<TextureRegion> animationWalk;
 	protected Animation<TextureRegion> animationStair;
@@ -25,8 +24,7 @@ public class GameCharacterAnimated2D extends AnimatedEntity2D
 			Animation<TextureRegion> animationStair, Animation<TextureRegion> animationJump,
 			Animation<TextureRegion> animationFall, Animation<TextureRegion> animationDeath)
 	{
-		super(animationIddle);
-		this.character = character;
+		super(character,animationIddle);
 		this.animationIddle = animationIddle;
 		this.animationWalk = animationWalk;
 		this.animationStair = animationStair;
@@ -39,28 +37,21 @@ public class GameCharacterAnimated2D extends AnimatedEntity2D
 	@Override
 	public void update(float deltaTime)
 	{
-		if (this.character.getState() == GameCharacter.ST_WALK_RIGHT
-				|| this.character.getState() == GameCharacter.ST_WALK_LEFT)
+	    GameCharacter character=(GameCharacter) this.levelItem;
+		if (character.getState() == GameCharacter.ST_WALK_RIGHT
+				|| character.getState() == GameCharacter.ST_WALK_LEFT)
 			this.animation = this.animationWalk;
-		else if (this.character.getState() == GameCharacter.ST_ONSTAIRS_NEGATIVE
-				|| this.character.getState() == GameCharacter.ST_ONSTAIRS_POSITIVE)
+		else if (character.getState() == GameCharacter.ST_ONSTAIRS_NEGATIVE
+				|| character.getState() == GameCharacter.ST_ONSTAIRS_POSITIVE)
 			this.animation = this.animationStair;
-		else if (this.character.getState() == GameCharacter.ST_JUMP_TOP)
+		else if (character.getState() == GameCharacter.ST_JUMP_TOP)
 			this.animation = this.animationJump;
-		else if (this.character.getState() == GameCharacter.ST_FALLING)
+		else if (character.getState() == GameCharacter.ST_FALLING)
 			this.animation = this.animationFall;
-		else if (this.character.getState() == GameCharacter.ST_IDDLE)
+		else if (character.getState() == GameCharacter.ST_IDDLE)
 			this.animation = this.animationIddle;
-		
-		
-		
-		super.update(this.character.getAnimationDelta());
-		float x = this.character.getX() + (this.character.getWidth() - this.sprite.getWidth()) / 2;
-		float y = this.character.getY();
-		
-		this.sprite.setPosition(x, y);
-		this.sprite.setFlip(!this.character.isLookRight(), false);
-		
+		super.update(character.getAnimationDelta());
+		this.sprite.setFlip(!character.isLookRight(), false);
 	}
 
 	public Animation<TextureRegion> getAnimationWalk()
