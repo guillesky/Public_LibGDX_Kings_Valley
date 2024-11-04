@@ -24,10 +24,10 @@ import util.Constantes;
 
 public class TileMapGrafica2D implements IMyApplicationnListener
 {
-    
+
     private final String archiPlayer = "pics/vick.png";
     private final String archiColectables = "pics/colectables.png";
-    
+
     private OrthographicCamera camera;
     private OrthogonalTiledMapRenderer renderer;
     private AssetManager manager;
@@ -42,8 +42,8 @@ public class TileMapGrafica2D implements IMyApplicationnListener
     private Animation<TextureRegion> animationPlayerJump = null;
     private Animation<TextureRegion> animationPlayerFall = null;
     private Animation<TextureRegion> animationPlayerDeath = null;
-    private Animation<TextureRegion> animationPlayerKnife= null;
-    private Animation<TextureRegion> animationPlayerPicker= null;
+    private Animation<TextureRegion> animationPlayerKnife = null;
+    private Animation<TextureRegion> animationPlayerPicker = null;
 
     public TileMapGrafica2D(AssetManager manager)
     {
@@ -53,27 +53,25 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 
     }
 
-    private void loadAnimations( )
+    private void loadAnimations()
     {
-	int frameWidth=16;
-	int frameHeight=20;
-	float frameDuration=0.1f;
-	
-	int colectableWidth=10;
-	int colectableHeight=10;
-	
-	
+	int frameWidth = 16;
+	int frameHeight = 20;
+	float frameDuration = 0.1f;
+
+	int colectableWidth = 10;
+	int colectableHeight = 10;
+
 	int startIddle = 0;
 	int countIddle = 1;
 	int startWalk = 0;
 	int countWalk = 6;
 	int startDeath = 21;
 	int countDeath = 4;
-	int startKnife=0;
-	int countKnife=7;
-	int starPicker=7;
-	int countPicker=7;
-	
+	int startKnife = 0;
+	int countKnife = 7;
+	int starPicker = 7;
+	int countPicker = 7;
 
 	Texture spriteSheet = manager.get(this.archiPlayer, Texture.class);
 	Texture colectablesSheet = manager.get(this.archiColectables, Texture.class);
@@ -96,8 +94,7 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 	this.animationPlayerWalk = this.framesToAnimation(linearFrames, startWalk, countWalk, frameDuration);
 	this.animationPlayerStair = this.animationPlayerWalk;
 	this.animationPlayerDeath = this.framesToAnimation(linearFrames, startDeath, countDeath, frameDuration);
-	
-	
+
 	tmpFrames = TextureRegion.split(colectablesSheet, colectableWidth, colectableHeight);
 	linearFrames.clear();
 	for (int i = 0; i < tmpFrames.length; i++)
@@ -107,10 +104,9 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 		linearFrames.add(tmpFrames[i][j]);
 	    }
 	}
-	
+
 	this.animationPlayerKnife = this.framesToAnimation(linearFrames, startKnife, countKnife, frameDuration);
 	this.animationPlayerPicker = this.framesToAnimation(linearFrames, starPicker, countPicker, frameDuration);
-	
 
     }
 
@@ -151,7 +147,8 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 	Pyramid pyramid = Juego.getInstance().getCurrentPyramid();
 	camera = new OrthographicCamera(pyramid.getMapHeightInPixels() * 4 / 3, pyramid.getMapHeightInPixels());
 	camera.position.x = pyramid.getMapWidthInPixels() * .5f;
-	camera.position.y = pyramid.getMapHeightInPixels() * .5f;
+	this.calculateCamera();
+	
 	this.loadAnimations();
 	renderer = new OrthogonalTiledMapRenderer(map);
 
@@ -167,12 +164,11 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 		MySpriteKV sprite = new MySpriteKV(tileSet.getTile(item.getP0()).getTextureRegion(), item);
 		this.instances.add(sprite);
 
-	    }
-	    else if (item.getType() == Constantes.It_dagger || item.getType() == Constantes.It_picker)
+	    } else if (item.getType() == Constantes.It_dagger)
 	    {
-		this.animatedEntities.add(new AnimatedEntity2D(item,this.animationPlayerKnife));
-	    }
-
+		this.animatedEntities.add(new AnimatedEntity2D(item, this.animationPlayerKnife));
+	    } else if (item.getType() == Constantes.It_picker)
+		this.animatedEntities.add(new AnimatedEntity2D(item, this.animationPlayerPicker));
 	}
 	this.playerAnimated2D = new GameCharacterAnimated2D(pyramid.getPlayer(), animationPlayerIddle,
 		animationPlayerWalk, animationPlayerStair, animationPlayerJump, animationPlayerFall,
@@ -185,11 +181,13 @@ public class TileMapGrafica2D implements IMyApplicationnListener
     public void resize(int width, int height)
     {
 	Pyramid pyramid = Juego.getInstance().getCurrentPyramid();
+	float ancho = pyramid.getMapHeightInPixels() * width / (height + 2);
+	float alto = pyramid.getMapHeightInPixels() + 20;
+
 	if (height != 0)
 	{
-	    camera.setToOrtho(false, pyramid.getMapHeightInPixels() * width / height, pyramid.getMapHeightInPixels());
-	    camera.position.x = pyramid.getMapWidthInPixels() * .5f;
-	    camera.position.y = pyramid.getMapHeightInPixels() * .5f;
+	    camera.setToOrtho(false, ancho, alto);
+	    this.calculateCamera();
 	}
     }
 
@@ -199,6 +197,7 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 	Gdx.gl.glClearColor(.0f, .0f, .0f, 1);
 	Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 	camera.update();
+	this.calculateCamera();
 	spriteBatch.setProjectionMatrix(camera.combined);
 	renderer.setView(camera);
 	renderer.render();
@@ -211,18 +210,15 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 	    mskv.updateElement(null);
 	    mskv.draw(spriteBatch);
 	}
-	
+
 	ArrayIterator<AnimatedEntity2D> it2 = this.animatedEntities.iterator();
 	while (it2.hasNext())
 	{
-	    AnimatedEntity2D ae2d= it2.next();
+	    AnimatedEntity2D ae2d = it2.next();
 	    ae2d.update(Juego.getInstance().getDelta());
 	    ae2d.render(spriteBatch);
 	}
-	
-/*	
-	this.playerAnimated2D.update(Juego.getInstance().getDelta());
-	this.playerAnimated2D.render(spriteBatch);*/
+
 	spriteBatch.end();
     }
 
@@ -249,4 +245,16 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 
     }
 
+    private void calculateCamera()
+    {
+	Pyramid pyramid = Juego.getInstance().getCurrentPyramid();
+	float aux_X=Juego.getInstance().getCurrentPyramid().getPlayer().getX();
+	
+	
+	if(aux_X>=(camera.viewportWidth/2) && aux_X+(camera.viewportWidth/2)<=pyramid.getMapWidthInPixels())
+	    camera.position.x = Juego.getInstance().getCurrentPyramid().getPlayer().getX();
+	
+	
+	camera.position.y = pyramid.getMapHeightInPixels() * .55f;
+    }
 }
