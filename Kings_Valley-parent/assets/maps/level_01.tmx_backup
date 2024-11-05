@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="32" height="22" tilewidth="20" tileheight="20" infinite="0" nextlayerid="4" nextobjectid="24">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="32" height="22" tilewidth="10" tileheight="10" infinite="0" nextlayerid="4" nextobjectid="24">
  <tileset firstgid="1" source="tiles.tsx"/>
  <layer id="1" name="back" width="32" height="22">
   <data encoding="csv">75,63,64,76,75,76,75,76,75,76,75,76,75,76,75,76,75,76,75,76,75,76,75,76,75,76,75,76,75,67,68,76,

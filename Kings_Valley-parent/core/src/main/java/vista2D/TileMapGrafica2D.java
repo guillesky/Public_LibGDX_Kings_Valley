@@ -33,7 +33,7 @@ public class TileMapGrafica2D implements IMyApplicationnListener
     private OrthogonalTiledMapRenderer renderer;
     private AssetManager manager;
     private SpriteBatch spriteBatch = new SpriteBatch();;
-   // private Array<MySpriteKV> instances = new Array<MySpriteKV>();
+    // private Array<MySpriteKV> instances = new Array<MySpriteKV>();
     private Array<AnimatedEntity2D> animatedEntities = new Array<AnimatedEntity2D>();
     private HashMap<LevelItem, AnimatedEntity2D> hashMapLevelAnimation = new HashMap<LevelItem, AnimatedEntity2D>();
 
@@ -180,9 +180,6 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 
 	this.loadAnimations();
 	renderer = new OrthogonalTiledMapRenderer(map);
-
-	TiledMapTileSet tileSet = pyramid.getMap().getTileSets().getTileSet(0);
-
 	Iterator<LevelItem> levelItems = Juego.getInstance().getCurrentPyramid().getLevelItems();
 	while (levelItems.hasNext())
 
@@ -225,14 +222,11 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 	renderer.render();
 
 	this.spriteBatch.begin();
-/*	ArrayIterator<MySpriteKV> it = this.instances.iterator();
-	while (it.hasNext())
-	{
-	    MySpriteKV mskv = it.next();
-	    mskv.updateElement(null);
-	    mskv.draw(spriteBatch);
-	}
-*/
+	/*
+	 * ArrayIterator<MySpriteKV> it = this.instances.iterator(); while
+	 * (it.hasNext()) { MySpriteKV mskv = it.next(); mskv.updateElement(null);
+	 * mskv.draw(spriteBatch); }
+	 */
 	ArrayIterator<AnimatedEntity2D> it2 = this.animatedEntities.iterator();
 	while (it2.hasNext())
 	{
@@ -277,26 +271,30 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 
 	camera.position.y = pyramid.getMapHeightInPixels() * .55f;
     }
-    
+
     private void calculateCameraFull()
     {
+	float posCameraX = 0;
 	Pyramid pyramid = Juego.getInstance().getCurrentPyramid();
 	float aux_X = Juego.getInstance().getCurrentPyramid().getPlayer().getX();
 
 	if (aux_X >= (camera.viewportWidth / 2) && aux_X + (camera.viewportWidth / 2) <= pyramid.getMapWidthInPixels())
-	    camera.position.x = Juego.getInstance().getCurrentPyramid().getPlayer().getX();
-	else 
+	    posCameraX = Juego.getInstance().getCurrentPyramid().getPlayer().getX();
+	else
 	{
-	    if(camera.viewportWidth>=pyramid.getMapWidthInPixels())
-		camera.position.x = pyramid.getMapWidthInPixels() * .5f;
-	    else  
+	    if (camera.viewportWidth >= pyramid.getMapWidthInPixels())
+		posCameraX = pyramid.getMapWidthInPixels() * .5f;
+	    else
 	    {
-	//TODO 
-		//ACA SEGUILO
-		
+		if (aux_X < pyramid.getMapWidthInPixels()/2)
+		    posCameraX = camera.viewportWidth / 2;
+		else
+		    posCameraX = pyramid.getMapWidthInPixels() - camera.viewportWidth / 2;
 	    }
 	}
+	System.out.println("ViwPort: "+camera.viewportWidth+" Player X: "+aux_X+"    Camera X: "+posCameraX+ "  Piramid width in pixels: "+ pyramid.getMapWidthInPixels());
+	camera.position.x = posCameraX;
 	camera.position.y = pyramid.getMapHeightInPixels() * .55f;
     }
-    
+
 }
