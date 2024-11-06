@@ -39,6 +39,7 @@ public class Main implements IMyApplicationnListener
 	    TiledMap map = manager.get(Constantes.levelFileName.get(i), TiledMap.class);
 	    Juego.getInstance().addPyramid(new Pyramid(map, grafica));
 	}
+	
 	this.grafica.create();
 
     }

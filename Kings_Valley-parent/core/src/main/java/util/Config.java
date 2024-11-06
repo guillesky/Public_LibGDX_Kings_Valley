@@ -2,32 +2,31 @@ package util;
 
 public class Config
 {
-    private int characterSpeedFall = -600;
-    private int playerSpeedWalk = 60;
-    private int playerSpeedWalkStairs = 60;
-    private int playerSpeedJump = 160;
+    private float characterSpeedFall = -600;
+    private float playerSpeedWalk = 60;
+    private float playerSpeedWalkStairs = 60;
+    private float playerSpeedJump = 160;
 
-    private int mummyWhiteSpeedWalk = 60;
-    private int mummyWhiteSpeedWalkStairs = 60;
-    private int mummyWhiteSpeedJump = 160;
+    private float mummyWhiteSpeedWalk = 60;
+    private float mummyWhiteSpeedWalkStairs = 60;
+    private float mummyWhiteSpeedJump = 160;
 
-    private int mummyBlueSpeedWalk = 60;
-    private int mummyBlueSpeedWalkStairs = 60;
-    private int mummyBlueSpeedJump = 160;
+    private float mummyBlueSpeedWalk = 60;
+    private float mummyBlueSpeedWalkStairs = 60;
+    private float mummyBlueSpeedJump = 160;
 
-    private int mummyOrangeSpeedWalk = 60;
-    private int mummyOrangeSpeedWalkStairs = 60;
-    private int mummyOrangeSpeedJump = 160;
+    private float mummyOrangeSpeedWalk = 60;
+    private float mummyOrangeSpeedWalkStairs = 60;
+    private float mummyOrangeSpeedJump = 160;
 
-    private int mummyRedSpeedWalk = 60;
-    private int mummyRedSpeedWalkStairs = 60;
-    private int mummyRedSpeedJump = 160;
+    private float mummyRedSpeedWalk = 60;
+    private float mummyRedSpeedWalkStairs = 60;
+    private float mummyRedSpeedJump = 160;
 
     private float characterWidth = 6;
     private float characterHeight = 18;
     private float characterFeetWidth = 1;
     private float characterFeetHeight = 1;
-    
 
     private float levelItemWidth = 10;
     private float levelItemHeight = 10;
@@ -37,7 +36,7 @@ public class Config
 
     private float levelTileWidthUnits = 10;
     private float levelTileHeightUnits = 10;
-    private float speedGame=1;
+    private float speedGame = 1;
 
     private static final Config instance = new Config();
 
@@ -74,9 +73,9 @@ public class Config
 
 	this.characterWidth = this.levelTileWidthUnits * 0.6f;
 	this.characterHeight = this.levelTileHeightUnits * 1.8f;
-	this.characterFeetHeight=this.levelTileHeightUnits * 0.1f;
-	this.characterFeetWidth=this.levelTileWidthUnits * 0.1f;
-	
+	this.characterFeetHeight = this.levelTileHeightUnits * 0.1f;
+	this.characterFeetWidth = this.levelTileWidthUnits * 0.1f;
+
 	;
 
 	this.levelItemWidth = this.levelTileWidthUnits;
@@ -87,162 +86,162 @@ public class Config
 
     }
 
-    public int getCharacterSpeedFall()
+    public float getCharacterSpeedFall()
     {
 	return characterSpeedFall;
     }
 
-    public void setCharacterSpeedFall(int characterSpeedFall)
+    public void setCharacterSpeedFall(float characterSpeedFall)
     {
 	this.characterSpeedFall = characterSpeedFall;
     }
 
-    public int getPlayerSpeedWalk()
+    public float getPlayerSpeedWalk()
     {
 	return playerSpeedWalk;
     }
 
-    public void setPlayerSpeedWalk(int playerSpeedWalk)
+    public void setPlayerSpeedWalk(float playerSpeedWalk)
     {
 	this.playerSpeedWalk = playerSpeedWalk;
     }
 
-    public int getPlayerSpeedWalkStairs()
+    public float getPlayerSpeedWalkStairs()
     {
 	return playerSpeedWalkStairs;
     }
 
-    public void setPlayerSpeedWalkStairs(int playerSpeedWalkStairs)
+    public void setPlayerSpeedWalkStairs(float playerSpeedWalkStairs)
     {
 	this.playerSpeedWalkStairs = playerSpeedWalkStairs;
     }
 
-    public int getPlayerSpeedJump()
+    public float getPlayerSpeedJump()
     {
 	return playerSpeedJump;
     }
 
-    public void setPlayerSpeedJump(int playerSpeedJump)
+    public void setPlayerSpeedJump(float playerSpeedJump)
     {
 	this.playerSpeedJump = playerSpeedJump;
     }
 
-    public int getMummyWhiteSpeedWalk()
+    public float getMummyWhiteSpeedWalk()
     {
 	return mummyWhiteSpeedWalk;
     }
 
-    public void setMummyWhiteSpeedWalk(int mummyWhiteSpeedWalk)
+    public void setMummyWhiteSpeedWalk(float mummyWhiteSpeedWalk)
     {
 	this.mummyWhiteSpeedWalk = mummyWhiteSpeedWalk;
     }
 
-    public int getMummyWhiteSpeedWalkStairs()
+    public float getMummyWhiteSpeedWalkStairs()
     {
 	return mummyWhiteSpeedWalkStairs;
     }
 
-    public void setMummyWhiteSpeedWalkStairs(int mummyWhiteSpeedWalkStairs)
+    public void setMummyWhiteSpeedWalkStairs(float mummyWhiteSpeedWalkStairs)
     {
 	this.mummyWhiteSpeedWalkStairs = mummyWhiteSpeedWalkStairs;
     }
 
-    public int getMummyWhiteSpeedJump()
+    public float getMummyWhiteSpeedJump()
     {
 	return mummyWhiteSpeedJump;
     }
 
-    public void setMummyWhiteSpeedJump(int mummyWhiteSpeedJump)
+    public void setMummyWhiteSpeedJump(float mummyWhiteSpeedJump)
     {
 	this.mummyWhiteSpeedJump = mummyWhiteSpeedJump;
     }
 
-    public int getMummyBlueSpeedWalk()
+    public float getMummyBlueSpeedWalk()
     {
 	return mummyBlueSpeedWalk;
     }
 
-    public void setMummyBlueSpeedWalk(int mummyBlueSpeedWalk)
+    public void setMummyBlueSpeedWalk(float mummyBlueSpeedWalk)
     {
 	this.mummyBlueSpeedWalk = mummyBlueSpeedWalk;
     }
 
-    public int getMummyBlueSpeedWalkStairs()
+    public float getMummyBlueSpeedWalkStairs()
     {
 	return mummyBlueSpeedWalkStairs;
     }
 
-    public void setMummyBlueSpeedWalkStairs(int mummyBlueSpeedWalkStairs)
+    public void setMummyBlueSpeedWalkStairs(float mummyBlueSpeedWalkStairs)
     {
 	this.mummyBlueSpeedWalkStairs = mummyBlueSpeedWalkStairs;
     }
 
-    public int getMummyBlueSpeedJump()
+    public float getMummyBlueSpeedJump()
     {
 	return mummyBlueSpeedJump;
     }
 
-    public void setMummyBlueSpeedJump(int mummyBlueSpeedJump)
+    public void setMummyBlueSpeedJump(float mummyBlueSpeedJump)
     {
 	this.mummyBlueSpeedJump = mummyBlueSpeedJump;
     }
 
-    public int getMummyOrangeSpeedWalk()
+    public float getMummyOrangeSpeedWalk()
     {
 	return mummyOrangeSpeedWalk;
     }
 
-    public void setMummyOrangeSpeedWalk(int mummyOrangeSpeedWalk)
+    public void setMummyOrangeSpeedWalk(float mummyOrangeSpeedWalk)
     {
 	this.mummyOrangeSpeedWalk = mummyOrangeSpeedWalk;
     }
 
-    public int getMummyOrangeSpeedWalkStairs()
+    public float getMummyOrangeSpeedWalkStairs()
     {
 	return mummyOrangeSpeedWalkStairs;
     }
 
-    public void setMummyOrangeSpeedWalkStairs(int mummyOrangeSpeedWalkStairs)
+    public void setMummyOrangeSpeedWalkStairs(float mummyOrangeSpeedWalkStairs)
     {
 	this.mummyOrangeSpeedWalkStairs = mummyOrangeSpeedWalkStairs;
     }
 
-    public int getMummyOrangeSpeedJump()
+    public float getMummyOrangeSpeedJump()
     {
 	return mummyOrangeSpeedJump;
     }
 
-    public void setMummyOrangeSpeedJump(int mummyOrangeSpeedJump)
+    public void setMummyOrangeSpeedJump(float mummyOrangeSpeedJump)
     {
 	this.mummyOrangeSpeedJump = mummyOrangeSpeedJump;
     }
 
-    public int getMummyRedSpeedWalk()
+    public float getMummyRedSpeedWalk()
     {
 	return mummyRedSpeedWalk;
     }
 
-    public void setMummyRedSpeedWalk(int mummyRedSpeedWalk)
+    public void setMummyRedSpeedWalk(float mummyRedSpeedWalk)
     {
 	this.mummyRedSpeedWalk = mummyRedSpeedWalk;
     }
 
-    public int getMummyRedSpeedWalkStairs()
+    public float getMummyRedSpeedWalkStairs()
     {
 	return mummyRedSpeedWalkStairs;
     }
 
-    public void setMummyRedSpeedWalkStairs(int mummyRedSpeedWalkStairs)
+    public void setMummyRedSpeedWalkStairs(float mummyRedSpeedWalkStairs)
     {
 	this.mummyRedSpeedWalkStairs = mummyRedSpeedWalkStairs;
     }
 
-    public int getMummyRedSpeedJump()
+    public float getMummyRedSpeedJump()
     {
 	return mummyRedSpeedJump;
     }
 
-    public void setMummyRedSpeedJump(int mummyRedSpeedJump)
+    public void setMummyRedSpeedJump(float mummyRedSpeedJump)
     {
 	this.mummyRedSpeedJump = mummyRedSpeedJump;
     }
@@ -334,34 +333,32 @@ public class Config
 
     public float getSpeedGame()
     {
-        return speedGame;
+	return speedGame;
     }
 
     public void setSpeedGame(float speedGame)
     {
-        this.speedGame = speedGame;
+	this.speedGame = speedGame;
     }
 
-	public float getCharacterFeetWidth()
-	{
-		return characterFeetWidth;
-	}
+    public float getCharacterFeetWidth()
+    {
+	return characterFeetWidth;
+    }
 
-	public void setCharacterFeetWidth(float characterFeetWidth)
-	{
-		this.characterFeetWidth = characterFeetWidth;
-	}
+    public void setCharacterFeetWidth(float characterFeetWidth)
+    {
+	this.characterFeetWidth = characterFeetWidth;
+    }
 
-	public float getCharacterFeetHeight()
-	{
-		return characterFeetHeight;
-	}
+    public float getCharacterFeetHeight()
+    {
+	return characterFeetHeight;
+    }
 
-	public void setCharacterFeetHeight(float characterFeetHeight)
-	{
-		this.characterFeetHeight = characterFeetHeight;
-	}
+    public void setCharacterFeetHeight(float characterFeetHeight)
+    {
+	this.characterFeetHeight = characterFeetHeight;
+    }
 
-    
-    
 }

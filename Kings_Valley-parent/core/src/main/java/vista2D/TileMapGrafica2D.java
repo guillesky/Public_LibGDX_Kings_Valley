@@ -11,9 +11,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Array.ArrayIterator;
 
@@ -172,8 +175,10 @@ public class TileMapGrafica2D implements IMyApplicationnListener
     @Override
     public void create()
     {
+	
 	TiledMap map = Juego.getInstance().getCurrentPyramid().getMap();
 	Pyramid pyramid = Juego.getInstance().getCurrentPyramid();
+	//this.cambiaTileset();
 	camera = new OrthographicCamera(pyramid.getMapHeightInPixels() * 4 / 3, pyramid.getMapHeightInPixels());
 	camera.position.x = pyramid.getMapWidthInPixels() * .5f;
 	this.calculateCameraFull();
@@ -193,6 +198,66 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 	this.animatedEntities
 		.add(new GameCharacterAnimated2D(pyramid.getPlayer(), animationPlayerIddle, animationPlayerWalk,
 			animationPlayerStair, animationPlayerJump, animationPlayerFall, animationPlayerDeath));
+
+    }
+
+    private void cambiaTileset()
+    {
+	TiledMap map = Juego.getInstance().getCurrentPyramid().getMap();
+	TiledMapTileLayer originalLayer = (TiledMapTileLayer) map.getLayers().get("front");
+	// Crear una nueva capa con el nuevo tamaño de tile
+	int width = originalLayer.getWidth();
+	int height = originalLayer.getHeight();
+	float newTileWidth = 20; // Por ejemplo, 64 píxeles de ancho
+	float newTileHeight = 20; // Por ejemplo, 64 píxeles de alto
+	TiledMapTileLayer newLayer = new TiledMapTileLayer(width, height, (int) newTileWidth, (int) newTileHeight);
+	newLayer.setName("front");
+	// Copiar las celdas de la capa original a la nueva
+	for (int x = 0; x < width; x++)
+	{
+	    for (int y = 0; y < height; y++)
+	    {
+		TiledMapTileLayer.Cell cell = originalLayer.getCell(x, y);
+		if (cell != null)
+		{
+		    newLayer.setCell(x, y, cell);
+		}
+	    }
+	}
+
+	// Reemplazar la capa original en el mapa
+	map.getLayers().remove(originalLayer);
+	map.getLayers().add(newLayer);
+
+	Texture texture = new Texture(Gdx.files.internal("pics/tiles2x.png"));
+
+	// Dividir la textura en tiles de un tamaño específico, por ejemplo, 32x32
+	// píxeles
+	TextureRegion[][] tiles = TextureRegion.split(texture, 20, 20);
+
+	// Crear un nuevo TiledMapTileSet y agregar los tiles
+	TiledMapTileSet tileSet = new TiledMapTileSet();
+	for (int row = 0; row < tiles.length; row++)
+	{
+	    for (int col = 0; col < tiles[row].length; col++)
+	    {
+		StaticTiledMapTile tile = new StaticTiledMapTile(tiles[row][col]);
+		tile.setId(row * tiles[row].length + col + 1); // Asignar un ID a cada tile
+		tileSet.putTile(tile.getId(), tile);
+	    }
+	}
+
+	Iterator<TiledMapTileSet> it = map.getTileSets().iterator();
+
+	while (it.hasNext())
+	{
+	    System.out.println("BORRE");
+	    TiledMapTileSet ttt = it.next();
+	    map.getTileSets().removeTileSet(ttt);
+
+	}
+
+	map.getTileSets().addTileSet(tileSet);
 
     }
 
@@ -286,13 +351,14 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 		posCameraX = pyramid.getMapWidthInPixels() * .5f;
 	    else
 	    {
-		if (aux_X < pyramid.getMapWidthInPixels()/2)
+		if (aux_X < pyramid.getMapWidthInPixels() / 2)
 		    posCameraX = camera.viewportWidth / 2;
 		else
 		    posCameraX = pyramid.getMapWidthInPixels() - camera.viewportWidth / 2;
 	    }
 	}
-	System.out.println("ViwPort: "+camera.viewportWidth+" Player X: "+aux_X+"    Camera X: "+posCameraX+ "  Piramid width in pixels: "+ pyramid.getMapWidthInPixels());
+	System.out.println("ViwPort: " + camera.viewportWidth + " Player X: " + aux_X + "    Camera X: " + posCameraX
+		+ "  Piramid width in pixels: " + pyramid.getMapWidthInPixels());
 	camera.position.x = posCameraX;
 	camera.position.y = pyramid.getMapHeightInPixels() * .55f;
     }

@@ -40,6 +40,7 @@ public class Pyramid implements IGrafica
 	public Pyramid(TiledMap map, IGrafica interfaz)
 	{
 		this.map = map;
+		
 		MapProperties properties = map.getProperties();
 		tileWidth = properties.get("tilewidth", Integer.class);
 		tileHeight = properties.get("tileheight", Integer.class);
@@ -130,7 +131,7 @@ public class Pyramid implements IGrafica
 
 	private void addMummy(float fx, float fy, int p0)
 	{
-		int speedFall = Config.getInstance().getCharacterSpeedFall(), speedWalk = 0, speedWalkStairs = 0, speedJump = 0;
+		float speedFall = Config.getInstance().getCharacterSpeedFall(), speedWalk = 0, speedWalkStairs = 0, speedJump = 0;
 		switch (p0)
 		{
 		case 0:
