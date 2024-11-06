@@ -33,17 +33,7 @@ public class MySpriteKV extends Sprite implements IGraphicRenderer
 		float x = this.levelItem.getX();
 		float y = this.levelItem.getY();
 		x = this.levelItem.getX() + (this.levelItem.getWidth() - this.getWidth()) / 2;
-		if (this.levelItem.getClass() == Player.class)
-		{
-
-			Player p = (Player) this.levelItem;
-			if (p.getState() == GameCharacter.ST_FALLING)
-				this.setFlip(true, true);
-			else if (p.getState() == GameCharacter.ST_JUMP_TOP)
-				this.setFlip(true, false);
-			else
-				this.setFlip(false, false);
-		}
+		
 		this.setPosition(x, y);
 		
 

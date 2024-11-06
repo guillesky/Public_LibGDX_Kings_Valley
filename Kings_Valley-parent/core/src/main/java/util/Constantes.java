@@ -14,7 +14,7 @@ public class Constantes
     public static final int It_picker = 177;
     public static final int It_jewel = 74;
     public static final int It_door = 84;
-    public static final int It_wall = 85;
+    public static final int It_wall = 254;
     public static final int It_mummy = 77;
     public static final int It_stairs = 69;
     public static final int It_push_in = 73;

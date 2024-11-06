@@ -40,7 +40,7 @@ public class Pyramid implements IGrafica
 	public Pyramid(TiledMap map, IGrafica interfaz)
 	{
 		this.map = map;
-		
+
 		MapProperties properties = map.getProperties();
 		tileWidth = properties.get("tilewidth", Integer.class);
 		tileHeight = properties.get("tileheight", Integer.class);
@@ -54,6 +54,8 @@ public class Pyramid implements IGrafica
 		if (puerta == null)
 			puerta = this.doorOut;
 		this.player = new Player(puerta, this);
+		for (int i = 0; i < this.walls.size(); i++)
+			System.out.println("WALL: " + this.walls.get(i).toString() +"  "+this.walls.get(i).getType() );
 	}
 
 	private void readLevelItem()
@@ -131,7 +133,8 @@ public class Pyramid implements IGrafica
 
 	private void addMummy(float fx, float fy, int p0)
 	{
-		float speedFall = Config.getInstance().getCharacterSpeedFall(), speedWalk = 0, speedWalkStairs = 0, speedJump = 0;
+		float speedFall = Config.getInstance().getCharacterSpeedFall(), speedWalk = 0, speedWalkStairs = 0,
+				speedJump = 0;
 		switch (p0)
 		{
 		case 0:
@@ -205,6 +208,7 @@ public class Pyramid implements IGrafica
 		levelItems.addAll(this.stairs_dr);
 		levelItems.addAll(this.stairs_ul);
 		levelItems.addAll(this.stairs_ur);
+		levelItems.addAll(this.walls);
 		return levelItems.iterator();
 	}
 
@@ -228,7 +232,7 @@ public class Pyramid implements IGrafica
 	@Override
 	public void removeGraphicElement(Object element)
 	{
-		LevelItem joya=(LevelItem) element;
+		LevelItem joya = (LevelItem) element;
 		this.jewels.remove(joya);
 		this.interfaz.removeGraphicElement(element);
 	}
@@ -298,13 +302,10 @@ public class Pyramid implements IGrafica
 		return giratorys;
 	}
 
-	public void CheckJewelPickup()
+	public void removeJewel(LevelItem joya)
 	{
-		LevelItem item = this.player.checkItemFeetColision(this.jewels);
-		if (item != null)
-			this.removeGraphicElement(item);
-	}
+		this.removeGraphicElement(joya);
 
-	
+	}
 
 }

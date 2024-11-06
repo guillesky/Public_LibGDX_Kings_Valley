@@ -36,7 +36,7 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 	private OrthogonalTiledMapRenderer renderer;
 	private AssetManager manager;
 	private SpriteBatch spriteBatch = new SpriteBatch();;
-	// private Array<MySpriteKV> instances = new Array<MySpriteKV>();
+	private Array<MySpriteKV> instances = new Array<MySpriteKV>();
 	private Array<AnimatedEntity2D> animatedEntities = new Array<AnimatedEntity2D>();
 	private HashMap<LevelItem, AnimatedEntity2D> hashMapLevelAnimation = new HashMap<LevelItem, AnimatedEntity2D>();
 
@@ -47,7 +47,7 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 	private Animation<TextureRegion> animationPlayerFall = null;
 	private Animation<TextureRegion> animationPlayerDeath = null;
 
-	private float scaleFactor=1;
+	private float scaleFactor = 1;
 
 	private HashMap<Integer, Animation<TextureRegion>> animationsColectables = new HashMap<Integer, Animation<TextureRegion>>();
 
@@ -178,7 +178,7 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 		TiledMap map = Juego.getInstance().getCurrentPyramid().getMap();
 		Pyramid pyramid = Juego.getInstance().getCurrentPyramid();
 
-		//this.changeTileSet("pics/tiles2x.png",20,20);
+		// this.changeTileSet("pics/tiles2x.png",20,20);
 		camera = new OrthographicCamera(pyramid.getMapHeightInPixels() * 4 / 3, pyramid.getMapHeightInPixels());
 		camera.position.x = pyramid.getMapWidthInPixels() * .5f;
 		this.calculateCameraFull();
@@ -193,6 +193,16 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 			if (item.getType() == Constantes.It_jewel || item.getType() == Constantes.It_dagger
 					|| item.getType() == Constantes.It_picker)
 				this.addGraphicElement(item);
+			else if (item.getType() == Constantes.It_wall)
+			{
+				this.instances.add(new MySpriteKV(map.getTileSets().getTile(item.getType()).getTextureRegion(), item));
+				
+				float fx=item.getP1()*10;
+				float fy=(pyramid.getMapHeightInTiles()-item.getP0()-1)*10;
+				LevelItem activator=new LevelItem(item.getType()+1, fx, fy, 0, 0, item.getWidth(), item.getHeight());
+				this.instances.add(new MySpriteKV(map.getTileSets().getTile(item.getType()+1).getTextureRegion(), activator));
+				
+			}
 		}
 
 		this.animatedEntities
@@ -201,14 +211,13 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 
 	}
 
-
-	private void changeTileSet(String fileName,int newWidth,int newHeight)
+	private void changeTileSet(String fileName, int newWidth, int newHeight)
 	{
-		
+
 		TiledMap map = Juego.getInstance().getCurrentPyramid().getMap();
-		float originalWidth= (int) map.getTileSets().getTileSet(0).getProperties().get("tilewidth");
-		this.scaleFactor=originalWidth/newWidth;
-		
+		float originalWidth = (int) map.getTileSets().getTileSet(0).getProperties().get("tilewidth");
+		this.scaleFactor = originalWidth / newWidth;
+
 		Iterator<TiledMapTileSet> it = map.getTileSets().iterator();
 		while (it.hasNext())
 		{
@@ -239,18 +248,17 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 		// Crear una nueva capa con el tamaño de tile especificado
 
 		TiledMapTileLayer originalLayer = (TiledMapTileLayer) map.getLayers().get("back");
-		this.replaceLayer(map, originalLayer, newTileSet,newWidth,newHeight);
+		this.replaceLayer(map, originalLayer, newTileSet, newWidth, newHeight);
 		originalLayer = (TiledMapTileLayer) map.getLayers().get("stairs");
-		this.replaceLayer(map, originalLayer, newTileSet,newWidth,newHeight);
+		this.replaceLayer(map, originalLayer, newTileSet, newWidth, newHeight);
 		originalLayer = (TiledMapTileLayer) map.getLayers().get("front");
-		this.replaceLayer(map, originalLayer, newTileSet,newWidth,newHeight);
-		
-		
+		this.replaceLayer(map, originalLayer, newTileSet, newWidth, newHeight);
+
 	}
 
-	
-	private void replaceLayer(TiledMap map,TiledMapTileLayer originalLayer,TiledMapTileSet newTileSet,int newWidth,int newHeight) 
-	{	
+	private void replaceLayer(TiledMap map, TiledMapTileLayer originalLayer, TiledMapTileSet newTileSet, int newWidth,
+			int newHeight)
+	{
 		int width = originalLayer.getWidth();
 		int height = originalLayer.getHeight();
 		TiledMapTileLayer newLayer = new TiledMapTileLayer(width, height, newWidth, newHeight);
@@ -282,6 +290,7 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 		map.getLayers().remove(originalLayer);
 		map.getLayers().add(newLayer);
 	}
+
 	@Override
 	public void resize(int width, int height)
 	{
@@ -308,11 +317,15 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 		renderer.render();
 
 		this.spriteBatch.begin();
-		/*
-		 * ArrayIterator<MySpriteKV> it = this.instances.iterator(); while
-		 * (it.hasNext()) { MySpriteKV mskv = it.next(); mskv.updateElement(null);
-		 * mskv.draw(spriteBatch); }
-		 */
+
+		ArrayIterator<MySpriteKV> it = this.instances.iterator();
+		while (it.hasNext())
+		{
+			MySpriteKV mskv = it.next();
+			mskv.updateElement(null);
+			mskv.draw(spriteBatch);
+		}
+
 		ArrayIterator<AnimatedEntity2D> it2 = this.animatedEntities.iterator();
 		while (it2.hasNext())
 		{
@@ -378,7 +391,7 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 					posCameraX = pyramid.getMapWidthInPixels() - camera.viewportWidth / 2;
 			}
 		}
-	
+
 		camera.position.x = posCameraX;
 		camera.position.y = pyramid.getMapHeightInPixels() * .55f;
 	}

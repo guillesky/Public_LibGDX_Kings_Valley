@@ -27,8 +27,7 @@ public class Juego
 		this.delta += deltaTime;
 		Player player = this.getCurrentPyramid().getPlayer();
 		player.move(this.controles.getNuevoRumbo(), this.controles.getShot(), deltaTime);
-		this.getCurrentPyramid().CheckJewelPickup();
-
+	
 	}
 
 	public Controles getControles()
