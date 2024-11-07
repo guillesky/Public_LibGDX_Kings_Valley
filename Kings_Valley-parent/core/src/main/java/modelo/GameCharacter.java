@@ -41,10 +41,10 @@ public abstract class GameCharacter extends LevelItem
 	private boolean lookRight = true;
 	private float animationDelta = 0;
 
-	public GameCharacter(int type, float x, float y, int p0, int p1, float width, float height, float speedFall,
+	public GameCharacter(int type, float x, float y, int p0,  float width, float height, float speedFall,
 		float speedWalk, float speedWalkStairs, float speedJump, Pyramid pyramid)
 	{
-		super(type, x, y, p0, p1, width, height);
+		super(type, x, y, p0, width, height);
 		this.speedFall = speedFall;
 		this.speedWalk = speedWalk;
 		this.speedWalkStairs = speedWalkStairs;

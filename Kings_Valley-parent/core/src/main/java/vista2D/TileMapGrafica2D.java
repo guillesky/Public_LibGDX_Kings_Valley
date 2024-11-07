@@ -197,10 +197,7 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 			{
 				this.instances.add(new MySpriteKV(map.getTileSets().getTile(item.getType()).getTextureRegion(), item));
 				
-				float fx=item.getP1()*10;
-				float fy=(pyramid.getMapHeightInTiles()-item.getP0()-1)*10;
-				LevelItem activator=new LevelItem(item.getType()+1, fx, fy, 0, 0, item.getWidth(), item.getHeight());
-				this.instances.add(new MySpriteKV(map.getTileSets().getTile(item.getType()+1).getTextureRegion(), activator));
+				//this.instances.add(new MySpriteKV(map.getTileSets().getTile(item.getType()+1).getTextureRegion(), activator));
 				
 			}
 		}

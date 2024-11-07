@@ -50,12 +50,8 @@ public class Pyramid implements IGrafica
 		this.mapWidthInPixels = mapWidthInTiles * tileWidth;
 		this.interfaz = interfaz;
 		this.readLevelItem();
-		LevelItem puerta = this.doorIn;
-		if (puerta == null)
-			puerta = this.doorOut;
-		this.player = new Player(puerta, this);
-		for (int i = 0; i < this.walls.size(); i++)
-			System.out.println("WALL: " + this.walls.get(i).toString() +"  "+this.walls.get(i).getType() );
+		
+		this.player = new Player(this.doorIn, this);
 	}
 
 	private void readLevelItem()
@@ -71,15 +67,15 @@ public class Pyramid implements IGrafica
 			float fx = (float) mp.get("x");
 			float fy = (float) mp.get("y");
 			String sp0 = (String) mp.get("p0");
-			String sp1 = (String) mp.get("p1");
+			
 
 			int type = Constantes.stringToInteger.get(stype);
 
 			int p0 = Integer.parseInt(sp0);
-			int p1 = Integer.parseInt(sp1);
+			
 			float width = (float) mp.get("width");
 			float height = (float) mp.get("height");
-			LevelItem levelItem = new LevelItem(type, fx, fy, p0, p1, width, height);
+			LevelItem levelItem = new LevelItem(type, fx, fy, p0,  width, height);
 			switch (type)
 			{
 			case Constantes.It_mummy:
@@ -88,8 +84,12 @@ public class Pyramid implements IGrafica
 			case Constantes.It_door:
 				if (levelItem.getP0() == 0)
 					this.doorIn = levelItem;
-				else
+				else if (levelItem.getP0() == 1)
 					this.doorOut = levelItem;
+				else {
+				    this.doorOut=levelItem;
+				    this.doorIn=levelItem;
+				}
 				break;
 			case Constantes.It_jewel:
 				this.jewels.add(levelItem);

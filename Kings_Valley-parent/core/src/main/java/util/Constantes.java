@@ -19,6 +19,8 @@ public class Constantes
     public static final int It_stairs = 69;
     public static final int It_push_in = 73;
     public static final int It_push_out = 79;
+    public static final int It_activator = 100;
+    
     
     public static final int UP = 1000;
     public static final int DOWN = 1001;
@@ -61,6 +63,7 @@ public class Constantes
 	identificacion.put(It_wall, "Wall");
 	identificacion.put(It_mummy, "Mummy");
 	identificacion.put(It_stairs, "Stairs");
+	identificacion.put(It_activator, "Activator");
 	
 
 	identificacion.put(It_push_in, "It_push_in");
@@ -74,6 +77,7 @@ public class Constantes
 	stringToInteger.put("Mummy", It_mummy);
 	stringToInteger.put("Stairs", It_stairs);
 	stringToInteger.put("Giratory", It_giratory);
+	stringToInteger.put("Activator", It_activator);
 
 	for (int i = 1; i <= 15; i++)
 	{
