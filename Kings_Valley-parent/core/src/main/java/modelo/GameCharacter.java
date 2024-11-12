@@ -336,6 +336,7 @@ public abstract class GameCharacter extends LevelItem
 		return cell;
 	}
 
+	
 	private boolean isCellBlocked(float x, float y)
 	{
 		return this.getCell(x, y) != null;

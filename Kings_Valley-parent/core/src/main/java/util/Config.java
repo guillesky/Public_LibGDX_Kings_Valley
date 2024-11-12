@@ -34,6 +34,9 @@ public class Config
     private float stairWidth = 5;
     private float stairHeight = 2;
 
+    private float giratoryWidth = 13;
+    private float giratoryHeight = 30;
+    
     private float levelTileWidthUnits = 10;
     private float levelTileHeightUnits = 10;
     private float speedGame = 1;
@@ -51,6 +54,7 @@ public class Config
 	this.levelTileHeightUnits = levelTileHeightUnits;
 
 	this.characterSpeedFall = (int) (this.levelTileHeightUnits * (-60));
+	
 	this.playerSpeedWalk = (int) (6 * this.levelTileWidthUnits);
 	this.playerSpeedWalkStairs = (int) (6 * this.levelTileWidthUnits);
 	this.playerSpeedJump = (int) (this.levelTileHeightUnits * (16));
@@ -84,6 +88,10 @@ public class Config
 	this.stairWidth = this.levelTileWidthUnits * 0.5f;
 	this.stairHeight = this.levelTileHeightUnits * 0.2f;
 
+	this.giratoryWidth = this.levelTileWidthUnits * 1.3f;
+	this.giratoryHeight = this.levelTileHeightUnits * 3.0f;
+
+    
     }
 
     public float getCharacterSpeedFall()
@@ -360,5 +368,25 @@ public class Config
     {
 	this.characterFeetHeight = characterFeetHeight;
     }
+
+	public float getGiratoryWidth()
+	{
+		return giratoryWidth;
+	}
+
+	public void setGiratoryWidth(float giratoryWidth)
+	{
+		this.giratoryWidth = giratoryWidth;
+	}
+
+	public float getGiratoryHeight()
+	{
+		return giratoryHeight;
+	}
+
+	public void setGiratoryHeight(float giratoryHeight)
+	{
+		this.giratoryHeight = giratoryHeight;
+	}
 
 }

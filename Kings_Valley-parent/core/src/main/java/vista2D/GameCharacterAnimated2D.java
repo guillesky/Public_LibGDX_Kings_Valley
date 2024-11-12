@@ -35,7 +35,7 @@ public class GameCharacterAnimated2D extends AnimatedEntity2D
 
 
 	@Override
-	public void update(float deltaTime)
+	public void updateElement(float deltaTime)
 	{
 	    GameCharacter character=(GameCharacter) this.levelItem;
 		if (character.getState() == GameCharacter.ST_WALK_RIGHT
@@ -50,7 +50,7 @@ public class GameCharacterAnimated2D extends AnimatedEntity2D
 			this.animation = this.animationFall;
 		else if (character.getState() == GameCharacter.ST_IDDLE)
 			this.animation = this.animationIddle;
-		super.update(character.getAnimationDelta());
+		super.updateElement(character.getAnimationDelta());
 		this.sprite.setFlip(!character.isLookRight(), false);
 	}
 

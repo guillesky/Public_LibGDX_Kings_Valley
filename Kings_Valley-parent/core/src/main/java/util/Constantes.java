@@ -40,6 +40,10 @@ public class Constantes
     public static final int JEWEL_6=162;
     public static final int JEWEL_7=169;
     
+    public static final int DRAWABLE_LEVEL_ITEM =3000;
+    public static final int DRAWABLE_TRAP =3001;
+    
+    
     
     
     

@@ -27,8 +27,37 @@ public class Player extends GameCharacter
 		LevelItem joya=this.checkItemFeetColision(this.pyramid.getJewels());
 		if(joya!=null)
 			this.pyramid.removeJewel(joya);
+		
+		LevelItem giratory=this.checkRectangleColision(this.pyramid.getGiratorys());
+		if(giratory!=null)
+			this.pyramid.activateGiratory(giratory);
+		
+		LevelItem activator=this.checkRectangleColision(this.pyramid.getActivators());
+		if(giratory!=activator)
+			this.pyramid.activateWall(activator);
+		
 	}
+	
+	
+	public LevelItem checkRectangleColision(ArrayList<LevelItem> levelItems)
+	{
 
+		Iterator<LevelItem> it = levelItems.iterator();
+		LevelItem respuesta = null;
+		LevelItem item = null;
+		if (it.hasNext())
+			do
+			{
+				item = it.next();
+			} while (it.hasNext() && !this.isColision(item));
+
+		if (this.isColision(item))
+		{
+			respuesta = item;
+		}
+
+		return respuesta;
+	}
 	
 
 }

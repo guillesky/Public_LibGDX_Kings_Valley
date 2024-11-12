@@ -1,6 +1,7 @@
 package modelo;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import com.badlogic.gdx.maps.MapLayer;
@@ -8,7 +9,6 @@ import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 import util.Config;
 import util.Constantes;
@@ -36,6 +36,9 @@ public class Pyramid implements IGrafica
 	private ArrayList<LevelItem> daggers = new ArrayList<LevelItem>();
 	private ArrayList<LevelItem> giratorys = new ArrayList<LevelItem>();
 	private ArrayList<LevelItem> walls = new ArrayList<LevelItem>();
+	private ArrayList<LevelItem> activators = new ArrayList<LevelItem>();
+	private ArrayList<Mechanism> mechanisms = new ArrayList<Mechanism>();
+	private HashMap<LevelItem, LevelItem> hashTraps = new HashMap<LevelItem, LevelItem>();
 
 	public Pyramid(TiledMap map, IGrafica interfaz)
 	{
@@ -50,7 +53,7 @@ public class Pyramid implements IGrafica
 		this.mapWidthInPixels = mapWidthInTiles * tileWidth;
 		this.interfaz = interfaz;
 		this.readLevelItem();
-		
+
 		this.player = new Player(this.doorIn, this);
 	}
 
@@ -67,15 +70,25 @@ public class Pyramid implements IGrafica
 			float fx = (float) mp.get("x");
 			float fy = (float) mp.get("y");
 			String sp0 = (String) mp.get("p0");
-			
 
 			int type = Constantes.stringToInteger.get(stype);
 
 			int p0 = Integer.parseInt(sp0);
-			
-			float width = (float) mp.get("width");
-			float height = (float) mp.get("height");
-			LevelItem levelItem = new LevelItem(type, fx, fy, p0,  width, height);
+
+			float width = Config.getInstance().getLevelItemWidth();
+			float height = Config.getInstance().getLevelItemHeight();
+			if (type == Constantes.It_stairs)
+			{
+				width = Config.getInstance().getStairWidth();
+				height = Config.getInstance().getStairHeight();
+			}
+			else if (type == Constantes.It_giratory)
+			{
+				width = Config.getInstance().getGiratoryWidth();
+				height = Config.getInstance().getGiratoryHeight();
+			}
+
+			LevelItem levelItem = new LevelItem(type, fx, fy, p0, width, height);
 			switch (type)
 			{
 			case Constantes.It_mummy:
@@ -86,9 +99,10 @@ public class Pyramid implements IGrafica
 					this.doorIn = levelItem;
 				else if (levelItem.getP0() == 1)
 					this.doorOut = levelItem;
-				else {
-				    this.doorOut=levelItem;
-				    this.doorIn=levelItem;
+				else
+				{
+					this.doorOut = levelItem;
+					this.doorIn = levelItem;
 				}
 				break;
 			case Constantes.It_jewel:
@@ -126,9 +140,36 @@ public class Pyramid implements IGrafica
 				this.walls.add(levelItem);
 				break;
 
+			case Constantes.It_activator:
+				this.activators.add(levelItem);
+				break;
+
 			}
 
 		}
+		this.armaTrampas();
+	}
+
+	private void armaTrampas()
+	{
+		Iterator<LevelItem> itActivators = this.activators.iterator();
+		while (itActivators.hasNext())
+		{
+			LevelItem activator = itActivators.next();
+			Iterator<LevelItem> itWalls = this.walls.iterator();
+			LevelItem wall = null;
+			if (itWalls.hasNext())
+				do
+				{
+					wall = itWalls.next();
+				} while (itWalls.hasNext() && wall.getP0() != activator.getP0());
+
+			if (wall.getP0() == activator.getP0())
+			{
+				this.hashTraps.put(activator, wall);
+			}
+		}
+
 	}
 
 	private void addMummy(float fx, float fy, int p0)
@@ -232,8 +273,7 @@ public class Pyramid implements IGrafica
 	@Override
 	public void removeGraphicElement(Object element)
 	{
-		LevelItem joya = (LevelItem) element;
-		this.jewels.remove(joya);
+
 		this.interfaz.removeGraphicElement(element);
 	}
 
@@ -304,7 +344,71 @@ public class Pyramid implements IGrafica
 
 	public void removeJewel(LevelItem joya)
 	{
-		this.removeGraphicElement(joya);
+		this.jewels.remove(joya);
+
+		this.removeGraphicElement(new DrawableElement(Constantes.DRAWABLE_LEVEL_ITEM, joya));
+
+	}
+
+	public void activateGiratory(LevelItem giratory)
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	public ArrayList<LevelItem> getActivators()
+	{
+		return activators;
+	}
+
+	public void activateWall(LevelItem activator)
+	{
+		this.activators.remove(activator);
+		LevelItem wall = this.hashTraps.get(activator);
+		TrapMechanism trap = new TrapMechanism(this, wall);
+		this.mechanisms.add(trap);
+		this.addGraphicElement(new DrawableElement(Constantes.DRAWABLE_TRAP, trap));
+	}
+
+	public ArrayList<Mechanism> getMechanisms()
+	{
+		return mechanisms;
+	}
+
+	public void updateMechanism(float deltaTime)
+	{
+		for (Mechanism mechanism : this.mechanisms)
+		{
+			mechanism.update(deltaTime);
+			if (this.checkPlayerSmash((TrapMechanism) mechanism))
+				this.death();
+		}
+
+		Iterator<Mechanism> it = this.mechanisms.iterator();
+		while (it.hasNext())
+		{
+			Mechanism mechanism = it.next();
+			if (!mechanism.isActive())
+			{
+				it.remove();
+				this.removeGraphicElement(new DrawableElement(Constantes.DRAWABLE_TRAP, mechanism));
+			}
+
+		}
+
+	}
+
+	private void death()
+	{
+		// TODO Auto-generated method stub
+
+	}
+
+	private boolean checkPlayerSmash(TrapMechanism mechanism)
+	{
+		int px = (int) (this.player.getX() / Config.getInstance().getLevelTileWidthUnits());
+		int py = (int) (this.player.getY() / Config.getInstance().getLevelTileHeightUnits());
+		return (mechanism.getX() == px && mechanism.getY() == py);
 
 	}
 

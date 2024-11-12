@@ -10,7 +10,7 @@ public class Juego
 	private static Juego instance = new Juego();
 	private Controles controles = new Controles();
 	private ArrayList<Pyramid> pyramids = new ArrayList<Pyramid>();
-	private int currentPyramid = 0;
+	private int currentPyramid = 2;
 	private float delta = 0;
 
 	private Juego()
@@ -26,8 +26,9 @@ public class Juego
 	{
 		this.delta += deltaTime;
 		Player player = this.getCurrentPyramid().getPlayer();
+		
 		player.move(this.controles.getNuevoRumbo(), this.controles.getShot(), deltaTime);
-	
+		this.getCurrentPyramid().updateMechanism(deltaTime);
 	}
 
 	public Controles getControles()

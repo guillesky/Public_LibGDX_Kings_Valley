@@ -21,9 +21,11 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Array.ArrayIterator;
 
 import io.github.some_example_name.IMyApplicationnListener;
+import modelo.DrawableElement;
 import modelo.Juego;
 import modelo.LevelItem;
 import modelo.Pyramid;
+import modelo.TrapMechanism;
 import util.Constantes;
 
 public class TileMapGrafica2D implements IMyApplicationnListener
@@ -39,6 +41,9 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 	private Array<MySpriteKV> instances = new Array<MySpriteKV>();
 	private Array<AnimatedEntity2D> animatedEntities = new Array<AnimatedEntity2D>();
 	private HashMap<LevelItem, AnimatedEntity2D> hashMapLevelAnimation = new HashMap<LevelItem, AnimatedEntity2D>();
+	private HashMap<TrapMechanism, AnimatedTrapKV2> hashMapTrapAnimation = new HashMap<TrapMechanism, AnimatedTrapKV2>();
+
+	private Array<AnimatedTrapKV2> animatedTraps = new Array<AnimatedTrapKV2>();
 
 	private Animation<TextureRegion> animationPlayerWalk = null;
 	private Animation<TextureRegion> animationPlayerStair = null;
@@ -148,27 +153,48 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 	@Override
 	public void addGraphicElement(Object element)
 	{
-		LevelItem item = (LevelItem) element;
-		AnimatedEntity2D animatedEntity2D = null;
-		int id = 0;
-		if (item.getType() == Constantes.It_jewel)
-			id = item.getP0();
-		else
-			id = item.getType();
-		animatedEntity2D = new AnimatedEntity2D(item, this.animationsColectables.get(id));
-		this.animatedEntities.add(animatedEntity2D);
-		this.hashMapLevelAnimation.put(item, animatedEntity2D);
+		DrawableElement dr = (DrawableElement) element;
+		if (dr.getType() == Constantes.DRAWABLE_LEVEL_ITEM)
+		{
+			LevelItem item = (LevelItem) dr.getDrawable();
+			AnimatedEntity2D animatedEntity2D = null;
+			int id = 0;
+			if (item.getType() == Constantes.It_jewel)
+				id = item.getP0();
+			else
+				id = item.getType();
+			animatedEntity2D = new AnimatedEntity2D(item, this.animationsColectables.get(id));
+			this.animatedEntities.add(animatedEntity2D);
+			this.hashMapLevelAnimation.put(item, animatedEntity2D);
+		} else if (dr.getType() == Constantes.DRAWABLE_TRAP)
+		{
+			TrapMechanism trapMech = (TrapMechanism) dr.getDrawable();
+			AnimatedTrapKV2 atrapKV = new AnimatedTrapKV2(trapMech);
+			this.hashMapTrapAnimation.put(trapMech, atrapKV);
+			this.animatedTraps.add(atrapKV);
+			System.out.println("Activo trampa!");
+		}
 	}
 
 	@Override
 	public void removeGraphicElement(Object element)
 	{
+		DrawableElement dr = (DrawableElement) element;
+		if (dr.getType() == Constantes.DRAWABLE_LEVEL_ITEM)
+		{
+			LevelItem item = (LevelItem) dr.getDrawable();
+			AnimatedEntity2D animatedEntity2D = this.hashMapLevelAnimation.get(item);
+			this.animatedEntities.removeValue(animatedEntity2D, true);
+			this.hashMapLevelAnimation.remove(item);
+		} else if (dr.getType() == Constantes.DRAWABLE_TRAP)
+		{
+			TrapMechanism trapMech = (TrapMechanism) dr.getDrawable();
 
-		LevelItem item = (LevelItem) element;
-
-		AnimatedEntity2D animatedEntity2D = this.hashMapLevelAnimation.get(item);
-		this.animatedEntities.removeValue(animatedEntity2D, true);
-
+			AnimatedTrapKV2 atrapKV = this.hashMapTrapAnimation.get(trapMech);
+			this.animatedTraps.removeValue(atrapKV, true);
+			this.hashMapTrapAnimation.remove(trapMech);
+			System.out.println("Termino trampa!");
+		}
 	}
 
 	@Override
@@ -192,13 +218,15 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 			LevelItem item = levelItems.next();
 			if (item.getType() == Constantes.It_jewel || item.getType() == Constantes.It_dagger
 					|| item.getType() == Constantes.It_picker)
-				this.addGraphicElement(item);
+				this.addGraphicElement(new DrawableElement(Constantes.DRAWABLE_LEVEL_ITEM, item));
 			else if (item.getType() == Constantes.It_wall)
 			{
 				this.instances.add(new MySpriteKV(map.getTileSets().getTile(item.getType()).getTextureRegion(), item));
-				
-				//this.instances.add(new MySpriteKV(map.getTileSets().getTile(item.getType()+1).getTextureRegion(), activator));
-				
+
+				// this.instances.add(new
+				// MySpriteKV(map.getTileSets().getTile(item.getType()+1).getTextureRegion(),
+				// activator));
+
 			}
 		}
 
@@ -310,27 +338,38 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 		camera.update();
 		this.calculateCamera();
 		spriteBatch.setProjectionMatrix(camera.combined);
+
+		
+		
 		renderer.setView(camera);
 		renderer.render();
 
 		this.spriteBatch.begin();
 
+		ArrayIterator<AnimatedTrapKV2> it3 = this.animatedTraps.iterator();
+		while (it3.hasNext())
+		{
+			AnimatedTrapKV2 animatedTrapKV2 = it3.next();
+			animatedTrapKV2.updateElement(Juego.getInstance().getDelta());
+			animatedTrapKV2.getSprite().draw(spriteBatch);
+		}
+
+		
 		ArrayIterator<MySpriteKV> it = this.instances.iterator();
 		while (it.hasNext())
 		{
-			MySpriteKV mskv = it.next();
-			mskv.updateElement(null);
-			mskv.draw(spriteBatch);
+			MySpriteKV mySpriteKV = it.next();
+			mySpriteKV.updateElement(null);
+			mySpriteKV.draw(spriteBatch);
 		}
 
 		ArrayIterator<AnimatedEntity2D> it2 = this.animatedEntities.iterator();
 		while (it2.hasNext())
 		{
-			AnimatedEntity2D ae2d = it2.next();
-			ae2d.update(Juego.getInstance().getDelta());
-			ae2d.render(spriteBatch);
+			AnimatedEntity2D animatedEntity2D = it2.next();
+			animatedEntity2D.updateElement(Juego.getInstance().getDelta());
+			animatedEntity2D.render(spriteBatch);
 		}
-
 		spriteBatch.end();
 	}
 

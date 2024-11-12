@@ -22,7 +22,7 @@ public class AnimatedEntity2D
 	this.levelItem=levelItem;
     }
 
-    public void update(float deltaTime)
+    public void updateElement(float deltaTime)
     {
 
 	sprite.setRegion(animation.getKeyFrame(deltaTime, true));
