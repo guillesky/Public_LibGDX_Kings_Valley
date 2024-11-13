@@ -139,12 +139,12 @@
 </object>
 <object id="13" type="Giratory" gid="246" x="120" y="150" width="10" height="10">
  <properties>
-    <property name="p0" value="3"/>
+    <property name="p0" value="0"/>
  </properties>
 </object>
 <object id="14" type="Giratory" gid="246" x="190" y="150" width="10" height="10">
  <properties>
-    <property name="p0" value="3"/>
+    <property name="p0" value="0"/>
  </properties>
 </object>
 <object id="15" type="Stairs" gid="251" x="120" y="20" width="10" height="10">

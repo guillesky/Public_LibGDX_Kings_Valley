@@ -37,7 +37,7 @@ public class Main implements IMyApplicationnListener
 	for (int i = 1; i <= 15; i++)
 	{
 	    TiledMap map = manager.get(Constantes.levelFileName.get(i), TiledMap.class);
-	    Juego.getInstance().addPyramid(new Pyramid(map, grafica));
+	    Juego.getInstance().addPyramid(new Pyramid(map, grafica,i));
 	}
 	
 	this.grafica.create();

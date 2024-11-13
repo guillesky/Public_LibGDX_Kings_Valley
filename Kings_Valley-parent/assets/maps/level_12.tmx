@@ -174,12 +174,12 @@
 </object>
 <object id="20" type="Giratory" gid="246" x="210" y="70" width="10" height="10">
  <properties>
-    <property name="p0" value="2"/>
+    <property name="p0" value="0"/>
  </properties>
 </object>
 <object id="21" type="Giratory" gid="246" x="430" y="110" width="10" height="10">
  <properties>
-    <property name="p0" value="3"/>
+    <property name="p0" value="0"/>
  </properties>
 </object>
 <object id="22" type="Stairs" gid="251" x="90" y="20" width="10" height="10">

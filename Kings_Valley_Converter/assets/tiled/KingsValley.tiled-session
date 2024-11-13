@@ -1,0 +1,386 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "_level.15.tmx",
+    "expandedProjectPaths": [
+        "."
+    ],
+    "file.lastUsedOpenFilter": "Todos los archivos (*)",
+    "fileStates": {
+        "C:/Users/guill/git/Kings_Valley/Kings Valley/assets/levels/_level.01.tmx": {
+            "scale": 1.3775,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 159.70961887477313,
+                "y": 109.98185117967333
+            }
+        },
+        "C:/Users/guill/git/Kings_Valley/Kings Valley/assets/levels/_level.02.tmx": {
+            "scale": 0.68875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 319.41923774954626,
+                "y": 109.61887477313975
+            }
+        },
+        "C:/Users/guill/git/Kings_Valley/Kings Valley/assets/levels/_level.03.tmx": {
+            "scale": 1.3775,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 159.70961887477313,
+                "y": 109.98185117967333
+            }
+        },
+        "C:/Users/guill/git/Kings_Valley/Kings Valley/assets/levels/_level.04.tmx": {
+            "scale": 0.68875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 319.41923774954626,
+                "y": 109.61887477313975
+            }
+        },
+        "C:/Users/guill/git/Kings_Valley/Kings Valley/assets/levels/_level.05.tmx": {
+            "scale": 1.3775,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 159.70961887477313,
+                "y": 109.98185117967333
+            }
+        },
+        "C:/Users/guill/git/Kings_Valley/Kings Valley/assets/levels/_level.06.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 320,
+                "y": 109.5
+            }
+        },
+        "C:/Users/guill/git/Kings_Valley/Kings Valley/assets/levels/_level.07.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 160,
+                "y": 109.5
+            }
+        },
+        "C:/Users/guill/git/Kings_Valley/Kings Valley/assets/levels/_level.08.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 320,
+                "y": 109.5
+            }
+        },
+        "C:/Users/guill/git/Kings_Valley/Kings Valley/assets/levels/_level.09.tmx": {
+            "scale": 1.3775,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 159.70961887477313,
+                "y": 109.98185117967333
+            }
+        },
+        "C:/Users/guill/git/Kings_Valley/Kings Valley/assets/levels/_level.10.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 320,
+                "y": 109.5
+            }
+        },
+        "C:/Users/guill/git/Kings_Valley/Kings Valley/assets/levels/_level.11.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 160,
+                "y": 109.5
+            }
+        },
+        "C:/Users/guill/git/Kings_Valley/Kings Valley/assets/levels/_level.12.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 320,
+                "y": 109.5
+            }
+        },
+        "C:/Users/guill/git/Kings_Valley/Kings Valley/assets/levels/_level.13.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 160,
+                "y": 109.5
+            }
+        },
+        "C:/Users/guill/git/Kings_Valley/Kings Valley/assets/levels/_level.14.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 320,
+                "y": 109.5
+            }
+        },
+        "C:/Users/guill/git/Kings_Valley/Kings Valley/assets/levels/_level.15.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 160,
+                "y": -11.5
+            }
+        },
+        "C:/Users/guill/git/Kings_Valley/Kings Valley/assets/levels/tiles.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/Users/guill/git/Kings_Valley/Kings Valley/filename.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 329,
+                "y": 167.5
+            }
+        },
+        "C:/Users/guill/git/Kings_Valley/Kings Valley/tiles.tsx": {
+            "scaleInDock": 1
+        },
+        "Lev01.TMX": {
+            "expandedObjectLayers": [
+                3
+            ],
+            "scale": 2,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 160,
+                "y": 109.75
+            }
+        },
+        "_level.01.tmx": {
+            "scale": 1.3775,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 159.70961887477313,
+                "y": 109.98185117967334
+            }
+        },
+        "_level.02.tmx": {
+            "scale": 0.68875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 319.41923774954626,
+                "y": 109.61887477313974
+            }
+        },
+        "_level.03.tmx": {
+            "scale": 1.3775,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 159.70961887477313,
+                "y": 109.98185117967334
+            }
+        },
+        "_level.04.tmx": {
+            "scale": 0.68875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 319.41923774954626,
+                "y": 109.61887477313974
+            }
+        },
+        "_level.05.tmx": {
+            "scale": 1.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 167.99999999999997,
+                "y": 114.33333333333333
+            }
+        },
+        "_level.06.tmx": {
+            "scale": 0.68875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 319.41923774954626,
+                "y": 109.61887477313974
+            }
+        },
+        "_level.07.tmx": {
+            "scale": 1.3775,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 159.70961887477313,
+                "y": 109.98185117967334
+            }
+        },
+        "_level.08.tmx": {
+            "scale": 0.68875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 319.41923774954626,
+                "y": 109.61887477313974
+            }
+        },
+        "_level.09.tmx": {
+            "scale": 1.3775,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 159.70961887477313,
+                "y": 109.98185117967334
+            }
+        },
+        "_level.10.tmx": {
+            "scale": 0.68875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 319.41923774954626,
+                "y": 109.61887477313974
+            }
+        },
+        "_level.11.tmx": {
+            "scale": 1.3775,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 159.70961887477313,
+                "y": 109.98185117967334
+            }
+        },
+        "_level.12.tmx": {
+            "scale": 0.68875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 319.41923774954626,
+                "y": 109.61887477313974
+            }
+        },
+        "_level.13.tmx": {
+            "scale": 1.3775,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 159.70961887477313,
+                "y": 109.98185117967334
+            }
+        },
+        "_level.14.tmx": {
+            "scale": 0.68875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 319.41923774954626,
+                "y": 109.61887477313974
+            }
+        },
+        "_level.15.tmx": {
+            "scale": 1.3775,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 159.70961887477313,
+                "y": 109.98185117967334
+            }
+        },
+        "filename.tmx": {
+            "expandedObjectLayers": [
+                3
+            ],
+            "scale": 2,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 320,
+                "y": 109.75
+            }
+        },
+        "levv01.tmx": {
+            "scale": 4,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 155,
+                "y": 121.875
+            }
+        },
+        "levv02.tmx": {
+            "expandedObjectLayers": [
+                3
+            ],
+            "scale": 5.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 369.4545454545455,
+                "y": 167.90909090909093
+            }
+        },
+        "levv03.tmx": {
+            "expandedObjectLayers": [
+                3
+            ],
+            "scale": 1.71,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 160.23391812865498,
+                "y": 110.23391812865495
+            }
+        },
+        "p01.tmx": {
+            "expandedObjectLayers": [
+                3
+            ],
+            "scale": 4,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 160,
+                "y": 109.875
+            }
+        },
+        "p02.tmx": {
+            "scale": 0.85796875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 320.52449462757244,
+                "y": 109.56109998178835
+            }
+        },
+        "tiles.tsx": {
+            "scaleInDock": 3,
+            "scaleInEditor": 5.5
+        }
+    },
+    "last.externalTilesetPath": "C:/Users/guill/git/Kings_Valley/Kings Valley/assets/tiled",
+    "last.imagePath": "C:/Users/guill/git/Kings_Valley/Kings Valley/assets/pics",
+    "map.height": 22,
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 10,
+    "map.tileWidth": 10,
+    "map.width": 64,
+    "openFiles": [
+        "_level.15.tmx",
+        "_level.14.tmx",
+        "_level.13.tmx",
+        "_level.12.tmx",
+        "_level.11.tmx",
+        "_level.10.tmx",
+        "_level.09.tmx",
+        "_level.08.tmx",
+        "_level.07.tmx",
+        "_level.06.tmx",
+        "_level.05.tmx",
+        "_level.04.tmx",
+        "_level.03.tmx",
+        "_level.02.tmx",
+        "_level.01.tmx"
+    ],
+    "project": "KingsValley.tiled-project",
+    "recentFiles": [
+        "_level.01.tmx",
+        "_level.02.tmx",
+        "_level.03.tmx",
+        "_level.04.tmx",
+        "_level.05.tmx",
+        "_level.06.tmx",
+        "_level.07.tmx",
+        "_level.08.tmx",
+        "_level.09.tmx",
+        "_level.10.tmx",
+        "_level.11.tmx",
+        "_level.12.tmx"
+    ],
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.tileSize": {
+        "height": 10,
+        "width": 10
+    }
+}

@@ -189,7 +189,7 @@
 </object>
 <object id="23" type="Giratory" gid="246" x="200" y="160" width="10" height="10">
  <properties>
-    <property name="p0" value="2"/>
+    <property name="p0" value="0"/>
  </properties>
 </object>
 <object id="24" type="Stairs" gid="251" x="70" y="20" width="10" height="10">

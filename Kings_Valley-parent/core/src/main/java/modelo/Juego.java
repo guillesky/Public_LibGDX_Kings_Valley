@@ -10,7 +10,7 @@ public class Juego
 	private static Juego instance = new Juego();
 	private Controles controles = new Controles();
 	private ArrayList<Pyramid> pyramids = new ArrayList<Pyramid>();
-	private int currentPyramid = 2;
+	private int currentPyramid = 1;
 	private float delta = 0;
 
 	private Juego()

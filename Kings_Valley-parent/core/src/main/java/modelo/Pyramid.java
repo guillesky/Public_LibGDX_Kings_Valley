@@ -34,14 +34,17 @@ public class Pyramid implements IGrafica
 	private ArrayList<LevelItem> stairs_ur = new ArrayList<LevelItem>();
 	private ArrayList<LevelItem> pickers = new ArrayList<LevelItem>();
 	private ArrayList<LevelItem> daggers = new ArrayList<LevelItem>();
-	private ArrayList<LevelItem> giratorys = new ArrayList<LevelItem>();
+	private ArrayList<GiratoryDoor> giratorys = new ArrayList<GiratoryDoor>();
 	private ArrayList<LevelItem> walls = new ArrayList<LevelItem>();
 	private ArrayList<LevelItem> activators = new ArrayList<LevelItem>();
 	private ArrayList<Mechanism> mechanisms = new ArrayList<Mechanism>();
 	private HashMap<LevelItem, LevelItem> hashTraps = new HashMap<LevelItem, LevelItem>();
+	private int id;
 
-	public Pyramid(TiledMap map, IGrafica interfaz)
+	public Pyramid(TiledMap map, IGrafica interfaz, int id)
 	{
+		this.id = id;
+
 		this.map = map;
 
 		MapProperties properties = map.getProperties();
@@ -55,6 +58,12 @@ public class Pyramid implements IGrafica
 		this.readLevelItem();
 
 		this.player = new Player(this.doorIn, this);
+
+	}
+
+	public int getId()
+	{
+		return id;
 	}
 
 	private void readLevelItem()
@@ -81,8 +90,7 @@ public class Pyramid implements IGrafica
 			{
 				width = Config.getInstance().getStairWidth();
 				height = Config.getInstance().getStairHeight();
-			}
-			else if (type == Constantes.It_giratory)
+			} else if (type == Constantes.It_giratory)
 			{
 				width = Config.getInstance().getGiratoryWidth();
 				height = Config.getInstance().getGiratoryHeight();
@@ -134,7 +142,10 @@ public class Pyramid implements IGrafica
 
 				break;
 			case Constantes.It_giratory:
-				this.giratorys.add(levelItem);
+				this.giratorys.add(new GiratoryDoor(levelItem));
+				
+				System.out.println("Giratorio: " + levelItem + "piramid: " + this.id);
+				
 				break;
 			case Constantes.It_wall:
 				this.walls.add(levelItem);
@@ -337,7 +348,7 @@ public class Pyramid implements IGrafica
 		return daggers;
 	}
 
-	public ArrayList<LevelItem> getGiratorys()
+	public ArrayList<GiratoryDoor> getGiratorys()
 	{
 		return giratorys;
 	}
