@@ -22,6 +22,7 @@ import com.badlogic.gdx.utils.Array.ArrayIterator;
 
 import io.github.some_example_name.IMyApplicationnListener;
 import modelo.DrawableElement;
+import modelo.GiratoryMechanism;
 import modelo.Juego;
 import modelo.LevelItem;
 import modelo.Pyramid;
@@ -33,6 +34,7 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 
 	private final String archiPlayer = "pics/vick.png";
 	private final String archiColectables = "pics/colectables.png";
+	private final String archiGiratory = "pics/giratory.png";
 
 	private OrthographicCamera camera;
 	private OrthogonalTiledMapRenderer renderer;
@@ -51,16 +53,18 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 	private Animation<TextureRegion> animationPlayerJump = null;
 	private Animation<TextureRegion> animationPlayerFall = null;
 	private Animation<TextureRegion> animationPlayerDeath = null;
+	private Animation<TextureRegion> animationGiratory = null;
 
 	private float scaleFactor = 1;
 
-	private HashMap<Integer, Animation<TextureRegion>> animationsColectables = new HashMap<Integer, Animation<TextureRegion>>();
+	private HashMap<Integer, Animation<TextureRegion>> animations = new HashMap<Integer, Animation<TextureRegion>>();
 
 	public TileMapGrafica2D(AssetManager manager)
 	{
 		this.manager = manager;
 		this.manager.load(this.archiPlayer, Texture.class);
 		this.manager.load(this.archiColectables, Texture.class);
+		this.manager.load(this.archiGiratory, Texture.class);
 
 	}
 
@@ -72,6 +76,8 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 
 		int colectableWidth = 10;
 		int colectableHeight = 10;
+		int giratoryWidth = 20;
+		int giratoryHeight = 30;
 
 		int startIddle = 0;
 		int countIddle = 1;
@@ -87,6 +93,7 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 
 		Texture spriteSheet = manager.get(this.archiPlayer, Texture.class);
 		Texture colectablesSheet = manager.get(this.archiColectables, Texture.class);
+		Texture giratorySheet = manager.get(this.archiGiratory, Texture.class);
 
 		TextureRegion[][] tmpFrames = TextureRegion.split(spriteSheet, frameWidth, frameHeight);
 		Array<TextureRegion> linearFrames = new Array<>();
@@ -117,26 +124,29 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 			}
 		}
 
-		this.animationsColectables.put(Constantes.It_dagger,
+		this.animations.put(Constantes.It_dagger,
 				this.framesToAnimation(linearFrames, startKnife, countKnife, frameDuration));
-		this.animationsColectables.put(Constantes.It_picker,
+		this.animations.put(Constantes.It_picker,
 				this.framesToAnimation(linearFrames, starPicker, countPicker, frameDuration));
 
-		this.animationsColectables.put(Constantes.JEWEL_1,
-				this.framesToAnimation(linearFrames, 7, countJewel, frameDuration));
-		this.animationsColectables.put(Constantes.JEWEL_2,
-				this.framesToAnimation(linearFrames, 14, countJewel, frameDuration));
-		this.animationsColectables.put(Constantes.JEWEL_3,
-				this.framesToAnimation(linearFrames, 21, countJewel, frameDuration));
-		this.animationsColectables.put(Constantes.JEWEL_4,
-				this.framesToAnimation(linearFrames, 28, countJewel, frameDuration));
-		this.animationsColectables.put(Constantes.JEWEL_5,
-				this.framesToAnimation(linearFrames, 35, countJewel, frameDuration));
-		this.animationsColectables.put(Constantes.JEWEL_6,
-				this.framesToAnimation(linearFrames, 42, countJewel, frameDuration));
-		this.animationsColectables.put(Constantes.JEWEL_7,
-				this.framesToAnimation(linearFrames, 49, countJewel, frameDuration));
+		this.animations.put(Constantes.JEWEL_1, this.framesToAnimation(linearFrames, 7, countJewel, frameDuration));
+		this.animations.put(Constantes.JEWEL_2, this.framesToAnimation(linearFrames, 14, countJewel, frameDuration));
+		this.animations.put(Constantes.JEWEL_3, this.framesToAnimation(linearFrames, 21, countJewel, frameDuration));
+		this.animations.put(Constantes.JEWEL_4, this.framesToAnimation(linearFrames, 28, countJewel, frameDuration));
+		this.animations.put(Constantes.JEWEL_5, this.framesToAnimation(linearFrames, 35, countJewel, frameDuration));
+		this.animations.put(Constantes.JEWEL_6, this.framesToAnimation(linearFrames, 42, countJewel, frameDuration));
+		this.animations.put(Constantes.JEWEL_7, this.framesToAnimation(linearFrames, 49, countJewel, frameDuration));
 
+		tmpFrames = TextureRegion.split(giratorySheet, giratoryWidth, giratoryHeight);
+		linearFrames.clear();
+		for (int i = 0; i < tmpFrames.length; i++)
+		{
+			for (int j = 0; j < tmpFrames[i].length; j++)
+			{
+				linearFrames.add(tmpFrames[i][j]);
+			}
+		}
+		this.animations.put(Constantes.DRAWABLE_GYRATORY, this.framesToAnimation(linearFrames, 0, 10, frameDuration));
 	}
 
 	private Animation<TextureRegion> framesToAnimation(Array<TextureRegion> linearFrames, int init, int count,
@@ -163,7 +173,7 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 				id = item.getP0();
 			else
 				id = item.getType();
-			animatedEntity2D = new AnimatedEntity2D(item, this.animationsColectables.get(id));
+			animatedEntity2D = new AnimatedEntity2D(item, this.animations.get(id));
 			this.animatedEntities.add(animatedEntity2D);
 			this.hashMapLevelAnimation.put(item, animatedEntity2D);
 		} else if (dr.getType() == Constantes.DRAWABLE_TRAP)
@@ -173,6 +183,11 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 			this.hashMapTrapAnimation.put(trapMech, atrapKV);
 			this.animatedTraps.add(atrapKV);
 			System.out.println("Activo trampa!");
+		} else if (dr.getType() == Constantes.DRAWABLE_GYRATORY)
+		{System.out.println("Cree la viosion giratoria");
+			AnimatedGiratory2D a = new AnimatedGiratory2D((GiratoryMechanism) dr.getDrawable(),
+					this.animations.get(Constantes.DRAWABLE_GYRATORY));
+			this.animatedEntities.add(a);
 		}
 	}
 
@@ -211,7 +226,7 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 
 		this.loadAnimations();
 		renderer = new OrthogonalTiledMapRenderer(map, this.scaleFactor);
-		Iterator<LevelItem> levelItems = Juego.getInstance().getCurrentPyramid().getLevelItems();
+		Iterator<LevelItem> levelItems = pyramid.getLevelItems();
 		while (levelItems.hasNext())
 
 		{
@@ -219,15 +234,15 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 			if (item.getType() == Constantes.It_jewel || item.getType() == Constantes.It_dagger
 					|| item.getType() == Constantes.It_picker)
 				this.addGraphicElement(new DrawableElement(Constantes.DRAWABLE_LEVEL_ITEM, item));
-			else if (item.getType() == Constantes.It_wall)
+			else if (item.getType() == Constantes.It_giratory)
+			{
+				this.addGraphicElement(
+						new DrawableElement(Constantes.DRAWABLE_GYRATORY, pyramid.getGiratoryMechanism(item)));
+			} else if (item.getType() == Constantes.It_wall)
 			{
 				this.instances.add(new MySpriteKV(map.getTileSets().getTile(item.getType()).getTextureRegion(), item));
-
-				// this.instances.add(new
-				// MySpriteKV(map.getTileSets().getTile(item.getType()+1).getTextureRegion(),
-				// activator));
-
 			}
+
 		}
 
 		this.animatedEntities
@@ -339,8 +354,6 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 		this.calculateCamera();
 		spriteBatch.setProjectionMatrix(camera.combined);
 
-		
-		
 		renderer.setView(camera);
 		renderer.render();
 
@@ -354,7 +367,6 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 			animatedTrapKV2.getSprite().draw(spriteBatch);
 		}
 
-		
 		ArrayIterator<MySpriteKV> it = this.instances.iterator();
 		while (it.hasNext())
 		{

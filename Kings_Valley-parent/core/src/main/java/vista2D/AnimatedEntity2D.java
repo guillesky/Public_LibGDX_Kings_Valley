@@ -13,7 +13,7 @@ public class AnimatedEntity2D
     protected Animation<TextureRegion> animation;
     protected float stateTime;
     protected Sprite sprite;
-
+ 
     public AnimatedEntity2D(LevelItem levelItem,Animation<TextureRegion> animation)
     {
 	this.animation = animation;
@@ -24,7 +24,7 @@ public class AnimatedEntity2D
 
     public void updateElement(float deltaTime)
     {
-
+   
 	sprite.setRegion(animation.getKeyFrame(deltaTime, true));
 	float x = this.levelItem.getX() + (this.levelItem.getWidth() - this.sprite.getWidth()) / 2;
 	float y = this.levelItem.getY();

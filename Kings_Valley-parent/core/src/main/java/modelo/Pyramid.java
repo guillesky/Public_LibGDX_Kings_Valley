@@ -34,11 +34,16 @@ public class Pyramid implements IGrafica
 	private ArrayList<LevelItem> stairs_ur = new ArrayList<LevelItem>();
 	private ArrayList<LevelItem> pickers = new ArrayList<LevelItem>();
 	private ArrayList<LevelItem> daggers = new ArrayList<LevelItem>();
-	private ArrayList<GiratoryDoor> giratorys = new ArrayList<GiratoryDoor>();
+	private ArrayList<LevelItem> giratorys = new ArrayList<LevelItem>();
 	private ArrayList<LevelItem> walls = new ArrayList<LevelItem>();
 	private ArrayList<LevelItem> activators = new ArrayList<LevelItem>();
-	private ArrayList<Mechanism> mechanisms = new ArrayList<Mechanism>();
+	private ArrayList<TrapMechanism> trapMechanisms = new ArrayList<TrapMechanism>();
+	private ArrayList<GiratoryMechanism> giratoryMechanisms = new ArrayList<GiratoryMechanism>();
+
 	private HashMap<LevelItem, LevelItem> hashTraps = new HashMap<LevelItem, LevelItem>();
+	private HashMap<LevelItem, GiratoryMechanism> hashGiratoryMechanisms = new HashMap<LevelItem, GiratoryMechanism>();
+
+	
 	private int id;
 
 	public Pyramid(TiledMap map, IGrafica interfaz, int id)
@@ -142,10 +147,14 @@ public class Pyramid implements IGrafica
 
 				break;
 			case Constantes.It_giratory:
-				this.giratorys.add(new GiratoryDoor(levelItem));
+				this.giratorys.add(levelItem);
+				GiratoryMechanism giratoryMechanism=new GiratoryMechanism(levelItem);
+				this.giratoryMechanisms.add(giratoryMechanism); 
+				this.hashGiratoryMechanisms.put(levelItem, giratoryMechanism);
+				
 				
 				System.out.println("Giratorio: " + levelItem + "piramid: " + this.id);
-				
+
 				break;
 			case Constantes.It_wall:
 				this.walls.add(levelItem);
@@ -261,6 +270,8 @@ public class Pyramid implements IGrafica
 		levelItems.addAll(this.stairs_ul);
 		levelItems.addAll(this.stairs_ur);
 		levelItems.addAll(this.walls);
+		levelItems.addAll(this.giratorys);
+		
 		return levelItems.iterator();
 	}
 
@@ -348,7 +359,7 @@ public class Pyramid implements IGrafica
 		return daggers;
 	}
 
-	public ArrayList<GiratoryDoor> getGiratorys()
+	public ArrayList<LevelItem> getGiratorys()
 	{
 		return giratorys;
 	}
@@ -361,10 +372,9 @@ public class Pyramid implements IGrafica
 
 	}
 
-	public void activateGiratory(LevelItem giratory)
+	public void activateGiratory(LevelItem giratory, float deltaTime)
 	{
-		// TODO Auto-generated method stub
-
+		System.out.println("Activado GIRATORIO: " + giratory + "   " + deltaTime);
 	}
 
 	public ArrayList<LevelItem> getActivators()
@@ -377,25 +387,20 @@ public class Pyramid implements IGrafica
 		this.activators.remove(activator);
 		LevelItem wall = this.hashTraps.get(activator);
 		TrapMechanism trap = new TrapMechanism(this, wall);
-		this.mechanisms.add(trap);
+		this.trapMechanisms.add(trap);
 		this.addGraphicElement(new DrawableElement(Constantes.DRAWABLE_TRAP, trap));
-	}
-
-	public ArrayList<Mechanism> getMechanisms()
-	{
-		return mechanisms;
 	}
 
 	public void updateMechanism(float deltaTime)
 	{
-		for (Mechanism mechanism : this.mechanisms)
+		for (TrapMechanism trapMechanism : this.trapMechanisms)
 		{
-			mechanism.update(deltaTime);
-			if (this.checkPlayerSmash((TrapMechanism) mechanism))
+			trapMechanism.update(deltaTime);
+			if (this.checkPlayerSmash(trapMechanism))
 				this.death();
 		}
 
-		Iterator<Mechanism> it = this.mechanisms.iterator();
+		Iterator<TrapMechanism> it = this.trapMechanisms.iterator();
 		while (it.hasNext())
 		{
 			Mechanism mechanism = it.next();
@@ -407,6 +412,12 @@ public class Pyramid implements IGrafica
 
 		}
 
+		for (GiratoryMechanism gMechanism : this.giratoryMechanisms)
+		{
+			if (gMechanism.isActive())
+				gMechanism.update(deltaTime);
+		}
+
 	}
 
 	private void death()
@@ -415,12 +426,17 @@ public class Pyramid implements IGrafica
 
 	}
 
-	private boolean checkPlayerSmash(TrapMechanism mechanism)
+	private boolean checkPlayerSmash(TrapMechanism trapMechanism)
 	{
 		int px = (int) (this.player.getX() / Config.getInstance().getLevelTileWidthUnits());
 		int py = (int) (this.player.getY() / Config.getInstance().getLevelTileHeightUnits());
-		return (mechanism.getX() == px && mechanism.getY() == py);
+		return (trapMechanism.getX() == px && trapMechanism.getY() == py);
 
+	}
+
+	public GiratoryMechanism getGiratoryMechanism(LevelItem giratory)
+	{
+		return this.hashGiratoryMechanisms.get(giratory);
 	}
 
 }

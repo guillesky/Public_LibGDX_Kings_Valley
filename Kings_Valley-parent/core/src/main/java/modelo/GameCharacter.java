@@ -41,8 +41,8 @@ public abstract class GameCharacter extends LevelItem
 	private boolean lookRight = true;
 	private float animationDelta = 0;
 
-	public GameCharacter(int type, float x, float y, int p0,  float width, float height, float speedFall,
-		float speedWalk, float speedWalkStairs, float speedJump, Pyramid pyramid)
+	public GameCharacter(int type, float x, float y, int p0, float width, float height, float speedFall,
+			float speedWalk, float speedWalkStairs, float speedJump, Pyramid pyramid)
 	{
 		super(type, x, y, p0, width, height);
 		this.speedFall = speedFall;
@@ -70,9 +70,11 @@ public abstract class GameCharacter extends LevelItem
 
 					this.state = GameCharacter.ST_FALLING;
 					this.motionVector.x = 0;
-					this.animationDelta=0;
+					this.animationDelta = 0;
+				} else
+				{
+					this.animationDelta += deltaTime;
 				}
-				else {this.animationDelta+=deltaTime;}
 				this.motionVector.y += this.speedFall * deltaTime;
 				if (this.motionVector.y < this.speedFall)
 					this.motionVector.y = speedFall;
@@ -336,7 +338,6 @@ public abstract class GameCharacter extends LevelItem
 		return cell;
 	}
 
-	
 	private boolean isCellBlocked(float x, float y)
 	{
 		return this.getCell(x, y) != null;
@@ -389,7 +390,7 @@ public abstract class GameCharacter extends LevelItem
 				&& this.buscarColisionPorVertice(this.x + this.width, this.y, vectMove) == Constantes.RIGHT)
 			r = Constantes.RIGHT;
 
-		if (this.colisionMiddleLeft(vectMove))
+		else if (this.colisionMiddleLeft(vectMove))
 		{
 			this.correctLeft(vectMove);
 			r = -1;

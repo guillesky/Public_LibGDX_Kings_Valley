@@ -12,6 +12,8 @@ public class Player extends GameCharacter
 {
 	public static final int ST_GIRATORY_RIGHT = 20;
 	public static final int ST_GIRATORY_LEFT = 21;
+	private GiratoryMechanism passingGiratory = null;
+	float resta=0;
 
 	public Player(LevelItem door, Pyramid pyramid)
 	{
@@ -26,28 +28,40 @@ public class Player extends GameCharacter
 	public void move(Vector2 v, boolean b, float deltaTime)
 	{
 
-		LevelItem giratory = this.checkRectangleColision(this.pyramid.getGiratorys());
-		if (giratory != null)
+		if (this.passingGiratory != null)
 		{
-			this.pyramid.activateGiratory(giratory);
-			GiratoryDoor gd=(GiratoryDoor) giratory;
+			float direction;
+			if (this.passingGiratory.isRight())
+				direction = 1;
+			else
+				direction = -1;
+			this.motionVector.x = direction * this.speedWalkStairs * 0.5f;
+			Vector2 escalado = this.motionVector.cpy().scl(deltaTime);
+			this.x += escalado.x;
 			
+			if (!this.isColision(this.passingGiratory.getLevelItem()))
+			{
+				this.passingGiratory = null;
+				this.state = GameCharacter.ST_IDDLE;
+				System.out.println(resta);
+				resta=0;
+			}
+			else resta+=deltaTime;
 		}
 
-		if (this.state == Player.ST_GIRATORY_LEFT || this.state == Player.ST_GIRATORY_RIGHT)
-		{// TODO}
-
-		} else
+		else
+		{
 			super.move(v, b, deltaTime);
 
-		LevelItem joya = this.checkItemFeetColision(this.pyramid.getJewels());
-		if (joya != null)
-			this.pyramid.removeJewel(joya);
+			LevelItem joya = this.checkItemFeetColision(this.pyramid.getJewels());
+			if (joya != null)
+				this.pyramid.removeJewel(joya);
 
-		LevelItem activator = this.checkRectangleColision(this.pyramid.getActivators());
-		if (giratory != activator)
-			this.pyramid.activateWall(activator);
-
+			LevelItem activator = this.checkRectangleColision(this.pyramid.getActivators());
+			if (activator != null)
+				this.pyramid.activateWall(activator);
+			this.checkGiratory(v);
+		}
 	}
 
 	public LevelItem checkRectangleColision(ArrayList levelItems)
@@ -68,6 +82,40 @@ public class Player extends GameCharacter
 		}
 
 		return respuesta;
+	}
+
+	private void checkGiratory(Vector2 v)
+	{
+		LevelItem giratory = this.checkRectangleColision(this.pyramid.getGiratorys());
+		if (giratory != null)
+		{
+			GiratoryMechanism gm = this.pyramid.getGiratoryMechanism(giratory);
+
+			if ((this.state == GameCharacter.ST_WALK_RIGHT && gm.isRight())
+					|| (this.state == GameCharacter.ST_WALK_LEFT && !gm.isRight()))
+			{
+				this.passingGiratory = gm;
+				gm.activate();
+			} else
+				this.blockGiratory(gm);
+		}
+	}
+
+	private void blockGiratory(GiratoryMechanism gm)
+	{
+		LevelItem g = gm.getLevelItem();
+		float lado=g.x-this.x;
+		
+		this.motionVector.x = 0;
+		if (lado<0)
+		{
+			this.x = g.x + g.width;
+		} else
+
+		{
+			this.x = g.x - this.width;
+		}
+
 	}
 
 }
