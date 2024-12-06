@@ -13,528 +13,542 @@ import util.Constantes;
 public abstract class GameCharacter extends LevelItem
 {
 
-	public static final int ST_IDDLE = 0; // Inicializando
-	public static final int ST_WALK_RIGHT = 11; // Andando
-	public static final int ST_ONSTAIRS_POSITIVE = 2; // En una escalera pendiente positiva
-	public static final int ST_ONSTAIRS_NEGATIVE = 3; // En una escalera pendiente negativa
+    public static final int ST_IDDLE = 0; // Inicializando
+    public static final int ST_WALK_RIGHT = 11; // Andando
+    public static final int ST_ONSTAIRS_POSITIVE = 2; // En una escalera pendiente positiva
+    public static final int ST_ONSTAIRS_NEGATIVE = 3; // En una escalera pendiente negativa
 
-	public static final int ST_JUMP_LEFT = 4; // Saltando izquierda
-	public static final int ST_JUMP_TOP = 5; // Saltando arriba
-	public static final int ST_JUMP_RIGHT = 6; // Saltando derecha
-	public static final int ST_FALLING = 7; // Cayendo
+    public static final int ST_JUMP_LEFT = 4; // Saltando izquierda
+    public static final int ST_JUMP_TOP = 5; // Saltando arriba
+    public static final int ST_JUMP_RIGHT = 6; // Saltando derecha
+    public static final int ST_FALLING = 7; // Cayendo
 
-	public static final int ST_DYING = 8; // Muriendo
-	public static final int ST_WALK_LEFT = 12;
+    public static final int ST_DYING = 8; // Muriendo
+    public static final int ST_WALK_LEFT = 12;
 
-	protected int state = GameCharacter.ST_IDDLE;
-	protected Vector2 inputVector = new Vector2();
-	protected Vector2 motionVector = new Vector2();
-	protected float speedFall;
-	protected float speedWalk;
-	protected float speedWalkStairs;
-	protected float speedJump;
-	protected int stairInit = Constantes.It_none;
-	protected float speedY = 0;
-	protected float feetWidth;
-	protected float feetHeight;
-	protected Pyramid pyramid;
-	private boolean lookRight = true;
-	private float animationDelta = 0;
+    protected int state = GameCharacter.ST_IDDLE;
+    protected Vector2 inputVector = new Vector2();
+    protected Vector2 motionVector = new Vector2();
+    protected float speedFall;
+    protected float speedWalk;
+    protected float speedWalkStairs;
+    protected float speedJump;
+    protected int stairInit = Constantes.It_none;
+    protected float speedY = 0;
+    protected float feetWidth;
+    protected float feetHeight;
+    protected Pyramid pyramid;
+    private boolean lookRight = true;
+    private float animationDelta = 0;
 
-	public GameCharacter(int type, float x, float y, int p0, float width, float height, float speedFall,
-			float speedWalk, float speedWalkStairs, float speedJump, Pyramid pyramid)
+    public GameCharacter(int type, float x, float y, int p0, float width, float height, float speedFall,
+	    float speedWalk, float speedWalkStairs, float speedJump, Pyramid pyramid)
+    {
+	super(type, x, y, p0, width, height);
+	this.speedFall = speedFall;
+	this.speedWalk = speedWalk;
+	this.speedWalkStairs = speedWalkStairs;
+	this.speedJump = speedJump;
+	this.feetHeight = Config.getInstance().getCharacterFeetHeight();
+	this.feetWidth = Config.getInstance().getCharacterFeetWidth();
+	this.pyramid = pyramid;
+    }
+
+    public void move(Vector2 v, boolean b, float deltaTime)
+    {
+
+	deltaTime *= Config.getInstance().getSpeedGame();
+	if (this.state != GameCharacter.ST_ONSTAIRS_POSITIVE && this.state != GameCharacter.ST_ONSTAIRS_NEGATIVE)
+	// Si no estoy en escalera
 	{
-		super(type, x, y, p0, width, height);
-		this.speedFall = speedFall;
-		this.speedWalk = speedWalk;
-		this.speedWalkStairs = speedWalkStairs;
-		this.speedJump = speedJump;
-		this.feetHeight = Config.getInstance().getCharacterFeetHeight();
-		this.feetWidth = Config.getInstance().getCharacterFeetWidth();
-		this.pyramid = pyramid;
-	}
+	    if (!this.isFloorDown()) // aplico gravedad
+	    {
 
-	public void move(Vector2 v, boolean b, float deltaTime)
-	{
-
-		deltaTime *= Config.getInstance().getSpeedGame();
-		if (this.state != GameCharacter.ST_ONSTAIRS_POSITIVE && this.state != GameCharacter.ST_ONSTAIRS_NEGATIVE)
-		// Si no estoy en escalera
+		if (this.state == GameCharacter.ST_WALK_RIGHT || this.state == GameCharacter.ST_WALK_LEFT
+			|| this.state == GameCharacter.ST_IDDLE)
 		{
-			if (!this.isFloorDown()) // aplico gravedad
-			{
 
-				if (this.state == GameCharacter.ST_WALK_RIGHT || this.state == GameCharacter.ST_WALK_LEFT
-						|| this.state == GameCharacter.ST_IDDLE)
-				{
-
-					this.state = GameCharacter.ST_FALLING;
-					this.motionVector.x = 0;
-					this.animationDelta = 0;
-				} else
-				{
-					this.animationDelta += deltaTime;
-				}
-				this.motionVector.y += this.speedFall * deltaTime;
-				if (this.motionVector.y < this.speedFall)
-					this.motionVector.y = speedFall;
-
-			}
-
-			else // estoy caminando
-			{
-
-				if (v.x == 0)
-				{
-					if (this.state != ST_IDDLE)
-					{
-						this.animationDelta = 0;
-						this.state = ST_IDDLE;
-					} else
-						this.animationDelta += deltaTime;
-
-				} else if (v.x > 0)
-				{
-					if (this.state != ST_WALK_RIGHT)
-					{
-						this.animationDelta = 0;
-						this.state = ST_WALK_RIGHT;
-						this.lookRight = true;
-					} else
-					{
-						this.animationDelta += deltaTime;
-					}
-
-				} else
-				{
-					if (this.state != ST_WALK_LEFT)
-					{
-						this.animationDelta = 0;
-						this.state = ST_WALK_LEFT;
-						this.lookRight = false;
-					} else
-					{
-						this.animationDelta += deltaTime;
-					}
-				}
-				this.motionVector.x = v.x * this.speedWalk;
-
-				// this.motionVector.y = 0;
-				if (b)
-					this.doJump();
-				if (v.y != 0 && v.x != 0)
-					this.checkEnterStair(v);
-
-			}
-		} else // estoy en escalera
-		{
-			this.motionVector.x = v.x * this.speedWalkStairs;
-			if (this.state == GameCharacter.ST_ONSTAIRS_POSITIVE)
-			{
-				this.motionVector.y = v.x * this.speedWalkStairs;
-
-			} else
-			{
-				this.motionVector.y = -v.x * this.speedWalkStairs;
-			}
-			if (v.x != 0)
-			{
-				this.checkExitStair(v);
-				this.animationDelta += deltaTime;
-				this.lookRight = v.x > 0;
-			}
-		}
-
-		Vector2 escalado = this.motionVector.cpy().scl(deltaTime);
-		if (this.state != GameCharacter.ST_ONSTAIRS_POSITIVE && this.state != GameCharacter.ST_ONSTAIRS_NEGATIVE) // Si
-																													// no
-																													// estoy
-			// en
-			this.colision3(escalado);
-
-		this.x += escalado.x;
-		this.y += escalado.y;
-
-	}
-
-	private void checkExitStair(Vector2 v)
-	{
-		LevelItem escalera = null;
-		if (this.state == GameCharacter.ST_ONSTAIRS_POSITIVE)
-		{
-			if (v.x > 0)
-			{
-				escalera = this.checkItemFeetColision(this.pyramid.getStairs_dl());
-			} else
-			{
-				escalera = this.checkItemFeetColision(this.pyramid.getStairs_ur());
-			}
+		    this.state = GameCharacter.ST_FALLING;
+		    this.motionVector.x = 0;
+		    this.animationDelta = 0;
 		} else
 		{
-			if (v.x > 0)
-			{
-				escalera = this.checkItemFeetColision(this.pyramid.getStairs_ul());
-			} else
-			{
-				escalera = this.checkItemFeetColision(this.pyramid.getStairs_dr());
-			}
-
+		    this.animationDelta += deltaTime;
 		}
-		if (escalera != null)
+		this.motionVector.y += this.speedFall * deltaTime;
+		if (this.motionVector.y < this.speedFall)
+		    this.motionVector.y = speedFall;
+
+	    }
+
+	    else // estoy caminando
+	    {
+
+		if (v.x == 0)
 		{
-			if (v.x > 0)
-			{
-				this.state = GameCharacter.ST_WALK_RIGHT;
-			} else
-				this.state = GameCharacter.ST_WALK_LEFT;
+		    if (this.state != ST_IDDLE)
+		    {
 			this.animationDelta = 0;
-			this.y = escalera.y;
-			this.motionVector.y = 0;
-		}
-	}
+			this.state = ST_IDDLE;
+		    } else
+			this.animationDelta += deltaTime;
 
-	private void checkEnterStair(Vector2 v)
-	{
-		LevelItem escalera = null;
-		if (v.y > 0)
+		} else if (v.x > 0)
 		{
-			if (v.x > 0)
-			{
-				escalera = this.checkItemFeetColision(this.pyramid.getStairs_ur());
-				if (escalera != null)
-					this.state = GameCharacter.ST_ONSTAIRS_POSITIVE;
-			} else
-			{
-				escalera = this.checkItemFeetColision(this.pyramid.getStairs_ul());
-				if (escalera != null)
-					this.state = GameCharacter.ST_ONSTAIRS_NEGATIVE;
-			}
+		    if (this.state != ST_WALK_RIGHT)
+		    {
+			this.animationDelta = 0;
+			this.state = ST_WALK_RIGHT;
+			this.lookRight = true;
+		    } else
+		    {
+			this.animationDelta += deltaTime;
+		    }
+
 		} else
 		{
-			if (v.x > 0)
-			{
-				escalera = this.checkItemFeetColision(this.pyramid.getStairs_dr());
-				if (escalera != null)
-					this.state = GameCharacter.ST_ONSTAIRS_NEGATIVE;
-			} else
-			{
-				escalera = this.checkItemFeetColision(this.pyramid.getStairs_dl());
-				if (escalera != null)
-					this.state = GameCharacter.ST_ONSTAIRS_POSITIVE;
-			}
+		    if (this.state != ST_WALK_LEFT)
+		    {
+			this.animationDelta = 0;
+			this.state = ST_WALK_LEFT;
+			this.lookRight = false;
+		    } else
+		    {
+			this.animationDelta += deltaTime;
+		    }
 		}
+		this.motionVector.x = v.x * this.speedWalk;
 
+		// this.motionVector.y = 0;
+		if (b)
+		    this.doJump();
+		if (v.y != 0 && v.x != 0)
+		    this.checkEnterStair(v);
+
+	    }
+	} else // estoy en escalera
+	{
+	    this.motionVector.x = v.x * this.speedWalkStairs;
+	    if (this.state == GameCharacter.ST_ONSTAIRS_POSITIVE)
+	    {
+		this.motionVector.y = v.x * this.speedWalkStairs;
+
+	    } else
+	    {
+		this.motionVector.y = -v.x * this.speedWalkStairs;
+	    }
+	    if (v.x != 0)
+	    {
+		this.checkExitStair(v);
+		this.animationDelta += deltaTime;
+		this.lookRight = v.x > 0;
+	    }
 	}
 
-	private void doJump()
+	Vector2 escalado = this.motionVector.cpy().scl(deltaTime);
+	if (this.state != GameCharacter.ST_ONSTAIRS_POSITIVE && this.state != GameCharacter.ST_ONSTAIRS_NEGATIVE) // Si
+														  // no
+														  // estoy
+	    // en
+	    this.colision3(escalado);
+
+	this.x += escalado.x;
+	this.y += escalado.y;
+	this.checkOutLevel();
+    }
+
+    private void checkExitStair(Vector2 v)
+    {
+	LevelItem escalera = null;
+	if (this.state == GameCharacter.ST_ONSTAIRS_POSITIVE)
 	{
-		this.motionVector.y = this.speedJump;
-		this.state = GameCharacter.ST_JUMP_TOP;
-		this.animationDelta = 0;
+	    if (v.x > 0)
+	    {
+		escalera = this.checkItemFeetColision(this.pyramid.getStairs_dl());
+	    } else
+	    {
+		escalera = this.checkItemFeetColision(this.pyramid.getStairs_ur());
+	    }
+	} else
+	{
+	    if (v.x > 0)
+	    {
+		escalera = this.checkItemFeetColision(this.pyramid.getStairs_ul());
+	    } else
+	    {
+		escalera = this.checkItemFeetColision(this.pyramid.getStairs_dr());
+	    }
+
+	}
+	if (escalera != null)
+	{
+	    if (v.x > 0)
+	    {
+		this.state = GameCharacter.ST_WALK_RIGHT;
+	    } else
+		this.state = GameCharacter.ST_WALK_LEFT;
+	    this.animationDelta = 0;
+	    this.y = escalera.y;
+	    this.motionVector.y = 0;
+	}
+    }
+
+    private void checkEnterStair(Vector2 v)
+    {
+	LevelItem escalera = null;
+	if (v.y > 0)
+	{
+	    if (v.x > 0)
+	    {
+		escalera = this.checkItemFeetColision(this.pyramid.getStairs_ur());
+		if (escalera != null)
+		    this.state = GameCharacter.ST_ONSTAIRS_POSITIVE;
+	    } else
+	    {
+		escalera = this.checkItemFeetColision(this.pyramid.getStairs_ul());
+		if (escalera != null)
+		    this.state = GameCharacter.ST_ONSTAIRS_NEGATIVE;
+	    }
+	} else
+	{
+	    if (v.x > 0)
+	    {
+		escalera = this.checkItemFeetColision(this.pyramid.getStairs_dr());
+		if (escalera != null)
+		    this.state = GameCharacter.ST_ONSTAIRS_NEGATIVE;
+	    } else
+	    {
+		escalera = this.checkItemFeetColision(this.pyramid.getStairs_dl());
+		if (escalera != null)
+		    this.state = GameCharacter.ST_ONSTAIRS_POSITIVE;
+	    }
 	}
 
-	public int getState()
-	{
-		return state;
-	}
+    }
 
-	public boolean isFloorDown()
-	{
-		return ((isCellBlocked(this.x + this.getWidth(), this.y - 0.00001f * this.height)
-				&& isCellBlocked(this.x + this.getWidth(), this.y - this.height * 0.25f))
-				|| (isCellBlocked(this.x, this.y - 0.00001f * this.height)
-						&& isCellBlocked(this.x, this.y - this.height * 0.25f)));
-	}
+    private void doJump()
+    {
+	this.motionVector.y = this.speedJump;
+	this.state = GameCharacter.ST_JUMP_TOP;
+	this.animationDelta = 0;
+    }
 
-	private boolean colisionUpRight(Vector2 vectMove)
-	{
-		return isCellSolid(this.x + this.getWidth() + vectMove.x, this.y + this.getHeight() + vectMove.y);
-	}
+    public int getState()
+    {
+	return state;
+    }
 
-	private boolean colisionUpLeft(Vector2 vectMove)
-	{
-		return isCellSolid(this.x + vectMove.x, this.y + this.getHeight() + vectMove.y);
-	}
+    public boolean isFloorDown()
+    {
+	return ((isCellBlocked(this.x + this.getWidth(), this.y - 0.00001f * this.height)
+		&& isCellBlocked(this.x + this.getWidth(), this.y - this.height * 0.25f))
+		|| (isCellBlocked(this.x, this.y - 0.00001f * this.height)
+			&& isCellBlocked(this.x, this.y - this.height * 0.25f)));
+    }
 
-	private boolean colisionMiddleRight(Vector2 vectMove)
-	{
-		return isCellSolid(this.x + vectMove.x + this.getWidth(), this.y + vectMove.y + this.getHeight() / 2);
-	}
+    private boolean colisionUpRight(Vector2 vectMove)
+    {
+	return isCellSolid(this.x + this.getWidth() + vectMove.x, this.y + this.getHeight() + vectMove.y);
+    }
 
-	private boolean colisionMiddleLeft(Vector2 vectMove)
-	{
-		return isCellSolid(this.x + vectMove.x, this.y + vectMove.y + this.getHeight() / 2);
-	}
+    private boolean colisionUpLeft(Vector2 vectMove)
+    {
+	return isCellSolid(this.x + vectMove.x, this.y + this.getHeight() + vectMove.y);
+    }
 
-	private boolean colisionDownLeftForLanding(Vector2 vectMove)
-	{
-		return colisionDown(this.x, vectMove);
-	}
+    private boolean colisionMiddleRight(Vector2 vectMove)
+    {
+	return isCellSolid(this.x + vectMove.x + this.getWidth(), this.y + vectMove.y + this.getHeight() / 2);
+    }
 
-	private boolean colisionDownRightForLanding(Vector2 vectMove)
-	{
-		return colisionDown(this.x + this.width, vectMove);
-	}
+    private boolean colisionMiddleLeft(Vector2 vectMove)
+    {
+	return isCellSolid(this.x + vectMove.x, this.y + vectMove.y + this.getHeight() / 2);
+    }
 
-	private boolean colisionDown(float x, Vector2 vectMove)
+    private boolean colisionDownLeftForLanding(Vector2 vectMove)
+    {
+	return colisionDown(this.x, vectMove);
+    }
+
+    private boolean colisionDownRightForLanding(Vector2 vectMove)
+    {
+	return colisionDown(this.x + this.width, vectMove);
+    }
+
+    private boolean colisionDown(float x, Vector2 vectMove)
+    {
+	boolean respuesta = false;
+	if (isCellBlocked(x, this.y + vectMove.y))
 	{
-		boolean respuesta = false;
-		if (isCellBlocked(x, this.y + vectMove.y))
+	    float tileY = (int) ((y + vectMove.y) / Config.getInstance().getLevelTileHeightUnits());
+	    tileY = (tileY + 1) * Config.getInstance().getLevelTileHeightUnits();
+	    respuesta = (this.y > tileY && this.y + vectMove.y <= tileY);
+	}
+	return respuesta;
+    }
+
+    private void correctRight(Vector2 vectMove)
+    {
+	float aux = (int) ((this.x + this.getWidth() + vectMove.x) / Config.getInstance().getLevelTileWidthUnits());
+	vectMove.x = (aux) * Config.getInstance().getLevelTileWidthUnits() - (this.getWidth() + 0.02f + this.x);
+	if (this.motionVector.y < 30)
+	    this.motionVector.x = 0;
+
+    }
+
+    private void correctLeft(Vector2 vectMove)
+    {
+	float aux = (int) ((this.x + vectMove.x) / Config.getInstance().getLevelTileWidthUnits());
+	vectMove.x = (aux + 1) * Config.getInstance().getLevelTileWidthUnits() + 0.2f - this.x;
+	if (this.motionVector.y < 30)
+	    this.motionVector.x = 0;
+
+    }
+
+    private void correctUp(Vector2 vectMove)
+    {
+	this.motionVector.y = 0;
+	int aux = (int) ((this.y + this.getHeight() + vectMove.y) / Config.getInstance().getLevelTileHeightUnits());
+	vectMove.y = aux * Config.getInstance().getLevelTileHeightUnits() - (this.y + this.getHeight() + 0.1f);
+
+    }
+
+    private void correctDown(Vector2 vectMove)
+    {
+
+	float aux = (int) ((this.y + vectMove.y) / Config.getInstance().getLevelTileHeightUnits());
+	vectMove.y = (aux + 1) * Config.getInstance().getLevelTileHeightUnits() - this.y;
+	if (vectMove.x == 0)
+	    this.state = GameCharacter.ST_IDDLE;
+	else if (vectMove.x > 0)
+	    this.state = GameCharacter.ST_WALK_RIGHT;
+	else
+	    this.state = GameCharacter.ST_WALK_LEFT;
+
+	this.motionVector.y = 0;
+
+    }
+
+    private boolean isCellBlocked(float x, float y)
+    {
+	return this.pyramid.getCell(x, y) != null;
+    }
+
+    private boolean isCellSolid(float x, float y)
+    {
+	TiledMapTileLayer.Cell cell = this.pyramid.getCell(x, y);
+	return cell != null && cell.getTile().getId() < 220;
+    }
+
+    private boolean colision3(Vector2 vectMove)
+    {
+	if (this.state != GameCharacter.ST_WALK_RIGHT && this.state != GameCharacter.ST_WALK_RIGHT
+		&& this.state != GameCharacter.ST_IDDLE)
+	    this.checkLanding(vectMove);
+
+	int r = -1;
+
+	if (this.colisionUpRight(vectMove))
+	{
+	    if (this.colisionUpLeft(vectMove))
+	    {
+		this.correctUp(vectMove);
+	    } else
+	    {
+		r = this.buscarColisionPorVertice(this.x + this.width, this.y + this.height, vectMove);
+		if (r == Constantes.DOWN)
 		{
-			float tileY = (int) ((y + vectMove.y) / Config.getInstance().getLevelTileHeightUnits());
-			tileY = (tileY + 1) * Config.getInstance().getLevelTileHeightUnits();
-			respuesta = (this.y > tileY && this.y + vectMove.y <= tileY);
+		    r = Constantes.RIGHT;
+		    System.out.println("ABERRACION");
 		}
-		return respuesta;
+	    }
+
+	} else if (this.colisionUpLeft(vectMove))
+	{
+	    r = this.buscarColisionPorVertice(this.x, this.y + this.height, vectMove);
+	    if (r == Constantes.DOWN)
+	    {
+		r = Constantes.LEFT;
+		// TODO
+		System.out.println("ABERRACION");
+		// TODO
+	    }
+	} else if (this.isCellSolid(this.x + vectMove.x, this.y + vectMove.y)
+		&& this.buscarColisionPorVertice(this.x, this.y, vectMove) == Constantes.LEFT)
+	    r = Constantes.LEFT;
+
+	else if (this.isCellSolid(this.x + vectMove.x + this.width, this.y + vectMove.y)
+		&& this.buscarColisionPorVertice(this.x + this.width, this.y, vectMove) == Constantes.RIGHT)
+	    r = Constantes.RIGHT;
+
+	else if (this.colisionMiddleLeft(vectMove))
+	{
+	    this.correctLeft(vectMove);
+	    r = -1;
+
+	} else if (this.colisionMiddleRight(vectMove))
+	{
+	    this.correctRight(vectMove);
+	    r = -1;
+
 	}
 
-	private void correctRight(Vector2 vectMove)
+	this.corrigeDirecciones(r, vectMove);
+
+	/*
+	 * if (this.isFloorDown()) this.correctDown();
+	 */
+	return r != -1;
+    }
+
+    private void corrigeDirecciones(int direction, Vector2 vectMove)
+    {
+	switch (direction)
 	{
-		float aux = (int) ((this.x + this.getWidth() + vectMove.x) / Config.getInstance().getLevelTileWidthUnits());
-		vectMove.x = (aux) * Config.getInstance().getLevelTileWidthUnits() - (this.getWidth() + 0.02f + this.x);
-		if (this.motionVector.y < 30)
-			this.motionVector.x = 0;
+	case Constantes.UP:
+	    this.correctUp(vectMove);
+	    break;
+
+	case Constantes.LEFT:
+	    this.correctLeft(vectMove);
+	    break;
+	case Constantes.DOWN:
+	    this.correctDown(vectMove);
+
+	    break;
+	case Constantes.RIGHT:
+	    this.correctRight(vectMove);
+	    break;
 
 	}
 
-	private void correctLeft(Vector2 vectMove)
-	{
-		float aux = (int) ((this.x + vectMove.x) / Config.getInstance().getLevelTileWidthUnits());
-		vectMove.x = (aux + 1) * Config.getInstance().getLevelTileWidthUnits() + 0.2f - this.x;
-		if (this.motionVector.y < 30)
-			this.motionVector.x = 0;
+    }
 
+    protected void checkLanding(Vector2 vectMove)
+    {
+	int r = -1;
+	if (this.colisionDownLeftForLanding(vectMove))
+	{
+	    if (this.colisionDownRightForLanding(vectMove))
+		this.correctDown(vectMove);
+	    else
+	    {
+		r = this.buscarColisionPorVertice(this.x, this.y, vectMove);
+	    }
+	} else if (this.colisionDownRightForLanding(vectMove))
+	{
+	    r = this.buscarColisionPorVertice(this.x + this.width, this.y, vectMove);
+	}
+	this.corrigeDirecciones(r, vectMove);
+
+    }
+
+    private int buscarColisionPorVertice(float x, float y, Vector2 vectMove)
+    {
+	x += vectMove.x;
+	y += vectMove.y;
+	int r = -1;
+	if (this.motionVector.x == 0)
+	{
+	    if (this.motionVector.y > 0)
+		r = Constantes.UP;
+	    else if (this.motionVector.y < 0)
+	    {
+		r = Constantes.DOWN;
+	    }
 	}
 
-	private void correctUp(Vector2 vectMove)
-	{
-		this.motionVector.y = 0;
-		int aux = (int) ((this.y + this.getHeight() + vectMove.y) / Config.getInstance().getLevelTileHeightUnits());
-		vectMove.y = aux * Config.getInstance().getLevelTileHeightUnits() - (this.y + this.getHeight() + 0.1f);
-
-	}
-
-	private void correctDown(Vector2 vectMove)
+	else
 	{
 
-		float aux = (int) ((this.y + vectMove.y) / Config.getInstance().getLevelTileHeightUnits());
-		vectMove.y = (aux + 1) * Config.getInstance().getLevelTileHeightUnits() - this.y;
-		if (vectMove.x == 0)
-			this.state = GameCharacter.ST_IDDLE;
-		else if (vectMove.x > 0)
-			this.state = GameCharacter.ST_WALK_RIGHT;
+	    float m = this.motionVector.y / this.motionVector.x;
+	    float b = y - x * m;
+	    float valorX;
+	    int tileX = (int) (x / Config.getInstance().getLevelTileWidthUnits());
+	    int tileY = (int) (y / Config.getInstance().getLevelTileHeightUnits());
+
+	    int respuestaLateral = 0;
+	    if (this.motionVector.x > 0)
+	    {
+		valorX = tileX * Config.getInstance().getLevelTileWidthUnits();
+		respuestaLateral = Constantes.RIGHT;
+	    } else
+	    {
+		valorX = (tileX + 1) * Config.getInstance().getLevelTileWidthUnits();
+		respuestaLateral = Constantes.LEFT;
+	    }
+
+	    float yBuscado = m * valorX + b;
+	    float abajo = tileY * Config.getInstance().getLevelTileHeightUnits();
+	    float arriba = (tileY + 1) * Config.getInstance().getLevelTileHeightUnits();
+	    if (abajo <= yBuscado && yBuscado <= arriba)
+		r = respuestaLateral;
+	    else
+	    {
+		if (this.motionVector.y >= 0)
+		    r = Constantes.UP;
 		else
-			this.state = GameCharacter.ST_WALK_LEFT;
-
-		this.motionVector.y = 0;
+		    r = Constantes.DOWN;
+	    }
 
 	}
+	return r;
 
+    }
 
+    public boolean isFeetColision(Rectangle another)
+    {
+	float mitad = this.x + this.width / 2;
+	mitad -= this.feetWidth / 2;
+	Rectangle feet = new Rectangle(mitad, y, this.feetWidth, this.feetHeight);
+	return LevelItem.rectangleColision(feet, another);
+    }
 
-	private boolean isCellBlocked(float x, float y)
+    public LevelItem checkItemFeetColision(ArrayList<LevelItem> levelItems)
+    {
+
+	Iterator<LevelItem> it = levelItems.iterator();
+	LevelItem respuesta = null;
+	LevelItem item = null;
+	if (it.hasNext())
+	    do
+	    {
+		item = it.next();
+	    } while (it.hasNext() && !this.isFeetColision(item));
+
+	if (this.isFeetColision(item))
 	{
-		return this.pyramid.getCell(x, y) != null;
+	    respuesta = item;
 	}
 
-	private boolean isCellSolid(float x, float y)
+	return respuesta;
+    }
+
+    public float getAnimationDelta()
+    {
+	return animationDelta;
+    }
+
+    public boolean isLookRight()
+    {
+	return lookRight;
+    }
+
+    private void checkOutLevel()
+    {
+
+	if (this.x < Config.getInstance().getLevelTileWidthUnits())
 	{
-		TiledMapTileLayer.Cell cell = this.pyramid.getCell(x, y);
-		return cell != null && cell.getTile().getId() < 220;
-	}
+	    this.x = Config.getInstance().getLevelTileWidthUnits();
+	} else
 
-	private boolean colision3(Vector2 vectMove)
 	{
-		if (this.state != GameCharacter.ST_WALK_RIGHT && this.state != GameCharacter.ST_WALK_RIGHT
-				&& this.state != GameCharacter.ST_IDDLE)
-			this.checkLanding(vectMove);
+	    if (this.x > (this.pyramid.getMapWidthInTiles()-1)* Config.getInstance().getLevelTileWidthUnits() - this.width)
 
-		int r = -1;
-
-		if (this.colisionUpRight(vectMove))
-		{
-			if (this.colisionUpLeft(vectMove))
-			{
-				this.correctUp(vectMove);
-			} else
-			{
-				r = this.buscarColisionPorVertice(this.x + this.width, this.y + this.height, vectMove);
-				if (r == Constantes.DOWN)
-				{
-					r = Constantes.RIGHT;
-					System.out.println("ABERRACION");
-				}
-			}
-
-		} else if (this.colisionUpLeft(vectMove))
-		{
-			r = this.buscarColisionPorVertice(this.x, this.y + this.height, vectMove);
-			if (r == Constantes.DOWN)
-			{
-				r = Constantes.LEFT;
-				// TODO
-				System.out.println("ABERRACION");
-				// TODO
-			}
-		} else if (this.isCellSolid(this.x + vectMove.x, this.y + vectMove.y)
-				&& this.buscarColisionPorVertice(this.x, this.y, vectMove) == Constantes.LEFT)
-			r = Constantes.LEFT;
-
-		else if (this.isCellSolid(this.x + vectMove.x + this.width, this.y + vectMove.y)
-				&& this.buscarColisionPorVertice(this.x + this.width, this.y, vectMove) == Constantes.RIGHT)
-			r = Constantes.RIGHT;
-
-		else if (this.colisionMiddleLeft(vectMove))
-		{
-			this.correctLeft(vectMove);
-			r = -1;
-
-		} else if (this.colisionMiddleRight(vectMove))
-		{
-			this.correctRight(vectMove);
-			r = -1;
-
-		}
-
-		this.corrigeDirecciones(r, vectMove);
-
-		/*
-		 * if (this.isFloorDown()) this.correctDown();
-		 */
-		return r != -1;
+		this.x = (this.pyramid.getMapWidthInTiles()-1) * Config.getInstance().getLevelTileWidthUnits() - this.width;
 	}
 
-	private void corrigeDirecciones(int direction, Vector2 vectMove)
-	{
-		switch (direction)
-		{
-		case Constantes.UP:
-			this.correctUp(vectMove);
-			break;
-
-		case Constantes.LEFT:
-			this.correctLeft(vectMove);
-			break;
-		case Constantes.DOWN:
-			this.correctDown(vectMove);
-
-			break;
-		case Constantes.RIGHT:
-			this.correctRight(vectMove);
-			break;
-
-		}
-
-	}
-
-	protected void checkLanding(Vector2 vectMove)
-	{
-		int r = -1;
-		if (this.colisionDownLeftForLanding(vectMove))
-		{
-			if (this.colisionDownRightForLanding(vectMove))
-				this.correctDown(vectMove);
-			else
-			{
-				r = this.buscarColisionPorVertice(this.x, this.y, vectMove);
-			}
-		} else if (this.colisionDownRightForLanding(vectMove))
-		{
-			r = this.buscarColisionPorVertice(this.x + this.width, this.y, vectMove);
-		}
-		this.corrigeDirecciones(r, vectMove);
-
-	}
-
-	private int buscarColisionPorVertice(float x, float y, Vector2 vectMove)
-	{
-		x += vectMove.x;
-		y += vectMove.y;
-		int r = -1;
-		if (this.motionVector.x == 0)
-		{
-			if (this.motionVector.y > 0)
-				r = Constantes.UP;
-			else if (this.motionVector.y < 0)
-			{
-				r = Constantes.DOWN;
-			}
-		}
-
-		else
-		{
-
-			float m = this.motionVector.y / this.motionVector.x;
-			float b = y - x * m;
-			float valorX;
-			int tileX = (int) (x / Config.getInstance().getLevelTileWidthUnits());
-			int tileY = (int) (y / Config.getInstance().getLevelTileHeightUnits());
-
-			int respuestaLateral = 0;
-			if (this.motionVector.x > 0)
-			{
-				valorX = tileX * Config.getInstance().getLevelTileWidthUnits();
-				respuestaLateral = Constantes.RIGHT;
-			} else
-			{
-				valorX = (tileX + 1) * Config.getInstance().getLevelTileWidthUnits();
-				respuestaLateral = Constantes.LEFT;
-			}
-
-			float yBuscado = m * valorX + b;
-			float abajo = tileY * Config.getInstance().getLevelTileHeightUnits();
-			float arriba = (tileY + 1) * Config.getInstance().getLevelTileHeightUnits();
-			if (abajo <= yBuscado && yBuscado <= arriba)
-				r = respuestaLateral;
-			else
-			{
-				if (this.motionVector.y >= 0)
-					r = Constantes.UP;
-				else
-					r = Constantes.DOWN;
-			}
-
-		}
-		return r;
-
-	}
-
-	public boolean isFeetColision(Rectangle another)
-	{
-		float mitad = this.x + this.width / 2;
-		mitad -= this.feetWidth / 2;
-		Rectangle feet = new Rectangle(mitad, y, this.feetWidth, this.feetHeight);
-		return LevelItem.rectangleColision(feet, another);
-	}
-
-	public LevelItem checkItemFeetColision(ArrayList<LevelItem> levelItems)
-	{
-
-		Iterator<LevelItem> it = levelItems.iterator();
-		LevelItem respuesta = null;
-		LevelItem item = null;
-		if (it.hasNext())
-			do
-			{
-				item = it.next();
-			} while (it.hasNext() && !this.isFeetColision(item));
-
-		if (this.isFeetColision(item))
-		{
-			respuesta = item;
-		}
-
-		return respuesta;
-	}
-
-	public float getAnimationDelta()
-	{
-		return animationDelta;
-	}
-
-	public boolean isLookRight()
-	{
-		return lookRight;
-	}
+    }
 
 }
