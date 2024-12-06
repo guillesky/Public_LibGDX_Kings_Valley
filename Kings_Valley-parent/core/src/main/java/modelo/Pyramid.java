@@ -9,6 +9,7 @@ import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 import util.Config;
 import util.Constantes;
@@ -43,7 +44,6 @@ public class Pyramid implements IGrafica
 	private HashMap<LevelItem, LevelItem> hashTraps = new HashMap<LevelItem, LevelItem>();
 	private HashMap<LevelItem, GiratoryMechanism> hashGiratoryMechanisms = new HashMap<LevelItem, GiratoryMechanism>();
 
-	
 	private int id;
 
 	public Pyramid(TiledMap map, IGrafica interfaz, int id)
@@ -98,7 +98,10 @@ public class Pyramid implements IGrafica
 			} else if (type == Constantes.It_giratory)
 			{
 				width = Config.getInstance().getGiratoryWidth();
-				height = Config.getInstance().getGiratoryHeight();
+				if (this.getCell(fx, fy + Config.getInstance().getLevelTileHeightUnits() * 2) == null)
+					height = Config.getInstance().getLevelTileHeightUnits() * 3.0f;
+				else 
+					height = Config.getInstance().getLevelTileHeightUnits() * 2.0f;
 			}
 
 			LevelItem levelItem = new LevelItem(type, fx, fy, p0, width, height);
@@ -148,12 +151,11 @@ public class Pyramid implements IGrafica
 				break;
 			case Constantes.It_giratory:
 				this.giratorys.add(levelItem);
-				GiratoryMechanism giratoryMechanism=new GiratoryMechanism(levelItem);
-				this.giratoryMechanisms.add(giratoryMechanism); 
+				GiratoryMechanism giratoryMechanism = new GiratoryMechanism(levelItem);
+				this.giratoryMechanisms.add(giratoryMechanism);
 				this.hashGiratoryMechanisms.put(levelItem, giratoryMechanism);
-				
-				
-				System.out.println("Giratorio: " + levelItem + "piramid: " + this.id);
+
+				System.out.println("Giratorio: " + levelItem + "piramid: " + this.id + "ALTURA: "+levelItem.height);
 
 				break;
 			case Constantes.It_wall:
@@ -271,7 +273,7 @@ public class Pyramid implements IGrafica
 		levelItems.addAll(this.stairs_ur);
 		levelItems.addAll(this.walls);
 		levelItems.addAll(this.giratorys);
-		
+
 		return levelItems.iterator();
 	}
 
@@ -437,6 +439,14 @@ public class Pyramid implements IGrafica
 	public GiratoryMechanism getGiratoryMechanism(LevelItem giratory)
 	{
 		return this.hashGiratoryMechanisms.get(giratory);
+	}
+
+	public TiledMapTileLayer.Cell getCell(float x, float y)
+	{
+		TiledMapTileLayer layer = (TiledMapTileLayer) this.getMap().getLayers().get("front");
+		TiledMapTileLayer.Cell cell = layer.getCell((int) (x / Config.getInstance().getLevelTileWidthUnits()),
+				(int) (y / Config.getInstance().getLevelTileHeightUnits()));
+		return cell;
 	}
 
 }

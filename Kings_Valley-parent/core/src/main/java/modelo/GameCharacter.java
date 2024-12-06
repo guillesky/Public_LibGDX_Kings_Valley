@@ -330,22 +330,16 @@ public abstract class GameCharacter extends LevelItem
 
 	}
 
-	private TiledMapTileLayer.Cell getCell(float x, float y)
-	{
-		TiledMapTileLayer layer = (TiledMapTileLayer) this.pyramid.getMap().getLayers().get("front");
-		TiledMapTileLayer.Cell cell = layer.getCell((int) (x / Config.getInstance().getLevelTileWidthUnits()),
-				(int) (y / Config.getInstance().getLevelTileHeightUnits()));
-		return cell;
-	}
+
 
 	private boolean isCellBlocked(float x, float y)
 	{
-		return this.getCell(x, y) != null;
+		return this.pyramid.getCell(x, y) != null;
 	}
 
 	private boolean isCellSolid(float x, float y)
 	{
-		TiledMapTileLayer.Cell cell = this.getCell(x, y);
+		TiledMapTileLayer.Cell cell = this.pyramid.getCell(x, y);
 		return cell != null && cell.getTile().getId() < 220;
 	}
 

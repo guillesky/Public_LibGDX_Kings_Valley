@@ -11,21 +11,25 @@ public class AnimatedGiratory2D extends AnimatedEntity2D
 {
 	protected GiratoryMechanism giratoryMechanism;
 	private boolean spinning = false;
-
-	public AnimatedGiratory2D(GiratoryMechanism giratoryMechanism, Animation<TextureRegion> animation)
+	Animation<TextureRegion> animationRightLeft;
+	Animation<TextureRegion> animationLeftRight;
+	
+	public AnimatedGiratory2D(GiratoryMechanism giratoryMechanism, Animation<TextureRegion> animationRightLeft,Animation<TextureRegion> animationLeftRight)
 	{
-		super(giratoryMechanism.getLevelItem(), animation);
+		super(giratoryMechanism.getLevelItem(), animationRightLeft);
 		this.giratoryMechanism = giratoryMechanism;
-		this.setPlayMode();
+		this.animationRightLeft=animationRightLeft;
+		this.animationLeftRight=animationLeftRight;
+		this.setAnimationActive();
 		this.sprite = new Sprite(animation.getKeyFrame(0));
 	}
 
-	private void  setPlayMode() 
+	private void  setAnimationActive() 
 	{
 		if (giratoryMechanism.isRight())
-			this.animation.setPlayMode(PlayMode.NORMAL);
+			this.animation=this.animationRightLeft;
 		else
-			this.animation.setPlayMode(PlayMode.REVERSED);
+			this.animation=this.animationLeftRight;
 		
 	}
 	public void updateElement(float deltaTime)
@@ -39,7 +43,7 @@ public class AnimatedGiratory2D extends AnimatedEntity2D
 			if (this.spinning)
 			{
              this.spinning=false;
-             this.setPlayMode();
+             this.setAnimationActive();
 			}
 			
 		}

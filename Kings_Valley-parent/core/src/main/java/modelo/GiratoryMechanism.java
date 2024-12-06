@@ -9,10 +9,12 @@ public class GiratoryMechanism extends Mechanism
 {
 	LevelItem levelItem;
 	private boolean right;
+	private boolean triplex;
 
 	public GiratoryMechanism(LevelItem levelItem)
 	{
 		this.levelItem = levelItem;
+		this.triplex=levelItem.getHeight() == Config.getInstance().getLevelTileHeightUnits() * 3.0f;
 		this.right = (levelItem.getP0() == 0);
 		this.active = false;
 	}
@@ -49,4 +51,10 @@ public class GiratoryMechanism extends Mechanism
 		return right;
 	}
 
+	public boolean isTriplex()
+	{
+		return triplex;
+	}
+
+	
 }

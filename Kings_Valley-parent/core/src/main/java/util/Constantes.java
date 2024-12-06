@@ -42,7 +42,11 @@ public class Constantes
     
     public static final int DRAWABLE_LEVEL_ITEM =3000;
     public static final int DRAWABLE_TRAP =3001;
-    public static final int DRAWABLE_GYRATORY =3002;
+    public static final int DRAWABLE_GYRATORY_3_RL =3002;
+    public static final int DRAWABLE_GYRATORY_3_LR =3003;
+    public static final int DRAWABLE_GYRATORY_2_RL =3004;
+    public static final int DRAWABLE_GYRATORY_2_LR =3005;
+    
     
     
     
