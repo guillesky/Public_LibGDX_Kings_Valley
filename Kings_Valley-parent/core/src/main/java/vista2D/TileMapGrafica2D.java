@@ -34,11 +34,10 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 {
     public static final int IDDLE = 0;
     public static final int FALL = 1;
-    public static final int JUMP = 2;
-    public static final int WALK = 3;
-    public static final int STAIR = 4;
-    public static final int DEATH = 5;
-
+    public static final int WALK = 2;
+    public static final int STAIR = 3;
+    public static final int DEATH = 4;
+    public static final int JUMP = 5;
     private final String archiPlayer = "pics/vick.png";
     private final String archiColectables = "pics/colectables.png";
     private final String archiGiratory3 = "pics/giratory3.png";
@@ -54,10 +53,10 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 
     private Array<AnimatedTrapKV2> animatedTraps = new Array<AnimatedTrapKV2>();
 
-    private Animation<TextureRegion>[] animationPlayer_Nothing =  new Animation[6];
-    private Animation<TextureRegion>[] animationPlayer_Dagger =  new Animation[6];
-    private Animation<TextureRegion>[] animationPlayer_Picker =  new Animation[6];
-    
+    private Animation<TextureRegion>[] animationPlayer_Nothing = new Animation[6];
+    private Animation<TextureRegion>[] animationPlayer_Dagger = new Animation[5];
+    private Animation<TextureRegion>[] animationPlayer_Picker = new Animation[5];
+
     private float scaleFactor = 1;
 
     private HashMap<Integer, Animation<TextureRegion>> animations = new HashMap<Integer, Animation<TextureRegion>>();
@@ -115,27 +114,23 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 	this.animationPlayer_Nothing[JUMP] = this.animationPlayer_Nothing[IDDLE];
 	this.animationPlayer_Nothing[WALK] = this.framesToAnimation(linearFrames, startWalk, countWalk, frameDuration);
 	this.animationPlayer_Nothing[STAIR] = this.animationPlayer_Nothing[WALK];
-	this.animationPlayer_Nothing[DEATH] = this.framesToAnimation(linearFrames, startDeath, countDeath, frameDuration);
+	this.animationPlayer_Nothing[DEATH] = this.framesToAnimation(linearFrames, startDeath, countDeath,
+		frameDuration);
 
-
-	this.animationPlayer_Picker[IDDLE] = this.framesToAnimation(linearFrames, startIddle+6, countIddle, 0);
+	this.animationPlayer_Picker[IDDLE] = this.framesToAnimation(linearFrames, startIddle + 6, countIddle, 0);
 	this.animationPlayer_Picker[FALL] = this.animationPlayer_Picker[IDDLE];
-	this.animationPlayer_Picker[JUMP] = this.animationPlayer_Picker[IDDLE];
-	this.animationPlayer_Picker[WALK] = this.framesToAnimation(linearFrames, startWalk+6, countWalk, frameDuration);
+
+	this.animationPlayer_Picker[WALK] = this.framesToAnimation(linearFrames, startWalk + 6, countWalk,
+		frameDuration);
 	this.animationPlayer_Picker[STAIR] = this.animationPlayer_Picker[WALK];
 	this.animationPlayer_Picker[DEATH] = this.animationPlayer_Nothing[DEATH];
 
-	this.animationPlayer_Dagger[IDDLE] = this.framesToAnimation(linearFrames, startIddle+12, countIddle, 0);
+	this.animationPlayer_Dagger[IDDLE] = this.framesToAnimation(linearFrames, startIddle + 12, countIddle, 0);
 	this.animationPlayer_Dagger[FALL] = this.animationPlayer_Dagger[IDDLE];
-	this.animationPlayer_Dagger[JUMP] = this.animationPlayer_Dagger[IDDLE];
-	this.animationPlayer_Dagger[WALK] = this.framesToAnimation(linearFrames, startWalk+12, countWalk, frameDuration);
+	this.animationPlayer_Dagger[WALK] = this.framesToAnimation(linearFrames, startWalk + 12, countWalk,
+		frameDuration);
 	this.animationPlayer_Dagger[STAIR] = this.animationPlayer_Dagger[WALK];
 	this.animationPlayer_Dagger[DEATH] = this.animationPlayer_Nothing[DEATH];
-	
-	
-	
-	
-	
 
 	tmpFrames = TextureRegion.split(colectablesSheet, colectableWidth, colectableHeight);
 	linearFrames.clear();
@@ -298,8 +293,8 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 
 	}
 
-	this.animatedEntities
-		.add(new GameCharacterAnimated2D(pyramid.getPlayer(), this.animationPlayer_Nothing));
+	this.animatedEntities.add(new PlayerAnimated2D(pyramid.getPlayer(), this.animationPlayer_Nothing,
+		this.animationPlayer_Picker, this.animationPlayer_Dagger));
 
     }
 

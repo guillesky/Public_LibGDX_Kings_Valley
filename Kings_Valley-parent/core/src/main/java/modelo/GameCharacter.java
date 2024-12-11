@@ -121,7 +121,7 @@ public abstract class GameCharacter extends LevelItem
 
 		// this.motionVector.y = 0;
 		if (b)
-		    this.doJump();
+		    this.doAction();
 		if (v.y != 0 && v.x != 0)
 		    this.checkEnterStair(v);
 
@@ -226,13 +226,14 @@ public abstract class GameCharacter extends LevelItem
 
     }
 
-    private void doJump()
+    protected abstract void doAction();
+    
+    protected void doJump() 
     {
 	this.motionVector.y = this.speedJump;
 	this.state = GameCharacter.ST_JUMP_TOP;
 	this.animationDelta = 0;
     }
-
     public int getState()
     {
 	return state;

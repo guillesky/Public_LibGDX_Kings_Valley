@@ -15,5 +15,12 @@ public class Mummy extends GameCharacter
 	
     }
 
+    @Override
+    protected void doAction()
+    {
+	this.doJump();
+	
+    }
+
    
 }

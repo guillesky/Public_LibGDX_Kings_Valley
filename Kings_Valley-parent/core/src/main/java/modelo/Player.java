@@ -59,6 +59,24 @@ public class Player extends GameCharacter
 				{this.pyramid.removeJewel(joya);
 				
 				}
+			
+			
+			if(this.item==Constantes.It_none) 
+			{
+			    LevelItem picker = this.checkRectangleColision(this.pyramid.getPickers());
+			    if (picker != null)
+				{
+				this.item=Constantes.It_picker;
+				this.pyramid.removePicker(picker);
+				
+				}
+			    
+				
+			    
+			}
+			
+			
+			
 			LevelItem activator = this.checkRectangleColision(this.pyramid.getActivators());
 			if (activator != null)
 				this.pyramid.activateWall(activator);
@@ -123,6 +141,30 @@ public class Player extends GameCharacter
 	public int getItem()
 	{
 	    return item;
+	}
+
+	@Override
+	protected void doAction()
+	{
+	    if(this.item==Constantes.It_none)
+		this.doJump();
+	    else if (this.item==Constantes.It_picker)
+		this.doPicker();
+	    else if (this.item==Constantes.It_dagger)
+		this.throwDagger();
+	    
+	}
+
+	private void throwDagger()
+	{
+	    // TODO Auto-generated method stub
+	    this.item=Constantes.It_none;
+	}
+
+	private void doPicker()
+	{
+	    // TODO Auto-generated method stub
+	    this.item=Constantes.It_none;
 	}
 	
 

@@ -31,7 +31,11 @@ public class PlayerAnimated2D extends GameCharacterAnimated2D
     {
 	Player player = (Player) this.levelItem;
 	if (player.getItem() != this.item)
+	{
+	    this.item = player.getItem();
 	    this.changeAnimations();
+
+	}
 	super.updateElement(deltaTime);
     }
 
@@ -41,15 +45,15 @@ public class PlayerAnimated2D extends GameCharacterAnimated2D
 	{
 	case Constantes.It_none:
 	    this.changeArrayAnimation(this.animation_Nothing);
-	  	    
+
 	    break;
 	case Constantes.It_picker:
 	    this.changeArrayAnimation(this.animation_Picker);
-		  
+
 	    break;
 	case Constantes.It_dagger:
 	    this.changeArrayAnimation(this.animation_Dagger);
-		  
+
 	    break;
 
 	}
@@ -58,15 +62,11 @@ public class PlayerAnimated2D extends GameCharacterAnimated2D
 
     private void changeArrayAnimation(Animation<TextureRegion>[] arrayAnimation)
     {
-	  this.characterAnimationDeath=arrayAnimation[TileMapGrafica2D.DEATH];
-	    this.characterAnimationFall=arrayAnimation[TileMapGrafica2D.FALL];
-	    this.characterAnimationJump=arrayAnimation[TileMapGrafica2D.JUMP];
-	    this.characterAnimationWalk=arrayAnimation[TileMapGrafica2D.WALK];
-	    this.characterAnimationStair=arrayAnimation[TileMapGrafica2D.STAIR];
-	    this.characterAnimationIddle=arrayAnimation[TileMapGrafica2D.IDDLE];
+	this.characterAnimationDeath = arrayAnimation[TileMapGrafica2D.DEATH];
+	this.characterAnimationFall = arrayAnimation[TileMapGrafica2D.FALL];
+	this.characterAnimationWalk = arrayAnimation[TileMapGrafica2D.WALK];
+	this.characterAnimationStair = arrayAnimation[TileMapGrafica2D.STAIR];
+	this.characterAnimationIddle = arrayAnimation[TileMapGrafica2D.IDDLE];
     }
-    
-    
-    
 
 }
