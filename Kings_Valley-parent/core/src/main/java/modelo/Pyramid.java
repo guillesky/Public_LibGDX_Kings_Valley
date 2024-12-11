@@ -155,7 +155,7 @@ public class Pyramid implements IGrafica
 				this.giratoryMechanisms.add(giratoryMechanism);
 				this.hashGiratoryMechanisms.put(levelItem, giratoryMechanism);
 
-				System.out.println("Giratorio: " + levelItem + "piramid: " + this.id + "ALTURA: "+levelItem.height);
+				
 
 				break;
 			case Constantes.It_wall:
@@ -376,7 +376,7 @@ public class Pyramid implements IGrafica
 
 	public void activateGiratory(LevelItem giratory, float deltaTime)
 	{
-		System.out.println("Activado GIRATORIO: " + giratory + "   " + deltaTime);
+		
 	}
 
 	public ArrayList<LevelItem> getActivators()

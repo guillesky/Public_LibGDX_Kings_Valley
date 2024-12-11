@@ -13,6 +13,7 @@ public class Player extends GameCharacter
 	public static final int ST_GIRATORY_RIGHT = 20;
 	public static final int ST_GIRATORY_LEFT = 21;
 	private GiratoryMechanism passingGiratory = null;
+	private int item=Constantes.It_none;
 	float resta=0;
 
 	public Player(LevelItem door, Pyramid pyramid)
@@ -55,8 +56,9 @@ public class Player extends GameCharacter
 
 			LevelItem joya = this.checkItemFeetColision(this.pyramid.getJewels());
 			if (joya != null)
-				this.pyramid.removeJewel(joya);
-
+				{this.pyramid.removeJewel(joya);
+				
+				}
 			LevelItem activator = this.checkRectangleColision(this.pyramid.getActivators());
 			if (activator != null)
 				this.pyramid.activateWall(activator);
@@ -117,5 +119,11 @@ public class Player extends GameCharacter
 		}
 
 	}
+
+	public int getItem()
+	{
+	    return item;
+	}
+	
 
 }

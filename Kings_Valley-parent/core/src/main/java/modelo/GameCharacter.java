@@ -150,7 +150,7 @@ public abstract class GameCharacter extends LevelItem
 														  // no
 														  // estoy
 	    // en
-	    this.colision3(escalado);
+	    this.colision5(escalado);
 
 	this.x += escalado.x;
 	this.y += escalado.y;
@@ -402,6 +402,137 @@ public abstract class GameCharacter extends LevelItem
 	return r != -1;
     }
 
+    private boolean colision4(Vector2 vectMove)
+    {
+	if (this.state != GameCharacter.ST_WALK_RIGHT && this.state != GameCharacter.ST_WALK_RIGHT
+		&& this.state != GameCharacter.ST_IDDLE)
+	    this.checkLanding(vectMove);
+
+	int r = -1;
+
+	if (this.colisionUpRight(vectMove))
+	{
+	    if (this.colisionUpLeft(vectMove))
+	    {
+		r = Constantes.UP;
+	    } else
+	    {
+		r = this.buscarColisionPorVertice(this.x + this.width, this.y + this.height, vectMove);
+		if (r == Constantes.DOWN)
+		{
+		    r = Constantes.RIGHT;
+		    System.out.println("ABERRACION");
+		}
+	    }
+
+	} else if (this.colisionUpLeft(vectMove))
+	{
+	    r = this.buscarColisionPorVertice(this.x, this.y + this.height, vectMove);
+	    if (r == Constantes.DOWN)
+	    {
+		r = Constantes.LEFT;
+		// TODO
+		System.out.println("ABERRACION");
+		// TODO
+	    }
+	} else if (this.isCellSolid(this.x + vectMove.x, this.y + vectMove.y)
+		&& this.buscarColisionPorVertice(this.x, this.y, vectMove) == Constantes.LEFT)
+	    r = Constantes.LEFT;
+
+	else if (this.isCellSolid(this.x + vectMove.x + this.width, this.y + vectMove.y)
+		&& this.buscarColisionPorVertice(this.x + this.width, this.y, vectMove) == Constantes.RIGHT)
+	    r = Constantes.RIGHT;
+
+	else if (this.colisionMiddleLeft(vectMove))
+	{
+
+	    r = Constantes.LEFT;
+
+	} else if (this.colisionMiddleRight(vectMove))
+	{
+
+	    r = Constantes.RIGHT;
+
+	}
+
+	this.corrigeDirecciones(r, vectMove);
+
+	/*
+	 * if (this.isFloorDown()) this.correctDown();
+	 */
+	return r != -1;
+    }
+
+    private boolean colision5(Vector2 vectMove)
+    {
+	if (this.state != GameCharacter.ST_WALK_RIGHT && this.state != GameCharacter.ST_WALK_RIGHT
+		&& this.state != GameCharacter.ST_IDDLE)
+	    this.checkLanding(vectMove);
+
+	int r = -1;
+
+	if (this.colisionUpRight(vectMove))
+	{
+	    if (this.colisionUpLeft(vectMove))
+	    {
+		r = Constantes.UP;
+	    } else if (this.colisionMiddleRight(vectMove))
+	    {
+		r = Constantes.RIGHT;
+	    } else
+	    {
+		r = this.buscarColisionPorVertice(this.x + this.width, this.y + this.height, vectMove);
+		if (r == Constantes.DOWN)
+		{
+		    r = Constantes.RIGHT;
+		    System.out.println("ABERRACION");
+		}
+	    }
+
+	} else if (this.colisionUpLeft(vectMove))
+	{
+	    if (this.colisionMiddleLeft(vectMove))
+	    {
+		r=Constantes.LEFT;
+	    } else
+	    {
+		r = this.buscarColisionPorVertice(this.x, this.y + this.height, vectMove);
+		if (r == Constantes.DOWN)
+		{
+		    r = Constantes.LEFT;
+		    // TODO
+		    System.out.println("ABERRACION");
+		    // TODO
+		}
+	    }
+	} else if (this.isCellSolid(this.x + vectMove.x, this.y + vectMove.y)
+		&& this.buscarColisionPorVertice(this.x, this.y, vectMove) == Constantes.LEFT)
+	    r = Constantes.LEFT;
+
+	else if (this.isCellSolid(this.x + vectMove.x + this.width, this.y + vectMove.y)
+		&& this.buscarColisionPorVertice(this.x + this.width, this.y, vectMove) == Constantes.RIGHT)
+	    r = Constantes.RIGHT;
+
+	else if (this.colisionMiddleLeft(vectMove))
+	{
+
+	    r = Constantes.LEFT;
+
+	} else if (this.colisionMiddleRight(vectMove))
+	{
+
+	    r = Constantes.RIGHT;
+
+	}
+
+	this.corrigeDirecciones(r, vectMove);
+
+	/*
+	 * if (this.isFloorDown()) this.correctDown();
+	 */
+	return r != -1;
+    }
+
     private void corrigeDirecciones(int direction, Vector2 vectMove)
     {
 	switch (direction)
@@ -544,9 +675,11 @@ public abstract class GameCharacter extends LevelItem
 	} else
 
 	{
-	    if (this.x > (this.pyramid.getMapWidthInTiles()-1)* Config.getInstance().getLevelTileWidthUnits() - this.width)
+	    if (this.x > (this.pyramid.getMapWidthInTiles() - 1) * Config.getInstance().getLevelTileWidthUnits()
+		    - this.width)
 
-		this.x = (this.pyramid.getMapWidthInTiles()-1) * Config.getInstance().getLevelTileWidthUnits() - this.width;
+		this.x = (this.pyramid.getMapWidthInTiles() - 1) * Config.getInstance().getLevelTileWidthUnits()
+			- this.width;
 	}
 
     }

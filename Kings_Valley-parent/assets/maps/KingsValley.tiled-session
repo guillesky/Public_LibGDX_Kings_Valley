@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "level_06.tmx",
+    "activeFile": "level_03.tmx",
     "expandedProjectPaths": [
         "."
     ],
@@ -290,7 +290,7 @@
             "selectedLayer": 0,
             "viewCenter": {
                 "x": 160.04784688995215,
-                "y": 110.04784688995218
+                "y": 109.80861244019141
             }
         },
         "level_02.tmx": {
@@ -298,15 +298,15 @@
             "selectedLayer": 0,
             "viewCenter": {
                 "x": 320.1564282222584,
-                "y": 109.8473738525881
+                "y": 110.19499212427351
             }
         },
         "level_03.tmx": {
             "scale": 2.09,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 223.2057416267943,
-                "y": 110.04784688995218
+                "x": 160.04784688995215,
+                "y": 109.80861244019141
             }
         },
         "level_04.tmx": {
@@ -314,7 +314,7 @@
             "selectedLayer": 0,
             "viewCenter": {
                 "x": 320.1564282222584,
-                "y": 109.8473738525881
+                "y": 110.19499212427351
             }
         },
         "level_05.tmx": {
@@ -322,15 +322,15 @@
             "selectedLayer": 0,
             "viewCenter": {
                 "x": 160.0782141111292,
-                "y": 109.8473738525881
+                "y": 110.02118298843081
             }
         },
         "level_06.tmx": {
             "scale": 2,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 299.75,
-                "y": 109.5
+                "x": 320.25,
+                "y": 109.75
             }
         },
         "level_07.tmx": {
@@ -338,7 +338,7 @@
             "selectedLayer": 0,
             "viewCenter": {
                 "x": 160.0782141111292,
-                "y": 109.8473738525881
+                "y": 110.02118298843081
             }
         },
         "level_08.tmx": {
@@ -346,7 +346,7 @@
             "selectedLayer": 0,
             "viewCenter": {
                 "x": 320.1564282222584,
-                "y": 109.8473738525881
+                "y": 110.19499212427351
             }
         },
         "level_09.tmx": {
@@ -354,7 +354,7 @@
             "selectedLayer": 0,
             "viewCenter": {
                 "x": 160.0782141111292,
-                "y": 109.8473738525881
+                "y": 110.02118298843081
             }
         },
         "level_10.tmx": {
@@ -362,7 +362,7 @@
             "selectedLayer": 0,
             "viewCenter": {
                 "x": 320.1564282222584,
-                "y": 109.8473738525881
+                "y": 110.19499212427351
             }
         },
         "level_11.tmx": {
@@ -370,7 +370,7 @@
             "selectedLayer": 0,
             "viewCenter": {
                 "x": 160.0782141111292,
-                "y": 109.8473738525881
+                "y": 110.02118298843081
             }
         },
         "level_12.tmx": {
@@ -378,7 +378,7 @@
             "selectedLayer": 2,
             "viewCenter": {
                 "x": 320.1564282222584,
-                "y": 109.8473738525881
+                "y": 110.19499212427351
             }
         },
         "level_13.tmx": {
@@ -386,7 +386,7 @@
             "selectedLayer": 0,
             "viewCenter": {
                 "x": 160.04784688995215,
-                "y": 110.04784688995218
+                "y": 109.80861244019141
             }
         },
         "level_14.tmx": {
@@ -394,7 +394,7 @@
             "selectedLayer": 0,
             "viewCenter": {
                 "x": 320.1564282222584,
-                "y": 109.8473738525881
+                "y": 110.19499212427351
             }
         },
         "level_15.tmx": {
@@ -402,7 +402,7 @@
             "selectedLayer": 0,
             "viewCenter": {
                 "x": 176.31578947368422,
-                "y": 110.04784688995218
+                "y": 109.80861244019141
             }
         },
         "levv01.tmx": {
@@ -480,7 +480,9 @@
         "level_10.tmx",
         "level_11.tmx",
         "level_12.tmx",
-        "level_14.tmx"
+        "level_14.tmx",
+        "level_02.tmx",
+        "level_04.tmx"
     ],
     "project": "KingsValley.tiled-project",
     "recentFiles": [
@@ -488,14 +490,14 @@
         "tiles.tsx",
         "level_15.tmx",
         "level_13.tmx",
-        "level_03.tmx",
+        "level_04.tmx",
+        "level_02.tmx",
         "level_14.tmx",
         "level_12.tmx",
         "level_11.tmx",
         "level_10.tmx",
         "level_09.tmx",
-        "level_08.tmx",
-        "level_07.tmx"
+        "level_08.tmx"
     ],
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {
