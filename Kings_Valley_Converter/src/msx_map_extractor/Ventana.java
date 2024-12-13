@@ -26,7 +26,7 @@ import java.awt.event.ActionEvent;
 public class Ventana extends JFrame implements ActionListener
 {
 	private int tam = 10;
-	private int offset = 1856;
+	private int offset = 6080;
 	private byte[] bytes;
 	private HashMap<Byte, Image> hashImage = new HashMap<Byte, Image>();
 	private static final long serialVersionUID = 1L;
@@ -38,6 +38,7 @@ public class Ventana extends JFrame implements ActionListener
 	private Image[][] tiles;
 	private JButton btnNewButton;
 	private JPanel panel_1;
+	private int pantallas=3;
 
 	/**
 	 * Launch the application.
@@ -54,11 +55,12 @@ public class Ventana extends JFrame implements ActionListener
 		@Override
 		public void paint(Graphics g)
 		{
+		    
 			int x = 0;
 			int y = 0;
 			int count = 0;
 			super.paint(g);
-			for (int i = offset - 736; i < offset; i++)
+			for (int i = offset - (736*pantallas); i < offset; i++)
 			{
 				x = count * tam;
 				Image image = Ventana.this.hashImage.get(Ventana.this.bytes[i]);
@@ -68,7 +70,7 @@ public class Ventana extends JFrame implements ActionListener
 				g.drawImage(image, x, y, null);
 
 				count++;
-				if (count == 32)
+				if (count == 32*pantallas)
 				{
 					count = 0;
 					y += tam;
@@ -91,9 +93,19 @@ public class Ventana extends JFrame implements ActionListener
 			double y = e.getPoint().getY();
 			int ix = (int) (x / tam);
 			int iY = (int) (y / tam);
-			int index = iY * 32 + ix + offset - 736;
+			int index = iY * (32*pantallas) + ix + offset - (736*pantallas);
 			byte b = bytes[index];
-			System.out.println(b);
+			
+			
+			String hex = String.format("%02X", b);
+			System.out.println("Hexadecimal: " + hex);
+			
+			
+			
+			
+			
+			
+			
 
 		}
 
@@ -157,17 +169,17 @@ public class Ventana extends JFrame implements ActionListener
 		this.btnNewButton = new JButton("New button");
 		this.btnNewButton.addActionListener(this);
 		this.panel_1.add(this.btnNewButton);
-		this.lalala();
-		this.setColors();
+		this.recortaTiles();
+		this.setTiles();
 
 		this.setVisible(true);
 	}
 
-	private void setColors()
+	private void setTiles()
 	{
 		this.hashImage.put((byte) 0x00, this.tiles[6][12]); // vacio
 		this.hashImage.put((byte) 0x14, this.tiles[10][6]); // limite inferior
-		this.hashImage.put((byte) 0x13, this.tiles[0][0]); // limite inferior
+		this.hashImage.put((byte) 0x13, this.tiles[0][0]); // ladrillo
 		this.hashImage.put((byte) 23, this.tiles[2][8]); // pie escalera pos 1
 		this.hashImage.put((byte) 24, this.tiles[2][9]);// pie escalera pos 2
 		this.hashImage.put((byte) 34, this.tiles[2][10]); // escalera pos 1
@@ -177,10 +189,32 @@ public class Ventana extends JFrame implements ActionListener
 		this.hashImage.put((byte) 22, this.tiles[2][13]);// pie escalera neg 2
 		this.hashImage.put((byte) 32, this.tiles[2][14]); // escalera neg 1
 		this.hashImage.put((byte) 33, this.tiles[2][15]); // escalera neg 2
+		
+		this.hashImage.put((byte) 0x80, this.tiles[8][16]); // pico
+		this.hashImage.put((byte) 0x30, this.tiles[8][15]); // Daga
+		this.hashImage.put((byte) 0x19, this.tiles[0][13]); // Trampa
+		
+		
+		this.hashImage.put((byte) 0x43, this.tiles[5][13]); // Joya1
+		this.hashImage.put((byte) 0x44, this.tiles[6][13]); // Joya2
+		this.hashImage.put((byte) 0x45, this.tiles[7][0]); // Joya3
+		this.hashImage.put((byte) 0x46, this.tiles[7][7]); // Joya4
+		this.hashImage.put((byte) 0x47, this.tiles[7][14]); // Joya5
+		this.hashImage.put((byte) 0x48, this.tiles[8][1]); // Joya6
+		
+		this.hashImage.put((byte) 0x50, this.tiles[12][5]); // Giratorio RL1
+		this.hashImage.put((byte) 0x51, this.tiles[12][5]); // Giratorio RL2
+		
+		this.hashImage.put((byte) 0x52, this.tiles[12][6]); // Giratorio LR1
+		this.hashImage.put((byte) 0x53, this.tiles[12][6]); // Giratorio LR2
+		
+		this.hashImage.put((byte) 0x40, this.tiles[6][12]); // borde joya???
+		this.hashImage.put((byte) 0x41, this.tiles[6][12]); // borde joya???
+		this.hashImage.put((byte) 0x42, this.tiles[6][12]); // borde joya???
 
 	}
 
-	private void lalala()
+	private void recortaTiles()
 	{
 		try
 		{
