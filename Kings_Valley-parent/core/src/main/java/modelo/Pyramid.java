@@ -10,6 +10,7 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 
 import util.Config;
 import util.Constantes;
@@ -41,6 +42,8 @@ public class Pyramid implements IGrafica
 	private ArrayList<TrapMechanism> trapMechanisms = new ArrayList<TrapMechanism>();
 	private ArrayList<GiratoryMechanism> giratoryMechanisms = new ArrayList<GiratoryMechanism>();
 
+	private ArrayList<Cell> unpickableCells = new ArrayList<Cell>();
+
 	private HashMap<LevelItem, LevelItem> hashTraps = new HashMap<LevelItem, LevelItem>();
 	private HashMap<LevelItem, GiratoryMechanism> hashGiratoryMechanisms = new HashMap<LevelItem, GiratoryMechanism>();
 
@@ -63,7 +66,33 @@ public class Pyramid implements IGrafica
 		this.readLevelItem();
 
 		this.player = new Player(this.doorIn, this);
+		this.corigeCeldasPicables();
+	}
 
+	private void corigeCeldasPicables()
+	{
+		TiledMapTileLayer layer = (TiledMapTileLayer) this.getMap().getLayers().get("front");
+
+		for (int x = 1; x < this.mapWidthInTiles - 1; x++)
+		{
+			for (int y = 2; y < this.mapHeightInTiles; y++)
+			{
+				Cell cell = layer.getCell(x, y);
+				if (cell != null && cell.getTile().getId() >= 220 && cell.getTile().getId() <= 239)
+				{
+					if (layer.getCell(x + 1, y - 1) != null || layer.getCell(x + 1, y - 2) != null
+							|| layer.getCell(x - 1, y - 1) != null || layer.getCell(x - 1, y - 2) != null)
+					{
+						cell.getTile().setId(cell.getTile().getId() - 220);
+					}
+				}
+			}
+			Cell cell = layer.getCell(x, 1);
+			if (cell != null && cell.getTile().getId() >= 220 && cell.getTile().getId() <= 239)
+			{
+				cell.getTile().setId(cell.getTile().getId() - 220);
+			}
+		}
 	}
 
 	public int getId()
@@ -98,10 +127,17 @@ public class Pyramid implements IGrafica
 			} else if (type == Constantes.It_giratory)
 			{
 				width = Config.getInstance().getGiratoryWidth();
-				if (this.getCell(fx, fy + Config.getInstance().getLevelTileHeightUnits() * 2) == null)
-					height = Config.getInstance().getLevelTileHeightUnits() * 3.0f;
-				else
-					height = Config.getInstance().getLevelTileHeightUnits() * 2.0f;
+				int contador = 2;
+				Cell cell = this.getCell(fx, fy + Config.getInstance().getLevelTileHeightUnits() * contador);
+				while (cell == null)
+				{
+					contador++;
+					cell = this.getCell(fx, fy + Config.getInstance().getLevelTileHeightUnits() * contador);
+
+				}
+				height = Config.getInstance().getLevelTileHeightUnits() * contador;
+				this.unpickableCells.add(cell);
+
 			}
 
 			LevelItem levelItem = new LevelItem(type, fx, fy, p0, width, height);
@@ -154,10 +190,13 @@ public class Pyramid implements IGrafica
 				GiratoryMechanism giratoryMechanism = new GiratoryMechanism(levelItem);
 				this.giratoryMechanisms.add(giratoryMechanism);
 				this.hashGiratoryMechanisms.put(levelItem, giratoryMechanism);
+				this.unpickableCells.add(this.getCell(levelItem.getX(),
+						levelItem.getY() - Config.getInstance().getLevelTileHeightUnits()));
 
 				break;
 			case Constantes.It_wall:
 				this.walls.add(levelItem);
+				this.unpickableCells.add(this.getCell(levelItem.getX(), levelItem.getY()));
 				break;
 
 			case Constantes.It_activator:
@@ -452,14 +491,29 @@ public class Pyramid implements IGrafica
 		TiledMapTileLayer layer = (TiledMapTileLayer) this.getMap().getLayers().get("front");
 		TiledMapTileLayer.Cell cell = layer.getCell((int) (x / Config.getInstance().getLevelTileWidthUnits()),
 				(int) (y / Config.getInstance().getLevelTileHeightUnits()));
-
 		return cell;
 	}
 
-	public void picking(float x, float y)
+	public boolean picking(int x, int y, int cont)
 	{
+		boolean respuesta = false;
 		TiledMapTileLayer layer = (TiledMapTileLayer) this.map.getLayers().get("front");
-		layer.setCell((int) (x / this.tileWidth), (int) (y / this.tileHeight), null);
+		Cell cell = layer.getCell(x, y);
+		Cell celdaArriba = layer.getCell(x, y + 1);
+		if (x != 0 && x != this.mapWidthInTiles - 1 && y != 0 && cell != null && !this.unpickableCells.contains(cell)
+				&& celdaArriba == null)
+		{
+			System.out.println("x: " + x + " y: " + y + " ID: " + cell.getTile().getId());
+			layer.setCell(x, y, null);
+			respuesta = true;
+			if (cont == 2)
+				this.picking(x, y - 1, 1);
+		}
+		return respuesta;
 	}
 
+	public boolean isPickable(Cell celda)
+	{
+		return !this.unpickableCells.contains(celda);
+	}
 }

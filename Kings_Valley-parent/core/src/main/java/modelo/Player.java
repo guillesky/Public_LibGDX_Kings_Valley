@@ -161,27 +161,42 @@ public class Player extends GameCharacter
 	private void doPicker()
 	{
 		// TODO Auto-generated method stub
-		Cell celda = null;
 		float px, py;
-		if (this.isLookRight())
-		{
-			px = this.x + Config.getInstance().getLevelTileWidthUnits();
-			py = this.y - Config.getInstance().getLevelTileHeightUnits();
 
+		if (this.isLocked())
+		{
 		} else
 		{
-			px = this.x +this.width-Config.getInstance().getLevelTileWidthUnits();
-			py = this.y - Config.getInstance().getLevelTileHeightUnits();
 
+			if (this.isLookRight())
+			{
+				px = this.x + Config.getInstance().getLevelTileWidthUnits();
+				py = this.y - Config.getInstance().getLevelTileHeightUnits();
+
+			} else
+			{
+				px = this.x + this.width - Config.getInstance().getLevelTileWidthUnits();
+				py = this.y - Config.getInstance().getLevelTileHeightUnits();
+
+			}
+
+			int tileY = (int) (py / Config.getInstance().getLevelTileHeightUnits());
+			int tileX = (int) (px / Config.getInstance().getLevelTileWidthUnits());
+
+			if (this.pyramid.picking(tileX, tileY, 2))
+				this.item = Constantes.It_none;
 		}
-		celda = this.pyramid.getCell(px, py);
+	}
 
-		if (celda != null)
-		{
-			this.pyramid.picking(px, py);
-			this.item = Constantes.It_none;
-		}
-
+	private boolean isLocked()
+	{
+		boolean lockedRight = this.pyramid.getCell(this.x + Config.getInstance().getLevelTileWidthUnits(),
+				this.y + Config.getInstance().getLevelTileHeightUnits()) != null
+				|| this.pyramid.getCell(this.x + Config.getInstance().getLevelTileWidthUnits(), this.y) != null;
+		boolean lockedLeft = this.pyramid.getCell(this.x - Config.getInstance().getLevelTileWidthUnits(),
+				this.y + Config.getInstance().getLevelTileHeightUnits()) != null
+				|| this.pyramid.getCell(this.x - Config.getInstance().getLevelTileWidthUnits(), this.y) != null;
+		return lockedRight && lockedLeft;
 	}
 
 }
