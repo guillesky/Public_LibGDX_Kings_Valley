@@ -11,7 +11,7 @@ public class Main
 
 	public static void main(String[] args)
 	{
-		String archi = "assets/mapperRam_00";
+		String archi = "assets/in_p02";
 
 		convert(archi);
 
