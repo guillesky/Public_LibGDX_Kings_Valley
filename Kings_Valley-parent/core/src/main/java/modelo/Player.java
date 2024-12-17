@@ -90,7 +90,7 @@ public class Player extends GameCharacter
 		TiledMapTileLayer layer = (TiledMapTileLayer) this.pyramid.getMap().getLayers().get("front");
 		layer.setCell(pi.getX(), pi.getY(), null);
 		this.coordToPick.remove(0);
-		this.timePicking=0;
+		this.timePicking = 0;
 	    }
 	}
     }
@@ -259,6 +259,14 @@ public class Player extends GameCharacter
     public boolean isPicking()
     {
 	return this.coordToPick.isEmpty();
+    }
+
+    public PairInt getCoordPicking()
+    {
+	PairInt respuesta = null;
+	if (!this.coordToPick.isEmpty())
+	    respuesta = this.coordToPick.get(0);
+	return respuesta;
     }
 
 }
