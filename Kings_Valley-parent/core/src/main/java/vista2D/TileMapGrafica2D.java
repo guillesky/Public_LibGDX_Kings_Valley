@@ -38,6 +38,9 @@ public class TileMapGrafica2D implements IMyApplicationnListener
     public static final int STAIR = 3;
     public static final int DEATH = 4;
     public static final int JUMP = 5;
+    public static final int PICKING = 5;
+    public static final int THROW_DAGGER = 5;
+    
     private final String archiPlayer = "pics/vick.png";
     private final String archiColectables = "pics/colectables.png";
     private final String archiGiratory3 = "pics/giratory3.png";
@@ -55,7 +58,8 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 
     private Animation<TextureRegion>[] animationPlayer_Nothing = new Animation[6];
     private Animation<TextureRegion>[] animationPlayer_Dagger = new Animation[5];
-    private Animation<TextureRegion>[] animationPlayer_Picker = new Animation[5];
+    private Animation<TextureRegion>[] animationPlayer_Picker = new Animation[6];
+    
 
     private float scaleFactor = 1;
 
@@ -124,7 +128,8 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 		frameDuration);
 	this.animationPlayer_Picker[STAIR] = this.animationPlayer_Picker[WALK];
 	this.animationPlayer_Picker[DEATH] = this.animationPlayer_Nothing[DEATH];
-
+	this.animationPlayer_Picker[PICKING] = this.framesToAnimation(linearFrames, 19, 2,frameDuration);
+	this.animationPlayer_Picker[PICKING].setPlayMode(PlayMode.LOOP);
 	this.animationPlayer_Dagger[IDDLE] = this.framesToAnimation(linearFrames, startIddle + 12, countIddle, 0);
 	this.animationPlayer_Dagger[FALL] = this.animationPlayer_Dagger[IDDLE];
 	this.animationPlayer_Dagger[WALK] = this.framesToAnimation(linearFrames, startWalk + 12, countWalk,

@@ -36,6 +36,8 @@ public class PlayerAnimated2D extends GameCharacterAnimated2D
 	    this.changeAnimations();
 
 	}
+	if(player.getState()==Player.ST_PICKING)
+		this.animation=this.animation_Picker[TileMapGrafica2D.PICKING];
 	super.updateElement(deltaTime);
     }
 

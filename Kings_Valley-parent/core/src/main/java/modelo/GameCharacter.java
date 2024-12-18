@@ -39,7 +39,7 @@ public abstract class GameCharacter extends LevelItem
     protected float feetHeight;
     protected Pyramid pyramid;
     private boolean lookRight = true;
-    private float animationDelta = 0;
+    protected float animationDelta = 0;
 
     public GameCharacter(int type, float x, float y, int p0, float width, float height, float speedFall,
 	    float speedWalk, float speedWalkStairs, float speedJump, Pyramid pyramid)
