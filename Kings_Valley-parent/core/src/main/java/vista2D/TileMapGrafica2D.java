@@ -9,9 +9,9 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -26,6 +26,7 @@ import modelo.DrawableElement;
 import modelo.GiratoryMechanism;
 import modelo.Juego;
 import modelo.LevelItem;
+import modelo.PairInt;
 import modelo.Pyramid;
 import modelo.TrapMechanism;
 import util.Constantes;
@@ -40,8 +41,9 @@ public class TileMapGrafica2D implements IMyApplicationnListener
     public static final int JUMP = 5;
     public static final int PICKING = 5;
     public static final int THROW_DAGGER = 5;
-    
+
     private final String archiPlayer = "pics/vick.png";
+    private final String archiPickingCell = "pics/picking_cell.png";
     private final String archiColectables = "pics/colectables.png";
     private final String archiGiratory3 = "pics/giratory3.png";
 
@@ -53,13 +55,14 @@ public class TileMapGrafica2D implements IMyApplicationnListener
     private Array<AnimatedEntity2D> animatedEntities = new Array<AnimatedEntity2D>();
     private HashMap<LevelItem, AnimatedEntity2D> hashMapLevelAnimation = new HashMap<LevelItem, AnimatedEntity2D>();
     private HashMap<TrapMechanism, AnimatedTrapKV2> hashMapTrapAnimation = new HashMap<TrapMechanism, AnimatedTrapKV2>();
-
+    private AnimatedPickedCell animatedPickedCell;
     private Array<AnimatedTrapKV2> animatedTraps = new Array<AnimatedTrapKV2>();
 
     private Animation<TextureRegion>[] animationPlayer_Nothing = new Animation[6];
     private Animation<TextureRegion>[] animationPlayer_Dagger = new Animation[5];
     private Animation<TextureRegion>[] animationPlayer_Picker = new Animation[6];
-    
+    private int tileWidth;
+    private int tileHeight;
 
     private float scaleFactor = 1;
 
@@ -71,6 +74,7 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 	this.manager.load(this.archiPlayer, Texture.class);
 	this.manager.load(this.archiColectables, Texture.class);
 	this.manager.load(this.archiGiratory3, Texture.class);
+	this.manager.load(this.archiPickingCell, Texture.class);
 
     }
 
@@ -78,6 +82,7 @@ public class TileMapGrafica2D implements IMyApplicationnListener
     {
 	int frameWidth = 16;
 	int frameHeight = 20;
+
 	float frameDuration = 0.1f;
 
 	int colectableWidth = 10;
@@ -96,10 +101,13 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 	int starPicker = 7;
 	int countPicker = 7;
 	int countJewel = 7;
+	int tileWidth = 10;
+	int tileHeight = 10;
 
 	Texture spriteSheet = manager.get(this.archiPlayer, Texture.class);
 	Texture colectablesSheet = manager.get(this.archiColectables, Texture.class);
 	Texture giratory3Sheet = manager.get(this.archiGiratory3, Texture.class);
+	Texture pickingCell = manager.get(this.archiPickingCell, Texture.class);
 
 	TextureRegion[][] tmpFrames = TextureRegion.split(spriteSheet, frameWidth, frameHeight);
 	Array<TextureRegion> linearFrames = new Array<>();
@@ -128,7 +136,7 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 		frameDuration);
 	this.animationPlayer_Picker[STAIR] = this.animationPlayer_Picker[WALK];
 	this.animationPlayer_Picker[DEATH] = this.animationPlayer_Nothing[DEATH];
-	this.animationPlayer_Picker[PICKING] = this.framesToAnimation(linearFrames, 19, 2,frameDuration);
+	this.animationPlayer_Picker[PICKING] = this.framesToAnimation(linearFrames, 19, 2, frameDuration);
 	this.animationPlayer_Picker[PICKING].setPlayMode(PlayMode.LOOP);
 	this.animationPlayer_Dagger[IDDLE] = this.framesToAnimation(linearFrames, startIddle + 12, countIddle, 0);
 	this.animationPlayer_Dagger[FALL] = this.animationPlayer_Dagger[IDDLE];
@@ -192,6 +200,18 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 	this.animations.put(Constantes.DRAWABLE_GYRATORY_2_RL, giratory2_rl);
 	this.animations.put(Constantes.DRAWABLE_GYRATORY_2_LR, giratory2_lr);
 
+	tmpFrames = TextureRegion.split(pickingCell, tileWidth, tileHeight);
+	linearFrames.clear();
+	for (int i = 0; i < tmpFrames.length; i++)
+	{
+	    for (int j = 0; j < tmpFrames[i].length; j++)
+	    {
+		linearFrames.add(tmpFrames[i][j]);
+	    }
+	}
+	Animation<TextureRegion> picking_cell = this.framesToAnimation(linearFrames, 0, 4, 0.25f);
+	picking_cell.setPlayMode(PlayMode.NORMAL);
+	this.animatedPickedCell = new AnimatedPickedCell(new LevelItem(0, 0, 0, 0, tileWidth, tileHeight), picking_cell);
     }
 
     private Animation<TextureRegion> framesToAnimation(Array<TextureRegion> linearFrames, int init, int count,
@@ -241,6 +261,14 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 			this.animations.get(Constantes.DRAWABLE_GYRATORY_2_LR));
 
 	    this.animatedEntities.add(a);
+	} else if (dr.getType() == Constantes.DRAWABLE_PICKING_CELL)
+	{
+	    PairInt pairInt = (PairInt) dr.getDrawable();
+	    this.animatedPickedCell.getLevelItem().setX(pairInt.getX() * this.tileWidth);
+	    this.animatedPickedCell.getLevelItem().setY(pairInt.getY() * this.tileHeight);
+	    this.animatedEntities.add(animatedPickedCell);
+	    this.animatedPickedCell.resetTime(Juego.getInstance().getDelta());
+
 	}
     }
 
@@ -257,11 +285,12 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 	} else if (dr.getType() == Constantes.DRAWABLE_TRAP)
 	{
 	    TrapMechanism trapMech = (TrapMechanism) dr.getDrawable();
-
 	    AnimatedTrapKV2 atrapKV = this.hashMapTrapAnimation.get(trapMech);
 	    this.animatedTraps.removeValue(atrapKV, true);
 	    this.hashMapTrapAnimation.remove(trapMech);
-
+	} else if (dr.getType() == Constantes.DRAWABLE_PICKING_CELL)
+	{
+	    this.animatedEntities.removeValue(this.animatedPickedCell, true);
 	}
     }
 
@@ -271,6 +300,9 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 
 	TiledMap map = Juego.getInstance().getCurrentPyramid().getMap();
 	Pyramid pyramid = Juego.getInstance().getCurrentPyramid();
+
+	this.tileWidth = (int) map.getTileSets().getTileSet(0).getProperties().get("tilewidth");
+	this.tileHeight = (int) map.getTileSets().getTileSet(0).getProperties().get("tileheight");
 
 	// this.changeTileSet("pics/tiles2x.png",20,20);
 	camera = new OrthographicCamera(pyramid.getMapHeightInPixels() * 4 / 3, pyramid.getMapHeightInPixels());
