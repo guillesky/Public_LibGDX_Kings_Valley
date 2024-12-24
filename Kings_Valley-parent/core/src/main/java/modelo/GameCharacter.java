@@ -27,7 +27,7 @@ public abstract class GameCharacter extends LevelItem
     public static final int ST_WALK_LEFT = 12;
 
     protected int state = GameCharacter.ST_IDDLE;
-    protected Vector2 inputVector = new Vector2();
+    
     protected Vector2 motionVector = new Vector2();
     protected float speedFall;
     protected float speedWalk;
@@ -41,14 +41,14 @@ public abstract class GameCharacter extends LevelItem
     private boolean lookRight = true;
     protected float animationDelta = 0;
 
-    public GameCharacter(int type, float x, float y, int p0, float width, float height, float speedFall,
-	    float speedWalk, float speedWalkStairs, float speedJump, Pyramid pyramid)
+    public GameCharacter(int type, float x, float y,  
+	    float speedWalk, float speedWalkStairs, Pyramid pyramid)
     {
-	super(type, x, y, p0, width, height);
-	this.speedFall = speedFall;
+	super(type, x, y, 0, Config.getInstance().getCharacterWidth(), Config.getInstance().getCharacterHeight());
+	this.speedFall = Config.getInstance().getCharacterSpeedFall();
 	this.speedWalk = speedWalk;
 	this.speedWalkStairs = speedWalkStairs;
-	this.speedJump = speedJump;
+	this.speedJump = Config.getInstance().getCharacterSpeedJump();
 	this.feetHeight = Config.getInstance().getCharacterFeetHeight();
 	this.feetWidth = Config.getInstance().getCharacterFeetWidth();
 	this.pyramid = pyramid;
@@ -70,12 +70,14 @@ public abstract class GameCharacter extends LevelItem
 
 		    this.state = GameCharacter.ST_FALLING;
 		    this.motionVector.x = 0;
+		  
 		    this.animationDelta = 0;
 		} else
 		{
 		    this.animationDelta += deltaTime;
 		}
 		this.motionVector.y += this.speedFall * deltaTime;
+		
 		if (this.motionVector.y < this.speedFall)
 		    this.motionVector.y = speedFall;
 

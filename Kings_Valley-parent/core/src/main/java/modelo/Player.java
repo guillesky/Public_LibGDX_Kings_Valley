@@ -20,14 +20,11 @@ public class Player extends GameCharacter
     private int item = Constantes.It_none;
     private ArrayList<PairInt> coordToPick = new ArrayList<PairInt>();
     private float timePicking = 0;
-    
 
     public Player(LevelItem door, Pyramid pyramid)
     {
-	super(Constantes.PLAYER, door.getX(), door.getY(), 0, Config.getInstance().getCharacterWidth(),
-		Config.getInstance().getCharacterHeight(), Config.getInstance().getCharacterSpeedFall(),
-		Config.getInstance().getPlayerSpeedWalk(), Config.getInstance().getPlayerSpeedWalkStairs(),
-		Config.getInstance().getPlayerSpeedJump(), pyramid);
+	super(Constantes.PLAYER, door.getX(), door.getY(), Config.getInstance().getPlayerSpeedWalk(),
+		Config.getInstance().getPlayerSpeedWalkStairs(), pyramid);
 
     }
 
