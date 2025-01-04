@@ -1,14 +1,21 @@
-package modelo;
+package mummys;
 
 import java.util.Random;
 
 import com.badlogic.gdx.math.Vector2;
 
-import util.Config;
-import util.Constantes;
+import modelo.GameCharacter;
+import modelo.Player;
+import modelo.Pyramid;
 
-public class Mummy extends GameCharacter
+public abstract class Mummy extends GameCharacter
 {
+    public static final int WHITE_MUMMY = 0;
+    public static final int BLUE_MUMMY = 1;
+    public static final int YELLOW_MUMMY = 2;
+    public static final int ORANGE_MUMMY = 3;
+    public static final int RED_MUMMY = 4;
+
     protected static final int ST_WAITING = 100;
     protected static final int ST_LIMBUS = 101;
 
@@ -25,10 +32,10 @@ public class Mummy extends GameCharacter
     private Vector2 direction = new Vector2();
     private boolean colisionEnabled = false;
 
-    public Mummy(float x, float y,  float speedWalk, float speedWalkStairs, 
-	    float decisionFactor, float minTimeToDecide, float maxTimeToDecide, Pyramid pyramid)
+    public Mummy(int type, float x, float y, float speedWalk, float speedWalkStairs, float decisionFactor,
+	    float minTimeToDecide, float maxTimeToDecide, Pyramid pyramid)
     {
-	super(Constantes.It_mummy, x, y,  speedWalk, speedWalkStairs, pyramid);
+	super(type, x, y, speedWalk, speedWalkStairs, pyramid);
 	this.decisionFactor = decisionFactor;
 	this.minTimeToDecide = minTimeToDecide;
 	this.maxTimeToDecide = maxTimeToDecide;
@@ -71,7 +78,7 @@ public class Mummy extends GameCharacter
 	    this.timeToDecide = 5;
 	    this.colisionEnabled = false;
 	    break;
-	    
+
 	case Mummy.ST_WALK_LEFT:
 	case Mummy.ST_WALK_RIGHT:
 	    this.timeToDecide = random.nextFloat(this.minTimeToDecide, this.maxTimeToDecide);
@@ -108,5 +115,20 @@ public class Mummy extends GameCharacter
      * timer.start(rand_range(5, 8)) COLOR.YELLOW: timer.start(rand_range(5, 6))
      * COLOR.ORANGE: timer.start(5) COLOR.RED: timer.start(rand_range(3, 5))
      */
+
+    private boolean makeDecision()
+    {
+	return Mummy.random.nextDouble(1) <= this.decisionFactor;
+    }
+
+    private boolean makeDecisionForJump()
+    {
+	return Mummy.random.nextDouble(1) <= this.decisionFactor / 2;
+    }
+
+    private boolean makeDecisionForContinue()
+    {
+	return Mummy.random.nextDouble(1) <= 0.6;
+    }
 
 }

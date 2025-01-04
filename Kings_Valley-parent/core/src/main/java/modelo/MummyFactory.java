@@ -1,14 +1,11 @@
 package modelo;
 
+import mummys.Mummy;
 import util.Config;
 
 public class MummyFactory
 {
-    public static final int WHITE_MUMMY=0;
-    public static final int BLUE_MUMMY=1;
-    public static final int YELLOW_MUMMY=2;
-    public static final int ORANGE_MUMMY=3;
-    public static final int RED_MUMMY=4;
+   
     
     
     public Mummy getMummy(float x,float y , int mummyType,Pyramid pyramid)
@@ -26,7 +23,7 @@ public class MummyFactory
 	switch (mummyType) 
 	{
 
-	case WHITE_MUMMY:
+	case Mummy.WHITE_MUMMY:
 	    speedWalk=Config.getInstance().getMummyWhiteSpeedWalk();
 	    speedWalkStairs=Config.getInstance().getMummyWhiteSpeedWalkStairs();
 	    decisionFactor=Config.getInstance().getMummyWhiteDecisionFactor();
@@ -34,21 +31,21 @@ public class MummyFactory
 	    maxTimeToDecide=Config.getInstance().getMummyWhiteMaxTimeToDecide();
 	    break;
 	    
-	case BLUE_MUMMY:
+	case Mummy.BLUE_MUMMY:
 	    speedWalk=Config.getInstance().getMummyBlueSpeedWalk();
 	    speedWalkStairs=Config.getInstance().getMummyBlueSpeedWalkStairs();
 	    decisionFactor=Config.getInstance().getMummyBlueDecisionFactor();
 	    minTimeToDecide=Config.getInstance().getMummyBlueMinTimeToDecide();
 	    maxTimeToDecide=Config.getInstance().getMummyBlueMaxTimeToDecide();
 	    break;
-	case YELLOW_MUMMY:
+	case Mummy.YELLOW_MUMMY:
 	    speedWalk=Config.getInstance().getMummyYellowSpeedWalk();
 	    speedWalkStairs=Config.getInstance().getMummyYellowSpeedWalkStairs();
 	    decisionFactor=Config.getInstance().getMummyYellowDecisionFactor();
 	    minTimeToDecide=Config.getInstance().getMummyYellowMinTimeToDecide();
 	    maxTimeToDecide=Config.getInstance().getMummyYellowMaxTimeToDecide();
 	    break;
-	case ORANGE_MUMMY:
+	case Mummy.ORANGE_MUMMY:
 	    speedWalk=Config.getInstance().getMummyOrangeSpeedWalk();
 	    speedWalkStairs=Config.getInstance().getMummyOrangeSpeedWalkStairs();
 	    decisionFactor=Config.getInstance().getMummyOrangeDecisionFactor();
@@ -56,7 +53,7 @@ public class MummyFactory
 	    maxTimeToDecide=Config.getInstance().getMummyOrangeMaxTimeToDecide();
 	    break;
 	    
-	case RED_MUMMY: 
+	case Mummy.RED_MUMMY: 
 	    speedWalk=Config.getInstance().getMummyRedSpeedWalk();
 	    speedWalkStairs=Config.getInstance().getMummyRedSpeedWalkStairs();
 	    decisionFactor=Config.getInstance().getMummyRedDecisionFactor();
@@ -65,7 +62,7 @@ public class MummyFactory
 	    break;
 
 	}
-	respuesta= new Mummy(x,y,speedWalk,speedWalkStairs,decisionFactor,minTimeToDecide,maxTimeToDecide,pyramid);
+	respuesta= null;//new Mummy(mummyType,x,y,speedWalk,speedWalkStairs,decisionFactor,minTimeToDecide,maxTimeToDecide,pyramid);
 	return respuesta;
     }
 }
