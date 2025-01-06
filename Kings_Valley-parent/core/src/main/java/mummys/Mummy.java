@@ -5,8 +5,10 @@ import java.util.Random;
 import com.badlogic.gdx.math.Vector2;
 
 import modelo.GameCharacter;
+import modelo.GiratoryMechanism;
 import modelo.Player;
 import modelo.Pyramid;
+import util.Config;
 
 public abstract class Mummy extends GameCharacter
 {
@@ -54,6 +56,87 @@ public abstract class Mummy extends GameCharacter
 	this.timer += deltaTime;
 
 	super.move(v, b, deltaTime);
+	this.doAfterMove();
+    }
+
+    private void doAfterMove()
+    {
+	if (this.state == GameCharacter.ST_WALK_LEFT)
+	{
+	    if (this.isLockedLeft()) this.doJump();
+	    else 
+	    {
+		
+	    }
+	}
+	
+	//REVISA ESTO
+	/*
+	if state == st_walk:
+		if is_on_wall():
+			input_vector.y = 0
+			if pyramid.is_locked(self):
+				do_jump()
+			else:
+				if is_flip():
+					if (
+						color != COLOR.WHITE
+						&& pyramid.can_jump_left(self)
+						&& make_decision_for_jump()
+					):
+						do_jump()
+						return
+				else:
+					if (
+						color != COLOR.WHITE
+						&& pyramid.can_jump_right(self)
+						&& make_decision_for_jump()
+					):
+						do_jump()
+						return
+				input_vector.x = -input_vector.x
+		else:
+			if not pyramid.is_floor_down(self):
+				if vick.position.y > self.position.y || make_decision_for_continue():
+					return
+				elif color != COLOR.WHITE && make_decision_for_jump():
+					do_jump()
+				else:
+					input_vector.x = -input_vector.x
+	 */
+
+	// TODO Auto-generated method stub
+
+    }
+
+    private boolean canJump()
+    {
+
+	boolean respuesta = false;
+
+	if (this.isLookRight())
+	{
+	    respuesta = this.getColPosition() < this.pyramid.getMapWidthInTiles()-2
+		    && this.pyramid.getCell(x + Config.getInstance().getLevelTileWidthUnits(),
+			    this.y + Config.getInstance().getLevelTileHeightUnits()) != null
+		    &&
+
+		    this.pyramid.getCell(x + Config.getInstance().getLevelTileWidthUnits(),
+			    this.y + Config.getInstance().getLevelTileHeightUnits() * 2) != null;
+
+	} else
+	{
+
+	    respuesta = this.getColPosition() > 1
+		    && this.pyramid.getCell(x - Config.getInstance().getLevelTileWidthUnits(),
+			    this.y + Config.getInstance().getLevelTileHeightUnits()) != null
+		    &&
+
+		    this.pyramid.getCell(x - Config.getInstance().getLevelTileWidthUnits(),
+			    this.y + Config.getInstance().getLevelTileHeightUnits() * 2) != null;
+
+	}
+	return respuesta;
     }
 
     private void setState(int state)
@@ -129,6 +212,18 @@ public abstract class Mummy extends GameCharacter
     private boolean makeDecisionForContinue()
     {
 	return Mummy.random.nextDouble(1) <= 0.6;
+    }
+
+    @Override
+    protected boolean canPassGiratoryMechanism(GiratoryMechanism giratoryMechanism)
+    {
+	return false;
+    }
+
+    @Override
+    protected void passGiratoryMechanism(GiratoryMechanism giratoryMechanism)
+    {
+
     }
 
 }

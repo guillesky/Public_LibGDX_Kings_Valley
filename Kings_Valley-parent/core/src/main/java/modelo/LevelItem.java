@@ -2,6 +2,7 @@ package modelo;
 
 import com.badlogic.gdx.math.Rectangle;
 
+import util.Config;
 import util.Constantes;
 
 public class LevelItem extends Rectangle implements IGraphicRenderer
@@ -69,6 +70,17 @@ public class LevelItem extends Rectangle implements IGraphicRenderer
 	    respuesta = (overlapX > 0 && overlapY > 0);
 	}
 	return respuesta;
+    }
+
+        
+    public int getColPosition() 
+    {
+	return (int) (this.x / Config.getInstance().getLevelTileWidthUnits());
+    }
+    
+    public int getRowPosition() 
+    {
+	return (int) (this.y / Config.getInstance().getLevelTileHeightUnits());
     }
 
 }

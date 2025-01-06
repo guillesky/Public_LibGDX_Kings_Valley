@@ -103,60 +103,6 @@ public class Player extends GameCharacter
 	}
     }
 
-    public LevelItem checkRectangleColision(ArrayList levelItems)
-    {
-
-	Iterator<LevelItem> it = levelItems.iterator();
-	LevelItem respuesta = null;
-	LevelItem item = null;
-	if (it.hasNext())
-	    do
-	    {
-		item = it.next();
-	    } while (it.hasNext() && !this.isColision(item));
-
-	if (this.isColision(item))
-	{
-	    respuesta = item;
-	}
-
-	return respuesta;
-    }
-
-    private void checkGiratory(Vector2 v)
-    {
-	LevelItem giratory = this.checkRectangleColision(this.pyramid.getGiratorys());
-	if (giratory != null)
-	{
-	    GiratoryMechanism gm = this.pyramid.getGiratoryMechanism(giratory);
-
-	    if ((this.state == GameCharacter.ST_WALK_RIGHT && gm.isRight())
-		    || (this.state == GameCharacter.ST_WALK_LEFT && !gm.isRight()))
-	    {
-		this.passingGiratory = gm;
-		gm.activate();
-	    } else
-		this.blockGiratory(gm);
-	}
-    }
-
-    private void blockGiratory(GiratoryMechanism gm)
-    {
-	LevelItem g = gm.getLevelItem();
-	float lado = g.x - this.x;
-
-	this.motionVector.x = 0;
-	if (lado < 0)
-	{
-	    this.x = g.x + g.width;
-	} else
-
-	{
-	    this.x = g.x - this.width;
-	}
-
-    }
-
     public int getItem()
     {
 	return item;
@@ -233,16 +179,7 @@ public class Player extends GameCharacter
 	}
     }
 
-    private boolean isLocked()
-    {
-	boolean lockedRight = this.pyramid.getCell(this.x + Config.getInstance().getLevelTileWidthUnits(),
-		this.y + Config.getInstance().getLevelTileHeightUnits()) != null
-		|| this.pyramid.getCell(this.x + Config.getInstance().getLevelTileWidthUnits(), this.y) != null;
-	boolean lockedLeft = this.pyramid.getCell(this.x - Config.getInstance().getLevelTileWidthUnits(),
-		this.y + Config.getInstance().getLevelTileHeightUnits()) != null
-		|| this.pyramid.getCell(this.x - Config.getInstance().getLevelTileWidthUnits(), this.y) != null;
-	return lockedRight && lockedLeft;
-    }
+    
 
     public boolean picking(int x, int y, int cont, boolean locked)
     {
@@ -271,6 +208,22 @@ public class Player extends GameCharacter
 	if (!this.coordToPick.isEmpty())
 	    respuesta = this.coordToPick.get(0);
 	return respuesta;
+    }
+
+    @Override
+    protected boolean canPassGiratoryMechanism(GiratoryMechanism giratoryMechanism)
+    {
+
+	return (this.state == GameCharacter.ST_WALK_RIGHT && giratoryMechanism.isRight())
+		|| (this.state == GameCharacter.ST_WALK_LEFT && !giratoryMechanism.isRight());
+    }
+
+    @Override
+    protected void passGiratoryMechanism(GiratoryMechanism giratoryMechanism)
+    {
+	this.passingGiratory = giratoryMechanism;
+	giratoryMechanism.activate();
+
     }
 
 }

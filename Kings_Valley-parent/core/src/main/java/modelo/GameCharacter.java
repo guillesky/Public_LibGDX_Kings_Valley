@@ -686,5 +686,88 @@ public abstract class GameCharacter extends LevelItem
 	}
 
     }
+    
+    public LevelItem checkRectangleColision(ArrayList levelItems)
+    {
+
+	Iterator<LevelItem> it = levelItems.iterator();
+	LevelItem respuesta = null;
+	LevelItem item = null;
+	if (it.hasNext())
+	    do
+	    {
+		item = it.next();
+	    } while (it.hasNext() && !this.isColision(item));
+
+	if (this.isColision(item))
+	{
+	    respuesta = item;
+	}
+
+	return respuesta;
+    }
+    
+    protected void checkGiratory(Vector2 v)
+    {
+	LevelItem giratory = this.checkRectangleColision(this.pyramid.getGiratorys());
+	if (giratory != null)
+	{
+	    GiratoryMechanism gm = this.pyramid.getGiratoryMechanism(giratory);
+
+	    if (this.canPassGiratoryMechanism(gm))
+	    {
+		this.passGiratoryMechanism(gm);
+	    } else
+		this.blockGiratory(gm);
+	}
+    }
+
+    
+    protected boolean isLocked()
+    {
+	
+	return this.isLockedRight() && this.isLockedLeft();
+    }
+    
+    protected boolean isLockedLeft() 
+    {
+	return this.pyramid.getCell(this.x - Config.getInstance().getLevelTileWidthUnits(),
+		this.y + Config.getInstance().getLevelTileHeightUnits()) != null
+		|| this.pyramid.getCell(this.x - Config.getInstance().getLevelTileWidthUnits(), this.y) != null;
+	
+    }
+    
+    protected boolean isLockedRight() 
+    {
+	return this.pyramid.getCell(this.x + Config.getInstance().getLevelTileWidthUnits(),
+		this.y + Config.getInstance().getLevelTileHeightUnits()) != null
+		|| this.pyramid.getCell(this.x + Config.getInstance().getLevelTileWidthUnits(), this.y) != null;
+	
+    }
+    
+    
+    
+    protected abstract boolean canPassGiratoryMechanism( GiratoryMechanism giratoryMechanism);
+    protected abstract void passGiratoryMechanism(GiratoryMechanism giratoryMechanism);
+    
+    protected void blockGiratory(GiratoryMechanism gm)
+    {
+	LevelItem g = gm.getLevelItem();
+	float lado = g.x - this.x;
+
+	this.motionVector.x = 0;
+	if (lado < 0)
+	{
+	    this.x = g.x + g.width;
+	} else
+
+	{
+	    this.x = g.x - this.width;
+	}
+
+    }
+
+    
+ 
 
 }
