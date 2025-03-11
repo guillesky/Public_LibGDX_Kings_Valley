@@ -109,7 +109,7 @@ public abstract class Mummy extends GameCharacter
 
     }
 
-    private boolean canJump()
+    protected boolean canJump()
     {
 
 	boolean respuesta = false;

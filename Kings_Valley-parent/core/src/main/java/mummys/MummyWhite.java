@@ -15,4 +15,11 @@ public class MummyWhite extends Mummy
 
     }
 
+	@Override
+	protected boolean canJump()
+	{
+		return false;
+	}
+    
+
 }

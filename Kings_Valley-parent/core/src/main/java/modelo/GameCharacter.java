@@ -14,7 +14,7 @@ public abstract class GameCharacter extends LevelItem
 {
 
     public static final int ST_IDDLE = 0; // Inicializando
-    public static final int ST_WALK_RIGHT = 11; // Andando
+    public static final int ST_WALK_RIGHT = 11; // Andando Derecha
     public static final int ST_ONSTAIRS_POSITIVE = 2; // En una escalera pendiente positiva
     public static final int ST_ONSTAIRS_NEGATIVE = 3; // En una escalera pendiente negativa
 
@@ -24,7 +24,7 @@ public abstract class GameCharacter extends LevelItem
     public static final int ST_FALLING = 7; // Cayendo
 
     public static final int ST_DYING = 8; // Muriendo
-    public static final int ST_WALK_LEFT = 12;
+    public static final int ST_WALK_LEFT = 12;// Andando Izquierda
 
     protected int state = GameCharacter.ST_IDDLE;
     
