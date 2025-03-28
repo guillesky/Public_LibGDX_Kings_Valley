@@ -39,8 +39,7 @@ public class GameCharacterAnimated2D extends AnimatedEntity2D
 	public void updateElement(float deltaTime)
 	{
 	    GameCharacter character=(GameCharacter) this.levelItem;
-		if (character.getState() == GameCharacter.ST_WALK_RIGHT
-				|| character.getState() == GameCharacter.ST_WALK_LEFT)
+		if (character.getState() == GameCharacter.ST_WALK)
 			this.animation = this.characterAnimationWalk;
 		else if (character.getState() == GameCharacter.ST_ONSTAIRS_NEGATIVE
 				|| character.getState() == GameCharacter.ST_ONSTAIRS_POSITIVE)

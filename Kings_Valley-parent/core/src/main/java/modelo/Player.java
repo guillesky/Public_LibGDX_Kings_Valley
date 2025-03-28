@@ -214,8 +214,8 @@ public class Player extends GameCharacter
     protected boolean canPassGiratoryMechanism(GiratoryMechanism giratoryMechanism)
     {
 
-	return (this.state == GameCharacter.ST_WALK_RIGHT && giratoryMechanism.isRight())
-		|| (this.state == GameCharacter.ST_WALK_LEFT && !giratoryMechanism.isRight());
+	return (this.state == GameCharacter.ST_WALK && this.isLookRight()&& giratoryMechanism.isRight())
+		|| (this.state == GameCharacter.ST_WALK && !this.isLookRight()&& !giratoryMechanism.isRight());
     }
 
     @Override

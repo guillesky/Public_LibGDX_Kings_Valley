@@ -482,4 +482,11 @@ public class Pyramid implements IGrafica
 
 	return !this.unpickableCells.contains(celda) && !isBeginStair && cellWithItem != celda;
     }
+
+	public void updateMummys(float deltaTime)
+	{
+		Iterator<Mummy> it =this.mummys.iterator();
+		while(it.hasNext())it.next().update(deltaTime);
+		
+	}
 }

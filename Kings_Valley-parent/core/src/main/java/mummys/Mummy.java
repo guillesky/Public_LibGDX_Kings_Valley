@@ -41,7 +41,7 @@ public abstract class Mummy extends GameCharacter
 	this.decisionFactor = decisionFactor;
 	this.minTimeToDecide = minTimeToDecide;
 	this.maxTimeToDecide = maxTimeToDecide;
-
+System.out.println("MOMIA "+pyramid.getId());
     }
 
     @Override
@@ -50,18 +50,10 @@ public abstract class Mummy extends GameCharacter
 	this.doJump();
     }
 
-    @Override
-    public void move(Vector2 v, boolean b, float deltaTime)
-    {
-	this.timer += deltaTime;
-
-	super.move(v, b, deltaTime);
-	this.doAfterMove();
-    }
 
     private void doAfterMove()
     {
-	if (this.state == GameCharacter.ST_WALK_LEFT)
+	if (this.state == GameCharacter.ST_WALK)
 	{
 	    if (this.isLockedLeft()) this.doJump();
 	    else 
@@ -162,8 +154,8 @@ public abstract class Mummy extends GameCharacter
 	    this.colisionEnabled = false;
 	    break;
 
-	case Mummy.ST_WALK_LEFT:
-	case Mummy.ST_WALK_RIGHT:
+	
+	case Mummy.ST_WALK:
 	    this.timeToDecide = random.nextFloat(this.minTimeToDecide, this.maxTimeToDecide);
 	    break;
 
@@ -225,5 +217,13 @@ public abstract class Mummy extends GameCharacter
     {
 
     }
+
+	public void update(float deltaTime)
+	{
+		this.timer += deltaTime;
+		this.direction.x=1;
+		this.move(this.direction, false, deltaTime);
+		
+	}
 
 }
