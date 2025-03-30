@@ -41,7 +41,7 @@ public abstract class Mummy extends GameCharacter
 	this.decisionFactor = decisionFactor;
 	this.minTimeToDecide = minTimeToDecide;
 	this.maxTimeToDecide = maxTimeToDecide;
-System.out.println("MOMIA "+pyramid.getId());
+	
     }
 
     @Override
@@ -50,51 +50,29 @@ System.out.println("MOMIA "+pyramid.getId());
 	this.doJump();
     }
 
-
     private void doAfterMove()
     {
 	if (this.state == GameCharacter.ST_WALK)
 	{
-	    if (this.isLockedLeft()) this.doJump();
-	    else 
+	    if (this.isLockedLeft())
+		this.doJump();
+	    else
 	    {
-		
+
 	    }
 	}
-	
-	//REVISA ESTO
+
+	// REVISA ESTO
 	/*
-	if state == st_walk:
-		if is_on_wall():
-			input_vector.y = 0
-			if pyramid.is_locked(self):
-				do_jump()
-			else:
-				if is_flip():
-					if (
-						color != COLOR.WHITE
-						&& pyramid.can_jump_left(self)
-						&& make_decision_for_jump()
-					):
-						do_jump()
-						return
-				else:
-					if (
-						color != COLOR.WHITE
-						&& pyramid.can_jump_right(self)
-						&& make_decision_for_jump()
-					):
-						do_jump()
-						return
-				input_vector.x = -input_vector.x
-		else:
-			if not pyramid.is_floor_down(self):
-				if vick.position.y > self.position.y || make_decision_for_continue():
-					return
-				elif color != COLOR.WHITE && make_decision_for_jump():
-					do_jump()
-				else:
-					input_vector.x = -input_vector.x
+	 * if state == st_walk: if is_on_wall(): input_vector.y = 0 if
+	 * pyramid.is_locked(self): do_jump() else: if is_flip(): if ( color !=
+	 * COLOR.WHITE && pyramid.can_jump_left(self) && make_decision_for_jump() ):
+	 * do_jump() return else: if ( color != COLOR.WHITE &&
+	 * pyramid.can_jump_right(self) && make_decision_for_jump() ): do_jump() return
+	 * input_vector.x = -input_vector.x else: if not pyramid.is_floor_down(self): if
+	 * vick.position.y > self.position.y || make_decision_for_continue(): return
+	 * elif color != COLOR.WHITE && make_decision_for_jump(): do_jump() else:
+	 * input_vector.x = -input_vector.x
 	 */
 
 	// TODO Auto-generated method stub
@@ -108,7 +86,7 @@ System.out.println("MOMIA "+pyramid.getId());
 
 	if (this.isLookRight())
 	{
-	    respuesta = this.getColPosition() < this.pyramid.getMapWidthInTiles()-2
+	    respuesta = this.getColPosition() < this.pyramid.getMapWidthInTiles() - 2
 		    && this.pyramid.getCell(x + Config.getInstance().getLevelTileWidthUnits(),
 			    this.y + Config.getInstance().getLevelTileHeightUnits()) != null
 		    &&
@@ -154,7 +132,6 @@ System.out.println("MOMIA "+pyramid.getId());
 	    this.colisionEnabled = false;
 	    break;
 
-	
 	case Mummy.ST_WALK:
 	    this.timeToDecide = random.nextFloat(this.minTimeToDecide, this.maxTimeToDecide);
 	    break;
@@ -218,12 +195,13 @@ System.out.println("MOMIA "+pyramid.getId());
 
     }
 
-	public void update(float deltaTime)
-	{
-		this.timer += deltaTime;
-		this.direction.x=1;
-		this.move(this.direction, false, deltaTime);
-		
-	}
+    public void update(float deltaTime)
+    {
+	this.timer += deltaTime;
+	this.direction.x = 1;
+	this.move(this.direction, false, deltaTime);
+	
+
+    }
 
 }

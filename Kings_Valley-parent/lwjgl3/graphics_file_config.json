@@ -1,0 +1,36 @@
+{
+archiPlayer: pics/vick.png
+archiPickingCell: pics/picking_cell.png
+archiCollectables: pics/collectables.png
+archiGiratory3: pics/giratory3.png
+archiMummyBlue: pics/mummy_blue.png
+archiMummyOrange: pics/mummy_orange.png
+archiMummyRed: pics/mummy_red.png
+archiMummyWhite: pics/mummy_white.png
+archiMummyYellow: pics/mummy_yellow.png
+archiMummyAppear: pics/mummy_appear.png
+archiMummyDisappear: pics/mummy_disappear.png
+CharacterFrameWidth: 16
+CharacterFrameHeight: 20
+frameDuration: 0.1
+mummyStartIddle: 9
+mummyCountIddle: 2
+mummyStartFall: 5
+mummyCountFall: 1
+mummyStartWalk: 0
+mummyCountWalk: 8
+giratoryWidth: 20
+giratory3Height: 30
+giratory2Height: 20
+collectableCount: 7
+collectableTileWidth: 10
+collectableTileHeight: 10
+playerStartIddle: 2
+playerCountIddle: 1
+playerStartFall: 5
+playerCountFall: 1
+playerStartWalk: 0
+playerCountWalk: 5
+playerStartDeath: 21
+playerCountDeath: 4
+}
