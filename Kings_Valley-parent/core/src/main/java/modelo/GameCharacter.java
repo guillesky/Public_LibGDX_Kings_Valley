@@ -52,7 +52,7 @@ public abstract class GameCharacter extends LevelItem
 		this.pyramid = pyramid;
 	}
 
-	public void move(Vector2 v, boolean b, float deltaTime)
+	protected void move(Vector2 v, boolean b, float deltaTime)
 	{
 
 		deltaTime *= Config.getInstance().getSpeedGame();
