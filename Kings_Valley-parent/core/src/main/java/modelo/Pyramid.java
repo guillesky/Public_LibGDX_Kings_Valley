@@ -42,7 +42,7 @@ public class Pyramid implements IGrafica
     private ArrayList<LevelItem> activators = new ArrayList<LevelItem>();
     private ArrayList<TrapMechanism> trapMechanisms = new ArrayList<TrapMechanism>();
     private ArrayList<GiratoryMechanism> giratoryMechanisms = new ArrayList<GiratoryMechanism>();
-
+    private int dificultLevel = 0;
     private ArrayList<Cell> unpickableCells = new ArrayList<Cell>();
 
     private HashMap<LevelItem, LevelItem> hashTraps = new HashMap<LevelItem, LevelItem>();
@@ -51,12 +51,12 @@ public class Pyramid implements IGrafica
     private int id;
     private MummyFactory mummyFactory = new MummyFactory();
 
-    public Pyramid(TiledMap map, IGrafica interfaz, int id)
+    public Pyramid(TiledMap map, IGrafica interfaz, int id, int dificultLevel)
     {
 	this.id = id;
 
 	this.map = map;
-
+	this.dificultLevel = dificultLevel;
 	MapProperties properties = map.getProperties();
 	tileWidth = properties.get("tilewidth", Integer.class);
 	tileHeight = properties.get("tileheight", Integer.class);
@@ -235,7 +235,11 @@ public class Pyramid implements IGrafica
 
     private void addMummy(float fx, float fy, int p0)
     {
-	Mummy mummy = this.mummyFactory.getMummy(fx, fy, p0, this);
+	int mummyType = this.dificultLevel + p0;
+	if (mummyType > Mummy.RED_MUMMY)
+	    mummyType = Mummy.RED_MUMMY;
+
+	Mummy mummy = this.mummyFactory.getMummy(fx, fy, mummyType, this);
 	this.mummys.add(mummy);
     }
 
@@ -483,10 +487,11 @@ public class Pyramid implements IGrafica
 	return !this.unpickableCells.contains(celda) && !isBeginStair && cellWithItem != celda;
     }
 
-	public void updateMummys(float deltaTime)
-	{
-		Iterator<Mummy> it =this.mummys.iterator();
-		while(it.hasNext())it.next().update(deltaTime);
-		
-	}
+    public void updateMummys(float deltaTime)
+    {
+	Iterator<Mummy> it = this.mummys.iterator();
+	while (it.hasNext())
+	    it.next().update(deltaTime);
+
+    }
 }

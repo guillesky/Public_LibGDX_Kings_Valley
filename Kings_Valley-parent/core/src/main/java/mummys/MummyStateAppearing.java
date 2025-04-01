@@ -15,7 +15,7 @@ public class MummyStateAppearing extends MummyState
 		if (this.mummy.getAnimationDelta() >= this.timeToDecide)
 		{
 		
-			this.mummy.mummyState = new MummyStateWalk(this.mummy);
+			this.mummy.mummyState = new MummyStateDeciding(this.mummy);
 			this.mummy = null;
 		}
 		

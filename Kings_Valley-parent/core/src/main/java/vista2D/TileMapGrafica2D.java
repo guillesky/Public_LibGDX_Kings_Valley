@@ -39,8 +39,8 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 	public static final int STAIR = 3;
 	public static final int DEATH = 4;
 	public static final int JUMP = 5;
-	public static final int PICKING = 5;
-	public static final int THROW_DAGGER = 5;
+	public static final int PICKING = 6;
+	public static final int THROW_DAGGER = 6;
 	public static final int APPEAR = 6;
 
 	private OrthographicCamera camera;

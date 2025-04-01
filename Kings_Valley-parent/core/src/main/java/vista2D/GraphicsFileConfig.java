@@ -20,6 +20,7 @@ public class GraphicsFileConfig
 
     private int mummyStartIddle = 9;
     private int mummyCountIddle = 2;
+    private float mummyIddleFrameDuration = 0.3f;
     private int mummyStartFall = 8;
     private int mummyCountFall = 1;
 
@@ -202,28 +203,32 @@ public class GraphicsFileConfig
 
     public int getCharacterFrameWidth()
     {
-        return CharacterFrameWidth;
+	return CharacterFrameWidth;
     }
 
     public int getCharacterFrameHeight()
     {
-        return CharacterFrameHeight;
+	return CharacterFrameHeight;
     }
 
     public float getFrameDuration()
     {
-        return frameDuration;
+	return frameDuration;
     }
 
-	public int getMummyCountAppear()
-	{
-		return mummyCountAppear;
-	}
+    public int getMummyCountAppear()
+    {
+	return mummyCountAppear;
+    }
 
-	public int getMummyCountDeath()
-	{
-		return mummyCountDeath;
-	}
-    
+    public int getMummyCountDeath()
+    {
+	return mummyCountDeath;
+    }
+
+    public float getMummyIddleFrameDuration()
+    {
+        return mummyIddleFrameDuration;
+    }
 
 }

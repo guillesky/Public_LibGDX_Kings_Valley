@@ -63,7 +63,7 @@ public class Player extends GameCharacter
 
 		}
 
-		if (this.item == Constantes.It_none)
+		if (this.item == Constantes.It_none && this.state!= GameCharacter.ST_ONSTAIRS_NEGATIVE && this.state!= GameCharacter.ST_ONSTAIRS_POSITIVE)
 		{
 		    LevelItem picker = this.checkRectangleColision(this.pyramid.getPickers());
 		    if (picker != null)

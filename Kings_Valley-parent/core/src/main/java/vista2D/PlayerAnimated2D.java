@@ -69,6 +69,7 @@ public class PlayerAnimated2D extends GameCharacterAnimated2D
 	this.characterAnimationWalk = arrayAnimation[TileMapGrafica2D.WALK];
 	this.characterAnimationStair = arrayAnimation[TileMapGrafica2D.STAIR];
 	this.characterAnimationIddle = arrayAnimation[TileMapGrafica2D.IDDLE];
+	this.characterAnimationJump = arrayAnimation[TileMapGrafica2D.JUMP];
     }
 
 }
