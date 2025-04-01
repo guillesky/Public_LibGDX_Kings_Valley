@@ -15,6 +15,7 @@ CharacterFrameHeight: 20
 frameDuration: 0.1
 mummyStartIddle: 9
 mummyCountIddle: 2
+mummyIddleFrameDuration: 0.3
 mummyStartFall: 8
 mummyCountFall: 1
 mummyStartWalk: 0
