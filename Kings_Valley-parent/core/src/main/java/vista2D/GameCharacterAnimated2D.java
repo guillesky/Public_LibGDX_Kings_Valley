@@ -14,7 +14,7 @@ public class GameCharacterAnimated2D extends AnimatedEntity2D
 	protected Animation<TextureRegion> characterAnimationJump;
 	protected Animation<TextureRegion> characterAnimationFall;
 	protected Animation<TextureRegion> characterAnimationDeath;
-	
+
 	
 	
 	
@@ -50,6 +50,8 @@ public class GameCharacterAnimated2D extends AnimatedEntity2D
 			this.animation = this.characterAnimationFall;
 		else if (character.getState() == GameCharacter.ST_IDDLE)
 			this.animation = this.characterAnimationIddle;
+		else if (character.getState() == GameCharacter.ST_DYING)
+			this.animation = this.characterAnimationDeath;
 		super.updateElement(character.getAnimationDelta());
 		this.sprite.setFlip(!character.isLookRight(), false);
 	}

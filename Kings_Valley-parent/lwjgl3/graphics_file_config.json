@@ -15,10 +15,12 @@ CharacterFrameHeight: 20
 frameDuration: 0.1
 mummyStartIddle: 9
 mummyCountIddle: 2
-mummyStartFall: 5
+mummyStartFall: 8
 mummyCountFall: 1
 mummyStartWalk: 0
 mummyCountWalk: 8
+mummyCountAppear: 10
+mummyCountDeath: 5
 giratoryWidth: 20
 giratory3Height: 30
 giratory2Height: 20

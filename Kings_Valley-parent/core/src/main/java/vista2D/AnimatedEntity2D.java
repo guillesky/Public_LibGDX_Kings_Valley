@@ -9,36 +9,38 @@ import modelo.LevelItem;
 
 public class AnimatedEntity2D
 {
-    protected LevelItem levelItem;
-    protected Animation<TextureRegion> animation;
-    
-    protected Sprite sprite;
+	protected LevelItem levelItem;
+	protected Animation<TextureRegion> animation;
 
-    public AnimatedEntity2D(LevelItem levelItem, Animation<TextureRegion> animation)
-    {
-	this.animation = animation;
-	this.sprite = new Sprite(animation.getKeyFrame(0));
-	
-	this.levelItem = levelItem;
-    }
+	protected Sprite sprite;
 
-    public void updateElement(float deltaTime)
-    {
+	public AnimatedEntity2D(LevelItem levelItem, Animation<TextureRegion> animation)
+	{
+		this.animation = animation;
+		this.sprite = new Sprite(animation.getKeyFrame(0));
 
-	sprite.setRegion(animation.getKeyFrame(deltaTime, true));
-	float x = this.levelItem.getX() + (this.levelItem.getWidth() - this.sprite.getWidth()) / 2;
-	float y = this.levelItem.getY();
-	this.sprite.setPosition(x, y);
-    }
+		this.levelItem = levelItem;
+	}
 
-    public void render(SpriteBatch batch)
-    {
-	sprite.draw(batch);
-    }
+	public void updateElement(float deltaTime)
+	{
+		
+			sprite.setRegion(animation.getKeyFrame(deltaTime, true));
+			float x = this.levelItem.getX() + (this.levelItem.getWidth() - this.sprite.getWidth()) / 2;
+			float y = this.levelItem.getY();
+			this.sprite.setPosition(x, y);
+		
+	}
 
-    public LevelItem getLevelItem()
-    {
-	return levelItem;
-    }
+	public void render(SpriteBatch batch)
+	{
+		
+			sprite.draw(batch);
+	}
+
+	public LevelItem getLevelItem()
+	{
+		return levelItem;
+	}
 
 }

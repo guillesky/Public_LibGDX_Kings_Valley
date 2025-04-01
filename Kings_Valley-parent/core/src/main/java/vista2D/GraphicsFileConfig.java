@@ -25,6 +25,8 @@ public class GraphicsFileConfig
 
     private int mummyStartWalk = 0;
     private int mummyCountWalk = 8;
+    private int mummyCountAppear = 10;
+    private int mummyCountDeath = 5;
 
     private int giratoryWidth = 20;
     private int giratory3Height = 30;
@@ -212,5 +214,16 @@ public class GraphicsFileConfig
     {
         return frameDuration;
     }
+
+	public int getMummyCountAppear()
+	{
+		return mummyCountAppear;
+	}
+
+	public int getMummyCountDeath()
+	{
+		return mummyCountDeath;
+	}
+    
 
 }

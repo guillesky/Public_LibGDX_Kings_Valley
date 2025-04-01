@@ -689,8 +689,9 @@ public abstract class GameCharacter extends LevelItem
 		return respuesta;
 	}
 
-	protected void checkGiratory(Vector2 v)
+	protected boolean checkGiratory(Vector2 v)
 	{
+		boolean r = false;
 		LevelItem giratory = this.checkRectangleColision(this.pyramid.getGiratorys());
 		if (giratory != null)
 		{
@@ -700,8 +701,12 @@ public abstract class GameCharacter extends LevelItem
 			{
 				this.passGiratoryMechanism(gm);
 			} else
+			{
 				this.blockGiratory(gm);
+				r = true;
+			}
 		}
+		return r;
 	}
 
 	protected boolean isLocked()
