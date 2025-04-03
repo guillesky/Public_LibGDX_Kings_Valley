@@ -757,4 +757,13 @@ public abstract class GameCharacter extends LevelItem
 
 	public abstract void update(float deltaTime);
 
+	protected void setState(int state)
+	{
+		this.state = state;
+	}
+	protected void resetAnimationDelta()
+	{
+		this.animationDelta = 0;
+	}
+
 }
