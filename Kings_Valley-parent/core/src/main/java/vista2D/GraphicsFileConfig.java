@@ -43,6 +43,32 @@ public class GraphicsFileConfig
 
     private int playerStartWalk = 0;
     private int playerCountWalk = 5;
+    
+    private int playerPickerStartIddle = 8;
+    private int playerPickerCountIddle = 1;
+    private int playerPickerStartFall = 11;
+    private int playerPickerCountFall = 1;
+
+    private int playerPickerStartWalk = 6;
+    private int playerPickerCountWalk = 5;
+
+    private int playerPickerStartPicking = 19;
+    private int playerPickerCountPicking = 2;
+
+    
+    private int playerDaggerStartIddle = 14;
+    private int playerDaggerCountIddle = 1;
+    private int playerDaggerStartFall = 17;
+    private int playerDaggerCountFall = 1;
+
+    private int playerDaggerStartWalk = 12;
+    private int playerDaggerCountWalk = 5;
+
+    private int playerDaggerStartThrowing = 17;
+    private int playerDaggerCountThrowing = 2;
+
+    
+    
     private int playerStartDeath = 21;
     private int playerCountDeath = 4;
 
@@ -230,5 +256,86 @@ public class GraphicsFileConfig
     {
         return mummyIddleFrameDuration;
     }
+
+    public int getPlayerPickerStartIddle()
+    {
+        return playerPickerStartIddle;
+    }
+
+    public int getPlayerPickerCountIddle()
+    {
+        return playerPickerCountIddle;
+    }
+
+    public int getPlayerPickerStartFall()
+    {
+        return playerPickerStartFall;
+    }
+
+    public int getPlayerPickerCountFall()
+    {
+        return playerPickerCountFall;
+    }
+
+    public int getPlayerPickerStartWalk()
+    {
+        return playerPickerStartWalk;
+    }
+
+    public int getPlayerPickerCountWalk()
+    {
+        return playerPickerCountWalk;
+    }
+
+    public int getPlayerPickerStartPicking()
+    {
+        return playerPickerStartPicking;
+    }
+
+    public int getPlayerPickerCountPicking()
+    {
+        return playerPickerCountPicking;
+    }
+
+    public int getPlayerDaggerStartIddle()
+    {
+        return playerDaggerStartIddle;
+    }
+
+    public int getPlayerDaggerCountIddle()
+    {
+        return playerDaggerCountIddle;
+    }
+
+    public int getPlayerDaggerStartFall()
+    {
+        return playerDaggerStartFall;
+    }
+
+    public int getPlayerDaggerCountFall()
+    {
+        return playerDaggerCountFall;
+    }
+
+    public int getPlayerDaggerStartWalk()
+    {
+        return playerDaggerStartWalk;
+    }
+
+    public int getPlayerDaggerCountWalk()
+    {
+        return playerDaggerCountWalk;
+    }
+
+    public int getPlayerDaggerStartThrowing()
+    {
+        return playerDaggerStartThrowing;
+    }
+
+    public int getPlayerDaggerCountThrowing()
+    {
+        return playerDaggerCountThrowing;
+    }
+    
 
 }

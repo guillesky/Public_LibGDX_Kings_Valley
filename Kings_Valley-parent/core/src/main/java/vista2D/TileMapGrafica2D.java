@@ -25,10 +25,10 @@ import modelo.DrawableElement;
 import modelo.GiratoryMechanism;
 import modelo.Juego;
 import modelo.LevelItem;
-import modelo.PairInt;
 import modelo.Pyramid;
 import modelo.TrapMechanism;
-import mummys.Mummy;
+import modelo.gameCharacters.mummys.Mummy;
+import modelo.gameCharacters.player.PairInt;
 import util.Constantes;
 
 public class TileMapGrafica2D implements IMyApplicationnListener

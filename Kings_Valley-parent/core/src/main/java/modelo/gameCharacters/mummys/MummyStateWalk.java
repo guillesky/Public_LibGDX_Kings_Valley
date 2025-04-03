@@ -1,8 +1,8 @@
-package mummys;
+package modelo.gameCharacters.mummys;
 
-import modelo.GameCharacter;
 import modelo.Juego;
-import modelo.Player;
+import modelo.gameCharacters.GameCharacter;
+import modelo.gameCharacters.player.Player;
 import util.Config;
 
 public class MummyStateWalk extends MummyState

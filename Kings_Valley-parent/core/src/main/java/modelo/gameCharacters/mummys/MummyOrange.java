@@ -1,4 +1,4 @@
-package mummys;
+package modelo.gameCharacters.mummys;
 
 import modelo.Pyramid;
 import util.Config;

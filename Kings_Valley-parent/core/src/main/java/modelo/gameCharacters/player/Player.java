@@ -1,4 +1,4 @@
-package modelo;
+package modelo.gameCharacters.player;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -7,6 +7,11 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.math.Vector2;
 
+import modelo.DrawableElement;
+import modelo.GiratoryMechanism;
+import modelo.LevelItem;
+import modelo.Pyramid;
+import modelo.gameCharacters.GameCharacter;
 import util.Config;
 import util.Constantes;
 
@@ -72,6 +77,14 @@ public class Player extends GameCharacter
 			this.pyramid.removePicker(picker);
 
 		    }
+		    
+		    LevelItem dagger = this.checkRectangleColision(this.pyramid.getDaggers());
+		    if (dagger != null)
+		    {
+			this.item = Constantes.It_dagger;
+			this.pyramid.removeDagger(dagger);
+
+		    }
 
 		}
 
@@ -128,7 +141,7 @@ public class Player extends GameCharacter
 
     private void doPicker()
     {
-	// TODO Auto-generated method stub
+	
 	float px, py;
 
 	if (this.isLocked())
@@ -181,7 +194,7 @@ public class Player extends GameCharacter
 
     
 
-    public boolean picking(int x, int y, int cont, boolean locked)
+    private boolean picking(int x, int y, int cont, boolean locked)
     {
 	boolean respuesta = false;
 

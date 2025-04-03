@@ -5,6 +5,8 @@ import java.util.Iterator;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
+import modelo.gameCharacters.player.Player;
+
 public class Juego
 {
 	private static Juego instance = new Juego();

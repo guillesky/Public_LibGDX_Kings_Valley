@@ -13,7 +13,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 
 import modelo.LevelItem;
-import mummys.Mummy;
+import modelo.gameCharacters.mummys.Mummy;
 import util.Constantes;
 
 public class GraphicsFileLoader
@@ -85,6 +85,27 @@ public class GraphicsFileLoader
 
 	int startWalk = this.graphicsFileConfig.getPlayerStartWalk();
 	int countWalk = this.graphicsFileConfig.getPlayerCountWalk();
+
+	int pickerStartIddle = this.graphicsFileConfig.getPlayerPickerStartIddle();
+	int pickerCountIddle = this.graphicsFileConfig.getPlayerPickerCountIddle();
+	int pickerStartFall = this.graphicsFileConfig.getPlayerPickerStartFall();
+	int pickerCountFall = this.graphicsFileConfig.getPlayerPickerCountFall();
+
+	int pickerStartWalk = this.graphicsFileConfig.getPlayerPickerStartWalk();
+	int pickerCountWalk = this.graphicsFileConfig.getPlayerPickerCountWalk();
+	int pickerStartPicking = this.graphicsFileConfig.getPlayerPickerStartPicking();
+	int pickerCountPicking = this.graphicsFileConfig.getPlayerPickerCountPicking();
+
+	int daggerStartIddle = this.graphicsFileConfig.getPlayerDaggerStartIddle();
+	int daggerCountIddle = this.graphicsFileConfig.getPlayerDaggerCountIddle();
+	int daggerStartFall = this.graphicsFileConfig.getPlayerDaggerStartFall();
+	int daggerCountFall = this.graphicsFileConfig.getPlayerDaggerCountFall();
+
+	int daggerStartWalk = this.graphicsFileConfig.getPlayerDaggerStartWalk();
+	int daggerCountWalk = this.graphicsFileConfig.getPlayerDaggerCountWalk();
+	int daggerStartThrowing = this.graphicsFileConfig.getPlayerDaggerStartThrowing();
+	int daggerCountThrowing = this.graphicsFileConfig.getPlayerDaggerCountThrowing();
+
 	int startDeath = this.graphicsFileConfig.getPlayerStartDeath();
 	int countDeath = this.graphicsFileConfig.getPlayerCountDeath();
 	int CharacterFrameWidth = this.graphicsFileConfig.getCharacterFrameWidth();
@@ -104,28 +125,30 @@ public class GraphicsFileLoader
 	this.animationPlayer_Nothing[TileMapGrafica2D.DEATH] = this.framesToAnimation(linearFrames, startDeath,
 		countDeath, frameDuration);
 
-	this.animationPlayer_Picker[TileMapGrafica2D.IDDLE] = this.framesToAnimation(linearFrames, startIddle + 6,
-		countIddle, 0);
-	this.animationPlayer_Picker[TileMapGrafica2D.FALL] = this.framesToAnimation(linearFrames, startFall + 6,
-		countIddle, 0);
+	this.animationPlayer_Picker[TileMapGrafica2D.IDDLE] = this.framesToAnimation(linearFrames, pickerStartIddle,
+		pickerCountIddle, 0);
+	this.animationPlayer_Picker[TileMapGrafica2D.FALL] = this.framesToAnimation(linearFrames, pickerStartFall,
+		pickerCountFall, 0);
 
-	this.animationPlayer_Picker[TileMapGrafica2D.WALK] = this.framesToAnimation(linearFrames, startWalk + 6,
-		countWalk, frameDuration);
+	this.animationPlayer_Picker[TileMapGrafica2D.WALK] = this.framesToAnimation(linearFrames, pickerStartWalk,
+		pickerCountWalk, frameDuration);
 	this.animationPlayer_Picker[TileMapGrafica2D.STAIR] = this.animationPlayer_Picker[TileMapGrafica2D.WALK];
 	this.animationPlayer_Picker[TileMapGrafica2D.DEATH] = this.animationPlayer_Nothing[TileMapGrafica2D.DEATH];
-	this.animationPlayer_Picker[TileMapGrafica2D.PICKING] = this.framesToAnimation(linearFrames, 19, 2,
-		frameDuration);
+	this.animationPlayer_Picker[TileMapGrafica2D.PICKING] = this.framesToAnimation(linearFrames, pickerStartPicking,
+		pickerCountPicking, frameDuration);
 	this.animationPlayer_Picker[TileMapGrafica2D.PICKING].setPlayMode(PlayMode.LOOP);
 	this.animationPlayer_Picker[TileMapGrafica2D.JUMP] = this.animationPlayer_Picker[TileMapGrafica2D.FALL];
-	this.animationPlayer_Dagger[TileMapGrafica2D.IDDLE] = this.framesToAnimation(linearFrames, startIddle + 12,
-		countIddle, 0);
-	this.animationPlayer_Dagger[TileMapGrafica2D.FALL] = this.framesToAnimation(linearFrames, startFall + 12,
-		countIddle, 0);
-	this.animationPlayer_Dagger[TileMapGrafica2D.WALK] = this.framesToAnimation(linearFrames, startWalk + 12,
-		countWalk, frameDuration);
+	this.animationPlayer_Dagger[TileMapGrafica2D.IDDLE] = this.framesToAnimation(linearFrames, daggerStartIddle ,
+		daggerCountIddle, 0);
+	this.animationPlayer_Dagger[TileMapGrafica2D.FALL] = this.framesToAnimation(linearFrames, daggerStartFall ,
+		daggerCountFall, 0);
+	this.animationPlayer_Dagger[TileMapGrafica2D.WALK] = this.framesToAnimation(linearFrames, daggerStartWalk ,
+		daggerCountWalk, frameDuration);
 	this.animationPlayer_Dagger[TileMapGrafica2D.STAIR] = this.animationPlayer_Dagger[TileMapGrafica2D.WALK];
 	this.animationPlayer_Dagger[TileMapGrafica2D.DEATH] = this.animationPlayer_Nothing[TileMapGrafica2D.DEATH];
 	this.animationPlayer_Dagger[TileMapGrafica2D.JUMP] = this.animationPlayer_Dagger[TileMapGrafica2D.FALL];
+	this.animationPlayer_Dagger[TileMapGrafica2D.THROW_DAGGER]=this.framesToAnimation(linearFrames, daggerStartThrowing ,
+		daggerCountThrowing, frameDuration);
 
     }
 

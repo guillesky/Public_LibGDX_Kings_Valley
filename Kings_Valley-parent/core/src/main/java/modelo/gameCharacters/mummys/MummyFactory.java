@@ -1,11 +1,6 @@
-package modelo;
+package modelo.gameCharacters.mummys;
 
-import mummys.Mummy;
-import mummys.MummyBlue;
-import mummys.MummyOrange;
-import mummys.MummyRed;
-import mummys.MummyWhite;
-import mummys.MummyYellow;
+import modelo.Pyramid;
 
 public class MummyFactory
 {

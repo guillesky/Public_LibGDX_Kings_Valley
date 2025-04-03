@@ -12,7 +12,9 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 
-import mummys.Mummy;
+import modelo.gameCharacters.mummys.Mummy;
+import modelo.gameCharacters.mummys.MummyFactory;
+import modelo.gameCharacters.player.Player;
 import util.Config;
 import util.Constantes;
 
@@ -493,5 +495,11 @@ public class Pyramid implements IGrafica
 	while (it.hasNext())
 	    it.next().update(deltaTime);
 
+    }
+
+    public void removeDagger(LevelItem dagger)
+    {
+	this.daggers.remove(dagger);
+	this.removeGraphicElement(new DrawableElement(Constantes.DRAWABLE_LEVEL_ITEM, dagger));
     }
 }

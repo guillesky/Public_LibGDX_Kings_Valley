@@ -3,8 +3,8 @@ package vista2D;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import modelo.GameCharacter;
-import modelo.Player;
+import modelo.gameCharacters.GameCharacter;
+import modelo.gameCharacters.player.Player;
 
 public class GameCharacterAnimated2D extends AnimatedEntity2D
 {

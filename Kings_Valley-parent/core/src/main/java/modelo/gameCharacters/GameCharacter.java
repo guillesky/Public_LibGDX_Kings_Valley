@@ -1,4 +1,4 @@
-package modelo;
+package modelo.gameCharacters;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -7,6 +7,9 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
+import modelo.GiratoryMechanism;
+import modelo.LevelItem;
+import modelo.Pyramid;
 import util.Config;
 import util.Constantes;
 

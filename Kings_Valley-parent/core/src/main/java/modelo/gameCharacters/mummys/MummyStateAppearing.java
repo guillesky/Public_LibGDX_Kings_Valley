@@ -1,4 +1,4 @@
-package mummys;
+package modelo.gameCharacters.mummys;
 
 public class MummyStateAppearing extends MummyState
 {

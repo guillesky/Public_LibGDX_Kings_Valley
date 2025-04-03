@@ -4,8 +4,8 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import modelo.GameCharacter;
-import mummys.Mummy;
+import modelo.gameCharacters.GameCharacter;
+import modelo.gameCharacters.mummys.Mummy;
 
 public class MummyAnimated2D extends GameCharacterAnimated2D
 {

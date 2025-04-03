@@ -34,6 +34,22 @@ playerStartFall: 5
 playerCountFall: 1
 playerStartWalk: 0
 playerCountWalk: 5
+playerPickerStartIddle: 8
+playerPickerCountIddle: 1
+playerPickerStartFall: 11
+playerPickerCountFall: 1
+playerPickerStartWalk: 6
+playerPickerCountWalk: 5
+playerPickerStartPicking: 19
+playerPickerCountPicking: 2
+playerDaggerStartIddle: 14
+playerDaggerCountIddle: 1
+playerDaggerStartFall: 17
+playerDaggerCountFall: 1
+playerDaggerStartWalk: 12
+playerDaggerCountWalk: 5
+playerDaggerStartThrowing: 17
+playerDaggerCountThrowing: 2
 playerStartDeath: 21
 playerCountDeath: 4
 }

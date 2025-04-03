@@ -1,13 +1,13 @@
-package mummys;
+package modelo.gameCharacters.mummys;
 
 import java.util.Random;
 
 import com.badlogic.gdx.math.Vector2;
 
-import modelo.GameCharacter;
 import modelo.GiratoryMechanism;
-import modelo.Player;
 import modelo.Pyramid;
+import modelo.gameCharacters.GameCharacter;
+import modelo.gameCharacters.player.Player;
 import util.Config;
 
 public abstract class Mummy extends GameCharacter

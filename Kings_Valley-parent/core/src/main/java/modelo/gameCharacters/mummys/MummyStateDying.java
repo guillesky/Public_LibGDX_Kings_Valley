@@ -1,6 +1,6 @@
-package mummys;
+package modelo.gameCharacters.mummys;
 
-import modelo.GameCharacter;
+import modelo.gameCharacters.GameCharacter;
 
 public class MummyStateDying extends MummyState
 {
