@@ -755,4 +755,6 @@ public abstract class GameCharacter extends LevelItem
 
 	}
 
+	public abstract void update(float deltaTime);
+
 }

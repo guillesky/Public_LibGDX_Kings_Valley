@@ -33,8 +33,8 @@ public class Player extends GameCharacter
 
     }
 
-    @Override
-    public void move(Vector2 v, boolean b, float deltaTime)
+    
+    public void update(Vector2 v, boolean b, float deltaTime)
     {
 	if (this.coordToPick.isEmpty())
 	{
@@ -59,7 +59,7 @@ public class Player extends GameCharacter
 
 	    else
 	    {
-		super.move(v, b, deltaTime);
+		this.move(v, b, deltaTime);
 
 		LevelItem joya = this.checkItemFeetColision(this.pyramid.getJewels());
 		if (joya != null)
@@ -237,6 +237,13 @@ public class Player extends GameCharacter
 	this.passingGiratory = giratoryMechanism;
 	giratoryMechanism.activate();
 
+    }
+
+    @Override
+    public void update(float deltaTime)
+    {
+	// TODO Auto-generated method stub
+	
     }
 
 }
