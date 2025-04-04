@@ -12,7 +12,7 @@ public class Juego
 	private static Juego instance = new Juego();
 	private Controles controles = new Controles();
 	private ArrayList<Pyramid> pyramids = new ArrayList<Pyramid>();
-	private int currentPyramid = 11;
+	private int currentPyramid =11;
 	private float delta = 0;
 
 	private Juego()
@@ -32,6 +32,7 @@ public class Juego
 		
 		this.getCurrentPyramid().updateMechanism(deltaTime);
 		this.getCurrentPyramid().updateMummys(deltaTime);
+		this.getCurrentPyramid().updateFlyingDagger(deltaTime);
 	}
 
 	public Controles getControles()

@@ -237,7 +237,6 @@ public abstract class Mummy extends GameCharacter
 	@Override
 	public void update(float deltaTime)
 	{
-		this.animationDelta += deltaTime;
 		this.mummyState.update(deltaTime);
 
 	}
@@ -294,4 +293,11 @@ public abstract class Mummy extends GameCharacter
 	{
 		super.resetAnimationDelta();
 	}
+
+	@Override
+	protected void incAnimationDelta(float delta)
+	{
+	    super.incAnimationDelta(delta);
+	}
+	
 }

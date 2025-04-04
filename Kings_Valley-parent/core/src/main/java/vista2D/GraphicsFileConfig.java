@@ -13,6 +13,8 @@ public class GraphicsFileConfig
     private String archiMummyYellow = "pics/mummy_yellow.png";
     private String archiMummyAppear = "pics/mummy_appear.png";
     private String archiMummyDisappear = "pics/mummy_disappear.png";
+    private String archiFlyingDagger = "pics/knife.png";
+    
 
     private int CharacterFrameWidth = 16;
     private int CharacterFrameHeight = 20;
@@ -66,12 +68,18 @@ public class GraphicsFileConfig
 
     private int playerDaggerStartThrowing = 17;
     private int playerDaggerCountThrowing = 2;
-
-    
     
     private int playerStartDeath = 21;
     private int playerCountDeath = 4;
+    
+    private int flyingDaggerCount=8;
+    private int flyingDaggerWidth=16;
+    private int flyingDaggerHeight=20;
+    private int pickingCellCount=4;
+    private float pickingCellFrameDuration=0.25f;
+    
 
+    
     public String getArchiPlayer()
     {
 	return archiPlayer;
@@ -335,6 +343,36 @@ public class GraphicsFileConfig
     public int getPlayerDaggerCountThrowing()
     {
         return playerDaggerCountThrowing;
+    }
+
+    public String getArchiFlyingDagger()
+    {
+        return archiFlyingDagger;
+    }
+
+    protected int getFlyingDaggerCount()
+    {
+        return flyingDaggerCount;
+    }
+
+    protected int getFlyingDaggerWidth()
+    {
+        return flyingDaggerWidth;
+    }
+
+    protected int getFlyingDaggerHeight()
+    {
+        return flyingDaggerHeight;
+    }
+
+    protected int getPickingCellCount()
+    {
+        return pickingCellCount;
+    }
+
+    protected float getPickingCellFrameDuration()
+    {
+        return pickingCellFrameDuration;
     }
     
 

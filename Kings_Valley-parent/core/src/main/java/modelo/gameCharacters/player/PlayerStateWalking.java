@@ -15,7 +15,7 @@ public class PlayerStateWalking extends PlayerState
 	@Override
 	public void update(Vector2 v, boolean b, float deltaTime)
 	{
-		// TODO Auto-generated method stub
+		this.player.move(v, b, deltaTime);
 
 	}
 

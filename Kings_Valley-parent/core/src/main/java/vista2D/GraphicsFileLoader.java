@@ -33,6 +33,7 @@ public class GraphicsFileLoader
     private Animation<TextureRegion>[] animationMummyYellow;
     private Animation<TextureRegion> animationMummyAppear;
     private Animation<TextureRegion> animationMummyDeath;
+    
 
     private GraphicsFileConfig graphicsFileConfig;
     private HashMap<Integer, Animation<TextureRegion>> animations = new HashMap<Integer, Animation<TextureRegion>>();
@@ -58,21 +59,21 @@ public class GraphicsFileLoader
     public GraphicsFileLoader(AssetManager manager)
     {
 	this.manager = manager;
-	GraphicsFileConfig gf = loadConfig();
-	this.graphicsFileConfig = gf;
-	this.manager.load(gf.getArchiPlayer(), Texture.class);
-	this.manager.load(gf.getArchiCollectables(), Texture.class);
-	this.manager.load(gf.getArchiGiratory3(), Texture.class);
-	this.manager.load(gf.getArchiPickingCell(), Texture.class);
-	this.manager.load(gf.getArchiMummyBlue(), Texture.class);
-	this.manager.load(gf.getArchiMummyOrange(), Texture.class);
-	this.manager.load(gf.getArchiMummyRed(), Texture.class);
-	this.manager.load(gf.getArchiMummyWhite(), Texture.class);
-	this.manager.load(gf.getArchiMummyYellow(), Texture.class);
-	this.manager.load(gf.getArchiMummyAppear(), Texture.class);
-	this.manager.load(gf.getArchiMummyDisappear(), Texture.class);
+	this.graphicsFileConfig = loadConfig();
+	this.manager.load(graphicsFileConfig.getArchiPlayer(), Texture.class);
+	this.manager.load(graphicsFileConfig.getArchiCollectables(), Texture.class);
+	this.manager.load(graphicsFileConfig.getArchiGiratory3(), Texture.class);
+	this.manager.load(graphicsFileConfig.getArchiPickingCell(), Texture.class);
+	this.manager.load(graphicsFileConfig.getArchiMummyBlue(), Texture.class);
+	this.manager.load(graphicsFileConfig.getArchiMummyOrange(), Texture.class);
+	this.manager.load(graphicsFileConfig.getArchiMummyRed(), Texture.class);
+	this.manager.load(graphicsFileConfig.getArchiMummyWhite(), Texture.class);
+	this.manager.load(graphicsFileConfig.getArchiMummyYellow(), Texture.class);
+	this.manager.load(graphicsFileConfig.getArchiMummyAppear(), Texture.class);
+	this.manager.load(graphicsFileConfig.getArchiMummyDisappear(), Texture.class);
+	this.manager.load(graphicsFileConfig.getArchiFlyingDagger(), Texture.class);
 
-	// saveConfig(gf);
+	//saveConfig(graphicsFileConfig);
     }
 
     private void loadPlayerAnimations()
@@ -138,17 +139,17 @@ public class GraphicsFileLoader
 		pickerCountPicking, frameDuration);
 	this.animationPlayer_Picker[TileMapGrafica2D.PICKING].setPlayMode(PlayMode.LOOP);
 	this.animationPlayer_Picker[TileMapGrafica2D.JUMP] = this.animationPlayer_Picker[TileMapGrafica2D.FALL];
-	this.animationPlayer_Dagger[TileMapGrafica2D.IDDLE] = this.framesToAnimation(linearFrames, daggerStartIddle ,
+	this.animationPlayer_Dagger[TileMapGrafica2D.IDDLE] = this.framesToAnimation(linearFrames, daggerStartIddle,
 		daggerCountIddle, 0);
-	this.animationPlayer_Dagger[TileMapGrafica2D.FALL] = this.framesToAnimation(linearFrames, daggerStartFall ,
+	this.animationPlayer_Dagger[TileMapGrafica2D.FALL] = this.framesToAnimation(linearFrames, daggerStartFall,
 		daggerCountFall, 0);
-	this.animationPlayer_Dagger[TileMapGrafica2D.WALK] = this.framesToAnimation(linearFrames, daggerStartWalk ,
+	this.animationPlayer_Dagger[TileMapGrafica2D.WALK] = this.framesToAnimation(linearFrames, daggerStartWalk,
 		daggerCountWalk, frameDuration);
 	this.animationPlayer_Dagger[TileMapGrafica2D.STAIR] = this.animationPlayer_Dagger[TileMapGrafica2D.WALK];
 	this.animationPlayer_Dagger[TileMapGrafica2D.DEATH] = this.animationPlayer_Nothing[TileMapGrafica2D.DEATH];
 	this.animationPlayer_Dagger[TileMapGrafica2D.JUMP] = this.animationPlayer_Dagger[TileMapGrafica2D.FALL];
-	this.animationPlayer_Dagger[TileMapGrafica2D.THROW_DAGGER]=this.framesToAnimation(linearFrames, daggerStartThrowing ,
-		daggerCountThrowing, frameDuration);
+	this.animationPlayer_Dagger[TileMapGrafica2D.THROW_DAGGER] = this.framesToAnimation(linearFrames,
+		daggerStartThrowing, daggerCountThrowing, frameDuration);
 
     }
 
@@ -192,7 +193,12 @@ public class GraphicsFileLoader
 	int giratory2Height = this.graphicsFileConfig.getGiratory2Height();
 	int collectableCount = this.graphicsFileConfig.getCollectableCount();
 	float frameDuration = this.graphicsFileConfig.getFrameDuration();
-
+	int flyingDaggerWidth = this.graphicsFileConfig.getFlyingDaggerWidth();
+	int flyingDaggerHeight = this.graphicsFileConfig.getFlyingDaggerHeight();
+	int flyingDaggerCount = this.graphicsFileConfig.getFlyingDaggerCount();
+	int pickingCellCount = this.graphicsFileConfig.getPickingCellCount();
+	float pickingCellFrameDuration = this.graphicsFileConfig.getPickingCellFrameDuration();
+	
 	Array<TextureRegion> linearFrames = this.linearFramesForFile(this.graphicsFileConfig.getArchiCollectables(),
 		collectableWidth, collectableHeight);
 	this.animations.put(Constantes.It_dagger,
@@ -235,11 +241,16 @@ public class GraphicsFileLoader
 	this.animations.put(Constantes.DRAWABLE_GYRATORY_2_LR, giratory2_lr);
 	linearFrames = this.linearFramesForFile(this.graphicsFileConfig.getArchiPickingCell(), collectableWidth,
 		collectableHeight);
-	Animation<TextureRegion> picking_cell = this.framesToAnimation(linearFrames, 0, 4, 0.25f);
+	Animation<TextureRegion> picking_cell = this.framesToAnimation(linearFrames, 0, pickingCellCount, pickingCellFrameDuration);
 	picking_cell.setPlayMode(PlayMode.NORMAL);
 
 	this.animatedPickedCell = new AnimatedPickedCell(new LevelItem(0, 0, 0, 0, collectableWidth, collectableHeight),
 		picking_cell);
+
+	linearFrames = this.linearFramesForFile(this.graphicsFileConfig.getArchiFlyingDagger(), flyingDaggerWidth,
+		flyingDaggerHeight);
+
+	this.animations.put(Constantes.DRAWABLE_FLYING_DAGGER,this.framesToAnimation(linearFrames, 0, flyingDaggerCount, frameDuration));
 
     }
 
@@ -376,4 +387,5 @@ public class GraphicsFileLoader
 	}
 	return respuesta;
     }
+
 }

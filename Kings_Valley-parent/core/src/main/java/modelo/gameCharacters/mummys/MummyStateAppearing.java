@@ -2,23 +2,25 @@ package modelo.gameCharacters.mummys;
 
 public class MummyStateAppearing extends MummyState
 {
-	public MummyStateAppearing(Mummy mummy)
+    public MummyStateAppearing(Mummy mummy)
+    {
+	super(mummy, Mummy.ST_APPEARING);
+	this.timeToDecide = 2;
+
+    }
+
+    @Override
+    public void update(float deltaTime)
+    {
+	this.mummy.incAnimationDelta(deltaTime);
+
+	if (this.mummy.getAnimationDelta() >= this.timeToDecide)
 	{
-		super(mummy,Mummy.ST_APPEARING);
-		this.timeToDecide=2;
-		
+
+	    this.mummy.mummyState = new MummyStateDeciding(this.mummy);
+	    this.mummy = null;
 	}
 
-	@Override
-	public void update(float deltaTime)
-	{
-		if (this.mummy.getAnimationDelta() >= this.timeToDecide)
-		{
-		
-			this.mummy.mummyState = new MummyStateDeciding(this.mummy);
-			this.mummy = null;
-		}
-		
-	}
+    }
 
 }

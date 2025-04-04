@@ -4,24 +4,25 @@ import modelo.gameCharacters.GameCharacter;
 
 public class MummyStateDying extends MummyState
 {
-	public MummyStateDying(Mummy mummy)
+    public MummyStateDying(Mummy mummy)
+    {
+	super(mummy, GameCharacter.ST_DYING);
+
+	this.timeToDecide = 1;
+
+    }
+
+    @Override
+    public void update(float deltaTime)
+    {
+	this.mummy.incAnimationDelta(deltaTime);
+	if (this.mummy.getAnimationDelta() >= this.timeToDecide)
 	{
-		super(mummy, GameCharacter.ST_DYING);
 
-		this.timeToDecide = 1;
-
+	    this.mummy.mummyState = new MummyStateLimbus(this.mummy);
+	    this.mummy = null;
 	}
 
-	@Override
-	public void update(float deltaTime)
-	{
-		if (this.mummy.getAnimationDelta() >= this.timeToDecide)
-		{
-
-			this.mummy.mummyState = new MummyStateLimbus(this.mummy);
-			this.mummy = null;
-		}
-
-	}
+    }
 
 }

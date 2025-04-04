@@ -3,6 +3,7 @@ package vista2D;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+import modelo.LevelItem;
 import modelo.gameCharacters.GameCharacter;
 import modelo.gameCharacters.player.Player;
 import util.Constantes;
@@ -12,7 +13,7 @@ public class PlayerAnimated2D extends GameCharacterAnimated2D
     protected Animation<TextureRegion>[] animation_Picker;
     protected Animation<TextureRegion>[] animation_Dagger;
     protected Animation<TextureRegion>[] animation_Nothing;
-    private int item;
+    private LevelItem item = null;;
 
     public PlayerAnimated2D(GameCharacter character, Animation<TextureRegion>[] animation,
 	    Animation<TextureRegion>[] animation_Picker, Animation<TextureRegion>[] animation_Dagger)
@@ -36,29 +37,23 @@ public class PlayerAnimated2D extends GameCharacterAnimated2D
 	    this.changeAnimations();
 
 	}
-	if(player.getState()==Player.ST_PICKING)
-		this.animation=this.animation_Picker[TileMapGrafica2D.PICKING];
+	if (player.getState() == Player.ST_PICKING)
+	    this.animation = this.animation_Picker[TileMapGrafica2D.PICKING];
+	if (player.getState() == Player.ST_THROWING_DAGGER)
+	    this.animation = this.animation_Dagger[TileMapGrafica2D.THROW_DAGGER];
+
 	super.updateElement(deltaTime);
     }
 
     private void changeAnimations()
     {
-	switch (this.item)
-	{
-	case Constantes.It_none:
+	if (this.item == null)
 	    this.changeArrayAnimation(this.animation_Nothing);
+	else if (this.item.getType() == Constantes.It_picker)
 
-	    break;
-	case Constantes.It_picker:
 	    this.changeArrayAnimation(this.animation_Picker);
-
-	    break;
-	case Constantes.It_dagger:
+	else
 	    this.changeArrayAnimation(this.animation_Dagger);
-
-	    break;
-
-	}
 
     }
 

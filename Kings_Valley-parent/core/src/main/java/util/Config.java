@@ -58,6 +58,7 @@ public class Config
 
     private float levelTileWidthUnits;
     private float levelTileHeightUnits;
+    private float flyingDaggerSpeed;
     private float speedGame=1.0f;
 
     private static final Config instance = new Config();
@@ -77,7 +78,7 @@ public class Config
 	
 	this.playerSpeedWalk = (int) (6 * this.levelTileWidthUnits);
 	this.playerSpeedWalkStairs = (int) (6 * this.levelTileWidthUnits);
-	
+	this.flyingDaggerSpeed=this.playerSpeedWalk*3;
 
 	this.mummyWhiteSpeedWalk = (int) (2.5 * this.levelTileWidthUnits);
 	this.mummyWhiteSpeedWalkStairs = (int) (3 * this.levelTileWidthUnits);
@@ -537,6 +538,16 @@ public class Config
     public void setCharacterSpeedJump(float characterSpeedJump)
     {
         this.characterSpeedJump = characterSpeedJump;
+    }
+
+    public float getFlyingDaggerSpeed()
+    {
+        return flyingDaggerSpeed;
+    }
+
+    public void setFlyingDaggerSpeed(float flyingDaggerSpeed)
+    {
+        this.flyingDaggerSpeed = flyingDaggerSpeed;
     }
     
 

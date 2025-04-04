@@ -46,7 +46,10 @@ public class Constantes
     public static final int DRAWABLE_GYRATORY_3_LR =3003;
     public static final int DRAWABLE_GYRATORY_2_RL =3004;
     public static final int DRAWABLE_GYRATORY_2_LR =3005;
+    
     public static final int DRAWABLE_PICKING_CELL =4000;
+    public static final int DRAWABLE_FLYING_DAGGER =5000;
+    
     
     
     

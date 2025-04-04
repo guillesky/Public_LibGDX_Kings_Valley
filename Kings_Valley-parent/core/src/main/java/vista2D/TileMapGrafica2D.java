@@ -21,6 +21,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Array.ArrayIterator;
 
 import io.github.some_example_name.IMyApplicationnListener;
+import modelo.Dagger;
 import modelo.DrawableElement;
 import modelo.GiratoryMechanism;
 import modelo.Juego;
@@ -52,6 +53,7 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 	private HashMap<LevelItem, AnimatedEntity2D> hashMapLevelAnimation = new HashMap<LevelItem, AnimatedEntity2D>();
 	private HashMap<TrapMechanism, AnimatedTrapKV2> hashMapTrapAnimation = new HashMap<TrapMechanism, AnimatedTrapKV2>();
 	private AnimatedPickedCell animatedPickedCell;
+	
 
 	private Array<AnimatedTrapKV2> animatedTraps = new Array<AnimatedTrapKV2>();
 
@@ -114,6 +116,14 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 			this.animatedPickedCell.getLevelItem().setY(pairInt.getY() * this.tileHeight);
 			this.animatedEntities.add(this.animatedPickedCell);
 			this.animatedPickedCell.resetTime(Juego.getInstance().getDelta());
+
+		}else if (dr.getType() == Constantes.DRAWABLE_FLYING_DAGGER)
+		{
+			Dagger dagger= (Dagger) dr.getDrawable();
+			AnimatedEntity2D animatedEntity2D = new AnimatedEntity2D(dagger, this.graphicsFileLoader.getAnimations().get(Constantes.DRAWABLE_FLYING_DAGGER));
+			this.animatedEntities.add(animatedEntity2D);
+			this.hashMapLevelAnimation.put(dagger, animatedEntity2D);
+			
 
 		}
 

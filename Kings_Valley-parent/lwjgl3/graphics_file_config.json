@@ -10,6 +10,7 @@ archiMummyWhite: pics/mummy_white.png
 archiMummyYellow: pics/mummy_yellow.png
 archiMummyAppear: pics/mummy_appear.png
 archiMummyDisappear: pics/mummy_disappear.png
+archiFlyingDagger: pics/knife.png
 CharacterFrameWidth: 16
 CharacterFrameHeight: 20
 frameDuration: 0.1
@@ -52,4 +53,9 @@ playerDaggerStartThrowing: 17
 playerDaggerCountThrowing: 2
 playerStartDeath: 21
 playerCountDeath: 4
+flyingDaggerCount: 8
+flyingDaggerWidth: 16
+flyingDaggerHeight: 20
+pickingCellCount: 4
+pickingCellFrameDuration: 0.25
 }

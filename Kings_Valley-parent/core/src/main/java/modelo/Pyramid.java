@@ -38,7 +38,9 @@ public class Pyramid implements IGrafica
     private ArrayList<LevelItem> stairs_ul = new ArrayList<LevelItem>();
     private ArrayList<LevelItem> stairs_ur = new ArrayList<LevelItem>();
     private ArrayList<LevelItem> pickers = new ArrayList<LevelItem>();
-    private ArrayList<LevelItem> daggers = new ArrayList<LevelItem>();
+    private ArrayList<Dagger> stuckedDaggers = new ArrayList<Dagger>();
+    private ArrayList<Dagger> fliyingDaggers = new ArrayList<Dagger>();
+    
     private ArrayList<LevelItem> giratorys = new ArrayList<LevelItem>();
     private ArrayList<LevelItem> walls = new ArrayList<LevelItem>();
     private ArrayList<LevelItem> activators = new ArrayList<LevelItem>();
@@ -144,13 +146,14 @@ public class Pyramid implements IGrafica
 
 	    }
 
-	    LevelItem levelItem = new LevelItem(type, fx, fy, p0, width, height);
+	    LevelItem levelItem;
 	    switch (type)
 	    {
 	    case Constantes.It_mummy:
 		this.addMummy(fx, fy, p0);
 		break;
 	    case Constantes.It_door:
+		levelItem = new LevelItem(type, fx, fy, p0, width, height);
 		if (levelItem.getP0() == 0)
 		    this.doorIn = levelItem;
 		else if (levelItem.getP0() == 1)
@@ -162,16 +165,21 @@ public class Pyramid implements IGrafica
 		}
 		break;
 	    case Constantes.It_jewel:
+		levelItem = new LevelItem(type, fx, fy, p0, width, height);
 		this.jewels.add(levelItem);
 		break;
 	    case Constantes.It_picker:
+		levelItem = new LevelItem(type, fx, fy, p0, width, height);
 		this.pickers.add(levelItem);
 		break;
 
 	    case Constantes.It_dagger:
-		this.daggers.add(levelItem);
+		
+		this.stuckedDaggers.add(new Dagger(type, fx, fy, p0, width, height));
 		break;
 	    case Constantes.It_stairs:
+		levelItem = new LevelItem(type, fx, fy, p0, width, height);
+		
 		switch (p0)
 		{
 		case Constantes.STAIR_DL:
@@ -190,6 +198,8 @@ public class Pyramid implements IGrafica
 
 		break;
 	    case Constantes.It_giratory:
+		levelItem = new LevelItem(type, fx, fy, p0, width, height);
+		
 		this.giratorys.add(levelItem);
 		GiratoryMechanism giratoryMechanism = new GiratoryMechanism(levelItem);
 		this.giratoryMechanisms.add(giratoryMechanism);
@@ -199,11 +209,15 @@ public class Pyramid implements IGrafica
 
 		break;
 	    case Constantes.It_wall:
+		levelItem = new LevelItem(type, fx, fy, p0, width, height);
+		
 		this.walls.add(levelItem);
 		this.unpickableCells.add(this.getCell(levelItem.getX(), levelItem.getY()));
 		break;
 
 	    case Constantes.It_activator:
+		levelItem = new LevelItem(type, fx, fy, p0, width, height);
+		
 		this.activators.add(levelItem);
 		break;
 
@@ -275,7 +289,7 @@ public class Pyramid implements IGrafica
 	ArrayList<LevelItem> levelItems = new ArrayList<LevelItem>();
 	levelItems.addAll(this.pickers);
 	levelItems.addAll(this.jewels);
-	levelItems.addAll(this.daggers);
+	levelItems.addAll(this.stuckedDaggers);
 	levelItems.addAll(this.stairs_dl);
 	levelItems.addAll(this.stairs_dr);
 	levelItems.addAll(this.stairs_ul);
@@ -365,9 +379,9 @@ public class Pyramid implements IGrafica
 	return pickers;
     }
 
-    public ArrayList<LevelItem> getDaggers()
+    public ArrayList<Dagger> getStuckedDaggers()
     {
-	return daggers;
+	return stuckedDaggers;
     }
 
     public ArrayList<LevelItem> getGiratorys()
@@ -470,19 +484,19 @@ public class Pyramid implements IGrafica
     {
 	boolean isBeginStair = (celda != null && celda.getTile().getId() >= 20 && celda.getTile().getId() < 60);
 
-	Iterator<LevelItem> it = this.jewels.iterator();
+	Iterator it = this.jewels.iterator();
 	Cell cellWithItem = null;
 	while (it.hasNext() && cellWithItem != celda)
 	{
-	    LevelItem item = it.next();
+	    LevelItem item = (LevelItem) it.next();
 	    cellWithItem = this.getCell(item.getX(), item.getY() - Config.getInstance().getLevelTileHeightUnits());
 	}
 
-	it = this.daggers.iterator();
+	it = this.stuckedDaggers.iterator();
 
 	while (it.hasNext() && cellWithItem != celda)
 	{
-	    LevelItem item = it.next();
+	    LevelItem item = (LevelItem) it.next();
 	    cellWithItem = this.getCell(item.getX(), item.getY() - Config.getInstance().getLevelTileHeightUnits());
 	}
 
@@ -496,10 +510,26 @@ public class Pyramid implements IGrafica
 	    it.next().update(deltaTime);
 
     }
-
-    public void removeDagger(LevelItem dagger)
+    
+    public void updateFlyingDagger(float deltaTime)
     {
-	this.daggers.remove(dagger);
+	Iterator<Dagger> it = this.fliyingDaggers.iterator();
+	while (it.hasNext())
+	    it.next().incX(Config.getInstance().getFlyingDaggerSpeed()*deltaTime);
+
+    }
+    
+
+    public void removeStuckedDagger(LevelItem dagger)
+    {
+	this.stuckedDaggers.remove(dagger);
 	this.removeGraphicElement(new DrawableElement(Constantes.DRAWABLE_LEVEL_ITEM, dagger));
     }
+    
+    public void addFlyingDagger(Dagger dagger) 
+    {
+	this.fliyingDaggers.add(dagger);
+	this.addGraphicElement(new DrawableElement(Constantes.DRAWABLE_FLYING_DAGGER, dagger));
+    }
+    
 }
