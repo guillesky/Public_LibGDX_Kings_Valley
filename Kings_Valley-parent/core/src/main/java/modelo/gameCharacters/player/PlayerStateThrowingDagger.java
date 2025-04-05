@@ -25,8 +25,7 @@ public class PlayerStateThrowingDagger extends PlayerState
     public void update(Vector2 v, boolean b, float deltaTime)
     {
 
-	this.player.incAnimationDelta(deltaTime);
-
+	
 	if (this.player.getAnimationDelta() >= 0.2f) // termino de LANZAR LA DAGA
 	{
 	    this.player.setPlayerState(new PlayerStateWalking(this.player));

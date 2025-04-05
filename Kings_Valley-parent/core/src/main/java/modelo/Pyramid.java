@@ -480,6 +480,16 @@ public class Pyramid implements IGrafica
 	return cell;
     }
 
+    public TiledMapTileLayer.Cell getCell(float x, float y,int i,int j)
+    {
+	TiledMapTileLayer layer = (TiledMapTileLayer) this.getMap().getLayers().get("front");
+	TiledMapTileLayer.Cell cell = layer.getCell((int) (x / Config.getInstance().getLevelTileWidthUnits())+i,
+		(int) (y / Config.getInstance().getLevelTileHeightUnits())+j);
+	return cell;
+    }
+    
+    
+    
     public boolean isPickable(Cell celda)
     {
 	boolean isBeginStair = (celda != null && celda.getTile().getId() >= 20 && celda.getTile().getId() < 60);
@@ -520,10 +530,11 @@ public class Pyramid implements IGrafica
     }
     
 
-    public void removeStuckedDagger(LevelItem dagger)
+    public void removeStuckedDagger(Dagger dagger)
     {
 	this.stuckedDaggers.remove(dagger);
 	this.removeGraphicElement(new DrawableElement(Constantes.DRAWABLE_LEVEL_ITEM, dagger));
+	
     }
     
     public void addFlyingDagger(Dagger dagger) 
@@ -532,4 +543,17 @@ public class Pyramid implements IGrafica
 	this.addGraphicElement(new DrawableElement(Constantes.DRAWABLE_FLYING_DAGGER, dagger));
     }
     
+    
+    public void removeFlyingDagger(Dagger dagger) 
+    {
+	this.fliyingDaggers.remove(dagger);
+	this.removeGraphicElement(new DrawableElement(Constantes.DRAWABLE_FLYING_DAGGER, dagger));
+    }
+    
+    public void addStuckedDagger(Dagger dagger)
+    {
+	this.stuckedDaggers.add(dagger);
+	this.addGraphicElement(new DrawableElement(Constantes.DRAWABLE_LEVEL_ITEM, dagger));
+	
+    }
 }

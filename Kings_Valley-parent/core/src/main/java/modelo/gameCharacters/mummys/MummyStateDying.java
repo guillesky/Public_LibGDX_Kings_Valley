@@ -15,7 +15,6 @@ public class MummyStateDying extends MummyState
     @Override
     public void update(float deltaTime)
     {
-	this.mummy.incAnimationDelta(deltaTime);
 	if (this.mummy.getAnimationDelta() >= this.timeToDecide)
 	{
 

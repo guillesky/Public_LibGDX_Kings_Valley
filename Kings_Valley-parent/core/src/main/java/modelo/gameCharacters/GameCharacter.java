@@ -72,10 +72,8 @@ public abstract class GameCharacter extends LevelItem
 		    this.motionVector.x = 0;
 
 		    this.animationDelta = 0;
-		} else
-		{
-		    this.animationDelta += deltaTime;
-		}
+		} //else	    this.animationDelta += deltaTime;
+		
 		this.motionVector.y += this.speedFall * deltaTime;
 
 		if (this.motionVector.y < this.speedFall)
@@ -92,8 +90,7 @@ public abstract class GameCharacter extends LevelItem
 		    {
 			this.animationDelta = 0;
 			this.state = ST_IDDLE;
-		    } else
-			this.animationDelta += deltaTime;
+		    }// else 			this.animationDelta += deltaTime;
 
 		} else
 		{
@@ -103,10 +100,8 @@ public abstract class GameCharacter extends LevelItem
 			this.animationDelta = 0;
 			this.state = ST_WALK;
 
-		    } else
-		    {
-			this.animationDelta += deltaTime;
-		    }
+		    } //else 	this.animationDelta += deltaTime;
+		    
 
 		}
 		this.motionVector.x = v.x * this.speedWalk;
@@ -132,7 +127,7 @@ public abstract class GameCharacter extends LevelItem
 	    if (v.x != 0)
 	    {
 		this.checkExitStair(v);
-		this.animationDelta += deltaTime;
+		//this.animationDelta += deltaTime;
 		this.lookRight = v.x > 0;
 	    }
 	}
@@ -772,5 +767,11 @@ public abstract class GameCharacter extends LevelItem
     {
 	this.animationDelta += delta;
     }
+
+    protected Pyramid getPyramid()
+    {
+        return pyramid;
+    }
+    
 
 }

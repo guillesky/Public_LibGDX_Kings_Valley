@@ -21,10 +21,9 @@ public class PlayerStatePicking extends PlayerState
     @Override
     public void update(Vector2 v, boolean b, float deltaTime)
     {
-	Pyramid pyramid = Juego.getInstance().getCurrentPyramid();
+	Pyramid pyramid = this.player.getPyramid();
 	ArrayList<PairInt> coordToPick = this.player.getCoordToPick();
 	PairInt pi = coordToPick.get(0);
-	this.player.incAnimationDelta(deltaTime);
 	if (this.player.getTimePicking() == 0)// Recien comienza a picar
 	    pyramid.addGraphicElement(new DrawableElement(Constantes.DRAWABLE_PICKING_CELL, pi));
 

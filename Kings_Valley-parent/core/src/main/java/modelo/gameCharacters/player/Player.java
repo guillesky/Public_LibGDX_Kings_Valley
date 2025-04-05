@@ -36,6 +36,7 @@ public class Player extends GameCharacter
 
     public void update(Vector2 v, boolean b, float deltaTime)
     {
+	this.incAnimationDelta(deltaTime);
 	this.playerState.update(v, b, deltaTime);
     }
 
@@ -59,11 +60,28 @@ public class Player extends GameCharacter
     private void throwDagger()
     {
 	Dagger dagger = (Dagger) this.item;
-	dagger.x = this.x;
-	dagger.y = this.y;
-	this.pyramid.addFlyingDagger(dagger);
-	this.item = null;
-	this.playerState = new PlayerStateThrowingDagger(this);
+	int direccion;
+	if (this.isLookRight())
+	    direccion = 1;
+	else
+	    direccion = -1;
+	if (this.pyramid.getCell(x, y, direccion, 1) == null)
+	{
+	    dagger.x = this.x;
+	    dagger.y = this.y + Config.getInstance().getLevelTileHeightUnits();
+	    this.pyramid.addFlyingDagger(dagger);
+	    this.item = null;
+	    this.playerState = new PlayerStateThrowingDagger(this);
+	} else if (this.pyramid.getCell(x, y, direccion, 2) == null && this.pyramid.getCell(x, y, 0, 2) == null)
+	{
+	    dagger.x = this.x + Config.getInstance().getLevelTileWidthUnits() * direccion;
+	    dagger.y = this.y + Config.getInstance().getLevelTileHeightUnits() * 2;
+	    this.pyramid.addStuckedDagger(dagger);
+	    this.playerState = new PlayerStateThrowingDagger(this);
+	    this.item = null;
+
+	}
+
     }
 
     private void doPicker()
@@ -232,7 +250,7 @@ public class Player extends GameCharacter
     protected void move(Vector2 v, boolean b, float deltaTime)
     {
 	super.move(v, b, deltaTime);
-	this.pickupCllectables();
+	this.pickupCollectables();
 
 	LevelItem activator = this.checkRectangleColision(this.pyramid.getActivators());
 	if (activator != null)
@@ -240,7 +258,7 @@ public class Player extends GameCharacter
 	this.checkGiratory(v);
     }
 
-    private void pickupCllectables()
+    private void pickupCollectables()
     {
 	if (this.state != GameCharacter.ST_ONSTAIRS_NEGATIVE && this.state != GameCharacter.ST_ONSTAIRS_POSITIVE)
 	{
@@ -260,7 +278,7 @@ public class Player extends GameCharacter
 
 		}
 
-		LevelItem dagger = this.checkRectangleColision(this.pyramid.getStuckedDaggers());
+		Dagger dagger = (Dagger) this.checkRectangleColision(this.pyramid.getStuckedDaggers());
 		if (dagger != null)
 		{
 		    this.item = dagger;
@@ -272,9 +290,10 @@ public class Player extends GameCharacter
     }
 
     @Override
-    protected void incAnimationDelta(float delta)
+    protected Pyramid getPyramid()
     {
-	super.incAnimationDelta(delta);
+	// TODO Auto-generated method stub
+	return super.getPyramid();
     }
 
 }

@@ -8,12 +8,13 @@ import util.Config;
 public class MummyStateWalk extends MummyState
 {
 	private boolean doJump = false;
-	private Player player = Juego.getInstance().getCurrentPyramid().getPlayer();
+	private Player player;
 	private float maxDistanceToPlayer;
 
 	public MummyStateWalk(Mummy mummy)
 	{
 		super(mummy, GameCharacter.ST_WALK);
+		this.player=this.mummy.getPyramid().getPlayer();
 		this.timeToDecide = this.mummy.getTimeToDecide();
 
 		if (mummy.getX() < this.player.getX())

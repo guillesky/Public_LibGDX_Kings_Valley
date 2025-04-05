@@ -1,5 +1,7 @@
 package modelo;
 
+import java.util.Objects;
+
 import com.badlogic.gdx.math.Rectangle;
 
 import util.Config;
@@ -7,6 +9,8 @@ import util.Constantes;
 
 public class LevelItem extends Rectangle implements IGraphicRenderer
 {
+    private static int count = 0;
+    private int id;
     private int type;
     private int p0;
     private IGraphicRenderer graphicRenderer;
@@ -16,7 +20,8 @@ public class LevelItem extends Rectangle implements IGraphicRenderer
 	super(x, y, width, height);
 	this.type = type;
 	this.p0 = p0;
-
+	count++;
+	this.id = count;
     }
 
     public int getType()
@@ -32,7 +37,7 @@ public class LevelItem extends Rectangle implements IGraphicRenderer
     @Override
     public String toString()
     {
-	return "LevelItem [type=" + Constantes.identificacion.get(type) + ", x=" + x + ", y=" + y + ", p0=" + p0 + "]";
+	return "LevelItem [id= "+this.id+" type=" + Constantes.identificacion.get(type) + ", x=" + x + ", y=" + y + ", p0=" + p0 + "]";
     }
 
     public IGraphicRenderer getGraphicRenderer()
@@ -72,15 +77,38 @@ public class LevelItem extends Rectangle implements IGraphicRenderer
 	return respuesta;
     }
 
-        
-    public int getColPosition() 
+    public int getColPosition()
     {
 	return (int) (this.x / Config.getInstance().getLevelTileWidthUnits());
     }
-    
-    public int getRowPosition() 
+
+    public int getRowPosition()
     {
 	return (int) (this.y / Config.getInstance().getLevelTileHeightUnits());
     }
+
+    @Override
+    public int hashCode()
+    {
+	final int prime = 31;
+	int result = super.hashCode();
+	result = prime * result + Objects.hash(id);
+	return result;
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+	if (this == obj)
+	    return true;
+	if (!super.equals(obj))
+	    return false;
+	if (getClass() != obj.getClass())
+	    return false;
+	LevelItem other = (LevelItem) obj;
+	return id == other.id;
+    }
+    
+    
 
 }

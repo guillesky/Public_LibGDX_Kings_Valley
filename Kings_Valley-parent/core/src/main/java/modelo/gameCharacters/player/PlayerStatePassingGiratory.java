@@ -26,7 +26,6 @@ public class PlayerStatePassingGiratory extends PlayerState
     public void update(Vector2 v, boolean b, float deltaTime)
     {
 	float direction;
-	this.player.incAnimationDelta(deltaTime);
 	float speedWalkStairs = this.player.getSpeedWalkStairs();
 	if (this.passingGiratory.isRight())
 	    direction = 1;
