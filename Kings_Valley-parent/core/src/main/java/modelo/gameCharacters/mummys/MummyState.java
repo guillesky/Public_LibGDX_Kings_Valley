@@ -1,5 +1,7 @@
 package modelo.gameCharacters.mummys;
 
+import modelo.gameCharacters.player.Player;
+
 public abstract class MummyState
 {
 protected Mummy mummy;
@@ -12,7 +14,7 @@ public MummyState(Mummy mummy,int state)
 	
 }
 
-public abstract void update(float deltaTime);
+public abstract void update(float deltaTime, Player player);
 
 
 }

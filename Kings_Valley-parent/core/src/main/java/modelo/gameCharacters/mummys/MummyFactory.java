@@ -1,6 +1,6 @@
 package modelo.gameCharacters.mummys;
 
-import modelo.Pyramid;
+import modelo.level.Pyramid;
 
 public class MummyFactory
 {

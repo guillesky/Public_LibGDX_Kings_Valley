@@ -8,26 +8,27 @@ import util.Config;
 public class MummyStateWalk extends MummyState
 {
 	private boolean doJump = false;
-	private Player player;
 	private float maxDistanceToPlayer;
 
-	public MummyStateWalk(Mummy mummy)
+	public MummyStateWalk(Mummy mummy, Player player)
 	{
 		super(mummy, GameCharacter.ST_WALK);
-		this.player=this.mummy.getPyramid().getPlayer();
-		this.timeToDecide = this.mummy.getTimeToDecide();
-
-		if (mummy.getX() < this.player.getX())
+		if (mummy.getX() < player.getX())
 			this.mummy.getDirection().x = 1;
 		else
 			this.mummy.getDirection().x = -1;
+		
+		this.timeToDecide = this.mummy.getTimeToDecide();
+
 		
 		this.maxDistanceToPlayer= (64*Config.getInstance().getLevelTileHeightUnits()*Config.getInstance().getLevelTileHeightUnits());
 	}
 
 	@Override
-	public void update(float deltaTime)
+	public void update(float deltaTime,Player player)
 	{
+		
+		
 		if (this.mummy.getState() == GameCharacter.ST_WALK)
 			this.checkCrash();
 
@@ -42,7 +43,7 @@ public class MummyStateWalk extends MummyState
 			if (this.mummy.getStressLevel() > 0)
 				this.mummy.calmStress(deltaTime / 3);
 
-			if (this.mummy.distanceQuadToPlayer() > this.maxDistanceToPlayer && this.mummy.getAnimationDelta() >= this.timeToDecide)
+			if (this.mummy.distanceQuadToPlayer(player) > this.maxDistanceToPlayer && this.mummy.getAnimationDelta() >= this.timeToDecide)
 			{
 				this.mummy.mummyState = new MummyStateDeciding(this.mummy);
 			}

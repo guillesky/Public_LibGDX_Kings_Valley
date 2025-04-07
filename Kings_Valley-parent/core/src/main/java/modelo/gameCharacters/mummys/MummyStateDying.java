@@ -1,6 +1,7 @@
 package modelo.gameCharacters.mummys;
 
 import modelo.gameCharacters.GameCharacter;
+import modelo.gameCharacters.player.Player;
 
 public class MummyStateDying extends MummyState
 {
@@ -13,7 +14,7 @@ public class MummyStateDying extends MummyState
     }
 
     @Override
-    public void update(float deltaTime)
+    public void update(float deltaTime,Player player)
     {
 	if (this.mummy.getAnimationDelta() >= this.timeToDecide)
 	{

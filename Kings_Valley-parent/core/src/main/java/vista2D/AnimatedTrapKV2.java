@@ -5,10 +5,10 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import modelo.IGraphicRenderer;
-import modelo.LevelItem;
-import modelo.TrapMechanism;
 import modelo.gameCharacters.GameCharacter;
 import modelo.gameCharacters.player.Player;
+import modelo.level.LevelItem;
+import modelo.level.TrapMechanism;
 import util.Config;
 
 public class AnimatedTrapKV2 implements IGraphicRenderer

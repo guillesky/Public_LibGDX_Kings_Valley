@@ -1,5 +1,7 @@
 package modelo.gameCharacters.mummys;
 
+import modelo.gameCharacters.player.Player;
+
 public class MummyStateAppearing extends MummyState
 {
     public MummyStateAppearing(Mummy mummy)
@@ -10,7 +12,7 @@ public class MummyStateAppearing extends MummyState
     }
 
     @Override
-    public void update(float deltaTime)
+    public void update(float deltaTime,Player player)
     {
 	
 	if (this.mummy.getAnimationDelta() >= this.timeToDecide)

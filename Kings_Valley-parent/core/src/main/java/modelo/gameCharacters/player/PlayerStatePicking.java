@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 
-import modelo.DrawableElement;
 import modelo.Juego;
-import modelo.Pyramid;
+import modelo.level.DrawableElement;
+import modelo.level.Pyramid;
 import util.Constantes;
 
 public class PlayerStatePicking extends PlayerState
@@ -25,7 +25,7 @@ public class PlayerStatePicking extends PlayerState
 	ArrayList<PairInt> coordToPick = this.player.getCoordToPick();
 	PairInt pi = coordToPick.get(0);
 	if (this.player.getTimePicking() == 0)// Recien comienza a picar
-	    pyramid.addGraphicElement(new DrawableElement(Constantes.DRAWABLE_PICKING_CELL, pi));
+	    this.player.getPyramid().addGraphicElement(new DrawableElement(Constantes.DRAWABLE_PICKING_CELL, pi));
 
 	this.player.incTimePicking(deltaTime);
 
@@ -35,7 +35,7 @@ public class PlayerStatePicking extends PlayerState
 	    TiledMapTileLayer layer = (TiledMapTileLayer) pyramid.getMap().getLayers().get("front");
 	    layer.setCell(pi.getX(), pi.getY(), null);
 	    coordToPick.remove(0);
-	    pyramid.removeGraphicElement(new DrawableElement(Constantes.DRAWABLE_PICKING_CELL, pi));
+	    this.player.getPyramid().removeGraphicElement(new DrawableElement(Constantes.DRAWABLE_PICKING_CELL, pi));
 	    if (coordToPick.isEmpty())
 		this.player.setPlayerState(new PlayerStateWalking(this.player));
 	    this.player.resetTimePicking();

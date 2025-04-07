@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 
-import modelo.DrawableElement;
-import modelo.GiratoryMechanism;
 import modelo.Juego;
-import modelo.Pyramid;
 import modelo.gameCharacters.GameCharacter;
+import modelo.level.DrawableElement;
+import modelo.level.GiratoryMechanism;
+import modelo.level.Pyramid;
 import util.Constantes;
 
 public class PlayerStatePassingGiratory extends PlayerState

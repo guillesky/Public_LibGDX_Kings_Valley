@@ -1,4 +1,4 @@
-package modelo;
+package modelo.level;
 
 public class Dagger extends LevelItem
 {

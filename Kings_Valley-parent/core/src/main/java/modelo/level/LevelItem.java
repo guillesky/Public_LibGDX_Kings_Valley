@@ -1,9 +1,10 @@
-package modelo;
+package modelo.level;
 
 import java.util.Objects;
 
 import com.badlogic.gdx.math.Rectangle;
 
+import modelo.IGraphicRenderer;
 import util.Config;
 import util.Constantes;
 

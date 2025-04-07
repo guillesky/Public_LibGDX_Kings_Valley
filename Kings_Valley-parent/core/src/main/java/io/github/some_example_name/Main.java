@@ -9,7 +9,8 @@ import com.badlogic.gdx.math.Vector2;
 
 import modelo.Controles;
 import modelo.Juego;
-import modelo.Pyramid;
+import modelo.level.LevelReader;
+import modelo.level.Pyramid;
 import util.Constantes;
 import vista2D.TileMapGrafica2D;
 
@@ -19,119 +20,110 @@ import vista2D.TileMapGrafica2D;
  */
 public class Main implements IMyApplicationnListener
 {
-	private AssetManager manager;
-	private IMyApplicationnListener grafica;
+    private AssetManager manager;
+    private IMyApplicationnListener grafica;
 
-	@Override
-	public void create()
+    @Override
+    public void create()
+    {
+	manager = new AssetManager();
+	manager.setLoader(TiledMap.class, new TmxMapLoader());
+	for (int i = 1; i <= 15; i++)
+	    manager.load(Constantes.levelFileName.get(i), TiledMap.class);
+	grafica = new TileMapGrafica2D(manager);
+	/*
+	 * Thread th = new Thread(new Runnable() {
+	 * 
+	 * @Override public void run() { float progress; do { progress =
+	 * manager.getProgress(); System.out.println(progress);
+	 * 
+	 * } while (progress < 1.0);
+	 * 
+	 * } }); th.start();
+	 */
+	manager.finishLoading();
+	LevelReader lr = new LevelReader(grafica);
+	for (int i = 1; i <= 15; i++)
 	{
-		manager = new AssetManager();
-		manager.setLoader(TiledMap.class, new TmxMapLoader());
-		for (int i = 1; i <= 15; i++)
-			manager.load(Constantes.levelFileName.get(i), TiledMap.class);
-		grafica = new TileMapGrafica2D(manager);
-		/*Thread th = new Thread(new Runnable()
-		{
-
-			@Override
-			public void run()
-			{
-				float progress;
-				do
-				{
-					progress = manager.getProgress();
-					System.out.println(progress);
-
-				} while (progress < 1.0);
-
-			}
-		});
-		th.start();*/
-		manager.finishLoading();
-
-		for (int i = 1; i <= 15; i++)
-		{
-			TiledMap map = manager.get(Constantes.levelFileName.get(i), TiledMap.class);
-			Juego.getInstance().addPyramid(new Pyramid(map, grafica, i,3));
-		}
-		this.grafica.create();
+	    TiledMap map = manager.get(Constantes.levelFileName.get(i), TiledMap.class);
+	    Juego.getInstance().addLevel(lr.getLevel(map,  i, 3));
 	}
+	this.grafica.create();
+    }
 
-	@Override
-	public void render()
-	{
-		this.updateInput();
-		this.grafica.render();
-	}
+    @Override
+    public void render()
+    {
+	this.updateInput();
+	this.grafica.render();
+    }
 
-	@Override
-	public void dispose()
-	{
-		manager.dispose();
-		this.grafica.dispose();
-		Juego.getInstance().dispose();
+    @Override
+    public void dispose()
+    {
+	manager.dispose();
+	this.grafica.dispose();
+	Juego.getInstance().dispose();
 
-	}
+    }
 
-	private void updateInput()
-	{
-		Controles controles = Juego.getInstance().getControles();
+    private void updateInput()
+    {
+	Controles controles = Juego.getInstance().getControles();
 
-		float x = 0, y = 0;
+	float x = 0, y = 0;
 
-		Vector2 aux;
-		if (Gdx.input.isKeyPressed(Input.Keys.UP))
-			y += 1;
-		if (Gdx.input.isKeyPressed(Input.Keys.DOWN))
-			y -= 1;
-		if (Gdx.input.isKeyPressed(Input.Keys.RIGHT))
-			x += 1;
-		if (Gdx.input.isKeyPressed(Input.Keys.LEFT))
-			x -= 1;
-		aux = new Vector2(x, y);
+	Vector2 aux;
+	if (Gdx.input.isKeyPressed(Input.Keys.UP))
+	    y += 1;
+	if (Gdx.input.isKeyPressed(Input.Keys.DOWN))
+	    y -= 1;
+	if (Gdx.input.isKeyPressed(Input.Keys.RIGHT))
+	    x += 1;
+	if (Gdx.input.isKeyPressed(Input.Keys.LEFT))
+	    x -= 1;
+	aux = new Vector2(x, y);
 
-		controles.setNuevoRumbo(aux);
-		if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && controles.isShotEnabled())
-			controles.shot();
-		if (!Gdx.input.isKeyPressed(Input.Keys.SPACE) && !controles.isShotEnabled())
-			controles.enableShotEnabled();
+	controles.setNuevoRumbo(aux);
+	if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && controles.isShotEnabled())
+	    controles.shot();
+	if (!Gdx.input.isKeyPressed(Input.Keys.SPACE) && !controles.isShotEnabled())
+	    controles.enableShotEnabled();
 
-		Juego.getInstance().actualizaframe(Gdx.graphics.getDeltaTime());
-	}
+	Juego.getInstance().actualizaframe(Gdx.graphics.getDeltaTime());
+    }
 
-	@Override
-	public void addGraphicElement(Object element)
-	{
-		
+    @Override
+    public void addGraphicElement(Object element)
+    {
 
-	}
+    }
 
-	@Override
-	public void removeGraphicElement(Object element)
-	{
-		
+    @Override
+    public void removeGraphicElement(Object element)
+    {
 
-	}
+    }
 
-	@Override
-	public void resize(int width, int height)
-	{
-		this.grafica.resize(width, height);
+    @Override
+    public void resize(int width, int height)
+    {
+	this.grafica.resize(width, height);
 
-	}
+    }
 
-	@Override
-	public void pause()
-	{
-		this.grafica.pause();
+    @Override
+    public void pause()
+    {
+	this.grafica.pause();
 
-	}
+    }
 
-	@Override
-	public void resume()
-	{
-		this.grafica.resume();
+    @Override
+    public void resume()
+    {
+	this.grafica.resume();
 
-	}
+    }
 
 }

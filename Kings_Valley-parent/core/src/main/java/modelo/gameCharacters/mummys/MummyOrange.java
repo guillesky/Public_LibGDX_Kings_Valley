@@ -1,6 +1,6 @@
 package modelo.gameCharacters.mummys;
 
-import modelo.Pyramid;
+import modelo.level.Pyramid;
 import util.Config;
 
 public class MummyOrange extends Mummy

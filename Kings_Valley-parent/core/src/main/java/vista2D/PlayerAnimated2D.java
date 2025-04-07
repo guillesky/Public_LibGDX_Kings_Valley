@@ -3,9 +3,9 @@ package vista2D;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import modelo.LevelItem;
 import modelo.gameCharacters.GameCharacter;
 import modelo.gameCharacters.player.Player;
+import modelo.level.LevelItem;
 import util.Constantes;
 
 public class PlayerAnimated2D extends GameCharacterAnimated2D

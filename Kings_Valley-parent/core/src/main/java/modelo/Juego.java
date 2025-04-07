@@ -6,13 +6,14 @@ import java.util.Iterator;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 import modelo.gameCharacters.player.Player;
+import modelo.level.Level;
 
 public class Juego
 {
 	private static Juego instance = new Juego();
 	private Controles controles = new Controles();
-	private ArrayList<Pyramid> pyramids = new ArrayList<Pyramid>();
-	private int currentPyramid =11;
+	private ArrayList<Level> levels = new ArrayList<Level>();
+	private int currentLevel =11;
 	private float delta = 0;
 
 	private Juego()
@@ -27,12 +28,12 @@ public class Juego
 	public void actualizaframe(float deltaTime)
 	{
 		this.delta += deltaTime;
-		Player player = this.getCurrentPyramid().getPlayer();
+		Player player = this.getCurrentLevel().getPlayer();
 		player.update(this.controles.getNuevoRumbo(), this.controles.getShot(), deltaTime);
 		
-		this.getCurrentPyramid().updateMechanism(deltaTime);
-		this.getCurrentPyramid().updateMummys(deltaTime);
-		this.getCurrentPyramid().updateFlyingDagger(deltaTime);
+		this.getCurrentLevel().updateMechanism(deltaTime);
+		this.getCurrentLevel().updateMummys(deltaTime);
+		this.getCurrentLevel().getPyramid().updateFlyingDagger(deltaTime);
 	}
 
 	public Controles getControles()
@@ -45,21 +46,21 @@ public class Juego
 		this.controles = controles;
 	}
 
-	public void addPyramid(Pyramid pyramid)
+	public void addLevel(Level level)
 	{
-		this.pyramids.add(pyramid);
+		this.levels.add(level);
 	}
 
-	public Pyramid getCurrentPyramid()
+	public Level getCurrentLevel()
 	{
-		return this.pyramids.get(currentPyramid);
+		return this.levels.get(currentLevel);
 	}
 
 	public void dispose()
 	{
-		Iterator<Pyramid> it = this.pyramids.iterator();
+		Iterator<Level> it = this.levels.iterator();
 		while (it.hasNext())
-			it.next().getMap().dispose();
+			it.next().getPyramid().getMap().dispose();
 	}
 
 	public float getDelta()

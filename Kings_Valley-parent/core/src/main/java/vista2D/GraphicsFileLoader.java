@@ -12,8 +12,8 @@ import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 
-import modelo.LevelItem;
 import modelo.gameCharacters.mummys.Mummy;
+import modelo.level.LevelItem;
 import util.Constantes;
 
 public class GraphicsFileLoader

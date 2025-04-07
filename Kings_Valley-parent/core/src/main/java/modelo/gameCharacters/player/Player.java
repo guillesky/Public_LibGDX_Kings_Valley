@@ -7,12 +7,13 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.math.Vector2;
 
-import modelo.Dagger;
-import modelo.DrawableElement;
-import modelo.GiratoryMechanism;
-import modelo.LevelItem;
-import modelo.Pyramid;
+import modelo.Juego;
 import modelo.gameCharacters.GameCharacter;
+import modelo.level.Dagger;
+import modelo.level.DrawableElement;
+import modelo.level.GiratoryMechanism;
+import modelo.level.LevelItem;
+import modelo.level.Pyramid;
 import util.Config;
 import util.Constantes;
 
@@ -180,12 +181,6 @@ public class Player extends GameCharacter
     {
 	this.setPlayerState(new PlayerStatePassingGiratory(this, giratoryMechanism));
 	giratoryMechanism.activate();
-
-    }
-
-    @Override
-    public void update(float deltaTime)
-    {
 
     }
 

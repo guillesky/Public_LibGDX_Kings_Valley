@@ -7,9 +7,9 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-import modelo.GiratoryMechanism;
-import modelo.LevelItem;
-import modelo.Pyramid;
+import modelo.level.GiratoryMechanism;
+import modelo.level.LevelItem;
+import modelo.level.Pyramid;
 import util.Config;
 import util.Constantes;
 
@@ -751,7 +751,7 @@ public abstract class GameCharacter extends LevelItem
 
     }
 
-    public abstract void update(float deltaTime);
+    
 
     protected void setState(int state)
     {
