@@ -8,7 +8,7 @@ import modelo.IGraphicRenderer;
 import util.Config;
 import util.Constantes;
 
-public class LevelItem extends Rectangle implements IGraphicRenderer
+public class LevelObject extends Rectangle implements IGraphicRenderer
 {
     private static int count = 0;
     private int id;
@@ -16,7 +16,7 @@ public class LevelItem extends Rectangle implements IGraphicRenderer
     private int p0;
     private IGraphicRenderer graphicRenderer;
 
-    public LevelItem(int type, float x, float y, int p0, float width, float height)
+    public LevelObject(int type, float x, float y, int p0, float width, float height)
     {
 	super(x, y, width, height);
 	this.type = type;
@@ -38,7 +38,7 @@ public class LevelItem extends Rectangle implements IGraphicRenderer
     @Override
     public String toString()
     {
-	return "LevelItem [id= "+this.id+" type=" + Constantes.identificacion.get(type) + ", x=" + x + ", y=" + y + ", p0=" + p0 + "]";
+	return "LevelObject [id= "+this.id+" type=" + Constantes.identificacion.get(type) + ", x=" + x + ", y=" + y + ", p0=" + p0 + "]";
     }
 
     public IGraphicRenderer getGraphicRenderer()
@@ -61,7 +61,7 @@ public class LevelItem extends Rectangle implements IGraphicRenderer
 
     public boolean isColision(Rectangle another)
     {
-	return LevelItem.rectangleColision(this, another);
+	return LevelObject.rectangleColision(this, another);
     }
 
     protected static boolean rectangleColision(Rectangle rectangleA, Rectangle rectangleB)
@@ -106,7 +106,7 @@ public class LevelItem extends Rectangle implements IGraphicRenderer
 	    return false;
 	if (getClass() != obj.getClass())
 	    return false;
-	LevelItem other = (LevelItem) obj;
+	LevelObject other = (LevelObject) obj;
 	return id == other.id;
     }
     

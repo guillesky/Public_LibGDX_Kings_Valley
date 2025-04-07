@@ -13,7 +13,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 
 import modelo.gameCharacters.mummys.Mummy;
-import modelo.level.LevelItem;
+import modelo.level.LevelObject;
 import util.Constantes;
 
 public class GraphicsFileLoader
@@ -244,7 +244,7 @@ public class GraphicsFileLoader
 	Animation<TextureRegion> picking_cell = this.framesToAnimation(linearFrames, 0, pickingCellCount, pickingCellFrameDuration);
 	picking_cell.setPlayMode(PlayMode.NORMAL);
 
-	this.animatedPickedCell = new AnimatedPickedCell(new LevelItem(0, 0, 0, 0, collectableWidth, collectableHeight),
+	this.animatedPickedCell = new AnimatedPickedCell(new LevelObject(0, 0, 0, 0, collectableWidth, collectableHeight),
 		picking_cell);
 
 	linearFrames = this.linearFramesForFile(this.graphicsFileConfig.getArchiFlyingDagger(), flyingDaggerWidth,

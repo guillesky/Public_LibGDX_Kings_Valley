@@ -27,7 +27,7 @@ import modelo.gameCharacters.player.PairInt;
 import modelo.level.Dagger;
 import modelo.level.DrawableElement;
 import modelo.level.GiratoryMechanism;
-import modelo.level.LevelItem;
+import modelo.level.LevelObject;
 import modelo.level.Pyramid;
 import modelo.level.TrapMechanism;
 import util.Constantes;
@@ -50,7 +50,7 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 	private SpriteBatch spriteBatch = new SpriteBatch();;
 	private Array<MySpriteKV> instances = new Array<MySpriteKV>();
 	private Array<AnimatedEntity2D> animatedEntities = new Array<AnimatedEntity2D>();
-	private HashMap<LevelItem, AnimatedEntity2D> hashMapLevelAnimation = new HashMap<LevelItem, AnimatedEntity2D>();
+	private HashMap<LevelObject, AnimatedEntity2D> hashMapLevelAnimation = new HashMap<LevelObject, AnimatedEntity2D>();
 	private HashMap<TrapMechanism, AnimatedTrapKV2> hashMapTrapAnimation = new HashMap<TrapMechanism, AnimatedTrapKV2>();
 	private AnimatedPickedCell animatedPickedCell;
 	
@@ -76,7 +76,7 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 		DrawableElement dr = (DrawableElement) element;
 		if (dr.getType() == Constantes.DRAWABLE_LEVEL_ITEM)
 		{
-			LevelItem item = (LevelItem) dr.getDrawable();
+			LevelObject item = (LevelObject) dr.getDrawable();
 			AnimatedEntity2D animatedEntity2D = null;
 			int id = 0;
 			if (item.getType() == Constantes.It_jewel)
@@ -112,15 +112,15 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 		{
 			PairInt pairInt = (PairInt) dr.getDrawable();
 
-			this.animatedPickedCell.getLevelItem().setX(pairInt.getX() * this.tileWidth);
-			this.animatedPickedCell.getLevelItem().setY(pairInt.getY() * this.tileHeight);
+			this.animatedPickedCell.getLevelObject().setX(pairInt.getX() * this.tileWidth);
+			this.animatedPickedCell.getLevelObject().setY(pairInt.getY() * this.tileHeight);
 			this.animatedEntities.add(this.animatedPickedCell);
 			this.animatedPickedCell.resetTime(Juego.getInstance().getDelta());
 
 		}else if (dr.getType() == Constantes.DRAWABLE_FLYING_DAGGER)
 		{
 			Dagger dagger= (Dagger) dr.getDrawable();
-			AnimatedEntity2D animatedEntity2D = new AnimatedEntity2D(dagger, this.graphicsFileLoader.getAnimations().get(Constantes.DRAWABLE_FLYING_DAGGER));
+			AnimatedThrowingDagger2D animatedEntity2D = new AnimatedThrowingDagger2D(dagger, this.graphicsFileLoader.getAnimations().get(Constantes.DRAWABLE_FLYING_DAGGER));
 			this.animatedEntities.add(animatedEntity2D);
 			this.hashMapLevelAnimation.put(dagger, animatedEntity2D);
 			
@@ -135,7 +135,7 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 		DrawableElement dr = (DrawableElement) element;
 		if (dr.getType() == Constantes.DRAWABLE_LEVEL_ITEM)
 		{
-			LevelItem item = (LevelItem) dr.getDrawable();
+			LevelObject item = (LevelObject) dr.getDrawable();
 			AnimatedEntity2D animatedEntity2D = this.hashMapLevelAnimation.get(item);
 			this.animatedEntities.removeValue(animatedEntity2D, true);
 			this.hashMapLevelAnimation.remove(item);
@@ -168,11 +168,11 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 		this.graphicsFileLoader.loadAnimations();
 		this.animatedPickedCell = this.graphicsFileLoader.getAnimatedPickedCell();
 		renderer = new OrthogonalTiledMapRenderer(map, this.scaleFactor);
-		Iterator<LevelItem> levelItems = pyramid.getLevelItems();
-		while (levelItems.hasNext())
+		Iterator<LevelObject> levelObjects = pyramid.getLevelObjects();
+		while (levelObjects.hasNext())
 
 		{
-			LevelItem item = levelItems.next();
+			LevelObject item = levelObjects.next();
 			if (item.getType() == Constantes.It_jewel || item.getType() == Constantes.It_dagger
 					|| item.getType() == Constantes.It_picker)
 				this.addGraphicElement(new DrawableElement(Constantes.DRAWABLE_LEVEL_ITEM, item));

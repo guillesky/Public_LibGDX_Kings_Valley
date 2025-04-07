@@ -12,7 +12,7 @@ import modelo.gameCharacters.GameCharacter;
 import modelo.level.Dagger;
 import modelo.level.DrawableElement;
 import modelo.level.GiratoryMechanism;
-import modelo.level.LevelItem;
+import modelo.level.LevelObject;
 import modelo.level.Pyramid;
 import util.Config;
 import util.Constantes;
@@ -23,12 +23,12 @@ public class Player extends GameCharacter
 
     public static final int ST_PICKING = 21;
 
-    private LevelItem item = null;
+    private LevelObject item = null;
     private ArrayList<PairInt> coordToPick = new ArrayList<PairInt>();
     private float timePicking = 0;
     private PlayerState playerState = null;
 
-    public Player(LevelItem door, Pyramid pyramid)
+    public Player(LevelObject door, Pyramid pyramid)
     {
 	super(Constantes.PLAYER, door.getX(), door.getY(), Config.getInstance().getPlayerSpeedWalk(),
 		Config.getInstance().getPlayerSpeedWalkStairs(), pyramid);
@@ -41,7 +41,7 @@ public class Player extends GameCharacter
 	this.playerState.update(v, b, deltaTime);
     }
 
-    public LevelItem getItem()
+    public LevelObject getItem()
     {
 	return item;
     }
@@ -71,6 +71,8 @@ public class Player extends GameCharacter
 	    dagger.x = this.x;
 	    dagger.y = this.y + Config.getInstance().getLevelTileHeightUnits();
 	    this.pyramid.addFlyingDagger(dagger);
+	    
+	    dagger.throwHorizontal(isLookRight());
 	    this.item = null;
 	    this.playerState = new PlayerStateThrowingDagger(this);
 	} else if (this.pyramid.getCell(x, y, direccion, 2) == null && this.pyramid.getCell(x, y, 0, 2) == null)
@@ -247,7 +249,7 @@ public class Player extends GameCharacter
 	super.move(v, b, deltaTime);
 	this.pickupCollectables();
 
-	LevelItem activator = this.checkRectangleColision(this.pyramid.getActivators());
+	LevelObject activator = this.checkRectangleColision(this.pyramid.getActivators());
 	if (activator != null)
 	    this.pyramid.activateWall(activator);
 	this.checkGiratory(v);
@@ -257,7 +259,7 @@ public class Player extends GameCharacter
     {
 	if (this.state != GameCharacter.ST_ONSTAIRS_NEGATIVE && this.state != GameCharacter.ST_ONSTAIRS_POSITIVE)
 	{
-	    LevelItem joya = this.checkItemFeetColision(this.pyramid.getJewels());
+	    LevelObject joya = this.checkItemFeetColision(this.pyramid.getJewels());
 	    if (joya != null)
 	    {
 		this.pyramid.removeJewel(joya);
@@ -265,7 +267,7 @@ public class Player extends GameCharacter
 	    }
 	    if (this.item == null)
 	    {
-		LevelItem picker = this.checkRectangleColision(this.pyramid.getPickers());
+		LevelObject picker = this.checkRectangleColision(this.pyramid.getPickers());
 		if (picker != null)
 		{
 		    this.item = picker;

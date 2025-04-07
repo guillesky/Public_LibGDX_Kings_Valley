@@ -33,7 +33,7 @@ public class Juego
 		
 		this.getCurrentLevel().updateMechanism(deltaTime);
 		this.getCurrentLevel().updateMummys(deltaTime);
-		this.getCurrentLevel().getPyramid().updateFlyingDagger(deltaTime);
+		this.getCurrentLevel().updateFlyingDagger(deltaTime);
 	}
 
 	public Controles getControles()

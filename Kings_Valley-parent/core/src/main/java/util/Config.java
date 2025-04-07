@@ -48,8 +48,8 @@ public class Config
     private float characterFeetWidth;
     private float characterFeetHeight ;
 
-    private float levelItemWidth;
-    private float levelItemHeight;
+    private float levelObjectWidth;
+    private float levelObjectHeight;
 
     private float stairWidth ;
     private float stairHeight ;
@@ -121,8 +121,8 @@ public class Config
 	this.characterFeetHeight = this.levelTileHeightUnits * 0.1f;
 	this.characterFeetWidth = this.levelTileWidthUnits * 0.1f;
 
-	this.levelItemWidth = this.levelTileWidthUnits;
-	this.levelItemHeight = this.levelTileHeightUnits;
+	this.levelObjectWidth = this.levelTileWidthUnits;
+	this.levelObjectHeight = this.levelTileHeightUnits;
 
 	this.stairWidth = this.levelTileWidthUnits * 0.5f;
 	this.stairHeight = this.levelTileHeightUnits * 0.2f;
@@ -263,24 +263,24 @@ public class Config
 	this.characterHeight = characterHeight;
     }
 
-    public float getLevelItemWidth()
+    public float getLevelObjectWidth()
     {
-	return levelItemWidth;
+	return levelObjectWidth;
     }
 
-    public void setLevelItemWidth(float levelItemWidth)
+    public void setLevelObjectWidth(float levelObjectWidth)
     {
-	this.levelItemWidth = levelItemWidth;
+	this.levelObjectWidth = levelObjectWidth;
     }
 
-    public float getLevelItemHeight()
+    public float getLevelObjectHeight()
     {
-	return levelItemHeight;
+	return levelObjectHeight;
     }
 
-    public void setLevelItemHeight(float levelItemHeight)
+    public void setLevelObjectHeight(float levelObjectHeight)
     {
-	this.levelItemHeight = levelItemHeight;
+	this.levelObjectHeight = levelObjectHeight;
     }
 
     public float getStairWidth()

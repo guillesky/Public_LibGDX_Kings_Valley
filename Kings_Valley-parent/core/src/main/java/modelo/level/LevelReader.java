@@ -25,24 +25,24 @@ public class LevelReader
 
     private IGrafica interfaz = null;
     private Player player = null;
-    private LevelItem doorIn = null;
-    private LevelItem doorOut = null;
-    private ArrayList<LevelItem> jewels = new ArrayList<LevelItem>();
-    private ArrayList<LevelItem> stairs_dr = new ArrayList<LevelItem>();
-    private ArrayList<LevelItem> stairs_dl = new ArrayList<LevelItem>();
-    private ArrayList<LevelItem> stairs_ul = new ArrayList<LevelItem>();
-    private ArrayList<LevelItem> stairs_ur = new ArrayList<LevelItem>();
-    private ArrayList<LevelItem> pickers = new ArrayList<LevelItem>();
+    private LevelObject doorIn = null;
+    private LevelObject doorOut = null;
+    private ArrayList<LevelObject> jewels = new ArrayList<LevelObject>();
+    private ArrayList<LevelObject> stairs_dr = new ArrayList<LevelObject>();
+    private ArrayList<LevelObject> stairs_dl = new ArrayList<LevelObject>();
+    private ArrayList<LevelObject> stairs_ul = new ArrayList<LevelObject>();
+    private ArrayList<LevelObject> stairs_ur = new ArrayList<LevelObject>();
+    private ArrayList<LevelObject> pickers = new ArrayList<LevelObject>();
     private ArrayList<Dagger> stuckedDaggers = new ArrayList<Dagger>();
     private ArrayList<Dagger> fliyingDaggers = new ArrayList<Dagger>();
-    private ArrayList<LevelItem> giratorys = new ArrayList<LevelItem>();
-    private ArrayList<LevelItem> walls = new ArrayList<LevelItem>();
-    private ArrayList<LevelItem> activators = new ArrayList<LevelItem>();
+    private ArrayList<LevelObject> giratorys = new ArrayList<LevelObject>();
+    private ArrayList<LevelObject> walls = new ArrayList<LevelObject>();
+    private ArrayList<LevelObject> activators = new ArrayList<LevelObject>();
     private ArrayList<TrapMechanism> trapMechanisms = new ArrayList<TrapMechanism>();
     private ArrayList<GiratoryMechanism> giratoryMechanisms = new ArrayList<GiratoryMechanism>();
     private ArrayList<Cell> unpickableCells = new ArrayList<Cell>();
-    private HashMap<LevelItem, LevelItem> hashTraps = new HashMap<LevelItem, LevelItem>();
-    private HashMap<LevelItem, GiratoryMechanism> hashGiratoryMechanisms = new HashMap<LevelItem, GiratoryMechanism>();
+    private HashMap<LevelObject, LevelObject> hashTraps = new HashMap<LevelObject, LevelObject>();
+    private HashMap<LevelObject, GiratoryMechanism> hashGiratoryMechanisms = new HashMap<LevelObject, GiratoryMechanism>();
     private Pyramid pyramid;
     private ArrayList<Mummy> mummys = new ArrayList<Mummy>();
     private MummyFactory mummyFactory = new MummyFactory();
@@ -59,7 +59,7 @@ public class LevelReader
 
 	this.map = map;
 	this.resetAll();
-	this.readLevelItem(dificultLevel);
+	this.readLevelObjects(dificultLevel);
 	this.corrigeCeldasPicables();
 	this.pyramid = new Pyramid(map, doorIn, doorIn, jewels, stairs_dr, stairs_dl, stairs_ur, stairs_ul, pickers,
 		stuckedDaggers, giratorys, walls, activators, trapMechanisms, giratoryMechanisms, unpickableCells,
@@ -77,22 +77,22 @@ public class LevelReader
 	this.player = null;
 	this.doorIn = null;
 	this.doorOut = null;
-	this.jewels = new ArrayList<LevelItem>();
-	this.stairs_dr = new ArrayList<LevelItem>();
-	this.stairs_dl = new ArrayList<LevelItem>();
-	this.stairs_ul = new ArrayList<LevelItem>();
-	this.stairs_ur = new ArrayList<LevelItem>();
-	this.pickers = new ArrayList<LevelItem>();
+	this.jewels = new ArrayList<LevelObject>();
+	this.stairs_dr = new ArrayList<LevelObject>();
+	this.stairs_dl = new ArrayList<LevelObject>();
+	this.stairs_ul = new ArrayList<LevelObject>();
+	this.stairs_ur = new ArrayList<LevelObject>();
+	this.pickers = new ArrayList<LevelObject>();
 	this.stuckedDaggers = new ArrayList<Dagger>();
 	this.fliyingDaggers = new ArrayList<Dagger>();
-	this.giratorys = new ArrayList<LevelItem>();
-	this.walls = new ArrayList<LevelItem>();
-	this.activators = new ArrayList<LevelItem>();
+	this.giratorys = new ArrayList<LevelObject>();
+	this.walls = new ArrayList<LevelObject>();
+	this.activators = new ArrayList<LevelObject>();
 	this.trapMechanisms = new ArrayList<TrapMechanism>();
 	this.giratoryMechanisms = new ArrayList<GiratoryMechanism>();
 	this.unpickableCells = new ArrayList<Cell>();
-	this.hashTraps = new HashMap<LevelItem, LevelItem>();
-	this.hashGiratoryMechanisms = new HashMap<LevelItem, GiratoryMechanism>();
+	this.hashTraps = new HashMap<LevelObject, LevelObject>();
+	this.hashGiratoryMechanisms = new HashMap<LevelObject, GiratoryMechanism>();
 	this.pyramid = null;
 	this.mummys = new ArrayList<Mummy>();
 
@@ -127,7 +127,7 @@ public class LevelReader
 	}
     }
 
-    private void readLevelItem(int dificultLevel)
+    private void readLevelObjects(int dificultLevel)
     {
 	MapLayers mapLayers = map.getLayers();
 	MapLayer layerObject = mapLayers.get("items");
@@ -144,8 +144,8 @@ public class LevelReader
 
 	    int p0 = Integer.parseInt(sp0);
 
-	    float width = Config.getInstance().getLevelItemWidth();
-	    float height = Config.getInstance().getLevelItemHeight();
+	    float width = Config.getInstance().getLevelObjectWidth();
+	    float height = Config.getInstance().getLevelObjectHeight();
 	    if (type == Constantes.It_stairs)
 	    {
 		width = Config.getInstance().getStairWidth();
@@ -166,7 +166,7 @@ public class LevelReader
 
 	    }
 
-	    LevelItem levelItem;
+	    LevelObject levelObject;
 	    switch (type)
 	    {
 	    case Constantes.It_mummy:
@@ -174,24 +174,24 @@ public class LevelReader
 
 		break;
 	    case Constantes.It_door:
-		levelItem = new LevelItem(type, fx, fy, p0, width, height);
-		if (levelItem.getP0() == 0)
-		    this.doorIn = levelItem;
-		else if (levelItem.getP0() == 1)
-		    this.doorOut = levelItem;
+		levelObject = new LevelObject(type, fx, fy, p0, width, height);
+		if (levelObject.getP0() == 0)
+		    this.doorIn = levelObject;
+		else if (levelObject.getP0() == 1)
+		    this.doorOut = levelObject;
 		else
 		{
-		    this.doorOut = levelItem;
-		    this.doorIn = levelItem;
+		    this.doorOut = levelObject;
+		    this.doorIn = levelObject;
 		}
 		break;
 	    case Constantes.It_jewel:
-		levelItem = new LevelItem(type, fx, fy, p0, width, height);
-		this.jewels.add(levelItem);
+		levelObject = new LevelObject(type, fx, fy, p0, width, height);
+		this.jewels.add(levelObject);
 		break;
 	    case Constantes.It_picker:
-		levelItem = new LevelItem(type, fx, fy, p0, width, height);
-		this.pickers.add(levelItem);
+		levelObject = new LevelObject(type, fx, fy, p0, width, height);
+		this.pickers.add(levelObject);
 		break;
 
 	    case Constantes.It_dagger:
@@ -199,47 +199,47 @@ public class LevelReader
 		this.stuckedDaggers.add(new Dagger(type, fx, fy, p0, width, height));
 		break;
 	    case Constantes.It_stairs:
-		levelItem = new LevelItem(type, fx, fy, p0, width, height);
+		levelObject = new LevelObject(type, fx, fy, p0, width, height);
 
 		switch (p0)
 		{
 		case Constantes.STAIR_DL:
-		    this.stairs_dl.add(levelItem);
+		    this.stairs_dl.add(levelObject);
 		    break;
 		case Constantes.STAIR_DR:
-		    this.stairs_dr.add(levelItem);
+		    this.stairs_dr.add(levelObject);
 		    break;
 		case Constantes.STAIR_UL:
-		    this.stairs_ul.add(levelItem);
+		    this.stairs_ul.add(levelObject);
 		    break;
 		case Constantes.STAIR_UR:
-		    this.stairs_ur.add(levelItem);
+		    this.stairs_ur.add(levelObject);
 		    break;
 		}
 
 		break;
 	    case Constantes.It_giratory:
-		levelItem = new LevelItem(type, fx, fy, p0, width, height);
+		levelObject = new LevelObject(type, fx, fy, p0, width, height);
 
-		this.giratorys.add(levelItem);
-		GiratoryMechanism giratoryMechanism = new GiratoryMechanism(levelItem);
+		this.giratorys.add(levelObject);
+		GiratoryMechanism giratoryMechanism = new GiratoryMechanism(levelObject);
 		this.giratoryMechanisms.add(giratoryMechanism);
-		this.hashGiratoryMechanisms.put(levelItem, giratoryMechanism);
-		this.unpickableCells.add(this.getCell(levelItem.getX(),
-			levelItem.getY() - Config.getInstance().getLevelTileHeightUnits()));
+		this.hashGiratoryMechanisms.put(levelObject, giratoryMechanism);
+		this.unpickableCells.add(this.getCell(levelObject.getX(),
+			levelObject.getY() - Config.getInstance().getLevelTileHeightUnits()));
 
 		break;
 	    case Constantes.It_wall:
-		levelItem = new LevelItem(type, fx, fy, p0, width, height);
+		levelObject = new LevelObject(type, fx, fy, p0, width, height);
 
-		this.walls.add(levelItem);
-		this.unpickableCells.add(this.getCell(levelItem.getX(), levelItem.getY()));
+		this.walls.add(levelObject);
+		this.unpickableCells.add(this.getCell(levelObject.getX(), levelObject.getY()));
 		break;
 
 	    case Constantes.It_activator:
-		levelItem = new LevelItem(type, fx, fy, p0, width, height);
+		levelObject = new LevelObject(type, fx, fy, p0, width, height);
 
-		this.activators.add(levelItem);
+		this.activators.add(levelObject);
 		break;
 
 	    }
@@ -250,12 +250,12 @@ public class LevelReader
 
     private void armaTrampas()
     {
-	Iterator<LevelItem> itActivators = this.activators.iterator();
+	Iterator<LevelObject> itActivators = this.activators.iterator();
 	while (itActivators.hasNext())
 	{
-	    LevelItem activator = itActivators.next();
-	    Iterator<LevelItem> itWalls = this.walls.iterator();
-	    LevelItem wall = null;
+	    LevelObject activator = itActivators.next();
+	    Iterator<LevelObject> itWalls = this.walls.iterator();
+	    LevelObject wall = null;
 	    if (itWalls.hasNext())
 		do
 		{
@@ -275,20 +275,20 @@ public class LevelReader
 	return map;
     }
 
-    public Iterator<LevelItem> getLevelItems()
+    public Iterator<LevelObject> getLevelObjects()
     {
-	ArrayList<LevelItem> levelItems = new ArrayList<LevelItem>();
-	levelItems.addAll(this.pickers);
-	levelItems.addAll(this.jewels);
-	levelItems.addAll(this.stuckedDaggers);
-	levelItems.addAll(this.stairs_dl);
-	levelItems.addAll(this.stairs_dr);
-	levelItems.addAll(this.stairs_ul);
-	levelItems.addAll(this.stairs_ur);
-	levelItems.addAll(this.walls);
-	levelItems.addAll(this.giratorys);
+	ArrayList<LevelObject> levelObjects = new ArrayList<LevelObject>();
+	levelObjects.addAll(this.pickers);
+	levelObjects.addAll(this.jewels);
+	levelObjects.addAll(this.stuckedDaggers);
+	levelObjects.addAll(this.stairs_dl);
+	levelObjects.addAll(this.stairs_dr);
+	levelObjects.addAll(this.stairs_ul);
+	levelObjects.addAll(this.stairs_ur);
+	levelObjects.addAll(this.walls);
+	levelObjects.addAll(this.giratorys);
 
-	return levelItems.iterator();
+	return levelObjects.iterator();
     }
 
    

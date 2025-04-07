@@ -3,7 +3,7 @@ package vista2D;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import modelo.level.LevelItem;
+import modelo.level.LevelObject;
 
 public class AnimatedPickedCell extends AnimatedEntity2D
 {
@@ -14,9 +14,9 @@ public class AnimatedPickedCell extends AnimatedEntity2D
 	this.stateTime = delta;
     }
 
-    public AnimatedPickedCell(LevelItem levelItem, Animation<TextureRegion> animation)
+    public AnimatedPickedCell(LevelObject levelObject, Animation<TextureRegion> animation)
     {
-	super(levelItem, animation);
+	super(levelObject, animation);
 
     }
 

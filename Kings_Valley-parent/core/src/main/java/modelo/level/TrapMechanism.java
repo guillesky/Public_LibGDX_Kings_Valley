@@ -14,7 +14,7 @@ public class TrapMechanism extends Mechanism
     private int x;
     private int y;
 
-    public TrapMechanism(Pyramid pyramid, LevelItem wall)
+    public TrapMechanism(Pyramid pyramid, LevelObject wall)
     {
 	this.layer = (TiledMapTileLayer) pyramid.getMap().getLayers().get("front");
 	

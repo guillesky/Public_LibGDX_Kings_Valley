@@ -7,15 +7,15 @@ import util.Config;
 
 public class GiratoryMechanism extends Mechanism
 {
-	LevelItem levelItem;
+	LevelObject levelObject;
 	private boolean right;
 	private boolean triplex;
 
-	public GiratoryMechanism(LevelItem levelItem)
+	public GiratoryMechanism(LevelObject levelObject)
 	{
-		this.levelItem = levelItem;
-		this.triplex=levelItem.getHeight() == Config.getInstance().getLevelTileHeightUnits() * 3.0f;
-		this.right = (levelItem.getP0() == 0);
+		this.levelObject = levelObject;
+		this.triplex=levelObject.getHeight() == Config.getInstance().getLevelTileHeightUnits() * 3.0f;
+		this.right = (levelObject.getP0() == 0);
 		this.active = false;
 	}
 
@@ -41,9 +41,9 @@ public class GiratoryMechanism extends Mechanism
 		this.active = true;
 	}
 
-	public LevelItem getLevelItem()
+	public LevelObject getLevelObject()
 	{
-		return levelItem;
+		return levelObject;
 	}
 
 	public boolean isRight()

@@ -8,12 +8,12 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import modelo.level.GiratoryMechanism;
-import modelo.level.LevelItem;
+import modelo.level.LevelObject;
 import modelo.level.Pyramid;
 import util.Config;
 import util.Constantes;
 
-public abstract class GameCharacter extends LevelItem
+public abstract class GameCharacter extends LevelObject
 {
 
     public static final int ST_IDDLE = 0; // Inicializando
@@ -146,7 +146,7 @@ public abstract class GameCharacter extends LevelItem
 
     private void checkExitStair(Vector2 v)
     {
-	LevelItem escalera = null;
+	LevelObject escalera = null;
 	if (this.state == GameCharacter.ST_ONSTAIRS_POSITIVE)
 	{
 	    if (v.x > 0)
@@ -179,7 +179,7 @@ public abstract class GameCharacter extends LevelItem
 
     private void checkEnterStair(Vector2 v)
     {
-	LevelItem escalera = null;
+	LevelObject escalera = null;
 	if (v.y > 0)
 	{
 	    if (v.x > 0)
@@ -616,15 +616,15 @@ public abstract class GameCharacter extends LevelItem
 	float mitad = this.x + this.width / 2;
 	mitad -= this.feetWidth / 2;
 	Rectangle feet = new Rectangle(mitad, y, this.feetWidth, this.feetHeight);
-	return LevelItem.rectangleColision(feet, another);
+	return LevelObject.rectangleColision(feet, another);
     }
 
-    public LevelItem checkItemFeetColision(ArrayList<LevelItem> levelItems)
+    public LevelObject checkItemFeetColision(ArrayList<LevelObject> levelObjects)
     {
 
-	Iterator<LevelItem> it = levelItems.iterator();
-	LevelItem respuesta = null;
-	LevelItem item = null;
+	Iterator<LevelObject> it = levelObjects.iterator();
+	LevelObject respuesta = null;
+	LevelObject item = null;
 	if (it.hasNext())
 	    do
 	    {
@@ -667,12 +667,12 @@ public abstract class GameCharacter extends LevelItem
 
     }
 
-    public LevelItem checkRectangleColision(ArrayList levelItems)
+    public LevelObject checkRectangleColision(ArrayList levelObjects)
     {
 
-	Iterator<LevelItem> it = levelItems.iterator();
-	LevelItem respuesta = null;
-	LevelItem item = null;
+	Iterator<LevelObject> it = levelObjects.iterator();
+	LevelObject respuesta = null;
+	LevelObject item = null;
 	if (it.hasNext())
 	    do
 	    {
@@ -690,7 +690,7 @@ public abstract class GameCharacter extends LevelItem
     protected boolean checkGiratory(Vector2 v)
     {
 	boolean r = false;
-	LevelItem giratory = this.checkRectangleColision(this.pyramid.getGiratorys());
+	LevelObject giratory = this.checkRectangleColision(this.pyramid.getGiratorys());
 	if (giratory != null)
 	{
 	    GiratoryMechanism gm = this.pyramid.getGiratoryMechanism(giratory);
@@ -736,7 +736,7 @@ public abstract class GameCharacter extends LevelItem
 
     protected void blockGiratory(GiratoryMechanism gm)
     {
-	LevelItem g = gm.getLevelItem();
+	LevelObject g = gm.getLevelObject();
 	float lado = g.x - this.x;
 
 	this.motionVector.x = 0;

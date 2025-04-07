@@ -22,7 +22,7 @@ public class MummyAnimated2D extends GameCharacterAnimated2D
 	@Override
 	public void updateElement(float deltaTime)
 	{
-		Mummy mummy = (Mummy) this.getLevelItem();
+		Mummy mummy = (Mummy) this.getLevelObject();
 	
 		int state = mummy.getState();
 		this.visible = (state != Mummy.ST_LIMBUS);

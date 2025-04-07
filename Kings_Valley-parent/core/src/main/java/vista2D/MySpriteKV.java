@@ -7,41 +7,41 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import modelo.IGraphicRenderer;
 import modelo.gameCharacters.GameCharacter;
 import modelo.gameCharacters.player.Player;
-import modelo.level.LevelItem;
+import modelo.level.LevelObject;
 
 public class MySpriteKV extends Sprite implements IGraphicRenderer
 {
-	LevelItem levelItem;
+	LevelObject levelObject;
 
-	public MySpriteKV(Texture texture, LevelItem levelItem)
+	public MySpriteKV(Texture texture, LevelObject levelObject)
 	{
 		super(texture);
-		this.levelItem = levelItem;
+		this.levelObject = levelObject;
 
 	}
 
-	public MySpriteKV(TextureRegion region, LevelItem levelItem)
+	public MySpriteKV(TextureRegion region, LevelObject levelObject)
 	{
 		super(region);
-		this.levelItem = levelItem;
+		this.levelObject = levelObject;
 
 	}
 
 	@Override
 	public void updateElement(Object element)
 	{
-		float x = this.levelItem.getX();
-		float y = this.levelItem.getY();
-		x = this.levelItem.getX() + (this.levelItem.getWidth() - this.getWidth()) / 2;
+		float x = this.levelObject.getX();
+		float y = this.levelObject.getY();
+		x = this.levelObject.getX() + (this.levelObject.getWidth() - this.getWidth()) / 2;
 		
 		this.setPosition(x, y);
 		
 
 	}
 
-	public LevelItem getLevelItem()
+	public LevelObject getLevelObject()
 	{
-		return levelItem;
+		return levelObject;
 	}
 
 }

@@ -17,7 +17,7 @@ public class AnimatedGiratory2D extends AnimatedEntity2D
 	
 	public AnimatedGiratory2D(GiratoryMechanism giratoryMechanism, Animation<TextureRegion> animationRightLeft,Animation<TextureRegion> animationLeftRight)
 	{
-		super(giratoryMechanism.getLevelItem(), animationRightLeft);
+		super(giratoryMechanism.getLevelObject(), animationRightLeft);
 		this.giratoryMechanism = giratoryMechanism;
 		this.animationRightLeft=animationRightLeft;
 		this.animationLeftRight=animationLeftRight;

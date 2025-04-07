@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import modelo.gameCharacters.GameCharacter;
 import modelo.gameCharacters.player.Player;
-import modelo.level.LevelItem;
+import modelo.level.LevelObject;
 import util.Constantes;
 
 public class PlayerAnimated2D extends GameCharacterAnimated2D
@@ -13,7 +13,7 @@ public class PlayerAnimated2D extends GameCharacterAnimated2D
     protected Animation<TextureRegion>[] animation_Picker;
     protected Animation<TextureRegion>[] animation_Dagger;
     protected Animation<TextureRegion>[] animation_Nothing;
-    private LevelItem item = null;;
+    private LevelObject item = null;;
 
     public PlayerAnimated2D(GameCharacter character, Animation<TextureRegion>[] animation,
 	    Animation<TextureRegion>[] animation_Picker, Animation<TextureRegion>[] animation_Dagger)
@@ -30,7 +30,7 @@ public class PlayerAnimated2D extends GameCharacterAnimated2D
     @Override
     public void updateElement(float deltaTime)
     {
-	Player player = (Player) this.levelItem;
+	Player player = (Player) this.levelObject;
 	if (player.getItem() != this.item)
 	{
 	    this.item = player.getItem();

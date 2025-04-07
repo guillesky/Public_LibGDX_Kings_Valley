@@ -48,7 +48,7 @@ public abstract class Mummy extends GameCharacter
 	this.minTimeToDecide = minTimeToDecide;
 	this.maxTimeToDecide = maxTimeToDecide;
 	this.mummyState = new MummyStateLimbus(this, 1);
-	
+
     }
 
     @Override
@@ -149,31 +149,21 @@ public abstract class Mummy extends GameCharacter
 
     private void setState____(int state)
     {
-/*	this.state = state;
-	switch (this.state)
-	{
-	case Mummy.ST_APPEARING:
-	case Mummy.ST_WAITING:
-	    this.direction.setZero();
-	    Player player = Juego.getInstance().getCurrentLevel().getPlayer();
-	    if (player.getX() < this.x)
-		this.direction.x = -1;
-	    else
-		this.direction.x = 1;
-	    this.timeToDecide = random.nextFloat(1.5f, 2.5f);
-	    this.colisionEnabled = true;
-
-	    break;
-	case Mummy.ST_DISAPPEARING:
-	    this.timeToDecide = 5;
-	    this.colisionEnabled = false;
-	    break;
-
-	case Mummy.ST_WALK:
-	    this.timeToDecide = random.nextFloat(this.minTimeToDecide, this.maxTimeToDecide);
-	    break;
-
-	}*/
+	/*
+	 * this.state = state; switch (this.state) { case Mummy.ST_APPEARING: case
+	 * Mummy.ST_WAITING: this.direction.setZero(); Player player =
+	 * Juego.getInstance().getCurrentLevel().getPlayer(); if (player.getX() <
+	 * this.x) this.direction.x = -1; else this.direction.x = 1; this.timeToDecide =
+	 * random.nextFloat(1.5f, 2.5f); this.colisionEnabled = true;
+	 * 
+	 * break; case Mummy.ST_DISAPPEARING: this.timeToDecide = 5;
+	 * this.colisionEnabled = false; break;
+	 * 
+	 * case Mummy.ST_WALK: this.timeToDecide =
+	 * random.nextFloat(this.minTimeToDecide, this.maxTimeToDecide); break;
+	 * 
+	 * }
+	 */
     }
 
     protected float getTimeToDecide()
@@ -236,10 +226,9 @@ public abstract class Mummy extends GameCharacter
 
     }
 
-    
-    public void update(float deltaTime,Player player)
+    public void update(float deltaTime, Player player)
     {
-	this.mummyState.update(deltaTime,player);
+	this.mummyState.update(deltaTime, player);
 	this.incAnimationDelta(deltaTime);
     }
 
@@ -284,7 +273,7 @@ public abstract class Mummy extends GameCharacter
 
     protected float distanceQuadToPlayer(Player player)
     {
-	
+
 	float deltaX = this.getX() - player.getX();
 	float deltaY = this.getY() - player.getY();
 
@@ -301,6 +290,13 @@ public abstract class Mummy extends GameCharacter
     protected Pyramid getPyramid()
     {
 	return super.getPyramid();
+    }
+
+    public void die()
+    {
+	this.mummyState = new MummyStateDying(this);
+	this.resetStress();
+
     }
 
 }

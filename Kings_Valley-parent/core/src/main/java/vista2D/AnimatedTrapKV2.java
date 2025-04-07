@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import modelo.IGraphicRenderer;
 import modelo.gameCharacters.GameCharacter;
 import modelo.gameCharacters.player.Player;
-import modelo.level.LevelItem;
+import modelo.level.LevelObject;
 import modelo.level.TrapMechanism;
 import util.Config;
 
@@ -28,8 +28,8 @@ public class AnimatedTrapKV2 implements IGraphicRenderer
 	{
 		float delta = this.trapMech.getTime();
 
-		float x = this.trapMech.getX() * Config.getInstance().getLevelItemWidth();
-		float y = (this.trapMech.getY() - delta) * Config.getInstance().getLevelItemHeight();
+		float x = this.trapMech.getX() * Config.getInstance().getLevelObjectWidth();
+		float y = (this.trapMech.getY() - delta) * Config.getInstance().getLevelObjectHeight();
 		this.sprite.setPosition(x, y);
 		
 	}

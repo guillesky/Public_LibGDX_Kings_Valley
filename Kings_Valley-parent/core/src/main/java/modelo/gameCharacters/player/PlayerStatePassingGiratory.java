@@ -33,7 +33,7 @@ public class PlayerStatePassingGiratory extends PlayerState
 	    direction = -1;
 
 	this.player.incX(direction * speedWalkStairs * 0.5f * deltaTime);
-	if (!this.player.isColision(this.passingGiratory.getLevelItem()))
+	if (!this.player.isColision(this.passingGiratory.getLevelObject()))
 	{
 	   this.player.setPlayerState(new PlayerStateWalking(this.player));
 	}
