@@ -9,11 +9,11 @@ import com.badlogic.gdx.math.Vector2;
 
 import modelo.Juego;
 import modelo.gameCharacters.GameCharacter;
-import modelo.level.Dagger;
 import modelo.level.DrawableElement;
 import modelo.level.GiratoryMechanism;
 import modelo.level.LevelObject;
 import modelo.level.Pyramid;
+import modelo.level.dagger.Dagger;
 import util.Config;
 import util.Constantes;
 
@@ -70,16 +70,14 @@ public class Player extends GameCharacter
 	{
 	    dagger.x = this.x;
 	    dagger.y = this.y + Config.getInstance().getLevelTileHeightUnits();
-	    this.pyramid.addFlyingDagger(dagger);
+	   // this.pyramid.addFlyingDagger(dagger);
 	    
 	    dagger.throwHorizontal(isLookRight());
 	    this.item = null;
 	    this.playerState = new PlayerStateThrowingDagger(this);
 	} else if (this.pyramid.getCell(x, y, direccion, 2) == null && this.pyramid.getCell(x, y, 0, 2) == null)
 	{
-	    dagger.x = this.x + Config.getInstance().getLevelTileWidthUnits() * direccion;
-	    dagger.y = this.y + Config.getInstance().getLevelTileHeightUnits() * 2;
-	    this.pyramid.addStuckedDagger(dagger);
+	    dagger.throwVertical(isLookRight());
 	    this.playerState = new PlayerStateThrowingDagger(this);
 	    this.item = null;
 
@@ -276,11 +274,11 @@ public class Player extends GameCharacter
 		}
 
 		Dagger dagger = (Dagger) this.checkRectangleColision(this.pyramid.getStuckedDaggers());
-		if (dagger != null)
+		if (dagger != null && dagger.getState()==Dagger.ST_STUCKED)
 		{
 		    this.item = dagger;
-		    this.pyramid.removeStuckedDagger(dagger);
-
+		    dagger.hasPickuped();
+		  
 		}
 	    }
 	}

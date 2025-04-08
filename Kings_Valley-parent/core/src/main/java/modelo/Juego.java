@@ -13,7 +13,7 @@ public class Juego
 	private static Juego instance = new Juego();
 	private Controles controles = new Controles();
 	private ArrayList<Level> levels = new ArrayList<Level>();
-	private int currentLevel =11;
+	private int currentLevel =0;
 	private float delta = 0;
 
 	private Juego()

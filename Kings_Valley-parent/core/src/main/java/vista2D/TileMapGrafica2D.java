@@ -24,12 +24,12 @@ import io.github.some_example_name.IMyApplicationnListener;
 import modelo.Juego;
 import modelo.gameCharacters.mummys.Mummy;
 import modelo.gameCharacters.player.PairInt;
-import modelo.level.Dagger;
 import modelo.level.DrawableElement;
 import modelo.level.GiratoryMechanism;
 import modelo.level.LevelObject;
 import modelo.level.Pyramid;
 import modelo.level.TrapMechanism;
+import modelo.level.dagger.Dagger;
 import util.Constantes;
 
 public class TileMapGrafica2D implements IMyApplicationnListener
@@ -53,7 +53,6 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 	private HashMap<LevelObject, AnimatedEntity2D> hashMapLevelAnimation = new HashMap<LevelObject, AnimatedEntity2D>();
 	private HashMap<TrapMechanism, AnimatedTrapKV2> hashMapTrapAnimation = new HashMap<TrapMechanism, AnimatedTrapKV2>();
 	private AnimatedPickedCell animatedPickedCell;
-	
 
 	private Array<AnimatedTrapKV2> animatedTraps = new Array<AnimatedTrapKV2>();
 
@@ -117,13 +116,14 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 			this.animatedEntities.add(this.animatedPickedCell);
 			this.animatedPickedCell.resetTime(Juego.getInstance().getDelta());
 
-		}else if (dr.getType() == Constantes.DRAWABLE_FLYING_DAGGER)
+		} else if (dr.getType() == Constantes.DRAWABLE_FLYING_DAGGER)
 		{
-			Dagger dagger= (Dagger) dr.getDrawable();
-			AnimatedThrowingDagger2D animatedEntity2D = new AnimatedThrowingDagger2D(dagger, this.graphicsFileLoader.getAnimations().get(Constantes.DRAWABLE_FLYING_DAGGER));
+			Dagger dagger = (Dagger) dr.getDrawable();
+			AnimatedDagger2D animatedEntity2D = new AnimatedDagger2D(dagger,
+					this.graphicsFileLoader.getAnimations().get(dagger.getP0()),
+					this.graphicsFileLoader.getAnimations().get(Constantes.DRAWABLE_FLYING_DAGGER));
 			this.animatedEntities.add(animatedEntity2D);
 			this.hashMapLevelAnimation.put(dagger, animatedEntity2D);
-			
 
 		}
 
@@ -173,8 +173,7 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 
 		{
 			LevelObject item = levelObjects.next();
-			if (item.getType() == Constantes.It_jewel || item.getType() == Constantes.It_dagger
-					|| item.getType() == Constantes.It_picker)
+			if (item.getType() == Constantes.It_jewel || item.getType() == Constantes.It_picker)
 				this.addGraphicElement(new DrawableElement(Constantes.DRAWABLE_LEVEL_ITEM, item));
 			else if (item.getType() == Constantes.It_giratory)
 			{
@@ -183,7 +182,8 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 			} else if (item.getType() == Constantes.It_wall)
 			{
 				this.instances.add(new MySpriteKV(map.getTileSets().getTile(item.getType()).getTextureRegion(), item));
-			}
+			} else if (item.getType() == Constantes.It_dagger)
+				this.addGraphicElement(new DrawableElement(Constantes.DRAWABLE_FLYING_DAGGER, item));
 
 			Iterator<Mummy> it = Juego.getInstance().getCurrentLevel().getMummys().iterator();
 			while (it.hasNext())
@@ -195,10 +195,10 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 			}
 		}
 
-		this.animatedEntities
-				.add(new PlayerAnimated2D(Juego.getInstance().getCurrentLevel().getPlayer(), this.graphicsFileLoader.getAnimationPlayer_Nothing(),
-						this.graphicsFileLoader.getAnimationPlayer_Picker(),
-						this.graphicsFileLoader.getAnimationPlayer_Dagger()));
+		this.animatedEntities.add(new PlayerAnimated2D(Juego.getInstance().getCurrentLevel().getPlayer(),
+				this.graphicsFileLoader.getAnimationPlayer_Nothing(),
+				this.graphicsFileLoader.getAnimationPlayer_Picker(),
+				this.graphicsFileLoader.getAnimationPlayer_Dagger()));
 
 	}
 
@@ -307,7 +307,7 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 
 		renderer.setView(camera);
 		renderer.render();
-	
+
 		this.spriteBatch.begin();
 
 		ArrayIterator<AnimatedTrapKV2> it3 = this.animatedTraps.iterator();

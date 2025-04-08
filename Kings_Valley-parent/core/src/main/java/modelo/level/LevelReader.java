@@ -16,6 +16,7 @@ import modelo.IGrafica;
 import modelo.gameCharacters.mummys.Mummy;
 import modelo.gameCharacters.mummys.MummyFactory;
 import modelo.gameCharacters.player.Player;
+import modelo.level.dagger.Dagger;
 import util.Config;
 import util.Constantes;
 
