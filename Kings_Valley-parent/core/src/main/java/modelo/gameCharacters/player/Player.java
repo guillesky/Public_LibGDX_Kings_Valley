@@ -76,7 +76,8 @@ public class Player extends GameCharacter
 	    this.item = null;
 	    this.playerState = new PlayerStateThrowingDagger(this);
 	} else if (this.pyramid.getCell(x, y, direccion, 2) == null && this.pyramid.getCell(x, y, 0, 2) == null)
-	{
+	{  dagger.x = this.x;
+	    dagger.y = this.y + Config.getInstance().getLevelTileHeightUnits();
 	    dagger.throwVertical(isLookRight());
 	    this.playerState = new PlayerStateThrowingDagger(this);
 	    this.item = null;

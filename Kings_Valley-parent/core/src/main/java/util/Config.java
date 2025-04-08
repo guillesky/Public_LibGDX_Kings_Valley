@@ -79,7 +79,7 @@ public class Config
 
 		this.playerSpeedWalk = (int) (6 * this.levelTileWidthUnits);
 		this.playerSpeedWalkStairs = (int) (6 * this.levelTileWidthUnits);
-		this.flyingDaggerSpeed = this.playerSpeedWalk * 3;
+		this.flyingDaggerSpeed = this.levelTileWidthUnits * 18;
 		this.flyingDaggerSpeedFall = -this.flyingDaggerSpeed;
 		this.mummyWhiteSpeedWalk = (int) (2.5 * this.levelTileWidthUnits);
 		this.mummyWhiteSpeedWalkStairs = (int) (3 * this.levelTileWidthUnits);
