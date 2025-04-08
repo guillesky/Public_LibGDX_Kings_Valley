@@ -1,8 +1,5 @@
 package modelo.level;
 
-import com.badlogic.gdx.maps.tiled.TiledMapTile;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-
 import util.Config;
 
 public class GiratoryMechanism extends Mechanism

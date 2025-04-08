@@ -4,13 +4,13 @@ import java.util.Random;
 
 import com.badlogic.gdx.math.Vector2;
 
-import modelo.Juego;
 import modelo.gameCharacters.GameCharacter;
 import modelo.gameCharacters.player.Player;
 import modelo.level.GiratoryMechanism;
 import modelo.level.Pyramid;
 import util.Config;
 
+@SuppressWarnings("serial")
 public abstract class Mummy extends GameCharacter
 {
 	public static final int WHITE_MUMMY = 0;

@@ -10,7 +10,6 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 
 import modelo.IGrafica;
-import modelo.Juego;
 import modelo.level.dagger.Dagger;
 import util.Config;
 import util.Constantes;
@@ -220,19 +219,19 @@ public class Pyramid implements IGrafica
 	{
 		boolean isBeginStair = (celda != null && celda.getTile().getId() >= 20 && celda.getTile().getId() < 60);
 
-		Iterator it = this.jewels.iterator();
+		Iterator<LevelObject> itJewels = this.jewels.iterator();
 		Cell cellWithItem = null;
-		while (it.hasNext() && cellWithItem != celda)
+		while (itJewels.hasNext() && cellWithItem != celda)
 		{
-			LevelObject item = (LevelObject) it.next();
+			LevelObject item = (LevelObject) itJewels.next();
 			cellWithItem = this.getCell(item.getX(), item.getY() - Config.getInstance().getLevelTileHeightUnits());
 		}
 
-		it = this.stuckedDaggers.iterator();
+		Iterator<Dagger> itDaggers = this.stuckedDaggers.iterator();
 
-		while (it.hasNext() && cellWithItem != celda)
+		while (itDaggers.hasNext() && cellWithItem != celda)
 		{
-			LevelObject item = (LevelObject) it.next();
+			LevelObject item = (LevelObject) itDaggers.next();
 			cellWithItem = this.getCell(item.getX(), item.getY() - Config.getInstance().getLevelTileHeightUnits());
 		}
 
@@ -302,23 +301,6 @@ public class Pyramid implements IGrafica
 		this.interfaz.removeGraphicElement(element);
 
 	}
-/*
-	public void addFlyingDagger(Dagger dagger)
-	{
 
-		this.addGraphicElement(new DrawableElement(Constantes.DRAWABLE_DAGGER, dagger));
-	}
-public void removeStuckedDagger(Dagger dagger)
-	{
-		this.removeGraphicElement(new DrawableElement(Constantes.DRAWABLE_LEVEL_ITEM, dagger));
-		dagger.hasPickuped();
-	}
-	public void removeFlyingDagger(Dagger dagger)
-	{
-		this.removeGraphicElement(new DrawableElement(Constantes.DRAWABLE_DAGGER, dagger));
-
-		this.addGraphicElement(new DrawableElement(Constantes.DRAWABLE_LEVEL_ITEM, dagger));
-
-	}*/
 
 }

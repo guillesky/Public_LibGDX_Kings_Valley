@@ -1,9 +1,5 @@
 package modelo.level;
 
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-
-import util.Config;
-
 public abstract class Mechanism
 {
 	protected float time = 0;

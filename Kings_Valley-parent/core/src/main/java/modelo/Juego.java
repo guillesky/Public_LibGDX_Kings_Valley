@@ -3,8 +3,6 @@ package modelo;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-
 import modelo.gameCharacters.player.Player;
 import modelo.level.Level;
 
@@ -13,7 +11,7 @@ public class Juego
 	private static Juego instance = new Juego();
 	private Controles controles = new Controles();
 	private ArrayList<Level> levels = new ArrayList<Level>();
-	private int currentLevel =0;
+	private int currentLevel =11;
 	private float delta = 0;
 
 	private Juego()

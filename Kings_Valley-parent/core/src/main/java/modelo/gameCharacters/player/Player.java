@@ -1,22 +1,19 @@
 package modelo.gameCharacters.player;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.math.Vector2;
 
-import modelo.Juego;
 import modelo.gameCharacters.GameCharacter;
-import modelo.level.DrawableElement;
 import modelo.level.GiratoryMechanism;
 import modelo.level.LevelObject;
 import modelo.level.Pyramid;
 import modelo.level.dagger.Dagger;
 import util.Config;
 import util.Constantes;
-
+@SuppressWarnings("serial")
 public class Player extends GameCharacter
 {
     public static final int ST_THROWING_DAGGER = 20;

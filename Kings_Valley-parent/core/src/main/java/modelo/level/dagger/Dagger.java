@@ -6,6 +6,7 @@ import modelo.gameCharacters.mummys.Mummy;
 import modelo.level.LevelObject;
 import modelo.level.Pyramid;
 
+@SuppressWarnings("serial")
 public class Dagger extends LevelObject
 {
 	public static final int ST_STUCKED = 0;

@@ -12,7 +12,7 @@ import modelo.level.LevelObject;
 import modelo.level.Pyramid;
 import util.Config;
 import util.Constantes;
-
+@SuppressWarnings("serial")
 public abstract class GameCharacter extends LevelObject
 {
 
@@ -21,9 +21,9 @@ public abstract class GameCharacter extends LevelObject
     public static final int ST_ONSTAIRS_POSITIVE = 2; // En una escalera pendiente positiva
     public static final int ST_ONSTAIRS_NEGATIVE = 3; // En una escalera pendiente negativa
 
-    public static final int ST_JUMP_LEFT = 4; // Saltando izquierda
-    public static final int ST_JUMP_TOP = 5; // Saltando arriba
-    public static final int ST_JUMP_RIGHT = 6; // Saltando derecha
+   
+    public static final int ST_JUMP = 5; // Saltando 
+   
     public static final int ST_FALLING = 7; // Cayendo
 
     public static final int ST_DYING = 8; // Muriendo
@@ -215,7 +215,7 @@ public abstract class GameCharacter extends LevelObject
     protected void doJump()
     {
 	this.motionVector.y = this.speedJump;
-	this.state = GameCharacter.ST_JUMP_TOP;
+	this.state = GameCharacter.ST_JUMP;
 	this.animationDelta = 0;
     }
 
@@ -327,125 +327,7 @@ public abstract class GameCharacter extends LevelObject
 	return cell != null && cell.getTile().getId() < 220;
     }
 
-    private boolean colision3(Vector2 vectMove)
-    {
-	if (this.state != GameCharacter.ST_WALK && this.state != GameCharacter.ST_IDDLE)
-	    this.checkLanding(vectMove);
-
-	int r = -1;
-
-	if (this.colisionUpRight(vectMove))
-	{
-	    if (this.colisionUpLeft(vectMove))
-	    {
-		this.correctUp(vectMove);
-	    } else
-	    {
-		r = this.buscarColisionPorVertice(this.x + this.width, this.y + this.height, vectMove);
-		if (r == Constantes.DOWN)
-		{
-		    r = Constantes.RIGHT;
-		    System.out.println("ABERRACION");
-		}
-	    }
-
-	} else if (this.colisionUpLeft(vectMove))
-	{
-	    r = this.buscarColisionPorVertice(this.x, this.y + this.height, vectMove);
-	    if (r == Constantes.DOWN)
-	    {
-		r = Constantes.LEFT;
-		// TODO
-		System.out.println("ABERRACION");
-		// TODO
-	    }
-	} else if (this.isCellSolid(this.x + vectMove.x, this.y + vectMove.y)
-		&& this.buscarColisionPorVertice(this.x, this.y, vectMove) == Constantes.LEFT)
-	    r = Constantes.LEFT;
-
-	else if (this.isCellSolid(this.x + vectMove.x + this.width, this.y + vectMove.y)
-		&& this.buscarColisionPorVertice(this.x + this.width, this.y, vectMove) == Constantes.RIGHT)
-	    r = Constantes.RIGHT;
-
-	else if (this.colisionMiddleLeft(vectMove))
-	{
-	    this.correctLeft(vectMove);
-	    r = -1;
-
-	} else if (this.colisionMiddleRight(vectMove))
-	{
-	    this.correctRight(vectMove);
-	    r = -1;
-
-	}
-
-	this.corrigeDirecciones(r, vectMove);
-
-	/*
-	 * if (this.isFloorDown()) this.correctDown();
-	 */
-	return r != -1;
-    }
-
-    private boolean colision4(Vector2 vectMove)
-    {
-	if (this.state != GameCharacter.ST_WALK && this.state != GameCharacter.ST_IDDLE)
-	    this.checkLanding(vectMove);
-
-	int r = -1;
-
-	if (this.colisionUpRight(vectMove))
-	{
-	    if (this.colisionUpLeft(vectMove))
-	    {
-		r = Constantes.UP;
-	    } else
-	    {
-		r = this.buscarColisionPorVertice(this.x + this.width, this.y + this.height, vectMove);
-		if (r == Constantes.DOWN)
-		{
-		    r = Constantes.RIGHT;
-		    System.out.println("ABERRACION");
-		}
-	    }
-
-	} else if (this.colisionUpLeft(vectMove))
-	{
-	    r = this.buscarColisionPorVertice(this.x, this.y + this.height, vectMove);
-	    if (r == Constantes.DOWN)
-	    {
-		r = Constantes.LEFT;
-		// TODO
-		System.out.println("ABERRACION");
-		// TODO
-	    }
-	} else if (this.isCellSolid(this.x + vectMove.x, this.y + vectMove.y)
-		&& this.buscarColisionPorVertice(this.x, this.y, vectMove) == Constantes.LEFT)
-	    r = Constantes.LEFT;
-
-	else if (this.isCellSolid(this.x + vectMove.x + this.width, this.y + vectMove.y)
-		&& this.buscarColisionPorVertice(this.x + this.width, this.y, vectMove) == Constantes.RIGHT)
-	    r = Constantes.RIGHT;
-
-	else if (this.colisionMiddleLeft(vectMove))
-	{
-
-	    r = Constantes.LEFT;
-
-	} else if (this.colisionMiddleRight(vectMove))
-	{
-
-	    r = Constantes.RIGHT;
-
-	}
-
-	this.corrigeDirecciones(r, vectMove);
-
-	/*
-	 * if (this.isFloorDown()) this.correctDown();
-	 */
-	return r != -1;
-    }
+    
 
     private boolean colision5(Vector2 vectMove)
     {
@@ -483,9 +365,9 @@ public abstract class GameCharacter extends LevelObject
 		if (r == Constantes.DOWN)
 		{
 		    r = Constantes.LEFT;
-		    // TODO
+		    
 		    System.out.println("ABERRACION");
-		    // TODO
+		    
 		}
 	    }
 	} else if (this.isCellSolid(this.x + vectMove.x, this.y + vectMove.y)
@@ -667,6 +549,7 @@ public abstract class GameCharacter extends LevelObject
 
     }
 
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     public LevelObject checkRectangleColision(ArrayList levelObjects)
     {
 

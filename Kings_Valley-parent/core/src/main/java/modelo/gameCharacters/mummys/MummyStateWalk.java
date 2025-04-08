@@ -1,6 +1,5 @@
 package modelo.gameCharacters.mummys;
 
-import modelo.Juego;
 import modelo.gameCharacters.GameCharacter;
 import modelo.gameCharacters.player.Player;
 import util.Config;

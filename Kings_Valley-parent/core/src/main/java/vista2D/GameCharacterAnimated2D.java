@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import modelo.gameCharacters.GameCharacter;
-import modelo.gameCharacters.player.Player;
 
 public class GameCharacterAnimated2D extends AnimatedEntity2D
 {
@@ -44,7 +43,7 @@ public class GameCharacterAnimated2D extends AnimatedEntity2D
 		else if (character.getState() == GameCharacter.ST_ONSTAIRS_NEGATIVE
 				|| character.getState() == GameCharacter.ST_ONSTAIRS_POSITIVE)
 			this.animation = this.characterAnimationStair;
-		else if (character.getState() == GameCharacter.ST_JUMP_TOP)
+		else if (character.getState() == GameCharacter.ST_JUMP)
 			this.animation = this.characterAnimationJump;
 		else if (character.getState() == GameCharacter.ST_FALLING)
 			this.animation = this.characterAnimationFall;

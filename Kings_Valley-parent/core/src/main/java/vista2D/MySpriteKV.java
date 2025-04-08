@@ -5,8 +5,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import modelo.IGraphicRenderer;
-import modelo.gameCharacters.GameCharacter;
-import modelo.gameCharacters.player.Player;
 import modelo.level.LevelObject;
 
 public class MySpriteKV extends Sprite implements IGraphicRenderer

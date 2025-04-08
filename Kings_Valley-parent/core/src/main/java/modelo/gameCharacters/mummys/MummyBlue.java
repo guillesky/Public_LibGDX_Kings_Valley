@@ -3,6 +3,7 @@ package modelo.gameCharacters.mummys;
 import modelo.level.Pyramid;
 import util.Config;
 
+@SuppressWarnings("serial")
 public class MummyBlue extends Mummy
 {
 

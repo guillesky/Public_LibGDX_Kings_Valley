@@ -1,13 +1,8 @@
 package vista2D;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import modelo.IGraphicRenderer;
-import modelo.gameCharacters.GameCharacter;
-import modelo.gameCharacters.player.Player;
-import modelo.level.LevelObject;
 import modelo.level.TrapMechanism;
 import util.Config;
 

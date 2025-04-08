@@ -7,8 +7,8 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 
@@ -16,6 +16,7 @@ import modelo.gameCharacters.mummys.Mummy;
 import modelo.level.LevelObject;
 import util.Constantes;
 
+@SuppressWarnings("unchecked")
 public class GraphicsFileLoader
 {
     private static final String CONFIG_FILE = "graphics_file_config.json";
@@ -23,7 +24,9 @@ public class GraphicsFileLoader
     private AssetManager manager;
 
     private Animation<TextureRegion>[] animationPlayer_Nothing = new Animation[6];
+
     private Animation<TextureRegion>[] animationPlayer_Dagger = new Animation[7];
+
     private Animation<TextureRegion>[] animationPlayer_Picker = new Animation[7];
 
     private Animation<TextureRegion>[] animationMummyBlue;
@@ -33,7 +36,6 @@ public class GraphicsFileLoader
     private Animation<TextureRegion>[] animationMummyYellow;
     private Animation<TextureRegion> animationMummyAppear;
     private Animation<TextureRegion> animationMummyDeath;
-    
 
     private GraphicsFileConfig graphicsFileConfig;
     private HashMap<Integer, Animation<TextureRegion>> animations = new HashMap<Integer, Animation<TextureRegion>>();
@@ -73,7 +75,7 @@ public class GraphicsFileLoader
 	this.manager.load(graphicsFileConfig.getArchiMummyDisappear(), Texture.class);
 	this.manager.load(graphicsFileConfig.getArchiFlyingDagger(), Texture.class);
 
-	//saveConfig(graphicsFileConfig);
+	// saveConfig(graphicsFileConfig);
     }
 
     private void loadPlayerAnimations()
@@ -198,7 +200,7 @@ public class GraphicsFileLoader
 	int flyingDaggerCount = this.graphicsFileConfig.getFlyingDaggerCount();
 	int pickingCellCount = this.graphicsFileConfig.getPickingCellCount();
 	float pickingCellFrameDuration = this.graphicsFileConfig.getPickingCellFrameDuration();
-	
+
 	Array<TextureRegion> linearFrames = this.linearFramesForFile(this.graphicsFileConfig.getArchiCollectables(),
 		collectableWidth, collectableHeight);
 	this.animations.put(Constantes.It_dagger,
@@ -241,16 +243,18 @@ public class GraphicsFileLoader
 	this.animations.put(Constantes.DRAWABLE_GYRATORY_2_LR, giratory2_lr);
 	linearFrames = this.linearFramesForFile(this.graphicsFileConfig.getArchiPickingCell(), collectableWidth,
 		collectableHeight);
-	Animation<TextureRegion> picking_cell = this.framesToAnimation(linearFrames, 0, pickingCellCount, pickingCellFrameDuration);
+	Animation<TextureRegion> picking_cell = this.framesToAnimation(linearFrames, 0, pickingCellCount,
+		pickingCellFrameDuration);
 	picking_cell.setPlayMode(PlayMode.NORMAL);
 
-	this.animatedPickedCell = new AnimatedPickedCell(new LevelObject(0, 0, 0, 0, collectableWidth, collectableHeight),
-		picking_cell);
+	this.animatedPickedCell = new AnimatedPickedCell(
+		new LevelObject(0, 0, 0, 0, collectableWidth, collectableHeight), picking_cell);
 
 	linearFrames = this.linearFramesForFile(this.graphicsFileConfig.getArchiFlyingDagger(), flyingDaggerWidth,
 		flyingDaggerHeight);
 
-	this.animations.put(Constantes.DRAWABLE_FLYING_DAGGER,this.framesToAnimation(linearFrames, 0, flyingDaggerCount, frameDuration));
+	this.animations.put(Constantes.DRAWABLE_FLYING_DAGGER,
+		this.framesToAnimation(linearFrames, 0, flyingDaggerCount, frameDuration));
 
     }
 

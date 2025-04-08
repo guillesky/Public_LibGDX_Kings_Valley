@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 
-import modelo.Juego;
 import modelo.level.DrawableElement;
 import modelo.level.Pyramid;
 import util.Constantes;

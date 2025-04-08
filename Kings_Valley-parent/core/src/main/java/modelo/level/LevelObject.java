@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Rectangle;
 import modelo.IGraphicRenderer;
 import util.Config;
 import util.Constantes;
-
+@SuppressWarnings("serial")
 public class LevelObject extends Rectangle implements IGraphicRenderer
 {
     private static int count = 0;

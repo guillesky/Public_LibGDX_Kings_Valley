@@ -35,7 +35,6 @@ public class LevelReader
     private ArrayList<LevelObject> stairs_ur = new ArrayList<LevelObject>();
     private ArrayList<LevelObject> pickers = new ArrayList<LevelObject>();
     private ArrayList<Dagger> stuckedDaggers = new ArrayList<Dagger>();
-    private ArrayList<Dagger> fliyingDaggers = new ArrayList<Dagger>();
     private ArrayList<LevelObject> giratorys = new ArrayList<LevelObject>();
     private ArrayList<LevelObject> walls = new ArrayList<LevelObject>();
     private ArrayList<LevelObject> activators = new ArrayList<LevelObject>();
@@ -62,13 +61,13 @@ public class LevelReader
 	this.resetAll();
 	this.readLevelObjects(dificultLevel);
 	this.corrigeCeldasPicables();
-	this.pyramid = new Pyramid(map, doorIn, doorIn, jewels, stairs_dr, stairs_dl, stairs_ur, stairs_ul, pickers,
+	this.pyramid = new Pyramid(map, doorIn, doorOut, jewels, stairs_dr, stairs_dl, stairs_ur, stairs_ul, pickers,
 		stuckedDaggers, giratorys, walls, activators, trapMechanisms, giratoryMechanisms, unpickableCells,
 		hashTraps, hashGiratoryMechanisms,interfaz);
 	this.player = new Player(this.doorIn, this.pyramid);
 	
 	this.generateMummys(dificultLevel);
-	Level level = new Level(id, interfaz, pyramid, mummys, player);
+	Level level = new Level(pyramid, mummys, player);
 	return level;
 
     }
@@ -85,7 +84,6 @@ public class LevelReader
 	this.stairs_ur = new ArrayList<LevelObject>();
 	this.pickers = new ArrayList<LevelObject>();
 	this.stuckedDaggers = new ArrayList<Dagger>();
-	this.fliyingDaggers = new ArrayList<Dagger>();
 	this.giratorys = new ArrayList<LevelObject>();
 	this.walls = new ArrayList<LevelObject>();
 	this.activators = new ArrayList<LevelObject>();
