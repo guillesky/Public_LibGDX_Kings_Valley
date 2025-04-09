@@ -11,7 +11,7 @@ public class Juego
 	private static Juego instance = new Juego();
 	private Controles controles = new Controles();
 	private ArrayList<Level> levels = new ArrayList<Level>();
-	private int currentLevel =11;
+	private int currentLevel = 11;
 	private float delta = 0;
 
 	private Juego()
@@ -28,10 +28,17 @@ public class Juego
 		this.delta += deltaTime;
 		Player player = this.getCurrentLevel().getPlayer();
 		player.update(this.controles.getNuevoRumbo(), this.controles.getShot(), deltaTime);
-		
+		if (this.controles.isNextKey())
+			this.finishLevel();
 		this.getCurrentLevel().updateMechanism(deltaTime);
 		this.getCurrentLevel().updateMummys(deltaTime);
 		this.getCurrentLevel().updateFlyingDagger(deltaTime);
+	}
+
+	private void finishLevel()
+	{
+		this.levels.get(currentLevel).finishLevel();
+
 	}
 
 	public Controles getControles()

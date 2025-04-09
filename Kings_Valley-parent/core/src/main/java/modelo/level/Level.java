@@ -108,4 +108,11 @@ public class Level
 	}
 
     }
+
+	public void finishLevel()
+	{
+		this.completed=true;
+		this.pyramid.completeLevel();
+		
+	}
 }

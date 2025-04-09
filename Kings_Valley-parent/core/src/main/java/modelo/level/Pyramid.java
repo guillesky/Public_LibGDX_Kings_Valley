@@ -302,5 +302,15 @@ public class Pyramid implements IGrafica
 
 	}
 
+	public void completeLevel()
+	{
+		Iterator<GiratoryMechanism> it= this.giratoryMechanisms.iterator();
+		while(it.hasNext())
+		this.removeGraphicElement(
+				new DrawableElement(Constantes.DRAWABLE_GYRATORY, it.next().getLevelObject()));
+		this.giratoryMechanisms.clear();
+		this.giratorys.clear();
+	}
+
 
 }

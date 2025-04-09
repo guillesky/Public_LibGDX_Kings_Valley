@@ -1,6 +1,7 @@
 package vista2D;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
@@ -10,25 +11,21 @@ public class AnimatedGiratory2D extends AnimatedEntity2D
 {
 	protected GiratoryMechanism giratoryMechanism;
 	private boolean spinning = false;
-	Animation<TextureRegion> animationRightLeft;
-	Animation<TextureRegion> animationLeftRight;
 	
-	public AnimatedGiratory2D(GiratoryMechanism giratoryMechanism, Animation<TextureRegion> animationRightLeft,Animation<TextureRegion> animationLeftRight)
+	public AnimatedGiratory2D(GiratoryMechanism giratoryMechanism, Animation<TextureRegion> animation)
 	{
-		super(giratoryMechanism.getLevelObject(), animationRightLeft);
+		super(giratoryMechanism.getLevelObject(), animation);
 		this.giratoryMechanism = giratoryMechanism;
-		this.animationRightLeft=animationRightLeft;
-		this.animationLeftRight=animationLeftRight;
-		this.setAnimationActive();
+		this.setAnimationPlayMode();
 		this.sprite = new Sprite(animation.getKeyFrame(0));
 	}
 
-	private void  setAnimationActive() 
+	private void  setAnimationPlayMode() 
 	{
 		if (giratoryMechanism.isRight())
-			this.animation=this.animationRightLeft;
+			this.animation.setPlayMode(PlayMode.NORMAL);
 		else
-			this.animation=this.animationLeftRight;
+			this.animation.setPlayMode(PlayMode.REVERSED);
 		
 	}
 	public void updateElement(float deltaTime)
@@ -42,7 +39,7 @@ public class AnimatedGiratory2D extends AnimatedEntity2D
 			if (this.spinning)
 			{
              this.spinning=false;
-             this.setAnimationActive();
+             this.setAnimationPlayMode();
 			}
 			
 		}

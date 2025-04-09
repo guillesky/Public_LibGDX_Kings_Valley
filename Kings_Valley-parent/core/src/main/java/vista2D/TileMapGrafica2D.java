@@ -92,21 +92,15 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 			this.hashMapTrapAnimation.put(trapMech, atrapKV);
 			this.animatedTraps.add(atrapKV);
 
-		} else if (dr.getType() == Constantes.DRAWABLE_GYRATORY_3_RL)
+		} else if (dr.getType() == Constantes.DRAWABLE_GYRATORY)
 		{
 
 			GiratoryMechanism gm = (GiratoryMechanism) dr.getDrawable();
 			AnimatedGiratory2D a;
-			if (gm.isTriplex())
-				a = new AnimatedGiratory2D(gm,
-						this.graphicsFileLoader.getAnimations().get(Constantes.DRAWABLE_GYRATORY_3_RL),
-						this.graphicsFileLoader.getAnimations().get(Constantes.DRAWABLE_GYRATORY_3_LR));
-			else
-				a = new AnimatedGiratory2D(gm,
-						this.graphicsFileLoader.getAnimations().get(Constantes.DRAWABLE_GYRATORY_2_RL),
-						this.graphicsFileLoader.getAnimations().get(Constantes.DRAWABLE_GYRATORY_2_LR));
+			a = new AnimatedGiratory2D(gm, this.graphicsFileLoader.getNewAnimationGiratory(gm.getHeightInTiles()));
 
 			this.animatedEntities.add(a);
+			this.hashMapLevelAnimation.put(gm.getLevelObject(), a);
 		} else if (dr.getType() == Constantes.DRAWABLE_PICKING_CELL)
 		{
 			PairInt pairInt = (PairInt) dr.getDrawable();
@@ -148,6 +142,13 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 		} else if (dr.getType() == Constantes.DRAWABLE_PICKING_CELL)
 		{
 			this.animatedEntities.removeValue(this.animatedPickedCell, true);
+		} else if (dr.getType() == Constantes.DRAWABLE_GYRATORY)
+		{
+			LevelObject giratory = (LevelObject) dr.getDrawable();
+			AnimatedEntity2D animatedEntity2D = this.hashMapLevelAnimation.get(giratory);
+
+			this.animatedEntities.removeValue(animatedEntity2D, true);
+			this.hashMapLevelAnimation.remove(giratory);
 		}
 	}
 
@@ -178,7 +179,7 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 			else if (item.getType() == Constantes.It_giratory)
 			{
 				this.addGraphicElement(
-						new DrawableElement(Constantes.DRAWABLE_GYRATORY_3_RL, pyramid.getGiratoryMechanism(item)));
+						new DrawableElement(Constantes.DRAWABLE_GYRATORY, pyramid.getGiratoryMechanism(item)));
 			} else if (item.getType() == Constantes.It_wall)
 			{
 				this.instances.add(new MySpriteKV(map.getTileSets().getTile(item.getType()).getTextureRegion(), item));

@@ -4,8 +4,8 @@ public class GraphicsFileConfig
 {
     private String archiPlayer = "pics/vick.png";
     private String archiPickingCell = "pics/picking_cell.png";
-    private String archiCollectables = "pics/colectables.png";
-    private String archiGiratory3 = "pics/giratory3.png";
+    private String archiCollectables = "pics/collectables.png";
+    private String archiGiratory = "pics/giratory.png";
     private String archiMummyBlue = "pics/mummy_blue.png";
     private String archiMummyOrange = "pics/mummy_orange.png";
     private String archiMummyRed = "pics/mummy_red.png";
@@ -32,8 +32,8 @@ public class GraphicsFileConfig
     private int mummyCountDeath = 5;
 
     private int giratoryWidth = 20;
-    private int giratory3Height = 30;
-    private int giratory2Height = 20;
+    private int giratoryHeight = 10;
+    
     private int collectableCount = 7;
     private int collectableTileWidth = 10;
     private int collectableTileHeight = 10;
@@ -95,9 +95,9 @@ public class GraphicsFileConfig
 	return archiCollectables;
     }
 
-    public String getArchiGiratory3()
+    public String getArchiGiratory()
     {
-	return archiGiratory3;
+	return archiGiratory;
     }
 
     public String getArchiMummyBlue()
@@ -170,16 +170,12 @@ public class GraphicsFileConfig
 	return giratoryWidth;
     }
 
-    public int getGiratory3Height()
+    public int getGiratoryHeight()
     {
-	return giratory3Height;
+	return giratoryHeight;
     }
 
-    public int getGiratory2Height()
-    {
-	return giratory2Height;
-    }
-
+    
     public int getCollectableTileWidth()
     {
 	return collectableTileWidth;

@@ -89,6 +89,14 @@ public class Main implements IMyApplicationnListener
 	if (!Gdx.input.isKeyPressed(Input.Keys.SPACE) && !controles.isShotEnabled())
 	    controles.enableShotEnabled();
 
+	
+	if (Gdx.input.isKeyPressed(Input.Keys.N) && controles.isNextEnabled())
+	    controles.next();
+	if (!Gdx.input.isKeyPressed(Input.Keys.N) && !controles.isNextEnabled())
+	    controles.enableNexttEnabled();
+
+	
+	
 	Juego.getInstance().actualizaframe(Gdx.graphics.getDeltaTime());
     }
 
