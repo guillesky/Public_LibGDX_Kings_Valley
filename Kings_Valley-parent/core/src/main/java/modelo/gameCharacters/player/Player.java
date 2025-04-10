@@ -65,7 +65,7 @@ public class Player extends GameCharacter
 	    direccion = -1;
 	if (this.pyramid.getCell(x, y, direccion, 1) == null)
 	{
-	    dagger.x = this.x;
+	    dagger.x = this.x+direccion* Config.getInstance().getLevelTileHeightUnits()*0.1f;
 	    dagger.y = this.y + Config.getInstance().getLevelTileHeightUnits();
 	   // this.pyramid.addFlyingDagger(dagger);
 	    
