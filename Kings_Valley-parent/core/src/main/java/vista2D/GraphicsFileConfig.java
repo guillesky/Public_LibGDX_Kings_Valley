@@ -14,6 +14,11 @@ public class GraphicsFileConfig
     private String archiMummyAppear = "pics/mummy_appear.png";
     private String archiMummyDisappear = "pics/mummy_disappear.png";
     private String archiFlyingDagger = "pics/knife.png";
+    private String archiDoorPassage = "pics/exitdoor_central.png";
+    private String archiDoorLeft = "pics/exitdoor_left.png";
+    private String archiDoorRight = "pics/exitdoor_right.png";
+    private String archiDoorLever = "pics/exitdoor_lever.png";
+    
     
 
     private int CharacterFrameWidth = 16;
@@ -76,6 +81,14 @@ public class GraphicsFileConfig
     private int flyingDaggerWidth=16;
     private int flyingDaggerHeight=20;
     private int pickingCellCount=4;
+    private int doorLeverWidth=10;
+    private int doorLeverHeight=10;;
+    private int doorSingleWidth=10;
+    private int doorSingleHeight=30;
+    private int doorPassageWidth=20;
+    private int doorPassageHeight=20;
+    
+    
     private float pickingCellFrameDuration=0.25f;
     
 
@@ -370,6 +383,56 @@ public class GraphicsFileConfig
     {
         return pickingCellFrameDuration;
     }
+
+	public String getArchiDoorPassage()
+	{
+		return archiDoorPassage;
+	}
+
+	public String getArchiDoorLeft()
+	{
+		return archiDoorLeft;
+	}
+
+	public String getArchiDoorRight()
+	{
+		return archiDoorRight;
+	}
+
+	public String getArchiDoorLever()
+	{
+		return archiDoorLever;
+	}
+
+	public int getDoorLeverWidth()
+	{
+		return doorLeverWidth;
+	}
+
+	public int getDoorLeverHeight()
+	{
+		return doorLeverHeight;
+	}
+
+	public int getDoorSingleWidth()
+	{
+		return doorSingleWidth;
+	}
+
+	public int getDoorSingleHeight()
+	{
+		return doorSingleHeight;
+	}
+
+	public int getDoorPassageWidth()
+	{
+		return doorPassageWidth;
+	}
+
+	public int getDoorPassageHeight()
+	{
+		return doorPassageHeight;
+	}
     
 
 }

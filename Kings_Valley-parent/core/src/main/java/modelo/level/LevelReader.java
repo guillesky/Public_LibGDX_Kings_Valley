@@ -28,7 +28,6 @@ public class LevelReader
 {
 	private TiledMap map;
 
-	private IGrafica interfaz = null;
 	private Player player = null;
 	private LevelObject doorIn = null;
 	private LevelObject doorOut = null;
@@ -52,24 +51,27 @@ public class LevelReader
 	private MummyFactory mummyFactory = new MummyFactory();
 	private ArrayList<MummyData> mummyDatas = new ArrayList<MummyData>();
 
-	public LevelReader(IGrafica interfaz)
-	{
-		this.interfaz = interfaz;
-
-	}
-
-	public Level getLevel(TiledMap map, int id, int dificultLevel)
+	public Level getLevel(TiledMap map, int dificultLevel, boolean isCompleted, IGrafica interfaz)
 	{
 
 		this.map = map;
 		this.resetAll();
 		this.readLevelObjects(dificultLevel);
 		this.corrigeCeldasPicables();
+		if (isCompleted)
+		{
+			this.jewels.clear();
+			this.giratoryMechanisms.clear();
+			this.hashGiratoryMechanisms.clear();
+		}
 		this.pyramid = new Pyramid(map, doorIn, doorOut, jewels, stairs_dr, stairs_dl, stairs_ur, stairs_ul, pickers,
 				stuckedDaggers, giratorys, walls, activators, trapMechanisms, giratoryMechanisms, unpickableCells,
 				hashTraps, hashGiratoryMechanisms, interfaz);
-		this.player = new Player(this.doorIn, this.pyramid);
-
+		float y=this.doorIn.y-Config.getInstance().getLevelTileHeightUnits()*2;
+		float x=this.doorIn.x+Config.getInstance().getLevelTileWidthUnits()*2f;
+			
+		this.player = new Player(x,y, this.pyramid);
+		if (isCompleted) this.pyramid.completeLevel();
 		this.generateMummys(dificultLevel);
 		Level level = new Level(pyramid, mummys, player);
 		return level;
@@ -176,7 +178,7 @@ public class LevelReader
 				this.mummyDatas.add(new MummyData(fx, fy, p0));
 
 				break;
-			case Constantes.It_door:
+			case Constantes.It_door_lever:
 				levelObject = new LevelObject(type, fx, fy, p0, width, height);
 				if (levelObject.getP0() == 0)
 					this.doorIn = levelObject;
@@ -316,36 +318,36 @@ public class LevelReader
 			this.mummys.add(mummy);
 		}
 	}
-	
-	private TextureRegion m(TextureRegion tileRegion,int count) 
+
+	private TextureRegion m(TextureRegion tileRegion, int count)
 	{
-		
+
 		Texture originalTexture = tileRegion.getTexture();
 		int tileWidth = tileRegion.getRegionWidth();
 		int tileHeight = tileRegion.getRegionHeight();
 
 		// Obtener el Pixmap original de la textura entera
 		TextureData textureData = originalTexture.getTextureData();
-		if (!textureData.isPrepared()) textureData.prepare();
+		if (!textureData.isPrepared())
+			textureData.prepare();
 		Pixmap originalPixmap = textureData.consumePixmap();
 
 		// Crear un Pixmap nuevo del triple de ancho
-		Pixmap tiledPixmap = new Pixmap(tileWidth , tileHeight*count, originalPixmap.getFormat());
+		Pixmap tiledPixmap = new Pixmap(tileWidth, tileHeight * count, originalPixmap.getFormat());
 
 		// Dibujar tres copias del tile en el nuevo Pixmap
-		for (int i = 0; i < count; i++) {
-		    tiledPixmap.drawPixmap(
-		        originalPixmap,
-		        0,i * tileHeight,                          // destino
-		        tileRegion.getRegionX(), tileRegion.getRegionY(), // origen
-		        tileWidth, tileHeight                     // tamaño del recorte
-		    );
+		for (int i = 0; i < count; i++)
+		{
+			tiledPixmap.drawPixmap(originalPixmap, 0, i * tileHeight, // destino
+					tileRegion.getRegionX(), tileRegion.getRegionY(), // origen
+					tileWidth, tileHeight // tamaño del recorte
+			);
 		}
 
 		// Crear una nueva textura y TextureRegion
 		Texture newTexture = new Texture(tiledPixmap);
 		TextureRegion tiledRegion = new TextureRegion(newTexture);
 		return tiledRegion;
-		
+
 	}
 }

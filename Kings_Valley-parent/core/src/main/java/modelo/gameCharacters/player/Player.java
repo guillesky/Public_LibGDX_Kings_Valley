@@ -25,9 +25,9 @@ public class Player extends GameCharacter
     private float timePicking = 0;
     private PlayerState playerState = null;
 
-    public Player(LevelObject door, Pyramid pyramid)
+    public Player(float x,float y, Pyramid pyramid)
     {
-	super(Constantes.PLAYER, door.getX(), door.getY(), Config.getInstance().getPlayerSpeedWalk(),
+	super(Constantes.PLAYER, x, y, Config.getInstance().getPlayerSpeedWalk(),
 		Config.getInstance().getPlayerSpeedWalkStairs(), pyramid);
 	this.playerState = new PlayerStateWalking(this);
     }

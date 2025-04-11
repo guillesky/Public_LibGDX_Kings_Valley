@@ -13,13 +13,15 @@ public class Constantes
     public static final int It_dagger = 176;
     public static final int It_picker = 177;
     public static final int It_jewel = 74;
-    public static final int It_door = 84;
+    public static final int It_door_lever = 84;
     public static final int It_wall = 254;
     public static final int It_mummy = 77;
     public static final int It_stairs = 69;
     public static final int It_push_in = 73;
     public static final int It_push_out = 79;
     public static final int It_activator = 100;
+    public static final int It_door_passage = 200;
+    
     
     
     public static final int UP = 1000;
@@ -62,7 +64,7 @@ public class Constantes
     public static final HashMap<Integer, String> identificacion = new HashMap<Integer, String>();
     public static final HashMap<String, Integer> stringToInteger = new HashMap<String, Integer>();
     public static final HashMap<Integer, String> levelFileName = new HashMap<Integer, String>();
-    static
+	static
     {
 	identificacion.put(It_brick, "Brick");
 	identificacion.put(It_giratory, "Giratory");
@@ -71,7 +73,7 @@ public class Constantes
 	identificacion.put(It_dagger, "Dagger");
 	identificacion.put(It_picker, "Picker");
 	identificacion.put(It_jewel, "Jewel");
-	identificacion.put(It_door, "Door");
+	identificacion.put(It_door_lever, "Door");
 	identificacion.put(It_wall, "Wall");
 	identificacion.put(It_mummy, "Mummy");
 	identificacion.put(It_stairs, "Stairs");
@@ -84,7 +86,7 @@ public class Constantes
 	stringToInteger.put("Dagger", It_dagger);
 	stringToInteger.put("Picker", It_picker);
 	stringToInteger.put("Jewel", It_jewel);
-	stringToInteger.put("Door", It_door);
+	stringToInteger.put("Door", It_door_lever);
 	stringToInteger.put("Wall", It_wall);
 	stringToInteger.put("Mummy", It_mummy);
 	stringToInteger.put("Stairs", It_stairs);

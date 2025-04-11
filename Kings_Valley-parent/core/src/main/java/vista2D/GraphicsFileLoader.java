@@ -24,13 +24,9 @@ public class GraphicsFileLoader
 	private static final String CONFIG_FILE = "graphics_file_config.json";
 	private static final Json json = new Json();
 	private AssetManager manager;
-
 	private Animation<TextureRegion>[] animationPlayer_Nothing = new Animation[6];
-
 	private Animation<TextureRegion>[] animationPlayer_Dagger = new Animation[7];
-
 	private Animation<TextureRegion>[] animationPlayer_Picker = new Animation[7];
-
 	private Animation<TextureRegion>[] animationMummyBlue;
 	private Animation<TextureRegion>[] animationMummyOrange;
 	private Animation<TextureRegion>[] animationMummyRed;
@@ -39,11 +35,17 @@ public class GraphicsFileLoader
 	private Animation<TextureRegion> animationMummyAppear;
 	private Animation<TextureRegion> animationMummyDeath;
 	private Array<TextureRegion> linearFramesGiratory;
-
 	private GraphicsFileConfig graphicsFileConfig;
 	private HashMap<Integer, Animation<TextureRegion>> animations = new HashMap<Integer, Animation<TextureRegion>>();
 	private AnimatedPickedCell animatedPickedCell;
-
+	private Texture doorSingleLeft;
+	private Texture doorSingleRight;
+	private Texture doorPassage;
+	private Animation<TextureRegion> animationDoorLever;
+	
+	
+	
+	
 	public static void saveConfig(GraphicsFileConfig config)
 	{
 		FileHandle file = Gdx.files.local(CONFIG_FILE);
@@ -79,7 +81,12 @@ public class GraphicsFileLoader
 		this.manager.load(graphicsFileConfig.getArchiMummyDisappear(), Texture.class);
 		this.manager.load(graphicsFileConfig.getArchiFlyingDagger(), Texture.class);
 
-		// saveConfig(graphicsFileConfig);
+		this.manager.load(graphicsFileConfig.getArchiDoorLeft(), Texture.class);
+		this.manager.load(graphicsFileConfig.getArchiDoorRight(), Texture.class);
+		this.manager.load(graphicsFileConfig.getArchiDoorLever(), Texture.class);
+		this.manager.load(graphicsFileConfig.getArchiDoorPassage(), Texture.class);
+
+		 //saveConfig(graphicsFileConfig);
 	}
 
 	private void loadPlayerAnimations()
@@ -303,6 +310,19 @@ public class GraphicsFileLoader
 		this.animationMummyRed = this.loadMummyAnimations(this.graphicsFileConfig.getArchiMummyRed());
 		this.animationMummyWhite = this.loadMummyAnimations(this.graphicsFileConfig.getArchiMummyWhite());
 		this.animationMummyYellow = this.loadMummyAnimations(this.graphicsFileConfig.getArchiMummyYellow());
+
+		this.doorSingleLeft = manager.get(this.graphicsFileConfig.getArchiDoorLeft(), Texture.class);
+		this.doorSingleRight = manager.get(this.graphicsFileConfig.getArchiDoorRight(), Texture.class);
+		this.doorPassage = manager.get(this.graphicsFileConfig.getArchiDoorPassage(), Texture.class);
+		
+		linearFrame = this.linearFramesForFile(this.graphicsFileConfig.getArchiDoorLever(),
+				this.graphicsFileConfig.getDoorLeverWidth(), this.graphicsFileConfig.getDoorLeverHeight());
+
+		
+		this.animationDoorLever = this.framesToAnimation(linearFrame, 0, 2, frameDuration*5);
+			
+			
+	
 	}
 
 	public Animation<TextureRegion>[] getAnimationPlayer_Nothing()
@@ -383,11 +403,11 @@ public class GraphicsFileLoader
 	public Animation<TextureRegion> getNewAnimationGiratory(int heightInTiles)
 	{
 		float frameDuration = this.graphicsFileConfig.getFrameDuration();
-		
-		Array<TextureRegion> linearFrame=new Array<TextureRegion>();
-		for(int i=0;i<this.linearFramesGiratory.size;i++)
+
+		Array<TextureRegion> linearFrame = new Array<TextureRegion>();
+		for (int i = 0; i < this.linearFramesGiratory.size; i++)
 			linearFrame.add(this.generateVerticalTiledTextureRegion(this.linearFramesGiratory.get(i), heightInTiles));
-		
+
 		return this.framesToAnimation(linearFrame, 0, linearFrame.size, frameDuration);
 	}
 
@@ -397,8 +417,6 @@ public class GraphicsFileLoader
 		int tileWidth = tileRegion.getRegionWidth();
 		int tileHeight = tileRegion.getRegionHeight();
 
-		
-		
 		// Obtener el Pixmap original de la textura entera
 		TextureData textureData = originalTexture.getTextureData();
 		if (!textureData.isPrepared())
@@ -420,6 +438,36 @@ public class GraphicsFileLoader
 		// Crear una nueva textura y TextureRegion
 		Texture newTexture = new Texture(tiledPixmap);
 		return new TextureRegion(newTexture);
+	}
+
+	public static String getConfigFile()
+	{
+		return CONFIG_FILE;
+	}
+
+	public static Json getJson()
+	{
+		return json;
+	}
+
+	public Texture getDoorSingleLeft()
+	{
+		return doorSingleLeft;
+	}
+
+	public Texture getDoorSingleRight()
+	{
+		return doorSingleRight;
+	}
+
+	public Texture getDoorPassage()
+	{
+		return doorPassage;
+	}
+
+	public Animation<TextureRegion> getAnimationDoorLever()
+	{
+		return animationDoorLever;
 	}
 
 }

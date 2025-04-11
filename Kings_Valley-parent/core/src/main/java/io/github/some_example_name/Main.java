@@ -41,12 +41,15 @@ public class Main implements IMyApplicationnListener
 	 * } }); th.start();
 	 */
 	manager.finishLoading();
-	LevelReader lr = new LevelReader(grafica);
+	Juego.getInstance().setInterfaz(grafica);
+	
+	
 	for (int i = 1; i <= 15; i++)
 	{
 	    TiledMap map = manager.get(Constantes.levelFileName.get(i), TiledMap.class);
-	    Juego.getInstance().addLevel(lr.getLevel(map,  i, 3));
+	    Juego.getInstance().addMap(i, map);
 	}
+	Juego.getInstance().start();
 	this.grafica.create();
     }
 

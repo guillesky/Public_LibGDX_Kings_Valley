@@ -1,21 +1,41 @@
 package modelo;
 
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.HashMap;
+
+import com.badlogic.gdx.maps.tiled.TiledMap;
 
 import modelo.gameCharacters.player.Player;
 import modelo.level.Level;
+import modelo.level.LevelReader;
 
 public class Juego
 {
 	private static Juego instance = new Juego();
 	private Controles controles = new Controles();
-	private ArrayList<Level> levels = new ArrayList<Level>();
-	private int currentLevel = 11;
+	private HashMap<Integer,TiledMap> maps = new HashMap<Integer,TiledMap>();
+	private HashMap<Integer,Boolean> completedLevels = new HashMap<Integer,Boolean>();
+	
+	private Level level=null;
+	private int currentLevel = 1;
+	private int dificult = 0;
+	
 	private float delta = 0;
+	private IGrafica interfaz = null;
+	private LevelReader levelReader ;
+	
+	public IGrafica getInterfaz()
+	{
+		return interfaz;
+	}
+
+	public void setInterfaz(IGrafica interfaz)
+	{
+		this.interfaz = interfaz;
+	}
 
 	private Juego()
-	{
+	{		this.levelReader= new LevelReader();
+		
 	}
 
 	public static Juego getInstance()
@@ -23,6 +43,14 @@ public class Juego
 		return instance;
 	}
 
+	public void addMap(Integer id,TiledMap map) 
+	{
+		this.maps.put(id, map);
+		this.completedLevels.put(id, false);
+	}
+	
+	
+	
 	public void actualizaframe(float deltaTime)
 	{
 		this.delta += deltaTime;
@@ -37,7 +65,7 @@ public class Juego
 
 	private void finishLevel()
 	{
-		this.levels.get(currentLevel).finishLevel();
+		this.level.finishLevel();
 
 	}
 
@@ -51,26 +79,26 @@ public class Juego
 		this.controles = controles;
 	}
 
-	public void addLevel(Level level)
-	{
-		this.levels.add(level);
-	}
+	
 
 	public Level getCurrentLevel()
 	{
-		return this.levels.get(currentLevel);
+		return this.level;
 	}
 
 	public void dispose()
 	{
-		Iterator<Level> it = this.levels.iterator();
-		while (it.hasNext())
-			it.next().getPyramid().getMap().dispose();
+		level.getPyramid().getMap().dispose();
 	}
 
 	public float getDelta()
 	{
 		return delta;
+	}
+
+	public void start()
+	{
+		this.level=this.levelReader.getLevel(this.maps.get(this.currentLevel), dificult,  this.completedLevels.get(this.currentLevel), interfaz);
 	}
 
 }
