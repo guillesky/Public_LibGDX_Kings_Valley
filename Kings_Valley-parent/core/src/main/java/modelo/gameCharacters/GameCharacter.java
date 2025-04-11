@@ -12,6 +12,7 @@ import modelo.level.LevelObject;
 import modelo.level.Pyramid;
 import util.Config;
 import util.Constantes;
+
 @SuppressWarnings("serial")
 public abstract class GameCharacter extends LevelObject
 {
@@ -21,9 +22,8 @@ public abstract class GameCharacter extends LevelObject
     public static final int ST_ONSTAIRS_POSITIVE = 2; // En una escalera pendiente positiva
     public static final int ST_ONSTAIRS_NEGATIVE = 3; // En una escalera pendiente negativa
 
-   
-    public static final int ST_JUMP = 5; // Saltando 
-   
+    public static final int ST_JUMP = 5; // Saltando
+
     public static final int ST_FALLING = 7; // Cayendo
 
     public static final int ST_DYING = 8; // Muriendo
@@ -72,8 +72,8 @@ public abstract class GameCharacter extends LevelObject
 		    this.motionVector.x = 0;
 
 		    this.animationDelta = 0;
-		} //else	    this.animationDelta += deltaTime;
-		
+		} // else this.animationDelta += deltaTime;
+
 		this.motionVector.y += this.speedFall * deltaTime;
 
 		if (this.motionVector.y < this.speedFall)
@@ -90,7 +90,7 @@ public abstract class GameCharacter extends LevelObject
 		    {
 			this.animationDelta = 0;
 			this.state = ST_IDDLE;
-		    }// else 			this.animationDelta += deltaTime;
+		    } // else this.animationDelta += deltaTime;
 
 		} else
 		{
@@ -100,8 +100,7 @@ public abstract class GameCharacter extends LevelObject
 			this.animationDelta = 0;
 			this.state = ST_WALK;
 
-		    } //else 	this.animationDelta += deltaTime;
-		    
+		    } // else this.animationDelta += deltaTime;
 
 		}
 		this.motionVector.x = v.x * this.speedWalk;
@@ -127,7 +126,7 @@ public abstract class GameCharacter extends LevelObject
 	    if (v.x != 0)
 	    {
 		this.checkExitStair(v);
-		//this.animationDelta += deltaTime;
+		// this.animationDelta += deltaTime;
 		this.lookRight = v.x > 0;
 	    }
 	}
@@ -226,7 +225,8 @@ public abstract class GameCharacter extends LevelObject
 
     public boolean isFloorDown()
     {
-	return ((isCellBlocked(this.x + this.getWidth(), this.y - 0.00001f * this.height)
+	float epsilon = 0.000001f * Config.getInstance().getLevelTileHeightUnits();
+	return ((isCellBlocked(this.x + this.getWidth(), this.y - epsilon * this.height)
 		&& isCellBlocked(this.x + this.getWidth(), this.y - this.height * 0.25f))
 		|| (isCellBlocked(this.x, this.y - 0.00001f * this.height)
 			&& isCellBlocked(this.x, this.y - this.height * 0.25f)));
@@ -276,8 +276,9 @@ public abstract class GameCharacter extends LevelObject
 
     private void correctRight(Vector2 vectMove)
     {
+	float epsilon = 0.002f * Config.getInstance().getLevelTileWidthUnits();
 	float aux = (int) ((this.x + this.getWidth() + vectMove.x) / Config.getInstance().getLevelTileWidthUnits());
-	vectMove.x = (aux) * Config.getInstance().getLevelTileWidthUnits() - (this.getWidth() + 0.02f + this.x);
+	vectMove.x = (aux) * Config.getInstance().getLevelTileWidthUnits() - (this.getWidth() + epsilon + this.x);
 	if (this.motionVector.y < 30)
 	    this.motionVector.x = 0;
 
@@ -285,8 +286,9 @@ public abstract class GameCharacter extends LevelObject
 
     private void correctLeft(Vector2 vectMove)
     {
+	float epsilon = 0.002f * Config.getInstance().getLevelTileWidthUnits();
 	float aux = (int) ((this.x + vectMove.x) / Config.getInstance().getLevelTileWidthUnits());
-	vectMove.x = (aux + 1) * Config.getInstance().getLevelTileWidthUnits() + 0.2f - this.x;
+	vectMove.x = (aux + 1) * Config.getInstance().getLevelTileWidthUnits() + epsilon - this.x;
 	if (this.motionVector.y < 30)
 	    this.motionVector.x = 0;
 
@@ -294,15 +296,15 @@ public abstract class GameCharacter extends LevelObject
 
     private void correctUp(Vector2 vectMove)
     {
+	float epsilon = 0.001f * Config.getInstance().getLevelTileHeightUnits();
 	this.motionVector.y = 0;
 	int aux = (int) ((this.y + this.getHeight() + vectMove.y) / Config.getInstance().getLevelTileHeightUnits());
-	vectMove.y = aux * Config.getInstance().getLevelTileHeightUnits() - (this.y + this.getHeight() + 0.1f);
+	vectMove.y = aux * Config.getInstance().getLevelTileHeightUnits() - (this.y + this.getHeight() + epsilon);
 
     }
 
     private void correctDown(Vector2 vectMove)
     {
-
 	float aux = (int) ((this.y + vectMove.y) / Config.getInstance().getLevelTileHeightUnits());
 	vectMove.y = (aux + 1) * Config.getInstance().getLevelTileHeightUnits() - this.y;
 	if (vectMove.x == 0)
@@ -326,8 +328,6 @@ public abstract class GameCharacter extends LevelObject
 	TiledMapTileLayer.Cell cell = this.pyramid.getCell(x, y);
 	return cell != null && cell.getTile().getId() < 220;
     }
-
-    
 
     private boolean colision5(Vector2 vectMove)
     {
@@ -365,9 +365,9 @@ public abstract class GameCharacter extends LevelObject
 		if (r == Constantes.DOWN)
 		{
 		    r = Constantes.LEFT;
-		    
+
 		    System.out.println("ABERRACION");
-		    
+
 		}
 	    }
 	} else if (this.isCellSolid(this.x + vectMove.x, this.y + vectMove.y)
@@ -549,7 +549,8 @@ public abstract class GameCharacter extends LevelObject
 
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings(
+    { "rawtypes", "unchecked" })
     public LevelObject checkRectangleColision(ArrayList levelObjects)
     {
 
@@ -634,8 +635,6 @@ public abstract class GameCharacter extends LevelObject
 
     }
 
-    
-
     protected void setState(int state)
     {
 	this.state = state;
@@ -653,8 +652,7 @@ public abstract class GameCharacter extends LevelObject
 
     protected Pyramid getPyramid()
     {
-        return pyramid;
+	return pyramid;
     }
-    
 
 }
