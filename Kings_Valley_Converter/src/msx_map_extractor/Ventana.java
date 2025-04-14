@@ -38,7 +38,10 @@ public class Ventana extends JFrame implements ActionListener
     private Image[][] tiles;
     private JButton btnNewButton;
     private JPanel panel_1;
-    private int pantallas = 3;
+    private int pantallas = 1;
+    private JTextField textFieldPantallas;
+    private JPanel panel_2;
+    private JPanel panel_3;
 
     /**
      * Launch the application.
@@ -149,13 +152,28 @@ public class Ventana extends JFrame implements ActionListener
 
 	this.panel = new JPanel();
 	this.panelEste.add(this.panel);
+	this.panel.setLayout(new GridLayout(2, 2, 0, 0));
+	
+	this.panel_2 = new JPanel();
+	this.panel.add(this.panel_2);
 
 	this.textFieldTam = new JTextField();
+	this.panel_2.add(this.textFieldTam);
 	this.textFieldTam.setBorder(new TitledBorder(
 		new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Offset",
 		TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-	this.panel.add(this.textFieldTam);
 	this.textFieldTam.setColumns(10);
+	
+	this.panel_3 = new JPanel();
+	this.panel.add(this.panel_3);
+	
+	this.textFieldPantallas = new JTextField();
+	this.panel_3.add(this.textFieldPantallas);
+	this.textFieldPantallas.setBorder(new TitledBorder(
+		new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Pantallas",
+		TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+	
+	this.textFieldPantallas.setColumns(10);
 
 	this.panel_1 = new JPanel();
 	this.panelEste.add(this.panel_1);
@@ -254,7 +272,10 @@ public class Ventana extends JFrame implements ActionListener
     protected void do_btnNewButton_actionPerformed(ActionEvent e)
     {
 	int offset = Integer.parseInt(this.textFieldTam.getText());
+	int pantallas = Integer.parseInt(this.textFieldPantallas.getText());
+	
 	this.offset = offset;
+	this.pantallas=pantallas;
 	this.repaint();
     }
 

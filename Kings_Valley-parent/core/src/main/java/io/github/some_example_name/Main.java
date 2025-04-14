@@ -9,7 +9,6 @@ import com.badlogic.gdx.math.Vector2;
 
 import modelo.Controles;
 import modelo.Juego;
-import modelo.level.LevelReader;
 import util.Constantes;
 import vista2D.TileMapGrafica2D;
 
@@ -41,6 +40,8 @@ public class Main implements IMyApplicationnListener
 	 * } }); th.start();
 	 */
 	manager.finishLoading();
+	
+	
 	Juego.getInstance().setInterfaz(grafica);
 	
 	
