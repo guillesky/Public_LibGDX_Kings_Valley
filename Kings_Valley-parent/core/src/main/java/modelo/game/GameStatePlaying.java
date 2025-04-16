@@ -6,10 +6,10 @@ import modelo.control.Controls;
 import modelo.gameCharacters.player.Player;
 import modelo.level.Level;
 
-public class StateGamePlaying extends StateGame
+public class GameStatePlaying extends GameState
 {
 
-    public StateGamePlaying()
+    public GameStatePlaying()
     {
 	super();
     }

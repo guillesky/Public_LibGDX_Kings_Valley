@@ -37,22 +37,32 @@ public abstract class GameCharacter extends LevelObject
     protected float speedJump;
     protected int stairInit = Constantes.It_none;
     protected float speedY = 0;
-    protected float feetWidth;
-    protected float feetHeight;
     protected Pyramid pyramid;
     private boolean lookRight = true;
     protected float animationDelta = 0;
+    private Rectangle feet; 
 
     public GameCharacter(int type, float x, float y, float speedWalk, float speedWalkStairs, Pyramid pyramid)
     {
 	super(type, x, y, 0, Config.getInstance().getCharacterWidth(), Config.getInstance().getCharacterHeight());
+	float feetWidth;
+    float feetHeight;
+   
 	this.speedFall = Config.getInstance().getCharacterSpeedFall();
 	this.speedWalk = speedWalk;
 	this.speedWalkStairs = speedWalkStairs;
 	this.speedJump = Config.getInstance().getCharacterSpeedJump();
-	this.feetHeight = Config.getInstance().getCharacterFeetHeight();
-	this.feetWidth = Config.getInstance().getCharacterFeetWidth();
+	
+	feetHeight = Config.getInstance().getCharacterFeetHeight();
+	feetWidth = Config.getInstance().getCharacterFeetWidth();
 	this.pyramid = pyramid;
+	
+	float mitad = this.x + this.width / 2;
+	mitad -= feetWidth / 2;
+	this.feet = new Rectangle(mitad, y, feetWidth, feetHeight);
+	
+	
+	
     }
 
     protected void move(Vector2 v, boolean b, float deltaTime)
@@ -495,10 +505,9 @@ public abstract class GameCharacter extends LevelObject
 
     public boolean isFeetColision(Rectangle another)
     {
-	float mitad = this.x + this.width / 2;
-	mitad -= this.feetWidth / 2;
-	Rectangle feet = new Rectangle(mitad, y, this.feetWidth, this.feetHeight);
-	return LevelObject.rectangleColision(feet, another);
+    	this.feet.x = this.x + (this.width-Config.getInstance().getCharacterFeetHeight()) / 2;
+    	this.feet.y=this.y;
+	return LevelObject.rectangleColision(this.feet, another);
     }
 
     public LevelObject checkItemFeetColision(ArrayList<LevelObject> levelObjects)
@@ -574,7 +583,7 @@ public abstract class GameCharacter extends LevelObject
     protected boolean checkGiratory(Vector2 v)
     {
 	boolean r = false;
-	LevelObject giratory = this.checkRectangleColision(this.pyramid.getGiratorys());
+	LevelObject giratory = this.checkRectangleColision(this.pyramid.getGiratories());
 	if (giratory != null)
 	{
 	    GiratoryMechanism gm = this.pyramid.getGiratoryMechanism(giratory);

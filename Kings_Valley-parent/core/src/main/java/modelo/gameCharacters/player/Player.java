@@ -11,6 +11,7 @@ import modelo.level.GiratoryMechanism;
 import modelo.level.LevelObject;
 import modelo.level.Pyramid;
 import modelo.level.dagger.Dagger;
+import modelo.level.dagger.DaggerState;
 import util.Config;
 import util.Constantes;
 @SuppressWarnings("serial")
@@ -272,7 +273,7 @@ public class Player extends GameCharacter
 		}
 
 		Dagger dagger = (Dagger) this.checkRectangleColision(this.pyramid.getStuckedDaggers());
-		if (dagger != null && dagger.getState()==Dagger.ST_STUCKED)
+		if (dagger != null && dagger.getState()==DaggerState.ST_STUCKED)
 		{
 		    this.item = dagger;
 		    dagger.hasPickuped();

@@ -13,7 +13,6 @@ import util.Constantes;
 public class Level
 {
    
-    private boolean completed=false;
     private Pyramid pyramid;
     private ArrayList<Mummy> mummys = new ArrayList<Mummy>();
     private Player player = null;
@@ -109,10 +108,17 @@ public class Level
 
     }
 
-	public void finishLevel()
+	public void removeGiratories()
 	{
-		this.completed=true;
-		this.pyramid.completeLevel();
+		
+		this.pyramid.removeGiratories();
 		
 	}
+	
+	public boolean isReadyToExit() 
+	{
+		return this.pyramid.getJewels().isEmpty();
+	}
+	
+	
 }

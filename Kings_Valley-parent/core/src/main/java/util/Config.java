@@ -119,7 +119,7 @@ public class Config
 		this.levelObjectHeight = this.levelTileHeightUnits;
 
 		this.stairWidth = this.levelTileWidthUnits * 0.5f;
-		this.stairHeight = this.levelTileHeightUnits * 0.2f;
+		this.stairHeight = this.levelTileHeightUnits ;//* 1.2f;
 
 		this.giratoryWidth = this.levelTileWidthUnits * 1.3f;
 

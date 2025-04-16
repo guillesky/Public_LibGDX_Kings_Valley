@@ -1,12 +1,12 @@
 package modelo.game;
 
-public abstract class StateGame
+public abstract class GameState
 {
     protected Game game;
 
     public abstract void updateframe(float deltaTime);
 
-    public StateGame()
+    public GameState()
     {
 	this.game = Game.getInstance();
     }

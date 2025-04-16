@@ -15,8 +15,8 @@ public class DaggerStateThrowingHorizontal extends DaggerState
 
 	public DaggerStateThrowingHorizontal(Dagger dagger)
 	{
-		super(dagger);
-		this.dagger.setState(Dagger.ST_THROWING_HORIZONTAL);
+		super(dagger,DaggerState.ST_THROWING_HORIZONTAL);
+		
 
 	}
 
@@ -47,7 +47,7 @@ public class DaggerStateThrowingHorizontal extends DaggerState
 		}
 
 		LevelObject giratory = null;
-		Iterator<LevelObject> itgiratorys = pyramid.getGiratorys().iterator();
+		Iterator<LevelObject> itgiratorys = pyramid.getGiratories().iterator();
 		do
 		{
 			if (itgiratorys.hasNext())

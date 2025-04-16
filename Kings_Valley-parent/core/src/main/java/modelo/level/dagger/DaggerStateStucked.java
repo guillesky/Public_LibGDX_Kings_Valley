@@ -10,8 +10,8 @@ public class DaggerStateStucked extends DaggerState
 
 	public DaggerStateStucked(Dagger dagger)
 	{
-		super(dagger);
-		this.dagger.setState(Dagger.ST_STUCKED);
+		super(dagger,DaggerState.ST_STUCKED);
+		
 
 	}
 

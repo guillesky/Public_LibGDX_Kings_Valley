@@ -10,8 +10,8 @@ public class DaggerStatePickuped extends DaggerState
 
 	public DaggerStatePickuped(Dagger dagger)
 	{
-		super(dagger);
-		this.dagger.setState(Dagger.ST_PICKUPED);
+		super(dagger,DaggerState.ST_PICKUPED);
+		
 	}
 
 	@Override

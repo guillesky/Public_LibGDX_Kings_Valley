@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import modelo.level.dagger.Dagger;
+import modelo.level.dagger.DaggerState;
 
 public class AnimatedDagger2D extends AnimatedEntity2D
 {
@@ -19,7 +20,7 @@ public class AnimatedDagger2D extends AnimatedEntity2D
 		super(dagger, animationStucked);
 		this.daggerAnimationStucked = animationStucked;
 		this.daggerAnimationFlying = animationFlying;
-		this.oldState = Dagger.ST_STUCKED;
+		this.oldState = DaggerState.ST_STUCKED;
 	}
 
 	@Override
@@ -39,7 +40,7 @@ public class AnimatedDagger2D extends AnimatedEntity2D
 	{
 		Dagger dagger = (Dagger) this.levelObject;
 		this.oldState = dagger.getState();
-		if (dagger.getState() == Dagger.ST_STUCKED)
+		if (dagger.getState() == DaggerState.ST_STUCKED)
 			this.animation = this.daggerAnimationStucked;
 
 		else
@@ -73,7 +74,7 @@ public class AnimatedDagger2D extends AnimatedEntity2D
 	{
 
 		Dagger dagger = (Dagger) this.getLevelObject();
-		if (dagger.getState() != Dagger.ST_PICKUPED)
+		if (dagger.getState() != DaggerState.ST_PICKUPED)
 			super.render(batch);
 
 	}

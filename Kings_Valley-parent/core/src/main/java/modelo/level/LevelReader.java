@@ -4,10 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.TextureData;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.MapObject;
@@ -15,6 +11,7 @@ import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
+import com.badlogic.gdx.utils.Array;
 
 import modelo.IGrafica;
 import modelo.gameCharacters.mummys.Mummy;
@@ -26,6 +23,10 @@ import util.Constantes;
 
 public class LevelReader
 {
+private static int[]tilePositiveStair= {22,42,33,43};
+private static int[]tileNegativeStair= {24,44,35,45};	
+	
+	
 	private TiledMap map;
 
 	private Player player = null;
@@ -71,7 +72,7 @@ public class LevelReader
 		float x=this.doorIn.x+Config.getInstance().getLevelTileWidthUnits()*2f;
 			
 		this.player = new Player(x,y, this.pyramid);
-		if (isCompleted) this.pyramid.completeLevel();
+		if (isCompleted) this.pyramid.removeGiratories();
 		this.generateMummys(dificultLevel);
 		Level level = new Level(pyramid, mummys, player);
 		return level;
@@ -319,5 +320,6 @@ public class LevelReader
 		}
 	}
 
+	
 	
 }

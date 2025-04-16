@@ -1,10 +1,10 @@
 package modelo.game;
 
-public class StateGameEntering extends StateGame
+public class GameStateEntering extends GameState
 {
     private float delta = 0;
 
-    public StateGameEntering()
+    public GameStateEntering()
     {
 	super();
     }
@@ -14,7 +14,7 @@ public class StateGameEntering extends StateGame
     {
 	this.delta += deltaTime;
 	if (this.delta>=0.2)
-	    this.game.stateGame=new StateGamePlaying();
+	    this.game.stateGame=new GameStatePlaying();
     }
 
 }

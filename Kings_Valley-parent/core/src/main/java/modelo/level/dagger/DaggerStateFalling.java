@@ -11,8 +11,8 @@ public class DaggerStateFalling extends DaggerState
 
 	public DaggerStateFalling(Dagger dagger)
 	{
-		super(dagger);
-		dagger.setState(Dagger.ST_FALLING);
+		super(dagger,DaggerState.ST_FALLING);
+		
 	}
 
 	@Override

@@ -15,8 +15,7 @@ public class DaggerStateThrowingVertical extends DaggerState
 
     public DaggerStateThrowingVertical(Dagger dagger)
     {
-	super(dagger);
-	this.dagger.setState(Dagger.ST_THROWING_UP);
+	super(dagger,DaggerState.ST_THROWING_UP);
 	this.originalY = dagger.y;
 	this.roundX();
 	this.roundY();

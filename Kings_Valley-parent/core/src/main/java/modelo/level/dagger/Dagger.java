@@ -9,14 +9,8 @@ import modelo.level.Pyramid;
 @SuppressWarnings("serial")
 public class Dagger extends LevelObject
 {
-	public static final int ST_STUCKED = 0;
-	public static final int ST_THROWING_HORIZONTAL = 1;
-	public static final int ST_FALLING = 2;
-	public static final int ST_THROWING_UP = 3;
-	public static final int ST_BOUNCING = 4;
-	public static final int ST_PICKUPED = 5;
-	private int state;
-	private DaggerState daggerState = null;
+	
+		private DaggerState daggerState = null;
 	private float delta;
 	private boolean isRight;
 
@@ -44,7 +38,7 @@ public class Dagger extends LevelObject
 
 	public int getState()
 	{
-		return state;
+		return this.daggerState.getState();
 	}
 
 	public boolean isRight()
@@ -76,10 +70,7 @@ public class Dagger extends LevelObject
 		
 	}
 
-	protected void setState(int state)
-	{
-		this.state = state;
-	}
+	
 
 	protected void setDaggerState(DaggerState daggerState)
 	{

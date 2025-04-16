@@ -1,6 +1,6 @@
 package modelo.game;
 
-public class StateGameExiting extends StateGame
+public class GameStateExiting extends GameState
 {
 
     @Override

@@ -26,13 +26,15 @@ public class Pyramid implements IGrafica
 	private LevelObject doorIn = null;
 	private LevelObject doorOut = null;
 	private ArrayList<LevelObject> jewels = new ArrayList<LevelObject>();
+	private ArrayList<Stair>positiveStairs;
+	private ArrayList<Stair>negativeStairs;
 	private ArrayList<LevelObject> stairs_dr = new ArrayList<LevelObject>();
 	private ArrayList<LevelObject> stairs_dl = new ArrayList<LevelObject>();
 	private ArrayList<LevelObject> stairs_ul = new ArrayList<LevelObject>();
 	private ArrayList<LevelObject> stairs_ur = new ArrayList<LevelObject>();
 	private ArrayList<LevelObject> pickers = new ArrayList<LevelObject>();
 
-	private ArrayList<LevelObject> giratorys = new ArrayList<LevelObject>();
+	private ArrayList<LevelObject> giratories = new ArrayList<LevelObject>();
 	private ArrayList<LevelObject> walls = new ArrayList<LevelObject>();
 	private ArrayList<LevelObject> activators = new ArrayList<LevelObject>();
 	private ArrayList<TrapMechanism> trapMechanisms = new ArrayList<TrapMechanism>();
@@ -72,7 +74,7 @@ public class Pyramid implements IGrafica
 		this.stairs_ur = stairs_ur;
 		this.pickers = pickers;
 		this.stuckedDaggers = stuckedDaggers;
-		this.giratorys = giratorys;
+		this.giratories = giratorys;
 		this.walls = walls;
 		this.activators = activators;
 		this.trapMechanisms = trapMechanisms;
@@ -120,7 +122,7 @@ public class Pyramid implements IGrafica
 		levelObjects.addAll(this.walls);
 		levelObjects.addAll(this.stuckedDaggers);
 
-		levelObjects.addAll(this.giratorys);
+		levelObjects.addAll(this.giratories);
 
 		return levelObjects.iterator();
 	}
@@ -175,9 +177,9 @@ public class Pyramid implements IGrafica
 		return pickers;
 	}
 
-	public ArrayList<LevelObject> getGiratorys()
+	public ArrayList<LevelObject> getGiratories()
 	{
-		return giratorys;
+		return giratories;
 	}
 
 	public ArrayList<LevelObject> getActivators()
@@ -302,14 +304,14 @@ public class Pyramid implements IGrafica
 
 	}
 
-	public void completeLevel()
+	public void removeGiratories()
 	{
 		Iterator<GiratoryMechanism> it= this.giratoryMechanisms.iterator();
 		while(it.hasNext())
 		this.removeGraphicElement(
 				new DrawableElement(Constantes.DRAWABLE_GYRATORY, it.next().getLevelObject()));
 		this.giratoryMechanisms.clear();
-		this.giratorys.clear();
+		this.giratories.clear();
 	}
 
 
