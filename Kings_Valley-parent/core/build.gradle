@@ -3,7 +3,9 @@ eclipse.project.name = appName + '-core'
 
 dependencies {
   api "com.badlogicgames.gdx:gdx:$gdxVersion"
-
+ // Dependencia de gdx-freetype
+    implementation "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
+api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
   if(enableGraalNative == 'true') {
     implementation "io.github.berstanio:gdx-svmhelper-annotations:$graalHelperVersion"
   }

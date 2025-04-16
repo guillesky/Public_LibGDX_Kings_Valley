@@ -4,10 +4,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.TreeMap;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 
+import modelo.control.Controls;
 import modelo.gameCharacters.player.Player;
 import modelo.level.Level;
 import modelo.level.LevelReader;
@@ -15,12 +17,13 @@ import modelo.level.LevelReader;
 public class Juego
 {
     private static Juego instance = new Juego();
-    private Controles controles = new Controles();
+    private Controls controles = new Controls();
     private HashMap<Integer, TiledMap> maps = new HashMap<Integer, TiledMap>();
     private HashMap<Integer, Boolean> completedLevels = new HashMap<Integer, Boolean>();
+    private boolean paused = false;
 
     private Level level = null;
-    private int currentLevel = 1;
+    private int currentLevel = 12;
     private int dificult = 0;
 
     private float delta = 0;
@@ -56,14 +59,23 @@ public class Juego
 
     public void actualizaframe(float deltaTime)
     {
-	this.delta += deltaTime;
-	Player player = this.getCurrentLevel().getPlayer();
-	player.update(this.controles.getNuevoRumbo(), this.controles.getShot(), deltaTime);
-	if (this.controles.isNextKey())
-	    this.finishLevel();
-	this.getCurrentLevel().updateMechanism(deltaTime);
-	this.getCurrentLevel().updateMummys(deltaTime);
-	this.getCurrentLevel().updateFlyingDagger(deltaTime);
+	if (controles.getShot(Input.Keys.P))
+	{
+	    this.paused = !this.paused;
+	}
+
+	if (!this.paused)
+	{
+
+	    this.delta += deltaTime;
+	    Player player = this.getCurrentLevel().getPlayer();
+	    player.update(this.controles.getNuevoRumbo(), this.controles.getShot(Input.Keys.SPACE), deltaTime);
+	    if (this.controles.getShot(Input.Keys.N))
+		this.finishLevel();
+	    this.getCurrentLevel().updateMechanism(deltaTime);
+	    this.getCurrentLevel().updateMummys(deltaTime);
+	    this.getCurrentLevel().updateFlyingDagger(deltaTime);
+	}
     }
 
     private void finishLevel()
@@ -72,12 +84,12 @@ public class Juego
 
     }
 
-    public Controles getControles()
+    public Controls getControles()
     {
 	return controles;
     }
 
-    public void setControles(Controles controles)
+    public void setControles(Controls controles)
     {
 	this.controles = controles;
     }
@@ -99,7 +111,7 @@ public class Juego
 
     public void start()
     {
-	this.countTiles();
+	//this.countTiles();
 
 	this.level = this.levelReader.getLevel(this.maps.get(this.currentLevel), dificult,
 		this.completedLevels.get(this.currentLevel), interfaz);
@@ -128,7 +140,7 @@ public class Juego
 
 	}
 	System.out.println(tileCounter);
-	System.out.println("Total de tiles: "+tileCounter.size());
+	System.out.println("Total de tiles: " + tileCounter.size());
     }
 
     private void searchInLayer(int mapWidthInTiles, int mapHeightInTiles, TiledMapTileLayer layer1,
@@ -152,6 +164,11 @@ public class Juego
 		    }
 		}
 	    }
+    }
+
+    public boolean isPaused()
+    {
+        return paused;
     }
 
 }

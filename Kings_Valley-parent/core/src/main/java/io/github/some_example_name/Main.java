@@ -7,8 +7,8 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Vector2;
 
-import modelo.Controles;
 import modelo.Juego;
+import modelo.control.Controls;
 import util.Constantes;
 import vista2D.TileMapGrafica2D;
 
@@ -40,11 +40,9 @@ public class Main implements IMyApplicationnListener
 	 * } }); th.start();
 	 */
 	manager.finishLoading();
-	
-	
+
 	Juego.getInstance().setInterfaz(grafica);
-	
-	
+
 	for (int i = 1; i <= 15; i++)
 	{
 	    TiledMap map = manager.get(Constantes.levelFileName.get(i), TiledMap.class);
@@ -72,7 +70,7 @@ public class Main implements IMyApplicationnListener
 
     private void updateInput()
     {
-	Controles controles = Juego.getInstance().getControles();
+	Controls controles = Juego.getInstance().getControles();
 
 	float x = 0, y = 0;
 
@@ -88,20 +86,12 @@ public class Main implements IMyApplicationnListener
 	aux = new Vector2(x, y);
 
 	controles.setNuevoRumbo(aux);
-	if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && controles.isShotEnabled())
-	    controles.shot();
-	if (!Gdx.input.isKeyPressed(Input.Keys.SPACE) && !controles.isShotEnabled())
-	    controles.enableShotEnabled();
+	controles.processKey(Input.Keys.SPACE);
+	controles.processKey(Input.Keys.N);
+	controles.processKey(Input.Keys.P);
 
-	
-	if (Gdx.input.isKeyPressed(Input.Keys.N) && controles.isNextEnabled())
-	    controles.next();
-	if (!Gdx.input.isKeyPressed(Input.Keys.N) && !controles.isNextEnabled())
-	    controles.enableNexttEnabled();
-
-	
-	
 	Juego.getInstance().actualizaframe(Gdx.graphics.getDeltaTime());
+
     }
 
     @Override
@@ -136,5 +126,7 @@ public class Main implements IMyApplicationnListener
 	this.grafica.resume();
 
     }
+    
+    
 
 }

@@ -319,35 +319,5 @@ public class LevelReader
 		}
 	}
 
-	private TextureRegion m(TextureRegion tileRegion, int count)
-	{
-
-		Texture originalTexture = tileRegion.getTexture();
-		int tileWidth = tileRegion.getRegionWidth();
-		int tileHeight = tileRegion.getRegionHeight();
-
-		// Obtener el Pixmap original de la textura entera
-		TextureData textureData = originalTexture.getTextureData();
-		if (!textureData.isPrepared())
-			textureData.prepare();
-		Pixmap originalPixmap = textureData.consumePixmap();
-
-		// Crear un Pixmap nuevo del triple de ancho
-		Pixmap tiledPixmap = new Pixmap(tileWidth, tileHeight * count, originalPixmap.getFormat());
-
-		// Dibujar tres copias del tile en el nuevo Pixmap
-		for (int i = 0; i < count; i++)
-		{
-			tiledPixmap.drawPixmap(originalPixmap, 0, i * tileHeight, // destino
-					tileRegion.getRegionX(), tileRegion.getRegionY(), // origen
-					tileWidth, tileHeight // tamaño del recorte
-			);
-		}
-
-		// Crear una nueva textura y TextureRegion
-		Texture newTexture = new Texture(tiledPixmap);
-		TextureRegion tiledRegion = new TextureRegion(newTexture);
-		return tiledRegion;
-
-	}
+	
 }
