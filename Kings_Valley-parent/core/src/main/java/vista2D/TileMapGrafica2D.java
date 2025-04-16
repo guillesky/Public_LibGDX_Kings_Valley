@@ -26,7 +26,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Array.ArrayIterator;
 
 import io.github.some_example_name.IMyApplicationnListener;
-import modelo.Juego;
+import modelo.game.Game;
 import modelo.gameCharacters.mummys.Mummy;
 import modelo.gameCharacters.player.PairInt;
 import modelo.level.DrawableElement;
@@ -118,7 +118,7 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 	    this.animatedPickedCell.getLevelObject().setX(pairInt.getX() * this.tileWidth);
 	    this.animatedPickedCell.getLevelObject().setY(pairInt.getY() * this.tileHeight);
 	    this.animatedEntities.add(this.animatedPickedCell);
-	    this.animatedPickedCell.resetTime(Juego.getInstance().getDelta());
+	    this.animatedPickedCell.resetTime(Game.getInstance().getDelta());
 
 	} else if (dr.getType() == Constantes.DRAWABLE_FLYING_DAGGER)
 	{
@@ -166,8 +166,8 @@ public class TileMapGrafica2D implements IMyApplicationnListener
     public void create()
     {
 	this.prepareUI();
-	TiledMap map = Juego.getInstance().getCurrentLevel().getPyramid().getMap();
-	Pyramid pyramid = Juego.getInstance().getCurrentLevel().getPyramid();
+	TiledMap map = Game.getInstance().getCurrentLevel().getPyramid().getMap();
+	Pyramid pyramid = Game.getInstance().getCurrentLevel().getPyramid();
 
 	this.tileWidth = (int) map.getTileSets().getTileSet(0).getProperties().get("tilewidth");
 	this.tileHeight = (int) map.getTileSets().getTileSet(0).getProperties().get("tileheight");
@@ -197,7 +197,7 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 	    } else if (item.getType() == Constantes.It_dagger)
 		this.addGraphicElement(new DrawableElement(Constantes.DRAWABLE_FLYING_DAGGER, item));
 
-	    Iterator<Mummy> it = Juego.getInstance().getCurrentLevel().getMummys().iterator();
+	    Iterator<Mummy> it = Game.getInstance().getCurrentLevel().getMummys().iterator();
 	    while (it.hasNext())
 	    {
 		Animation<TextureRegion>[] animation;
@@ -207,7 +207,7 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 	    }
 	}
 
-	this.animatedEntities.add(new PlayerAnimated2D(Juego.getInstance().getCurrentLevel().getPlayer(),
+	this.animatedEntities.add(new PlayerAnimated2D(Game.getInstance().getCurrentLevel().getPlayer(),
 		this.graphicsFileLoader.getAnimationPlayer_Nothing(),
 		this.graphicsFileLoader.getAnimationPlayer_Picker(),
 		this.graphicsFileLoader.getAnimationPlayer_Dagger()));
@@ -236,7 +236,7 @@ public class TileMapGrafica2D implements IMyApplicationnListener
     private void changeTileSet(String fileName, int newWidth, int newHeight)
     {
 
-	TiledMap map = Juego.getInstance().getCurrentLevel().getPyramid().getMap();
+	TiledMap map = Game.getInstance().getCurrentLevel().getPyramid().getMap();
 	float originalWidth = (int) map.getTileSets().getTileSet(0).getProperties().get("tilewidth");
 	this.scaleFactor = originalWidth / newWidth;
 
@@ -316,7 +316,7 @@ public class TileMapGrafica2D implements IMyApplicationnListener
     @Override
     public void resize(int width, int height)
     {
-	Pyramid pyramid = Juego.getInstance().getCurrentLevel().getPyramid();
+	Pyramid pyramid = Game.getInstance().getCurrentLevel().getPyramid();
 	float ancho = pyramid.getMapHeightInPixels() * width / (height + 2);
 	float alto = pyramid.getMapHeightInPixels() + 20;
 
@@ -345,7 +345,7 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 	while (it3.hasNext())
 	{
 	    AnimatedTrapKV2 animatedTrapKV2 = it3.next();
-	    animatedTrapKV2.updateElement(Juego.getInstance().getDelta());
+	    animatedTrapKV2.updateElement(Game.getInstance().getDelta());
 	    animatedTrapKV2.getSprite().draw(spriteBatch);
 	}
 
@@ -361,11 +361,11 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 	while (it2.hasNext())
 	{
 	    AnimatedEntity2D animatedEntity2D = it2.next();
-	    animatedEntity2D.updateElement(Juego.getInstance().getDelta());
+	    animatedEntity2D.updateElement(Game.getInstance().getDelta());
 	    animatedEntity2D.render(spriteBatch);
 	}
 
-	if (Juego.getInstance().isPaused())
+	if (Game.getInstance().isPaused())
 	{
 	    this.cameraUI.update();
 	    spriteBatch.setProjectionMatrix(cameraUI.combined);
@@ -405,11 +405,11 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 
     private void calculateCamera()
     {
-	Pyramid pyramid = Juego.getInstance().getCurrentLevel().getPyramid();
-	float aux_X = Juego.getInstance().getCurrentLevel().getPlayer().getX();
+	Pyramid pyramid = Game.getInstance().getCurrentLevel().getPyramid();
+	float aux_X = Game.getInstance().getCurrentLevel().getPlayer().getX();
 
 	if (aux_X >= (camera.viewportWidth / 2) && aux_X + (camera.viewportWidth / 2) <= pyramid.getMapWidthInPixels())
-	    camera.position.x = Juego.getInstance().getCurrentLevel().getPlayer().getX();
+	    camera.position.x = Game.getInstance().getCurrentLevel().getPlayer().getX();
 
 	camera.position.y = pyramid.getMapHeightInPixels() * .55f;
     }
@@ -417,11 +417,11 @@ public class TileMapGrafica2D implements IMyApplicationnListener
     private void calculateCameraFull()
     {
 	float posCameraX = 0;
-	Pyramid pyramid = Juego.getInstance().getCurrentLevel().getPyramid();
-	float aux_X = Juego.getInstance().getCurrentLevel().getPlayer().getX();
+	Pyramid pyramid = Game.getInstance().getCurrentLevel().getPyramid();
+	float aux_X = Game.getInstance().getCurrentLevel().getPlayer().getX();
 
 	if (aux_X >= (camera.viewportWidth / 2) && aux_X + (camera.viewportWidth / 2) <= pyramid.getMapWidthInPixels())
-	    posCameraX = Juego.getInstance().getCurrentLevel().getPlayer().getX();
+	    posCameraX = Game.getInstance().getCurrentLevel().getPlayer().getX();
 	else
 	{
 	    if (camera.viewportWidth >= pyramid.getMapWidthInPixels())

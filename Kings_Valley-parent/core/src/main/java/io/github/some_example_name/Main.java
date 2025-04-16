@@ -7,8 +7,8 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Vector2;
 
-import modelo.Juego;
 import modelo.control.Controls;
+import modelo.game.Game;
 import util.Constantes;
 import vista2D.TileMapGrafica2D;
 
@@ -41,14 +41,14 @@ public class Main implements IMyApplicationnListener
 	 */
 	manager.finishLoading();
 
-	Juego.getInstance().setInterfaz(grafica);
+	Game.getInstance().setInterfaz(grafica);
 
 	for (int i = 1; i <= 15; i++)
 	{
 	    TiledMap map = manager.get(Constantes.levelFileName.get(i), TiledMap.class);
-	    Juego.getInstance().addMap(i, map);
+	    Game.getInstance().addMap(i, map);
 	}
-	Juego.getInstance().start();
+	Game.getInstance().start();
 	this.grafica.create();
     }
 
@@ -64,13 +64,13 @@ public class Main implements IMyApplicationnListener
     {
 	manager.dispose();
 	this.grafica.dispose();
-	Juego.getInstance().dispose();
+	Game.getInstance().dispose();
 
     }
 
     private void updateInput()
     {
-	Controls controles = Juego.getInstance().getControles();
+	Controls controles = Game.getInstance().getControles();
 
 	float x = 0, y = 0;
 
@@ -90,7 +90,7 @@ public class Main implements IMyApplicationnListener
 	controles.processKey(Input.Keys.N);
 	controles.processKey(Input.Keys.P);
 
-	Juego.getInstance().actualizaframe(Gdx.graphics.getDeltaTime());
+	Game.getInstance().updateframe(Gdx.graphics.getDeltaTime());
 
     }
 

@@ -1,4 +1,4 @@
-package modelo;
+package modelo.game;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -9,14 +9,15 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 
+import modelo.IGrafica;
 import modelo.control.Controls;
 import modelo.gameCharacters.player.Player;
 import modelo.level.Level;
 import modelo.level.LevelReader;
 
-public class Juego
+public class Game
 {
-    private static Juego instance = new Juego();
+    private static Game instance = new Game();
     private Controls controles = new Controls();
     private HashMap<Integer, TiledMap> maps = new HashMap<Integer, TiledMap>();
     private HashMap<Integer, Boolean> completedLevels = new HashMap<Integer, Boolean>();
@@ -29,6 +30,7 @@ public class Juego
     private float delta = 0;
     private IGrafica interfaz = null;
     private LevelReader levelReader;
+    protected StateGame stateGame;
 
     public IGrafica getInterfaz()
     {
@@ -40,13 +42,13 @@ public class Juego
 	this.interfaz = interfaz;
     }
 
-    private Juego()
+    private Game()
     {
 	this.levelReader = new LevelReader();
 
     }
 
-    public static Juego getInstance()
+    public static Game getInstance()
     {
 	return instance;
     }
@@ -57,7 +59,7 @@ public class Juego
 	this.completedLevels.put(id, false);
     }
 
-    public void actualizaframe(float deltaTime)
+    public void updateframe(float deltaTime)
     {
 	if (controles.getShot(Input.Keys.P))
 	{
@@ -66,19 +68,12 @@ public class Juego
 
 	if (!this.paused)
 	{
-
-	    this.delta += deltaTime;
-	    Player player = this.getCurrentLevel().getPlayer();
-	    player.update(this.controles.getNuevoRumbo(), this.controles.getShot(Input.Keys.SPACE), deltaTime);
-	    if (this.controles.getShot(Input.Keys.N))
-		this.finishLevel();
-	    this.getCurrentLevel().updateMechanism(deltaTime);
-	    this.getCurrentLevel().updateMummys(deltaTime);
-	    this.getCurrentLevel().updateFlyingDagger(deltaTime);
+this.stateGame.updateframe(deltaTime);
+	    
 	}
     }
 
-    private void finishLevel()
+    protected void finishLevel()
     {
 	this.level.finishLevel();
 
@@ -111,10 +106,11 @@ public class Juego
 
     public void start()
     {
-	//this.countTiles();
+	// this.countTiles();
 
 	this.level = this.levelReader.getLevel(this.maps.get(this.currentLevel), dificult,
 		this.completedLevels.get(this.currentLevel), interfaz);
+	this.stateGame=new StateGameEntering();
 
     }
 
@@ -168,7 +164,12 @@ public class Juego
 
     public boolean isPaused()
     {
-        return paused;
+	return paused;
     }
+    protected void incDelta(float delta) 
+    {
+	this.delta+=delta;
+    }
+    
 
 }
