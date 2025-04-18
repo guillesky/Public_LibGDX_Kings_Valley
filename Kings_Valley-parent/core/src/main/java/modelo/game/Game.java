@@ -11,7 +11,6 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 
 import modelo.IGrafica;
 import modelo.control.Controls;
-import modelo.gameCharacters.player.Player;
 import modelo.level.Level;
 import modelo.level.LevelReader;
 
@@ -145,14 +144,14 @@ if(tileCounter.get(33)!=tileCounter.get(34))
 		System.out.println("Total de tiles: " + tileCounter.size());
 	}
 
-	private void searchInLayer(int mapWidthInTiles, int mapHeightInTiles, TiledMapTileLayer layer1,
+	private void searchInLayer(int mapWidthInTiles, int mapHeightInTiles, TiledMapTileLayer layer,
 			TreeMap<Integer, Integer> tileCounter)
 	{
 		Cell cell;
 		for (int i = 0; i < mapHeightInTiles; i++)
 			for (int j = 0; j < mapWidthInTiles; j++)
 			{
-				cell = layer1.getCell(j, i);
+				cell = layer.getCell(j, i);
 				if (cell != null)
 				{
 					int value = cell.getTile().getId();

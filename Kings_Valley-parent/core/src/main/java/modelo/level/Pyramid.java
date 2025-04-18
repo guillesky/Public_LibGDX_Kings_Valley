@@ -28,10 +28,6 @@ public class Pyramid implements IGrafica
 	private ArrayList<LevelObject> jewels = new ArrayList<LevelObject>();
 	private ArrayList<Stair>positiveStairs;
 	private ArrayList<Stair>negativeStairs;
-	private ArrayList<LevelObject> stairs_dr = new ArrayList<LevelObject>();
-	private ArrayList<LevelObject> stairs_dl = new ArrayList<LevelObject>();
-	private ArrayList<LevelObject> stairs_ul = new ArrayList<LevelObject>();
-	private ArrayList<LevelObject> stairs_ur = new ArrayList<LevelObject>();
 	private ArrayList<LevelObject> pickers = new ArrayList<LevelObject>();
 
 	private ArrayList<LevelObject> giratories = new ArrayList<LevelObject>();
@@ -47,8 +43,7 @@ public class Pyramid implements IGrafica
 	private IGrafica interfaz = null;
 
 	public Pyramid(TiledMap map, LevelObject doorIn, LevelObject doorOut, ArrayList<LevelObject> jewels,
-			ArrayList<LevelObject> stairs_dr, ArrayList<LevelObject> stairs_dl, ArrayList<LevelObject> stairs_ur,
-			ArrayList<LevelObject> stairs_ul, ArrayList<LevelObject> pickers, ArrayList<Dagger> stuckedDaggers,
+			ArrayList<Stair> positiveStairs, ArrayList<Stair> negativeStairs, ArrayList<LevelObject> pickers, ArrayList<Dagger> stuckedDaggers,
 			ArrayList<LevelObject> giratorys, ArrayList<LevelObject> walls, ArrayList<LevelObject> activators,
 			ArrayList<TrapMechanism> trapMechanisms, ArrayList<GiratoryMechanism> giratoryMechanisms,
 			ArrayList<Cell> unpickableCells, HashMap<LevelObject, LevelObject> hashTraps,
@@ -68,10 +63,10 @@ public class Pyramid implements IGrafica
 		this.doorOut = doorOut;
 
 		this.jewels = jewels;
-		this.stairs_dl = stairs_dl;
-		this.stairs_ul = stairs_ul;
-		this.stairs_dr = stairs_dr;
-		this.stairs_ur = stairs_ur;
+		
+		this.positiveStairs=positiveStairs;
+		this.negativeStairs=negativeStairs;
+		
 		this.pickers = pickers;
 		this.stuckedDaggers = stuckedDaggers;
 		this.giratories = giratorys;
@@ -115,10 +110,7 @@ public class Pyramid implements IGrafica
 		ArrayList<LevelObject> levelObjects = new ArrayList<LevelObject>();
 		levelObjects.addAll(this.pickers);
 		levelObjects.addAll(this.jewels);
-		levelObjects.addAll(this.stairs_dl);
-		levelObjects.addAll(this.stairs_dr);
-		levelObjects.addAll(this.stairs_ul);
-		levelObjects.addAll(this.stairs_ur);
+		
 		levelObjects.addAll(this.walls);
 		levelObjects.addAll(this.stuckedDaggers);
 
@@ -152,25 +144,7 @@ public class Pyramid implements IGrafica
 		return jewels;
 	}
 
-	public ArrayList<LevelObject> getStairs_dr()
-	{
-		return stairs_dr;
-	}
-
-	public ArrayList<LevelObject> getStairs_dl()
-	{
-		return stairs_dl;
-	}
-
-	public ArrayList<LevelObject> getStairs_ul()
-	{
-		return stairs_ul;
-	}
-
-	public ArrayList<LevelObject> getStairs_ur()
-	{
-		return stairs_ur;
-	}
+	
 
 	public ArrayList<LevelObject> getPickers()
 	{
@@ -312,6 +286,16 @@ public class Pyramid implements IGrafica
 				new DrawableElement(Constantes.DRAWABLE_GYRATORY, it.next().getLevelObject()));
 		this.giratoryMechanisms.clear();
 		this.giratories.clear();
+	}
+
+	public ArrayList<Stair> getPositiveStairs()
+	{
+	    return positiveStairs;
+	}
+
+	public ArrayList<Stair> getNegativeStairs()
+	{
+	    return negativeStairs;
 	}
 
 

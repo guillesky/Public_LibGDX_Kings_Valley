@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "level_01.tmx",
+    "activeFile": "level_10.tmx",
     "expandedProjectPaths": [
         "."
     ],
@@ -14,7 +14,7 @@
             "selectedLayer": 0,
             "viewCenter": {
                 "x": 159.9624060150376,
-                "y": 110.15037593984962
+                "y": 56.578947368421055
             }
         },
         "C:/Users/Guille/git/LibGDX_Kings_Valley/Kings_Valley_Converter/assets/levels/tiles.tsx": {
@@ -308,11 +308,11 @@
             }
         },
         "level_01.tmx": {
-            "scale": 2.09,
-            "selectedLayer": 2,
+            "scale": 2,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 160.04784688995215,
-                "y": 110.04784688995218
+                "x": 159.75,
+                "y": 109.5
             }
         },
         "level_01_REAL.tmx": {
@@ -324,11 +324,11 @@
             }
         },
         "level_02.tmx": {
-            "scale": 4,
-            "selectedLayer": 0,
+            "scale": 1,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 320.125,
-                "y": 110.125
+                "x": 319.5,
+                "y": -33
             }
         },
         "level_03.tmx": {
@@ -336,7 +336,7 @@
             "selectedLayer": 3,
             "viewCenter": {
                 "x": 160.04784688995215,
-                "y": 109.80861244019141
+                "y": 110.04784688995218
             }
         },
         "level_04.tmx": {
@@ -344,7 +344,7 @@
             "selectedLayer": 1,
             "viewCenter": {
                 "x": 320.1564282222584,
-                "y": 110.19499212427351
+                "y": 109.8473738525881
             }
         },
         "level_05.tmx": {
@@ -352,15 +352,15 @@
             "selectedLayer": 3,
             "viewCenter": {
                 "x": 160.0782141111292,
-                "y": 110.02118298843081
+                "y": 109.8473738525881
             }
         },
         "level_06.tmx": {
-            "scale": 2,
-            "selectedLayer": 1,
+            "scale": 1.5,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 320.25,
-                "y": 109.75
+                "x": 302.33333333333337,
+                "y": 127.99999999999997
             }
         },
         "level_07.tmx": {
@@ -368,15 +368,15 @@
             "selectedLayer": 0,
             "viewCenter": {
                 "x": 160.0782141111292,
-                "y": 110.02118298843081
+                "y": 109.8473738525881
             }
         },
         "level_08.tmx": {
-            "scale": 3,
+            "scale": 1,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 320.16666666666663,
-                "y": 109.83333333333331
+                "x": 410.5,
+                "y": 133
             }
         },
         "level_09.tmx": {
@@ -384,15 +384,15 @@
             "selectedLayer": 0,
             "viewCenter": {
                 "x": 160.0782141111292,
-                "y": 110.02118298843081
+                "y": 109.8473738525881
             }
         },
         "level_10.tmx": {
-            "scale": 2,
+            "scale": 1.5,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 320.25,
-                "y": 109.75
+                "x": 321.66666666666663,
+                "y": 111.33333333333331
             }
         },
         "level_11.tmx": {
@@ -400,7 +400,7 @@
             "selectedLayer": 0,
             "viewCenter": {
                 "x": 160.0782141111292,
-                "y": 110.02118298843081
+                "y": 109.8473738525881
             }
         },
         "level_12.tmx": {
@@ -408,7 +408,15 @@
             "selectedLayer": 3,
             "viewCenter": {
                 "x": 320.1564282222584,
-                "y": 110.19499212427351
+                "y": 109.8473738525881
+            }
+        },
+        "level_12_REAL.tmx": {
+            "scale": 1.438359375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 320.1564282222584,
+                "y": 109.8473738525881
             }
         },
         "level_13.tmx": {
@@ -416,7 +424,7 @@
             "selectedLayer": 0,
             "viewCenter": {
                 "x": 160.04784688995215,
-                "y": 109.80861244019141
+                "y": 110.04784688995218
             }
         },
         "level_14.tmx": {
@@ -424,7 +432,7 @@
             "selectedLayer": 0,
             "viewCenter": {
                 "x": 320.1564282222584,
-                "y": 110.19499212427351
+                "y": 109.8473738525881
             }
         },
         "level_15.tmx": {
@@ -432,7 +440,7 @@
             "selectedLayer": 0,
             "viewCenter": {
                 "x": 176.31578947368422,
-                "y": 109.80861244019141
+                "y": 110.04784688995218
             }
         },
         "levv01.tmx": {
@@ -515,22 +523,22 @@
         "level_04.tmx",
         "D:/temp/sin nombre.tmx",
         "C:/Users/Guille/git/LibGDX_Kings_Valley/Kings_Valley_Converter/assets/levels/level_01.tmx",
-        "level_01_REAL.tmx"
+        "level_12_REAL.tmx"
     ],
     "project": "KingsValley.tiled-project",
     "recentFiles": [
-        "level_01_REAL.tmx",
-        "C:/Users/Guille/git/LibGDX_Kings_Valley/Kings_Valley_Converter/assets/levels/level_01.tmx",
-        "D:/temp/sin nombre.tmx",
-        "level_04.tmx",
-        "level_02.tmx",
-        "level_14.tmx",
-        "level_12.tmx",
-        "level_11.tmx",
-        "level_10.tmx",
-        "level_09.tmx",
+        "level_01.tmx",
+        "tiles.tsx",
+        "level_15.tmx",
+        "level_13.tmx",
+        "level_03.tmx",
+        "level_06.tmx",
+        "level_05.tmx",
+        "level_07.tmx",
         "level_08.tmx",
-        "level_07.tmx"
+        "level_09.tmx",
+        "level_12_REAL.tmx",
+        "C:/Users/Guille/git/LibGDX_Kings_Valley/Kings_Valley_Converter/assets/levels/level_01.tmx"
     ],
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {

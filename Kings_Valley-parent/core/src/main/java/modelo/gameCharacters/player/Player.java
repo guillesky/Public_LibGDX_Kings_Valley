@@ -1,6 +1,7 @@
 package modelo.gameCharacters.player;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
@@ -283,10 +284,31 @@ public class Player extends GameCharacter
 	}
     }
 
+    private LevelObject checkItemFeetColision(ArrayList<LevelObject> levelObjects)
+    {
+
+	Iterator<LevelObject> it = levelObjects.iterator();
+	LevelObject respuesta = null;
+	LevelObject item = null;
+	if (it.hasNext())
+	    do
+	    {
+		item = it.next();
+	    } while (it.hasNext() && !this.isFeetColision(item));
+
+	if (this.isFeetColision(item))
+	{
+	    respuesta = item;
+	}
+
+	return respuesta;
+    }
+
+
     @Override
     protected Pyramid getPyramid()
     {
-	// TODO Auto-generated method stub
+	
 	return super.getPyramid();
     }
 

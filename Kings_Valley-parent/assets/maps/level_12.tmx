@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="64" height="22" tilewidth="10" tileheight="10" infinite="0" nextlayerid="4" nextobjectid="51">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="64" height="22" tilewidth="10" tileheight="10" infinite="0" nextlayerid="4" nextobjectid="50">
  <tileset firstgid="1" source="tiles.tsx"/>
  <layer id="1" name="back" width="64" height="22">
   <data encoding="csv">
@@ -184,127 +184,7 @@
    <properties>
     <property name="p0" value="0"/>
    </properties>
-  </object>
-  <object id="22" type="Stairs" gid="251" x="90" y="20" width="10" height="10">
-   <properties>
-    <property name="p0" value="1"/>
-   </properties>
-  </object>
-  <object id="23" type="Stairs" gid="251" x="100" y="60" width="10" height="10">
-   <properties>
-    <property name="p0" value="1"/>
-   </properties>
-  </object>
-  <object id="24" type="Stairs" gid="251" x="180" y="130" width="10" height="10">
-   <properties>
-    <property name="p0" value="1"/>
-   </properties>
-  </object>
-  <object id="25" type="Stairs" gid="251" x="280" y="160" width="10" height="10">
-   <properties>
-    <property name="p0" value="1"/>
-   </properties>
-  </object>
-  <object id="26" type="Stairs" gid="251" x="600" y="90" width="10" height="10">
-   <properties>
-    <property name="p0" value="1"/>
-   </properties>
-  </object>
-  <object id="27" type="Stairs" gid="251" x="600" y="150" width="10" height="10">
-   <properties>
-    <property name="p0" value="1"/>
-   </properties>
-  </object>
-  <object id="28" type="Stairs" gid="251" x="580" y="20" width="10" height="10">
-   <properties>
-    <property name="p0" value="1"/>
-   </properties>
-  </object>
-  <object id="29" type="Stairs" gid="250" x="50" y="60" width="10" height="10">
-   <properties>
-    <property name="p0" value="0"/>
-   </properties>
-  </object>
-  <object id="30" type="Stairs" gid="250" x="30" y="130" width="10" height="10">
-   <properties>
-    <property name="p0" value="0"/>
-   </properties>
-  </object>
-  <object id="31" type="Stairs" gid="250" x="140" y="170" width="10" height="10">
-   <properties>
-    <property name="p0" value="0"/>
-   </properties>
-  </object>
-  <object id="32" type="Stairs" gid="250" x="240" y="200" width="10" height="10">
-   <properties>
-    <property name="p0" value="0"/>
-   </properties>
-  </object>
-  <object id="33" type="Stairs" gid="250" x="550" y="200" width="10" height="10">
-   <properties>
-    <property name="p0" value="0"/>
-   </properties>
-  </object>
-  <object id="34" type="Stairs" gid="250" x="540" y="150" width="10" height="10">
-   <properties>
-    <property name="p0" value="0"/>
-   </properties>
-  </object>
-  <object id="35" type="Stairs" gid="250" x="550" y="50" width="10" height="10">
-   <properties>
-    <property name="p0" value="0"/>
-   </properties>
-  </object>
-  <object id="36" type="Stairs" gid="253" x="500" y="50" width="10" height="10">
-   <properties>
-    <property name="p0" value="3"/>
-   </properties>
-  </object>
-  <object id="37" type="Stairs" gid="253" x="400" y="170" width="10" height="10">
-   <properties>
-    <property name="p0" value="3"/>
-   </properties>
-  </object>
-  <object id="38" type="Stairs" gid="253" x="220" y="130" width="10" height="10">
-   <properties>
-    <property name="p0" value="3"/>
-   </properties>
-  </object>
-  <object id="39" type="Stairs" gid="253" x="210" y="20" width="10" height="10">
-   <properties>
-    <property name="p0" value="3"/>
-   </properties>
-  </object>
-  <object id="40" type="Stairs" gid="253" x="110" y="170" width="10" height="10">
-   <properties>
-    <property name="p0" value="3"/>
-   </properties>
-  </object>
-  <object id="41" type="Stairs" gid="252" x="540" y="90" width="10" height="10">
-   <properties>
-    <property name="p0" value="2"/>
-   </properties>
-  </object>
-  <object id="42" type="Stairs" gid="252" x="430" y="200" width="10" height="10">
-   <properties>
-    <property name="p0" value="2"/>
-   </properties>
-  </object>
-  <object id="43" type="Stairs" gid="252" x="270" y="80" width="10" height="10">
-   <properties>
-    <property name="p0" value="2"/>
-   </properties>
-  </object>
-  <object id="44" type="Stairs" gid="252" x="250" y="160" width="10" height="10">
-   <properties>
-    <property name="p0" value="2"/>
-   </properties>
-  </object>
-  <object id="45" type="Stairs" gid="252" x="150" y="210" width="10" height="10">
-   <properties>
-    <property name="p0" value="2"/>
-   </properties>
-  </object>
+  </object> 
   <object id="46" type="Mummy" gid="242" x="290" y="40" width="10" height="10">
    <properties>
     <property name="p0" value="1"/>
@@ -326,11 +206,6 @@
    </properties>
   </object>
   <object id="50" type="Activator" gid="255" x="620" y="200" width="10" height="10">
-   <properties>
-    <property name="p0" value="0"/>
-   </properties>
-  </object>
-  <object id="50" type="Giratory" gid="246" x="480" y="200" width="10" height="10">
    <properties>
     <property name="p0" value="0"/>
    </properties>

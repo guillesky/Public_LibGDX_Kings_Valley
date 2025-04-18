@@ -1,5 +1,6 @@
 package vista2D;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -33,6 +34,7 @@ import modelo.level.DrawableElement;
 import modelo.level.GiratoryMechanism;
 import modelo.level.LevelObject;
 import modelo.level.Pyramid;
+import modelo.level.Stair;
 import modelo.level.TrapMechanism;
 import modelo.level.dagger.Dagger;
 import util.Constantes;
@@ -194,6 +196,10 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 	    } else if (item.getType() == Constantes.It_wall)
 	    {
 		this.instances.add(new MySpriteKV(map.getTileSets().getTile(item.getType()).getTextureRegion(), item));
+	    } else if (item.getType() == Constantes.It_stairs)
+	    {
+		this.instances
+			.add(new MySpriteKV(map.getTileSets().getTile(item.getP0() + 250).getTextureRegion(), item));
 	    } else if (item.getType() == Constantes.It_dagger)
 		this.addGraphicElement(new DrawableElement(Constantes.DRAWABLE_FLYING_DAGGER, item));
 
@@ -205,6 +211,7 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 		animation = this.graphicsFileLoader.getAnimationMummyByColor(mummy.getType());
 		this.animatedEntities.add(new MummyAnimated2D(mummy, animation));
 	    }
+	    this.cargaEscaleras();
 	}
 
 	this.animatedEntities.add(new PlayerAnimated2D(Game.getInstance().getCurrentLevel().getPlayer(),
@@ -214,8 +221,27 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 
     }
 
+    private void cargaEscaleras()
+    {
+	Pyramid pyramid = Game.getInstance().getCurrentLevel().getPyramid();
+	TiledMap map = Game.getInstance().getCurrentLevel().getPyramid().getMap();
+
+	ArrayList<Stair> escaleras = new ArrayList<Stair>();
+	escaleras.addAll(pyramid.getPositiveStairs());
+	escaleras.addAll(pyramid.getNegativeStairs());
+	for (int i = 0; i < escaleras.size(); i++)
+	{
+	    LevelObject item = escaleras.get(i).getDownStair();
+	    this.instances.add(new MySpriteKV(map.getTileSets().getTile(item.getP0() + 250).getTextureRegion(), item));
+	    item = escaleras.get(i).getUpStair();
+	    this.instances.add(new MySpriteKV(map.getTileSets().getTile(item.getP0() + 250).getTextureRegion(), item));
+
+	}
+    }
+
     private void prepareUI()
-    {	this.cameraUI = new OrthographicCamera();
+    {
+	this.cameraUI = new OrthographicCamera();
 	this.cameraUI.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
 	Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
@@ -223,8 +249,7 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 	pixmap.fill();
 	this.pixel = new Texture(pixmap);
 	pixmap.dispose();
-	
-	
+
 	FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/PAPYRUS.TTF"));
 	FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 	parameter.size = 48; // Tamaño de fuente

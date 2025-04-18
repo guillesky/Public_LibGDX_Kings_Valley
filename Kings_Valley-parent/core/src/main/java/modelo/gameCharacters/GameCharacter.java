@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import modelo.level.GiratoryMechanism;
 import modelo.level.LevelObject;
 import modelo.level.Pyramid;
+import modelo.level.Stair;
 import util.Config;
 import util.Constantes;
 
@@ -40,29 +41,28 @@ public abstract class GameCharacter extends LevelObject
     protected Pyramid pyramid;
     private boolean lookRight = true;
     protected float animationDelta = 0;
-    private Rectangle feet; 
+    private Rectangle feet;
+    private Stair stair = null;
 
     public GameCharacter(int type, float x, float y, float speedWalk, float speedWalkStairs, Pyramid pyramid)
     {
 	super(type, x, y, 0, Config.getInstance().getCharacterWidth(), Config.getInstance().getCharacterHeight());
 	float feetWidth;
-    float feetHeight;
-   
+	float feetHeight;
+
 	this.speedFall = Config.getInstance().getCharacterSpeedFall();
 	this.speedWalk = speedWalk;
 	this.speedWalkStairs = speedWalkStairs;
 	this.speedJump = Config.getInstance().getCharacterSpeedJump();
-	
+
 	feetHeight = Config.getInstance().getCharacterFeetHeight();
 	feetWidth = Config.getInstance().getCharacterFeetWidth();
 	this.pyramid = pyramid;
-	
+
 	float mitad = this.x + this.width / 2;
 	mitad -= feetWidth / 2;
 	this.feet = new Rectangle(mitad, y, feetWidth, feetHeight);
-	
-	
-	
+
     }
 
     protected void move(Vector2 v, boolean b, float deltaTime)
@@ -155,50 +155,53 @@ public abstract class GameCharacter extends LevelObject
 
     private void checkExitStair(Vector2 v)
     {
-	LevelObject escalera = null;
-	if (this.state == GameCharacter.ST_ONSTAIRS_POSITIVE)
+	
+	LevelObject endStair;
+	if (this.stair.isPositive())
 	{
 	    if (v.x > 0)
 	    {
-		escalera = this.checkItemFeetColision(this.pyramid.getStairs_dl());
+		endStair=this.stair.getUpStair();
+		
 	    } else
 	    {
-		escalera = this.checkItemFeetColision(this.pyramid.getStairs_ur());
+		endStair=this.stair.getDownStair();
 	    }
 	} else
 	{
 	    if (v.x > 0)
 	    {
-		escalera = this.checkItemFeetColision(this.pyramid.getStairs_ul());
+		endStair=this.stair.getDownStair();
 	    } else
 	    {
-		escalera = this.checkItemFeetColision(this.pyramid.getStairs_dr());
+		endStair=this.stair.getUpStair();
 	    }
 
 	}
-	if (escalera != null)
+	if (this.isFeetColision(endStair))
 	{
 	    this.state = GameCharacter.ST_WALK;
 	    this.lookRight = v.x > 0;
 	    this.animationDelta = 0;
-	    this.y = escalera.y;
+	    this.y = endStair.y;
 	    this.motionVector.y = 0;
 	}
+
     }
 
     private void checkEnterStair(Vector2 v)
     {
-	LevelObject escalera = null;
+	Stair escalera = null;
 	if (v.y > 0)
 	{
 	    if (v.x > 0)
 	    {
-		escalera = this.checkItemFeetColision(this.pyramid.getStairs_ur());
+		escalera = this.checkStairsFeetColision(this.pyramid.getPositiveStairs(), true);
 		if (escalera != null)
 		    this.state = GameCharacter.ST_ONSTAIRS_POSITIVE;
 	    } else
 	    {
-		escalera = this.checkItemFeetColision(this.pyramid.getStairs_ul());
+		escalera = this.checkStairsFeetColision(this.pyramid.getNegativeStairs(), true);
 		if (escalera != null)
 		    this.state = GameCharacter.ST_ONSTAIRS_NEGATIVE;
 	    }
@@ -206,17 +209,18 @@ public abstract class GameCharacter extends LevelObject
 	{
 	    if (v.x > 0)
 	    {
-		escalera = this.checkItemFeetColision(this.pyramid.getStairs_dr());
+		escalera = this.checkStairsFeetColision(this.pyramid.getNegativeStairs(), false);
 		if (escalera != null)
 		    this.state = GameCharacter.ST_ONSTAIRS_NEGATIVE;
 	    } else
 	    {
-		escalera = this.checkItemFeetColision(this.pyramid.getStairs_dl());
+		escalera = this.checkStairsFeetColision(this.pyramid.getPositiveStairs(), false);
 		if (escalera != null)
 		    this.state = GameCharacter.ST_ONSTAIRS_POSITIVE;
 	    }
 	}
-
+	if (escalera != null)
+	    this.stair = escalera;
     }
 
     protected abstract void doAction();
@@ -402,9 +406,6 @@ public abstract class GameCharacter extends LevelObject
 
 	this.corrigeDirecciones(r, vectMove);
 
-	/*
-	 * if (this.isFloorDown()) this.correctDown();
-	 */
 	return r != -1;
     }
 
@@ -505,26 +506,31 @@ public abstract class GameCharacter extends LevelObject
 
     public boolean isFeetColision(Rectangle another)
     {
-    	this.feet.x = this.x + (this.width-Config.getInstance().getCharacterFeetHeight()) / 2;
-    	this.feet.y=this.y;
+	this.feet.x = this.x + (this.width - Config.getInstance().getCharacterFeetHeight()) / 2;
+	this.feet.y = this.y;
 	return LevelObject.rectangleColision(this.feet, another);
     }
 
-    public LevelObject checkItemFeetColision(ArrayList<LevelObject> levelObjects)
+    private Stair checkStairsFeetColision(ArrayList<Stair> stairs, boolean isUpping)
     {
 
-	Iterator<LevelObject> it = levelObjects.iterator();
-	LevelObject respuesta = null;
+	Iterator<Stair> it = stairs.iterator();
+	Stair respuesta = null;
+	Stair stair = null;
 	LevelObject item = null;
 	if (it.hasNext())
 	    do
 	    {
-		item = it.next();
+		stair = it.next();
+		if (isUpping)
+		    item = stair.getDownStair();
+		else
+		    item = stair.getUpStair();
 	    } while (it.hasNext() && !this.isFeetColision(item));
 
 	if (this.isFeetColision(item))
 	{
-	    respuesta = item;
+	    respuesta = stair;
 	}
 
 	return respuesta;
