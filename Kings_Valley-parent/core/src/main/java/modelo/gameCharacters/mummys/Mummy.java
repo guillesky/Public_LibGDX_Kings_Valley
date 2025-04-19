@@ -4,7 +4,7 @@ import java.util.Random;
 
 import com.badlogic.gdx.math.Vector2;
 
-import modelo.gameCharacters.GameCharacter;
+import modelo.gameCharacters.abstractGameCharacter.GameCharacter;
 import modelo.gameCharacters.player.Player;
 import modelo.level.GiratoryMechanism;
 import modelo.level.Pyramid;
@@ -13,11 +13,7 @@ import util.Config;
 @SuppressWarnings("serial")
 public abstract class Mummy extends GameCharacter
 {
-	public static final int WHITE_MUMMY = 0;
-	public static final int BLUE_MUMMY = 1;
-	public static final int YELLOW_MUMMY = 2;
-	public static final int ORANGE_MUMMY = 3;
-	public static final int RED_MUMMY = 4;
+	
 
 	public static final int ST_LIMBUS = 101;
 
@@ -57,7 +53,7 @@ public abstract class Mummy extends GameCharacter
 
 	private void doAfterMove()
 	{
-		if (this.state == GameCharacter.ST_WALK)
+		if (this.state == GameCharacter.ST_WALKING)
 		{
 			if (this.isLockedLeft())
 				this.doJump();

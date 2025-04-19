@@ -373,8 +373,8 @@ public class LevelReader
 	{
 	    MummyData mummyData = it.next();
 	    int mummyType = dificultLevel + mummyData.getType();
-	    if (mummyType > Mummy.RED_MUMMY)
-		mummyType = Mummy.RED_MUMMY;
+	    if (mummyType > MummyFactory.RED_MUMMY)
+		mummyType = MummyFactory.RED_MUMMY;
 
 	    Mummy mummy = this.mummyFactory.getMummy(mummyData.getX(), mummyData.getY(), mummyType, this.pyramid);
 	    this.mummys.add(mummy);

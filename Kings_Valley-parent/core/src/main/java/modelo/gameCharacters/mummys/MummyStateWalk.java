@@ -1,6 +1,6 @@
 package modelo.gameCharacters.mummys;
 
-import modelo.gameCharacters.GameCharacter;
+import modelo.gameCharacters.abstractGameCharacter.GameCharacter;
 import modelo.gameCharacters.player.Player;
 import util.Config;
 
@@ -11,7 +11,7 @@ public class MummyStateWalk extends MummyState
 
     public MummyStateWalk(Mummy mummy, Player player)
     {
-	super(mummy, GameCharacter.ST_WALK);
+	super(mummy, GameCharacter.ST_WALKING);
 	if (mummy.getX() < player.getX())
 	    this.mummy.getDirection().x = 1;
 	else
@@ -27,7 +27,7 @@ public class MummyStateWalk extends MummyState
     public void update(float deltaTime, Player player)
     {
 
-	if (this.mummy.getState() == GameCharacter.ST_WALK)
+	if (this.mummy.getState() == GameCharacter.ST_WALKING)
 	    this.checkCrash();
 
 	if (this.mummy.getStressLevel() >= 9)

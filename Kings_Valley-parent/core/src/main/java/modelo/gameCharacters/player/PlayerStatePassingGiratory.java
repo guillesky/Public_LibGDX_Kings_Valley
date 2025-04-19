@@ -10,7 +10,7 @@ public class PlayerStatePassingGiratory extends PlayerState
 
     public PlayerStatePassingGiratory(Player player, GiratoryMechanism passingGiratory)
     {
-	super(player, Player.ST_WALK);
+	super(player, Player.ST_WALKING);
 	this.passingGiratory = passingGiratory;
     }
 

@@ -1,6 +1,6 @@
 package modelo.gameCharacters.mummys;
 
-import modelo.gameCharacters.GameCharacter;
+import modelo.gameCharacters.abstractGameCharacter.GameCharacter;
 import modelo.gameCharacters.player.Player;
 
 public class MummyStateDying extends MummyState

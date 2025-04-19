@@ -2,14 +2,14 @@ package modelo.gameCharacters.player;
 
 import com.badlogic.gdx.math.Vector2;
 
-import modelo.gameCharacters.GameCharacter;
+import modelo.gameCharacters.abstractGameCharacter.GameCharacter;
 
 public class PlayerStateWalking extends PlayerState
 {
 
 	public PlayerStateWalking(Player player)
 	{
-		super(player, GameCharacter.ST_IDDLE);
+		super(player, GameCharacter.ST_WALKING);
 	}
 
 	@Override

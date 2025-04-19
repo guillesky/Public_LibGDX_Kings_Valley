@@ -109,7 +109,7 @@ public class Game
 
 	public void start()
 	{
-		this.countTiles();
+		//this.countTiles();
 
 		this.level = this.levelReader.getLevel(this.maps.get(this.currentLevel), dificult,
 				this.completedLevels.get(this.currentLevel), interfaz);

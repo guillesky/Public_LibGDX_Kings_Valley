@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 
 import modelo.gameCharacters.mummys.Mummy;
+import modelo.gameCharacters.mummys.MummyFactory;
 import modelo.level.LevelObject;
 import util.Constantes;
 
@@ -135,7 +136,7 @@ public class GraphicsFileLoader
 		this.animationPlayer_Nothing[TileMapGrafica2D.JUMP] = this.animationPlayer_Nothing[TileMapGrafica2D.FALL];
 		this.animationPlayer_Nothing[TileMapGrafica2D.WALK] = this.framesToAnimation(linearFrames, startWalk, countWalk,
 				frameDuration);
-		this.animationPlayer_Nothing[TileMapGrafica2D.STAIR] = this.animationPlayer_Nothing[TileMapGrafica2D.WALK];
+	
 		this.animationPlayer_Nothing[TileMapGrafica2D.DEATH] = this.framesToAnimation(linearFrames, startDeath,
 				countDeath, frameDuration);
 
@@ -146,7 +147,7 @@ public class GraphicsFileLoader
 
 		this.animationPlayer_Picker[TileMapGrafica2D.WALK] = this.framesToAnimation(linearFrames, pickerStartWalk,
 				pickerCountWalk, frameDuration);
-		this.animationPlayer_Picker[TileMapGrafica2D.STAIR] = this.animationPlayer_Picker[TileMapGrafica2D.WALK];
+		
 		this.animationPlayer_Picker[TileMapGrafica2D.DEATH] = this.animationPlayer_Nothing[TileMapGrafica2D.DEATH];
 		this.animationPlayer_Picker[TileMapGrafica2D.PICKING] = this.framesToAnimation(linearFrames, pickerStartPicking,
 				pickerCountPicking, frameDuration);
@@ -158,7 +159,7 @@ public class GraphicsFileLoader
 				daggerCountFall, 0);
 		this.animationPlayer_Dagger[TileMapGrafica2D.WALK] = this.framesToAnimation(linearFrames, daggerStartWalk,
 				daggerCountWalk, frameDuration);
-		this.animationPlayer_Dagger[TileMapGrafica2D.STAIR] = this.animationPlayer_Dagger[TileMapGrafica2D.WALK];
+		
 		this.animationPlayer_Dagger[TileMapGrafica2D.DEATH] = this.animationPlayer_Nothing[TileMapGrafica2D.DEATH];
 		this.animationPlayer_Dagger[TileMapGrafica2D.JUMP] = this.animationPlayer_Dagger[TileMapGrafica2D.FALL];
 		this.animationPlayer_Dagger[TileMapGrafica2D.THROW_DAGGER] = this.framesToAnimation(linearFrames,
@@ -279,7 +280,7 @@ public class GraphicsFileLoader
 				frameDuration);
 		animationMummy[TileMapGrafica2D.WALK] = this.framesToAnimation(linearFrames, startWalk, countWalk,
 				frameDuration);
-		animationMummy[TileMapGrafica2D.STAIR] = animationMummy[TileMapGrafica2D.WALK];
+		
 		animationMummy[TileMapGrafica2D.JUMP] = animationMummy[TileMapGrafica2D.FALL];
 		animationMummy[TileMapGrafica2D.DEATH] = this.animationMummyDeath;
 		animationMummy[TileMapGrafica2D.APPEAR] = this.animationMummyAppear;
@@ -380,19 +381,19 @@ public class GraphicsFileLoader
 		Animation<TextureRegion>[] respuesta = null;
 		switch (color)
 		{
-		case Mummy.BLUE_MUMMY:
+		case MummyFactory.BLUE_MUMMY:
 			respuesta = this.animationMummyBlue;
 			break;
-		case Mummy.ORANGE_MUMMY:
+		case MummyFactory.ORANGE_MUMMY:
 			respuesta = this.animationMummyOrange;
 			break;
-		case Mummy.RED_MUMMY:
+		case MummyFactory.RED_MUMMY:
 			respuesta = this.animationMummyRed;
 			break;
-		case Mummy.WHITE_MUMMY:
+		case MummyFactory.WHITE_MUMMY:
 			respuesta = this.animationMummyWhite;
 			break;
-		case Mummy.YELLOW_MUMMY:
+		case MummyFactory.YELLOW_MUMMY:
 			respuesta = this.animationMummyYellow;
 			break;
 

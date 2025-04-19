@@ -19,11 +19,10 @@ public abstract class GameCharacter extends LevelObject
 {
 
     public static final int ST_IDDLE = 0; // Inicializando
-    public static final int ST_WALK = 11; // Andando
-    public static final int ST_ONSTAIRS_POSITIVE = 2; // En una escalera pendiente positiva
-    public static final int ST_ONSTAIRS_NEGATIVE = 3; // En una escalera pendiente negativa
+    public static final int ST_WALKING = 11; // Andando
+    public static final int ST_ONSTAIRS = 2; // En una escalera pendiente positiva
 
-    public static final int ST_JUMP = 5; // Saltando
+    public static final int ST_JUMPING = 5; // Saltando
 
     public static final int ST_FALLING = 7; // Cayendo
 
@@ -39,10 +38,11 @@ public abstract class GameCharacter extends LevelObject
     protected int stairInit = Constantes.It_none;
     protected float speedY = 0;
     protected Pyramid pyramid;
-    private boolean lookRight = true;
+    protected boolean lookRight = true;
     protected float animationDelta = 0;
     private Rectangle feet;
     private Stair stair = null;
+    protected GameCharacterState gameCharacterState;
 
     public GameCharacter(int type, float x, float y, float speedWalk, float speedWalkStairs, Pyramid pyramid)
     {
@@ -62,20 +62,34 @@ public abstract class GameCharacter extends LevelObject
 	float mitad = this.x + this.width / 2;
 	mitad -= feetWidth / 2;
 	this.feet = new Rectangle(mitad, y, feetWidth, feetHeight);
+	this.gameCharacterState = new GameCharacterStateIddle(this);
 
     }
 
     protected void move(Vector2 v, boolean b, float deltaTime)
     {
-
 	deltaTime *= Config.getInstance().getSpeedGame();
-	if (this.state != GameCharacter.ST_ONSTAIRS_POSITIVE && this.state != GameCharacter.ST_ONSTAIRS_NEGATIVE)
+	this.gameCharacterState.moveFirstStep(v, b, deltaTime);
+	Vector2 escalado = this.motionVector.cpy().scl(deltaTime);
+	this.gameCharacterState.moveSecondStep(escalado);
+	this.x += escalado.x;
+	this.y += escalado.y;
+	this.checkOutLevel();
+
+    }
+
+    protected void moveOld(Vector2 v, boolean b, float deltaTime)
+    {
+	deltaTime *= Config.getInstance().getSpeedGame();
+	
+
+	if (this.stair == null)
 	// Si no estoy en escalera
 	{
 	    if (!this.isFloorDown()) // aplico gravedad
 	    {
 
-		if (this.state == GameCharacter.ST_WALK || this.state == GameCharacter.ST_IDDLE)
+		if (this.state == GameCharacter.ST_WALKING || this.state == GameCharacter.ST_IDDLE)
 		{
 
 		    this.state = GameCharacter.ST_FALLING;
@@ -105,10 +119,10 @@ public abstract class GameCharacter extends LevelObject
 		} else
 		{
 		    this.lookRight = v.x > 0;
-		    if (this.state != ST_WALK)
+		    if (this.state != ST_WALKING)
 		    {
 			this.animationDelta = 0;
-			this.state = ST_WALK;
+			this.state = ST_WALKING;
 
 		    } // else this.animationDelta += deltaTime;
 
@@ -125,7 +139,7 @@ public abstract class GameCharacter extends LevelObject
 	} else // estoy en escalera
 	{
 	    this.motionVector.x = v.x * this.speedWalkStairs;
-	    if (this.state == GameCharacter.ST_ONSTAIRS_POSITIVE)
+	    if (this.stair.isPositive())
 	    {
 		this.motionVector.y = v.x * this.speedWalkStairs;
 
@@ -138,15 +152,30 @@ public abstract class GameCharacter extends LevelObject
 		this.checkExitStair(v);
 		// this.animationDelta += deltaTime;
 		this.lookRight = v.x > 0;
+		if (this.state != ST_WALKING)
+		    {
+			this.animationDelta = 0;
+			this.state = ST_WALKING;
+
+		    } 
 	    }
+	    else 
+	    {
+		 if (this.state != ST_IDDLE)
+		    {
+			this.animationDelta = 0;
+			this.state = ST_IDDLE;
+		    }
+	    }
+	    
 	}
 
 	Vector2 escalado = this.motionVector.cpy().scl(deltaTime);
-	if (this.state != GameCharacter.ST_ONSTAIRS_POSITIVE && this.state != GameCharacter.ST_ONSTAIRS_NEGATIVE) // Si
+	if (this.stair == null) // Si
 	    // no
 	    // estoy
 	    // en
-	    this.colision5(escalado);
+	    this.colision(escalado);
 
 	this.x += escalado.x;
 	this.y += escalado.y;
@@ -155,41 +184,42 @@ public abstract class GameCharacter extends LevelObject
 
     private void checkExitStair(Vector2 v)
     {
-	
+
 	LevelObject endStair;
 	if (this.stair.isPositive())
 	{
 	    if (v.x > 0)
 	    {
-		endStair=this.stair.getUpStair();
-		
+		endStair = this.stair.getUpStair();
+
 	    } else
 	    {
-		endStair=this.stair.getDownStair();
+		endStair = this.stair.getDownStair();
 	    }
 	} else
 	{
 	    if (v.x > 0)
 	    {
-		endStair=this.stair.getDownStair();
+		endStair = this.stair.getDownStair();
 	    } else
 	    {
-		endStair=this.stair.getUpStair();
+		endStair = this.stair.getUpStair();
 	    }
 
 	}
 	if (this.isFeetColision(endStair))
 	{
-	    this.state = GameCharacter.ST_WALK;
+	    this.state = GameCharacter.ST_WALKING;
 	    this.lookRight = v.x > 0;
 	    this.animationDelta = 0;
 	    this.y = endStair.y;
 	    this.motionVector.y = 0;
+	    this.stair = null;
 	}
 
     }
 
-    private void checkEnterStair(Vector2 v)
+    protected void checkEnterStair(Vector2 v)
     {
 	Stair escalera = null;
 	if (v.y > 0)
@@ -197,39 +227,36 @@ public abstract class GameCharacter extends LevelObject
 	    if (v.x > 0)
 	    {
 		escalera = this.checkStairsFeetColision(this.pyramid.getPositiveStairs(), true);
-		if (escalera != null)
-		    this.state = GameCharacter.ST_ONSTAIRS_POSITIVE;
+
 	    } else
 	    {
 		escalera = this.checkStairsFeetColision(this.pyramid.getNegativeStairs(), true);
-		if (escalera != null)
-		    this.state = GameCharacter.ST_ONSTAIRS_NEGATIVE;
+
 	    }
 	} else
 	{
 	    if (v.x > 0)
 	    {
 		escalera = this.checkStairsFeetColision(this.pyramid.getNegativeStairs(), false);
-		if (escalera != null)
-		    this.state = GameCharacter.ST_ONSTAIRS_NEGATIVE;
+
 	    } else
 	    {
 		escalera = this.checkStairsFeetColision(this.pyramid.getPositiveStairs(), false);
-		if (escalera != null)
-		    this.state = GameCharacter.ST_ONSTAIRS_POSITIVE;
+
 	    }
 	}
 	if (escalera != null)
+	{
 	    this.stair = escalera;
+	    // this.state = GameCharacter.ST_ONSTAIRS;
+	}
     }
 
     protected abstract void doAction();
 
     protected void doJump()
     {
-	this.motionVector.y = this.speedJump;
-	this.state = GameCharacter.ST_JUMP;
-	this.animationDelta = 0;
+	this.gameCharacterState = new GameCharacterStateJumping(this);
     }
 
     public int getState()
@@ -325,7 +352,7 @@ public abstract class GameCharacter extends LevelObject
 	    this.state = GameCharacter.ST_IDDLE;
 	else
 	{
-	    this.state = GameCharacter.ST_WALK;
+	    this.state = GameCharacter.ST_WALKING;
 	    this.lookRight = vectMove.x >= 0;
 	}
 	this.motionVector.y = 0;
@@ -343,9 +370,9 @@ public abstract class GameCharacter extends LevelObject
 	return cell != null && cell.getTile().getId() < 220;
     }
 
-    private boolean colision5(Vector2 vectMove)
+    private boolean colision(Vector2 vectMove)
     {
-	if (this.state != GameCharacter.ST_WALK && this.state != GameCharacter.ST_IDDLE)
+	if (this.state != GameCharacter.ST_WALKING && this.state != GameCharacter.ST_IDDLE)
 	    this.checkLanding(vectMove);
 
 	int r = -1;
@@ -668,6 +695,11 @@ public abstract class GameCharacter extends LevelObject
     protected Pyramid getPyramid()
     {
 	return pyramid;
+    }
+
+    protected Stair getStair()
+    {
+	return stair;
     }
 
 }

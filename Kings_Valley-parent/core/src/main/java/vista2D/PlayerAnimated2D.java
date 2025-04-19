@@ -3,7 +3,7 @@ package vista2D;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import modelo.gameCharacters.GameCharacter;
+import modelo.gameCharacters.abstractGameCharacter.GameCharacter;
 import modelo.gameCharacters.player.Player;
 import modelo.level.LevelObject;
 import util.Constantes;
@@ -62,7 +62,7 @@ public class PlayerAnimated2D extends GameCharacterAnimated2D
 	this.characterAnimationDeath = arrayAnimation[TileMapGrafica2D.DEATH];
 	this.characterAnimationFall = arrayAnimation[TileMapGrafica2D.FALL];
 	this.characterAnimationWalk = arrayAnimation[TileMapGrafica2D.WALK];
-	this.characterAnimationStair = arrayAnimation[TileMapGrafica2D.STAIR];
+	
 	this.characterAnimationIddle = arrayAnimation[TileMapGrafica2D.IDDLE];
 	this.characterAnimationJump = arrayAnimation[TileMapGrafica2D.JUMP];
     }

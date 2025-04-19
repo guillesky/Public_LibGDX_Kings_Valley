@@ -7,7 +7,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.math.Vector2;
 
-import modelo.gameCharacters.GameCharacter;
+import modelo.gameCharacters.abstractGameCharacter.GameCharacter;
 import modelo.level.GiratoryMechanism;
 import modelo.level.LevelObject;
 import modelo.level.Pyramid;
@@ -15,6 +15,7 @@ import modelo.level.dagger.Dagger;
 import modelo.level.dagger.DaggerState;
 import util.Config;
 import util.Constantes;
+
 @SuppressWarnings("serial")
 public class Player extends GameCharacter
 {
@@ -27,7 +28,7 @@ public class Player extends GameCharacter
     private float timePicking = 0;
     private PlayerState playerState = null;
 
-    public Player(float x,float y, Pyramid pyramid)
+    public Player(float x, float y, Pyramid pyramid)
     {
 	super(Constantes.PLAYER, x, y, Config.getInstance().getPlayerSpeedWalk(),
 		Config.getInstance().getPlayerSpeedWalkStairs(), pyramid);
@@ -67,15 +68,16 @@ public class Player extends GameCharacter
 	    direccion = -1;
 	if (this.pyramid.getCell(x, y, direccion, 1) == null)
 	{
-	    dagger.x = this.x+direccion* Config.getInstance().getLevelTileHeightUnits()*0.1f;
+	    dagger.x = this.x + direccion * Config.getInstance().getLevelTileHeightUnits() * 0.1f;
 	    dagger.y = this.y + Config.getInstance().getLevelTileHeightUnits();
-	   // this.pyramid.addFlyingDagger(dagger);
-	    
+	    // this.pyramid.addFlyingDagger(dagger);
+
 	    dagger.throwHorizontal(isLookRight());
 	    this.item = null;
 	    this.playerState = new PlayerStateThrowingDagger(this);
 	} else if (this.pyramid.getCell(x, y, direccion, 2) == null && this.pyramid.getCell(x, y, 0, 2) == null)
-	{  dagger.x = this.x;
+	{
+	    dagger.x = this.x;
 	    dagger.y = this.y + Config.getInstance().getLevelTileHeightUnits();
 	    dagger.throwVertical(isLookRight());
 	    this.playerState = new PlayerStateThrowingDagger(this);
@@ -172,8 +174,8 @@ public class Player extends GameCharacter
     protected boolean canPassGiratoryMechanism(GiratoryMechanism giratoryMechanism)
     {
 
-	return (this.state == GameCharacter.ST_WALK && this.isLookRight() && giratoryMechanism.isRight())
-		|| (this.state == GameCharacter.ST_WALK && !this.isLookRight() && !giratoryMechanism.isRight());
+	return (this.state == GameCharacter.ST_WALKING && this.isLookRight() && giratoryMechanism.isRight())
+		|| (this.state == GameCharacter.ST_WALKING && !this.isLookRight() && !giratoryMechanism.isRight());
     }
 
     @Override
@@ -250,12 +252,13 @@ public class Player extends GameCharacter
 	LevelObject activator = this.checkRectangleColision(this.pyramid.getActivators());
 	if (activator != null)
 	    this.pyramid.activateWall(activator);
-	this.checkGiratory(v);
+	if (!this.isInStair())
+	    this.checkGiratory(v);
     }
 
     private void pickupCollectables()
     {
-	if (this.state != GameCharacter.ST_ONSTAIRS_NEGATIVE && this.state != GameCharacter.ST_ONSTAIRS_POSITIVE)
+	if (!this.isInStair())
 	{
 	    LevelObject joya = this.checkItemFeetColision(this.pyramid.getJewels());
 	    if (joya != null)
@@ -274,11 +277,11 @@ public class Player extends GameCharacter
 		}
 
 		Dagger dagger = (Dagger) this.checkRectangleColision(this.pyramid.getStuckedDaggers());
-		if (dagger != null && dagger.getState()==DaggerState.ST_STUCKED)
+		if (dagger != null && dagger.getState() == DaggerState.ST_STUCKED)
 		{
 		    this.item = dagger;
 		    dagger.hasPickuped();
-		  
+
 		}
 	    }
 	}
@@ -304,11 +307,10 @@ public class Player extends GameCharacter
 	return respuesta;
     }
 
-
     @Override
     protected Pyramid getPyramid()
     {
-	
+
 	return super.getPyramid();
     }
 
