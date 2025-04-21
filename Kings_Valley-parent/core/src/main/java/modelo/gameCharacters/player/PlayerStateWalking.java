@@ -9,7 +9,7 @@ public class PlayerStateWalking extends PlayerState
 
 	public PlayerStateWalking(Player player)
 	{
-		super(player, GameCharacter.ST_WALKING);
+		super(player, GameCharacter.ST_IDDLE);
 	}
 
 	@Override

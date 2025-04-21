@@ -24,7 +24,6 @@ public class Player extends GameCharacter
     public static final int ST_PICKING = 21;
 
     private LevelObject item = null;
-    private ArrayList<PairInt> coordToPick = new ArrayList<PairInt>();
     private float timePicking = 0;
     private PlayerState playerState = null;
 
@@ -106,14 +105,14 @@ public class Player extends GameCharacter
 	    {
 		int tileY = (int) (py / Config.getInstance().getLevelTileHeightUnits());
 		int tileX = (int) (px / Config.getInstance().getLevelTileWidthUnits());
-		if (this.picking(tileX, tileY, 2, true))
+		if (this.picking(tileX, tileY, 2, true,new ArrayList<PairInt>()))
 		    this.item = null;
 
 	    } else
 	    {
 		int tileY = (int) (this.y / Config.getInstance().getLevelTileHeightUnits());
 		int tileX = (int) (px / Config.getInstance().getLevelTileWidthUnits());
-		if (this.picking(tileX, tileY, 1, true))
+		if (this.picking(tileX, tileY, 1, true,new ArrayList<PairInt>()))
 		    this.item = null;
 	    }
 	} else
@@ -135,12 +134,12 @@ public class Player extends GameCharacter
 	    int tileY = (int) (py / Config.getInstance().getLevelTileHeightUnits());
 	    int tileX = (int) (px / Config.getInstance().getLevelTileWidthUnits());
 
-	    if (this.picking(tileX, tileY, 2, false))
+	    if (this.picking(tileX, tileY, 2, false,new ArrayList<PairInt>()))
 		this.item = null;
 	}
     }
 
-    private boolean picking(int x, int y, int cont, boolean locked)
+    private boolean picking(int x, int y, int cont, boolean locked,ArrayList<PairInt> coordToPick)
     {
 	boolean respuesta = false;
 
@@ -151,22 +150,15 @@ public class Player extends GameCharacter
 	if (x != 0 && x != this.pyramid.getMapWidthInTiles() - 1 && y != 0 && this.pyramid.isPickable(cell)
 		&& cell != null && (celdaArriba == null || locked))
 	{
+	    
 	    PairInt pairInt = new PairInt(x, y);
-	    this.coordToPick.add(pairInt);
+	    coordToPick.add(pairInt);
 	    // this.state = Player.ST_PICKING;
-	    this.setPlayerState(new PlayerStatePicking(this));
+	    this.setPlayerState(new PlayerStatePicking(this, coordToPick));
 	    respuesta = true;
 	    if (cont == 2)
-		this.picking(x, y - 1, 1, true);
+		this.picking(x, y - 1, 1, true,coordToPick);
 	}
-	return respuesta;
-    }
-
-    public PairInt getCoordPicking()
-    {
-	PairInt respuesta = null;
-	if (!this.coordToPick.isEmpty())
-	    respuesta = this.coordToPick.get(0);
 	return respuesta;
     }
 
@@ -190,11 +182,6 @@ public class Player extends GameCharacter
     protected void setState(int state)
     {
 	super.setState(state);
-    }
-
-    protected ArrayList<PairInt> getCoordToPick()
-    {
-	return coordToPick;
     }
 
     protected float getTimePicking()

@@ -55,7 +55,6 @@ public class TileMapGrafica2D implements IMyApplicationnListener
     private OrthographicCamera cameraUI;
     private OrthogonalTiledMapRenderer renderer;
     private AssetManager manager;
-    private SpriteBatch spriteBatch = new SpriteBatch();;
     private Array<MySpriteKV> instances = new Array<MySpriteKV>();
     private Array<AnimatedEntity2D> animatedEntities = new Array<AnimatedEntity2D>();
     private HashMap<LevelObject, AnimatedEntity2D> hashMapLevelAnimation = new HashMap<LevelObject, AnimatedEntity2D>();
@@ -73,6 +72,10 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 
     private BitmapFont font = new BitmapFont();
     private Texture pixel;
+    
+    
+    private SpriteBatch spriteBatchDebug = new SpriteBatch();
+    private RectaglesRender rectaglesRenderDebug=null;
 
     public TileMapGrafica2D(AssetManager manager)
     {
@@ -217,6 +220,10 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 		this.graphicsFileLoader.getAnimationPlayer_Nothing(),
 		this.graphicsFileLoader.getAnimationPlayer_Picker(),
 		this.graphicsFileLoader.getAnimationPlayer_Dagger()));
+	
+	
+	
+	//this.rectaglesRenderDebug=new RectaglesRender(map);
 
     }
 
@@ -358,19 +365,19 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 	Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 	camera.update();
 	this.calculateCamera();
-	spriteBatch.setProjectionMatrix(camera.combined);
+	spriteBatchDebug.setProjectionMatrix(camera.combined);
 
 	renderer.setView(camera);
 	renderer.render();
 
-	this.spriteBatch.begin();
+	this.spriteBatchDebug.begin();
 
 	ArrayIterator<AnimatedTrapKV2> it3 = this.animatedTraps.iterator();
 	while (it3.hasNext())
 	{
 	    AnimatedTrapKV2 animatedTrapKV2 = it3.next();
 	    animatedTrapKV2.updateElement(Game.getInstance().getDelta());
-	    animatedTrapKV2.getSprite().draw(spriteBatch);
+	    animatedTrapKV2.getSprite().draw(spriteBatchDebug);
 	}
 
 	ArrayIterator<MySpriteKV> it = this.instances.iterator();
@@ -378,7 +385,7 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 	{
 	    MySpriteKV mySpriteKV = it.next();
 	    mySpriteKV.updateElement(null);
-	    mySpriteKV.draw(spriteBatch);
+	    mySpriteKV.draw(spriteBatchDebug);
 	}
 
 	ArrayIterator<AnimatedEntity2D> it2 = this.animatedEntities.iterator();
@@ -386,23 +393,24 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 	{
 	    AnimatedEntity2D animatedEntity2D = it2.next();
 	    animatedEntity2D.updateElement(Game.getInstance().getDelta());
-	    animatedEntity2D.render(spriteBatch);
+	    animatedEntity2D.render(spriteBatchDebug);
 	}
 
 	if (Game.getInstance().isPaused())
 	{
 	    this.cameraUI.update();
-	    spriteBatch.setProjectionMatrix(cameraUI.combined);
+	    spriteBatchDebug.setProjectionMatrix(cameraUI.combined);
 	    GlyphLayout layout = new GlyphLayout(font, Messages.GAME_PAUSED.getValue());
 	    float x = (Gdx.graphics.getWidth() - layout.width) / 2;
 	    float y = (Gdx.graphics.getHeight() + layout.height) / 2;
-	    spriteBatch.setColor(0, 0, 0, 0.5f); // negro con 50% opacidad
-	    spriteBatch.draw(pixel, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-	    font.draw(spriteBatch, layout, x, y);
+	    spriteBatchDebug.setColor(0, 0, 0, 0.5f); // negro con 50% opacidad
+	    spriteBatchDebug.draw(pixel, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+	    font.draw(spriteBatchDebug, layout, x, y);
 
 	}
 
-	spriteBatch.end();
+	spriteBatchDebug.end();
+	//this.rectaglesRenderDebug.render(camera.combined);
     }
 
     @Override
@@ -423,7 +431,9 @@ public class TileMapGrafica2D implements IMyApplicationnListener
     {
 	this.renderer.dispose();
 	this.manager.dispose();
-	this.spriteBatch.dispose();
+	this.spriteBatchDebug.dispose();
+	if (this.rectaglesRenderDebug!=null)
+	    this.rectaglesRenderDebug.dispose();
 
     }
 

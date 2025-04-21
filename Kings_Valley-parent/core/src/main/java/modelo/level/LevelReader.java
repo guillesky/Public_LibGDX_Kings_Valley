@@ -51,9 +51,9 @@ public class LevelReader
     static
     {
 	Integer[] valuesPositiveStair =
-	{ 22, 42, 30, 40 };
+	{ 22, 42, 30, 50 };
 	Integer[] valuesNegativeStair =
-	{ 24, 44, 33, 43 };
+	{ 25, 45, 33, 53 };
 	LevelReader.tilesPositiveStairs = new ArrayList<Integer>(Arrays.asList(valuesPositiveStair));
 	LevelReader.tilesNegativeStairs = new ArrayList<Integer>(Arrays.asList(valuesNegativeStair));
 

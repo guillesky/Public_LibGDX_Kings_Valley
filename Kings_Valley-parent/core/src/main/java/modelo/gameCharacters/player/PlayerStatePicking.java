@@ -11,20 +11,21 @@ import util.Constantes;
 
 public class PlayerStatePicking extends PlayerState
 {
+    private ArrayList<PairInt> coordToPick = new ArrayList<PairInt>();
 
-    public PlayerStatePicking(Player player)
+    public PlayerStatePicking(Player player, ArrayList<PairInt> coordToPick)
     {
 	super(player, Player.ST_PICKING);
+	this.coordToPick = coordToPick;
     }
 
     @Override
     public void update(Vector2 v, boolean b, float deltaTime)
     {
 	Pyramid pyramid = this.player.getPyramid();
-	ArrayList<PairInt> coordToPick = this.player.getCoordToPick();
-	PairInt pi = coordToPick.get(0);
+	PairInt pairInt = coordToPick.get(0);
 	if (this.player.getTimePicking() == 0)// Recien comienza a picar
-	    this.player.getPyramid().addGraphicElement(new DrawableElement(Constantes.DRAWABLE_PICKING_CELL, pi));
+	    this.player.getPyramid().addGraphicElement(new DrawableElement(Constantes.DRAWABLE_PICKING_CELL, pairInt));
 
 	this.player.incTimePicking(deltaTime);
 
@@ -32,11 +33,14 @@ public class PlayerStatePicking extends PlayerState
 	{
 
 	    TiledMapTileLayer layer = (TiledMapTileLayer) pyramid.getMap().getLayers().get("front");
-	    layer.setCell(pi.getX(), pi.getY(), null);
+	    layer.setCell(pairInt.getX(), pairInt.getY(), null);
 	    coordToPick.remove(0);
-	    this.player.getPyramid().removeGraphicElement(new DrawableElement(Constantes.DRAWABLE_PICKING_CELL, pi));
+	    this.player.getPyramid().removeGraphicElement(new DrawableElement(Constantes.DRAWABLE_PICKING_CELL, pairInt));
 	    if (coordToPick.isEmpty())
+	    {
 		this.player.setPlayerState(new PlayerStateWalking(this.player));
+		pyramid.endPicking(pairInt);
+	    }
 	    this.player.resetTimePicking();
 	}
 

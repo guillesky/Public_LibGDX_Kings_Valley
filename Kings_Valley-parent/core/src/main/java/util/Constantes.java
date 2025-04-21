@@ -48,6 +48,7 @@ public class Constantes
     
     
     public static final int DRAWABLE_PICKING_CELL =4000;
+    public static final int END_PICKING = 4001;
     public static final int DRAWABLE_FLYING_DAGGER =5000;
     
     
@@ -64,6 +65,7 @@ public class Constantes
     public static final HashMap<Integer, String> identificacion = new HashMap<Integer, String>();
     public static final HashMap<String, Integer> stringToInteger = new HashMap<String, Integer>();
     public static final HashMap<Integer, String> levelFileName = new HashMap<Integer, String>();
+    
 	static
     {
 	identificacion.put(It_brick, "Brick");
