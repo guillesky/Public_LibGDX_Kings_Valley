@@ -19,7 +19,7 @@ public class GiratoryMechanism extends Mechanism
 	@Override
 	public void update(float deltaTime)
 	{
-		this.time += deltaTime;
+		this.incTime(deltaTime);
 		if (this.time >= 1)
 		{
 			this.end();
@@ -28,7 +28,7 @@ public class GiratoryMechanism extends Mechanism
 
 	private void end()
 	{
-		this.time = 0;
+		this.resetTime();
 		this.right = !this.right;
 		this.active = false;
 	}

@@ -3,10 +3,10 @@ package modelo.level;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import modelo.IGrafica;
 import modelo.gameCharacters.mummys.Mummy;
 import modelo.gameCharacters.player.Player;
 import modelo.level.dagger.Dagger;
+import modelo.level.door.Door;
 import util.Config;
 import util.Constantes;
 
@@ -108,16 +108,33 @@ public class Level
 
     }
 
-	public void removeGiratories()
+	public void prepareToExit()
 	{
 		
 		this.pyramid.removeGiratories();
+		Iterator<Door>it = this.pyramid.getDoors().iterator();
+		while (it.hasNext()) 
+		{
+			Door door=it.next();
+			door.setVisible();
+		}
 		
 	}
 	
 	public boolean isReadyToExit() 
 	{
 		return this.pyramid.getJewels().isEmpty();
+	}
+
+	public void checkLevers()
+	{
+		Iterator<Door>it = this.pyramid.getDoors().iterator();
+		while (it.hasNext()) 
+		{
+			Door door=it.next();
+			door.checkPushLever(player);
+		}
+		
 	}
 	
 	

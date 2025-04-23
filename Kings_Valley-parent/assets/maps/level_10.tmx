@@ -155,12 +155,12 @@
     <property name="p0" value="148"/>
    </properties>
   </object>
-  <object id="16" type="Door" gid="248" x="130" y="190" width="10" height="10">
+  <object id="16" type="Door" gid="248" x="120" y="190" width="10" height="10">
    <properties>
     <property name="p0" value="1"/>
    </properties>
   </object>
-  <object id="17" type="Door" gid="248" x="530" y="180" width="10" height="10">
+  <object id="17" type="Door" gid="248" x="520" y="180" width="10" height="10">
    <properties>
     <property name="p0" value="0"/>
    </properties>

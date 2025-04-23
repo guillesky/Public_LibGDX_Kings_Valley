@@ -1,5 +1,6 @@
 package modelo.level.door;
 
+import modelo.gameCharacters.player.Player;
 import modelo.level.LevelObject;
 import modelo.level.Mechanism;
 import util.Config;
@@ -7,15 +8,16 @@ import util.Constantes;
 
 public class Door extends Mechanism
 {
+	public static final int HIDE = 0;
 	public static final int CLOSED = 1;
 	public static final int OPEN = 2;
-	public static final int CLOSING = 1;
-	public static final int OPENING = 2;
+	public static final int CLOSING = 3;
+	public static final int OPENING = 4;
 
 	private LevelObject lever;
 	private LevelObject passage;
+	protected DoorState doorState;
 	private int state;
-	private boolean visible;
 
 	public Door(LevelObject lever)
 	{
@@ -24,10 +26,10 @@ public class Door extends Mechanism
 		float eight = Config.getInstance().getLevelTileHeightUnits();
 		float x = this.lever.x + width * 2;
 		float y = this.lever.y - eight * 2;
-		this.state = CLOSED;
+		this.doorState = new DoorStateHide(this);
 		this.passage = new LevelObject(Constantes.It_door_passage, x, y, this.lever.getP0(), width * 2, eight * 2);
 		this.active = false;
-		this.visible=false;
+
 	}
 
 	public LevelObject getLever()
@@ -43,17 +45,50 @@ public class Door extends Mechanism
 	@Override
 	public void update(float deltaTime)
 	{
-
+		this.doorState.update(deltaTime);
 	}
 
 	public boolean isVisible()
 	{
-		return visible;
+		return this.state != Door.HIDE;
 	}
 
-	public void setVisible(boolean visible)
+	public int getState()
 	{
-		this.visible = visible;
+		return state;
+	}
+
+	protected void setState(int state)
+	{
+		this.state = state;
+	}
+
+	public void setVisible()
+	{
+		this.doorState = new DoorStateClosed(this);
+
+	}
+
+	public void checkPushLever(Player player)
+	{
+		this.doorState.checkPushLever(player);
+	}
+
+	@Override
+	protected void incTime(float delta)
+	{
+		super.incTime(delta);
+	}
+
+	@Override
+	protected void resetTime()
+	{
+		super.resetTime();
+	}
+
+	public boolean checkEnterPassage(Player player)
+	{
+		return this.doorState.checkEnterPassage(player);
 	}
 
 }

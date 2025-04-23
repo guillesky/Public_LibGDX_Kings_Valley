@@ -102,7 +102,7 @@
     <property name="p0" value="134"/>
  </properties>
 </object>
-<object id="6" type="Door" gid="248" x="140" y="80" width="10" height="10">
+<object id="6" type="Door" gid="248" x="130" y="80" width="10" height="10">
  <properties>
     <property name="p0" value="2"/>
  </properties>

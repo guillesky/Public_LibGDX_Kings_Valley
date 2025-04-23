@@ -87,7 +87,9 @@ public class Main implements IMyApplicationnListener
 
 	controles.setNuevoRumbo(aux);
 	controles.processKey(Input.Keys.SPACE);
+	controles.processKey(Input.Keys.F);
 	controles.processKey(Input.Keys.N);
+	
 	controles.processKey(Input.Keys.P);
 
 	Game.getInstance().updateframe(Gdx.graphics.getDeltaTime());
@@ -126,6 +128,13 @@ public class Main implements IMyApplicationnListener
 	this.grafica.resume();
 
     }
+
+	@Override
+	public void reset()
+	{
+		// TODO Auto-generated method stub
+		
+	}
     
     
 

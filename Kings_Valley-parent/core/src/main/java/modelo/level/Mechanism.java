@@ -16,5 +16,15 @@ public abstract class Mechanism
 	{
 		return time;
 	}
+
+	protected void incTime(float delta) 
+	{
+		this.time+=delta;
+	}
+	
+	protected void resetTime() 
+	{
+		this.time=0;
+	}
 	
 }

@@ -8,25 +8,44 @@ import modelo.level.Level;
 
 public class GameStatePlaying extends GameState
 {
+private boolean readyToExit=false;
+	public GameStatePlaying()
+	{
+		super();
+	}
 
-    public GameStatePlaying()
-    {
-	super();
-    }
-
-    @Override
-    public void updateframe(float deltaTime)
-    {
-	this.game.incDelta(deltaTime);
-	Level currentLevel=this.game.getCurrentLevel();
-	Controls controles=this.game.getControles();
-	    Player player = currentLevel.getPlayer();
-	    player.update(controles.getNuevoRumbo(), controles.getShot(Input.Keys.SPACE), deltaTime);
-	    if (controles.getShot(Input.Keys.N))
-		this.game.finishLevel();
-	    currentLevel.updateMechanism(deltaTime);
-	    currentLevel.updateMummys(deltaTime);
-	    currentLevel.updateFlyingDagger(deltaTime);
-    }
+	@Override
+	public void updateframe(float deltaTime)
+	{
+		this.game.incDelta(deltaTime);
+		Level currentLevel = this.game.getCurrentLevel();
+		Controls controles = this.game.getControles();
+		Player player = currentLevel.getPlayer();
+		player.update(controles.getNuevoRumbo(), controles.getShot(Input.Keys.SPACE), deltaTime);
+		
+		if (currentLevel.isReadyToExit() && !this.readyToExit)
+		{
+			currentLevel.prepareToExit();
+			this.readyToExit = true;
+		}
+		
+		
+		
+		currentLevel.updateMechanism(deltaTime);
+		currentLevel.updateMummys(deltaTime);
+		currentLevel.updateFlyingDagger(deltaTime);
+		if(this.readyToExit)
+			currentLevel.checkLevers();
+		//CHEATS FOR DEBUG
+		if (controles.getShot(Input.Keys.F))
+		{
+			currentLevel.prepareToExit();
+			this.readyToExit = true;
+		}
+		
+		if (controles.getShot(Input.Keys.N))
+			this.game.nextLevel();
+			
+	}
 
 }

@@ -25,7 +25,7 @@ public class TrapMechanism extends Mechanism
     @Override
     public void update(float deltaTime)
     {
-	this.time += deltaTime;
+	this.incTime(deltaTime);
 	if (this.time >= 1)
 	{
 	    this.nextCell();
@@ -34,7 +34,7 @@ public class TrapMechanism extends Mechanism
 
     private void nextCell()
     {
-	this.time = 0;
+	this.resetTime();
 	if (this.layer.getCell(x, y - 1) == null)
 	{
 	    y--;
