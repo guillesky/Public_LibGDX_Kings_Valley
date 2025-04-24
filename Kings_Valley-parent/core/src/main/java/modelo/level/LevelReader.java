@@ -29,8 +29,8 @@ public class LevelReader
 	private static ArrayList<Integer> tilesNegativeStairs;
 
 	private Player player = null;
-	private Door doorIn = null;
-	private Door doorOut = null;
+
+	
 	private ArrayList<Door> doors = null;
 
 	private ArrayList<LevelObject> jewels = new ArrayList<LevelObject>();
@@ -62,7 +62,7 @@ public class LevelReader
 
 	}
 
-	public Level getLevel(TiledMap map, int dificultLevel, boolean isCompleted, IGrafica interfaz)
+	public Level getLevel(int id,TiledMap map, int dificultLevel, boolean isCompleted,Integer previusLevel, IGrafica interfaz)
 	{
 
 		this.resetAll();
@@ -75,19 +75,37 @@ public class LevelReader
 			this.giratoryMechanisms.clear();
 			this.hashGiratoryMechanisms.clear();
 		}
-		this.pyramid = new Pyramid(map, doorIn, doorOut, doors, jewels, positiveStairs, negativeStairs, pickers,
+		this.pyramid = new Pyramid(map,  doors, jewels, positiveStairs, negativeStairs, pickers,
 				stuckedDaggers, giratorys, walls, activators, trapMechanisms, giratoryMechanisms, unpickableCells,
 				hashTraps, hashGiratoryMechanisms, interfaz);
-		float y = this.doorIn.getPassage().y;
-		float x = this.doorIn.getPassage().x+Config.getInstance().getLevelTileWidthUnits();
+		
+		if (isCompleted)
+			this.pyramid.prepareToExit();
+		this.generateMummys(dificultLevel);
+		Door door=this.getDoorIn(id,previusLevel);
+		
+		
+		
+		
+		float y = door.getPassage().y;
+		float x = door.getPassage().x+Config.getInstance().getLevelTileWidthUnits();
 
 		this.player = new Player(x, y, this.pyramid);
-		if (isCompleted)
-			this.pyramid.removeGiratories();
-		this.generateMummys(dificultLevel);
-		Level level = new Level(pyramid, mummys, player);
+		
+		Level level = new Level(id,pyramid, mummys, player);
 		return level;
 
+	}
+
+	private Door getDoorIn(int id, Integer previusLevel)
+	{Door door=null;
+		if (this.doors.size()==1)
+			door=this.doors.get(0);
+		else 
+		{if(previusLevel==null || previusLevel==id-1)
+			door=this.doors.get(0);
+		}
+		return door;
 	}
 
 	private void readStairs(TiledMap map)
@@ -172,8 +190,7 @@ public class LevelReader
 	private void resetAll()
 	{
 		this.player = null;
-		this.doorIn = null;
-		this.doorOut = null;
+		
 		this.doors = new ArrayList<Door>();
 		this.jewels = new ArrayList<LevelObject>();
 		this.pickers = new ArrayList<LevelObject>();
@@ -271,15 +288,7 @@ public class LevelReader
 				levelObject = new LevelObject(type, fx, fy, p0, width, height);
 				Door door = new Door(levelObject);
 				this.doors.add(door);
-				if (levelObject.getP0() == 0)
-					this.doorIn = door;
-				else if (levelObject.getP0() == 1)
-					this.doorOut = door;
-				else if (levelObject.getP0() == 2)
-				{
-					this.doorOut = door;
-					this.doorIn = door;
-				} 
+				
 					
 				break;
 			case Constantes.It_jewel:

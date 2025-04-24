@@ -25,8 +25,6 @@ public class Pyramid implements IGrafica
 	private int mapHeightInTiles;
 	private int mapWidthInPixels;
 	private int mapHeightInPixels;
-	private Door doorIn = null;
-	private Door doorOut = null;
 	private ArrayList<Door> doors;
 	private ArrayList<LevelObject> jewels = new ArrayList<LevelObject>();
 	private ArrayList<Stair> positiveStairs;
@@ -45,7 +43,7 @@ public class Pyramid implements IGrafica
 	private HashMap<LevelObject, GiratoryMechanism> hashGiratoryMechanisms = new HashMap<LevelObject, GiratoryMechanism>();
 	private IGrafica interfaz = null;
 
-	public Pyramid(TiledMap map, Door doorIn, Door doorOut, ArrayList<Door> doors, ArrayList<LevelObject> jewels,
+	public Pyramid(TiledMap map,  ArrayList<Door> doors, ArrayList<LevelObject> jewels,
 			ArrayList<Stair> positiveStairs, ArrayList<Stair> negativeStairs, ArrayList<LevelObject> pickers,
 			ArrayList<Dagger> stuckedDaggers, ArrayList<LevelObject> giratorys, ArrayList<LevelObject> walls,
 			ArrayList<LevelObject> activators, ArrayList<TrapMechanism> trapMechanisms,
@@ -63,8 +61,7 @@ public class Pyramid implements IGrafica
 		mapHeightInTiles = properties.get("height", Integer.class);
 		this.mapHeightInPixels = mapHeightInTiles * tileHeight;
 		this.mapWidthInPixels = mapWidthInTiles * tileWidth;
-		this.doorIn = doorIn;
-		this.doorOut = doorOut;
+		
 		this.doors = doors;
 		this.jewels = jewels;
 
@@ -133,15 +130,7 @@ public class Pyramid implements IGrafica
 		return mapHeightInPixels;
 	}
 
-	public Door getDoorIn()
-	{
-		return doorIn;
-	}
-
-	public Door getDoorOut()
-	{
-		return doorOut;
-	}
+	
 
 	public ArrayList<LevelObject> getJewels()
 	{
@@ -278,7 +267,7 @@ public class Pyramid implements IGrafica
 
 	}
 
-	public void removeGiratories()
+	private void removeGiratories()
 	{
 		Iterator<GiratoryMechanism> it = this.giratoryMechanisms.iterator();
 		while (it.hasNext())
@@ -312,6 +301,17 @@ public class Pyramid implements IGrafica
 	public void reset()
 	{
 		
+	}
+
+	public void prepareToExit()
+	{
+		this.removeGiratories();
+		Iterator<Door>it = this.doors.iterator();
+		while (it.hasNext()) 
+		{
+			Door door=it.next();
+			door.setVisible();
+		}	
 	}
 
 	

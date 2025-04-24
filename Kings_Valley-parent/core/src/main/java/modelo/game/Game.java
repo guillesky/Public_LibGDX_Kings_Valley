@@ -23,7 +23,7 @@ public class Game
 	private boolean paused = false;
 
 	private Level level = null;
-	private boolean readyToExit = false;
+	
 	private int currentLevel = 1;
 	private int dificult = 0;
 
@@ -104,8 +104,8 @@ public class Game
 	{
 		// this.countTiles();
 
-		this.level = this.levelReader.getLevel(this.maps.get(this.currentLevel), dificult,
-				this.completedLevels.get(this.currentLevel), interfaz);
+		this.level = this.levelReader.getLevel(currentLevel, this.maps.get(this.currentLevel), dificult,
+				this.completedLevels.get(this.currentLevel), null, interfaz);
 		this.stateGame = new GameStateEntering();
 		this.interfaz.reset();
 
