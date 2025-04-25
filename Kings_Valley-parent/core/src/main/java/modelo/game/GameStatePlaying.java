@@ -45,6 +45,12 @@ private boolean readyToExit=false;
 		
 		if (controles.getShot(Input.Keys.N))
 			this.game.nextLevel();
+		
+		
+		if (controles.getShot(Input.Keys.O))
+			this.game.priorLevel();
+		
+		
 			
 	}
 

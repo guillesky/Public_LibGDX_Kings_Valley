@@ -13,13 +13,19 @@ public class Door extends Mechanism
 	public static final int OPEN = 2;
 	public static final int CLOSING = 3;
 	public static final int OPENING = 4;
+	
+	public static final int TO_PREVIUS=0;
+	public static final int TO_NEXT=-1;
+	public static final int UNIQUE=-2;
 
 	private LevelObject lever;
 	private LevelObject passage;
 	protected DoorState doorState;
 	private int state;
+	private int idLevel;
+	private int levelConnected;
 
-	public Door(LevelObject lever)
+	public Door(LevelObject lever,int idLevel)
 	{
 		this.lever = lever;
 		float width = Config.getInstance().getLevelTileWidthUnits();
@@ -29,6 +35,8 @@ public class Door extends Mechanism
 		this.doorState = new DoorStateHide(this);
 		this.passage = new LevelObject(Constantes.It_door_passage, x, y, this.lever.getP0(), width * 2, eight * 2);
 		this.active = false;
+		this.levelConnected=lever.getP0()*-1;
+		this.idLevel=idLevel;
 
 	}
 
@@ -90,5 +98,16 @@ public class Door extends Mechanism
 	{
 		return this.doorState.checkEnterPassage(player);
 	}
+
+	public int getLevelConnected()
+	{
+	    return levelConnected;
+	}
+
+	public int getIdLevel()
+	{
+	    return idLevel;
+	}
+	
 
 }

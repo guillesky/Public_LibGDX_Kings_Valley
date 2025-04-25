@@ -105,7 +105,7 @@ public class Game
 		// this.countTiles();
 
 		this.level = this.levelReader.getLevel(currentLevel, this.maps.get(this.currentLevel), dificult,
-				this.completedLevels.get(this.currentLevel), null, interfaz);
+				this.completedLevels.get(this.currentLevel), interfaz);
 		this.stateGame = new GameStateEntering();
 		this.interfaz.reset();
 
@@ -176,6 +176,12 @@ public class Game
 	{
 		this.currentLevel++;
 		this.start();
+	}
+
+	public void priorLevel()
+	{
+	    // TODO Auto-generated method stub
+	    
 	}
 
 }

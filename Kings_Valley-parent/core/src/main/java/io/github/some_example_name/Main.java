@@ -89,6 +89,7 @@ public class Main implements IMyApplicationnListener
 	controles.processKey(Input.Keys.SPACE);
 	controles.processKey(Input.Keys.F);
 	controles.processKey(Input.Keys.N);
+	controles.processKey(Input.Keys.O);
 	
 	controles.processKey(Input.Keys.P);
 
