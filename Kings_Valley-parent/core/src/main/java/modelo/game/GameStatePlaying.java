@@ -38,8 +38,8 @@ public class GameStatePlaying extends GameState
 		{
 			currentLevel.checkLevers();
 			Door door=currentLevel.checkPassages();
-			if(door!=null)
-				this.goToLevel(door);
+			if(door!=null && controles.getNuevoRumbo().y>0)
+				this.game.goToLevel(door);
 		}
 		// CHEATS FOR DEBUG
 		if (controles.getShot(Input.Keys.F))
@@ -56,10 +56,6 @@ public class GameStatePlaying extends GameState
 
 	}
 
-	private void goToLevel(Door door)
-	{
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 }

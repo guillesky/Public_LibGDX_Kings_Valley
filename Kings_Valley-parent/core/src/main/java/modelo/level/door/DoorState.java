@@ -12,6 +12,7 @@ public abstract class DoorState
 		this.door = door;
 		this.door.setState(state);
 		this.door.resetTime();
+		
 	}
 
 	public abstract void update(float deltaTime);

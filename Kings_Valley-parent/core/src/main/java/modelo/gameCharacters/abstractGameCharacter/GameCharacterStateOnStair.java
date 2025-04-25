@@ -38,13 +38,13 @@ public class GameCharacterStateOnStair extends GameCharacterState
 	    {
 		this.gameCharacter.resetAnimationDelta();
 		this.gameCharacter.state = gameCharacter.ST_WALKING;
-	    } 
-	}
-	else {
-	    if (this.gameCharacter.state !=this.gameCharacter.ST_IDDLE)
+	    }
+	} else
+	{
+	    if (this.gameCharacter.state != this.gameCharacter.ST_IDDLE)
 	    {
 		this.gameCharacter.resetAnimationDelta();
-		this.gameCharacter.state =this.gameCharacter.ST_IDDLE;
+		this.gameCharacter.state = this.gameCharacter.ST_IDDLE;
 	    }
 	}
 
@@ -52,39 +52,43 @@ public class GameCharacterStateOnStair extends GameCharacterState
 
     private void checkExitStair(Vector2 v)
     {
-
-	LevelObject endStair;
 	if (this.stair.isPositive())
 	{
 	    if (v.x > 0)
 	    {
-		endStair = this.stair.getUpStair();
+		if (this.gameCharacter.y >= this.stair.getUpStair().y)
+		    this.exitStair(this.stair.getUpStair());
 
 	    } else
 	    {
-		endStair = this.stair.getDownStair();
+		if (this.gameCharacter.y <= this.stair.getDownStair().y + this.stair.getDownStair().getHeight())
+		    this.exitStair(this.stair.getDownStair());
 	    }
 	} else
 	{
 	    if (v.x > 0)
 	    {
-		endStair = this.stair.getDownStair();
+		if (this.gameCharacter.y <= this.stair.getDownStair().y + this.stair.getDownStair().getHeight())
+		    this.exitStair(this.stair.getDownStair());
 	    } else
 	    {
-		endStair = this.stair.getUpStair();
+		if (this.gameCharacter.y >= this.stair.getUpStair().y)
+		    this.exitStair(this.stair.getUpStair());
+
 	    }
 
 	}
-	if (this.gameCharacter.isFeetColision(endStair))
-	{
 
+
+
+    }
+
+    private void exitStair(LevelObject endStair)
+    {
 	    this.gameCharacter.y = endStair.y;
 	    this.gameCharacter.motionVector.y = 0;
 	    this.gameCharacter.gameCharacterState = new GameCharacterStateWalking(this.gameCharacter);
-	    this.stair=null;
-	    
-
-	}
+	    this.stair = null;
 
     }
 
@@ -99,6 +103,5 @@ public class GameCharacterStateOnStair extends GameCharacterState
     {
 	return true;
     }
-    
 
 }

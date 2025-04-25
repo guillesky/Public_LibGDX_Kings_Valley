@@ -8,7 +8,7 @@ public class DoorStateOpen extends DoorState
 	public DoorStateOpen(Door door)
 	{
 		super(door, Door.OPEN);
-		this.door.incTime(1);
+		
 	}
 
 	@Override

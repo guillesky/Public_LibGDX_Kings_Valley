@@ -17,7 +17,7 @@ public class DoorStateOpening extends DoorState
 		this.door.incTime(deltaTime);
 		if (this.door.getTime() >= 1)
 			this.door.doorState = new DoorStateOpen(this.door);
-		System.out.println("OPENING: " + deltaTime);
+		
 	}
 
 	@Override
