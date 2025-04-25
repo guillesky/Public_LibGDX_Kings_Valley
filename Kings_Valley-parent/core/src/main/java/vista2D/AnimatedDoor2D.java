@@ -41,7 +41,17 @@ public class AnimatedDoor2D implements IGraphicRenderer
 	@Override
 	public void updateElement(Object element)
 	{
-
+		if (this.door.isVisible())
+		{
+		
+		float deltaTime = this.door.getTime();
+		this.lever.setRegion(this.leverAnimation.getKeyFrame(deltaTime, true));
+		float xLeft = this.doorSingleLeft.getX()-Config.getInstance().getLevelTileWidthUnits() * deltaTime;
+		float xRight = this.doorSingleRight.getX()+Config.getInstance().getLevelTileWidthUnits() * deltaTime;
+		float y = this.doorSingleLeft.getY();
+		this.doorSingleLeft.setPosition(xLeft, y);	
+		this.doorSingleRight.setPosition(xRight, y);	
+		}	
 	}
 
 	public void draw(Batch batch)

@@ -134,6 +134,26 @@ public class Level
 	{
 		return id;
 	}
+
+	public Door checkPassages()
+	{
+		
+		Iterator<Door> it = this.pyramid.getDoors().iterator();
+		Door respuesta = null;
+		Door door;
+		do
+		{
+		    door = it.next();
+		} while (it.hasNext() && !door.checkEnterPassage(player));
+
+		if (door.checkEnterPassage(player))
+		{
+		    respuesta = door;
+		}
+
+		return respuesta;
+	    
+	}
 	
 
 }
