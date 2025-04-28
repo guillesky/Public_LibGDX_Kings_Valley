@@ -7,7 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import modelo.Level;
+import modelo.LevelConverter;
 
 public class Prueba
 {
@@ -46,7 +46,7 @@ public class Prueba
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Level l1 = new Level();
+		LevelConverter l1 = new LevelConverter();
 		l1.setFromArray(fileData);
 		//System.out.println(l1.getObjectLayer());
 		Object[] li = l1.getLevelitems();

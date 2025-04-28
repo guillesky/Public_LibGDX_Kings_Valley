@@ -73,6 +73,9 @@ public class TileMapGrafica2D implements IMyApplicationnListener
     private RectaglesRender rectaglesRenderDebug = null;
     private boolean debug = false;
     private AnimatedPickedCell animatedPickedCell;
+    private String fileNameTileSetChanged = null;
+    private Texture newTilesetTexture = null;
+    private Float originalWidth=null;
 
     public TileMapGrafica2D(AssetManager manager)
     {
@@ -182,7 +185,6 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 	this.tileWidth = (int) map.getTileSets().getTileSet(0).getProperties().get("tilewidth");
 	this.tileHeight = (int) map.getTileSets().getTileSet(0).getProperties().get("tileheight");
 
-	// this.changeTileSet("pics/tiles2x.png",20,20);
 	camera = new OrthographicCamera(pyramid.getMapHeightInPixels() * 4 / 3, pyramid.getMapHeightInPixels());
 
 	camera.position.x = pyramid.getMapWidthInPixels() * .5f;
@@ -190,6 +192,7 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 	this.graphicsFileLoader.loadAnimations();
 	this.animatedPickedCell = this.graphicsFileLoader.getAnimatedPickedCell();
 	renderer = new OrthogonalTiledMapRenderer(map, this.scaleFactor);
+
 	Iterator<LevelObject> levelObjects = pyramid.getLevelObjects();
 	while (levelObjects.hasNext())
 
@@ -214,6 +217,10 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 		Mummy mummy = it.next();
 		animation = this.graphicsFileLoader.getAnimationMummyByColor(mummy.getType());
 		this.animatedEntities.add(new MummyAnimated2D(mummy, animation));
+	    }
+	    if (this.fileNameTileSetChanged != null)
+	    {
+		this.changeTileSet(fileNameTileSetChanged);
 	    }
 
 	}
@@ -275,12 +282,13 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 	generator.dispose();
     }
 
-    private void changeTileSet(String fileName, int newWidth, int newHeight)
+    public void changeTileSet(String fileName)
     {
 
 	TiledMap map = Game.getInstance().getCurrentLevel().getPyramid().getMap();
-	float originalWidth = (int) map.getTileSets().getTileSet(0).getProperties().get("tilewidth");
-	this.scaleFactor = originalWidth / newWidth;
+	if(this.originalWidth==null) this.originalWidth =  (float) ((int) map.getTileSets().getTileSet(0).getProperties().get("tilewidth"));
+	int newWidth;
+	int newHeight;
 
 	Iterator<TiledMapTileSet> it = map.getTileSets().iterator();
 	while (it.hasNext())
@@ -290,8 +298,17 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 	}
 
 	// Cargar el nuevo tileset desde la imagen PNG
-
-	Texture newTilesetTexture = new Texture(Gdx.files.internal(fileName));
+	if (fileName != this.fileNameTileSetChanged)
+	{
+	    this.fileNameTileSetChanged=fileName;
+	    if (this.newTilesetTexture != null)
+		this.newTilesetTexture.dispose();
+	
+	    this.newTilesetTexture = new Texture(Gdx.files.internal(fileName));
+	}
+	newWidth=this.newTilesetTexture.getWidth()/20;
+	newHeight=this.newTilesetTexture.getHeight()/13;
+	this.scaleFactor = originalWidth / newWidth;
 	TextureRegion[][] splitTiles = TextureRegion.split(newTilesetTexture, newWidth, newHeight);
 
 	// Crear el nuevo TiledMapTileSet y agregar los tiles
@@ -317,6 +334,7 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 	this.replaceLayer(map, originalLayer, newTileSet, newWidth, newHeight);
 	originalLayer = (TiledMapTileLayer) map.getLayers().get("front");
 	this.replaceLayer(map, originalLayer, newTileSet, newWidth, newHeight);
+	renderer = new OrthogonalTiledMapRenderer(map, this.scaleFactor);
 
     }
 
@@ -353,6 +371,7 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 	// Reemplazar la capa original con la nueva capa en el mapa
 	map.getLayers().remove(originalLayer);
 	map.getLayers().add(newLayer);
+
     }
 
     @Override

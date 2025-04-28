@@ -6,7 +6,7 @@ import java.util.List;
 
 import util.Constantes;
 
-public class Level
+public class LevelConverter
 {
     private int width;
     private int height;
@@ -220,7 +220,7 @@ public class Level
     public String getObjectLayer()
     {
 	StringBuilder sb = new StringBuilder();
-	sb.append(Level.objectsHeader);
+	sb.append(LevelConverter.objectsHeader);
 	int cont = 1;
 	for (LevelItem item : this.levelitems)
 	{

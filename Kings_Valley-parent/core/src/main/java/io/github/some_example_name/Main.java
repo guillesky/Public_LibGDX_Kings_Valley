@@ -50,6 +50,8 @@ public class Main implements IMyApplicationnListener
 	}
 	Game.getInstance().start();
 	this.grafica.create();
+/*	TileMapGrafica2D lalala=(TileMapGrafica2D) this.grafica;
+	lalala.changeTileSet("pics/tiles2x.png");*/
     }
 
     @Override
