@@ -13,7 +13,7 @@ public class GameStatePlaying extends GameState
 
 	public GameStatePlaying()
 	{
-		super();
+		super(Game.ST_GAME_PLAYING);
 	}
 
 	@Override
@@ -34,12 +34,13 @@ public class GameStatePlaying extends GameState
 		currentLevel.updateMechanism(deltaTime);
 		currentLevel.updateMummys(deltaTime);
 		currentLevel.updateFlyingDagger(deltaTime);
-		if (this.readyToExit)
+		if (this.readyToExit&& player.getState()!=Player.ST_ONSTAIRS)
 		{
 			currentLevel.checkLevers();
 			Door door=currentLevel.checkPassages();
 			if(door!=null && controles.getNuevoRumbo().y>0)
-				this.game.goToLevel(door);
+				this.game.stateGame=new GameStateExiting( door);
+				
 		}
 		// CHEATS FOR DEBUG
 		if (controles.getShot(Input.Keys.F))

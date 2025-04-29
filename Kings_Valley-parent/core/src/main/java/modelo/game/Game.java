@@ -17,6 +17,11 @@ import modelo.level.door.Door;
 
 public class Game
 {
+	public static final int ST_GAME_PLAYING=0;
+	public static final int ST_GAME_ENTERING=1;
+	public static final int ST_GAME_EXITING=2;
+	
+	
     private static Game instance = new Game();
     private Controls controles = new Controls();
     private HashMap<Integer, TiledMap> maps = new HashMap<Integer, TiledMap>();
@@ -25,13 +30,15 @@ public class Game
 
     private Level level = null;
 
-    private int currentLevel = 1;
+    protected int idCurrentLevel = 1;
     private int dificult = 0;
 
     private float delta = 0;
     private IGrafica interfaz = null;
     private LevelReader levelReader;
     protected GameState stateGame;
+    protected int state;
+    private float timeToTransicion=2f;
 
     public IGrafica getInterfaz()
     {
@@ -101,10 +108,10 @@ public class Game
 
     public void start()
     {
-	 this.countTiles();
+	// this.countTiles();
 
-	this.level = this.levelReader.getLevel(currentLevel, this.maps.get(this.currentLevel), dificult,
-		this.completedLevels.get(this.currentLevel), interfaz);
+	this.level = this.levelReader.getLevel(idCurrentLevel, this.maps.get(this.idCurrentLevel), dificult,
+		this.completedLevels.get(this.idCurrentLevel), interfaz);
 	this.stateGame = new GameStateEntering();
 	this.interfaz.reset();
 
@@ -173,7 +180,7 @@ public class Game
 
     public void nextLevel()
     {
-	this.currentLevel++;
+	this.idCurrentLevel++;
 	this.start();
     }
 
@@ -183,22 +190,50 @@ public class Game
 
     }
 
-    public void goToLevel(Door door)
+    protected void resetDelta() 
     {
-	this.completedLevels.put(currentLevel, true);
+    	this.delta=0;
+    }
+
+	public float getTimeToTransicion()
+	{
+		return timeToTransicion;
+	}
+
+	public void setTimeToTransicion(float timeToTransicion)
+	{
+		this.timeToTransicion = timeToTransicion;
+	}
+
+	protected HashMap<Integer, Boolean> getCompletedLevels()
+	{
+		return completedLevels;
+	}
+
+	
+	protected void goToLevel(Door door)
+    {
+	this.completedLevels.put(idCurrentLevel, true);
 
 	if (door.getLevelConnected() == Door.TO_NEXT || door.getLevelConnected() == Door.UNIQUE)
-	    this.currentLevel++;
+	    this.idCurrentLevel++;
 	else if (door.getLevelConnected() == Door.TO_PREVIUS)
-	    this.currentLevel--;
+	    this.idCurrentLevel--;
 	else
-	    this.currentLevel = door.getLevelConnected();
+	    this.idCurrentLevel = door.getLevelConnected();
 
-	this.level = this.levelReader.getLevel(currentLevel, this.maps.get(this.currentLevel), dificult,
-		this.completedLevels.get(this.currentLevel), door, interfaz);
-	this.stateGame = new GameStateEntering();
-	this.interfaz.reset();
+	this.level = this.levelReader.getLevel(idCurrentLevel, this.maps.get(this.idCurrentLevel), dificult,
+		this.completedLevels.get(this.idCurrentLevel), door, interfaz);
+	
 
     }
+
+	public int getState()
+	{
+		return state;
+	}
+	
+	
+	
 
 }

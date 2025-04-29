@@ -4,10 +4,15 @@ public abstract class GameState
 {
     protected Game game;
 
-    public abstract void updateframe(float deltaTime);
+    public void updateframe(float deltaTime) 
+    {
+    	this.game.incDelta(deltaTime);
+    }
 
-    public GameState()
+    public GameState(int state)
     {
 	this.game = Game.getInstance();
+	this.game.state=state;
+	this.game.resetDelta();
     }
 }

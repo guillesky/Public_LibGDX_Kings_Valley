@@ -42,6 +42,8 @@ public class Constantes
     public static final int JEWEL_6=162;
     public static final int JEWEL_7=169;
     
+    public static final int DRAWABLE_EXIT_DOOR = 2000;
+    
     public static final int DRAWABLE_LEVEL_ITEM =3000;
     public static final int DRAWABLE_TRAP =3001;
     public static final int DRAWABLE_GYRATORY =3002;
@@ -65,6 +67,7 @@ public class Constantes
     public static final HashMap<Integer, String> identificacion = new HashMap<Integer, String>();
     public static final HashMap<String, Integer> stringToInteger = new HashMap<String, Integer>();
     public static final HashMap<Integer, String> levelFileName = new HashMap<Integer, String>();
+	
     
 	static
     {

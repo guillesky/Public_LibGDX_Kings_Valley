@@ -9,10 +9,10 @@ import modelo.game.Game;
 import modelo.level.door.Door;
 import util.Config;
 
-public class AnimatedDoor2D extends AbstractAnimatedDoor2D
+public class AnimatedEnteringDoor2D extends AbstractAnimatedDoor2D
 {
 
-	public AnimatedDoor2D(Door door, Texture texturePassage, Texture textureLeft, Texture textureRight,
+	public AnimatedEnteringDoor2D(Door door, Texture texturePassage, Texture textureLeft, Texture textureRight,
 			Animation<TextureRegion> leverAnimation)
 	{
 		super(door, texturePassage, textureLeft, textureRight, leverAnimation);
@@ -22,16 +22,17 @@ public class AnimatedDoor2D extends AbstractAnimatedDoor2D
 	@Override
 	public void updateElement(Object element)
 	{
-		
-		if (this.door.isVisible() &&  (this.door.getState() == Door.CLOSING || this.door.getState() == Door.OPENING))
+		float deltaTime = Game.getInstance().getDelta();
+
+		if (Game.getInstance().getState() == Game.ST_GAME_ENTERING
+				&& deltaTime > Game.getInstance().getTimeToTransicion() / 2)
 		{
-			float deltaTime = this.door.getTime();
-			if (this.door.getState() == Door.CLOSING)
-			{
-				deltaTime = 1 - deltaTime;
-			}
-			this.animateElements(deltaTime);
-		}
+			deltaTime = Game.getInstance().getTimeToTransicion() - deltaTime;
+		} else if (Game.getInstance().getState() == Game.ST_GAME_EXITING)
+			deltaTime = Game.getInstance().getTimeToTransicion() / 2 - deltaTime;
+
+		this.animateElements(deltaTime);
+
 	}
 
 	@Override

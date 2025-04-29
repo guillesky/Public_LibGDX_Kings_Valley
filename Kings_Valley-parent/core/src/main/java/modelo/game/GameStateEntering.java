@@ -2,19 +2,18 @@ package modelo.game;
 
 public class GameStateEntering extends GameState
 {
-    private float delta = 0;
 
-    public GameStateEntering()
-    {
-	super();
-    }
+	public GameStateEntering()
+	{
+		super(Game.ST_GAME_ENTERING);
+	}
 
-    @Override
-    public void updateframe(float deltaTime)
-    {
-	this.delta += deltaTime;
-	if (this.delta>=0.2)
-	    this.game.stateGame=new GameStatePlaying();
-    }
+	@Override
+	public void updateframe(float deltaTime)
+	{
+		super.updateframe(deltaTime);
+		if (this.game.getDelta() >= this.game.getTimeToTransicion())
+			this.game.stateGame = new GameStatePlaying();
+	}
 
 }

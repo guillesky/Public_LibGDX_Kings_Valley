@@ -301,4 +301,5 @@ public class Player extends GameCharacter
 	return super.getPyramid();
     }
 
+	
 }

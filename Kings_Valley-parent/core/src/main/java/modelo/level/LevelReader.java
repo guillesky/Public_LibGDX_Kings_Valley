@@ -89,12 +89,8 @@ public class LevelReader
 	this.generateMummys(dificultLevel);
 	Door door = this.getDoorIn(id, doorFrom);
 
-	float y = door.getPassage().y;
-	float x = door.getPassage().x + Config.getInstance().getLevelTileWidthUnits();
-
-	this.player = new Player(x, y, this.pyramid);
-
-	Level level = new Level(id, pyramid, mummys, player);
+	
+	Level level = new Level(id, pyramid, mummys,door);
 	return level;
 
     }
