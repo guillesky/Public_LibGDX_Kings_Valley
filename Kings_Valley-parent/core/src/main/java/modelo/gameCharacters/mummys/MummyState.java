@@ -16,5 +16,7 @@ public MummyState(Mummy mummy,int state)
 
 public abstract void update(float deltaTime, Player player);
 
+protected abstract boolean isDanger();
+
 
 }

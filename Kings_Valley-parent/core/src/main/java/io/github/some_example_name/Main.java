@@ -18,127 +18,130 @@ import vista2D.TileMapGrafica2D;
  */
 public class Main implements IMyApplicationnListener
 {
-    private AssetManager manager;
-    private IMyApplicationnListener grafica;
+	private AssetManager manager;
+	private IMyApplicationnListener grafica;
 
-    @Override
-    public void create()
-    {
-	manager = new AssetManager();
-	manager.setLoader(TiledMap.class, new TmxMapLoader());
-	for (int i = 1; i <= 15; i++)
-	    manager.load(Constantes.levelFileName.get(i), TiledMap.class);
-	grafica = new TileMapGrafica2D(manager);
-	/*
-	 * Thread th = new Thread(new Runnable() {
-	 * 
-	 * @Override public void run() { float progress; do { progress =
-	 * manager.getProgress(); System.out.println(progress);
-	 * 
-	 * } while (progress < 1.0);
-	 * 
-	 * } }); th.start();
-	 */
-	manager.finishLoading();
-
-	Game.getInstance().setInterfaz(grafica);
-
-	for (int i = 1; i <= 15; i++)
+	@Override
+	public void create()
 	{
-	    TiledMap map = manager.get(Constantes.levelFileName.get(i), TiledMap.class);
-	    Game.getInstance().addMap(i, map);
+		manager = new AssetManager();
+		/*
+		 * manager.setLoader(TiledMap.class, new TmxMapLoader());
+		 * 
+		 * for (int i = 1; i <= 15; i++) manager.load(Constantes.levelFileName.get(i),
+		 * TiledMap.class);
+		 */
+		grafica = new TileMapGrafica2D(manager);
+		/*
+		 * Thread th = new Thread(new Runnable() {
+		 * 
+		 * @Override public void run() { float progress; do { progress =
+		 * manager.getProgress(); System.out.println(progress);
+		 * 
+		 * } while (progress < 1.0);
+		 * 
+		 * } }); th.start();
+		 */
+		manager.finishLoading();
+
+		Game.getInstance().setInterfaz(grafica);
+/*
+		for (int i = 1; i <= 15; i++)
+		{
+			TiledMap map = manager.get(Constantes.levelFileName.get(i), TiledMap.class);
+			Game.getInstance().addMap(i, map);
+		}*/
+		Game.getInstance().start();
+		this.grafica.create();
+		/*
+		 * TileMapGrafica2D lalala=(TileMapGrafica2D) this.grafica;
+		 * lalala.changeTileSet("pics/tiles2x.png");
+		 */
 	}
-	Game.getInstance().start();
-	this.grafica.create();
-/*	TileMapGrafica2D lalala=(TileMapGrafica2D) this.grafica;
-	lalala.changeTileSet("pics/tiles2x.png");*/
-    }
 
-    @Override
-    public void render()
-    {
-	this.updateInput();
-	this.grafica.render();
-    }
+	@Override
+	public void render()
+	{
+		this.updateInput();
+		this.grafica.render();
+	}
 
-    @Override
-    public void dispose()
-    {
-	manager.dispose();
-	this.grafica.dispose();
-	Game.getInstance().dispose();
+	@Override
+	public void dispose()
+	{
+		manager.dispose();
+		this.grafica.dispose();
+		Game.getInstance().dispose();
 
-    }
+	}
 
-    private void updateInput()
-    {
-	Controls controles = Game.getInstance().getControles();
+	private void updateInput()
+	{
+		Controls controles = Game.getInstance().getControles();
 
-	float x = 0, y = 0;
+		float x = 0, y = 0;
 
-	Vector2 aux;
-	if (Gdx.input.isKeyPressed(Input.Keys.UP))
-	    y += 1;
-	if (Gdx.input.isKeyPressed(Input.Keys.DOWN))
-	    y -= 1;
-	if (Gdx.input.isKeyPressed(Input.Keys.RIGHT))
-	    x += 1;
-	if (Gdx.input.isKeyPressed(Input.Keys.LEFT))
-	    x -= 1;
-	aux = new Vector2(x, y);
+		Vector2 aux;
+		if (Gdx.input.isKeyPressed(Input.Keys.UP))
+			y += 1;
+		if (Gdx.input.isKeyPressed(Input.Keys.DOWN))
+			y -= 1;
+		if (Gdx.input.isKeyPressed(Input.Keys.RIGHT))
+			x += 1;
+		if (Gdx.input.isKeyPressed(Input.Keys.LEFT))
+			x -= 1;
+		aux = new Vector2(x, y);
 
-	controles.setNuevoRumbo(aux);
-	controles.processKey(Input.Keys.SPACE);
-	controles.processKey(Input.Keys.F);
-	controles.processKey(Input.Keys.N);
-	controles.processKey(Input.Keys.O);
-	
-	controles.processKey(Input.Keys.P);
+		controles.setNuevoRumbo(aux);
+		controles.processKey(Input.Keys.SPACE);
+		controles.processKey(Input.Keys.F);
+		controles.processKey(Input.Keys.N);
+		controles.processKey(Input.Keys.O);
 
-	Game.getInstance().updateframe(Gdx.graphics.getDeltaTime());
+		controles.processKey(Input.Keys.P);
 
-    }
+		Game.getInstance().updateframe(Gdx.graphics.getDeltaTime());
 
-    @Override
-    public void addGraphicElement(Object element)
-    {
+	}
 
-    }
+	@Override
+	public void addGraphicElement(Object element)
+	{
 
-    @Override
-    public void removeGraphicElement(Object element)
-    {
+	}
 
-    }
+	@Override
+	public void removeGraphicElement(Object element)
+	{
 
-    @Override
-    public void resize(int width, int height)
-    {
-	this.grafica.resize(width, height);
+	}
 
-    }
+	@Override
+	public void resize(int width, int height)
+	{
+		this.grafica.resize(width, height);
 
-    @Override
-    public void pause()
-    {
-	this.grafica.pause();
+	}
 
-    }
+	@Override
+	public void pause()
+	{
+		this.grafica.pause();
 
-    @Override
-    public void resume()
-    {
-	this.grafica.resume();
+	}
 
-    }
+	@Override
+	public void resume()
+	{
+		this.grafica.resume();
+
+	}
 
 	@Override
 	public void reset()
 	{
 		// TODO Auto-generated method stub
-		
+
 	}
-    
-    
 
 }

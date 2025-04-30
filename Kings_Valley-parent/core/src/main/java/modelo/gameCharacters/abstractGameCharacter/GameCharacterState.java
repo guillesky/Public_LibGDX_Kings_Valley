@@ -238,7 +238,7 @@ public abstract class GameCharacterState
     private boolean isCellSolid(float x, float y)
     {
 	TiledMapTileLayer.Cell cell = this.gameCharacter.pyramid.getCell(x, y);
-	return cell != null && cell.getTile().getId() < 220;
+	return cell != null && cell.getTile().getId() < Constantes.FIRST_UNSOLID_TILE;
     }
 
     private void corrigeDirecciones(int direction, Vector2 vectMove)

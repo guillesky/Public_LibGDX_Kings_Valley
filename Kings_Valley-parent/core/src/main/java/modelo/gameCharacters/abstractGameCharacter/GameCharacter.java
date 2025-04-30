@@ -232,7 +232,7 @@ public abstract class GameCharacter extends LevelObject
 	return pyramid;
     }
 
-    protected boolean isInStair() 
+    public boolean isInStair() 
     {return this.gameCharacterState.isInStair();
 	
     }

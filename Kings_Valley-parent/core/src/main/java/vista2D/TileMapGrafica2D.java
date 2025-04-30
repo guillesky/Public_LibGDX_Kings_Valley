@@ -62,7 +62,7 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 	private HashMap<TrapMechanism, AnimatedTrapKV2> hashMapTrapAnimation = new HashMap<TrapMechanism, AnimatedTrapKV2>();
 	private Array<AnimatedTrapKV2> animatedTraps = new Array<AnimatedTrapKV2>();
 	private ArrayList<AbstractAnimatedDoor2D> animatedDoor2D = new ArrayList<AbstractAnimatedDoor2D>();
-	private SpriteBatch spriteBatchDebug = new SpriteBatch();
+	private SpriteBatch spriteBatch = new SpriteBatch();
 	private BitmapFont font = new BitmapFont();
 
 	private int tileWidth;
@@ -184,7 +184,7 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 		this.hashMapTrapAnimation = new HashMap<TrapMechanism, AnimatedTrapKV2>();
 		this.animatedTraps = new Array<AnimatedTrapKV2>();
 		this.animatedDoor2D = new ArrayList<AbstractAnimatedDoor2D>();
-		this.spriteBatchDebug = new SpriteBatch();
+		this.spriteBatch = new SpriteBatch();
 		this.font = new BitmapFont();
 
 		this.prepareUI();
@@ -406,19 +406,19 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		camera.update();
 		this.calculateCamera();
-		spriteBatchDebug.setProjectionMatrix(camera.combined);
+		spriteBatch.setProjectionMatrix(camera.combined);
 
 		renderer.setView(camera);
 		renderer.render();
 
-		this.spriteBatchDebug.begin();
+		this.spriteBatch.begin();
 
 		ArrayIterator<AnimatedTrapKV2> it3 = this.animatedTraps.iterator();
 		while (it3.hasNext())
 		{
 			AnimatedTrapKV2 animatedTrapKV2 = it3.next();
 			animatedTrapKV2.updateElement(Game.getInstance().getDelta());
-			animatedTrapKV2.getSprite().draw(spriteBatchDebug);
+			animatedTrapKV2.getSprite().draw(spriteBatch);
 		}
 		if (Game.getInstance().getState() == Game.ST_GAME_PLAYING)
 		{
@@ -427,7 +427,7 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 			{
 				AbstractAnimatedDoor2D animatedDoor = itDoors.next();
 				animatedDoor.updateElement(null);
-				animatedDoor.draw(spriteBatchDebug);
+				animatedDoor.draw(spriteBatch);
 			}
 		}
 		ArrayIterator<MySpriteKV> it = this.instances.iterator();
@@ -435,7 +435,7 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 		{
 			MySpriteKV mySpriteKV = it.next();
 			mySpriteKV.updateElement(null);
-			mySpriteKV.draw(spriteBatchDebug);
+			mySpriteKV.draw(spriteBatch);
 		}
 
 		ArrayIterator<AnimatedEntity2D> it2 = this.animatedEntities.iterator();
@@ -443,29 +443,29 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 		{
 			AnimatedEntity2D animatedEntity2D = it2.next();
 			animatedEntity2D.updateElement(Game.getInstance().getDelta());
-			animatedEntity2D.render(spriteBatchDebug);
+			animatedEntity2D.render(spriteBatch);
 		}
 
 		if (Game.getInstance().getState() == Game.ST_GAME_PLAYING)
 		{
 
 			this.playerAnimated2D.updateElement(Game.getInstance().getDelta());
-			this.playerAnimated2D.render(spriteBatchDebug);
+			this.playerAnimated2D.render(spriteBatch);
 		} else
 		{
 			this.animatedEnteringDoor2D.updateElement(null);
-			this.animatedEnteringDoor2D.drawBack(spriteBatchDebug);
+			this.animatedEnteringDoor2D.drawBack(spriteBatch);
 			this.playerAnimated2D.updateElement(Game.getInstance().getDelta());
 			if ((Game.getInstance().getState() == Game.ST_GAME_ENTERING
 					&& Game.getInstance().getDelta() <= Game.getInstance().getTimeToTransicion() / 2)
 					|| Game.getInstance().getState() == Game.ST_GAME_EXITING)
 			{
-				this.playerAnimated2D.render(spriteBatchDebug);
-				this.animatedEnteringDoor2D.drawFront(spriteBatchDebug);
+				this.playerAnimated2D.render(spriteBatch);
+				this.animatedEnteringDoor2D.drawFront(spriteBatch);
 			} else
 			{
-				this.animatedEnteringDoor2D.drawFront(spriteBatchDebug);
-				this.playerAnimated2D.render(spriteBatchDebug);
+				this.animatedEnteringDoor2D.drawFront(spriteBatch);
+				this.playerAnimated2D.render(spriteBatch);
 
 			}
 
@@ -474,17 +474,17 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 		if (Game.getInstance().isPaused())
 		{
 			this.cameraUI.update();
-			spriteBatchDebug.setProjectionMatrix(cameraUI.combined);
+			spriteBatch.setProjectionMatrix(cameraUI.combined);
 			GlyphLayout layout = new GlyphLayout(font, Messages.GAME_PAUSED.getValue());
 			float x = (Gdx.graphics.getWidth() - layout.width) / 2;
 			float y = (Gdx.graphics.getHeight() + layout.height) / 2;
-			spriteBatchDebug.setColor(0, 0, 0, 0.5f); // negro con 50% opacidad
-			spriteBatchDebug.draw(pixel, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-			font.draw(spriteBatchDebug, layout, x, y);
+			spriteBatch.setColor(0, 0, 0, 0.5f); // negro con 50% opacidad
+			spriteBatch.draw(pixel, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+			font.draw(spriteBatch, layout, x, y);
 
 		}
 
-		spriteBatchDebug.end();
+		spriteBatch.end();
 		// this.rectaglesRenderDebug.render(camera.combined);
 	}
 
@@ -506,7 +506,7 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 	{
 		this.renderer.dispose();
 		this.manager.dispose();
-		this.spriteBatchDebug.dispose();
+		this.spriteBatch.dispose();
 		if (this.rectaglesRenderDebug != null)
 			this.rectaglesRenderDebug.dispose();
 

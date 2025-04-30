@@ -24,4 +24,10 @@ public class MummyStateAppearing extends MummyState
 
     }
 
+	@Override
+	protected boolean isDanger()
+	{
+	return false;
+	}
+
 }

@@ -24,9 +24,7 @@ public class GameStateExiting extends GameState
 		if (this.game.getDelta() >= this.game.getTimeToTransicion() / 2)
 		{
 			this.game.goToLevel(door);
-			this.game.getInterfaz().reset();
-			this.game.stateGame = new GameStateEntering();
-
+			
 		}
 	}
 

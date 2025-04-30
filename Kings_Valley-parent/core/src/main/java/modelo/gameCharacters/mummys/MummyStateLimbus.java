@@ -28,4 +28,11 @@ public class MummyStateLimbus extends MummyState
 	}
     }
 
+    
+    
+    @Override
+	protected boolean isDanger()
+	{
+	return false;
+	}
 }

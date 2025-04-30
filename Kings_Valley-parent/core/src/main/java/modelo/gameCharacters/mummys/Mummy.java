@@ -292,5 +292,9 @@ public abstract class Mummy extends GameCharacter
 		this.resetStress();
 
 	}
+	public boolean isDanger() 
+	{
+		return this.mummyState.isDanger();
+	}
 
 }

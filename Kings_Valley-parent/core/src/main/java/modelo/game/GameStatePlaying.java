@@ -10,6 +10,7 @@ import modelo.level.door.Door;
 public class GameStatePlaying extends GameState
 {
 	private boolean readyToExit = false;
+	private boolean godMode=false;
 
 	public GameStatePlaying()
 	{
@@ -41,6 +42,11 @@ public class GameStatePlaying extends GameState
 			if(door!=null && controles.getNuevoRumbo().y>0)
 				this.game.stateGame=new GameStateExiting( door);
 				
+		}
+		
+		if(!this.godMode && currentLevel.checkPlayerDie()) 
+		{
+			this.game.stateGame=new GameStateDying();
 		}
 		// CHEATS FOR DEBUG
 		if (controles.getShot(Input.Keys.F))

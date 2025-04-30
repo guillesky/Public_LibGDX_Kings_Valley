@@ -25,4 +25,10 @@ public class MummyStateDying extends MummyState
 
     }
 
+    
+    @Override
+	protected boolean isDanger()
+	{
+	return false;
+	}
 }

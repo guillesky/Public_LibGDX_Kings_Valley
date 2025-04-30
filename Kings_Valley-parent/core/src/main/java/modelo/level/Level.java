@@ -3,6 +3,7 @@ package modelo.level;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import modelo.gameCharacters.abstractGameCharacter.GameCharacter;
 import modelo.gameCharacters.mummys.Mummy;
 import modelo.gameCharacters.player.Player;
 import modelo.level.dagger.Dagger;
@@ -18,7 +19,6 @@ public class Level
 	private Player player = null;
 	private int id;
 	private Door doorIn;
-	
 
 	public Level(int id, Pyramid pyramid, ArrayList<Mummy> mummys, Door door)
 	{
@@ -171,4 +171,34 @@ public class Level
 	{
 		return doorIn;
 	}
+
+	public boolean checkPlayerDie()
+	{
+
+		Iterator<Mummy> it = this.mummys.iterator();
+
+		Mummy mummy = null;
+		if (it.hasNext())
+			do
+			{
+				mummy = it.next();
+			} while (it.hasNext() && !(this.playerCoincideMummy(mummy) && this.player.isColision(mummy)));
+
+		return (this.playerCoincideMummy(mummy) && this.player.isColision(mummy));
+	}
+
+	private boolean playerCoincideMummy(Mummy mummy)
+	{
+		boolean bothInStair = (this.player.isInStair()&& mummy.isInStair());
+		boolean bothNotInStair = (!this.player.isInStair()&& !mummy.isInStair());
+		
+		return (mummy.isDanger() && (bothInStair || bothNotInStair));
+
+	}
+
+	public void dispose()
+	{
+		this.pyramid.dispose();
+	}
+
 }

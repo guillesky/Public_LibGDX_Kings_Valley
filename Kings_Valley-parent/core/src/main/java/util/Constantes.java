@@ -67,6 +67,7 @@ public class Constantes
     public static final HashMap<Integer, String> identificacion = new HashMap<Integer, String>();
     public static final HashMap<String, Integer> stringToInteger = new HashMap<String, Integer>();
     public static final HashMap<Integer, String> levelFileName = new HashMap<Integer, String>();
+	public static final int FIRST_UNSOLID_TILE = 220;
 	
     
 	static
