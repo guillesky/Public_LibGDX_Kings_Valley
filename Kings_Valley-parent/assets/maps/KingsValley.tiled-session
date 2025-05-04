@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "level_03.tmx",
+    "activeFile": "C:/Users/Guille/git/LibGDX_Kings_Valley/Kings_Valley_Converter/new_level_04.tmx",
     "expandedProjectPaths": [
         "."
     ],
@@ -14,10 +14,136 @@
             "selectedLayer": 0,
             "viewCenter": {
                 "x": 159.9624060150376,
-                "y": 56.390977443609025
+                "y": 56.578947368421055
             }
         },
         "C:/Users/Guille/git/LibGDX_Kings_Valley/Kings_Valley_Converter/assets/levels/tiles.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Guille/git/LibGDX_Kings_Valley/Kings_Valley_Converter/level_01.tmx": {
+            "scale": 2.6599999999999997,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 159.9624060150376,
+                "y": 109.9624060150376
+            }
+        },
+        "C:/Users/Guille/git/LibGDX_Kings_Valley/Kings_Valley_Converter/level_01_new.tmx": {
+            "scale": 2.6599999999999997,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 159.9624060150376,
+                "y": 109.77443609022558
+            }
+        },
+        "C:/Users/Guille/git/LibGDX_Kings_Valley/Kings_Valley_Converter/new_level_01.tmx": {
+            "scale": 2.87671875,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 160.0782141111292,
+                "y": 109.8473738525881
+            }
+        },
+        "C:/Users/Guille/git/LibGDX_Kings_Valley/Kings_Valley_Converter/new_level_02.tmx": {
+            "scale": 1.5,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 342.99999999999994,
+                "y": 115.33333333333331
+            }
+        },
+        "C:/Users/Guille/git/LibGDX_Kings_Valley/Kings_Valley_Converter/new_level_03.tmx": {
+            "scale": 2.87671875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 160.0782141111292,
+                "y": 109.8473738525881
+            }
+        },
+        "C:/Users/Guille/git/LibGDX_Kings_Valley/Kings_Valley_Converter/new_level_04.tmx": {
+            "scale": 1.438359375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 320.1564282222584,
+                "y": 109.8473738525881
+            }
+        },
+        "C:/Users/Guille/git/LibGDX_Kings_Valley/Kings_Valley_Converter/new_level_05.tmx": {
+            "scale": 2.87671875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 160.0782141111292,
+                "y": 110.02118298843081
+            }
+        },
+        "C:/Users/Guille/git/LibGDX_Kings_Valley/Kings_Valley_Converter/new_level_06.tmx": {
+            "scale": 1.438359375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 320.1564282222584,
+                "y": 110.19499212427351
+            }
+        },
+        "C:/Users/Guille/git/LibGDX_Kings_Valley/Kings_Valley_Converter/new_level_07.tmx": {
+            "scale": 2.87671875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 160.0782141111292,
+                "y": 110.02118298843081
+            }
+        },
+        "C:/Users/Guille/git/LibGDX_Kings_Valley/Kings_Valley_Converter/new_level_08.tmx": {
+            "scale": 1.438359375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 320.1564282222584,
+                "y": 110.19499212427351
+            }
+        },
+        "C:/Users/Guille/git/LibGDX_Kings_Valley/Kings_Valley_Converter/new_level_09.tmx": {
+            "scale": 3,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 159.83333333333331,
+                "y": 109.83333333333331
+            }
+        },
+        "C:/Users/Guille/git/LibGDX_Kings_Valley/Kings_Valley_Converter/new_level_11.tmx": {
+            "scale": 2.87671875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 160.0782141111292,
+                "y": 110.02118298843081
+            }
+        },
+        "C:/Users/Guille/git/LibGDX_Kings_Valley/Kings_Valley_Converter/new_level_12.tmx": {
+            "scale": 0.5,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 319,
+                "y": 109
+            }
+        },
+        "C:/Users/Guille/git/LibGDX_Kings_Valley/Kings_Valley_Converter/new_level_14.tmx": {
+            "scale": 1.438359375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 320.1564282222584,
+                "y": 110.19499212427351
+            }
+        },
+        "C:/Users/Guille/git/LibGDX_Kings_Valley/Kings_Valley_Converter/new_level_15.tmx": {
+            "scale": 2.87671875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 160.0782141111292,
+                "y": 110.02118298843081
+            }
+        },
+        "C:/Users/Guille/git/LibGDX_Kings_Valley/Kings_Valley_Converter/tiles.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Guille/git/LibGDX_Kings_Valley/Kings_Valley_Converter/tiles_new.tsx": {
             "scaleInDock": 1
         },
         "C:/Users/Guille/tiles2.tsx": {
@@ -312,7 +438,7 @@
             "selectedLayer": 3,
             "viewCenter": {
                 "x": 159.75,
-                "y": 109.5
+                "y": 109.75
             }
         },
         "level_01_REAL.tmx": {
@@ -328,7 +454,7 @@
             "selectedLayer": 3,
             "viewCenter": {
                 "x": 319.5,
-                "y": -33
+                "y": 109.5
             }
         },
         "level_03.tmx": {
@@ -336,7 +462,7 @@
             "selectedLayer": 3,
             "viewCenter": {
                 "x": 160.04784688995215,
-                "y": 110.04784688995218
+                "y": 109.80861244019141
             }
         },
         "level_04.tmx": {
@@ -391,8 +517,8 @@
             "scale": 1.5,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 311.66666666666663,
-                "y": 18
+                "x": 319.66666666666663,
+                "y": 109.66666666666663
             }
         },
         "level_11.tmx": {
@@ -522,7 +648,21 @@
         "level_02.tmx",
         "level_04.tmx",
         "D:/temp/sin nombre.tmx",
-        "C:/Users/Guille/git/LibGDX_Kings_Valley/Kings_Valley_Converter/assets/levels/level_01.tmx"
+        "C:/Users/Guille/git/LibGDX_Kings_Valley/Kings_Valley_Converter/assets/levels/level_01.tmx",
+        "C:/Users/Guille/git/LibGDX_Kings_Valley/Kings_Valley_Converter/level_01.tmx",
+        "C:/Users/Guille/git/LibGDX_Kings_Valley/Kings_Valley_Converter/new_level_14.tmx",
+        "C:/Users/Guille/git/LibGDX_Kings_Valley/Kings_Valley_Converter/new_level_12.tmx",
+        "C:/Users/Guille/git/LibGDX_Kings_Valley/Kings_Valley_Converter/new_level_01.tmx",
+        "C:/Users/Guille/git/LibGDX_Kings_Valley/Kings_Valley_Converter/new_level_08.tmx",
+        "C:/Users/Guille/git/LibGDX_Kings_Valley/Kings_Valley_Converter/new_level_15.tmx",
+        "C:/Users/Guille/git/LibGDX_Kings_Valley/Kings_Valley_Converter/new_level_02.tmx",
+        "C:/Users/Guille/git/LibGDX_Kings_Valley/Kings_Valley_Converter/new_level_03.tmx",
+        "C:/Users/Guille/git/LibGDX_Kings_Valley/Kings_Valley_Converter/new_level_04.tmx",
+        "C:/Users/Guille/git/LibGDX_Kings_Valley/Kings_Valley_Converter/new_level_05.tmx",
+        "C:/Users/Guille/git/LibGDX_Kings_Valley/Kings_Valley_Converter/new_level_06.tmx",
+        "C:/Users/Guille/git/LibGDX_Kings_Valley/Kings_Valley_Converter/new_level_07.tmx",
+        "C:/Users/Guille/git/LibGDX_Kings_Valley/Kings_Valley_Converter/new_level_09.tmx",
+        "C:/Users/Guille/git/LibGDX_Kings_Valley/Kings_Valley_Converter/new_level_11.tmx"
     ],
     "project": "KingsValley.tiled-project",
     "recentFiles": [
@@ -530,14 +670,14 @@
         "tiles.tsx",
         "level_15.tmx",
         "level_13.tmx",
-        "C:/Users/Guille/git/LibGDX_Kings_Valley/Kings_Valley_Converter/assets/levels/level_01.tmx",
-        "D:/temp/sin nombre.tmx",
-        "level_04.tmx",
-        "level_02.tmx",
-        "level_14.tmx",
-        "level_12.tmx",
-        "level_11.tmx",
-        "level_10.tmx"
+        "level_03.tmx",
+        "level_06.tmx",
+        "level_05.tmx",
+        "level_07.tmx",
+        "level_08.tmx",
+        "level_09.tmx",
+        "level_10.tmx",
+        "level_11.tmx"
     ],
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {
