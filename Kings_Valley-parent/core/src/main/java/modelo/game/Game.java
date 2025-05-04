@@ -22,22 +22,31 @@ public class Game
 	public static final int ST_GAME_ENTERING = 1;
 	public static final int ST_GAME_EXITING = 2;
 	public static final int ST_GAME_DYING = 3;
-
 	private static Game instance = new Game();
 	private Controls controles = new Controls();
 	private HashMap<Integer, Boolean> completedLevels = new HashMap<Integer, Boolean>();
 	private boolean paused = false;
-
 	private Level level = null;
-
 	protected int idCurrentLevel = 1;
 	private int dificult = 0;
-
 	private float delta = 0;
 	private IGrafica interfaz = null;
 	protected GameState stateGame;
 	protected int state;
 	private float timeToTransicion = 2f;
+	private int score=0;
+
+	
+	public void incScore(int cant) {
+	    this.score+=cant;
+	}
+	
+	
+	public int getScore()
+	{
+	    return score;
+	}
+
 
 	public IGrafica getInterfaz()
 	{
@@ -51,7 +60,7 @@ public class Game
 
 	private Game()
 	{
-		for (int i = 0; i < 15; i++)
+		for (int i = 1; i <= 15; i++)
 		{
 			this.completedLevels.put(i, false);
 		}

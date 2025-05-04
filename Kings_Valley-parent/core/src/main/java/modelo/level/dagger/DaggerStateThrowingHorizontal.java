@@ -43,7 +43,9 @@ public class DaggerStateThrowingHorizontal extends DaggerState
 				&& mummy.getState() != Mummy.ST_LIMBUS && dagger.isColision(mummy))
 		{
 			dagger.setDaggerState(new DaggerStateBouncing(dagger));
+			
 			mummy.die();
+			
 		}
 
 		LevelObject giratory = null;

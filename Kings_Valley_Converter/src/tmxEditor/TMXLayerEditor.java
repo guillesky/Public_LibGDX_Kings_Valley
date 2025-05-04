@@ -11,52 +11,170 @@ import java.io.File;
 
 public class TMXLayerEditor
 {
-    public static void main(String[] args) throws Exception
+    public static void main(String[] args)
     {
-	File inputFile = new File("level_01.tmx");
-
-	// Parsear el XML
-	DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-	DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-	Document doc = dBuilder.parse(inputFile);
-	doc.getDocumentElement().normalize();
-
-	// Buscar todos los nodos <layer>
-	NodeList layerList = doc.getElementsByTagName("layer");
-
-	for (int i = 0; i < layerList.getLength(); i++)
-	{
-	    Element layer = (Element) layerList.item(i);
-	    NodeList dataList = layer.getElementsByTagName("data");
-	    if (dataList.getLength() > 0)
-	    {
-		Element data = (Element) dataList.item(0);
-		String encoding = data.getAttribute("encoding");
-
-		if ("csv".equals(encoding))
-		{
-		    String csv = data.getTextContent().trim();
-		    // Reemplazar todos los 145 por 78
-		    String modifiedCsv = replaceTileValues(csv, 75, 375);
-		    data.setTextContent(modifiedCsv);
-		} else
-		{
-		    System.out.println("La capa usa otro tipo de codificación: " + encoding);
-		}
-	    }
-	}
-
-	// Guardar el archivo
-	TransformerFactory transformerFactory = TransformerFactory.newInstance();
-	Transformer transformer = transformerFactory.newTransformer();
-	DOMSource source = new DOMSource(doc);
-	StreamResult result = new StreamResult(new File("mapa_modificado.tmx"));
-	transformer.transform(source, result);
-
-	System.out.println("Archivo modificado guardado como mapa_modificado.tmx");
+	String[] fileNames =
+	{ "level_01.tmx", "level_02.tmx", "level_03.tmx", "level_04.tmx", "level_05.tmx", "level_06.tmx",
+		"level_07.tmx", "level_08.tmx", "level_09.tmx", "level_10.tmx", "level_11.tmx", "level_12.tmx",
+		"level_13.tmx", "level_14.tmx", "level_15.tmx" };
+	for (int i = 0; i < fileNames.length; i++)
+	    convertFile(fileNames[i]);
     }
 
-    private static String replaceTileValues(String csv, int oldValue, int newValue)
+    public static void convertFile(String fileName)
+    {
+	try
+	{
+	    File inputFile = new File(fileName);
+	    // Parsear el XML
+	    DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+	    DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+	    Document doc = dBuilder.parse(inputFile);
+	    doc.getDocumentElement().normalize();
+
+	    NodeList tilesetList = doc.getElementsByTagName("tileset");
+
+	    for (int i = 0; i < tilesetList.getLength(); i++) {
+	        Element tileset = (Element) tilesetList.item(i);
+	        if (tileset.hasAttribute("source")) {
+	            String oldSource = tileset.getAttribute("source");
+	            if ("tiles.tsx".equals(oldSource)) {
+	                tileset.setAttribute("source", "tiles_new.tsx");
+	            }
+	        }
+	    }
+	    
+	    
+	    
+	    
+	    // Buscar todos los nodos <layer>
+	    NodeList layerList = doc.getElementsByTagName("layer");
+
+	    for (int i = 0; i < layerList.getLength(); i++)
+	    {
+		Element layer = (Element) layerList.item(i);
+		NodeList dataList = layer.getElementsByTagName("data");
+		if (dataList.getLength() > 0)
+		{
+		    Element data = (Element) dataList.item(0);
+		    String encoding = data.getAttribute("encoding");
+
+		    if ("csv".equals(encoding))
+		    {
+			String csv = data.getTextContent().trim();
+
+			String modifiedCsv = replaceTileValues(csv);
+			data.setTextContent(modifiedCsv);
+		    } else
+		    {
+			System.out.println("La capa usa otro tipo de codificación: " + encoding);
+		    }
+		}
+	    }
+
+	    // Modificar objetos: 
+	    /*
+	     * 
+	     * 
+	     */
+	    NodeList objectGroupList = doc.getElementsByTagName("objectgroup");
+
+	    for (int i = 0; i < objectGroupList.getLength(); i++)
+	    {
+		Element objectGroup = (Element) objectGroupList.item(i);
+		NodeList objectList = objectGroup.getElementsByTagName("object");
+
+		for (int j = 0; j < objectList.getLength(); j++)
+		{
+		    Element object = (Element) objectList.item(j);
+		    if (object.hasAttribute("gid"))
+		    {
+			int gid = Integer.parseInt(object.getAttribute("gid"));
+			switch (gid)
+			{
+			case 176:
+			{
+			    object.setAttribute("gid", "137");
+			    changeP0(object, "137");
+			    break;
+			}
+			case 177:
+			{
+			    object.setAttribute("gid", "138");
+			    changeP0(object, "138");
+			    break;
+			}
+			case 114:
+			{
+			    object.setAttribute("gid", "130");
+			    changeP0(object, "130");
+			    break;
+			}
+			case 134:
+			case 141:
+			case 148:
+			case 155:
+			case 162:
+			case 169:
+			{
+			    int aux = gid - 120;
+			    aux = aux / 7;
+			    aux += 129;
+			    object.setAttribute("gid", String.valueOf(aux));
+			    changeP0(object, String.valueOf(aux));
+			    break;
+			}
+			case 246:
+			{
+			    object.setAttribute("gid", "107");
+			    break;
+			}
+			case 248:
+			{
+			    object.setAttribute("gid", "127");
+			    break;
+			}
+			case 254:
+			{
+			    object.setAttribute("gid", "128");
+			    break;
+			}
+			case 255:
+			{
+			    object.setAttribute("gid", "129");
+			    break;
+			}
+			
+			
+			
+			}
+			if(gid>240&& gid < 246){
+			    int aux = gid - 119;
+			    
+			    object.setAttribute("gid", String.valueOf(aux));
+			   
+			   
+			}
+
+		    }
+		}
+	    }
+
+	    // Guardar el archivo
+	    TransformerFactory transformerFactory = TransformerFactory.newInstance();
+	    Transformer transformer = transformerFactory.newTransformer();
+	    DOMSource source = new DOMSource(doc);
+	    StreamResult result = new StreamResult(new File("new_" + fileName));
+	    transformer.transform(source, result);
+
+	    System.out.println("Archivo modificado guardado como mapa_modificado.tmx");
+	} catch (Exception e)
+	{
+	    System.out.println(e.getMessage());
+	}
+    }
+
+    private static String replaceTileValues(String csv)
     {
 	String[] tiles = csv.split(",");
 	StringBuilder modified = new StringBuilder();
@@ -66,10 +184,47 @@ public class TMXLayerEditor
 	    if (!tileStr.isEmpty())
 	    {
 		int tile = Integer.parseInt(tileStr);
-		if (tile == oldValue)
+		if (20 < tile && tile < 40)
 		{
-		    tile = newValue;
+		    tile -= 2;
+		} else if (40 < tile && tile < 60)
+		{
+		    tile -= 4;
+		} else if (60 < tile && tile < 79)
+		{
+		    tile -= 6;
+		} else if (tile == 79 || tile == 80)
+		    tile += 23;
+		else if (80 < tile && tile < 99)
+		{
+		    tile -= 8;
+		} else if (tile == 99 || tile == 100)
+		    tile += 21;
+		else if (100 < tile && tile < 112)
+		{
+		    tile -= 10;
+		} else if (tile == 112 || tile == 113)
+		    tile -= 43;
+		else if (120 < tile && tile < 132)
+		{
+		    tile -= 12;
+		} else if (tile == 132 || tile == 133)
+		    tile -= 45;
+		else if (206 < tile && tile < 210)
+		{
+		    tile -= 103;
+		} else if (tile == 210 || tile == 211)
+		    tile -= 175;
+		else if (tile == 212 || tile == 213)
+		    tile -= 159;
+		else if (213 < tile && tile < 218)
+		{
+		    tile -= 75;
+		} else if (220 < tile)
+		{
+		    tile -= 220;
 		}
+
 		modified.append(tile);
 		if (i < tiles.length - 1)
 		{
@@ -79,4 +234,23 @@ public class TMXLayerEditor
 	}
 	return modified.toString();
     }
+
+    public static void changeP0(Element object, String value)
+    {
+	NodeList properties = object.getElementsByTagName("properties");
+	for (int k = 0; k < properties.getLength(); k++)
+	{
+	    Element props = (Element) properties.item(k);
+	    NodeList propList = props.getElementsByTagName("property");
+	    for (int p = 0; p < propList.getLength(); p++)
+	    {
+		Element prop = (Element) propList.item(p);
+		if ("p0".equals(prop.getAttribute("name")))
+		{
+		    prop.setAttribute("value", value);
+		}
+	    }
+	}
+    }
+
 }

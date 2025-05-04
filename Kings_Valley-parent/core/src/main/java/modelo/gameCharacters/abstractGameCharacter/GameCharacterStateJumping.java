@@ -15,7 +15,7 @@ public class GameCharacterStateJumping extends GameCharacterState
 	@Override
 	protected void moveFirstStep(Vector2 v, boolean b, float deltaTime)
 	{
-		this.gameCharacter.motionVector.y += this.gameCharacter.speedFall * deltaTime;
+	  	this.gameCharacter.motionVector.y += this.gameCharacter.speedFall * deltaTime;
 
 		if (this.gameCharacter.motionVector.y < this.gameCharacter.speedFall)
 			this.gameCharacter.motionVector.y = this.gameCharacter.speedFall;

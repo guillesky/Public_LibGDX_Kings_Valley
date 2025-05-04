@@ -81,22 +81,21 @@ public abstract class GameCharacter extends LevelObject
 
     protected void doJump()
     {
-	this.gameCharacterState = new GameCharacterStateJumping(this);
+	if (this.isFreeUp())
+	    this.gameCharacterState = new GameCharacterStateJumping(this);
     }
 
     public int getState()
     {
 	return state;
     }
-     
+
     public boolean isFeetColision(Rectangle another)
     {
 	this.feet.x = this.x + (this.width - Config.getInstance().getCharacterFeetHeight()) / 2;
 	this.feet.y = this.y;
 	return LevelObject.rectangleColision(this.feet, another);
     }
-
-   
 
     public float getAnimationDelta()
     {
@@ -110,6 +109,7 @@ public abstract class GameCharacter extends LevelObject
 
     private void checkOutLevel()
     {
+	float epsilon = .1f * Config.getInstance().getLevelTileWidthUnits();
 
 	if (this.x < Config.getInstance().getLevelTileWidthUnits())
 	{
@@ -117,11 +117,11 @@ public abstract class GameCharacter extends LevelObject
 	} else
 
 	{
-	    if (this.x > (this.pyramid.getMapWidthInTiles() - 1) * Config.getInstance().getLevelTileWidthUnits()
-		    - this.width)
+	    if (this.x + epsilon + this.width > (this.pyramid.getMapWidthInTiles() - 1)
+		    * Config.getInstance().getLevelTileWidthUnits())
 
 		this.x = (this.pyramid.getMapWidthInTiles() - 1) * Config.getInstance().getLevelTileWidthUnits()
-			- this.width;
+			- (this.width + epsilon);
 	}
 
     }
@@ -191,6 +191,13 @@ public abstract class GameCharacter extends LevelObject
 
     }
 
+    protected boolean isFreeUp()
+    {
+	return this.pyramid.getCell(this.x, this.y, 0, 2) == null
+		&& this.pyramid.getCell(this.x + this.width, this.y, 0, 2) == null;
+
+    }
+
     protected abstract boolean canPassGiratoryMechanism(GiratoryMechanism giratoryMechanism);
 
     protected abstract void passGiratoryMechanism(GiratoryMechanism giratoryMechanism);
@@ -232,9 +239,10 @@ public abstract class GameCharacter extends LevelObject
 	return pyramid;
     }
 
-    public boolean isInStair() 
-    {return this.gameCharacterState.isInStair();
-	
+    public boolean isInStair()
+    {
+	return this.gameCharacterState.isInStair();
+
     }
 
 }

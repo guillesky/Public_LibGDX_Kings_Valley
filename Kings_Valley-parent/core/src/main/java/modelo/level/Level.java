@@ -28,7 +28,7 @@ public class Level
 		this.doorIn = door;
 		this.id = id;
 		float y = door.getPassage().y;
-		float x = door.getPassage().x + Config.getInstance().getLevelTileWidthUnits();
+		float x = door.getPassage().x ;
 		this.player = new Player(x, y, this.pyramid);
 
 	}

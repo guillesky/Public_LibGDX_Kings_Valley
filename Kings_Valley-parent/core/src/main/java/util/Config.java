@@ -75,7 +75,7 @@ public class Config
 		this.levelTileHeightUnits = levelTileHeightUnits;
 
 		this.characterSpeedFall = (int) (this.levelTileHeightUnits * (-60));
-		this.characterSpeedJump = (int) (this.levelTileHeightUnits * (16));
+		this.characterSpeedJump = (int) (this.levelTileHeightUnits * (15));
 
 		this.playerSpeedWalk = (int) (6 * this.levelTileWidthUnits);
 		this.playerSpeedWalkStairs = (int) (6 * this.levelTileWidthUnits);

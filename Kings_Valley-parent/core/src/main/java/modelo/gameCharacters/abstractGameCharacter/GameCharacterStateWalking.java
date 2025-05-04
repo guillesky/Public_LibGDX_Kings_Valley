@@ -98,7 +98,7 @@ public class GameCharacterStateWalking extends GameCharacterState
 	@Override
 	protected void moveSecondStep(Vector2 escalado)
 	{
-		this.colision(escalado);
+		this.colisionForWalk(escalado);
 	}
 
 }

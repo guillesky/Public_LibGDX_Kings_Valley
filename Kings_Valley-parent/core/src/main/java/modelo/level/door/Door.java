@@ -30,10 +30,10 @@ public class Door extends Mechanism
 		this.lever = lever;
 		float width = Config.getInstance().getLevelTileWidthUnits();
 		float eight = Config.getInstance().getLevelTileHeightUnits();
-		float x = this.lever.x + width * 2;
+		float x = this.lever.x + width * 3;
 		float y = this.lever.y - eight * 2;
 		this.doorState = new DoorStateHide(this);
-		this.passage = new LevelObject(Constantes.It_door_passage, x, y, this.lever.getP0(), width * 2, eight * 2);
+		this.passage = new LevelObject(Constantes.It_door_passage, x, y, this.lever.getP0(), width * 0.2f, eight * 2);
 		this.active = false;
 		this.levelConnected=lever.getP0()*-1;
 		this.idLevel=idLevel;
