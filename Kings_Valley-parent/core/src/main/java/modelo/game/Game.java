@@ -33,7 +33,6 @@ public class Game
 	private IGrafica interfaz = null;
 	protected GameState stateGame;
 	protected int state;
-	private float timeToTransicion = 2f;
 	private int score=0;
 
 	
@@ -196,15 +195,7 @@ public class Game
 		this.delta = 0;
 	}
 
-	public float getTimeToTransicion()
-	{
-		return timeToTransicion;
-	}
-
-	public void setTimeToTransicion(float timeToTransicion)
-	{
-		this.timeToTransicion = timeToTransicion;
-	}
+	
 
 	protected HashMap<Integer, Boolean> getCompletedLevels()
 	{

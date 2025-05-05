@@ -79,6 +79,9 @@ public class TileMapGrafica2D implements IMyApplicationnListener
     private Float originalWidth = null;
     private AnimatedEnteringDoor2D animatedEnteringDoor2D;
     private PlayerAnimated2D playerAnimated2D;
+    private float timeToEnterLevel=2f;
+    private float timeToExitLevel=1f; 
+    private float timeDying=1f;
 
     public TileMapGrafica2D(AssetManager manager)
     {
@@ -467,7 +470,7 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 	    this.animatedEnteringDoor2D.drawBack(spriteBatch);
 	    this.playerAnimated2D.updateElement(Game.getInstance().getDelta());
 	    if ((Game.getInstance().getState() == Game.ST_GAME_ENTERING
-		    && Game.getInstance().getDelta() <= Game.getInstance().getTimeToTransicion() / 2)
+		    && Game.getInstance().getDelta() <= this.getTimeToExitLevel())
 		    || Game.getInstance().getState() == Game.ST_GAME_EXITING)
 	    {
 		this.playerAnimated2D.render(spriteBatch);
@@ -577,6 +580,27 @@ public class TileMapGrafica2D implements IMyApplicationnListener
     {
 	this.create();
 
+    }
+
+    @Override
+    public float getTimeToExitLevel()
+    {
+	
+	return this.timeToExitLevel;
+    }
+
+    @Override
+    public float getTimeToEnterLevel()
+    {
+	
+	return this.timeToEnterLevel;
+    }
+
+    @Override
+    public float getTimeDying()
+    {
+	
+	return this.timeDying;
     }
 
 }

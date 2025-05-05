@@ -35,7 +35,6 @@ public abstract class GameCharacter extends LevelObject
     protected float speedWalk;
     protected float speedWalkStairs;
     protected float speedJump;
-    protected int stairInit = Constantes.It_none;
     protected float speedY = 0;
     protected Pyramid pyramid;
     protected boolean lookRight = true;

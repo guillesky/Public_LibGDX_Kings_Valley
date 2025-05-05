@@ -316,4 +316,23 @@ public class Pyramid implements IGrafica
 		this.map.dispose();
 	}
 
+	@Override
+	public float getTimeToExitLevel()
+	{
+	     return this.interfaz.getTimeToExitLevel();
+	}
+ 
+	@Override
+	public float getTimeToEnterLevel()
+	{
+	   
+	    return this.interfaz.getTimeToEnterLevel();
+	}
+
+	@Override
+	public float getTimeDying()
+	{
+	    return this.interfaz.getTimeDying();
+	}
+
 }

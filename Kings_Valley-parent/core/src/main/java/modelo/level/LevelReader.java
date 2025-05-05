@@ -26,11 +26,8 @@ import util.Constantes;
 public class LevelReader
 {
 
-	private static ArrayList<Integer> tilesPositiveStairs;
-	private static ArrayList<Integer> tilesNegativeStairs;
-
-	private Player player = null;
-
+	
+	
 	private ArrayList<Door> doors = null;
 
 	private ArrayList<LevelObject> jewels = new ArrayList<LevelObject>();
@@ -51,17 +48,7 @@ public class LevelReader
 	private ArrayList<Stair> positiveStairs;
 	private ArrayList<Stair> negativeStairs;
 	private TmxMapLoader mapLoader = new TmxMapLoader();
-
-	static
-	{
-		Integer[] valuesPositiveStair =
-		{ 22, 42, 30, 50 };
-		Integer[] valuesNegativeStair =
-		{ 25, 45, 33, 53 };
-		LevelReader.tilesPositiveStairs = new ArrayList<Integer>(Arrays.asList(valuesPositiveStair));
-		LevelReader.tilesNegativeStairs = new ArrayList<Integer>(Arrays.asList(valuesNegativeStair));
-
-	}
+	
 
 	
 
@@ -72,7 +59,6 @@ public class LevelReader
 		this.resetAll();
 		this.readLevelObjects(map, dificultLevel, id);
 		this.readStairs(map);
-		this.corrigeCeldasPicables(map);
 		if (isCompleted)
 		{
 			this.jewels.clear();
@@ -145,11 +131,11 @@ public class LevelReader
 				if (cell != null)
 				{
 					int value = cell.getTile().getId();
-					if (LevelReader.tilesPositiveStairs.contains(value))
+					if (Constantes.tilesPositiveStairs.contains(value))
 					{
 						this.generateStair(map, j, i, true);
 
-					} else if (LevelReader.tilesNegativeStairs.contains(value))
+					} else if (Constantes.tilesNegativeStairs.contains(value))
 					{
 						this.generateStair(map, j, i, false);
 
@@ -212,8 +198,7 @@ public class LevelReader
 
 	private void resetAll()
 	{
-		this.player = null;
-
+		
 		this.doors = new ArrayList<Door>();
 		this.jewels = new ArrayList<LevelObject>();
 		this.pickers = new ArrayList<LevelObject>();
@@ -233,35 +218,6 @@ public class LevelReader
 		this.mummyDatas = new ArrayList<MummyData>();
 	}
 
-	private void corrigeCeldasPicables(TiledMap map)
-	{
-		TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get("front");
-		MapProperties properties = map.getProperties();
-		int mapWidthInTiles = properties.get("width", Integer.class);
-		int mapHeightInTiles = properties.get("height", Integer.class);
-		for (int x = 1; x < mapWidthInTiles - 1; x++)
-		{
-			for (int y = 2; y < mapHeightInTiles; y++)
-			{
-				Cell cell = layer.getCell(x, y);
-				if (cell != null && cell.getTile().getId() >= Constantes.FIRST_UNSOLID_TILE
-						&& cell.getTile().getId() <= 239)
-				{
-					if (layer.getCell(x + 1, y - 1) != null || layer.getCell(x + 1, y - 2) != null
-							|| layer.getCell(x - 1, y - 1) != null || layer.getCell(x - 1, y - 2) != null)
-					{
-						cell.getTile().setId(cell.getTile().getId() - Constantes.FIRST_UNSOLID_TILE);
-					}
-				}
-			}
-			Cell cell = layer.getCell(x, 1);
-			if (cell != null && cell.getTile().getId() >= Constantes.FIRST_UNSOLID_TILE
-					&& cell.getTile().getId() <= 239)
-			{
-				cell.getTile().setId(cell.getTile().getId() - Constantes.FIRST_UNSOLID_TILE);
-			}
-		}
-	}
 
 	private void readLevelObjects(TiledMap map, int dificultLevel, int id)
 	{

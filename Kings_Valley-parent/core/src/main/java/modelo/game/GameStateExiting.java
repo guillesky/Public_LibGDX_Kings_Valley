@@ -21,7 +21,7 @@ public class GameStateExiting extends GameState
 	{
 		super.updateframe(deltaTime);
 
-		if (this.game.getDelta() >= this.game.getTimeToTransicion() / 2)
+		if (this.game.getDelta() >= this.game.getInterfaz().getTimeToExitLevel())
 		{
 			this.game.goToLevel(door);
 			
