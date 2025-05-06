@@ -4,7 +4,7 @@ import com.badlogic.gdx.ApplicationListener;
 
 import modelo.IGrafica;
 
-public interface IMyApplicationnListener extends IGrafica, ApplicationListener
+public interface IMyApplicationListener extends IGrafica, ApplicationListener
 {
 
 }

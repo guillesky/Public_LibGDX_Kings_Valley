@@ -1,25 +1,23 @@
 package io.github.some_example_name;
 
+import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Vector2;
 
 import modelo.control.Controls;
 import modelo.game.Game;
-import util.Constantes;
 import vista2D.TileMapGrafica2D;
 
 /**
  * {@link com.badlogic.gdx.ApplicationListener} implementation shared by all
  * platforms.
  */
-public class Main implements IMyApplicationnListener
+public class Main implements ApplicationListener
 {
 	private AssetManager manager;
-	private IMyApplicationnListener grafica;
+	private IMyApplicationListener grafica;
 
 	@Override
 	public void create()
@@ -104,17 +102,7 @@ public class Main implements IMyApplicationnListener
 
 	}
 
-	@Override
-	public void addGraphicElement(Object element)
-	{
-
-	}
-
-	@Override
-	public void removeGraphicElement(Object element)
-	{
-
-	}
+	
 
 	@Override
 	public void resize(int width, int height)
@@ -137,11 +125,6 @@ public class Main implements IMyApplicationnListener
 
 	}
 
-	@Override
-	public void reset()
-	{
-		// TODO Auto-generated method stub
-
-	}
+	
 
 }

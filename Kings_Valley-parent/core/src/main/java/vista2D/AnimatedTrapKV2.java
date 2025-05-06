@@ -21,11 +21,9 @@ public class AnimatedTrapKV2 implements IGraphicRenderer
 	@Override
 	public void updateElement(Object element)
 	{
-		float delta = this.trapMech.getTime();
-
-		float x = this.trapMech.getX() * Config.getInstance().getLevelObjectWidth();
-		float y = (this.trapMech.getY() - delta) * Config.getInstance().getLevelObjectHeight();
-		this.sprite.setPosition(x, y);
+		
+		
+		this.sprite.setPosition(this.trapMech.getX(), this.trapMech.getY());
 		
 	}
 

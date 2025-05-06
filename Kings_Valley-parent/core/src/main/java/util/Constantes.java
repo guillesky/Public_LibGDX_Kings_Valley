@@ -51,6 +51,7 @@ public class Constantes
     public static final HashMap<Integer, String> identificacion = new HashMap<Integer, String>();
     public static final HashMap<String, Integer> stringToInteger = new HashMap<String, Integer>();
     public static final HashMap<Integer, String> levelFileName = new HashMap<Integer, String>();
+	public static final int MUMMY_DIE_SCORE = 100;
     public static ArrayList<Integer> tilesPositiveStairs;
     public static ArrayList<Integer> tilesNegativeStairs;
 

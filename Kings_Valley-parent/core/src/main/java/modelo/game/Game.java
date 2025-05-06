@@ -10,13 +10,14 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 
 import modelo.IGrafica;
+import modelo.KVEventListener;
 import modelo.control.Controls;
 import modelo.level.Level;
 import modelo.level.LevelReader;
 import modelo.level.door.Door;
 import util.Constantes;
 
-public class Game
+public class Game implements KVEventListener
 {
 	public static final int ST_GAME_PLAYING = 0;
 	public static final int ST_GAME_ENTERING = 1;
@@ -33,19 +34,17 @@ public class Game
 	private IGrafica interfaz = null;
 	protected GameState stateGame;
 	protected int state;
-	private int score=0;
+	private int score = 0;
 
-	
-	public void incScore(int cant) {
-	    this.score+=cant;
+	public void incScore(int cant)
+	{
+		this.score += cant;
 	}
-	
-	
+
 	public int getScore()
 	{
-	    return score;
+		return score;
 	}
-
 
 	public IGrafica getInterfaz()
 	{
@@ -58,6 +57,12 @@ public class Game
 	}
 
 	private Game()
+	{
+		this.resetCompletedLevels();
+
+	}
+
+	private void resetCompletedLevels()
 	{
 		for (int i = 1; i <= 15; i++)
 		{
@@ -116,6 +121,11 @@ public class Game
 		LevelReader levelReader = new LevelReader();
 		if (this.level != null)
 			this.level.dispose();
+		if (Constantes.levelFileName.get(idCurrentLevel) == null)
+		{
+			this.eventFired(KVEventListener.FINISH_ALL_LEVELS, null);
+
+		}
 		this.level = levelReader.getLevel(idCurrentLevel, Constantes.levelFileName.get(idCurrentLevel), dificult,
 				this.completedLevels.get(this.idCurrentLevel), door, interfaz);
 		this.stateGame = new GameStateEntering();
@@ -195,8 +205,6 @@ public class Game
 		this.delta = 0;
 	}
 
-	
-
 	protected HashMap<Integer, Boolean> getCompletedLevels()
 	{
 		return completedLevels;
@@ -224,6 +232,31 @@ public class Game
 	public void start()
 	{
 		this.start(null);
+	}
+
+	public void dying()
+	{
+		this.stateGame = new GameStateDying();
+		this.level.getPlayer().die();
+	}
+
+	@Override
+	public void eventFired(int eventCode, Object param)
+	{
+		switch (eventCode)
+		{
+		case KVEventListener.FINISH_ALL_LEVELS:
+			this.idCurrentLevel = 1;
+			this.dificult++;
+			this.resetCompletedLevels();
+			break;
+		
+		case KVEventListener.MUMMY_DIE:
+			this.score+=Constantes.MUMMY_DIE_SCORE;
+			break;
+		
+		}
+
 	}
 
 }

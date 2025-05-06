@@ -4,6 +4,8 @@ import java.util.Random;
 
 import com.badlogic.gdx.math.Vector2;
 
+import modelo.KVEventListener;
+import modelo.game.Game;
 import modelo.gameCharacters.abstractGameCharacter.GameCharacter;
 import modelo.gameCharacters.player.Player;
 import modelo.level.GiratoryMechanism;
@@ -290,8 +292,9 @@ public abstract class Mummy extends GameCharacter
 	{
 		this.mummyState = new MummyStateDying(this);
 		this.resetStress();
-
+		Game.getInstance().eventFired(KVEventListener.MUMMY_DIE, this);
 	}
+	
 	public boolean isDanger() 
 	{
 		return this.mummyState.isDanger();

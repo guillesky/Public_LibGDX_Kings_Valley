@@ -26,7 +26,7 @@ import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Array.ArrayIterator;
 
-import io.github.some_example_name.IMyApplicationnListener;
+import io.github.some_example_name.IMyApplicationListener;
 import modelo.game.Game;
 import modelo.gameCharacters.mummys.Mummy;
 import modelo.gameCharacters.player.PairInt;
@@ -41,7 +41,7 @@ import modelo.level.door.Door;
 import util.Constantes;
 import util.Messages;
 
-public class TileMapGrafica2D implements IMyApplicationnListener
+public class TileMapGrafica2D implements IMyApplicationListener
 {
     public static final int IDDLE = 0;
     public static final int FALL = 1;
@@ -419,13 +419,16 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 	Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 	camera.update();
 	this.calculateCamera();
+	
+
+	
+
+	this.spriteBatch.begin();
+	this.drawFootUI();
 	spriteBatch.setProjectionMatrix(camera.combined);
 
 	renderer.setView(camera);
 	renderer.render();
-
-	this.spriteBatch.begin();
-
 	ArrayIterator<AnimatedTrapKV2> it3 = this.animatedTraps.iterator();
 	while (it3.hasNext())
 	{
@@ -459,7 +462,7 @@ public class TileMapGrafica2D implements IMyApplicationnListener
 	    animatedEntity2D.render(spriteBatch);
 	}
 
-	if (Game.getInstance().getState() == Game.ST_GAME_PLAYING)
+	if (Game.getInstance().getState() == Game.ST_GAME_PLAYING||Game.getInstance().getState() == Game.ST_GAME_DYING)
 	{
 
 	    this.playerAnimated2D.updateElement(Game.getInstance().getDelta());

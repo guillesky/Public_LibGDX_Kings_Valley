@@ -3,66 +3,66 @@ package modelo.level;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
+import util.Config;
+
 public class TrapMechanism extends Mechanism
 {
 
-    private TiledMapTileLayer layer;
+	private TiledMapTileLayer layer;
 
-    private TiledMapTile tile;
-    private int x;
-    private int y;
+	private TiledMapTile tile;
+	private int x;
+	private int y;
 
-    public TrapMechanism(Pyramid pyramid, LevelObject wall)
-    {
-	this.layer = (TiledMapTileLayer) pyramid.getMap().getLayers().get("front");
-	
-	this.x = wall.getColPosition();
-	this.y = wall.getRowPosition();
-	this.tile = this.layer.getCell(x, y).getTile();
-	
-    }
-
-    @Override
-    public void update(float deltaTime)
-    {
-	this.incTime(deltaTime);
-	if (this.time >= 1)
+	public TrapMechanism(Pyramid pyramid, LevelObject wall)
 	{
-	    this.nextCell();
+		this.layer = (TiledMapTileLayer) pyramid.getMap().getLayers().get("front");
+
+		this.x = wall.getColPosition();
+		this.y = wall.getRowPosition();
+		this.tile = this.layer.getCell(x, y).getTile();
+
 	}
-    }
 
-    private void nextCell()
-    {
-	this.resetTime();
-	if (this.layer.getCell(x, y - 1) == null)
+	@Override
+	public void update(float deltaTime)
 	{
-	    y--;
-	    TiledMapTileLayer.Cell newCell = new TiledMapTileLayer.Cell();
-	    newCell.setTile(tile);
-	    this.layer.setCell(x, y, newCell);
-	} else
-	    this.active = false;
-    }
+		this.incTime(deltaTime);
+		if (this.time >= 1)
+		{
+			this.nextCell();
+		}
+	}
 
-    public TiledMapTileLayer getLayer()
-    {
-	return layer;
-    }
+	private void nextCell()
+	{
+		this.resetTime();
+		y--;
+		TiledMapTileLayer.Cell newCell = new TiledMapTileLayer.Cell();
+		newCell.setTile(tile);
+		this.layer.setCell(x, y, newCell);
 
-    public TiledMapTile getTile()
-    {
-	return tile;
-    }
+		if (this.layer.getCell(x, y - 1) != null)
+			this.active = false;
+	}
 
-    public int getX()
-    {
-	return x;
-    }
+	public TiledMapTile getTile()
+	{
+		return tile;
+	}
 
-    public int getY()
-    {
-	return y;
-    }
+	public float getX()
+	{
+		float auxX = x;
+		float r = auxX * Config.getInstance().getLevelObjectHeight();
+		return r;
+	}
+
+	public float getY()
+	{
+		float auxY = y;
+		float r = (auxY - this.time) * Config.getInstance().getLevelObjectHeight();
+		return r;
+	}
 
 }

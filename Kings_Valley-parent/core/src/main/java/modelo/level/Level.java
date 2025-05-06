@@ -3,6 +3,7 @@ package modelo.level;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import modelo.game.Game;
 import modelo.gameCharacters.abstractGameCharacter.GameCharacter;
 import modelo.gameCharacters.mummys.Mummy;
 import modelo.gameCharacters.player.Player;
@@ -28,7 +29,7 @@ public class Level
 		this.doorIn = door;
 		this.id = id;
 		float y = door.getPassage().y;
-		float x = door.getPassage().x ;
+		float x = door.getPassage().x;
 		this.player = new Player(x, y, this.pyramid);
 
 	}
@@ -54,8 +55,15 @@ public class Level
 		for (TrapMechanism trapMechanism : trapMechanisms)
 		{
 			trapMechanism.update(deltaTime);
-			if (this.checkPlayerSmash(trapMechanism))
+			if (this.checkCharacterSmash(trapMechanism, this.player))
 				this.death();
+			for (Mummy mummy : mummys)
+			{
+				if (this.checkCharacterSmash(trapMechanism, mummy))
+					mummy.die();
+						
+			}
+
 		}
 
 		Iterator<TrapMechanism> it = trapMechanisms.iterator();
@@ -86,15 +94,16 @@ public class Level
 
 	private void death()
 	{
-		// TODO Auto-generated method stub
-
+		Game.getInstance().dying();
 	}
 
-	private boolean checkPlayerSmash(TrapMechanism trapMechanism)
+	private boolean checkCharacterSmash(TrapMechanism trapMechanism, GameCharacter gameCharacter)
 	{
-		int px = (int) (this.player.getX() / Config.getInstance().getLevelTileWidthUnits());
-		int py = (int) (this.player.getY() / Config.getInstance().getLevelTileHeightUnits());
-		return (trapMechanism.getX() == px && trapMechanism.getY() == py);
+		boolean condicionX = (gameCharacter.x + gameCharacter.width > trapMechanism.getX()
+				&& gameCharacter.x < trapMechanism.getX() + Config.getInstance().getLevelTileWidthUnits());
+		boolean condicionY = gameCharacter.y + gameCharacter.height > trapMechanism.getY()
+				&& gameCharacter.y < trapMechanism.getY();
+		return gameCharacter.getState() != GameCharacter.ST_JUMPING && condicionX && condicionY;
 
 	}
 
@@ -189,9 +198,9 @@ public class Level
 
 	private boolean playerCoincideMummy(Mummy mummy)
 	{
-		boolean bothInStair = (this.player.isInStair()&& mummy.isInStair());
-		boolean bothNotInStair = (!this.player.isInStair()&& !mummy.isInStair());
-		
+		boolean bothInStair = (this.player.isInStair() && mummy.isInStair());
+		boolean bothNotInStair = (!this.player.isInStair() && !mummy.isInStair());
+
 		return (mummy.isDanger() && (bothInStair || bothNotInStair));
 
 	}

@@ -10,7 +10,7 @@ import modelo.level.door.Door;
 public class GameStatePlaying extends GameState
 {
 	private boolean readyToExit = false;
-	private boolean godMode=true;
+	private boolean godMode = false;
 
 	public GameStatePlaying()
 	{
@@ -20,7 +20,7 @@ public class GameStatePlaying extends GameState
 	@Override
 	public void updateframe(float deltaTime)
 	{
-		this.game.incDelta(deltaTime);
+		super.updateframe(deltaTime);
 		Level currentLevel = this.game.getCurrentLevel();
 		Controls controles = this.game.getControles();
 		Player player = currentLevel.getPlayer();
@@ -35,18 +35,18 @@ public class GameStatePlaying extends GameState
 		currentLevel.updateMechanism(deltaTime);
 		currentLevel.updateMummys(deltaTime);
 		currentLevel.updateFlyingDagger(deltaTime);
-		if (this.readyToExit&& player.getState()!=Player.ST_ONSTAIRS)
+		if (this.readyToExit && player.getState() != Player.ST_ONSTAIRS)
 		{
 			currentLevel.checkLevers();
-			Door door=currentLevel.checkPassages();
-			if(door!=null && controles.getNuevoRumbo().y>0)
-				this.game.stateGame=new GameStateExiting( door);
-				
+			Door door = currentLevel.checkPassages();
+			if (door != null && controles.getNuevoRumbo().y > 0)
+				this.game.stateGame = new GameStateExiting(door);
+
 		}
-		
-		if(!this.godMode && currentLevel.checkPlayerDie()) 
+
+		if (!this.godMode && currentLevel.checkPlayerDie())
 		{
-			this.game.stateGame=new GameStateDying();
+			this.game.dying();
 		}
 		// CHEATS FOR DEBUG
 		if (controles.getShot(Input.Keys.F))
@@ -62,7 +62,5 @@ public class GameStatePlaying extends GameState
 			this.game.priorLevel();
 
 	}
-
-	
 
 }
