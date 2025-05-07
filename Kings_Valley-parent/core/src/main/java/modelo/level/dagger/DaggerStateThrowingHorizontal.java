@@ -5,6 +5,8 @@ import java.util.Iterator;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 
+import modelo.KVEventListener;
+import modelo.game.Game;
 import modelo.gameCharacters.mummys.Mummy;
 import modelo.level.LevelObject;
 import modelo.level.Pyramid;
@@ -43,7 +45,7 @@ public class DaggerStateThrowingHorizontal extends DaggerState
 				&& mummy.getState() != Mummy.ST_LIMBUS && dagger.isColision(mummy))
 		{
 			dagger.setDaggerState(new DaggerStateBouncing(dagger));
-			
+			Game.getInstance().eventFired(KVEventListener.MUMMY_KILLED_BY_SWORD, pyramid);
 			mummy.die();
 			
 		}

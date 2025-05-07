@@ -3,7 +3,7 @@ package util;
 public enum Messages
 {
 
-    GAME_PAUSED("Juego Pausado"),CURRENT_PYRAMID("Piramide Actual: ");
+    GAME_PAUSED("Juego Pausado"),CURRENT_PYRAMID("Piramide Actual: "), SCORE("Score: "), LIVES("Lives: ");
 
     private String value;
 

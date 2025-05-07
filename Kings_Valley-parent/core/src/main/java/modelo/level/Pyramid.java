@@ -10,6 +10,8 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 
 import modelo.IGrafica;
+import modelo.KVEventListener;
+import modelo.game.Game;
 import modelo.gameCharacters.player.PairInt;
 import modelo.level.dagger.Dagger;
 import modelo.level.door.Door;
@@ -156,6 +158,7 @@ public class Pyramid implements IGrafica
 		TrapMechanism trap = new TrapMechanism(this, wall);
 		this.trapMechanisms.add(trap);
 		this.addGraphicElement(new DrawableElement(Constantes.DRAWABLE_TRAP, trap));
+		Game.getInstance().eventFired(KVEventListener.ACTIVATE_TRAP, trap);
 	}
 
 	public GiratoryMechanism getGiratoryMechanism(LevelObject giratory)
@@ -309,6 +312,7 @@ public class Pyramid implements IGrafica
 			Door door = it.next();
 			door.setVisible();
 		}
+		Game.getInstance().eventFired(KVEventListener.PICKUP_ALL_JEWEL, this);
 	}
 
 	public void dispose()

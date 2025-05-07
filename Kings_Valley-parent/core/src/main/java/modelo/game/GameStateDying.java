@@ -25,9 +25,12 @@ public class GameStateDying extends GameState
 		currentLevel.updateMechanism(deltaTime);
 		currentLevel.updateMummys(deltaTime);
 		currentLevel.updateFlyingDagger(deltaTime);
-		
+
 		if (this.game.getDelta() >= this.game.getInterfaz().getTimeDying())
+		{
+			this.game.lives--;
 			this.game.start();
+		}
 	}
 
 }

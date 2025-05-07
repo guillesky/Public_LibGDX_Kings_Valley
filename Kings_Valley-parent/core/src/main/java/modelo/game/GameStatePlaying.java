@@ -2,6 +2,7 @@ package modelo.game;
 
 import com.badlogic.gdx.Input;
 
+import modelo.KVEventListener;
 import modelo.control.Controls;
 import modelo.gameCharacters.player.Player;
 import modelo.level.Level;
@@ -40,8 +41,10 @@ public class GameStatePlaying extends GameState
 			currentLevel.checkLevers();
 			Door door = currentLevel.checkPassages();
 			if (door != null && controles.getNuevoRumbo().y > 0)
+			{
 				this.game.stateGame = new GameStateExiting(door);
-
+				this.game.eventFired(KVEventListener.FINISH_CURRENT_LEVEL, null);
+			}
 		}
 
 		if (!this.godMode && currentLevel.checkPlayerDie())

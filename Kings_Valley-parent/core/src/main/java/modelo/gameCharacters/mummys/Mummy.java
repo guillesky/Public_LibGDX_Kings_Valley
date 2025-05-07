@@ -30,9 +30,12 @@ public abstract class Mummy extends GameCharacter
 	protected float decisionFactor;
 	private float minTimeToDecide;
 	private float maxTimeToDecide;
+	private float minTimeDeciding;
+	private float maxTimeDeciding;
+	private float bestDecisionProbability;
+	
 	private float timeToDecide = 0;
 	private Vector2 direction = new Vector2();
-	private boolean colisionEnabled = false;
 	protected MummyState mummyState;
 	protected float stressLevel = 0;
 

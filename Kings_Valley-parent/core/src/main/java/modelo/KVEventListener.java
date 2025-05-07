@@ -17,9 +17,11 @@ public interface KVEventListener
 	int PLAYER_DIE = 13;
 	int MUMMY_APPEAR = 20;
 	int MUMMY_DIE = 21;
-	int GO_NEXT_LEVEL = 30;
+	int MUMMY_KILLED_BY_SWORD = 22;
+	int FINISH_CURRENT_LEVEL = 30;
 	int ADD_ONE_LIVE = 40;
 	int FINISH_ALL_LEVELS=100;
+	
 
 	void eventFired(int eventCode, Object param);
 }

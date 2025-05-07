@@ -7,6 +7,8 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.math.Vector2;
 
+import modelo.KVEventListener;
+import modelo.game.Game;
 import modelo.gameCharacters.abstractGameCharacter.GameCharacter;
 import modelo.level.GiratoryMechanism;
 import modelo.level.LevelObject;
@@ -247,10 +249,11 @@ public class Player extends GameCharacter
 	{
 		if (!this.isInStair())
 		{
-			LevelObject joya = this.checkItemFeetColision(this.pyramid.getJewels());
-			if (joya != null)
+			LevelObject jewel = this.checkItemFeetColision(this.pyramid.getJewels());
+			if (jewel != null)
 			{
-				this.pyramid.removeJewel(joya);
+				this.pyramid.removeJewel(jewel);
+				Game.getInstance().eventFired(KVEventListener.PICKUP_JEWEL, jewel);
 
 			}
 			if (this.item == null)
@@ -260,6 +263,7 @@ public class Player extends GameCharacter
 				{
 					this.item = picker;
 					this.pyramid.removePicker(picker);
+					Game.getInstance().eventFired(KVEventListener.PICKUP_PICKER, picker);
 
 				}
 
@@ -268,6 +272,7 @@ public class Player extends GameCharacter
 				{
 					this.item = dagger;
 					dagger.hasPickuped();
+					Game.getInstance().eventFired(KVEventListener.PICKUP_DAGGER, dagger);
 
 				}
 			}

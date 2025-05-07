@@ -111,7 +111,7 @@ public class Config
 		this.mummyRedMaxTimeToDecide = 5;
 
 		this.characterWidth = this.levelTileWidthUnits * 0.6f;
-		this.characterHeight = this.levelTileHeightUnits * 1.8f;
+		this.characterHeight = this.levelTileHeightUnits * 1.6f;
 		this.characterFeetHeight = this.levelTileHeightUnits * 0.1f;
 		this.characterFeetWidth = this.levelTileWidthUnits * 0.1f;
 

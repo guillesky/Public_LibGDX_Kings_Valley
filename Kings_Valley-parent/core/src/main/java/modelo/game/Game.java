@@ -35,11 +35,19 @@ public class Game implements KVEventListener
 	protected GameState stateGame;
 	protected int state;
 	private int score = 0;
+	protected int lives;
 
 	public void incScore(int cant)
 	{
 		this.score += cant;
 	}
+
+	
+	public int getLives()
+	{
+		return lives;
+	}
+
 
 	public int getScore()
 	{
@@ -58,8 +66,13 @@ public class Game implements KVEventListener
 
 	private Game()
 	{
-		this.resetCompletedLevels();
+		this.initNewGame();
+	}
 
+	private void initNewGame()
+	{
+		this.resetCompletedLevels();
+this.lives=3;
 	}
 
 	private void resetCompletedLevels()
@@ -238,6 +251,8 @@ public class Game implements KVEventListener
 	{
 		this.stateGame = new GameStateDying();
 		this.level.getPlayer().die();
+		
+		this.eventFired(KVEventListener.PLAYER_DIE, null);
 	}
 
 	@Override
@@ -250,11 +265,19 @@ public class Game implements KVEventListener
 			this.dificult++;
 			this.resetCompletedLevels();
 			break;
-		
-		case KVEventListener.MUMMY_DIE:
-			this.score+=Constantes.MUMMY_DIE_SCORE;
+
+		case KVEventListener.MUMMY_KILLED_BY_SWORD:
+			this.score += Constantes.MUMMY_KILLED_BY_SWORD_SCORE;
 			break;
-		
+
+		case KVEventListener.PICKUP_JEWEL:
+			this.score += Constantes.PICKUP_JEWEL_SCORE;
+			break;
+
+		case KVEventListener.FINISH_CURRENT_LEVEL:
+			this.score += Constantes.FINISH_CURRENT_LEVEL_SCORE;
+			break;
+
 		}
 
 	}
