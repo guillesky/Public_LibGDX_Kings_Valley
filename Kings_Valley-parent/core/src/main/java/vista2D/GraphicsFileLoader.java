@@ -175,7 +175,9 @@ public class GraphicsFileLoader
 		{
 			frames.add(linearFrames.get(j));
 		}
+		
 		return new Animation<TextureRegion>(frameDuration, frames);
+		
 	}
 
 	private Array<TextureRegion> linearFramesForFile(String file, int width, int height)
