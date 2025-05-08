@@ -15,7 +15,6 @@ import util.Config;
 @SuppressWarnings("serial")
 public abstract class Mummy extends GameCharacter
 {
-	
 
 	public static final int ST_LIMBUS = 101;
 
@@ -25,29 +24,41 @@ public abstract class Mummy extends GameCharacter
 	protected static final int BLOCK_BRICK = 1;
 	protected static final int BLOCK_GIRATORY = 2;
 
+	public static final int INDEX_SPEED_WALK = 0;
+	public static final int INDEX_SPEED_STAIR = 1;
+	public static final int INDEX_MIN_TIME_TO_DECIDE = 2;
+	public static final int INDEX_MAX_TIME_TO_DECIDE = 3;
+	public static final int INDEX_MIN_TIME_DECIDING = 4;
+	public static final int INDEX_MAX_TIME_DECIDING = 5;
+	public static final int INDEX_DECICION_FACTOR = 6;
+	public static final int INDEX_DECICION_FACTOR_JUMP = 7;
+	public static final int INDEX_BEST_DECICION_PROBALITY = 8;
+
 	protected static final Random random = new Random();
 
 	protected float decisionFactor;
+	protected float decisionFactorForJump;
 	private float minTimeToDecide;
 	private float maxTimeToDecide;
 	private float minTimeDeciding;
 	private float maxTimeDeciding;
-	private float bestDecisionProbability;
-	
-	private float timeToDecide = 0;
+	protected float bestDecisionProbability;
+
 	private Vector2 direction = new Vector2();
 	protected MummyState mummyState;
 	protected float stressLevel = 0;
 
-	public Mummy(int type, float x, float y, float speedWalk, float speedWalkStairs, float decisionFactor,
-			float minTimeToDecide, float maxTimeToDecide, Pyramid pyramid)
+	public Mummy(int type, float x, float y, float[] parameters, Pyramid pyramid)
 	{
-		super(type, x, y, speedWalk, speedWalkStairs, pyramid);
-		this.decisionFactor = decisionFactor;
-		this.minTimeToDecide = minTimeToDecide;
-		this.maxTimeToDecide = maxTimeToDecide;
+		super(type, x, y, parameters[INDEX_SPEED_WALK], parameters[INDEX_SPEED_STAIR], pyramid);
+		this.decisionFactor = parameters[INDEX_DECICION_FACTOR];
+		this.decisionFactorForJump = parameters[INDEX_DECICION_FACTOR_JUMP];
+		this.minTimeToDecide = parameters[INDEX_MIN_TIME_TO_DECIDE];
+		this.maxTimeToDecide = parameters[INDEX_MAX_TIME_TO_DECIDE];
+		this.minTimeDeciding = parameters[INDEX_MIN_TIME_DECIDING];
+		this.maxTimeDeciding = parameters[INDEX_MAX_TIME_DECIDING];
+		this.bestDecisionProbability = parameters[INDEX_BEST_DECICION_PROBALITY];
 		this.mummyState = new MummyStateLimbus(this, 1);
-
 	}
 
 	@Override
@@ -169,6 +180,12 @@ public abstract class Mummy extends GameCharacter
 	{
 		return random.nextFloat(this.minTimeToDecide, this.maxTimeToDecide);
 	}
+
+	protected float getTimeDeciding()
+	{
+		return random.nextFloat(this.minTimeDeciding, this.maxTimeDeciding);
+	}
+
 	/*
 	 * func set_state(st): self.state = st timer.stop() match self.state: st_init:
 	 * set_state(st_appearing)
@@ -294,13 +311,17 @@ public abstract class Mummy extends GameCharacter
 	public void die()
 	{
 		this.mummyState = new MummyStateDying(this);
-		this.resetStress();
 		Game.getInstance().eventFired(KVEventListener.MUMMY_DIE, this);
 	}
-	
-	public boolean isDanger() 
+
+	public boolean isDanger()
 	{
 		return this.mummyState.isDanger();
+	}
+
+	protected void teleport()
+	{
+
 	}
 
 }

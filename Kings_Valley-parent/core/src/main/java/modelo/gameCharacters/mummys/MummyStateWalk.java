@@ -17,7 +17,7 @@ public class MummyStateWalk extends MummyState
 		else
 			this.mummy.getDirection().x = -1;
 
-		this.timeToDecide = this.mummy.getTimeToDecide();
+		this.timeToChange = this.mummy.getTimeToDecide();
 
 		this.maxDistanceToPlayer = (64 * Config.getInstance().getLevelTileHeightUnits()
 				* Config.getInstance().getLevelTileHeightUnits());
@@ -42,7 +42,7 @@ public class MummyStateWalk extends MummyState
 				this.mummy.calmStress(deltaTime / 3);
 
 			if (this.mummy.distanceQuadToPlayer(player) > this.maxDistanceToPlayer
-					&& this.mummy.getAnimationDelta() >= this.timeToDecide)
+					&& this.mummy.getAnimationDelta() >= this.timeToChange)
 			{
 				this.mummy.mummyState = new MummyStateDeciding(this.mummy);
 			}

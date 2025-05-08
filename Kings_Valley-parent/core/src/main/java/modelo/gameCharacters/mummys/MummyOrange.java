@@ -11,18 +11,11 @@ public class MummyOrange extends Mummy
     {
 	super(MummyFactory.ORANGE_MUMMY, x, y, Config.getInstance().getMummyOrangeSpeedWalk(),
 		Config.getInstance().getMummyOrangeSpeedWalkStairs(), Config.getInstance().getMummyOrangeDecisionFactor(),
-		Config.getInstance().getMummyOrangeTimeToDecide(), Config.getInstance().getMummyOrangeTimeToDecide(),
+		Config.getInstance().getMummyOrangeMinTimeToDecide(), Config.getInstance().getMummyOrangeMaxTimeToDecide(),
 		pyramid);
 
     }
 
-    @Override
-    protected float getTimeToDecide()
-    {
-	
-	return Config.getInstance().getMummyOrangeTimeToDecide();
-    }
-    
-    
+   
 
 }

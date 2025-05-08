@@ -7,7 +7,7 @@ public class MummyStateDeciding extends MummyState
 	public MummyStateDeciding(Mummy mummy)
 	{
 		super(mummy, Mummy.ST_IDDLE);
-		this.timeToDecide = Mummy.random.nextFloat(1.5f, 2.5f);
+		this.timeToChange = this.mummy.getTimeDeciding();
 		;
 
 	}
@@ -15,7 +15,7 @@ public class MummyStateDeciding extends MummyState
 	@Override
 	public void update(float deltaTime, Player player)
 	{
-		if (this.mummy.getAnimationDelta() >= this.timeToDecide)
+		if (this.mummy.getAnimationDelta() >= this.timeToChange)
 		{
 			this.mummy.mummyState = new MummyStateWalk(this.mummy, player);
 			this.mummy = null;

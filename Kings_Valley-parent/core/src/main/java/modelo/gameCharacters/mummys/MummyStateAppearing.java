@@ -7,7 +7,7 @@ public class MummyStateAppearing extends MummyState
     public MummyStateAppearing(Mummy mummy)
     {
 	super(mummy, Mummy.ST_APPEARING);
-	this.timeToDecide = 2;
+	this.timeToChange = 2;
 
     }
 
@@ -15,7 +15,7 @@ public class MummyStateAppearing extends MummyState
     public void update(float deltaTime,Player player)
     {
 	
-	if (this.mummy.getAnimationDelta() >= this.timeToDecide)
+	if (this.mummy.getAnimationDelta() >= this.timeToChange)
 	{
 
 	    this.mummy.mummyState = new MummyStateDeciding(this.mummy);

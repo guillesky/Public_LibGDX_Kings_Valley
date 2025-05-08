@@ -9,14 +9,14 @@ public class MummyStateDying extends MummyState
     {
 	super(mummy, GameCharacter.ST_DYING);
 
-	this.timeToDecide = 1;
+	this.timeToChange = 1;
 
     }
 
     @Override
     public void update(float deltaTime,Player player)
     {
-	if (this.mummy.getAnimationDelta() >= this.timeToDecide)
+	if (this.mummy.getAnimationDelta() >= this.timeToChange)
 	{
 
 	    this.mummy.mummyState = new MummyStateLimbus(this.mummy);
