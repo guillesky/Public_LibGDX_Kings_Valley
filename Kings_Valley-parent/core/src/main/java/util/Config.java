@@ -2,6 +2,17 @@ package util;
 
 public class Config
 {
+
+	private static final int INDEX_SPEED_WALK = 0;
+	private static final int INDEX_SPEED_STAIR = 1;
+	private static final int INDEX_MIN_TIME_TO_DECIDE = 2;
+	private static final int INDEX_MAX_TIME_TO_DECIDE = 3;
+	private static final int INDEX_MIN_TIME_DECIDING = 4;
+	private static final int INDEX_MAX_TIME_DECIDING = 5;
+	private static final int INDEX_DECICION_FACTOR = 6;
+	private static final int INDEX_DECICION_FACTOR_JUMP = 7;
+	private static final int INDEX_BEST_DECICION_PROBALITY = 8;
+
 	private float characterSpeedFall;
 	private float characterSpeedJump;
 
@@ -17,7 +28,6 @@ public class Config
 	private float mummyWhiteMinTimeDeciding;
 	private float mummyWhiteMaxTimeDeciding;
 
-	
 	private float mummyBlueSpeedWalk;
 	private float mummyBlueSpeedWalkStairs;
 
@@ -42,7 +52,7 @@ public class Config
 	private float mummyOrangeDecisionFactor;
 	private float mummyOrangeMinTimeToDecide;
 	private float mummyOrangeMaxTimeToDecide;
-	
+
 	private float mummyOrangeMinTimeDeciding;
 	private float mummyOrangeMaxTimeDeciding;
 
@@ -54,7 +64,11 @@ public class Config
 	private float mummyRedMaxTimeToDecide;
 	private float mummyRedMinTimeDeciding;
 	private float mummyRedMaxTimeDeciding;
-
+	private float[] mummyWhiteParameters;
+	private float[] mummyBlueParameters;
+	private float[] mummyYellowParameters;
+	private float[] mummyOrangeParameters;
+	private float[] mummyRedParameters;
 
 	private float characterWidth;
 	private float characterHeight;
@@ -95,57 +109,8 @@ public class Config
 		this.playerSpeedWalkStairs = (int) (6 * this.levelTileWidthUnits);
 		this.flyingDaggerSpeed = this.levelTileWidthUnits * 18;
 		this.flyingDaggerSpeedFall = -this.flyingDaggerSpeed;
-		this.mummyWhiteSpeedWalk = (int) (2.5 * this.levelTileWidthUnits);
-		this.mummyWhiteSpeedWalkStairs = (int) (3 * this.levelTileWidthUnits);
-		this.mummyWhiteDecisionFactor = 0.5f;
-		this.mummyWhiteMinTimeToDecide = 5;
-		this.mummyWhiteMaxTimeToDecide = 10;
-		this.mummyWhiteMinTimeDeciding = 2.0f;
-		this.mummyWhiteMaxTimeDeciding = 4.0f;
 	
-		
-		
-
-		this.mummyBlueSpeedWalk = (int) (4.5 * this.levelTileWidthUnits);
-		this.mummyBlueSpeedWalkStairs = (int) (5 * this.levelTileWidthUnits);
-		this.mummyBlueDecisionFactor = 0.5f;
-		this.mummyBlueMinTimeToDecide = 5;
-		this.mummyBlueMaxTimeToDecide = 8;
-		this.mummyBlueMinTimeDeciding = 2.0f;
-		this.mummyBlueMaxTimeDeciding = 3.0f;
-
-
-		this.mummyYellowSpeedWalk = (int) (5 * this.levelTileWidthUnits);
-		this.mummyYellowSpeedWalkStairs = (int) (6 * this.levelTileWidthUnits);
-		this.mummyYellowDecisionFactor = 0.3f;
-		this.mummyYellowMinTimeToDecide = 5;
-		this.mummyYellowMaxTimeToDecide = 6;
-		this.mummyYellowMinTimeDeciding = 1.5f;
-		this.mummyYellowMaxTimeDeciding = 2.5f;
-
-		
-		
-		
-		this.mummyOrangeSpeedWalk = (int) (6 * this.levelTileWidthUnits);
-		this.mummyOrangeSpeedWalkStairs = (int) (7 * this.levelTileWidthUnits);
-		this.mummyOrangeDecisionFactor = 0.4f;
-		this.mummyOrangeMinTimeToDecide = 4;
-		this.mummyOrangeMaxTimeToDecide = 5;
-		this.mummyOrangeMinTimeDeciding = 1.0f;
-		this.mummyOrangeMaxTimeDeciding = 2.0f;
-
-		
-		
-		
-		
-		this.mummyRedSpeedWalk = (int) (6.5 * this.levelTileWidthUnits);
-		this.mummyRedSpeedWalkStairs = (int) (7.5 * this.levelTileWidthUnits);
-		this.mummyRedDecisionFactor = 0.5f;
-		this.mummyRedMinTimeToDecide = 3;
-		this.mummyRedMaxTimeToDecide = 5;
-		this.mummyRedMinTimeDeciding = 0.2f;
-		this.mummyRedMaxTimeDeciding = 1.0f;
-
+		this.setMummyParameters(levelTileWidthUnits);
 		
 		this.characterWidth = this.levelTileWidthUnits * 0.6f;
 		this.characterHeight = this.levelTileHeightUnits * 1.6f;
@@ -160,6 +125,87 @@ public class Config
 
 		this.giratoryWidth = this.levelTileWidthUnits * 1.3f;
 
+	}
+
+	private void setMummyParameters(float levelTileWidthUnits)
+	{
+		
+/*		this.mummyWhiteSpeedWalk = (int) (2.5 * this.levelTileWidthUnits);
+		this.mummyWhiteSpeedWalkStairs = (int) (3 * this.levelTileWidthUnits);
+		this.mummyWhiteDecisionFactor = 0.5f;
+		this.mummyWhiteMinTimeToDecide = 5;
+		this.mummyWhiteMaxTimeToDecide = 10;
+		this.mummyWhiteMinTimeDeciding = 2.0f;
+		this.mummyWhiteMaxTimeDeciding = 4.0f;
+
+		this.mummyBlueSpeedWalk = (int) (4.5 * this.levelTileWidthUnits);
+		this.mummyBlueSpeedWalkStairs = (int) (5 * this.levelTileWidthUnits);
+		this.mummyBlueDecisionFactor = 0.5f;
+		this.mummyBlueMinTimeToDecide = 5;
+		this.mummyBlueMaxTimeToDecide = 8;
+		this.mummyBlueMinTimeDeciding = 2.0f;
+		this.mummyBlueMaxTimeDeciding = 3.0f;
+
+
+*/
+		
+		this.mummyYellowSpeedWalk = (int) (5 * this.levelTileWidthUnits);
+		this.mummyYellowSpeedWalkStairs = (int) (6 * this.levelTileWidthUnits);
+		this.mummyYellowDecisionFactor = 0.3f;
+		this.mummyYellowMinTimeToDecide = 5;
+		this.mummyYellowMaxTimeToDecide = 6;
+		this.mummyYellowMinTimeDeciding = 1.5f;
+		this.mummyYellowMaxTimeDeciding = 2.5f;
+
+		this.mummyOrangeSpeedWalk = (int) (6 * this.levelTileWidthUnits);
+		this.mummyOrangeSpeedWalkStairs = (int) (7 * this.levelTileWidthUnits);
+		this.mummyOrangeDecisionFactor = 0.4f;
+		this.mummyOrangeMinTimeToDecide = 4;
+		this.mummyOrangeMaxTimeToDecide = 5;
+		this.mummyOrangeMinTimeDeciding = 1.0f;
+		this.mummyOrangeMaxTimeDeciding = 2.0f;
+
+		this.mummyRedSpeedWalk = (int) (6.5 * this.levelTileWidthUnits);
+		this.mummyRedSpeedWalkStairs = (int) (7.5 * this.levelTileWidthUnits);
+		this.mummyRedDecisionFactor = 0.5f;
+		this.mummyRedMinTimeToDecide = 3;
+		this.mummyRedMaxTimeToDecide = 5;
+		this.mummyRedMinTimeDeciding = 0.2f;
+		this.mummyRedMaxTimeDeciding = 1.0f;
+
+		
+		
+		
+		
+		this.mummyWhiteParameters= new float[9];
+		this.mummyBlueParameters= new float[9];
+		this.mummyYellowParameters= new float[9];
+		this.mummyOrangeParameters= new float[9];
+		this.mummyRedParameters= new float[9];
+		
+		this.mummyWhiteParameters[Config.INDEX_SPEED_WALK]=(2.5f * this.levelTileWidthUnits);
+		this.mummyWhiteParameters[Config.INDEX_SPEED_STAIR]=(3f * this.levelTileWidthUnits);
+		this.mummyWhiteParameters[Config.INDEX_MIN_TIME_TO_DECIDE]=5;
+		this.mummyWhiteParameters[Config.INDEX_MAX_TIME_TO_DECIDE]=10;
+		this.mummyWhiteParameters[Config.INDEX_MIN_TIME_DECIDING]=2;
+		this.mummyWhiteParameters[Config.INDEX_MAX_TIME_DECIDING]=4;
+		this.mummyWhiteParameters[Config.INDEX_DECICION_FACTOR]=0.5f;
+		this.mummyWhiteParameters[Config.INDEX_DECICION_FACTOR_JUMP]=0.25f;
+		this.mummyWhiteParameters[Config.INDEX_BEST_DECICION_PROBALITY]=0.4f;
+		
+	
+		this.mummyBlueParameters[Config.INDEX_SPEED_WALK]=(4.5f * this.levelTileWidthUnits);
+		this.mummyBlueParameters[Config.INDEX_SPEED_STAIR]=(5f * this.levelTileWidthUnits);
+		this.mummyBlueParameters[Config.INDEX_MIN_TIME_TO_DECIDE]=5;
+		this.mummyBlueParameters[Config.INDEX_MAX_TIME_TO_DECIDE]=8;
+		this.mummyBlueParameters[Config.INDEX_MIN_TIME_DECIDING]=2;
+		this.mummyBlueParameters[Config.INDEX_MAX_TIME_DECIDING]=3;
+		this.mummyBlueParameters[Config.INDEX_DECICION_FACTOR]=0.5f;
+		this.mummyBlueParameters[Config.INDEX_DECICION_FACTOR_JUMP]=0.25f;
+		this.mummyBlueParameters[Config.INDEX_BEST_DECICION_PROBALITY]=0.5f;
+	
+			
+		
 	}
 
 	public float getCharacterSpeedFall()
@@ -517,8 +563,6 @@ public class Config
 		this.mummyOrangeDecisionFactor = mummyOrangeDecisionFactor;
 	}
 
-	
-
 	public float getMummyOrangeMinTimeToDecide()
 	{
 		return mummyOrangeMinTimeToDecide;
@@ -698,8 +742,35 @@ public class Config
 	{
 		this.mummyRedMaxTimeDeciding = mummyRedMaxTimeDeciding;
 	}
-	
-	
-	
+
+	public float[] getMummyBlueParameters()
+	{
+
+		return this.mummyBlueParameters;
+	}
+
+	public float[] getMummyWhiteParameters()
+	{
+
+		return this.mummyWhiteParameters;
+	}
+
+	public float[] getMummyYellowParameters()
+	{
+
+		return this.mummyYellowParameters;
+	}
+
+	public float[] getMummyOrangeParameters()
+	{
+
+		return this.mummyOrangeParameters;
+	}
+
+	public float[] getMummyRedParameters()
+	{
+
+		return this.mummyRedParameters;
+	}
 
 }

@@ -9,10 +9,7 @@ public class MummyRed extends Mummy
 
     public MummyRed(float x, float y, Pyramid pyramid)
     {
-	super(MummyFactory.RED_MUMMY, x, y, Config.getInstance().getMummyRedSpeedWalk(),
-		Config.getInstance().getMummyRedSpeedWalkStairs(), Config.getInstance().getMummyRedDecisionFactor(),
-		Config.getInstance().getMummyRedMinTimeToDecide(), Config.getInstance().getMummyRedMaxTimeToDecide(),
-		pyramid);
+	super(MummyFactory.RED_MUMMY, x, y,Config.getInstance().getMummyRedParameters(),	pyramid);
 
     }
 
