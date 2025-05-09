@@ -23,10 +23,21 @@ public abstract class GameCharacterState
     protected void colision(Vector2 vectMove)
     {
 	int r = -1;
-	if (this.colisionMiddleRight(vectMove) || this.colisionDownRightForLanding(vectMove))
-	    r = Constantes.RIGHT;
-	else if (this.colisionMiddleLeft(vectMove) || this.colisionDownLeftForLanding(vectMove))
-	    r = Constantes.LEFT;
+	if (vectMove.x <= 0)
+	{
+	    if (this.colisionMiddleLeft(vectMove) || this.colisionDownLeftForLanding(vectMove))
+		r = Constantes.LEFT;
+	    else if (this.colisionMiddleRight(vectMove) || this.colisionDownRightForLanding(vectMove))
+		r = Constantes.RIGHT;
+	} else
+	{
+	    if (this.colisionMiddleRight(vectMove) || this.colisionDownRightForLanding(vectMove))
+		r = Constantes.RIGHT;
+	    else if (this.colisionMiddleLeft(vectMove) || this.colisionDownLeftForLanding(vectMove))
+		r = Constantes.LEFT;
+
+	}
+
 	/*
 	 * if (this.colisionUpRight(vectMove)) { if (this.colisionUpLeft(vectMove)) { r
 	 * = Constantes.UP; } else if (this.colisionMiddleRight(vectMove)) { r =
@@ -71,17 +82,18 @@ public abstract class GameCharacterState
 	this.corrigeDirecciones(r, vectMove);
     }
 
-    
     protected void colisionForWalk(Vector2 vectMove)
     {
 	int r = -1;
-	if (this.colisionMiddleRight(vectMove) || this.colisionDownRightForLanding(vectMove)|| this.colisionUpRight(vectMove))
+	if (this.colisionMiddleRight(vectMove) || this.colisionDownRightForLanding(vectMove)
+		|| this.colisionUpRight(vectMove))
 	    r = Constantes.RIGHT;
-	else if (this.colisionMiddleLeft(vectMove) || this.colisionDownLeftForLanding(vectMove)|| this.colisionUpLeft(vectMove))
+	else if (this.colisionMiddleLeft(vectMove) || this.colisionDownLeftForLanding(vectMove)
+		|| this.colisionUpLeft(vectMove))
 	    r = Constantes.LEFT;
 	this.corrigeDirecciones(r, vectMove);
     }
-	
+
     private boolean colisionMiddleRight(Vector2 vectMove)
     {
 	return isCellBlocked(this.gameCharacter.x + vectMove.x + this.gameCharacter.getWidth(),
@@ -94,20 +106,18 @@ public abstract class GameCharacterState
 		this.gameCharacter.y + vectMove.y + this.gameCharacter.getHeight() / 2);
     }
 
-    
     private boolean colisionUpRight(Vector2 vectMove)
     {
 	return isCellBlocked(this.gameCharacter.x + vectMove.x + this.gameCharacter.getWidth(),
-		this.gameCharacter.y + vectMove.y + this.gameCharacter.getHeight() );
+		this.gameCharacter.y + vectMove.y + this.gameCharacter.getHeight());
     }
 
     private boolean colisionUpLeft(Vector2 vectMove)
     {
 	return isCellBlocked(this.gameCharacter.x + vectMove.x,
-		this.gameCharacter.y + vectMove.y + this.gameCharacter.getHeight() );
+		this.gameCharacter.y + vectMove.y + this.gameCharacter.getHeight());
     }
-    
-    
+
     private boolean colisionDownLeftForLanding(Vector2 vectMove)
     {
 	return colisionDown(this.gameCharacter.x, vectMove);
@@ -137,8 +147,10 @@ public abstract class GameCharacterState
 		/ Config.getInstance().getLevelTileWidthUnits());
 	vectMove.x = (aux) * Config.getInstance().getLevelTileWidthUnits()
 		- (this.gameCharacter.getWidth() + epsilon + this.gameCharacter.x);
-	if (this.gameCharacter.motionVector.y < 30)
-	    this.gameCharacter.motionVector.x = 0;
+	/*
+	 * if (this.gameCharacter.motionVector.y < 30) this.gameCharacter.motionVector.x
+	 * = 0;
+	 */
 
     }
 
@@ -147,8 +159,10 @@ public abstract class GameCharacterState
 	float epsilon = 0.002f * Config.getInstance().getLevelTileWidthUnits();
 	float aux = (int) ((this.gameCharacter.x + vectMove.x) / Config.getInstance().getLevelTileWidthUnits());
 	vectMove.x = (aux + 1) * Config.getInstance().getLevelTileWidthUnits() + epsilon - this.gameCharacter.x;
-	if (this.gameCharacter.motionVector.y < 30)
-	    this.gameCharacter.motionVector.x = 0;
+	/*
+	 * if (this.gameCharacter.motionVector.y < 30) this.gameCharacter.motionVector.x
+	 * = 0;
+	 */
 
     }
 
@@ -169,6 +183,7 @@ public abstract class GameCharacterState
 
     private int buscarColisionPorVertice(float x, float y, Vector2 vectMove)
     {
+
 	x += vectMove.x;
 	y += vectMove.y;
 	int r = -1;
@@ -244,18 +259,25 @@ public abstract class GameCharacterState
     protected void checkLanding(Vector2 vectMove)
     {
 	int r = -1;
+
 	if (this.colisionDownLeftForLanding(vectMove))
 	{
-	    if (this.colisionDownRightForLanding(vectMove))
+	    if (this.colisionDownRightForLanding(vectMove)) // ambas esquinas bajas colisionan
 		this.correctDown(vectMove);
-	    else
+	    else // solo colisiona esquina baja izq
 	    {
-		r = this.buscarColisionPorVertice(this.gameCharacter.x, this.gameCharacter.y, vectMove);
+		if (vectMove.x >= 0)
+		    r = Constantes.DOWN;
+		else
+		    r = this.buscarColisionPorVertice(this.gameCharacter.x, this.gameCharacter.y, vectMove);
 	    }
 	} else if (this.colisionDownRightForLanding(vectMove))
 	{
-	    r = this.buscarColisionPorVertice(this.gameCharacter.x + this.gameCharacter.width, this.gameCharacter.y,
-		    vectMove);
+	    if (vectMove.x <= 0)
+		r = Constantes.DOWN;
+	    else
+		r = this.buscarColisionPorVertice(this.gameCharacter.x + this.gameCharacter.width, this.gameCharacter.y,
+			vectMove);
 	}
 	this.corrigeDirecciones(r, vectMove);
 

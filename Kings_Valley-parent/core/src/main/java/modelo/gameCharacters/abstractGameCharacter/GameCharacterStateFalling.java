@@ -35,7 +35,9 @@ public class GameCharacterStateFalling extends GameCharacterState
     protected void moveSecondStep(Vector2 escalado)
     {
 	this.checkLanding(escalado);
-	this.colision(escalado);
+	//this.colision(escalado);
+	
+	
 	
     }
 
