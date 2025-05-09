@@ -147,7 +147,6 @@ public abstract class GameCharacterState
 		/ Config.getInstance().getLevelTileWidthUnits());
 	vectMove.x = (aux) * Config.getInstance().getLevelTileWidthUnits()
 		- (this.gameCharacter.getWidth() + epsilon + this.gameCharacter.x);
-	if(this.gameCharacter.motionVector.y<0)
 	this.gameCharacter.motionVector.x = 0;
 
     }
@@ -157,7 +156,6 @@ public abstract class GameCharacterState
 	float epsilon = 0.002f * Config.getInstance().getLevelTileWidthUnits();
 	float aux = (int) ((this.gameCharacter.x + vectMove.x) / Config.getInstance().getLevelTileWidthUnits());
 	vectMove.x = (aux + 1) * Config.getInstance().getLevelTileWidthUnits() + epsilon - this.gameCharacter.x;
-	if(this.gameCharacter.motionVector.y<0)
 	this.gameCharacter.motionVector.x = 0;
 
     }
@@ -247,7 +245,7 @@ public abstract class GameCharacterState
 
     }
 
-    private boolean isCellBlocked(float x, float y)
+    protected boolean isCellBlocked(float x, float y)
     {
 	return this.gameCharacter.pyramid.getCell(x, y) != null;
     }

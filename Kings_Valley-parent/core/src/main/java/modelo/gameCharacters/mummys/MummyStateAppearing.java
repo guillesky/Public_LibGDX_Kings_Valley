@@ -1,13 +1,15 @@
 package modelo.gameCharacters.mummys;
 
 import modelo.gameCharacters.player.Player;
+import util.Config;
 
 public class MummyStateAppearing extends MummyState
 {
     public MummyStateAppearing(Mummy mummy)
     {
 	super(mummy, Mummy.ST_APPEARING);
-	this.timeToChange = 2;
+	this.timeToChange = Config.getInstance().getMummyTimeAppearing();
+	this.mummy.timeWhitoutSeePlayer=0;
 
     }
 

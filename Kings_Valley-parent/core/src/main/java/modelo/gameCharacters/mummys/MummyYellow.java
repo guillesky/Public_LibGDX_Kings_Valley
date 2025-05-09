@@ -1,5 +1,6 @@
 package modelo.gameCharacters.mummys;
 
+import modelo.gameCharacters.player.Player;
 import modelo.level.Pyramid;
 import util.Config;
 @SuppressWarnings("serial")

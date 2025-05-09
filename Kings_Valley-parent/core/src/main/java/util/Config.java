@@ -21,6 +21,10 @@ public class Config
 	private float playerSpeedWalkStairs;
 
 	private float minMummySpawnDistanceToPlayer;
+	private float mummyTimeInLimbus;
+	private float mummyTimeDying;
+	private float mummyTimeAppearing;
+	
 	private float[] mummyWhiteParameters;
 	private float[] mummyBlueParameters;
 	private float[] mummyYellowParameters;
@@ -147,7 +151,9 @@ public class Config
 		this.mummyRedParameters= new float[10];
 		
 		this.minMummySpawnDistanceToPlayer=64;
-		
+		this.mummyTimeAppearing=2;
+		this.mummyTimeDying=1;
+		this.mummyTimeInLimbus=5;
 		this.mummyWhiteParameters[Config.INDEX_SPEED_WALK]=(2.5f * this.levelTileWidthUnits);
 		this.mummyWhiteParameters[Config.INDEX_SPEED_STAIR]=(3f * this.levelTileWidthUnits);
 		this.mummyWhiteParameters[Config.INDEX_MIN_TIME_TO_DECIDE]=5;
@@ -464,6 +470,36 @@ public class Config
 	public void setMummyRedParameters(float[] mummyRedParameters)
 	{
 	    this.mummyRedParameters = mummyRedParameters;
+	}
+
+	public float getMummyTimeInLimbus()
+	{
+		return mummyTimeInLimbus;
+	}
+
+	public void setMummyTimeInLimbus(float mummyTimeInLimbus)
+	{
+		this.mummyTimeInLimbus = mummyTimeInLimbus;
+	}
+
+	public float getMummyTimeDying()
+	{
+		return mummyTimeDying;
+	}
+
+	public void setMummyTimeDying(float mummyTimeDying)
+	{
+		this.mummyTimeDying = mummyTimeDying;
+	}
+
+	public float getMummyTimeAppearing()
+	{
+		return mummyTimeAppearing;
+	}
+
+	public void setMummyTimeAppearing(float mummyTimeAppearing)
+	{
+		this.mummyTimeAppearing = mummyTimeAppearing;
 	}
 
 	

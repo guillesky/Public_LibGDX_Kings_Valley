@@ -60,7 +60,7 @@ public class Level
 			for (Mummy mummy : mummys)
 			{
 				if (this.checkCharacterSmash(trapMechanism, mummy))
-					mummy.die();
+					mummy.die(true);
 						
 			}
 
@@ -210,4 +210,6 @@ public class Level
 		this.pyramid.dispose();
 	}
 
+	
+	
 }

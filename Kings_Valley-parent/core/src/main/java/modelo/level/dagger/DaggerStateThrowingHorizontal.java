@@ -46,7 +46,7 @@ public class DaggerStateThrowingHorizontal extends DaggerState
 		{
 			dagger.setDaggerState(new DaggerStateBouncing(dagger));
 			Game.getInstance().eventFired(KVEventListener.MUMMY_KILLED_BY_SWORD, pyramid);
-			mummy.die();
+			mummy.die(false);
 			
 		}
 

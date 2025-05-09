@@ -2,33 +2,36 @@ package modelo.gameCharacters.mummys;
 
 import modelo.gameCharacters.abstractGameCharacter.GameCharacter;
 import modelo.gameCharacters.player.Player;
+import util.Config;
 
 public class MummyStateDying extends MummyState
 {
-    public MummyStateDying(Mummy mummy)
-    {
-	super(mummy, GameCharacter.ST_DYING);
+	private boolean mustTeleport;
 
-	this.timeToChange = 1;
-
-    }
-
-    @Override
-    public void update(float deltaTime,Player player)
-    {
-	if (this.mummy.getAnimationDelta() >= this.timeToChange)
+	public MummyStateDying(Mummy mummy, boolean mustTeleport)
 	{
+		super(mummy, GameCharacter.ST_DYING);
+		this.mustTeleport = mustTeleport;
+		this.timeToChange = Config.getInstance().getMummyTimeDying();
+		
 
-	    this.mummy.mummyState = new MummyStateLimbus(this.mummy);
-	    this.mummy = null;
 	}
 
-    }
+	@Override
+	public void update(float deltaTime, Player player)
+	{
+		if (this.mummy.getAnimationDelta() >= this.timeToChange)
+		{
 
-    
-    @Override
+			this.mummy.mummyState = new MummyStateLimbus(this.mummy,this.mustTeleport);
+			this.mummy = null;
+		}
+
+	}
+
+	@Override
 	protected boolean isDanger()
 	{
-	return false;
+		return false;
 	}
 }

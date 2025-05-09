@@ -4,48 +4,49 @@ import modelo.gameCharacters.abstractGameCharacter.GameCharacter;
 import modelo.gameCharacters.player.Player;
 import util.Config;
 
-public class MummyStateWalk extends MummyState
+public class MummyStateChasingPlayer extends MummyState
 {
 	private boolean doJump = false;
-	
 
-	public MummyStateWalk(Mummy mummy, Player player)
+	public MummyStateChasingPlayer(Mummy mummy, Player player)
 	{
 		super(mummy, GameCharacter.ST_WALKING);
+		this.mummy.timeWhitoutSeePlayer = 0;
+
+		this.timeToChange = this.mummy.getTimeToDecide();
+		this.setDirection(player);
+		System.out.println("CHASING "+mummy);
+	}
+
+	private void setDirection(Player player)
+	{
 		if (mummy.getX() < player.getX())
 			this.mummy.getDirection().x = 1;
 		else
 			this.mummy.getDirection().x = -1;
 
-		this.timeToChange = this.mummy.getTimeToDecide();
-
-		
 	}
 
 	@Override
 	public void update(float deltaTime, Player player)
 	{
 		this.mummy.timeWhitoutSeePlayer += deltaTime;
+		if (this.mummy.getAnimationDelta() >= this.timeToChange)
+		{
+			if (this.mummy.distanceQuadToPlayer(player) > this.mummy.rangeVision)
+				this.mummy.mummyState = new MummyStateDeciding(this.mummy);
+			else
+			{
+				this.setDirection(player);
+			}
+		}
+
 		if (this.mummy.getState() == GameCharacter.ST_WALKING)
 			this.checkCrash();
 
-		if (this.mummy.getStressLevel() >= 9 || this.mummy.timeWhitoutSeePlayer>=20)
-		{ //muere por estres o por no encontrar al player
-			this.mummy.die(true);
-
-		} else if(this.mummy.distanceQuadToPlayer(player)<this.mummy.rangeVision)
-			this.mummy.mummyState=new MummyStateChasingPlayer(this.mummy,player);
-		{
-			this.mummy.move(this.mummy.getDirection(), doJump, deltaTime);
-
-			if (this.mummy.getStressLevel() > 0)
-				this.mummy.calmStress(deltaTime / 3);
-
-			if (this.mummy.getAnimationDelta() >= this.timeToChange)
-			{
-				this.mummy.mummyState = new MummyStateDeciding(this.mummy);
-			}
-		}
+		this.mummy.move(this.mummy.getDirection(), doJump, deltaTime);
+	
+		
 		this.doJump = false;
 	}
 

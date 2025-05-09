@@ -174,6 +174,13 @@ public class Pyramid implements IGrafica
 		return cell;
 	}
 
+	public TiledMapTileLayer.Cell getCellInTiledCoord(int x, int y)
+	{
+		TiledMapTileLayer layer = (TiledMapTileLayer) this.getMap().getLayers().get("front");
+		TiledMapTileLayer.Cell cell = layer.getCell(x, y);
+		return cell;
+	}
+
 	public TiledMapTileLayer.Cell getCell(float x, float y, int i, int j)
 	{
 		TiledMapTileLayer layer = (TiledMapTileLayer) this.getMap().getLayers().get("front");
@@ -323,20 +330,20 @@ public class Pyramid implements IGrafica
 	@Override
 	public float getTimeToExitLevel()
 	{
-	     return this.interfaz.getTimeToExitLevel();
+		return this.interfaz.getTimeToExitLevel();
 	}
- 
+
 	@Override
 	public float getTimeToEnterLevel()
 	{
-	   
-	    return this.interfaz.getTimeToEnterLevel();
+
+		return this.interfaz.getTimeToEnterLevel();
 	}
 
 	@Override
 	public float getTimeDying()
 	{
-	    return this.interfaz.getTimeDying();
+		return this.interfaz.getTimeDying();
 	}
 
 }
