@@ -11,7 +11,7 @@ import modelo.level.door.Door;
 public class GameStatePlaying extends GameState
 {
 	private boolean readyToExit = false;
-	private boolean godMode = false;
+	private boolean godMode = true;
 
 	public GameStatePlaying()
 	{
