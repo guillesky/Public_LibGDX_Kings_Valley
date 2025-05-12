@@ -24,7 +24,7 @@ public class MummyStateLimbus extends MummyState
 	public void update(float deltaTime, Player player)
 
 	{
-		if (this.mummy.getAnimationDelta() >= this.timeToChange)
+		if (this.mummy.getTimeInState() >= this.timeToChange)
 		{
 			if (this.mustTeleport)
 				this.mummy.teleport(player);

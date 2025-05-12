@@ -20,6 +20,7 @@ public abstract class MummyState
 		this.mummy = mummy;
 		this.mummy.setState(state);
 		this.mummy.resetAnimationDelta();
+		this.mummy.resetTimeInState();
 		this.mummy.resetStress();
 	}
 

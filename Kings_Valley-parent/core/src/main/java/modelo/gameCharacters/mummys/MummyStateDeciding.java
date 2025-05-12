@@ -15,21 +15,21 @@ public class MummyStateDeciding extends MummyState
 	@Override
 	public void update(float deltaTime, Player player)
 	{
-		if (this.mummy.getAnimationDelta() >= this.timeToChange)
+		if (this.mummy.getTimeInState() >= this.timeToChange)
 		{
-			this.mummy.mummyState = new MummyStateWalk(this.mummy, player);
+			if (this.mummy.distanceQuadToPlayer(player) < this.mummy.rangeVision)
+				this.mummy.mummyState = new MummyStateChasingPlayer(this.mummy, player);
+			else
+				this.mummy.mummyState = new MummyStateSearchingPlayer(this.mummy, player);
 			this.mummy = null;
 		}
 
 	}
-	
-	
+
 	@Override
 	protected boolean isDanger()
 	{
-	return true;
+		return true;
 	}
-	
-	
 
 }

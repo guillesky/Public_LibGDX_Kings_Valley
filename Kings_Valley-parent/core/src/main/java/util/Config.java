@@ -91,59 +91,7 @@ public class Config
 	private void setMummyParameters(float levelTileWidthUnits)
 	{
 		
-/*		this.mummyWhiteSpeedWalk = (int) (2.5 * this.levelTileWidthUnits);
-		this.mummyWhiteSpeedWalkStairs = (int) (3 * this.levelTileWidthUnits);
-		this.mummyWhiteDecisionFactor = 0.5f;
-		this.mummyWhiteMinTimeToDecide = 5;
-		this.mummyWhiteMaxTimeToDecide = 10;
-		this.mummyWhiteMinTimeDeciding = 2.0f;
-		this.mummyWhiteMaxTimeDeciding = 4.0f;
-
-		this.mummyBlueSpeedWalk = (int) (4.5 * this.levelTileWidthUnits);
-		this.mummyBlueSpeedWalkStairs = (int) (5 * this.levelTileWidthUnits);
-		this.mummyBlueDecisionFactor = 0.5f;
-		this.mummyBlueMinTimeToDecide = 5;
-		this.mummyBlueMaxTimeToDecide = 8;
-		this.mummyBlueMinTimeDeciding = 2.0f;
-		this.mummyBlueMaxTimeDeciding = 3.0f;
-		
-		this.mummyYellowSpeedWalk = (int) (5 * this.levelTileWidthUnits);
-		this.mummyYellowSpeedWalkStairs = (int) (6 * this.levelTileWidthUnits);
-		this.mummyYellowDecisionFactor = 0.3f;
-		this.mummyYellowMinTimeToDecide = 5;
-		this.mummyYellowMaxTimeToDecide = 6;
-		this.mummyYellowMinTimeDeciding = 1.5f;
-		this.mummyYellowMaxTimeDeciding = 2.5f;
-		
-		this.mummyOrangeSpeedWalk = (int) (6 * this.levelTileWidthUnits);
-		this.mummyOrangeSpeedWalkStairs = (int) (7 * this.levelTileWidthUnits);
-		this.mummyOrangeDecisionFactor = 0.4f;
-		this.mummyOrangeMinTimeToDecide = 4;
-		this.mummyOrangeMaxTimeToDecide = 5;
-		this.mummyOrangeMinTimeDeciding = 1.0f;
-		this.mummyOrangeMaxTimeDeciding = 2.0f;
-		
-		this.mummyRedSpeedWalk = (int) (6.5 * this.levelTileWidthUnits);
-		this.mummyRedSpeedWalkStairs = (int) (7.5 * this.levelTileWidthUnits);
-		this.mummyRedDecisionFactor = 0.5f;
-		this.mummyRedMinTimeToDecide = 3;
-		this.mummyRedMaxTimeToDecide = 5;
-		this.mummyRedMinTimeDeciding = 0.2f;
-		this.mummyRedMaxTimeDeciding = 1.0f;
-
-
-
-*/
-		
-		
-
-		
-
-		
-		
-		
-		
-		
+	
 		this.mummyWhiteParameters= new float[10];
 		this.mummyBlueParameters= new float[10];
 		this.mummyYellowParameters= new float[10];
@@ -161,7 +109,7 @@ public class Config
 		this.mummyWhiteParameters[Config.INDEX_MIN_TIME_DECIDING]=2;
 		this.mummyWhiteParameters[Config.INDEX_MAX_TIME_DECIDING]=4;
 		this.mummyWhiteParameters[Config.INDEX_DECICION_FACTOR]=0.5f;
-		this.mummyWhiteParameters[Config.INDEX_DECICION_FACTOR_JUMP]=0.25f;
+		this.mummyWhiteParameters[Config.INDEX_DECICION_FACTOR_JUMP]=0.0f;
 		this.mummyWhiteParameters[Config.INDEX_BEST_DECICION_PROBALITY]=0.4f;
 		this.mummyWhiteParameters[Config.QUAD_DISTANCE_VISION]=36;
 	
@@ -184,7 +132,7 @@ public class Config
 		this.mummyYellowParameters[Config.INDEX_MIN_TIME_DECIDING]=1.5f;
 		this.mummyYellowParameters[Config.INDEX_MAX_TIME_DECIDING]=2.5f;
 		this.mummyYellowParameters[Config.INDEX_DECICION_FACTOR]=0.5f;
-		this.mummyYellowParameters[Config.INDEX_DECICION_FACTOR_JUMP]=0.25f;
+		this.mummyYellowParameters[Config.INDEX_DECICION_FACTOR_JUMP]=0.30f;
 		this.mummyYellowParameters[Config.INDEX_BEST_DECICION_PROBALITY]=0.6f;
 		this.mummyYellowParameters[Config.QUAD_DISTANCE_VISION]=64;
 	
@@ -196,7 +144,7 @@ public class Config
 		this.mummyOrangeParameters[Config.INDEX_MIN_TIME_DECIDING]=1f;
 		this.mummyOrangeParameters[Config.INDEX_MAX_TIME_DECIDING]=2f;
 		this.mummyOrangeParameters[Config.INDEX_DECICION_FACTOR]=0.5f;
-		this.mummyOrangeParameters[Config.INDEX_DECICION_FACTOR_JUMP]=0.25f;
+		this.mummyOrangeParameters[Config.INDEX_DECICION_FACTOR_JUMP]=0.5f;
 		this.mummyOrangeParameters[Config.INDEX_BEST_DECICION_PROBALITY]=0.7f;
 		this.mummyOrangeParameters[Config.QUAD_DISTANCE_VISION]=81;
 	
@@ -207,7 +155,7 @@ public class Config
 		this.mummyRedParameters[Config.INDEX_MIN_TIME_DECIDING]=0.2f;
 		this.mummyRedParameters[Config.INDEX_MAX_TIME_DECIDING]=1f;
 		this.mummyRedParameters[Config.INDEX_DECICION_FACTOR]=0.5f;
-		this.mummyRedParameters[Config.INDEX_DECICION_FACTOR_JUMP]=0.25f;
+		this.mummyRedParameters[Config.INDEX_DECICION_FACTOR_JUMP]=0.6f;
 		this.mummyRedParameters[Config.INDEX_BEST_DECICION_PROBALITY]=0.8f;
 		this.mummyRedParameters[Config.QUAD_DISTANCE_VISION]=121;
 	

@@ -25,7 +25,18 @@ public class Stair
     {
 	return this.downStair.x < this.upStair.x;
     }
+    
+    public float directionUp() 
+    {
+    	return Math.signum(this.upStair.x-this.downStair.x);
+    }
 
+    public float directionDown() 
+    {
+    	return Math.signum(this.downStair.x-this.upStair.x);
+    }
+
+    
     @Override
     public String toString()
     {

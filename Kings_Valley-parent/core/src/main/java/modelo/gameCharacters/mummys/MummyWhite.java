@@ -20,11 +20,6 @@ public class MummyWhite extends Mummy
 		return false;
 	}
 
-	@Override
-	protected boolean makeDecisionForJump()
-	{
-		return false;
-
-	}
+	
 
 }

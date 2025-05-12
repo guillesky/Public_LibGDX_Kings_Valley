@@ -17,7 +17,7 @@ public class MummyStateAppearing extends MummyState
     public void update(float deltaTime,Player player)
     {
 	
-	if (this.mummy.getAnimationDelta() >= this.timeToChange)
+	if (this.mummy.getTimeInState() >= this.timeToChange)
 	{
 
 	    this.mummy.mummyState = new MummyStateDeciding(this.mummy);

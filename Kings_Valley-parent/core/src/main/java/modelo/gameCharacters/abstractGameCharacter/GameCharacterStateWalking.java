@@ -46,53 +46,29 @@ public class GameCharacterStateWalking extends GameCharacterState
 		{
 			if (v.x > 0)
 			{
-				stair = this.checkStairsFeetColision(this.gameCharacter.pyramid.getPositiveStairs(), true);
+				stair = this.gameCharacter.checkStairsFeetColision(true, true);
 
 			} else
 			{
-				stair = this.checkStairsFeetColision(this.gameCharacter.pyramid.getNegativeStairs(), true);
-
+				stair = this.gameCharacter.checkStairsFeetColision(false, true);
 			}
 		} else
 		{
 			if (v.x > 0)
 			{
-				stair = this.checkStairsFeetColision(this.gameCharacter.pyramid.getNegativeStairs(), false);
+				stair = this.gameCharacter.checkStairsFeetColision(false, false);
+
 
 			} else
 			{
-				stair = this.checkStairsFeetColision(this.gameCharacter.pyramid.getPositiveStairs(), false);
+				stair = this.gameCharacter.checkStairsFeetColision(true, false);
+
 
 			}
 		}
 		if (stair != null)
 			this.gameCharacter.gameCharacterState = new GameCharacterStateOnStair(this.gameCharacter, stair);
 
-	}
-
-	private Stair checkStairsFeetColision(ArrayList<Stair> stairs, boolean isUpping)
-	{
-
-		Iterator<Stair> it = stairs.iterator();
-		Stair respuesta = null;
-		Stair stair = null;
-		LevelObject item = null;
-		if (it.hasNext())
-			do
-			{
-				stair = it.next();
-				if (isUpping)
-					item = stair.getDownStair();
-				else
-					item = stair.getUpStair();
-			} while (it.hasNext() && !this.gameCharacter.isFeetColision(item));
-
-		if (this.gameCharacter.isFeetColision(item))
-		{
-			respuesta = stair;
-		}
-
-		return respuesta;
 	}
 
 	@Override

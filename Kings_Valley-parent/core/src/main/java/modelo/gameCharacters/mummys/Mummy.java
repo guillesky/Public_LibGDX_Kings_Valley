@@ -11,6 +11,7 @@ import modelo.gameCharacters.abstractGameCharacter.GameCharacter;
 import modelo.gameCharacters.player.Player;
 import modelo.level.GiratoryMechanism;
 import modelo.level.Pyramid;
+import modelo.level.Stair;
 import util.Config;
 
 @SuppressWarnings("serial")
@@ -24,6 +25,7 @@ public abstract class Mummy extends GameCharacter
 	protected static final int BLOCK_FREE = 0;
 	protected static final int BLOCK_BRICK = 1;
 	protected static final int BLOCK_GIRATORY = 2;
+	protected static final int IN_BORDER_CLIFF = 3;
 
 	private static final int INDEX_SPEED_WALK = 0;
 	private static final int INDEX_SPEED_STAIR = 1;
@@ -44,13 +46,34 @@ public abstract class Mummy extends GameCharacter
 	private float maxTimeToDecide;
 	private float minTimeDeciding;
 	private float maxTimeDeciding;
-	protected float bestDecisionProbability;
+	private float timeInState = 0;
+	private float bestDecisionProbability;
 	protected float rangeVision;
 	protected float timeWhitoutSeePlayer = 0;
 	private Vector2 direction = new Vector2();
 	protected MummyState mummyState;
 	protected float stressLevel = 0;
 	protected Player player;
+
+	protected float getTimeInState()
+	{
+		return timeInState;
+	}
+
+	protected void resetTimeInState()
+	{
+		this.timeInState = 0;
+	}
+
+	protected void incTimeInState(float delta)
+	{
+		this.timeInState += delta;
+	}
+
+	protected void setTimeInState(float timeInState)
+	{
+		this.timeInState = timeInState;
+	}
 
 	public Mummy(int type, float x, float y, float[] parameters, Pyramid pyramid)
 	{
@@ -66,7 +89,7 @@ public abstract class Mummy extends GameCharacter
 				* Config.getInstance().getLevelTileWidthUnits();
 
 		this.mummyState = new MummyStateLimbus(this, 1);
-		
+
 	}
 
 	@Override
@@ -75,7 +98,6 @@ public abstract class Mummy extends GameCharacter
 		this.doJump();
 	}
 
-	
 	protected boolean canJump()
 	{
 
@@ -106,12 +128,12 @@ public abstract class Mummy extends GameCharacter
 		return respuesta;
 	}
 
-	protected int CrashWall()
+	protected int CrashWallOrGiratory()
 	{
 		boolean condicion = false;
 
 		int respuesta = Mummy.BLOCK_FREE;
-
+		float epsilon = Config.getInstance().getLevelTileWidthUnits() * 0.1f;
 		if (this.isLookRight())
 		{
 			condicion = this.getColPosition() >= this.pyramid.getMapWidthInTiles() - 2
@@ -124,20 +146,38 @@ public abstract class Mummy extends GameCharacter
 		} else
 		{
 
-			condicion = this.getColPosition() <= 1
-					|| this.pyramid.getCell(x - 1, this.y + Config.getInstance().getLevelTileHeightUnits()) != null ||
+			condicion = this.getColPosition() <= 1 || this.pyramid.getCell(x - epsilon,
+					this.y + Config.getInstance().getLevelTileHeightUnits()) != null ||
 
-					this.pyramid.getCell(x - 1, this.y) != null;
+					this.pyramid.getCell(x - epsilon, this.y) != null;
 
 		}
 		if (condicion)
 			respuesta = Mummy.BLOCK_BRICK;
 		else if (this.checkGiratory(direction))
 			respuesta = Mummy.BLOCK_GIRATORY;
+
 		return respuesta;
 	}
 
+	protected int checkBorderCliff()
+	{
+		boolean condicion = false;
 
+		int respuesta = Mummy.BLOCK_FREE;
+		float probableX;
+		if (this.isLookRight())
+			probableX = x + width * .5f;
+		else
+			probableX = x;
+		condicion = this.pyramid.getCell(probableX, this.y - Config.getInstance().getLevelTileHeightUnits()) == null
+				&& this.pyramid.getCell(probableX, this.y) == null
+				&& this.pyramid.getCell(probableX, this.y + Config.getInstance().getLevelTileHeightUnits()) == null;
+		if (condicion)
+			respuesta = Mummy.IN_BORDER_CLIFF;
+		return respuesta;
+
+	}
 
 	protected float getTimeToDecide()
 	{
@@ -149,9 +189,7 @@ public abstract class Mummy extends GameCharacter
 		return random.nextFloat(this.minTimeDeciding, this.maxTimeDeciding);
 	}
 
-	
-
-	private boolean makeDecision()
+	protected boolean makeDecision()
 	{
 		return Mummy.random.nextDouble(1) <= this.decisionFactor;
 	}
@@ -159,6 +197,11 @@ public abstract class Mummy extends GameCharacter
 	protected boolean makeDecisionForJump()
 	{
 		return Mummy.random.nextDouble(1) <= this.decisionFactorForJump;
+	}
+
+	protected boolean makeBestDecisionProbability()
+	{
+		return Mummy.random.nextDouble(1) <= this.bestDecisionProbability;
 	}
 
 	@Override
@@ -177,6 +220,7 @@ public abstract class Mummy extends GameCharacter
 	{
 		this.mummyState.update(deltaTime, player);
 		this.incAnimationDelta(deltaTime);
+		this.incTimeInState(deltaTime);
 	}
 
 	@Override
@@ -247,7 +291,7 @@ public abstract class Mummy extends GameCharacter
 
 	public void die(boolean mustTeleport)
 	{
-		this.mummyState = new MummyStateDying(this,mustTeleport);
+		this.mummyState = new MummyStateDying(this, mustTeleport);
 		Game.getInstance().eventFired(KVEventListener.MUMMY_DIE, this);
 	}
 
@@ -265,10 +309,9 @@ public abstract class Mummy extends GameCharacter
 
 		} while (this.distanceQuadToPlayer(coords[0], coords[1], player) < Config.getInstance()
 				.getMinMummySpawnDistanceToPlayer());
-		this.x=coords[0];
-		this.y=coords[1];
-		
-		
+		this.x = coords[0];
+		this.y = coords[1];
+
 	}
 
 	private float[] getRandomCellInFloor()
@@ -280,13 +323,20 @@ public abstract class Mummy extends GameCharacter
 			i = random.nextInt(this.pyramid.getMapHeightInTiles() - 2) + 1;
 			j = random.nextInt(this.pyramid.getMapWidthInTiles() - 2) + 1;
 
-		} while (this.pyramid.getCellInTiledCoord(j, i) != null ||this.pyramid.getCellInTiledCoord(j, i+1) != null);
+		} while (this.pyramid.getCellInTiledCoord(j, i) != null || this.pyramid.getCellInTiledCoord(j, i + 1) != null);
 
 		while (this.pyramid.getCellInTiledCoord(j, i - 1) == null)
 			i--;
 		float[] r =
 		{ j * Config.getInstance().getLevelTileWidthUnits(), i * Config.getInstance().getLevelTileHeightUnits() };
 		return r;
+	}
+
+	@Override
+	protected Stair checkStairsFeetColision(boolean positiveStairs, boolean isUpping)
+	{
+
+		return super.checkStairsFeetColision(positiveStairs, isUpping);
 	}
 
 }

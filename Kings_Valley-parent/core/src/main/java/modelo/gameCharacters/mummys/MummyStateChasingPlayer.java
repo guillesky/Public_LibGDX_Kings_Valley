@@ -1,61 +1,25 @@
 package modelo.gameCharacters.mummys;
 
-import modelo.gameCharacters.abstractGameCharacter.GameCharacter;
 import modelo.gameCharacters.player.Player;
-import util.Config;
+import modelo.level.Stair;
 
-public class MummyStateChasingPlayer extends MummyState
+public class MummyStateChasingPlayer extends MummyStateWalking
 {
-	private boolean doJump = false;
-
 	public MummyStateChasingPlayer(Mummy mummy, Player player)
 	{
-		super(mummy, GameCharacter.ST_WALKING);
-		this.mummy.timeWhitoutSeePlayer = 0;
-
-		this.timeToChange = this.mummy.getTimeToDecide();
-		this.setDirection(player);
-		System.out.println("CHASING "+mummy);
-	}
-
-	private void setDirection(Player player)
-	{
-		if (mummy.getX() < player.getX())
-			this.mummy.getDirection().x = 1;
-		else
-			this.mummy.getDirection().x = -1;
+		super(mummy, player);
 
 	}
 
 	@Override
-	public void update(float deltaTime, Player player)
+	protected void checkEndOfPlataform(Player player)
 	{
-		this.mummy.timeWhitoutSeePlayer += deltaTime;
-		if (this.mummy.getAnimationDelta() >= this.timeToChange)
+		int positionMummy = mummy.CrashWallOrGiratory();
+		if (positionMummy != Mummy.BLOCK_FREE)
 		{
-			if (this.mummy.distanceQuadToPlayer(player) > this.mummy.rangeVision)
-				this.mummy.mummyState = new MummyStateDeciding(this.mummy);
-			else
-			{
-				this.setDirection(player);
-			}
-		}
 
-		if (this.mummy.getState() == GameCharacter.ST_WALKING)
-			this.checkCrash();
-
-		this.mummy.move(this.mummy.getDirection(), doJump, deltaTime);
-	
-		
-		this.doJump = false;
-	}
-
-	private void checkCrash()
-	{
-		int blockMummy = mummy.CrashWall();
-		if (blockMummy != Mummy.BLOCK_FREE)
-		{
-			if (blockMummy == Mummy.BLOCK_BRICK && this.mummy.makeDecisionForJump())
+			if (positionMummy == Mummy.BLOCK_BRICK && this.mummy.canJump() && player.y >= this.mummy.y
+					&& this.mummy.makeBestDecisionProbability())
 			{
 				this.doJump = true;
 			} else
@@ -64,11 +28,58 @@ public class MummyStateChasingPlayer extends MummyState
 				this.mummy.stressing();
 			}
 		}
+		positionMummy = mummy.checkBorderCliff();
+		if (positionMummy == Mummy.IN_BORDER_CLIFF)
+		{
+			if (this.mummy.canJump() && player.y >= this.mummy.y && this.mummy.makeBestDecisionProbability())
+				this.doJump = true;
+			else if (this.mummy.makeDecision())
+				this.mummy.getDirection().x *= -1;
+		}
 	}
 
 	@Override
-	protected boolean isDanger()
+	protected void decideEnterStairs(Player player)
 	{
-		return true;
+		Stair stair = null;
+		if (player.y > this.mummy.y)
+		{
+			stair = this.mummy.checkStairsFeetColision(true, true);
+			if (stair == null)
+				stair = this.mummy.checkStairsFeetColision(false, true);
+			if (stair != null && this.mummy.makeBestDecisionProbability())
+			{
+				this.mummy.getDirection().x = stair.directionUp();
+				this.mummy.getDirection().y = 1;
+			}
+		} else if (player.y < this.mummy.y)
+		{
+			stair = this.mummy.checkStairsFeetColision(true, false);
+			if (stair == null)
+				stair = this.mummy.checkStairsFeetColision(false, false);
+			if (stair != null && this.mummy.makeBestDecisionProbability())
+			{
+				this.mummy.getDirection().x = stair.directionDown();
+				this.mummy.getDirection().y = -1;
+			}
+		}
+
 	}
+
+	@Override
+	protected void checkChangeStatus(Player player)
+	{
+		if (this.mummy.getTimeInState() >= this.timeToChange)
+		{
+			if (this.mummy.distanceQuadToPlayer(player) > this.mummy.rangeVision)
+				this.mummy.mummyState = new MummyStateDeciding(this.mummy);
+			else
+			{
+				this.setDirection(player);
+				this.mummy.resetTimeInState();
+			}
+		}
+
+	}
+
 }
