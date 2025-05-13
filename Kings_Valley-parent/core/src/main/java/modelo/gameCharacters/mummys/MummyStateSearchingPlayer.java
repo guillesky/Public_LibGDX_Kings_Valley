@@ -18,22 +18,35 @@ public class MummyStateSearchingPlayer extends MummyStateWalking
 		int positionMummy = mummy.CrashWallOrGiratory();
 		if (positionMummy != Mummy.BLOCK_FREE)
 		{
-			if (positionMummy == Mummy.BLOCK_BRICK && this.mummy.canJump() && this.mummy.makeDecisionForJump())
+			if (positionMummy == Mummy.BLOCK_BRICK && this.mummy.makeDecisionForJump())
 			{
 				this.doJump = true;
 			} else
 			{
-				this.mummy.getDirection().x *= -1;
-				this.mummy.stressing();
+				this.bounces();
+			}
+		} else
+		{
+			positionMummy = mummy.checkBorderCliff();
+			if (positionMummy == Mummy.IN_BORDER_CLIFF)
+			{
+				if (player.y >= this.mummy.y && this.mummy.makeBestDecisionProbability())
+					this.doJump = true;
+				else
+				{
+					if (this.mummy.makeDecision())
+					{
+						if (this.mummy.makeDecisionForJump())
+							this.doJump = true;
+						else
+						{
+							this.bounces();
+						}
+
+					}
+				}
 			}
 		}
-		positionMummy = mummy.checkBorderCliff();
-		if (positionMummy == Mummy.IN_BORDER_CLIFF)
-		{
-			if (this.mummy.canJump() && player.y >= this.mummy.y && this.mummy.makeBestDecisionProbability())
-				this.doJump = true;
-		}
-
 	}
 
 	@Override
@@ -42,9 +55,6 @@ public class MummyStateSearchingPlayer extends MummyStateWalking
 		this.mummy.timeWhitoutSeePlayer += deltaTime;
 		super.update(deltaTime, player);
 
-		
-
-		
 	}
 
 	@Override
@@ -63,12 +73,12 @@ public class MummyStateSearchingPlayer extends MummyStateWalking
 	protected void decideEnterStairs(Player player)
 	{
 
-		if (player.y > this.mummy.y)
+		if (player.y - Config.getInstance().getLevelTileHeightUnits() * 2 > this.mummy.y)
 			this.mummy.getDirection().y = 1;
-		else if (player.y < this.mummy.y)
+		else if (player.y + Config.getInstance().getLevelTileHeightUnits() * 2 < this.mummy.y)
 			this.mummy.getDirection().y = -1;
 		else
-			this.mummy.getDirection().y = 0;	
+			this.mummy.getDirection().y = 0;
 	}
 
 }

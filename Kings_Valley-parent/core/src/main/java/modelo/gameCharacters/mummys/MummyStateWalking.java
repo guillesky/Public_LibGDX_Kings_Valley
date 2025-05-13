@@ -37,8 +37,8 @@ public abstract class MummyStateWalking extends MummyState
 
 		if (this.mummy.getStressLevel() > 0)
 			this.mummy.calmStress(deltaTime / 3);
-
-		this.decideEnterStairs(player);
+		if (!this.mummy.isInStair())
+			this.decideEnterStairs(player);
 		this.mummy.move(this.mummy.getDirection(), doJump, deltaTime);
 		this.checkChangeStatus(player);
 		this.doJump = false;
@@ -56,4 +56,9 @@ public abstract class MummyStateWalking extends MummyState
 
 	protected abstract void checkChangeStatus(Player player);
 
+	protected void bounces()
+	{
+		this.mummy.getDirection().x *= -1;
+		this.mummy.stressing();
+	}
 }

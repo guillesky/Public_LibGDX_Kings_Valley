@@ -7,9 +7,9 @@ import modelo.gameCharacters.abstractGameCharacter.GameCharacter;
 public class PlayerStateWalking extends PlayerState
 {
 
-	public PlayerStateWalking(Player player)
+	public PlayerStateWalking(Player player, int state)
 	{
-		super(player, GameCharacter.ST_IDDLE);
+			super(player, state);
 	}
 
 	@Override

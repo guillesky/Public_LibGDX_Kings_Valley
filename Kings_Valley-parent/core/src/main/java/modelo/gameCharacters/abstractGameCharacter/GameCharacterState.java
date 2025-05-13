@@ -97,13 +97,13 @@ public abstract class GameCharacterState
 	private boolean colisionMiddleRight(Vector2 vectMove)
 	{
 		return isCellBlocked(this.gameCharacter.x + vectMove.x + this.gameCharacter.getWidth(),
-				this.gameCharacter.y + vectMove.y + this.gameCharacter.getHeight()*.6f);
+				this.gameCharacter.y + vectMove.y + this.gameCharacter.getHeight()*.55f);
 	}
 
 	private boolean colisionMiddleLeft(Vector2 vectMove)
 	{
 		return isCellBlocked(this.gameCharacter.x + vectMove.x,
-				this.gameCharacter.y + vectMove.y + this.gameCharacter.getHeight() *.6f);
+				this.gameCharacter.y + vectMove.y + this.gameCharacter.getHeight() *.55f);
 	}
 
 	private boolean colisionUpRight(Vector2 vectMove)

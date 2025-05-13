@@ -33,7 +33,7 @@ public class Player extends GameCharacter
 	{
 		super(Constantes.PLAYER, x, y, Config.getInstance().getPlayerSpeedWalk(),
 				Config.getInstance().getPlayerSpeedWalkStairs(), pyramid);
-		this.playerState = new PlayerStateWalking(this);
+		this.playerState = new PlayerStateWalking(this,GameCharacter.ST_IDDLE);
 	}
 
 	public void update(Vector2 v, boolean b, float deltaTime)

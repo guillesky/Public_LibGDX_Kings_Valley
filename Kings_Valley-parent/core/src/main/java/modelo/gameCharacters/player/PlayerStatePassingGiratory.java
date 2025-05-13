@@ -2,6 +2,7 @@ package modelo.gameCharacters.player;
 
 import com.badlogic.gdx.math.Vector2;
 
+import modelo.gameCharacters.abstractGameCharacter.GameCharacter;
 import modelo.level.GiratoryMechanism;
 
 public class PlayerStatePassingGiratory extends PlayerState
@@ -27,7 +28,12 @@ public class PlayerStatePassingGiratory extends PlayerState
 	this.player.incX(direction * speedWalkStairs * 0.5f * deltaTime);
 	if (!this.player.isColision(this.passingGiratory.getLevelObject()))
 	{
-	   this.player.setPlayerState(new PlayerStateWalking(this.player));
+		int state;
+		if(v.x==0)
+			state=GameCharacter.ST_IDDLE;
+		else
+			state=GameCharacter.ST_WALKING;
+	   this.player.setPlayerState(new PlayerStateWalking(this.player,state));
 	}
 
     }

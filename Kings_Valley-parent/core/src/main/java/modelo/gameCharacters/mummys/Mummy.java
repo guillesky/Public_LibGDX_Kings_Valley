@@ -89,7 +89,7 @@ public abstract class Mummy extends GameCharacter
 				* Config.getInstance().getLevelTileWidthUnits();
 
 		this.mummyState = new MummyStateLimbus(this, 1);
-
+		
 	}
 
 	@Override
@@ -98,7 +98,9 @@ public abstract class Mummy extends GameCharacter
 		this.doJump();
 	}
 
-	protected boolean canJump()
+	
+
+	protected boolean canJump____()
 	{
 
 		boolean respuesta = false;
@@ -226,8 +228,8 @@ public abstract class Mummy extends GameCharacter
 	@Override
 	protected void move(Vector2 v, boolean b, float deltaTime)
 	{
-
 		super.move(v, b, deltaTime);
+		
 	}
 
 	protected Vector2 getDirection()
@@ -338,5 +340,7 @@ public abstract class Mummy extends GameCharacter
 
 		return super.checkStairsFeetColision(positiveStairs, isUpping);
 	}
+
+	
 
 }

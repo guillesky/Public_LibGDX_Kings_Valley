@@ -36,18 +36,17 @@ public class Game implements KVEventListener
 	protected int state;
 	private int score = 0;
 	protected int lives;
+	private float maxDeltaTimeRegistered = 0;
 
 	public void incScore(int cant)
 	{
 		this.score += cant;
 	}
 
-	
 	public int getLives()
 	{
 		return lives;
 	}
-
 
 	public int getScore()
 	{
@@ -72,7 +71,7 @@ public class Game implements KVEventListener
 	private void initNewGame()
 	{
 		this.resetCompletedLevels();
-this.lives=3;
+		this.lives = 3;
 	}
 
 	private void resetCompletedLevels()
@@ -90,6 +89,14 @@ this.lives=3;
 
 	public void updateframe(float deltaTime)
 	{
+		/*
+		 * if (deltaTime > this.maxDeltaTimeRegistered) { this.maxDeltaTimeRegistered =
+		 * deltaTime; System.out.println(deltaTime); }
+		 */
+
+		if (deltaTime > 0.3f)
+			deltaTime = 0.3f;
+
 		if (controles.getShot(Input.Keys.P))
 		{
 			this.paused = !this.paused;
@@ -251,7 +258,7 @@ this.lives=3;
 	{
 		this.stateGame = new GameStateDying();
 		this.level.getPlayer().die();
-		
+
 		this.eventFired(KVEventListener.PLAYER_DIE, null);
 	}
 
