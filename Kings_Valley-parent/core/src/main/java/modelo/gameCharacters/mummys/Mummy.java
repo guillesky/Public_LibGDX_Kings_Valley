@@ -25,8 +25,7 @@ public abstract class Mummy extends GameCharacter
 	protected static final int BLOCK_FREE = 0;
 	protected static final int BLOCK_BRICK = 1;
 	protected static final int BLOCK_GIRATORY = 2;
-	protected static final int IN_BORDER_CLIFF = 3;
-
+	
 	private static final int INDEX_SPEED_WALK = 0;
 	private static final int INDEX_SPEED_STAIR = 1;
 	private static final int INDEX_MIN_TIME_TO_DECIDE = 2;
@@ -89,7 +88,7 @@ public abstract class Mummy extends GameCharacter
 				* Config.getInstance().getLevelTileWidthUnits();
 
 		this.mummyState = new MummyStateLimbus(this, 1);
-		
+
 	}
 
 	@Override
@@ -98,7 +97,10 @@ public abstract class Mummy extends GameCharacter
 		this.doJump();
 	}
 
-	
+	protected boolean canJump()
+	{
+		return true;
+	}
 
 	protected boolean canJump____()
 	{
@@ -162,11 +164,10 @@ public abstract class Mummy extends GameCharacter
 		return respuesta;
 	}
 
-	protected int checkBorderCliff()
+	protected boolean isInBorderCliff()
 	{
 		boolean condicion = false;
 
-		int respuesta = Mummy.BLOCK_FREE;
 		float probableX;
 		if (this.isLookRight())
 			probableX = x + width * .5f;
@@ -175,9 +176,7 @@ public abstract class Mummy extends GameCharacter
 		condicion = this.pyramid.getCell(probableX, this.y - Config.getInstance().getLevelTileHeightUnits()) == null
 				&& this.pyramid.getCell(probableX, this.y) == null
 				&& this.pyramid.getCell(probableX, this.y + Config.getInstance().getLevelTileHeightUnits()) == null;
-		if (condicion)
-			respuesta = Mummy.IN_BORDER_CLIFF;
-		return respuesta;
+		return condicion;
 
 	}
 
@@ -229,7 +228,7 @@ public abstract class Mummy extends GameCharacter
 	protected void move(Vector2 v, boolean b, float deltaTime)
 	{
 		super.move(v, b, deltaTime);
-		
+
 	}
 
 	protected Vector2 getDirection()
@@ -340,7 +339,5 @@ public abstract class Mummy extends GameCharacter
 
 		return super.checkStairsFeetColision(positiveStairs, isUpping);
 	}
-
-	
 
 }

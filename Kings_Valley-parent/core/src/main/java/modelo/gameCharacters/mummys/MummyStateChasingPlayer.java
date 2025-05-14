@@ -29,8 +29,7 @@ public class MummyStateChasingPlayer extends MummyStateWalking
 				this.mummy.stressing();
 			}
 		}
-		positionMummy = mummy.checkBorderCliff();
-		if (positionMummy == Mummy.IN_BORDER_CLIFF)
+		if (mummy.isInBorderCliff())
 		{
 			if (player.y >= this.mummy.y && this.mummy.makeBestDecisionProbability())
 				this.doJump = true;

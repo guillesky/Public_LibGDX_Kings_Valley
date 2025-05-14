@@ -27,10 +27,10 @@ public class MummyStateSearchingPlayer extends MummyStateWalking
 			}
 		} else
 		{
-			positionMummy = mummy.checkBorderCliff();
-			if (positionMummy == Mummy.IN_BORDER_CLIFF)
+			
+			if (mummy.isInBorderCliff())
 			{
-				if (player.y >= this.mummy.y && this.mummy.makeBestDecisionProbability())
+				if (player.y >= this.mummy.y && this.mummy.canJump() && this.mummy.makeBestDecisionProbability())
 					this.doJump = true;
 				else
 				{
