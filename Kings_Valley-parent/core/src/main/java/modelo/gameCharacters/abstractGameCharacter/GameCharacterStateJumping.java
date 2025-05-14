@@ -17,7 +17,7 @@ public class GameCharacterStateJumping extends GameCharacterState
 	@Override
 	protected void moveFirstStep(Vector2 v, boolean b, float deltaTime)
 	{
-		if (this.hasBlocked())
+		if (this.hasBlocked()&& this.gameCharacter.motionVector.y>0)
 			this.tryUnblock();
 		this.gameCharacter.motionVector.y += this.gameCharacter.speedFall * deltaTime;
 

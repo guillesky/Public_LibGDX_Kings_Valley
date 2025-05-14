@@ -66,13 +66,8 @@ public abstract class GameCharacter extends LevelObject
 
 	protected void move(Vector2 v, boolean b, float deltaTime)
 	{
-		deltaTime *= Config.getInstance().getSpeedGame();
-		this.gameCharacterState.moveFirstStep(v, b, deltaTime);
-		Vector2 escalado = this.motionVector.cpy().scl(deltaTime);
-		this.gameCharacterState.moveSecondStep(escalado);
-		this.x += escalado.x;
-		this.y += escalado.y;
-		this.checkOutLevel();
+		this.gameCharacterState.move(v, b, deltaTime);
+		
 
 	}
 
@@ -106,24 +101,7 @@ public abstract class GameCharacter extends LevelObject
 		return lookRight;
 	}
 
-	private void checkOutLevel()
-	{
-		float epsilon = .1f * Config.getInstance().getLevelTileWidthUnits();
 
-		if (this.x < Config.getInstance().getLevelTileWidthUnits())
-		{
-			this.x = Config.getInstance().getLevelTileWidthUnits();
-		} else
-
-		{
-			if (this.x + epsilon + this.width > (this.pyramid.getMapWidthInTiles() - 1)
-					* Config.getInstance().getLevelTileWidthUnits())
-
-				this.x = (this.pyramid.getMapWidthInTiles() - 1) * Config.getInstance().getLevelTileWidthUnits()
-						- (this.width + epsilon);
-		}
-
-	}
 
 	@SuppressWarnings(
 	{ "rawtypes", "unchecked" })

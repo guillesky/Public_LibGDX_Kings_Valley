@@ -97,13 +97,13 @@ public abstract class GameCharacterState
 	private boolean colisionMiddleRight(Vector2 vectMove)
 	{
 		return isCellBlocked(this.gameCharacter.x + vectMove.x + this.gameCharacter.getWidth(),
-				this.gameCharacter.y + vectMove.y + this.gameCharacter.getHeight()*.55f);
+				this.gameCharacter.y + vectMove.y + this.gameCharacter.getHeight() * .55f);
 	}
 
 	private boolean colisionMiddleLeft(Vector2 vectMove)
 	{
 		return isCellBlocked(this.gameCharacter.x + vectMove.x,
-				this.gameCharacter.y + vectMove.y + this.gameCharacter.getHeight() *.55f);
+				this.gameCharacter.y + vectMove.y + this.gameCharacter.getHeight() * .55f);
 	}
 
 	private boolean colisionUpRight(Vector2 vectMove)
@@ -180,7 +180,7 @@ public abstract class GameCharacterState
 
 		x += vectMove.x;
 		y += vectMove.y;
-		int r ;
+		int r;
 		if (this.gameCharacter.motionVector.x == 0)
 		{
 			r = Constantes.DOWN;
@@ -238,7 +238,7 @@ public abstract class GameCharacterState
 		case Constantes.RIGHT:
 			this.correctRight(vectMove);
 			break;
-		
+
 		}
 
 	}
@@ -291,6 +291,36 @@ public abstract class GameCharacterState
 	protected Stair getStair()
 	{
 		return null;
+	}
+
+	public void move(Vector2 v, boolean b, float deltaTime)
+	{
+		deltaTime *= Config.getInstance().getSpeedGame();
+		this.moveFirstStep(v, b, deltaTime);
+		Vector2 escalado = this.gameCharacter.motionVector.cpy().scl(deltaTime);
+		this.moveSecondStep(escalado);
+		this.gameCharacter.x += escalado.x;
+		this.gameCharacter.y += escalado.y;
+		this.checkOutLevel();
+	}
+
+	private void checkOutLevel()
+	{
+		float epsilon = .1f * Config.getInstance().getLevelTileWidthUnits();
+
+		if (this.gameCharacter.x < Config.getInstance().getLevelTileWidthUnits())
+		{
+			this.gameCharacter.x = Config.getInstance().getLevelTileWidthUnits();
+		} else
+
+		{
+			if (this.gameCharacter.x + epsilon + this.gameCharacter.width > (this.gameCharacter.pyramid.getMapWidthInTiles() - 1)
+					* Config.getInstance().getLevelTileWidthUnits())
+
+				this.gameCharacter.x = (this.gameCharacter.pyramid.getMapWidthInTiles() - 1) * Config.getInstance().getLevelTileWidthUnits()
+						- (this.gameCharacter.width + epsilon);
+		}
+
 	}
 
 }
