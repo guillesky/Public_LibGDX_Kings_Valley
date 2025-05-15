@@ -46,7 +46,60 @@ public abstract class MummyStateWalking extends MummyState
 
 	protected abstract void decideEnterStairs(Player player);
 
-	protected abstract void checkEndOfPlataform(Player player);
+	protected void checkEndOfPlataform(Player player)
+	{
+		int statusPositionMummy = mummy.CrashWallOrGiratory();
+		if (statusPositionMummy != Mummy.BLOCK_FREE) // si choca contra un ladrillo o una giratoria
+		{
+			if (statusPositionMummy == Mummy.BLOCK_BRICK && this.mummy.makeDecisionForJump()) // si es ladrillo y decide
+																								// saltar lo hace
+			{
+				this.doJump = true;
+			} else // sino, rebota
+			{
+				this.bounces();
+			}
+		} else
+		{
+
+			if (mummy.isInBorderCliff()) // Si esta al borde del acantilado
+			{
+				if (this.playerIsUp(player)) // Si el player esta arriba
+				{
+					if (this.mummy.makeBestDecisionProbability()) // Si toma la mejor decision posible rebota
+						this.bounces();
+					else // Si no
+					{
+						if (!this.mummy.makeDecisionForFall() && this.mummy.canJump()) // Si no decide caer y puede
+																						// saltar lo hace
+							this.doJump = true;
+					}
+				} // sino se dejara caer
+
+				else if (this.playerIsDown(player) && !this.mummy.makeBestDecisionProbability())
+				// Si el player esta abajo y no toma la mejor decision que seria caer
+				{
+					if (this.mummy.makeDecisionForJump() && this.mummy.canJump()) // Si puede y decide saltar lo hace
+						this.doJump = true;
+					else
+						this.bounces(); // sino, rebota
+
+				}
+
+				else // Si el player esta casi a la misma altura
+				{
+					if (this.mummy.makeBestDecisionProbability() && this.mummy.canJump())
+						this.doJump = true;
+					else
+					{
+						if (!this.mummy.makeDecisionForFall())
+							this.bounces();
+					}
+				}
+			}
+		}
+	}
+
 
 	@Override
 	protected boolean isDanger()
@@ -54,6 +107,9 @@ public abstract class MummyStateWalking extends MummyState
 		return true;
 	}
 
+	
+	
+	
 	protected abstract void checkChangeStatus(Player player);
 
 	protected void bounces()
@@ -61,4 +117,15 @@ public abstract class MummyStateWalking extends MummyState
 		this.mummy.getDirection().x *= -1;
 		this.mummy.stressing();
 	}
+
+	protected boolean playerIsUp(Player player)
+	{
+		return player.y - Config.getInstance().getLevelTileHeightUnits() * 2 > this.mummy.y;
+	}
+
+	protected boolean playerIsDown(Player player)
+	{
+		return player.y + Config.getInstance().getLevelTileHeightUnits() * 2 < this.mummy.y;
+	}
+
 }

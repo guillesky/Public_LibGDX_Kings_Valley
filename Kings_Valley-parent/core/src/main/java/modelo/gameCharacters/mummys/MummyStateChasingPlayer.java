@@ -33,7 +33,7 @@ public class MummyStateChasingPlayer extends MummyStateWalking
 		{
 			if (player.y >= this.mummy.y && this.mummy.makeBestDecisionProbability())
 				this.doJump = true;
-			else if (this.mummy.makeDecision())
+			else if (this.mummy.makeDecisionForFall())
 				this.mummy.getDirection().x *= -1;
 		}
 	}

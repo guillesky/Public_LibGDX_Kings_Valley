@@ -23,6 +23,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Array.ArrayIterator;
 
@@ -41,7 +42,7 @@ import modelo.level.door.Door;
 import util.Constantes;
 import util.Messages;
 
-public class TileMapGrafica2D implements IMyApplicationListener
+public class TileMapGrafica2D_PARALAX implements IMyApplicationListener
 {
 	public static final int IDDLE = 0;
 	public static final int FALL = 1;
@@ -52,6 +53,7 @@ public class TileMapGrafica2D implements IMyApplicationListener
 	public static final int THROW_DAGGER = 5;
 	public static final int APPEAR = 5;
 
+	private OrthographicCamera cameraBack;
 	private OrthographicCamera camera;
 	private OrthographicCamera cameraUI;
 	private OrthogonalTiledMapRenderer renderer;
@@ -82,8 +84,8 @@ public class TileMapGrafica2D implements IMyApplicationListener
 	private float timeToEnterLevel = 2f;
 	private float timeToExitLevel = 1f;
 	private float timeDying = 1f;
- 
-	public TileMapGrafica2D(AssetManager manager)
+
+	public TileMapGrafica2D_PARALAX(AssetManager manager)
 	{
 		this.manager = manager;
 		this.graphicsFileLoader = new GraphicsFileLoader(manager);
@@ -198,8 +200,11 @@ public class TileMapGrafica2D implements IMyApplicationListener
 		this.tileHeight = (int) map.getTileSets().getTileSet(0).getProperties().get("tileheight");
 
 		camera = new OrthographicCamera(pyramid.getMapHeightInPixels() * 4 / 3, pyramid.getMapHeightInPixels());
+		cameraBack = new OrthographicCamera(pyramid.getMapHeightInPixels() * 4 / 3, pyramid.getMapHeightInPixels());
 
 		camera.position.x = pyramid.getMapWidthInPixels() * .5f;
+		cameraBack.position.x = pyramid.getMapWidthInPixels() * .5f;
+		
 		// this.calculateCameraFull();
 		this.graphicsFileLoader.loadAnimations();
 		this.animatedPickedCell = this.graphicsFileLoader.getAnimatedPickedCell();
@@ -418,13 +423,36 @@ public class TileMapGrafica2D implements IMyApplicationListener
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		camera.update();
 		this.calculateCamera();
+		Vector3 originalCamPos = new Vector3(camera.position);
 
 		this.spriteBatch.begin();
 		this.drawFootUI();
+		camera.update();
 		spriteBatch.setProjectionMatrix(camera.combined);
+		
+		/*
+		float factor = 0.5f;
+		camera.position.x = originalCamPos.x * factor;
+		camera.position.y = originalCamPos.y * factor;
+		camera.update();
+
+		renderer.setView(camera);*/
+		this.calculateCameraBack();
+		this.cameraBack.update();
+		renderer.setView(cameraBack);
+		
+		renderer.render(new int[]
+				{ 0});
+			
+//		renderer.renderTileLayer((TiledMapTileLayer) renderer.getMap().getLayers().get("back"));
+
+		//camera.position.set(originalCamPos);
+		
+		//camera.update();
 
 		renderer.setView(camera);
-		renderer.render();
+		renderer.render(new int[]
+		{ 1, 2, 3 });
 		ArrayIterator<AnimatedTrapKV2> it3 = this.animatedTraps.iterator();
 		while (it3.hasNext())
 		{
@@ -506,16 +534,13 @@ public class TileMapGrafica2D implements IMyApplicationListener
 	{
 		this.cameraUI.update();
 		spriteBatch.setProjectionMatrix(cameraUI.combined);
-		
-		String scoreWithZeros=String.format("%06d", Game.getInstance().getScore());
-		
-		
-		
+
+		String scoreWithZeros = String.format("%06d", Game.getInstance().getScore());
+
 		String cartel = Messages.CURRENT_PYRAMID.getValue() + Game.getInstance().getCurrentLevel().getId();
-		cartel+="    "+Messages.LIVES.getValue()+Game.getInstance().getLives();
-		cartel+="    "+Messages.SCORE.getValue()+scoreWithZeros;
-		
-		
+		cartel += "    " + Messages.LIVES.getValue() + Game.getInstance().getLives();
+		cartel += "    " + Messages.SCORE.getValue() + scoreWithZeros;
+
 		GlyphLayout layout = new GlyphLayout(font24, cartel);
 		float x = (Gdx.graphics.getWidth() - layout.width) / 2;
 		float y = Gdx.graphics.getHeight() - layout.height;
@@ -557,6 +582,19 @@ public class TileMapGrafica2D implements IMyApplicationListener
 			camera.position.x = Game.getInstance().getCurrentLevel().getPlayer().getX();
 
 		camera.position.y = pyramid.getMapHeightInPixels() * .55f;
+	}
+	private void calculateCameraBack()
+	{
+		Pyramid pyramid = Game.getInstance().getCurrentLevel().getPyramid();
+		float playerX=Game.getInstance().getCurrentLevel().getPlayer().getX();
+		float medioX=pyramid.getMapWidthInPixels()/2;
+		float dif=(medioX-playerX)*0.5f;
+		float aux_X = playerX+dif;
+
+		if (aux_X >= (cameraBack.viewportWidth / 2) && aux_X + (cameraBack.viewportWidth / 2) <= pyramid.getMapWidthInPixels())
+			cameraBack.position.x = Game.getInstance().getCurrentLevel().getPlayer().getX();
+
+		cameraBack.position.y = pyramid.getMapHeightInPixels() * .55f;
 	}
 
 	private void calculateCameraFull()

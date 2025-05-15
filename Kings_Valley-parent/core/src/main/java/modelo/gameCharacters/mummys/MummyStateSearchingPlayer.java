@@ -12,43 +12,8 @@ public class MummyStateSearchingPlayer extends MummyStateWalking
 
 	}
 
-	@Override
-	protected void checkEndOfPlataform(Player player)
-	{
-		int positionMummy = mummy.CrashWallOrGiratory();
-		if (positionMummy != Mummy.BLOCK_FREE)
-		{
-			if (positionMummy == Mummy.BLOCK_BRICK && this.mummy.makeDecisionForJump())
-			{
-				this.doJump = true;
-			} else
-			{
-				this.bounces();
-			}
-		} else
-		{
-			
-			if (mummy.isInBorderCliff())
-			{
-				if (player.y >= this.mummy.y && this.mummy.canJump() && this.mummy.makeBestDecisionProbability())
-					this.doJump = true;
-				else
-				{
-					if (this.mummy.makeDecision())
-					{
-						if (this.mummy.makeDecisionForJump())
-							this.doJump = true;
-						else
-						{
-							this.bounces();
-						}
-
-					}
-				}
-			}
-		}
-	}
-
+	
+	
 	@Override
 	public void update(float deltaTime, Player player)
 	{
@@ -73,9 +38,9 @@ public class MummyStateSearchingPlayer extends MummyStateWalking
 	protected void decideEnterStairs(Player player)
 	{
 
-		if (player.y - Config.getInstance().getLevelTileHeightUnits() * 2 > this.mummy.y)
+		if (this.playerIsUp(player))
 			this.mummy.getDirection().y = 1;
-		else if (player.y + Config.getInstance().getLevelTileHeightUnits() * 2 < this.mummy.y)
+		else if (this.playerIsDown(player))
 			this.mummy.getDirection().y = -1;
 		else
 			this.mummy.getDirection().y = 0;

@@ -190,7 +190,7 @@ public abstract class Mummy extends GameCharacter
 		return random.nextFloat(this.minTimeDeciding, this.maxTimeDeciding);
 	}
 
-	protected boolean makeDecision()
+	protected boolean makeDecisionForFall()
 	{
 		return Mummy.random.nextDouble(1) <= this.decisionFactor;
 	}
