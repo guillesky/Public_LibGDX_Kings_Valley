@@ -9,7 +9,7 @@ public class Config
 	private static final int INDEX_MAX_TIME_TO_DECIDE = 3;
 	private static final int INDEX_MIN_TIME_DECIDING = 4;
 	private static final int INDEX_MAX_TIME_DECIDING = 5;
-	private static final int INDEX_DECICION_FACTOR = 6;
+	private static final int INDEX_DECICION_FACTOR_FALL = 6;
 	private static final int INDEX_DECICION_FACTOR_JUMP = 7;
 	private static final int INDEX_BEST_DECICION_PROBALITY = 8;
 	private static final int QUAD_DISTANCE_VISION = 9;
@@ -108,7 +108,7 @@ public class Config
 		this.mummyWhiteParameters[Config.INDEX_MAX_TIME_TO_DECIDE]=10;
 		this.mummyWhiteParameters[Config.INDEX_MIN_TIME_DECIDING]=2;
 		this.mummyWhiteParameters[Config.INDEX_MAX_TIME_DECIDING]=4;
-		this.mummyWhiteParameters[Config.INDEX_DECICION_FACTOR]=0.5f;
+		this.mummyWhiteParameters[Config.INDEX_DECICION_FACTOR_FALL]=0.95f;
 		this.mummyWhiteParameters[Config.INDEX_DECICION_FACTOR_JUMP]=0.0f;
 		this.mummyWhiteParameters[Config.INDEX_BEST_DECICION_PROBALITY]=0.4f;
 		this.mummyWhiteParameters[Config.QUAD_DISTANCE_VISION]=36;
@@ -119,8 +119,8 @@ public class Config
 		this.mummyBlueParameters[Config.INDEX_MAX_TIME_TO_DECIDE]=8;
 		this.mummyBlueParameters[Config.INDEX_MIN_TIME_DECIDING]=2;
 		this.mummyBlueParameters[Config.INDEX_MAX_TIME_DECIDING]=3;
-		this.mummyBlueParameters[Config.INDEX_DECICION_FACTOR]=0.5f;
-		this.mummyBlueParameters[Config.INDEX_DECICION_FACTOR_JUMP]=0.25f;
+		this.mummyBlueParameters[Config.INDEX_DECICION_FACTOR_FALL]=0.8f;
+		this.mummyBlueParameters[Config.INDEX_DECICION_FACTOR_JUMP]=0.65f;
 		this.mummyBlueParameters[Config.INDEX_BEST_DECICION_PROBALITY]=0.5f;
 		this.mummyBlueParameters[Config.QUAD_DISTANCE_VISION]=49;
 	
@@ -131,7 +131,7 @@ public class Config
 		this.mummyYellowParameters[Config.INDEX_MAX_TIME_TO_DECIDE]=6;
 		this.mummyYellowParameters[Config.INDEX_MIN_TIME_DECIDING]=1.5f;
 		this.mummyYellowParameters[Config.INDEX_MAX_TIME_DECIDING]=2.5f;
-		this.mummyYellowParameters[Config.INDEX_DECICION_FACTOR]=0.5f;
+		this.mummyYellowParameters[Config.INDEX_DECICION_FACTOR_FALL]=0.75f;
 		this.mummyYellowParameters[Config.INDEX_DECICION_FACTOR_JUMP]=0.30f;
 		this.mummyYellowParameters[Config.INDEX_BEST_DECICION_PROBALITY]=0.6f;
 		this.mummyYellowParameters[Config.QUAD_DISTANCE_VISION]=64;
@@ -143,7 +143,7 @@ public class Config
 		this.mummyOrangeParameters[Config.INDEX_MAX_TIME_TO_DECIDE]=5;
 		this.mummyOrangeParameters[Config.INDEX_MIN_TIME_DECIDING]=1f;
 		this.mummyOrangeParameters[Config.INDEX_MAX_TIME_DECIDING]=2f;
-		this.mummyOrangeParameters[Config.INDEX_DECICION_FACTOR]=0.5f;
+		this.mummyOrangeParameters[Config.INDEX_DECICION_FACTOR_FALL]=0.6f;
 		this.mummyOrangeParameters[Config.INDEX_DECICION_FACTOR_JUMP]=0.5f;
 		this.mummyOrangeParameters[Config.INDEX_BEST_DECICION_PROBALITY]=0.7f;
 		this.mummyOrangeParameters[Config.QUAD_DISTANCE_VISION]=81;
@@ -154,7 +154,7 @@ public class Config
 		this.mummyRedParameters[Config.INDEX_MAX_TIME_TO_DECIDE]=5;
 		this.mummyRedParameters[Config.INDEX_MIN_TIME_DECIDING]=0.2f;
 		this.mummyRedParameters[Config.INDEX_MAX_TIME_DECIDING]=1f;
-		this.mummyRedParameters[Config.INDEX_DECICION_FACTOR]=0.5f;
+		this.mummyRedParameters[Config.INDEX_DECICION_FACTOR_FALL]=0.5f;
 		this.mummyRedParameters[Config.INDEX_DECICION_FACTOR_JUMP]=0.6f;
 		this.mummyRedParameters[Config.INDEX_BEST_DECICION_PROBALITY]=0.8f;
 		this.mummyRedParameters[Config.QUAD_DISTANCE_VISION]=121;

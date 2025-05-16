@@ -12,31 +12,7 @@ public class MummyStateChasingPlayer extends MummyStateWalking
 
 	}
 
-	@Override
-	protected void checkEndOfPlataform(Player player)
-	{
-		int positionMummy = mummy.CrashWallOrGiratory();
-		if (positionMummy != Mummy.BLOCK_FREE)
-		{
-
-			if (positionMummy == Mummy.BLOCK_BRICK  && player.y >= this.mummy.y
-					&& this.mummy.makeBestDecisionProbability())
-			{
-				this.doJump = true;
-			} else
-			{
-				this.mummy.getDirection().x *= -1;
-				this.mummy.stressing();
-			}
-		}
-		if (mummy.isInBorderCliff())
-		{
-			if (player.y >= this.mummy.y && this.mummy.makeBestDecisionProbability())
-				this.doJump = true;
-			else if (this.mummy.makeDecisionForFall())
-				this.mummy.getDirection().x *= -1;
-		}
-	}
+	
 
 	@Override
 	protected void decideEnterStairs(Player player)
@@ -83,5 +59,7 @@ public class MummyStateChasingPlayer extends MummyStateWalking
 		}
 
 	}
+
+	
 
 }

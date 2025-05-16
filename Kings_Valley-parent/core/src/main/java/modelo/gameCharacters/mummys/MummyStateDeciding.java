@@ -1,5 +1,7 @@
 package modelo.gameCharacters.mummys;
 
+import com.badlogic.gdx.math.Vector2;
+
 import modelo.gameCharacters.player.Player;
 
 public class MummyStateDeciding extends MummyState
@@ -21,9 +23,10 @@ public class MummyStateDeciding extends MummyState
 				this.mummy.mummyState = new MummyStateChasingPlayer(this.mummy, player);
 			else
 				this.mummy.mummyState = new MummyStateSearchingPlayer(this.mummy, player);
-			this.mummy = null;
-		}
 
+		}
+		this.mummy.move(new Vector2(), false, deltaTime);
+		
 	}
 
 	@Override

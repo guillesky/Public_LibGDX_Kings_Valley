@@ -230,11 +230,14 @@ public class TileMapGrafica2D implements IMyApplicationListener
 				animation = this.graphicsFileLoader.getAnimationMummyByColor(mummy.getType());
 				this.animatedEntities.add(new MummyAnimated2D(mummy, animation));
 			}
-			if (this.fileNameTileSetChanged != null)
-			{
-				this.changeTileSet(fileNameTileSetChanged);
-			}
+			
 		}
+		
+		if (this.fileNameTileSetChanged != null)
+		{
+			this.changeTileSet(fileNameTileSetChanged);
+		}
+		
 		this.playerAnimated2D = new PlayerAnimated2D(Game.getInstance().getCurrentLevel().getPlayer(),
 				this.graphicsFileLoader.getAnimationPlayer_Nothing(),
 				this.graphicsFileLoader.getAnimationPlayer_Picker(),
@@ -328,8 +331,8 @@ public class TileMapGrafica2D implements IMyApplicationListener
 
 			this.newTilesetTexture = new Texture(Gdx.files.internal(fileName));
 		}
-		newWidth = this.newTilesetTexture.getWidth() / 20;
-		newHeight = this.newTilesetTexture.getHeight() / 13;
+		newWidth = this.newTilesetTexture.getWidth() / 18;
+		newHeight = this.newTilesetTexture.getHeight() / 8;
 		this.scaleFactor = originalWidth / newWidth;
 		TextureRegion[][] splitTiles = TextureRegion.split(newTilesetTexture, newWidth, newHeight);
 
@@ -420,7 +423,7 @@ public class TileMapGrafica2D implements IMyApplicationListener
 		this.calculateCamera();
 
 		this.spriteBatch.begin();
-		this.drawFootUI();
+		this.drawUI();
 		spriteBatch.setProjectionMatrix(camera.combined);
 
 		renderer.setView(camera);
@@ -496,13 +499,13 @@ public class TileMapGrafica2D implements IMyApplicationListener
 			font48.draw(spriteBatch, layout, x, y);
 
 		}
-		this.drawFootUI();
+		this.drawUI();
 
 		spriteBatch.end();
 		// this.rectaglesRenderDebug.render(camera.combined);
 	}
 
-	private void drawFootUI()
+	private void drawUI()
 	{
 		this.cameraUI.update();
 		spriteBatch.setProjectionMatrix(cameraUI.combined);

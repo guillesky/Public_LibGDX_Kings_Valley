@@ -191,7 +191,9 @@ public class Pyramid implements IGrafica
 
 	public boolean isPickable(Cell celda)
 	{
-		boolean isBeginStair = (celda != null && celda.getTile().getId() >= 20 && celda.getTile().getId() < 60);
+		boolean isBeginStair = (celda != null && (Constantes.tilesPositiveStairs.contains(celda.getTile().getId())
+				|| Constantes.tilesNegativeStairs.contains(celda.getTile().getId())
+				|| Constantes.tilesPreviusToStairs.contains(celda.getTile().getId())));
 
 		Iterator<LevelObject> itJewels = this.jewels.iterator();
 		Cell cellWithItem = null;

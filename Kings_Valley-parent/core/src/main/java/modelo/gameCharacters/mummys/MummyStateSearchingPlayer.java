@@ -12,8 +12,6 @@ public class MummyStateSearchingPlayer extends MummyStateWalking
 
 	}
 
-	
-	
 	@Override
 	public void update(float deltaTime, Player player)
 	{
@@ -45,5 +43,7 @@ public class MummyStateSearchingPlayer extends MummyStateWalking
 		else
 			this.mummy.getDirection().y = 0;
 	}
+
+	
 
 }

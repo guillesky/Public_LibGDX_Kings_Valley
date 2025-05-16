@@ -25,21 +25,21 @@ public abstract class Mummy extends GameCharacter
 	protected static final int BLOCK_FREE = 0;
 	protected static final int BLOCK_BRICK = 1;
 	protected static final int BLOCK_GIRATORY = 2;
-	
+
 	private static final int INDEX_SPEED_WALK = 0;
 	private static final int INDEX_SPEED_STAIR = 1;
 	private static final int INDEX_MIN_TIME_TO_DECIDE = 2;
 	private static final int INDEX_MAX_TIME_TO_DECIDE = 3;
 	private static final int INDEX_MIN_TIME_DECIDING = 4;
 	private static final int INDEX_MAX_TIME_DECIDING = 5;
-	private static final int INDEX_DECICION_FACTOR = 6;
+	private static final int INDEX_DECICION_FACTOR_FALL = 6;
 	private static final int INDEX_DECICION_FACTOR_JUMP = 7;
 	private static final int INDEX_BEST_DECICION_PROBALITY = 8;
 	private static final int QUAD_DISTANCE_VISION = 9;
 
 	protected static final Random random = new Random();
 
-	protected float decisionFactor;
+	protected float decisionFactorForFall;
 	protected float decisionFactorForJump;
 	private float minTimeToDecide;
 	private float maxTimeToDecide;
@@ -77,7 +77,7 @@ public abstract class Mummy extends GameCharacter
 	public Mummy(int type, float x, float y, float[] parameters, Pyramid pyramid)
 	{
 		super(type, x, y, parameters[INDEX_SPEED_WALK], parameters[INDEX_SPEED_STAIR], pyramid);
-		this.decisionFactor = parameters[INDEX_DECICION_FACTOR];
+		this.decisionFactorForFall = parameters[INDEX_DECICION_FACTOR_FALL];
 		this.decisionFactorForJump = parameters[INDEX_DECICION_FACTOR_JUMP];
 		this.minTimeToDecide = parameters[INDEX_MIN_TIME_TO_DECIDE];
 		this.maxTimeToDecide = parameters[INDEX_MAX_TIME_TO_DECIDE];
@@ -99,11 +99,6 @@ public abstract class Mummy extends GameCharacter
 
 	protected boolean canJump()
 	{
-		return true;
-	}
-
-	protected boolean canJump____()
-	{
 
 		boolean respuesta = false;
 
@@ -111,22 +106,22 @@ public abstract class Mummy extends GameCharacter
 		{
 			respuesta = this.getColPosition() < this.pyramid.getMapWidthInTiles() - 2
 					&& this.pyramid.getCell(x + Config.getInstance().getLevelTileWidthUnits(),
-							this.y + Config.getInstance().getLevelTileHeightUnits()) != null
+							this.y + Config.getInstance().getLevelTileHeightUnits()) == null
 					&&
 
 					this.pyramid.getCell(x + Config.getInstance().getLevelTileWidthUnits(),
-							this.y + Config.getInstance().getLevelTileHeightUnits() * 2) != null;
+							this.y + Config.getInstance().getLevelTileHeightUnits() * 2) == null;
 
 		} else
 		{
 
 			respuesta = this.getColPosition() > 1
 					&& this.pyramid.getCell(x - Config.getInstance().getLevelTileWidthUnits(),
-							this.y + Config.getInstance().getLevelTileHeightUnits()) != null
+							this.y + Config.getInstance().getLevelTileHeightUnits()) == null
 					&&
 
 					this.pyramid.getCell(x - Config.getInstance().getLevelTileWidthUnits(),
-							this.y + Config.getInstance().getLevelTileHeightUnits() * 2) != null;
+							this.y + Config.getInstance().getLevelTileHeightUnits() * 2) == null;
 
 		}
 		return respuesta;
@@ -192,7 +187,7 @@ public abstract class Mummy extends GameCharacter
 
 	protected boolean makeDecisionForFall()
 	{
-		return Mummy.random.nextDouble(1) <= this.decisionFactor;
+		return Mummy.random.nextFloat(1.0f) <= this.decisionFactorForFall;
 	}
 
 	protected boolean makeDecisionForJump()
