@@ -51,10 +51,10 @@ public class Main implements ApplicationListener
 		}*/
 		Game.getInstance().start();
 		this.grafica.create();
-		/*
+		
 		 TileMapGrafica2D mytile2d=(TileMapGrafica2D) this.grafica;
 		 mytile2d.changeTileSet("pics/tiles128.png");
-		 */
+		 
 	}
 
 	@Override
