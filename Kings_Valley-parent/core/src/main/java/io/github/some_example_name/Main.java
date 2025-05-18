@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import modelo.control.Controls;
 import modelo.game.Game;
 import vista2D.TileMapGrafica2D;
+import vista2D.TileMapGrafica2D_PARALAX;
 
 /**
  * {@link com.badlogic.gdx.ApplicationListener} implementation shared by all
@@ -29,7 +30,7 @@ public class Main implements ApplicationListener
 		 * for (int i = 1; i <= 15; i++) manager.load(Constantes.levelFileName.get(i),
 		 * TiledMap.class);
 		 */
-		grafica = new TileMapGrafica2D(manager);
+		grafica = new TileMapGrafica2D_PARALAX(manager);
 		/*
 		 * Thread th = new Thread(new Runnable() {
 		 * 
@@ -52,7 +53,7 @@ public class Main implements ApplicationListener
 		Game.getInstance().start();
 		this.grafica.create();
 		
-		 TileMapGrafica2D mytile2d=(TileMapGrafica2D) this.grafica;
+		TileMapGrafica2D mytile2d=(TileMapGrafica2D) this.grafica;
 		 mytile2d.changeTileSet("pics/tiles128.png");
 		 
 	}
