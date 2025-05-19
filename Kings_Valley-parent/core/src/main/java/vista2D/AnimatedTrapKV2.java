@@ -16,6 +16,7 @@ public class AnimatedTrapKV2 implements IGraphicRenderer
 	{
 		this.trapMech = trapMech;
 		this.sprite = new Sprite(trapMech.getTile().getTextureRegion());
+		this.sprite.setSize(Config.getInstance().getLevelTileWidthUnits(), Config.getInstance().getLevelTileHeightUnits());
 	}
 
 	@Override
