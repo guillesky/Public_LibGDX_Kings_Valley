@@ -6,17 +6,17 @@ import util.Config;
 
 public class MummyStateSearchingPlayer extends MummyStateWalking
 {
-	public MummyStateSearchingPlayer(Mummy mummy, Player player)
+	public MummyStateSearchingPlayer(Mummy mummy)
 	{
-		super(mummy, player);
+		super(mummy);
 
 	}
 
 	@Override
-	public void update(float deltaTime, Player player)
+	public void update(float deltaTime)
 	{
 		this.mummy.timeWhitoutSeePlayer += deltaTime;
-		super.update(deltaTime, player);
+		super.update(deltaTime);
 
 	}
 
@@ -24,7 +24,7 @@ public class MummyStateSearchingPlayer extends MummyStateWalking
 	protected void checkChangeStatus(Player player)
 	{
 		if (this.mummy.distanceQuadToPlayer(player) < this.mummy.rangeVision)
-			this.mummy.mummyState = new MummyStateChasingPlayer(this.mummy, player);
+			this.mummy.mummyState = new MummyStateChasingPlayer(this.mummy);
 
 		if (this.mummy.getTimeInState() >= this.timeToChange)
 		{

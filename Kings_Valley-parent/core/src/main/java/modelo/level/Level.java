@@ -21,16 +21,14 @@ public class Level
 	private int id;
 	private Door doorIn;
 
-	public Level(int id, Pyramid pyramid, ArrayList<Mummy> mummys, Door door)
+	public Level(int id, Pyramid pyramid, ArrayList<Mummy> mummys, Door door, Player player)
 	{
 
 		this.pyramid = pyramid;
 		this.mummys = mummys;
 		this.doorIn = door;
 		this.id = id;
-		float y = door.getPassage().y;
-		float x = door.getPassage().x;
-		this.player = new Player(x, y, this.pyramid);
+		this.player = player;
 
 	}
 
@@ -38,7 +36,7 @@ public class Level
 	{
 		Iterator<Mummy> it = this.mummys.iterator();
 		while (it.hasNext())
-			it.next().update(deltaTime, player);
+			it.next().update(deltaTime);
 
 	}
 

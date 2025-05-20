@@ -8,9 +8,9 @@ import util.Config;
 public class MummyBlue extends Mummy
 {
 
-    public MummyBlue(float x, float y, Pyramid pyramid)
+    public MummyBlue(float x, float y, Pyramid pyramid,Player player)
     {
-	super(MummyFactory.BLUE_MUMMY, x, y, Config.getInstance().getMummyBlueParameters(),	pyramid);
+	super(MummyFactory.BLUE_MUMMY, x, y, Config.getInstance().getMummyBlueParameters(),	pyramid,player);
 
     }
 

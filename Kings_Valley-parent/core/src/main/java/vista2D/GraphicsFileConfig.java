@@ -7,7 +7,7 @@ public class GraphicsFileConfig
     private String archiCollectables = "pics/collectables.png";
     private String archiGiratory = "pics/giratory.png";
     private String archiMummyBlue = "pics/mummy_blue.png";
-    private String archiMummyOrange = "pics/mummy_orange.png";
+    private String archiMummyPink = "pics/mummy_pink.png";
     private String archiMummyRed = "pics/mummy_red.png";
     private String archiMummyWhite = "pics/mummy_white.png";
     private String archiMummyYellow = "pics/mummy_yellow.png";
@@ -118,9 +118,9 @@ public class GraphicsFileConfig
 	return archiMummyBlue;
     }
 
-    public String getArchiMummyOrange()
+    public String getArchiMummyPink()
     {
-	return archiMummyOrange;
+	return archiMummyPink;
     }
 
     public String getArchiMummyRed()

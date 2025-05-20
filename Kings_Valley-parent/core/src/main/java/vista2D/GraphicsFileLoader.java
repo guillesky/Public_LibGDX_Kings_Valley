@@ -29,7 +29,7 @@ public class GraphicsFileLoader
 	private Animation<TextureRegion>[] animationPlayer_Dagger = new Animation[7];
 	private Animation<TextureRegion>[] animationPlayer_Picker = new Animation[7];
 	private Animation<TextureRegion>[] animationMummyBlue;
-	private Animation<TextureRegion>[] animationMummyOrange;
+	private Animation<TextureRegion>[] animationMummyPink;
 	private Animation<TextureRegion>[] animationMummyRed;
 	private Animation<TextureRegion>[] animationMummyWhite;
 	private Animation<TextureRegion>[] animationMummyYellow;
@@ -74,7 +74,7 @@ public class GraphicsFileLoader
 		this.manager.load(graphicsFileConfig.getArchiGiratory(), Texture.class);
 		this.manager.load(graphicsFileConfig.getArchiPickingCell(), Texture.class);
 		this.manager.load(graphicsFileConfig.getArchiMummyBlue(), Texture.class);
-		this.manager.load(graphicsFileConfig.getArchiMummyOrange(), Texture.class);
+		this.manager.load(graphicsFileConfig.getArchiMummyPink(), Texture.class);
 		this.manager.load(graphicsFileConfig.getArchiMummyRed(), Texture.class);
 		this.manager.load(graphicsFileConfig.getArchiMummyWhite(), Texture.class);
 		this.manager.load(graphicsFileConfig.getArchiMummyYellow(), Texture.class);
@@ -309,7 +309,7 @@ public class GraphicsFileLoader
 		this.animationMummyDeath = this.framesToAnimation(linearFrame, 0, mummyCountDeath, 0.1f);
 		this.animationMummyDeath.setPlayMode(PlayMode.NORMAL);
 		this.animationMummyBlue = this.loadMummyAnimations(this.graphicsFileConfig.getArchiMummyBlue());
-		this.animationMummyOrange = this.loadMummyAnimations(this.graphicsFileConfig.getArchiMummyOrange());
+		this.animationMummyPink = this.loadMummyAnimations(this.graphicsFileConfig.getArchiMummyPink());
 		this.animationMummyRed = this.loadMummyAnimations(this.graphicsFileConfig.getArchiMummyRed());
 		this.animationMummyWhite = this.loadMummyAnimations(this.graphicsFileConfig.getArchiMummyWhite());
 		this.animationMummyYellow = this.loadMummyAnimations(this.graphicsFileConfig.getArchiMummyYellow());
@@ -348,9 +348,9 @@ public class GraphicsFileLoader
 		return animationMummyBlue;
 	}
 
-	public Animation<TextureRegion>[] getAnimationMummyOrange()
+	public Animation<TextureRegion>[] getAnimationMummyPink()
 	{
-		return animationMummyOrange;
+		return animationMummyPink;
 	}
 
 	public Animation<TextureRegion>[] getAnimationMummyRed()
@@ -386,8 +386,8 @@ public class GraphicsFileLoader
 		case MummyFactory.BLUE_MUMMY:
 			respuesta = this.animationMummyBlue;
 			break;
-		case MummyFactory.ORANGE_MUMMY:
-			respuesta = this.animationMummyOrange;
+		case MummyFactory.PINK_MUMMY:
+			respuesta = this.animationMummyPink;
 			break;
 		case MummyFactory.RED_MUMMY:
 			respuesta = this.animationMummyRed;

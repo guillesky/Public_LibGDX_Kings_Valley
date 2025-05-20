@@ -18,11 +18,10 @@ public class MummyStateDying extends MummyState
 	}
 
 	@Override
-	public void update(float deltaTime, Player player)
+	public void update(float deltaTime)
 	{
 		if (this.mummy.getTimeInState() >= this.timeToChange)
 		{
-
 			this.mummy.mummyState = new MummyStateLimbus(this.mummy,this.mustTeleport);
 			this.mummy = null;
 		}

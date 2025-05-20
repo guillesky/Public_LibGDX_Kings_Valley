@@ -21,13 +21,13 @@ public class MummyStateLimbus extends MummyState
 	}
 
 	@Override
-	public void update(float deltaTime, Player player)
+	public void update(float deltaTime)
 
 	{
 		if (this.mummy.getTimeInState() >= this.timeToChange)
 		{
 			if (this.mustTeleport)
-				this.mummy.teleport(player);
+				this.mummy.teleport();
 			this.mummy.mummyState = new MummyStateAppearing(this.mummy);
 			this.mummy = null;
 		}

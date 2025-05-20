@@ -14,7 +14,7 @@ public class MummyStateAppearing extends MummyState
     }
 
     @Override
-    public void update(float deltaTime,Player player)
+    public void update(float deltaTime)
     {
 	
 	if (this.mummy.getTimeInState() >= this.timeToChange)

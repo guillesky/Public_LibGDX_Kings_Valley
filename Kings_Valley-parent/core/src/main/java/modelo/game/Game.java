@@ -90,12 +90,12 @@ public class Game implements KVEventListener
 	public void updateframe(float deltaTime)
 	{
 		/*
-		 * if (deltaTime > this.maxDeltaTimeRegistered) { this.maxDeltaTimeRegistered =
-		 * deltaTime; System.out.println(deltaTime); }
+		  if (deltaTime > this.maxDeltaTimeRegistered) { this.maxDeltaTimeRegistered =
+		  deltaTime; System.out.println(deltaTime); }
 		 */
 
-		if (deltaTime > 0.3f)
-			deltaTime = 0.3f;
+		if (deltaTime > 0.02f)
+			deltaTime = 0.02f;
 
 		if (controles.getShot(Input.Keys.P))
 		{

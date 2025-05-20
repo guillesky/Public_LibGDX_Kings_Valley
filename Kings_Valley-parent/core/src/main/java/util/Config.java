@@ -28,7 +28,7 @@ public class Config
 	private float[] mummyWhiteParameters;
 	private float[] mummyBlueParameters;
 	private float[] mummyYellowParameters;
-	private float[] mummyOrangeParameters;
+	private float[] mummyPinkParameters;
 	private float[] mummyRedParameters;
 
 	private float characterWidth;
@@ -95,7 +95,7 @@ public class Config
 		this.mummyWhiteParameters= new float[10];
 		this.mummyBlueParameters= new float[10];
 		this.mummyYellowParameters= new float[10];
-		this.mummyOrangeParameters= new float[10];
+		this.mummyPinkParameters= new float[10];
 		this.mummyRedParameters= new float[10];
 		
 		this.minMummySpawnDistanceToPlayer=64;
@@ -137,16 +137,16 @@ public class Config
 		this.mummyYellowParameters[Config.QUAD_DISTANCE_VISION]=64;
 	
 	
-		this.mummyOrangeParameters[Config.INDEX_SPEED_WALK]=(6f * this.levelTileWidthUnits);
-		this.mummyOrangeParameters[Config.INDEX_SPEED_STAIR]=(7f * this.levelTileWidthUnits);
-		this.mummyOrangeParameters[Config.INDEX_MIN_TIME_TO_DECIDE]=4;
-		this.mummyOrangeParameters[Config.INDEX_MAX_TIME_TO_DECIDE]=5;
-		this.mummyOrangeParameters[Config.INDEX_MIN_TIME_DECIDING]=1f;
-		this.mummyOrangeParameters[Config.INDEX_MAX_TIME_DECIDING]=2f;
-		this.mummyOrangeParameters[Config.INDEX_DECICION_FACTOR_FALL]=0.6f;
-		this.mummyOrangeParameters[Config.INDEX_DECICION_FACTOR_JUMP]=0.5f;
-		this.mummyOrangeParameters[Config.INDEX_BEST_DECICION_PROBALITY]=0.7f;
-		this.mummyOrangeParameters[Config.QUAD_DISTANCE_VISION]=81;
+		this.mummyPinkParameters[Config.INDEX_SPEED_WALK]=(6f * this.levelTileWidthUnits);
+		this.mummyPinkParameters[Config.INDEX_SPEED_STAIR]=(7f * this.levelTileWidthUnits);
+		this.mummyPinkParameters[Config.INDEX_MIN_TIME_TO_DECIDE]=4;
+		this.mummyPinkParameters[Config.INDEX_MAX_TIME_TO_DECIDE]=5;
+		this.mummyPinkParameters[Config.INDEX_MIN_TIME_DECIDING]=1f;
+		this.mummyPinkParameters[Config.INDEX_MAX_TIME_DECIDING]=2f;
+		this.mummyPinkParameters[Config.INDEX_DECICION_FACTOR_FALL]=0.6f;
+		this.mummyPinkParameters[Config.INDEX_DECICION_FACTOR_JUMP]=0.5f;
+		this.mummyPinkParameters[Config.INDEX_BEST_DECICION_PROBALITY]=0.7f;
+		this.mummyPinkParameters[Config.QUAD_DISTANCE_VISION]=81;
 	
 		this.mummyRedParameters[Config.INDEX_SPEED_WALK]=(6.5f * this.levelTileWidthUnits);
 		this.mummyRedParameters[Config.INDEX_SPEED_STAIR]=(7.5f * this.levelTileWidthUnits);
@@ -373,10 +373,10 @@ public class Config
 		return this.mummyYellowParameters;
 	}
 
-	public float[] getMummyOrangeParameters()
+	public float[] getMummyPinkParameters()
 	{
 
-		return this.mummyOrangeParameters;
+		return this.mummyPinkParameters;
 	}
 
 	public float[] getMummyRedParameters()
@@ -410,9 +410,9 @@ public class Config
 	    this.mummyYellowParameters = mummyYellowParameters;
 	}
 
-	public void setMummyOrangeParameters(float[] mummyOrangeParameters)
+	public void setMummyPinkParameters(float[] mummyPinkParameters)
 	{
-	    this.mummyOrangeParameters = mummyOrangeParameters;
+	    this.mummyPinkParameters = mummyPinkParameters;
 	}
 
 	public void setMummyRedParameters(float[] mummyRedParameters)

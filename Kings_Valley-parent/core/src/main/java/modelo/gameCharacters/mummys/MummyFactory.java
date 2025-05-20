@@ -6,12 +6,12 @@ import modelo.level.Pyramid;
 public class MummyFactory
 {
 	public static final int WHITE_MUMMY = 0;
-	public static final int BLUE_MUMMY = 1;
-	public static final int YELLOW_MUMMY = 2;
-	public static final int ORANGE_MUMMY = 3;
+	public static final int YELLOW_MUMMY = 1;
+	public static final int PINK_MUMMY = 2;
+	public static final int BLUE_MUMMY = 3;
 	public static final int RED_MUMMY = 4;
 
-	public Mummy getMummy(float x, float y, int mummyType, Pyramid pyramid)
+	public Mummy getMummy(float x, float y, int mummyType, Pyramid pyramid, Player player)
 	{
 		Mummy respuesta = null;
 
@@ -19,21 +19,21 @@ public class MummyFactory
 		{
 
 		case WHITE_MUMMY:
-			respuesta = new MummyWhite(x, y, pyramid);
+			respuesta = new MummyWhite(x, y, pyramid,player);
 			break;
 
 		case BLUE_MUMMY:
-			respuesta = new MummyBlue(x, y, pyramid);
+			respuesta = new MummyBlue(x, y, pyramid,player);
 			break;
 		case YELLOW_MUMMY:
-			respuesta = new MummyYellow(x, y, pyramid);
+			respuesta = new MummyYellow(x, y, pyramid,player);
 			break;
-		case ORANGE_MUMMY:
-			respuesta = new MummyOrange(x, y, pyramid);
+		case PINK_MUMMY:
+			respuesta = new MummyPink(x, y, pyramid,player);
 			break;
 
 		case RED_MUMMY:
-			respuesta = new MummyRed(x, y, pyramid);
+			respuesta = new MummyRed(x, y, pyramid,player);
 			break;
 
 		}

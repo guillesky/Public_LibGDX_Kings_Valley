@@ -10,20 +10,16 @@ public class MummyStateDeciding extends MummyState
 	{
 		super(mummy, Mummy.ST_IDDLE);
 		this.timeToChange = this.mummy.getTimeDeciding();
-		;
+	this.update(0);
 
 	}
 
 	@Override
-	public void update(float deltaTime, Player player)
+	public void update(float deltaTime)
 	{
 		if (this.mummy.getTimeInState() >= this.timeToChange)
 		{
-			if (this.mummy.distanceQuadToPlayer(player) < this.mummy.rangeVision)
-				this.mummy.mummyState = new MummyStateChasingPlayer(this.mummy, player);
-			else
-				this.mummy.mummyState = new MummyStateSearchingPlayer(this.mummy, player);
-
+				this.mummy.mummyState = new MummyStateWalking(this.mummy);
 		}
 		this.mummy.move(new Vector2(), false, deltaTime);
 		

@@ -24,7 +24,7 @@ public abstract class MummyState
 		this.mummy.resetStress();
 	}
 
-	public abstract void update(float deltaTime, Player player);
+	public abstract void update(float deltaTime);
 
 	protected abstract boolean isDanger();
 

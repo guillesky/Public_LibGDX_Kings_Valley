@@ -4,14 +4,13 @@ import modelo.gameCharacters.abstractGameCharacter.GameCharacter;
 import modelo.gameCharacters.player.Player;
 import util.Config;
 
-public class MummyStateWalking extends MummyState
+public abstract class MummyStateWalking_old extends MummyState
 {
 	protected boolean doJump = false;
 
-	public MummyStateWalking(Mummy mummy)
+	public MummyStateWalking_old(Mummy mummy)
 	{
 		super(mummy, GameCharacter.ST_WALKING);
-
 		this.setDirection(this.mummy.player);
 		this.timeToChange = this.mummy.getTimeToDecide();
 
@@ -28,8 +27,7 @@ public class MummyStateWalking extends MummyState
 
 	@Override
 	public void update(float deltaTime)
-	{
-		Player player = this.mummy.player;
+	{Player player=this.mummy.player;
 		if (this.mummy.getState() == GameCharacter.ST_WALKING && !this.mummy.isInStair())
 			this.checkEndOfPlataform(player);
 		if (this.mummy.getStressLevel() >= 9 || this.mummy.timeWhitoutSeePlayer >= 20)
@@ -46,9 +44,7 @@ public class MummyStateWalking extends MummyState
 		this.doJump = false;
 	}
 
-	protected void decideEnterStairs(Player player)
-	{
-	}
+	protected abstract void decideEnterStairs(Player player);
 
 	protected void checkEndOfPlataform(Player player)
 	{
@@ -72,9 +68,7 @@ public class MummyStateWalking extends MummyState
 		return true;
 	}
 
-	protected void checkChangeStatus(Player player)
-	{
-	}
+	protected abstract void checkChangeStatus(Player player);
 
 	protected void bounces()
 	{

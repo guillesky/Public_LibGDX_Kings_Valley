@@ -71,10 +71,14 @@ public class LevelReader
 
 		if (isCompleted)
 			this.pyramid.prepareToExit();
-		this.generateMummys(dificultLevel);
 		Door door = this.getDoorIn(id, doorFrom);
-
-		Level level = new Level(id, pyramid, mummys, door);
+		float y = door.getPassage().y;
+		float x = door.getPassage().x;
+		
+		Player player = new Player(x, y, this.pyramid);
+		this.generateMummys(player,dificultLevel);
+		
+		Level level = new Level(id, pyramid, mummys, door,player);
 		return level;
 
 	}
@@ -358,7 +362,7 @@ public class LevelReader
 		return cell;
 	}
 
-	private void generateMummys(int dificultLevel)
+	private void generateMummys(Player player, int dificultLevel)
 	{
 		Iterator<MummyData> it = this.mummyDatas.iterator();
 		while (it.hasNext())
@@ -368,7 +372,7 @@ public class LevelReader
 			if (mummyType > MummyFactory.RED_MUMMY)
 				mummyType = MummyFactory.RED_MUMMY;
 
-			Mummy mummy = this.mummyFactory.getMummy(mummyData.getX(), mummyData.getY(), mummyType, this.pyramid);
+			Mummy mummy = this.mummyFactory.getMummy(mummyData.getX(), mummyData.getY(), mummyType, this.pyramid,player);
 			this.mummys.add(mummy);
 		}
 	}

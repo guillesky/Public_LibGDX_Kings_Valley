@@ -6,9 +6,9 @@ import util.Config;
 
 public class MummyStateChasingPlayer extends MummyStateWalking
 {
-	public MummyStateChasingPlayer(Mummy mummy, Player player)
+	public MummyStateChasingPlayer(Mummy mummy)
 	{
-		super(mummy, player);
+		super(mummy);
 
 	}
 

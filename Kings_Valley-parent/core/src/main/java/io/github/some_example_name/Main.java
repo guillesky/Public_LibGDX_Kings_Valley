@@ -30,7 +30,7 @@ public class Main implements ApplicationListener
 		 * for (int i = 1; i <= 15; i++) manager.load(Constantes.levelFileName.get(i),
 		 * TiledMap.class);
 		 */
-		grafica = new TileMapGrafica2D_PARALAX(manager);
+		grafica = new TileMapGrafica2D_PARALAX(manager,.5f);
 		/*
 		 * Thread th = new Thread(new Runnable() {
 		 * 

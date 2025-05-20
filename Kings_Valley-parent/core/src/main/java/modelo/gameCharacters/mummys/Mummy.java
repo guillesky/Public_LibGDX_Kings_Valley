@@ -37,6 +37,10 @@ public abstract class Mummy extends GameCharacter
 	private static final int INDEX_BEST_DECICION_PROBALITY = 8;
 	private static final int QUAD_DISTANCE_VISION = 9;
 
+	private static final int END_BLOCK = 0;
+	private static final int END_CLIFF = 1;
+	private static final int END_STEP = 2;
+
 	protected static final Random random = new Random();
 
 	protected float decisionFactorForFall;
@@ -74,7 +78,7 @@ public abstract class Mummy extends GameCharacter
 		this.timeInState = timeInState;
 	}
 
-	public Mummy(int type, float x, float y, float[] parameters, Pyramid pyramid)
+	public Mummy(int type, float x, float y, float[] parameters, Pyramid pyramid, Player player)
 	{
 		super(type, x, y, parameters[INDEX_SPEED_WALK], parameters[INDEX_SPEED_STAIR], pyramid);
 		this.decisionFactorForFall = parameters[INDEX_DECICION_FACTOR_FALL];
@@ -88,7 +92,7 @@ public abstract class Mummy extends GameCharacter
 				* Config.getInstance().getLevelTileWidthUnits();
 
 		this.mummyState = new MummyStateLimbus(this, 1);
-
+		this.player = player;
 	}
 
 	@Override
@@ -212,9 +216,9 @@ public abstract class Mummy extends GameCharacter
 
 	}
 
-	public void update(float deltaTime, Player player)
+	public void update(float deltaTime)
 	{
-		this.mummyState.update(deltaTime, player);
+		this.mummyState.update(deltaTime);
 		this.incAnimationDelta(deltaTime);
 		this.incTimeInState(deltaTime);
 	}
@@ -296,7 +300,7 @@ public abstract class Mummy extends GameCharacter
 		return this.mummyState.isDanger();
 	}
 
-	public void teleport(Player player)
+	public void teleport()
 	{
 		float[] coords;
 		do
@@ -335,4 +339,75 @@ public abstract class Mummy extends GameCharacter
 		return super.checkStairsFeetColision(positiveStairs, isUpping);
 	}
 
+	protected Integer distanceToBorder(boolean toRight)
+	{
+		int inc;
+		int acum = 0;
+		float xAux;
+		if (toRight)
+		{
+			xAux = x + width * .5f;
+			inc = 1;
+		} else
+		{
+			xAux = x;
+			inc = -1;
+		}
+		while (this.pyramid.getCell(xAux, y, acum, 0) != null || this.pyramid.getCell(xAux, y, acum, -1) != null
+				|| this.pyramid.getCell(xAux, y, acum, 1) != null)
+		{
+			acum += inc;
+		}
+
+		if (acum < 0)
+			acum *= -1;
+		return acum;
+	}
+
+	private int[] endPlatform(boolean toRight)
+	{
+		int r[] = new int[2];
+		int inc;
+		int acum = 0;
+		float xAux;
+
+		
+		if (toRight)
+		{
+			xAux = x + width * .5f;
+			inc = 1;
+		} else
+		{
+			xAux = x;
+			inc = -1;
+		}
+		while (this.pyramid.getCell(xAux, y, acum, 0) == null && this.pyramid.getCell(xAux, y, acum, 1) == null
+				&& this.pyramid.getCell(xAux, y, acum, -1) != null  && this.isColDesplaInMap(acum))
+		{
+			acum += inc;
+		}
+
+		if (this.pyramid.getCell(xAux, y, acum, 0) == null && this.pyramid.getCell(xAux, y, acum, 1) == null
+				&& this.pyramid.getCell(xAux, y, acum, -1) == null)
+			r[0] = Mummy.END_CLIFF;
+		else if ((this.pyramid.getCell(xAux, y, acum, 1) != null && this.pyramid.getCell(xAux, y, acum, 2) == null
+				&& this.pyramid.getCell(xAux, y, acum, 3) == null)
+				|| (this.pyramid.getCell(xAux, y, acum, 2) != null && this.pyramid.getCell(xAux, y, acum, 3) == null
+						&& this.pyramid.getCell(xAux, y, acum, 4) == null))
+			r[0] = Mummy.END_STEP;
+		else
+			r[0] = Mummy.END_BLOCK;
+
+		if (acum < 0)
+			acum *= -1;
+		r[1]=acum;
+		return r;
+
+	}
+	
+	
+	private boolean isColDesplaInMap(int col) 
+	{
+		return this.getColPosition()+col>1 && this.getColPosition()+col<this.pyramid.getMapWidthInTiles()-1;
+	}
 }
