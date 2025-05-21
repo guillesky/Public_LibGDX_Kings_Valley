@@ -90,8 +90,8 @@ public class Game implements KVEventListener
 	public void updateframe(float deltaTime)
 	{
 		/*
-		  if (deltaTime > this.maxDeltaTimeRegistered) { this.maxDeltaTimeRegistered =
-		  deltaTime; System.out.println(deltaTime); }
+		 * if (deltaTime > this.maxDeltaTimeRegistered) { this.maxDeltaTimeRegistered =
+		 * deltaTime; System.out.println(deltaTime); }
 		 */
 
 		if (deltaTime > 0.02f)
@@ -286,6 +286,14 @@ public class Game implements KVEventListener
 			break;
 
 		}
+
+	}
+
+	public void showMummys()
+	{
+		Iterator it = this.level.getMummys().iterator();
+		while (it.hasNext())
+			System.out.println(it.next().toString());
 
 	}
 

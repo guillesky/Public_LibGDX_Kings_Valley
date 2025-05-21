@@ -14,4 +14,9 @@ public class MummyRed extends Mummy
 
 	}
 
+	@Override
+	public String toString()
+	{
+		return "MummyRed "+ super.toString();
+	}
 }

@@ -1,8 +1,9 @@
 package modelo.gameCharacters.mummys;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.math.Vector2;
 
 import modelo.KVEventListener;
@@ -10,6 +11,7 @@ import modelo.game.Game;
 import modelo.gameCharacters.abstractGameCharacter.GameCharacter;
 import modelo.gameCharacters.player.Player;
 import modelo.level.GiratoryMechanism;
+import modelo.level.LevelObject;
 import modelo.level.Pyramid;
 import modelo.level.Stair;
 import util.Config;
@@ -371,7 +373,6 @@ public abstract class Mummy extends GameCharacter
 		int acum = 0;
 		float xAux;
 
-		
 		if (toRight)
 		{
 			xAux = x + width * .5f;
@@ -382,7 +383,7 @@ public abstract class Mummy extends GameCharacter
 			inc = -1;
 		}
 		while (this.pyramid.getCell(xAux, y, acum, 0) == null && this.pyramid.getCell(xAux, y, acum, 1) == null
-				&& this.pyramid.getCell(xAux, y, acum, -1) != null  && this.isColDesplaInMap(acum))
+				&& this.pyramid.getCell(xAux, y, acum, -1) != null && this.isColDesplaInMap(acum))
 		{
 			acum += inc;
 		}
@@ -392,22 +393,53 @@ public abstract class Mummy extends GameCharacter
 			r[0] = Mummy.END_CLIFF;
 		else if ((this.pyramid.getCell(xAux, y, acum, 1) != null && this.pyramid.getCell(xAux, y, acum, 2) == null
 				&& this.pyramid.getCell(xAux, y, acum, 3) == null)
-				|| (this.pyramid.getCell(xAux, y, acum, 2) != null && this.pyramid.getCell(xAux, y, acum, 3) == null
-						&& this.pyramid.getCell(xAux, y, acum, 4) == null))
+				|| (this.pyramid.getCell(xAux, y, acum, 0) != null && this.pyramid.getCell(xAux, y, acum, 1) == null
+						&& this.pyramid.getCell(xAux, y, acum, 2) == null))
 			r[0] = Mummy.END_STEP;
 		else
 			r[0] = Mummy.END_BLOCK;
 
 		if (acum < 0)
 			acum *= -1;
-		r[1]=acum;
+		r[1] = acum;
 		return r;
 
 	}
-	
-	
-	private boolean isColDesplaInMap(int col) 
+
+	private boolean isColDesplaInMap(int col)
 	{
-		return this.getColPosition()+col>1 && this.getColPosition()+col<this.pyramid.getMapWidthInTiles()-1;
+
+		return this.getColPosition() + col > 1 && this.getColPosition() + col < this.pyramid.getMapWidthInTiles() - 1;
 	}
+
+	
+	
+	private int nearStair(boolean toUp,boolean toRight) 
+	{
+		int r=-1;
+		int i=0;
+		int count =this.endPlatform(toRight)[1];
+	    ArrayList<Stair> candidateStairs=new ArrayList<Stair>();
+	    
+	    Iterator<Stair> it=this.pyramid.getPositiveStairs().iterator();
+	    LevelObject footStair;
+	    while(it.hasNext()) 
+	    {
+	    	Stair stair=it.next();
+	    	if(toUp) footStair=stair.getDownStair();
+	    	else footStair=stair.getUpStair();
+	    }
+	    
+		
+		
+		return r;
+	}
+	@Override
+	public String toString()
+	{
+		int[] der = this.endPlatform(true);
+		int[] izq = this.endPlatform(false);
+		return " x=" + x + ", y=" + y + " DERECHA " + der[0]+"  "+der[1] + " IZQUIERDA " + izq[0]+"  "+izq[1];
+	}
+
 }

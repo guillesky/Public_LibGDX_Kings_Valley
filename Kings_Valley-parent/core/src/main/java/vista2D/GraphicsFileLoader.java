@@ -86,7 +86,7 @@ public class GraphicsFileLoader
 		this.manager.load(graphicsFileConfig.getArchiDoorRight(), Texture.class);
 		this.manager.load(graphicsFileConfig.getArchiDoorLever(), Texture.class);
 		this.manager.load(graphicsFileConfig.getArchiDoorPassage(), Texture.class);
-		this.manager.load("pics/tiles128.png", Texture.class);
+		this.manager.load("pics/tiles64.png", Texture.class);
 		 //saveConfig(graphicsFileConfig);
 	}
 

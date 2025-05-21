@@ -98,7 +98,7 @@ public class Main implements ApplicationListener
 		controles.processKey(Input.Keys.O);
 
 		controles.processKey(Input.Keys.P);
-
+		controles.processKey(Input.Keys.S);
 		Game.getInstance().updateframe(Gdx.graphics.getDeltaTime());
 
 	}
