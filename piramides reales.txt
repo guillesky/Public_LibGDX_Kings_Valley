@@ -1,0 +1,8 @@
+01: azul y blanca
+02: amarilla blanca y rosa
+03: azul y blanca
+04: blanca y rosa
+05: blanca y roja
+06: blanca azul y rosa
+07: blanca y azul
+08: azul amarillo y blanca
