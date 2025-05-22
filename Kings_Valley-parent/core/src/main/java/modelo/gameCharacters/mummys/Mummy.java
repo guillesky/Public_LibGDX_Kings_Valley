@@ -39,9 +39,9 @@ public abstract class Mummy extends GameCharacter
 	private static final int INDEX_BEST_DECICION_PROBALITY = 8;
 	private static final int QUAD_DISTANCE_VISION = 9;
 
-	private static final int END_BLOCK = 0;
-	private static final int END_CLIFF = 1;
-	private static final int END_STEP = 2;
+	public static final int END_BLOCK = 0;
+	public static final int END_CLIFF = 1;
+	public static final int END_STEP = 2;
 
 	protected static final Random random = new Random();
 
@@ -372,16 +372,12 @@ public abstract class Mummy extends GameCharacter
 		int inc;
 		int acum = 0;
 		float xAux;
-
+		xAux = x + width * .5f;
 		if (toRight)
-		{
-			xAux = x + width * .5f;
 			inc = 1;
-		} else
-		{
-			xAux = x;
+		else
 			inc = -1;
-		}
+
 		while (this.pyramid.getCell(xAux, y, acum, 0) == null && this.pyramid.getCell(xAux, y, acum, 1) == null
 				&& this.pyramid.getCell(xAux, y, acum, -1) != null && this.isColDesplaInMap(acum))
 		{
@@ -412,34 +408,71 @@ public abstract class Mummy extends GameCharacter
 		return this.getColPosition() + col > 1 && this.getColPosition() + col < this.pyramid.getMapWidthInTiles() - 1;
 	}
 
-	
-	
-	private int nearStair(boolean toUp,boolean toRight) 
+	private int nearStair(boolean toUp, boolean toRight)
 	{
-		int r=-1;
-		int i=0;
-		int count =this.endPlatform(toRight)[1];
-	    ArrayList<Stair> candidateStairs=new ArrayList<Stair>();
-	    
-	    Iterator<Stair> it=this.pyramid.getPositiveStairs().iterator();
-	    LevelObject footStair;
-	    while(it.hasNext()) 
-	    {
-	    	Stair stair=it.next();
-	    	if(toUp) footStair=stair.getDownStair();
-	    	else footStair=stair.getUpStair();
-	    }
-	    
-		
-		
+		int r = -1;
+
+		int count = this.endPlatform(toRight)[1];
+		ArrayList<LevelObject> candidatesFootStairs = new ArrayList<LevelObject>();
+		LevelObject footStair;
+		Iterator<Stair> it = this.pyramid.getPositiveStairs().iterator();
+		double tileWidth = Config.getInstance().getLevelTileWidthUnits();
+		while (it.hasNext())
+		{
+			Stair stair = it.next();
+			if (toUp)
+				footStair = stair.getDownStair();
+			else
+				footStair = stair.getUpStair();
+			if (footStair.x == this.x)
+				candidatesFootStairs.add(footStair);
+		}
+
+		it = this.pyramid.getNegativeStairs().iterator();
+
+		while (it.hasNext())
+		{
+			Stair stair = it.next();
+			if (toUp)
+				footStair = stair.getDownStair();
+			else
+				footStair = stair.getUpStair();
+			if (footStair.y == this.y)
+				candidatesFootStairs.add(footStair);
+		}
+		if (!candidatesFootStairs.isEmpty())
+		{
+			Iterator<LevelObject> itf = candidatesFootStairs.iterator();
+			footStair = itf.next();
+
+			double aux = this.x - footStair.x;
+			if (aux < 0)
+				aux = -1;
+			int min = (int) (aux / tileWidth);
+			while (itf.hasNext())
+			{
+				footStair = itf.next();
+				aux = this.x + this.width * 0.5 - (footStair.x + footStair.width * 0.5);
+				if (aux < 0)
+					aux = -1;
+				int dist = (int) (aux / tileWidth);
+				if (dist < min)
+					min = dist;
+			}
+			if (min <= count)
+				r = min;
+		}
+
 		return r;
 	}
+
 	@Override
 	public String toString()
 	{
 		int[] der = this.endPlatform(true);
 		int[] izq = this.endPlatform(false);
-		return " x=" + x + ", y=" + y + " DERECHA " + der[0]+"  "+der[1] + " IZQUIERDA " + izq[0]+"  "+izq[1];
+		return " x=" + x + ", y=" + y + " DERECHA " + der[0] + "  " + der[1] + " IZQUIERDA " + izq[0] + "  " + izq[1]
+				+ "\nEscalera IZQ arriba: " + this.nearStair(true, false) + " Escalera DER arriba: " + this.nearStair(true, true) 
+				+ "\nEscalera IZQ abajo: " + this.nearStair(false, false) + " Escalera DER abajo: " + this.nearStair(false, true) ;
 	}
-
 }

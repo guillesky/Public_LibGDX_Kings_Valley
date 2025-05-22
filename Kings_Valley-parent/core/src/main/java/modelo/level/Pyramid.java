@@ -31,6 +31,7 @@ public class Pyramid implements IGrafica
 	private ArrayList<LevelObject> jewels = new ArrayList<LevelObject>();
 	private ArrayList<Stair> positiveStairs;
 	private ArrayList<Stair> negativeStairs;
+	private ArrayList<Stair> allStairs;
 	private ArrayList<LevelObject> pickers = new ArrayList<LevelObject>();
 
 	private ArrayList<LevelObject> giratories = new ArrayList<LevelObject>();
@@ -79,7 +80,9 @@ public class Pyramid implements IGrafica
 		this.unpickableCells = unpickableCells;
 		this.hashTraps = hashTraps;
 		this.hashGiratoryMechanisms = hashGiratoryMechanisms;
-
+		this.allStairs=new ArrayList<Stair>();
+		allStairs.addAll(this.positiveStairs);
+		allStairs.addAll(this.negativeStairs);
 	}
 
 	public TiledMap getMap()
@@ -347,5 +350,12 @@ public class Pyramid implements IGrafica
 	{
 		return this.interfaz.getTimeDying();
 	}
+
+	public ArrayList<Stair> getAllStairs()
+	{
+		return allStairs;
+	}
+	
+	
 
 }

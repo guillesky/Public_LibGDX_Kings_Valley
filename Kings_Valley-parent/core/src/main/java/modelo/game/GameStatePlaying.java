@@ -65,7 +65,7 @@ public class GameStatePlaying extends GameState
 			this.game.priorLevel();
 		
 		if (controles.getShot(Input.Keys.S))
-			this.game.showMummys();
+			this.game.showPlayer();
 		
 
 	}

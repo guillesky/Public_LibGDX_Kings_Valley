@@ -289,11 +289,11 @@ public class Game implements KVEventListener
 
 	}
 
-	public void showMummys()
-	{
+	public void showPlayer()
+	{System.out.println(this.level.getPlayer());/*
 		Iterator it = this.level.getMummys().iterator();
 		while (it.hasNext())
-			System.out.println(it.next().toString());
+			System.out.println(it.next().toString());*/
 
 	}
 

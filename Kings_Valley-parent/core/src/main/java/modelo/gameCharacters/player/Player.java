@@ -10,9 +10,11 @@ import com.badlogic.gdx.math.Vector2;
 import modelo.KVEventListener;
 import modelo.game.Game;
 import modelo.gameCharacters.abstractGameCharacter.GameCharacter;
+import modelo.gameCharacters.mummys.Mummy;
 import modelo.level.GiratoryMechanism;
 import modelo.level.LevelObject;
 import modelo.level.Pyramid;
+import modelo.level.Stair;
 import modelo.level.dagger.Dagger;
 import modelo.level.dagger.DaggerState;
 import util.Config;
@@ -33,7 +35,7 @@ public class Player extends GameCharacter
 	{
 		super(Constantes.PLAYER, x, y, Config.getInstance().getPlayerSpeedWalk(),
 				Config.getInstance().getPlayerSpeedWalkStairs(), pyramid);
-		this.playerState = new PlayerStateWalking(this,GameCharacter.ST_IDDLE);
+		this.playerState = new PlayerStateWalking(this, GameCharacter.ST_IDDLE);
 	}
 
 	public void update(Vector2 v, boolean b, float deltaTime)
@@ -309,6 +311,107 @@ public class Player extends GameCharacter
 	public void die()
 	{
 		this.playerState = new PlayerStateDying(this);
+	}
+
+	private int[] endPlatform(boolean toRight)
+	{
+		int r[] = new int[2];
+		int inc;
+		int acum = 0;
+		float xAux;
+		xAux = x + width * .5f;
+		if (toRight)
+			inc = 1;
+		else
+			inc = -1;
+
+		while (this.pyramid.getCell(xAux, y, acum, 0) == null && this.pyramid.getCell(xAux, y, acum, 1) == null
+				&& this.pyramid.getCell(xAux, y, acum, -1) != null && this.isColDesplaInMap(acum))
+		{
+			acum += inc;
+		}
+
+		if (this.pyramid.getCell(xAux, y, acum, 0) == null && this.pyramid.getCell(xAux, y, acum, 1) == null
+				&& this.pyramid.getCell(xAux, y, acum, -1) == null)
+			r[0] = Mummy.END_CLIFF;
+		else if ((this.pyramid.getCell(xAux, y, acum, 1) != null && this.pyramid.getCell(xAux, y, acum, 2) == null
+				&& this.pyramid.getCell(xAux, y, acum, 3) == null)
+				|| (this.pyramid.getCell(xAux, y, acum, 0) != null && this.pyramid.getCell(xAux, y, acum, 1) == null
+						&& this.pyramid.getCell(xAux, y, acum, 2) == null))
+			r[0] = Mummy.END_STEP;
+		else
+			r[0] = Mummy.END_BLOCK;
+
+		if (acum < 0)
+			acum *= -1;
+		r[1] = acum;
+		return r;
+
+	}
+
+	private boolean isColDesplaInMap(int col)
+	{
+
+		return this.getColPosition() + col > 1 && this.getColPosition() + col < this.pyramid.getMapWidthInTiles() - 1;
+	}
+
+	private int nearStair(boolean toUp, boolean toRight)
+	{
+		int r = -1;
+
+		int count = this.endPlatform(toRight)[1];
+		ArrayList<LevelObject> candidatesFootStairs = new ArrayList<LevelObject>();
+		LevelObject footStair;
+
+		Iterator<Stair> it = this.pyramid.getAllStairs().iterator();
+		float tileWidth = Config.getInstance().getLevelTileWidthUnits();
+		float posX = this.x + this.width * 0.5f;
+		while (it.hasNext())
+		{
+			Stair stair = it.next();
+			if (toUp)
+				footStair = stair.getDownStair();
+			else
+				footStair = stair.getUpStair();
+			if (footStair.y == this.y && (toRight && footStair.x >= posX || !toRight && footStair.x <= posX))
+				candidatesFootStairs.add(footStair);
+		}
+
+		if (!candidatesFootStairs.isEmpty())
+		{
+			Iterator<LevelObject> itf = candidatesFootStairs.iterator();
+			footStair = itf.next();
+
+			double aux = this.x - footStair.x;
+			if (aux < 0)
+				aux = -1;
+			int min = (int) (aux / tileWidth);
+			while (itf.hasNext())
+			{
+				footStair = itf.next();
+				aux = this.x + this.width * 0.5 - (footStair.x + footStair.width * 0.5);
+				if (aux < 0)
+					aux = -1;
+				int dist = (int) (aux / tileWidth);
+				if (dist < min)
+					min = dist;
+			}
+			if (min <= count)
+				r = min;
+		}
+
+		return r;
+	}
+
+	@Override
+	public String toString()
+	{
+		int[] der = this.endPlatform(true);
+		int[] izq = this.endPlatform(false);
+		return " x=" + x + ", y=" + y + " DERECHA " + der[0] + "  " + der[1] + " IZQUIERDA " + izq[0] + "  " + izq[1]
+				+ "\nEscalera IZQ arriba: " + this.nearStair(true, false) + " Escalera DER arriba: "
+				+ this.nearStair(true, true) + "\nEscalera IZQ abajo: " + this.nearStair(false, false)
+				+ " Escalera DER abajo: " + this.nearStair(false, true);
 	}
 
 }
