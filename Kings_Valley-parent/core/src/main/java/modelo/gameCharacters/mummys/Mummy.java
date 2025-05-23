@@ -341,32 +341,7 @@ public abstract class Mummy extends GameCharacter
 		return super.checkStairsFeetColision(positiveStairs, isUpping);
 	}
 
-	protected Integer distanceToBorder(boolean toRight)
-	{
-		int inc;
-		int acum = 0;
-		float xAux;
-		if (toRight)
-		{
-			xAux = x + width * .5f;
-			inc = 1;
-		} else
-		{
-			xAux = x;
-			inc = -1;
-		}
-		while (this.pyramid.getCell(xAux, y, acum, 0) != null || this.pyramid.getCell(xAux, y, acum, -1) != null
-				|| this.pyramid.getCell(xAux, y, acum, 1) != null)
-		{
-			acum += inc;
-		}
-
-		if (acum < 0)
-			acum *= -1;
-		return acum;
-	}
-
-	private int[] endPlatform(boolean toRight)
+	protected int[] endPlatform(boolean toRight)
 	{
 		int r[] = new int[2];
 		int inc;
@@ -398,7 +373,34 @@ public abstract class Mummy extends GameCharacter
 		if (acum < 0)
 			acum *= -1;
 		r[1] = acum;
+		this.correctGiratoryEndPlatform(r, toRight);
+
 		return r;
+
+	}
+
+	private void correctGiratoryEndPlatform(int[] r, boolean toRight)
+	{
+		Iterator<LevelObject> it = this.pyramid.getGiratories().iterator();
+		boolean condicion = false;
+		float posX = this.x + this.width * 0.5f;
+		while (it.hasNext() && !condicion)
+		{
+			LevelObject giratoria = it.next();
+			if (giratoria.y == this.y && (toRight && giratoria.x >= posX || !toRight && giratoria.x <= posX))
+			{
+				float aux = posX - (giratoria.x + giratoria.width * 0.5f);
+				if (aux < 0)
+					aux = -1;
+				int dist = (int) (aux / Config.getInstance().getLevelTileWidthUnits());
+				if(dist<r[1]) 
+				{
+					r[1]=dist;
+					r[0]=Mummy.END_BLOCK;
+					condicion=true;
+				}
+			}
+		}
 
 	}
 
@@ -408,15 +410,17 @@ public abstract class Mummy extends GameCharacter
 		return this.getColPosition() + col > 1 && this.getColPosition() + col < this.pyramid.getMapWidthInTiles() - 1;
 	}
 
-	private int nearStair(boolean toUp, boolean toRight)
+	protected LevelObject nearStair(boolean toUp, boolean toRight)
 	{
-		int r = -1;
+		LevelObject r = null;
 
 		int count = this.endPlatform(toRight)[1];
 		ArrayList<LevelObject> candidatesFootStairs = new ArrayList<LevelObject>();
 		LevelObject footStair;
-		Iterator<Stair> it = this.pyramid.getPositiveStairs().iterator();
-		double tileWidth = Config.getInstance().getLevelTileWidthUnits();
+
+		Iterator<Stair> it = this.pyramid.getAllStairs().iterator();
+		float tileWidth = Config.getInstance().getLevelTileWidthUnits();
+		float posX = this.x + this.width * 0.5f;
 		while (it.hasNext())
 		{
 			Stair stair = it.next();
@@ -424,55 +428,52 @@ public abstract class Mummy extends GameCharacter
 				footStair = stair.getDownStair();
 			else
 				footStair = stair.getUpStair();
-			if (footStair.x == this.x)
+			if (footStair.y == this.y && (toRight && footStair.x >= posX || !toRight && footStair.x <= posX))
 				candidatesFootStairs.add(footStair);
 		}
 
-		it = this.pyramid.getNegativeStairs().iterator();
-
-		while (it.hasNext())
-		{
-			Stair stair = it.next();
-			if (toUp)
-				footStair = stair.getDownStair();
-			else
-				footStair = stair.getUpStair();
-			if (footStair.y == this.y)
-				candidatesFootStairs.add(footStair);
-		}
 		if (!candidatesFootStairs.isEmpty())
 		{
 			Iterator<LevelObject> itf = candidatesFootStairs.iterator();
+
 			footStair = itf.next();
+			LevelObject minFootStair = footStair;
 
 			double aux = this.x - footStair.x;
 			if (aux < 0)
-				aux = -1;
+				aux *= -1;
 			int min = (int) (aux / tileWidth);
 			while (itf.hasNext())
 			{
 				footStair = itf.next();
-				aux = this.x + this.width * 0.5 - (footStair.x + footStair.width * 0.5);
+				aux = posX - (footStair.x + footStair.width * 0.5);
 				if (aux < 0)
 					aux = -1;
 				int dist = (int) (aux / tileWidth);
 				if (dist < min)
+				{
 					min = dist;
+					minFootStair = footStair;
+				}
 			}
+			System.out.println("min: " + min + "    count" + count);
 			if (min <= count)
-				r = min;
+				r = minFootStair;
 		}
 
 		return r;
 	}
 
+
+	/*
 	@Override
 	public String toString()
 	{
 		int[] der = this.endPlatform(true);
 		int[] izq = this.endPlatform(false);
 		return " x=" + x + ", y=" + y + " DERECHA " + der[0] + "  " + der[1] + " IZQUIERDA " + izq[0] + "  " + izq[1]
-				+ "\nEscalera IZQ arriba: " + this.nearStair(true, false) + " Escalera DER arriba: " + this.nearStair(true, true) 
-				+ "\nEscalera IZQ abajo: " + this.nearStair(false, false) + " Escalera DER abajo: " + this.nearStair(false, true) ;
-	}
+				+ "\nEscalera IZQ arriba: " + this.nearStair(true, false) + " Escalera DER arriba: "
+				+ this.nearStair(true, true) + "\nEscalera IZQ abajo: " + this.nearStair(false, false)
+				+ " Escalera DER abajo: " + this.nearStair(false, true);
+	}*/
 }
