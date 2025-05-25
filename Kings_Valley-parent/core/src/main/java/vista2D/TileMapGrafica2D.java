@@ -38,6 +38,7 @@ import modelo.level.Stair;
 import modelo.level.TrapMechanism;
 import modelo.level.dagger.Dagger;
 import modelo.level.door.Door;
+import util.Config;
 import util.Constantes;
 import util.Messages;
 
@@ -69,7 +70,7 @@ public class TileMapGrafica2D implements IMyApplicationListener
     private int tileWidth;
     private int tileHeight;
     private float scaleFactor = 1;
-    private GraphicsFileLoader graphicsFileLoader;
+    protected GraphicsFileLoader graphicsFileLoader;
     protected Texture pixel;
     private RectaglesRender rectaglesRenderDebug = null;
     private boolean debug = false;
@@ -82,6 +83,7 @@ public class TileMapGrafica2D implements IMyApplicationListener
     private float timeToEnterLevel = 2f;
     private float timeToExitLevel = 1f;
     private float timeDying = 1f;
+    protected float cameraOffsetY = (12f / 22f);
 
     public TileMapGrafica2D(AssetManager manager)
     {
@@ -235,7 +237,7 @@ public class TileMapGrafica2D implements IMyApplicationListener
 
 	if (this.fileNameTileSetChanged != null)
 	{
-	    this.changeTileSet(fileNameTileSetChanged);
+	    this.changeTileSet();
 	}
 
 	this.playerAnimated2D = new PlayerAnimated2D(Game.getInstance().getCurrentLevel().getPlayer(),
@@ -281,7 +283,7 @@ public class TileMapGrafica2D implements IMyApplicationListener
 
     private void prepareUI()
     {
-	int fontSize = (int) (Gdx.graphics.getHeight() * (1.f / 24.f));
+	int fontSize = (int) (Gdx.graphics.getHeight() * (1.f / 22.f));
 	this.cameraUI = new OrthographicCamera();
 	this.cameraUI.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
@@ -306,8 +308,9 @@ public class TileMapGrafica2D implements IMyApplicationListener
 	generator.dispose();
     }
 
-    public void changeTileSet(String fileName)
+    public void changeTileSet()
     {
+	String fileName = this.graphicsFileLoader.getArchiNewTileset();
 
 	TiledMap map = Game.getInstance().getCurrentLevel().getPyramid().getMap();
 	if (this.originalWidth == null)
@@ -403,8 +406,8 @@ public class TileMapGrafica2D implements IMyApplicationListener
     public void resize(int width, int height)
     {
 	Pyramid pyramid = Game.getInstance().getCurrentLevel().getPyramid();
-	float ancho = pyramid.getMapHeightInPixels() * width / (height + 2);
-	float alto = pyramid.getMapHeightInPixels() + 20;
+	float alto = pyramid.getMapHeightInPixels() + Config.getInstance().getLevelTileHeightUnits() * 2;
+	float ancho =alto * width / height;
 
 	if (height != 0)
 	{
@@ -424,8 +427,10 @@ public class TileMapGrafica2D implements IMyApplicationListener
 
 	this.spriteBatch.begin();
 	this.drawUI();
-	spriteBatch.setProjectionMatrix(camera.combined);
 
+	spriteBatch.setProjectionMatrix(camera.combined);
+	// this.spriteBatch.end();
+	// this.spriteBatch.begin();
 	renderer.setView(camera);
 	renderer.render();
 	ArrayIterator<AnimatedTrapKV2> it3 = this.animatedTraps.iterator();
@@ -499,7 +504,6 @@ public class TileMapGrafica2D implements IMyApplicationListener
 	    font48.draw(spriteBatch, layout, x, y);
 
 	}
-	this.drawUI();
 
 	spriteBatch.end();
 	// this.rectaglesRenderDebug.render(camera.combined);
@@ -507,6 +511,7 @@ public class TileMapGrafica2D implements IMyApplicationListener
 
     protected void drawUI()
     {
+	this.spriteBatch.begin();
 	this.cameraUI.update();
 	spriteBatch.setProjectionMatrix(cameraUI.combined);
 
@@ -519,9 +524,9 @@ public class TileMapGrafica2D implements IMyApplicationListener
 	GlyphLayout layout = new GlyphLayout(font24, cartel);
 	float x = (Gdx.graphics.getWidth() - layout.width) / 2;
 	float y = Gdx.graphics.getHeight() - layout.height;
-	// spriteBatch.setColor(0, 0, 0, 0.5f); // negro con 50% opacidad
-//	spriteBatch.draw(pixel, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
 	font24.draw(spriteBatch, layout, x, y);
+	this.spriteBatch.end();
     }
 
     @Override
@@ -533,7 +538,6 @@ public class TileMapGrafica2D implements IMyApplicationListener
     @Override
     public void resume()
     {
-	// TODO Auto-generated method stub
 
     }
 
@@ -560,7 +564,7 @@ public class TileMapGrafica2D implements IMyApplicationListener
 	    wasChange = true;
 	}
 
-	camera.position.y = pyramid.getMapHeightInPixels() * .55f;
+	camera.position.y = pyramid.getMapHeightInPixels() * this.cameraOffsetY;
 	return wasChange;
     }
 
@@ -586,7 +590,7 @@ public class TileMapGrafica2D implements IMyApplicationListener
 	}
 
 	camera.position.x = posCameraX;
-	camera.position.y = pyramid.getMapHeightInPixels() * .55f;
+	camera.position.y = pyramid.getMapHeightInPixels() * this.cameraOffsetY;
     }
 
     @Override

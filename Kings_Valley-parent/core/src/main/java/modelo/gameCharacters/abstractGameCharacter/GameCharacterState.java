@@ -20,7 +20,7 @@ public abstract class GameCharacterState
 
 	protected abstract void moveSecondStep(Vector2 escalado);
 
-	protected void colision(Vector2 vectMove)
+	protected int colision(Vector2 vectMove)
 	{
 		int r = -1;
 		if (vectMove.x <= 0)
@@ -38,48 +38,11 @@ public abstract class GameCharacterState
 
 		}
 
-		/*
-		 * if (this.colisionUpRight(vectMove)) { if (this.colisionUpLeft(vectMove)) { r
-		 * = Constantes.UP; } else if (this.colisionMiddleRight(vectMove)) { r =
-		 * Constantes.RIGHT; } else { r =
-		 * this.buscarColisionPorVertice(this.gameCharacter.x +
-		 * this.gameCharacter.width, this.gameCharacter.y + this.gameCharacter.height,
-		 * vectMove); if (r == Constantes.DOWN) { r = Constantes.RIGHT;
-		 * System.out.println("ABERRACION"); } }
-		 * 
-		 * } else if (this.colisionUpLeft(vectMove)) { if
-		 * (this.colisionMiddleLeft(vectMove)) { r = Constantes.LEFT; } else { r =
-		 * this.buscarColisionPorVertice(this.gameCharacter.x, this.gameCharacter.y +
-		 * this.gameCharacter.height, vectMove); if (r == Constantes.DOWN) { r =
-		 * Constantes.LEFT;
-		 * 
-		 * System.out.println("ABERRACION");
-		 * 
-		 * } } } else if (this.isCellSolid(this.gameCharacter.x + vectMove.x,
-		 * this.gameCharacter.y + vectMove.y) && this
-		 * .buscarColisionPorVertice(this.gameCharacter.x, this.gameCharacter.y,
-		 * vectMove) == Constantes.LEFT) r = Constantes.LEFT;
-		 * 
-		 * else if (this.isCellSolid(this.gameCharacter.x + vectMove.x +
-		 * this.gameCharacter.width, this.gameCharacter.y + vectMove.y) &&
-		 * this.buscarColisionPorVertice(this.gameCharacter.x +
-		 * this.gameCharacter.width, this.gameCharacter.y, vectMove) ==
-		 * Constantes.RIGHT) r = Constantes.RIGHT;
-		 * 
-		 * else if (this.colisionMiddleLeft(vectMove)) {
-		 * 
-		 * r = Constantes.LEFT;
-		 * 
-		 * } else if (this.colisionMiddleRight(vectMove)) {
-		 * 
-		 * r = Constantes.RIGHT;
-		 * 
-		 * }
-		 * 
-		 * this.corrigeDirecciones(r, vectMove);
-		 */
-		// return r != -1;
+		
 		this.corrigeDirecciones(r, vectMove);
+		/*if(r!=-1)
+		    this.colision(vectMove);*/
+		return r;
 	}
 
 	protected void colisionForWalk(Vector2 vectMove)
@@ -142,7 +105,7 @@ public abstract class GameCharacterState
 
 	private void correctRight(Vector2 vectMove)
 	{
-		float epsilon = 0.000001f * Config.getInstance().getLevelTileWidthUnits();
+		float epsilon = 0.002f * Config.getInstance().getLevelTileWidthUnits();
 		float aux = (int) ((this.gameCharacter.x + this.gameCharacter.getWidth() + vectMove.x)
 				/ Config.getInstance().getLevelTileWidthUnits());
 		vectMove.x = (aux) * Config.getInstance().getLevelTileWidthUnits()
@@ -172,6 +135,7 @@ public abstract class GameCharacterState
 			this.gameCharacter.gameCharacterState = new GameCharacterStateWalking(this.gameCharacter);
 		}
 		this.gameCharacter.motionVector.y = 0;
+		
 
 	}
 

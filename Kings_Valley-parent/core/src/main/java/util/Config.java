@@ -64,12 +64,12 @@ public class Config
 		this.levelTileHeightUnits = levelTileHeightUnits;
 
 		this.characterSpeedFall = (int) (this.levelTileHeightUnits * (-60));
-		this.characterSpeedJump = (int) (this.levelTileHeightUnits * (15.25));
+		this.characterSpeedJump = (int) (this.levelTileHeightUnits * (15.3));
 
 		this.playerSpeedWalk = (int) (6 * this.levelTileWidthUnits);
 		this.playerSpeedWalkStairs = (int) (6 * this.levelTileWidthUnits);
 		this.flyingDaggerSpeed = this.levelTileWidthUnits * 18;
-		this.flyingDaggerSpeedFall = -this.flyingDaggerSpeed;
+		this.flyingDaggerSpeedFall = -this.flyingDaggerSpeed*0.5f;
 	
 		this.setMummyParameters(levelTileWidthUnits);
 		

@@ -18,6 +18,8 @@ public class GraphicsFileConfig
     private String archiDoorLeft = "pics/exitdoor_left.png";
     private String archiDoorRight = "pics/exitdoor_right.png";
     private String archiDoorLever = "pics/exitdoor_lever.png";
+    private String archiNewTileset="pics/tiles64.png";
+    private String archiSky="pics/sky1.png";
     
     
 
@@ -93,6 +95,19 @@ public class GraphicsFileConfig
     
 
     
+    
+    
+    
+    public String getArchiNewTileset()
+    {
+        return archiNewTileset;
+    }
+
+    public String getArchiSky()
+    {
+        return archiSky;
+    }
+
     public String getArchiPlayer()
     {
 	return archiPlayer;
