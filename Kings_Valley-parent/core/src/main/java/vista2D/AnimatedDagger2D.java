@@ -46,6 +46,7 @@ public class AnimatedDagger2D extends AnimatedEntity2D
 		else
 			this.animation = this.daggerAnimationFlying;
 		this.sprite = new Sprite(animation.getKeyFrame(0));
+		this.sprite.setSize(16, 16);
 
 	}
 

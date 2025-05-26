@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "new_level_02.tmx",
+    "activeFile": "new_level_01.tmx",
     "automapping.whileDrawing": false,
     "expandedProjectPaths": [
         "."
@@ -146,6 +146,7 @@
             }
         },
         "C:/Users/Guille/git/LibGDX_Kings_Valley/Kings_Valley_Converter/tiles.tsx": {
+            "dynamicWrapping": false,
             "scaleInDock": 1
         },
         "C:/Users/Guille/git/LibGDX_Kings_Valley/Kings_Valley_Converter/tiles_new.tsx": {
@@ -605,6 +606,14 @@
                 "y": 110.23391812865495
             }
         },
+        "new_level_01.tmx": {
+            "scale": 2.648125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 168.7986783101251,
+                "y": 56.266226103375026
+            }
+        },
         "new_level_02.tmx": {
             "scale": 4,
             "selectedLayer": 0,
@@ -674,7 +683,8 @@
         "C:/Users/Guille/git/LibGDX_Kings_Valley/Kings_Valley_Converter/new_level_07.tmx",
         "C:/Users/Guille/git/LibGDX_Kings_Valley/Kings_Valley_Converter/new_level_09.tmx",
         "C:/Users/Guille/git/LibGDX_Kings_Valley/Kings_Valley_Converter/new_level_11.tmx",
-        "new_level_02.tmx"
+        "new_level_02.tmx",
+        "new_level_01.tmx"
     ],
     "project": "KingsValley.tiled-project",
     "recentFiles": [
