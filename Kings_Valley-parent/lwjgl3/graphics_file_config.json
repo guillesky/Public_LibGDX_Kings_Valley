@@ -59,8 +59,8 @@ playerDaggerCountThrowing: 2
 playerStartDeath: 21
 playerCountDeath: 4
 flyingDaggerCount: 8
-flyingDaggerWidth: 16
-flyingDaggerHeight: 20
+flyingDaggerWidth: 200
+flyingDaggerHeight: 200
 pickingCellCount: 4
 doorLeverWidth: 10
 doorLeverHeight: 10
