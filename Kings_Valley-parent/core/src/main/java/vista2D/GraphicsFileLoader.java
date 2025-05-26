@@ -252,12 +252,19 @@ public class GraphicsFileLoader
 	this.animatedPickedCell = new AnimatedPickedCell(
 		new LevelObject(0, 0, 0, 0, collectableWidth, collectableHeight), picking_cell);
 
-	linearFrames = this.linearFramesForFile(this.graphicsFileConfig.getArchiFlyingDagger(), flyingDaggerWidth,
-		flyingDaggerHeight);
+	linearFrames = this.linearFramesForFile(this.graphicsFileConfig.getArchiFlyingDagger(), flyingDaggerCount);
 
 	this.animations.put(Constantes.DRAWABLE_FLYING_DAGGER,
 		this.framesToAnimation(linearFrames, 0, flyingDaggerCount, frameDuration));
 
+    }
+
+    private Array<TextureRegion> linearFramesForFile(String file, int count)
+    {
+	Texture spriteSheet = manager.get(file, Texture.class);
+	int width=spriteSheet.getWidth()/count;
+	
+	return linearFramesForFile(file,width,spriteSheet.getHeight());
     }
 
     private Animation<TextureRegion>[] loadMummyAnimations(String archiMummy)
