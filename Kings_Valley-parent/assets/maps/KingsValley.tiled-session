@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "new_level_01.tmx",
+    "activeFile": "new_level_13.tmx",
     "automapping.whileDrawing": false,
     "expandedProjectPaths": [
         "."
@@ -607,27 +607,123 @@
             }
         },
         "new_level_01.tmx": {
-            "scale": 2.648125,
+            "scale": 2,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 168.7986783101251,
-                "y": 56.266226103375026
+                "x": 144,
+                "y": 167.5
             }
         },
         "new_level_02.tmx": {
-            "scale": 4,
+            "scale": 1.5,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 218.75,
-                "y": 62.5
+                "x": 319.66666666666663,
+                "y": 109.66666666666663
+            }
+        },
+        "new_level_03.tmx": {
+            "scale": 2,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 131.5,
+                "y": 117
+            }
+        },
+        "new_level_04.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 319.5,
+                "y": 109.5
+            }
+        },
+        "new_level_05.tmx": {
+            "scale": 2,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 142,
+                "y": 176.5
+            }
+        },
+        "new_level_06.tmx": {
+            "scale": 1.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 319.66666666666663,
+                "y": 109.66666666666663
+            }
+        },
+        "new_level_07.tmx": {
+            "scale": 2.648125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 160.11328770356386,
+                "y": 109.8890724569271
+            }
+        },
+        "new_level_08.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 319.5,
+                "y": 109.5
+            }
+        },
+        "new_level_09.tmx": {
+            "scale": 2.648125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 160.11328770356386,
+                "y": 109.8890724569271
+            }
+        },
+        "new_level_10.tmx": {
+            "scale": 1.3240625,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 319.8489497285816,
+                "y": 109.8890724569271
+            }
+        },
+        "new_level_11.tmx": {
+            "scale": 2.648125,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 160.11328770356386,
+                "y": 109.8890724569271
+            }
+        },
+        "new_level_12.tmx": {
+            "scale": 1.3240625,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 319.8489497285816,
+                "y": 109.8890724569271
+            }
+        },
+        "new_level_13.tmx": {
+            "scale": 2,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 121,
+                "y": 70.5
+            }
+        },
+        "new_level_14.tmx": {
+            "scale": 1.3240625,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 319.8489497285816,
+                "y": 109.8890724569271
             }
         },
         "new_level_15.tmx": {
-            "scale": 2.87671875,
+            "scale": 1.5,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 160.0782141111292,
-                "y": 109.8473738525881
+                "x": 256.6666666666667,
+                "y": 113.99999999999997
             }
         },
         "p01.tmx": {
@@ -654,7 +750,8 @@
             "scaleInEditor": 5.5
         },
         "tiles_new.tsx": {
-            "scaleInDock": 4,
+            "dynamicWrapping": false,
+            "scaleInDock": 3,
             "scaleInEditor": 1
         }
     },
@@ -684,7 +781,20 @@
         "C:/Users/Guille/git/LibGDX_Kings_Valley/Kings_Valley_Converter/new_level_09.tmx",
         "C:/Users/Guille/git/LibGDX_Kings_Valley/Kings_Valley_Converter/new_level_11.tmx",
         "new_level_02.tmx",
-        "new_level_01.tmx"
+        "new_level_01.tmx",
+        "new_level_03.tmx",
+        "new_level_04.tmx",
+        "new_level_05.tmx",
+        "new_level_06.tmx",
+        "new_level_07.tmx",
+        "new_level_09.tmx",
+        "new_level_10.tmx",
+        "new_level_08.tmx",
+        "new_level_11.tmx",
+        "new_level_12.tmx",
+        "new_level_13.tmx",
+        "new_level_14.tmx",
+        "new_level_15.tmx"
     ],
     "project": "KingsValley.tiled-project",
     "recentFiles": [
