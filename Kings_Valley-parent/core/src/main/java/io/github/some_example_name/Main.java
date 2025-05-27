@@ -31,6 +31,8 @@ public class Main implements ApplicationListener
 		 * TiledMap.class);
 		 */
 		grafica = new TileMapGrafica2D_PARALAX(manager,.5f);
+		//grafica = new TileMapGrafica2D(manager);
+		
 		/*
 		 * Thread th = new Thread(new Runnable() {
 		 * 
@@ -54,7 +56,7 @@ public class Main implements ApplicationListener
 		this.grafica.create();
 		
 		TileMapGrafica2D mytile2d=(TileMapGrafica2D) this.grafica;
-		 mytile2d.changeTileSet();
+		// mytile2d.changeTileSet();
 		 
 	}
 

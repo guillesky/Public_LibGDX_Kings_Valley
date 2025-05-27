@@ -17,6 +17,7 @@ import com.badlogic.gdx.utils.Json;
 import modelo.gameCharacters.mummys.Mummy;
 import modelo.gameCharacters.mummys.MummyFactory;
 import modelo.level.LevelObject;
+import util.Config;
 import util.Constantes;
 
 @SuppressWarnings("unchecked")
@@ -174,6 +175,7 @@ public class GraphicsFileLoader
     private Animation<TextureRegion> framesToAnimation(Array<TextureRegion> linearFrames, int init, int count,
 	    float frameDuration)
     {
+
 	Array<TextureRegion> frames = new Array<>();
 	for (int j = init; j < init + count; j++)
 	{
@@ -206,18 +208,20 @@ public class GraphicsFileLoader
 
     private void loadColectablesAnimations()
     {
-	int collectableWidth = this.graphicsFileConfig.getCollectableTileWidth();
-	int collectableHeight = this.graphicsFileConfig.getCollectableTileHeight();
-	int giratoryWidth = this.graphicsFileConfig.getGiratoryWidth();
-	int giratoryHeight = this.graphicsFileConfig.getGiratoryHeight();
+	
+	
+
 	int collectableCount = this.graphicsFileConfig.getCollectableCount();
 	float frameDuration = this.graphicsFileConfig.getFrameDuration();
-	int flyingDaggerWidth = this.graphicsFileConfig.getFlyingDaggerWidth();
-	int flyingDaggerHeight = this.graphicsFileConfig.getFlyingDaggerHeight();
 	int flyingDaggerCount = this.graphicsFileConfig.getFlyingDaggerCount();
 	int pickingCellCount = this.graphicsFileConfig.getPickingCellCount();
 	float pickingCellFrameDuration = this.graphicsFileConfig.getPickingCellFrameDuration();
-
+	
+	
+	Texture spriteSheet = manager.get(this.graphicsFileConfig.getArchiCollectables(), Texture.class);
+	int collectableWidth = spriteSheet.getWidth() / collectableCount;
+	int collectableHeight = spriteSheet.getHeight()/9;
+	
 	Array<TextureRegion> linearFrames = this.linearFramesForFile(this.graphicsFileConfig.getArchiCollectables(),
 		collectableWidth, collectableHeight);
 	this.animations.put(Constantes.It_dagger,
@@ -240,17 +244,16 @@ public class GraphicsFileLoader
 	this.animations.put(Constantes.JEWEL_7,
 		this.framesToAnimation(linearFrames, collectableCount * 8, collectableCount, frameDuration));
 
-	this.linearFramesGiratory = this.linearFramesForFile(this.graphicsFileConfig.getArchiGiratory(), giratoryWidth,
-		giratoryHeight);
-
-	linearFrames = this.linearFramesForFile(this.graphicsFileConfig.getArchiPickingCell(), collectableWidth,
-		collectableHeight);
+	this.linearFramesGiratory = this.linearFramesForFile(this.graphicsFileConfig.getArchiGiratory(),
+		this.graphicsFileConfig.getGiratoryCount());
+	linearFrames = this.linearFramesForFile(this.graphicsFileConfig.getArchiPickingCell(), pickingCellCount);
 	Animation<TextureRegion> picking_cell = this.framesToAnimation(linearFrames, 0, pickingCellCount,
 		pickingCellFrameDuration);
 	picking_cell.setPlayMode(PlayMode.NORMAL);
 
-	this.animatedPickedCell = new AnimatedPickedCell(
-		new LevelObject(0, 0, 0, 0, collectableWidth, collectableHeight), picking_cell);
+	this.animatedPickedCell = new AnimatedPickedCell(new LevelObject(0, 0, 0, 0,
+		Config.getInstance().getLevelTileWidthUnits(), Config.getInstance().getLevelTileHeightUnits()),
+		picking_cell);
 
 	linearFrames = this.linearFramesForFile(this.graphicsFileConfig.getArchiFlyingDagger(), flyingDaggerCount);
 
@@ -262,9 +265,9 @@ public class GraphicsFileLoader
     private Array<TextureRegion> linearFramesForFile(String file, int count)
     {
 	Texture spriteSheet = manager.get(file, Texture.class);
-	int width=spriteSheet.getWidth()/count;
-	
-	return linearFramesForFile(file,width,spriteSheet.getHeight());
+	int width = spriteSheet.getWidth() / count;
+
+	return linearFramesForFile(file, width, spriteSheet.getHeight());
     }
 
     private Animation<TextureRegion>[] loadMummyAnimations(String archiMummy)
@@ -311,11 +314,10 @@ public class GraphicsFileLoader
 
 	float frameDuration = this.graphicsFileConfig.getFrameDuration();
 	Array<TextureRegion> linearFrame = this.linearFramesForFile(this.graphicsFileConfig.getArchiMummyAppear(),
-		this.graphicsFileConfig.getCharacterFrameWidth(), this.graphicsFileConfig.getCharacterFrameHeight());
+		mummyCountAppear);
 
 	this.animationMummyAppear = this.framesToAnimation(linearFrame, 0, mummyCountAppear, frameDuration);
-	linearFrame = this.linearFramesForFile(this.graphicsFileConfig.getArchiMummyDisappear(),
-		this.graphicsFileConfig.getCharacterFrameWidth(), this.graphicsFileConfig.getCharacterFrameHeight());
+	linearFrame = this.linearFramesForFile(this.graphicsFileConfig.getArchiMummyDisappear(), mummyCountDeath);
 
 	this.animationMummyDeath = this.framesToAnimation(linearFrame, 0, mummyCountDeath, 0.1f);
 	this.animationMummyDeath.setPlayMode(PlayMode.NORMAL);
@@ -330,9 +332,9 @@ public class GraphicsFileLoader
 	this.doorPassage = manager.get(this.graphicsFileConfig.getArchiDoorPassage(), Texture.class);
 	this.skyTexture = manager.get(this.graphicsFileConfig.getArchiSky(), Texture.class);
 	linearFrame = this.linearFramesForFile(this.graphicsFileConfig.getArchiDoorLever(),
-		this.graphicsFileConfig.getDoorLeverWidth(), this.graphicsFileConfig.getDoorLeverHeight());
+		this.graphicsFileConfig.getDoorLeverCount());
 
-	this.animationDoorLever = this.framesToAnimation(linearFrame, 0, 2, frameDuration * 5);
+	this.animationDoorLever = this.framesToAnimation(linearFrame, 0, this.graphicsFileConfig.getDoorLeverCount(), frameDuration );
 
     }
 
@@ -483,9 +485,7 @@ public class GraphicsFileLoader
 
     public Texture getSkyTexture()
     {
-        return skyTexture;
+	return skyTexture;
     }
 
-    
-    
 }

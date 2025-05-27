@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import modelo.gameCharacters.abstractGameCharacter.GameCharacter;
+import util.Config;
 
 public class GameCharacterAnimated2D extends AnimatedEntity2D
 {
@@ -16,7 +17,7 @@ public class GameCharacterAnimated2D extends AnimatedEntity2D
 
 	public GameCharacterAnimated2D(GameCharacter character, Animation<TextureRegion>[] animation)
 	{
-		super(character, animation[TileMapGrafica2D.IDDLE]);
+		super(character, animation[TileMapGrafica2D.IDDLE],Config.getInstance().getLevelTileWidthUnits(),Config.getInstance().getLevelTileHeightUnits());
 		this.characterAnimationIddle = animation[TileMapGrafica2D.IDDLE];
 		this.characterAnimationWalk = animation[TileMapGrafica2D.WALK];
 		this.characterAnimationJump = animation[TileMapGrafica2D.JUMP];

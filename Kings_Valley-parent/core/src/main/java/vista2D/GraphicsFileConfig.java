@@ -38,13 +38,12 @@ public class GraphicsFileConfig
     private int mummyCountAppear = 10;
     private int mummyCountDeath = 5;
 
-    private int giratoryWidth = 20;
-    private int giratoryHeight = 10;
+    private int giratoryCount = 10;
+    
+    
     
     private int collectableCount = 7;
-    private int collectableTileWidth = 10;
-    private int collectableTileHeight = 10;
-
+  
     private int playerStartIddle = 2;
     private int playerCountIddle = 1;
     private int playerStartFall = 5;
@@ -80,15 +79,11 @@ public class GraphicsFileConfig
     private int playerCountDeath = 4;
     
     private int flyingDaggerCount=8;
-    private int flyingDaggerWidth=16;
-    private int flyingDaggerHeight=20;
-    private int pickingCellCount=4;
-    private int doorLeverWidth=10;
-    private int doorLeverHeight=10;;
-    private int doorSingleWidth=10;
-    private int doorSingleHeight=30;
-    private int doorPassageWidth=20;
-    private int doorPassageHeight=20;
+   private int pickingCellCount=4;
+    
+    
+    private int doorLeverCount=3;
+  
     
     
     private float pickingCellFrameDuration=0.25f;
@@ -193,27 +188,15 @@ public class GraphicsFileConfig
 	return mummyCountWalk;
     }
 
-    public int getGiratoryWidth()
-    {
-	return giratoryWidth;
-    }
+    
 
-    public int getGiratoryHeight()
+    public int getGiratoryCount()
     {
-	return giratoryHeight;
+	return giratoryCount;
     }
 
     
-    public int getCollectableTileWidth()
-    {
-	return collectableTileWidth;
-    }
-
-    public int getCollectableTileHeight()
-    {
-	return collectableTileHeight;
-    }
-
+    
     public int getPlayerStartIddle()
     {
 	return playerStartIddle;
@@ -379,15 +362,7 @@ public class GraphicsFileConfig
         return flyingDaggerCount;
     }
 
-    protected int getFlyingDaggerWidth()
-    {
-        return flyingDaggerWidth;
-    }
-
-    protected int getFlyingDaggerHeight()
-    {
-        return flyingDaggerHeight;
-    }
+  
 
     protected int getPickingCellCount()
     {
@@ -419,35 +394,12 @@ public class GraphicsFileConfig
 		return archiDoorLever;
 	}
 
-	public int getDoorLeverWidth()
+	public int getDoorLeverCount()
 	{
-		return doorLeverWidth;
+	    return doorLeverCount;
 	}
 
-	public int getDoorLeverHeight()
-	{
-		return doorLeverHeight;
-	}
 
-	public int getDoorSingleWidth()
-	{
-		return doorSingleWidth;
-	}
-
-	public int getDoorSingleHeight()
-	{
-		return doorSingleHeight;
-	}
-
-	public int getDoorPassageWidth()
-	{
-		return doorPassageWidth;
-	}
-
-	public int getDoorPassageHeight()
-	{
-		return doorPassageHeight;
-	}
-    
+	
 
 }

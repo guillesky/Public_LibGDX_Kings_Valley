@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import modelo.level.LevelObject;
+import util.Config;
 
 public class AnimatedPickedCell extends AnimatedEntity2D
 {
@@ -16,7 +17,7 @@ public class AnimatedPickedCell extends AnimatedEntity2D
 
     public AnimatedPickedCell(LevelObject levelObject, Animation<TextureRegion> animation)
     {
-	super(levelObject, animation);
+	super(levelObject, animation,Config.getInstance().getLevelTileWidthUnits(),Config.getInstance().getLevelTileHeightUnits());
 
     }
 
@@ -24,6 +25,8 @@ public class AnimatedPickedCell extends AnimatedEntity2D
     public void updateElement(float deltaTime)
     {
 	super.updateElement(deltaTime - this.stateTime);
+
+	
     }
 
 }

@@ -48,7 +48,7 @@ public abstract class AbstractAnimatedDoor2D implements IGraphicRenderer
 	xLeft = this.door.getPassage().x - tileWidth *(1+deltaTime);
 	xRight = this.door.getPassage().x + tileWidth * deltaTime;
 
-	this.lever.setRegion(this.leverAnimation.getKeyFrame(deltaTime, true));
+	this.lever.setRegion(this.leverAnimation.getKeyFrame(deltaTime, false));
 	float y = this.doorSingleLeft.getY();
 	this.doorSingleLeft.setPosition(xLeft, y);
 	this.doorSingleRight.setPosition(xRight, y);

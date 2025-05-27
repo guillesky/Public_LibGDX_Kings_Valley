@@ -104,7 +104,7 @@ public class TileMapGrafica2D implements IMyApplicationListener
 		id = item.getP0();
 	    else
 		id = item.getType();
-	    animatedEntity2D = new AnimatedEntity2D(item, this.graphicsFileLoader.getAnimations().get(id));
+	    animatedEntity2D = new AnimatedEntity2D(item, this.graphicsFileLoader.getAnimations().get(id),Config.getInstance().getLevelTileWidthUnits(),Config.getInstance().getLevelTileHeightUnits());
 	    this.animatedEntities.add(animatedEntity2D);
 	    this.hashMapLevelAnimation.put(item, animatedEntity2D);
 	} else if (dr.getType() == Constantes.DRAWABLE_TRAP)
@@ -311,7 +311,7 @@ public class TileMapGrafica2D implements IMyApplicationListener
     public void changeTileSet()
     {
 	String fileName = this.graphicsFileLoader.getArchiNewTileset();
-
+	System.out.println("cambie");
 	TiledMap map = Game.getInstance().getCurrentLevel().getPyramid().getMap();
 	if (this.originalWidth == null)
 	    this.originalWidth = (float) ((int) map.getTileSets().getTileSet(0).getProperties().get("tilewidth"));
@@ -407,7 +407,7 @@ public class TileMapGrafica2D implements IMyApplicationListener
     {
 	Pyramid pyramid = Game.getInstance().getCurrentLevel().getPyramid();
 	float alto = pyramid.getMapHeightInPixels() + Config.getInstance().getLevelTileHeightUnits() * 2;
-	float ancho =alto * width / height;
+	float ancho = alto * width / height;
 
 	if (height != 0)
 	{
@@ -425,14 +425,15 @@ public class TileMapGrafica2D implements IMyApplicationListener
 	camera.update();
 	this.calculateCamera();
 
-	this.spriteBatch.begin();
+	
 	this.drawUI();
 
 	spriteBatch.setProjectionMatrix(camera.combined);
 	// this.spriteBatch.end();
-	// this.spriteBatch.begin();
+	 this.spriteBatch.begin();
 	renderer.setView(camera);
-	renderer.render();
+	renderer.render(new int[]
+		{ 1 });
 	ArrayIterator<AnimatedTrapKV2> it3 = this.animatedTraps.iterator();
 	while (it3.hasNext())
 	{
