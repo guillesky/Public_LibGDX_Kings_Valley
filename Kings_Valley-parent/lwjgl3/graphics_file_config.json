@@ -29,7 +29,7 @@ mummyStartWalk: 0
 mummyCountWalk: 8
 mummyCountAppear: 10
 mummyCountDeath: 5
-giratoryCount: 10
+giratoryCount: 13
 collectableCount: 7
 playerStartIddle: 2
 playerCountIddle: 1

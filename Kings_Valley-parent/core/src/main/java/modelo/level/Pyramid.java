@@ -158,7 +158,7 @@ public class Pyramid implements IGrafica
 	{
 		this.activators.remove(activator);
 		LevelObject wall = this.hashTraps.get(activator);
-		TrapMechanism trap = new TrapMechanism(this, wall);
+		TrapMechanism trap = new TrapMechanism(this, wall,Config.getInstance().getTimeToEndTrapMechanism());
 		this.trapMechanisms.add(trap);
 		this.addGraphicElement(new DrawableElement(Constantes.DRAWABLE_TRAP, trap));
 		Game.getInstance().eventFired(KVEventListener.ACTIVATE_TRAP, trap);

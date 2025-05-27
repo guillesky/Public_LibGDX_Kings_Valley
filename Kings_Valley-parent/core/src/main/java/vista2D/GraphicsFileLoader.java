@@ -415,7 +415,7 @@ public class GraphicsFileLoader
 
     public Animation<TextureRegion> getNewAnimationGiratory(int heightInTiles)
     {
-	float frameDuration = this.graphicsFileConfig.getFrameDuration();
+	float frameDuration = Config.getInstance().getTimeToEndGiratory()/(float)this.graphicsFileConfig.getGiratoryCount();
 
 	Array<TextureRegion> linearFrame = new Array<TextureRegion>();
 	for (int i = 0; i < this.linearFramesGiratory.size; i++)

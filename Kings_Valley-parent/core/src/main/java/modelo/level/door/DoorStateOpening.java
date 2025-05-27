@@ -15,7 +15,7 @@ public class DoorStateOpening extends DoorState
 	public void update(float deltaTime)
 	{
 		this.door.incTime(deltaTime);
-		if (this.door.getTime() >= 1)
+		if (this.door.getTime() >= this.door.getTimeToEnd())
 			this.door.doorState = new DoorStateOpen(this.door);
 		
 	}

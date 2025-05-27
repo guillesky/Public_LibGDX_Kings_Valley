@@ -8,106 +8,111 @@ import util.Constantes;
 
 public class Door extends Mechanism
 {
-	public static final int HIDE = 0;
-	public static final int CLOSED = 1;
-	public static final int OPEN = 2;
-	public static final int CLOSING = 3;
-	public static final int OPENING = 4;
-	
-	public static final int TO_PREVIUS=0;
-	public static final int TO_NEXT=-1;
-	public static final int UNIQUE=-2;
+    public static final int HIDE = 0;
+    public static final int CLOSED = 1;
+    public static final int OPEN = 2;
+    public static final int CLOSING = 3;
+    public static final int OPENING = 4;
 
-	private LevelObject lever;
-	private LevelObject passage;
-	protected DoorState doorState;
-	private int state;
-	private int idLevel;
-	private int levelConnected;
+    public static final int TO_PREVIUS = 0;
+    public static final int TO_NEXT = -1;
+    public static final int UNIQUE = -2;
 
-	public Door(LevelObject lever,int idLevel)
-	{
-		this.lever = lever;
-		float width = Config.getInstance().getLevelTileWidthUnits();
-		float eight = Config.getInstance().getLevelTileHeightUnits();
-		float x = this.lever.x + width * 3;
-		float y = this.lever.y - eight * 2;
-		this.doorState = new DoorStateHide(this);
-		this.passage = new LevelObject(Constantes.It_door_passage, x, y, this.lever.getP0(), width * 0.2f, eight * 2);
-		this.active = false;
-		this.levelConnected=lever.getP0()*-1;
-		this.idLevel=idLevel;
+    private LevelObject lever;
+    private LevelObject passage;
+    protected DoorState doorState;
+    private int state;
+    private int idLevel;
+    private int levelConnected;
 
-	}
+    public Door(LevelObject lever, int idLevel, float timeToEnd)
+    {
+	super(timeToEnd);
+	this.lever = lever;
+	float width = Config.getInstance().getLevelTileWidthUnits();
+	float eight = Config.getInstance().getLevelTileHeightUnits();
+	float x = this.lever.x + width * 3;
+	float y = this.lever.y - eight * 2;
+	this.doorState = new DoorStateHide(this);
+	this.passage = new LevelObject(Constantes.It_door_passage, x, y, this.lever.getP0(), width * 0.2f, eight * 2);
+	this.active = false;
+	this.levelConnected = lever.getP0() * -1;
+	this.idLevel = idLevel;
 
-	public LevelObject getLever()
-	{
-		return lever;
-	}
+    }
 
-	public LevelObject getPassage()
-	{
-		return passage;
-	}
+    public LevelObject getLever()
+    {
+	return lever;
+    }
 
-	@Override
-	public void update(float deltaTime)
-	{
-		this.doorState.update(deltaTime);
-	}
+    public LevelObject getPassage()
+    {
+	return passage;
+    }
 
-	public boolean isVisible()
-	{
-		return this.state != Door.HIDE;
-	}
+    @Override
+    public void update(float deltaTime)
+    {
+	this.doorState.update(deltaTime);
+    }
 
-	public int getState()
-	{
-		return state;
-	}
+    public boolean isVisible()
+    {
+	return this.state != Door.HIDE;
+    }
 
-	protected void setState(int state)
-	{
-		this.state = state;
-	}
+    public int getState()
+    {
+	return state;
+    }
 
-	public void setVisible()
-	{
-		this.doorState = new DoorStateClosed(this);
+    protected void setState(int state)
+    {
+	this.state = state;
+    }
 
-	}
+    public void setVisible()
+    {
+	this.doorState = new DoorStateClosed(this);
 
-	public void checkPushLever(Player player)
-	{
-		this.doorState.checkPushLever(player);
-	}
+    }
 
-	@Override
-	protected void incTime(float delta)
-	{
-		super.incTime(delta);
-	}
+    public void checkPushLever(Player player)
+    {
+	this.doorState.checkPushLever(player);
+    }
 
-	@Override
-	protected void resetTime()
-	{
-		super.resetTime();
-	}
+    @Override
+    protected void incTime(float delta)
+    {
+	super.incTime(delta);
+    }
 
-	public boolean checkEnterPassage(Player player)
-	{
-		return this.doorState.checkEnterPassage(player);
-	}
+    @Override
+    protected void resetTime()
+    {
+	super.resetTime();
+    }
 
-	public int getLevelConnected()
-	{
-	    return levelConnected;
-	}
+    public boolean checkEnterPassage(Player player)
+    {
+	return this.doorState.checkEnterPassage(player);
+    }
 
-	public int getIdLevel()
-	{
-	    return idLevel;
-	}
-	
+    public int getLevelConnected()
+    {
+	return levelConnected;
+    }
+
+    public int getIdLevel()
+    {
+	return idLevel;
+    }
+
+    protected float getTimeToEnd()
+    {
+	return this.timeToEnd;
+    }
 
 }

@@ -271,7 +271,7 @@ public class LevelReader
 				break;
 			case Constantes.It_door_lever:
 				levelObject = new LevelObject(type, fx, fy, p0, width, height);
-				Door door = new Door(levelObject, id);
+				Door door = new Door(levelObject, id,Config.getInstance().getTimeToOpenCloseDoor());
 				this.doors.add(door);
 
 				break;
@@ -293,7 +293,7 @@ public class LevelReader
 				levelObject = new LevelObject(type, fx, fy, p0, width, height);
 
 				this.giratorys.add(levelObject);
-				GiratoryMechanism giratoryMechanism = new GiratoryMechanism(levelObject);
+				GiratoryMechanism giratoryMechanism = new GiratoryMechanism(levelObject,Config.getInstance().getTimeToEndGiratory());
 				this.giratoryMechanisms.add(giratoryMechanism);
 				this.hashGiratoryMechanisms.put(levelObject, giratoryMechanism);
 				this.unpickableCells.add(this.getCell(map, levelObject.getX(),

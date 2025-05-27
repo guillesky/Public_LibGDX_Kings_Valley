@@ -3,9 +3,22 @@ package modelo.level;
 public abstract class Mechanism
 {
 	protected float time = 0;
+	protected float timeToEnd ;
 	protected boolean active = true;
 
 	public abstract void update(float deltaTime);
+
+	
+	
+	
+	public Mechanism(float timeToEnd)
+	{
+	  
+	    this.timeToEnd = timeToEnd;
+	}
+
+
+
 
 	public boolean isActive()
 	{
