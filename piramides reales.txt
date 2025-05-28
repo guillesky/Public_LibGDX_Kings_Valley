@@ -6,3 +6,5 @@
 06: blanca azul y rosa
 07: blanca y azul
 08: azul amarillo y blanca
+09: azul
+10: Roja Roja Amarilla
