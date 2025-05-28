@@ -151,12 +151,12 @@ public class TileMapGrafica2D_PARALAX extends TileMapGrafica2D
 	renderer.setView(cameraBack);
 
 	renderer.render(new int[]
-	{ 3 });
+	{ 0 });
 	this.spriteBatch.end();
 	this.spriteBatch.begin();
 	renderer.setView(camera);
 	renderer.render(new int[]
-	{ 2, 1 });
+	{ 1, 2 });
 	this.spriteBatch.end();
 
     }

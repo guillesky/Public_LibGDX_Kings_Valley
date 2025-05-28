@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "new_level_03.tmx",
+    "activeFile": "new_level_02.tmx",
     "automapping.whileDrawing": false,
     "expandedProjectPaths": [
         "."
@@ -607,27 +607,27 @@
             }
         },
         "new_level_01.tmx": {
-            "scale": 0.33,
-            "selectedLayer": 3,
+            "scale": 0.25,
+            "selectedLayer": 0,
             "viewCenter": {
-                "x": 1021.2121212121212,
-                "y": 703.0303030303031
+                "x": 264,
+                "y": 460
             }
         },
         "new_level_02.tmx": {
-            "scale": 0.33,
-            "selectedLayer": 0,
+            "scale": 0.25,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 1312.121212121212,
-                "y": 445.4545454545454
+                "x": 868,
+                "y": 500
             }
         },
         "new_level_03.tmx": {
             "scale": 0.33,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 645.4545454545455,
-                "y": 330.30303030303037
+                "x": 1022.7272727272727,
+                "y": 704.5454545454545
             }
         },
         "new_level_04.tmx": {
@@ -789,14 +789,14 @@
         "C:/Users/Guille/git/LibGDX_Kings_Valley/Kings_Valley_Converter/assets/levels/level_01.tmx",
         "C:/Users/Guille/git/LibGDX_Kings_Valley/Kings_Valley_Converter/level_01.tmx",
         "tiles_new.tsx",
-        "new_level_02.tmx",
-        "new_level_01.tmx",
         "new_level_15.tmx",
         "new_level_14.tmx",
         "new_level_13.tmx",
         "new_level_12.tmx",
         "new_level_11.tmx",
-        "new_level_08.tmx"
+        "new_level_08.tmx",
+        "new_level_10.tmx",
+        "new_level_09.tmx"
     ],
     "tileset.lastUsedFilter": "Archivos de conjuntos de patrones Tiled (*.tsx *.xml)",
     "tileset.lastUsedFormat": "tsx",
