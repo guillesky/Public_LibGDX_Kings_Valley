@@ -67,9 +67,12 @@ public class GameCharacterStateWalking extends GameCharacterState
 			}
 		}
 		if (stair != null)
-			this.gameCharacter.gameCharacterState = new GameCharacterStateOnStair(this.gameCharacter, stair);
+			this.gameCharacter.enterStair(stair);
+			
 
 	}
+
+	
 
 	@Override
 	protected void moveSecondStep(Vector2 escalado)

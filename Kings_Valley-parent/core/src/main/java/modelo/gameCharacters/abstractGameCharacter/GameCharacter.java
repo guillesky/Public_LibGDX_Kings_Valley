@@ -254,5 +254,11 @@ public abstract class GameCharacter extends LevelObject
 
 		return respuesta;
 	}
+	
+	
+	protected void enterStair(Stair stair)
+	{
+		this.gameCharacterState = new GameCharacterStateOnStair(this, stair);
+	}
 
 }

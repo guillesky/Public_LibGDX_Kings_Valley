@@ -8,18 +8,21 @@ public class MummyStateWalking extends MummyState
 {
 	protected boolean doJump = false;
 
-	public MummyStateWalking(Mummy mummy)
+	public MummyStateWalking(Mummy mummy, int direction)
 	{
 		super(mummy, GameCharacter.ST_WALKING);
+		if (direction == 0)
+			this.setDirection();
+		else
+			this.mummy.getDirection().x = direction;
 
-		this.setDirection(this.mummy.player);
 		this.timeToChange = this.mummy.getTimeToDecide();
 
 	}
 
-	protected void setDirection(Player player)
+	protected void setDirection()
 	{
-		if (mummy.getX() < player.getX())
+		if (mummy.getX() < this.mummy.player.getX())
 			this.mummy.getDirection().x = 1;
 		else
 			this.mummy.getDirection().x = -1;
@@ -32,7 +35,7 @@ public class MummyStateWalking extends MummyState
 		Player player = this.mummy.player;
 		if (this.mummy.getState() == GameCharacter.ST_WALKING && !this.mummy.isInStair())
 			this.checkEndOfPlataform(player);
-		if (this.mummy.getStressLevel() >= 9 || this.mummy.timeWhitoutSeePlayer >= 20)
+		if (this.mummy.getStressLevel() >= 9)
 		{ // muere por estres o por no encontrar al player
 			this.mummy.die(true);
 		}
@@ -103,59 +106,6 @@ public class MummyStateWalking extends MummyState
 		} else // sino, rebota
 		{
 			this.bounces();
-		}
-	}
-
-	protected void doInBorderCliff_____(Player player)
-	{
-		if (this.playerIsUp(player)) // Si el player esta arriba
-		{
-			if (this.mummy.makeBestDecisionProbability()) // Si toma la mejor decision posible rebota
-				this.bounces();
-			else // Si no
-			{
-				if (!this.mummy.makeDecisionForFall() && this.mummy.canJump()) // Si no decide caer y puede
-																				// saltar lo hace
-					this.doJump = true;
-			}
-		} // sino se dejara caer
-
-		else if (this.playerIsDown(player))// Si el player esta abajo
-		{
-			if (!this.mummy.makeBestDecisionProbability())
-			// Si el player esta abajo y no toma la mejor decision que seria caer
-			{
-				if (this.mummy.makeDecisionForJump() && this.mummy.canJump()) // Si puede y decide saltar lo hace
-					this.doJump = true;
-				else
-					this.bounces(); // sino, rebota
-
-			}
-
-		} else // Si el player esta casi a la misma altura
-		{
-			if (this.mummy.isLookRight() && this.mummy.x < player.x) // Si la momia camina hacia el player
-			{
-				if (this.mummy.makeBestDecisionProbability() && this.mummy.canJump()) // si toma la mejor decision
-																						// posible y puede saltar lo
-																						// hace
-					this.doJump = true;
-				else
-				{
-					if (!this.mummy.makeDecisionForFall()) // Sino, si decide caer lo hace y sino rebota.
-						this.bounces();
-				}
-			} else // Si camina alejandose del player
-			{
-				if (this.mummy.makeBestDecisionProbability())// Si toma la mejor decicion rebota
-					this.bounces();
-				else
-				{
-					if (this.mummy.makeDecisionForJump() && this.mummy.canJump()) // sino, si puede y toma la decision
-																					// de saltar lo hace
-						this.doJump = true;
-				}
-			}
 		}
 	}
 

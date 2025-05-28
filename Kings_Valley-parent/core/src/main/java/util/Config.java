@@ -3,16 +3,14 @@ package util;
 public class Config
 {
 
-    private static final int INDEX_SPEED_WALK = 0;
-    private static final int INDEX_SPEED_STAIR = 1;
-    private static final int INDEX_MIN_TIME_TO_DECIDE = 2;
-    private static final int INDEX_MAX_TIME_TO_DECIDE = 3;
-    private static final int INDEX_MIN_TIME_DECIDING = 4;
-    private static final int INDEX_MAX_TIME_DECIDING = 5;
-    private static final int INDEX_DECICION_FACTOR_FALL = 6;
-    private static final int INDEX_DECICION_FACTOR_JUMP = 7;
-    private static final int INDEX_BEST_DECICION_PROBALITY = 8;
-    private static final int QUAD_DISTANCE_VISION = 9;
+	private static final int INDEX_SPEED_WALK = 0;
+	private static final int INDEX_SPEED_STAIR = 1;
+	private static final int INDEX_TIME_TO_DECIDE = 2;
+	private static final int INDEX_TIME_DECIDING = 3;
+	private static final int INDEX_DECICION_FACTOR_FALL = 4;
+	private static final int INDEX_DECICION_FACTOR_JUMP = 5;
+	
+	
 
     private float characterSpeedFall;
     private float characterSpeedJump;
@@ -104,61 +102,34 @@ public class Config
 	this.mummyTimeAppearing = 2;
 	this.mummyTimeDying = 1;
 	this.mummyTimeInLimbus = 5;
-	this.mummyWhiteParameters[Config.INDEX_SPEED_WALK] = (2.5f * this.levelTileWidthUnits);
-	this.mummyWhiteParameters[Config.INDEX_SPEED_STAIR] = (3f * this.levelTileWidthUnits);
-	this.mummyWhiteParameters[Config.INDEX_MIN_TIME_TO_DECIDE] = 5;
-	this.mummyWhiteParameters[Config.INDEX_MAX_TIME_TO_DECIDE] = 10;
-	this.mummyWhiteParameters[Config.INDEX_MIN_TIME_DECIDING] = 2;
-	this.mummyWhiteParameters[Config.INDEX_MAX_TIME_DECIDING] = 4;
-	this.mummyWhiteParameters[Config.INDEX_DECICION_FACTOR_FALL] = 0.95f;
-	this.mummyWhiteParameters[Config.INDEX_DECICION_FACTOR_JUMP] = 0.0f;
-	this.mummyWhiteParameters[Config.INDEX_BEST_DECICION_PROBALITY] = 0.4f;
-	this.mummyWhiteParameters[Config.QUAD_DISTANCE_VISION] = 36;
+	this.mummyWhiteParameters[Config.INDEX_SPEED_WALK] = this.playerSpeedWalk*0.5f;
+	this.mummyWhiteParameters[Config.INDEX_SPEED_STAIR] = this.playerSpeedWalkStairs*0.5f;
+	this.mummyWhiteParameters[Config.INDEX_TIME_TO_DECIDE] = 1.5f;
+	this.mummyWhiteParameters[Config.INDEX_TIME_DECIDING] = 1f;
+	
 
-	this.mummyBlueParameters[Config.INDEX_SPEED_WALK] = (4.5f * this.levelTileWidthUnits);
-	this.mummyBlueParameters[Config.INDEX_SPEED_STAIR] = (5f * this.levelTileWidthUnits);
-	this.mummyBlueParameters[Config.INDEX_MIN_TIME_TO_DECIDE] = 5;
-	this.mummyBlueParameters[Config.INDEX_MAX_TIME_TO_DECIDE] = 8;
-	this.mummyBlueParameters[Config.INDEX_MIN_TIME_DECIDING] = 2;
-	this.mummyBlueParameters[Config.INDEX_MAX_TIME_DECIDING] = 3;
-	this.mummyBlueParameters[Config.INDEX_DECICION_FACTOR_FALL] = 0.8f;
-	this.mummyBlueParameters[Config.INDEX_DECICION_FACTOR_JUMP] = 0.65f;
-	this.mummyBlueParameters[Config.INDEX_BEST_DECICION_PROBALITY] = 0.5f;
-	this.mummyBlueParameters[Config.QUAD_DISTANCE_VISION] = 49;
+	this.mummyPinkParameters[Config.INDEX_SPEED_WALK] = this.playerSpeedWalk*0.5f;
+	this.mummyPinkParameters[Config.INDEX_SPEED_STAIR] = this.playerSpeedWalkStairs*2f;
+	this.mummyPinkParameters[Config.INDEX_TIME_TO_DECIDE] = 1.5f;
+	this.mummyPinkParameters[Config.INDEX_TIME_DECIDING] =1f;
+	
+	this.mummyYellowParameters[Config.INDEX_SPEED_WALK] = this.playerSpeedWalk;
+	this.mummyYellowParameters[Config.INDEX_SPEED_STAIR] = this.playerSpeedWalkStairs*0.5f;
+	this.mummyYellowParameters[Config.INDEX_TIME_TO_DECIDE] = 1.5f;
+	this.mummyYellowParameters[Config.INDEX_TIME_DECIDING] = 1f;
+	
+	this.mummyBlueParameters[Config.INDEX_SPEED_WALK] = this.playerSpeedWalk;
+	this.mummyBlueParameters[Config.INDEX_SPEED_STAIR] = this.playerSpeedWalkStairs;
+	this.mummyBlueParameters[Config.INDEX_TIME_TO_DECIDE] = 1.5f;
+	this.mummyBlueParameters[Config.INDEX_TIME_DECIDING] = 0f;
+	
 
-	this.mummyYellowParameters[Config.INDEX_SPEED_WALK] = (5f * this.levelTileWidthUnits);
-	this.mummyYellowParameters[Config.INDEX_SPEED_STAIR] = (6f * this.levelTileWidthUnits);
-	this.mummyYellowParameters[Config.INDEX_MIN_TIME_TO_DECIDE] = 5;
-	this.mummyYellowParameters[Config.INDEX_MAX_TIME_TO_DECIDE] = 6;
-	this.mummyYellowParameters[Config.INDEX_MIN_TIME_DECIDING] = 1.5f;
-	this.mummyYellowParameters[Config.INDEX_MAX_TIME_DECIDING] = 2.5f;
-	this.mummyYellowParameters[Config.INDEX_DECICION_FACTOR_FALL] = 0.75f;
-	this.mummyYellowParameters[Config.INDEX_DECICION_FACTOR_JUMP] = 0.30f;
-	this.mummyYellowParameters[Config.INDEX_BEST_DECICION_PROBALITY] = 0.6f;
-	this.mummyYellowParameters[Config.QUAD_DISTANCE_VISION] = 64;
-
-	this.mummyPinkParameters[Config.INDEX_SPEED_WALK] = (6f * this.levelTileWidthUnits);
-	this.mummyPinkParameters[Config.INDEX_SPEED_STAIR] = (7f * this.levelTileWidthUnits);
-	this.mummyPinkParameters[Config.INDEX_MIN_TIME_TO_DECIDE] = 4;
-	this.mummyPinkParameters[Config.INDEX_MAX_TIME_TO_DECIDE] = 5;
-	this.mummyPinkParameters[Config.INDEX_MIN_TIME_DECIDING] = 1f;
-	this.mummyPinkParameters[Config.INDEX_MAX_TIME_DECIDING] = 2f;
-	this.mummyPinkParameters[Config.INDEX_DECICION_FACTOR_FALL] = 0.6f;
-	this.mummyPinkParameters[Config.INDEX_DECICION_FACTOR_JUMP] = 0.5f;
-	this.mummyPinkParameters[Config.INDEX_BEST_DECICION_PROBALITY] = 0.7f;
-	this.mummyPinkParameters[Config.QUAD_DISTANCE_VISION] = 81;
-
-	this.mummyRedParameters[Config.INDEX_SPEED_WALK] = (6.5f * this.levelTileWidthUnits);
-	this.mummyRedParameters[Config.INDEX_SPEED_STAIR] = (7.5f * this.levelTileWidthUnits);
-	this.mummyRedParameters[Config.INDEX_MIN_TIME_TO_DECIDE] = 3;
-	this.mummyRedParameters[Config.INDEX_MAX_TIME_TO_DECIDE] = 5;
-	this.mummyRedParameters[Config.INDEX_MIN_TIME_DECIDING] = 0.2f;
-	this.mummyRedParameters[Config.INDEX_MAX_TIME_DECIDING] = 1f;
-	this.mummyRedParameters[Config.INDEX_DECICION_FACTOR_FALL] = 0.5f;
-	this.mummyRedParameters[Config.INDEX_DECICION_FACTOR_JUMP] = 0.6f;
-	this.mummyRedParameters[Config.INDEX_BEST_DECICION_PROBALITY] = 0.8f;
-	this.mummyRedParameters[Config.QUAD_DISTANCE_VISION] = 121;
-
+	
+	this.mummyRedParameters[Config.INDEX_SPEED_WALK] = this.playerSpeedWalk;
+	this.mummyRedParameters[Config.INDEX_SPEED_STAIR] = this.playerSpeedWalkStairs*2f;
+	this.mummyRedParameters[Config.INDEX_TIME_TO_DECIDE] = 1.5f;
+	this.mummyRedParameters[Config.INDEX_TIME_DECIDING] = 0f;
+	
     }
 
     public float getCharacterSpeedFall()

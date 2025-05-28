@@ -9,7 +9,7 @@ public class MummyStateAppearing extends MummyState
     {
 	super(mummy, Mummy.ST_APPEARING);
 	this.timeToChange = Config.getInstance().getMummyTimeAppearing();
-	this.mummy.timeWhitoutSeePlayer=0;
+
 
     }
 
@@ -21,7 +21,7 @@ public class MummyStateAppearing extends MummyState
 	{
 
 	    this.mummy.mummyState = new MummyStateDeciding(this.mummy);
-	    this.mummy = null;
+	   
 	}
 
     }

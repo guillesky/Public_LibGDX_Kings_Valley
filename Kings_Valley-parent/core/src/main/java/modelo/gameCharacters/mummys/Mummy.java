@@ -30,14 +30,10 @@ public abstract class Mummy extends GameCharacter
 
 	private static final int INDEX_SPEED_WALK = 0;
 	private static final int INDEX_SPEED_STAIR = 1;
-	private static final int INDEX_MIN_TIME_TO_DECIDE = 2;
-	private static final int INDEX_MAX_TIME_TO_DECIDE = 3;
-	private static final int INDEX_MIN_TIME_DECIDING = 4;
-	private static final int INDEX_MAX_TIME_DECIDING = 5;
-	private static final int INDEX_DECICION_FACTOR_FALL = 6;
-	private static final int INDEX_DECICION_FACTOR_JUMP = 7;
-	private static final int INDEX_BEST_DECICION_PROBALITY = 8;
-	private static final int QUAD_DISTANCE_VISION = 9;
+	private static final int INDEX_TIME_TO_DECIDE = 2;
+	private static final int INDEX_TIME_DECIDING = 3;
+	private static final int INDEX_DECICION_FACTOR_FALL = 4;
+	private static final int INDEX_DECICION_FACTOR_JUMP = 5;
 
 	public static final int END_BLOCK = 0;
 	public static final int END_CLIFF = 1;
@@ -47,14 +43,10 @@ public abstract class Mummy extends GameCharacter
 
 	protected float decisionFactorForFall;
 	protected float decisionFactorForJump;
-	private float minTimeToDecide;
-	private float maxTimeToDecide;
-	private float minTimeDeciding;
-	private float maxTimeDeciding;
+	private float timeToDecide;
+	private float timeDeciding;
 	private float timeInState = 0;
-	private float bestDecisionProbability;
-	protected float rangeVision;
-	protected float timeWhitoutSeePlayer = 0;
+
 	private Vector2 direction = new Vector2();
 	protected MummyState mummyState;
 	protected float stressLevel = 0;
@@ -75,23 +67,13 @@ public abstract class Mummy extends GameCharacter
 		this.timeInState += delta;
 	}
 
-	protected void setTimeInState(float timeInState)
-	{
-		this.timeInState = timeInState;
-	}
-
 	public Mummy(int type, float x, float y, float[] parameters, Pyramid pyramid, Player player)
 	{
 		super(type, x, y, parameters[INDEX_SPEED_WALK], parameters[INDEX_SPEED_STAIR], pyramid);
 		this.decisionFactorForFall = parameters[INDEX_DECICION_FACTOR_FALL];
 		this.decisionFactorForJump = parameters[INDEX_DECICION_FACTOR_JUMP];
-		this.minTimeToDecide = parameters[INDEX_MIN_TIME_TO_DECIDE];
-		this.maxTimeToDecide = parameters[INDEX_MAX_TIME_TO_DECIDE];
-		this.minTimeDeciding = parameters[INDEX_MIN_TIME_DECIDING];
-		this.maxTimeDeciding = parameters[INDEX_MAX_TIME_DECIDING];
-		this.bestDecisionProbability = parameters[INDEX_BEST_DECICION_PROBALITY];
-		this.rangeVision = parameters[QUAD_DISTANCE_VISION] * Config.getInstance().getLevelTileHeightUnits()
-				* Config.getInstance().getLevelTileWidthUnits();
+		this.timeToDecide = parameters[INDEX_TIME_TO_DECIDE];
+		this.timeDeciding = parameters[INDEX_TIME_DECIDING];
 
 		this.mummyState = new MummyStateLimbus(this, 1);
 		this.player = player;
@@ -183,12 +165,12 @@ public abstract class Mummy extends GameCharacter
 
 	protected float getTimeToDecide()
 	{
-		return random.nextFloat(this.minTimeToDecide, this.maxTimeToDecide);
+		return this.timeToDecide;
 	}
 
 	protected float getTimeDeciding()
 	{
-		return random.nextFloat(this.minTimeDeciding, this.maxTimeDeciding);
+		return this.timeDeciding;
 	}
 
 	protected boolean makeDecisionForFall()
@@ -199,11 +181,6 @@ public abstract class Mummy extends GameCharacter
 	protected boolean makeDecisionForJump()
 	{
 		return Mummy.random.nextDouble(1) <= this.decisionFactorForJump;
-	}
-
-	protected boolean makeBestDecisionProbability()
-	{
-		return Mummy.random.nextDouble(1) <= this.bestDecisionProbability;
 	}
 
 	@Override
@@ -220,9 +197,10 @@ public abstract class Mummy extends GameCharacter
 
 	public void update(float deltaTime)
 	{
-		this.mummyState.update(deltaTime);
 		this.incAnimationDelta(deltaTime);
 		this.incTimeInState(deltaTime);
+		this.mummyState.update(deltaTime);
+
 	}
 
 	@Override
@@ -393,11 +371,11 @@ public abstract class Mummy extends GameCharacter
 				if (aux < 0)
 					aux = -1;
 				int dist = (int) (aux / Config.getInstance().getLevelTileWidthUnits());
-				if(dist<r[1]) 
+				if (dist < r[1])
 				{
-					r[1]=dist;
-					r[0]=Mummy.END_BLOCK;
-					condicion=true;
+					r[1] = dist;
+					r[0] = Mummy.END_BLOCK;
+					condicion = true;
 				}
 			}
 		}
@@ -410,12 +388,12 @@ public abstract class Mummy extends GameCharacter
 		return this.getColPosition() + col > 1 && this.getColPosition() + col < this.pyramid.getMapWidthInTiles() - 1;
 	}
 
-	protected LevelObject nearStair(boolean toUp, boolean toRight)
+	private Stair nearStair(boolean toUp, boolean toRight)
 	{
-		LevelObject r = null;
+		Stair r = null;
 
 		int count = this.endPlatform(toRight)[1];
-		ArrayList<LevelObject> candidatesFootStairs = new ArrayList<LevelObject>();
+		ArrayList<Stair> candidatesStairs = new ArrayList<Stair>();
 		LevelObject footStair;
 
 		Iterator<Stair> it = this.pyramid.getAllStairs().iterator();
@@ -429,23 +407,33 @@ public abstract class Mummy extends GameCharacter
 			else
 				footStair = stair.getUpStair();
 			if (footStair.y == this.y && (toRight && footStair.x >= posX || !toRight && footStair.x <= posX))
-				candidatesFootStairs.add(footStair);
+				candidatesStairs.add(stair);
 		}
 
-		if (!candidatesFootStairs.isEmpty())
+		if (!candidatesStairs.isEmpty())
 		{
-			Iterator<LevelObject> itf = candidatesFootStairs.iterator();
-
-			footStair = itf.next();
+			it = candidatesStairs.iterator();
+			Stair stair = it.next();
+			if (toUp)
+				footStair = stair.getDownStair();
+			else
+				footStair = stair.getUpStair();
+		
 			LevelObject minFootStair = footStair;
-
+			Stair minStair=stair;
+			
 			double aux = this.x - footStair.x;
 			if (aux < 0)
 				aux *= -1;
 			int min = (int) (aux / tileWidth);
-			while (itf.hasNext())
+			while (it.hasNext())
 			{
-				footStair = itf.next();
+				stair = it.next();
+				if (toUp)
+					footStair = stair.getDownStair();
+				else
+					footStair = stair.getUpStair();
+			
 				aux = posX - (footStair.x + footStair.width * 0.5);
 				if (aux < 0)
 					aux = -1;
@@ -454,26 +442,70 @@ public abstract class Mummy extends GameCharacter
 				{
 					min = dist;
 					minFootStair = footStair;
+					minStair=stair;
 				}
 			}
-			System.out.println("min: " + min + "    count" + count);
+
 			if (min <= count)
-				r = minFootStair;
+				r = minStair;
 		}
 
 		return r;
 	}
 
-
-	/*
-	@Override
-	public String toString()
+	protected Stair getNearStair(boolean toUp)
 	{
-		int[] der = this.endPlatform(true);
-		int[] izq = this.endPlatform(false);
-		return " x=" + x + ", y=" + y + " DERECHA " + der[0] + "  " + der[1] + " IZQUIERDA " + izq[0] + "  " + izq[1]
-				+ "\nEscalera IZQ arriba: " + this.nearStair(true, false) + " Escalera DER arriba: "
-				+ this.nearStair(true, true) + "\nEscalera IZQ abajo: " + this.nearStair(false, false)
-				+ " Escalera DER abajo: " + this.nearStair(false, true);
-	}*/
+		Stair r = null;
+		Stair toRight = this.nearStair(toUp, true);
+		Stair toLeft = this.nearStair(toUp, false);
+
+		if (toRight == null)
+			r = toLeft;
+		else
+		{
+			if (toLeft == null)
+				r = toRight;
+			else
+			{
+				
+				LevelObject footStairRight;
+				LevelObject footStairLeft;
+				
+				if (toUp) {
+					footStairRight = toRight.getDownStair();
+					footStairLeft=toLeft.getDownStair();
+				}
+				else {
+					footStairRight = toRight.getUpStair();
+					footStairLeft=toLeft.getUpStair();
+				}
+				
+				if (footStairRight.x - this.x < this.x - footStairLeft.x)
+					r = toRight;
+				else
+					r = toLeft;
+
+			}
+		}
+		return r;
+	}
+
+	@Override
+	protected void enterStair(Stair stair)
+	{
+	
+		super.enterStair(stair);
+	}
+
+	
+	
+	/*
+	 * @Override public String toString() { int[] der = this.endPlatform(true);
+	 * int[] izq = this.endPlatform(false); return " x=" + x + ", y=" + y +
+	 * " DERECHA " + der[0] + "  " + der[1] + " IZQUIERDA " + izq[0] + "  " + izq[1]
+	 * + "\nEscalera IZQ arriba: " + this.nearStair(true, false) +
+	 * " Escalera DER arriba: " + this.nearStair(true, true) +
+	 * "\nEscalera IZQ abajo: " + this.nearStair(false, false) +
+	 * " Escalera DER abajo: " + this.nearStair(false, true); }
+	 */
 }
