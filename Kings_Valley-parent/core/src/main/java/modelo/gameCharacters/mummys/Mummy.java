@@ -35,9 +35,7 @@ public abstract class Mummy extends GameCharacter
 	private static final int INDEX_DECICION_FACTOR_FALL = 4;
 	private static final int INDEX_DECICION_FACTOR_JUMP = 5;
 
-	public static final int END_BLOCK = 0;
-	public static final int END_CLIFF = 1;
-	public static final int END_STEP = 2;
+	
 
 	protected static final Random random = new Random();
 
@@ -85,6 +83,8 @@ public abstract class Mummy extends GameCharacter
 		this.doJump();
 	}
 
+	
+	
 	protected boolean canJump()
 	{
 
@@ -319,11 +319,12 @@ public abstract class Mummy extends GameCharacter
 		return super.checkStairsFeetColision(positiveStairs, isUpping);
 	}
 
-	protected int[] endPlatform(boolean toRight)
+	protected EndPlatform endPlatform(boolean toRight)
 	{
-		int r[] = new int[2];
 		int inc;
 		int acum = 0;
+		int type;
+		int count;
 		float xAux;
 		xAux = x + width * .5f;
 		if (toRight)
@@ -339,25 +340,26 @@ public abstract class Mummy extends GameCharacter
 
 		if (this.pyramid.getCell(xAux, y, acum, 0) == null && this.pyramid.getCell(xAux, y, acum, 1) == null
 				&& this.pyramid.getCell(xAux, y, acum, -1) == null)
-			r[0] = Mummy.END_CLIFF;
+			type = EndPlatform.END_CLIFF;
 		else if ((this.pyramid.getCell(xAux, y, acum, 1) != null && this.pyramid.getCell(xAux, y, acum, 2) == null
 				&& this.pyramid.getCell(xAux, y, acum, 3) == null)
 				|| (this.pyramid.getCell(xAux, y, acum, 0) != null && this.pyramid.getCell(xAux, y, acum, 1) == null
 						&& this.pyramid.getCell(xAux, y, acum, 2) == null))
-			r[0] = Mummy.END_STEP;
+			type = EndPlatform.END_STEP;
 		else
-			r[0] = Mummy.END_BLOCK;
+			type = EndPlatform.END_BLOCK;
 
 		if (acum < 0)
 			acum *= -1;
-		r[1] = acum;
+		count = acum;
+		EndPlatform r=new EndPlatform(type,count);
 		this.correctGiratoryEndPlatform(r, toRight);
 
 		return r;
 
 	}
 
-	private void correctGiratoryEndPlatform(int[] r, boolean toRight)
+	private void correctGiratoryEndPlatform(EndPlatform r, boolean toRight)
 	{
 		Iterator<LevelObject> it = this.pyramid.getGiratories().iterator();
 		boolean condicion = false;
@@ -371,10 +373,10 @@ public abstract class Mummy extends GameCharacter
 				if (aux < 0)
 					aux = -1;
 				int dist = (int) (aux / Config.getInstance().getLevelTileWidthUnits());
-				if (dist < r[1])
+				if (dist < r.getCount())
 				{
-					r[1] = dist;
-					r[0] = Mummy.END_BLOCK;
+					r.setCount(dist);
+					r.setType(EndPlatform.END_BLOCK);
 					condicion = true;
 				}
 			}
@@ -388,108 +390,7 @@ public abstract class Mummy extends GameCharacter
 		return this.getColPosition() + col > 1 && this.getColPosition() + col < this.pyramid.getMapWidthInTiles() - 1;
 	}
 
-	private Stair nearStair(boolean toUp, boolean toRight)
-	{
-		Stair r = null;
-
-		int count = this.endPlatform(toRight)[1];
-		ArrayList<Stair> candidatesStairs = new ArrayList<Stair>();
-		LevelObject footStair;
-
-		Iterator<Stair> it = this.pyramid.getAllStairs().iterator();
-		float tileWidth = Config.getInstance().getLevelTileWidthUnits();
-		float posX = this.x + this.width * 0.5f;
-		while (it.hasNext())
-		{
-			Stair stair = it.next();
-			if (toUp)
-				footStair = stair.getDownStair();
-			else
-				footStair = stair.getUpStair();
-			if (footStair.y == this.y && (toRight && footStair.x >= posX || !toRight && footStair.x <= posX))
-				candidatesStairs.add(stair);
-		}
-
-		if (!candidatesStairs.isEmpty())
-		{
-			it = candidatesStairs.iterator();
-			Stair stair = it.next();
-			if (toUp)
-				footStair = stair.getDownStair();
-			else
-				footStair = stair.getUpStair();
-		
-			LevelObject minFootStair = footStair;
-			Stair minStair=stair;
-			
-			double aux = this.x - footStair.x;
-			if (aux < 0)
-				aux *= -1;
-			int min = (int) (aux / tileWidth);
-			while (it.hasNext())
-			{
-				stair = it.next();
-				if (toUp)
-					footStair = stair.getDownStair();
-				else
-					footStair = stair.getUpStair();
-			
-				aux = posX - (footStair.x + footStair.width * 0.5);
-				if (aux < 0)
-					aux = -1;
-				int dist = (int) (aux / tileWidth);
-				if (dist < min)
-				{
-					min = dist;
-					minFootStair = footStair;
-					minStair=stair;
-				}
-			}
-
-			if (min <= count)
-				r = minStair;
-		}
-
-		return r;
-	}
-
-	protected Stair getNearStair(boolean toUp)
-	{
-		Stair r = null;
-		Stair toRight = this.nearStair(toUp, true);
-		Stair toLeft = this.nearStair(toUp, false);
-
-		if (toRight == null)
-			r = toLeft;
-		else
-		{
-			if (toLeft == null)
-				r = toRight;
-			else
-			{
-				
-				LevelObject footStairRight;
-				LevelObject footStairLeft;
-				
-				if (toUp) {
-					footStairRight = toRight.getDownStair();
-					footStairLeft=toLeft.getDownStair();
-				}
-				else {
-					footStairRight = toRight.getUpStair();
-					footStairLeft=toLeft.getUpStair();
-				}
-				
-				if (footStairRight.x - this.x < this.x - footStairLeft.x)
-					r = toRight;
-				else
-					r = toLeft;
-
-			}
-		}
-		return r;
-	}
-
+	
 	@Override
 	protected void enterStair(Stair stair)
 	{

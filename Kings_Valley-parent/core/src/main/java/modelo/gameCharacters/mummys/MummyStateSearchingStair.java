@@ -4,7 +4,7 @@ import modelo.gameCharacters.abstractGameCharacter.GameCharacter;
 import modelo.level.LevelObject;
 import modelo.level.Stair;
 
-public class MummyStateSearchingStair extends MummyState
+public class MummyStateSearchingStair extends MummyStateWalking
 {
 	private Stair stair;
 	private LevelObject footStair;
