@@ -34,7 +34,7 @@ public abstract class MummyState
 		this.mummy.setState(state);
 		this.mummy.resetAnimationDelta();
 		this.mummy.resetTimeInState();
-		this.mummy.resetStress();
+		
 
 	}
 
@@ -46,7 +46,7 @@ public abstract class MummyState
 	{
 		Stair r = null;
 		Pyramid pyramid = this.mummy.getPyramid();
-		int count = this.mummy.endPlatform(toRight).getCount();
+		int count = this.endPlatform(toRight).getCount();
 		ArrayList<Stair> candidatesStairs = new ArrayList<Stair>();
 		LevelObject footStair;
 
@@ -152,4 +152,86 @@ public abstract class MummyState
 		return r;
 	}
 
+	protected EndPlatform endPlatform(boolean toRight)
+	{
+		int inc;
+		int acum = 0;
+		int type;
+		int count;
+		float xAux;
+		Pyramid pyramid = this.mummy.getPyramid();
+		xAux = this.mummy.x + this.mummy.width * .5f;
+		if (toRight)
+			inc = 1;
+		else
+			inc = -1;
+
+		while (pyramid.getCell(xAux, this.mummy.y, acum, 0) == null
+				&& pyramid.getCell(xAux, this.mummy.y, acum, 1) == null
+				&& pyramid.getCell(xAux, this.mummy.y, acum, -1) != null && this.isColDesplaInMap(acum))
+		{
+			acum += inc;
+		}
+		type = this.typeEndPlatform(xAux, acum);
+		if (acum < 0)
+			acum *= -1;
+		count = acum;
+		EndPlatform r = new EndPlatform(type, count);
+		this.correctGiratoryEndPlatform(r, toRight);
+
+		return r;
+
+	}
+
+	private void correctGiratoryEndPlatform(EndPlatform r, boolean toRight)
+	{
+		Iterator<LevelObject> it = this.mummy.getPyramid().getGiratories().iterator();
+		boolean condicion = false;
+		float posX = this.mummy.x + this.mummy.width * 0.5f;
+		while (it.hasNext() && !condicion)
+		{
+			LevelObject giratoria = it.next();
+			if (giratoria.y == this.mummy.y && (toRight && giratoria.x >= posX || !toRight && giratoria.x <= posX))
+			{
+				float aux = posX - (giratoria.x + giratoria.width * 0.5f);
+				if (aux < 0)
+					aux = -1;
+				int dist = (int) (aux / Config.getInstance().getLevelTileWidthUnits());
+				if (dist < r.getCount())
+				{
+					r.setCount(dist);
+					r.setType(EndPlatform.END_BLOCK);
+					condicion = true;
+				}
+			}
+		}
+
+	}
+
+	private boolean isColDesplaInMap(int col)
+	{
+
+		return this.mummy.getColPosition() + col > 1
+				&& this.mummy.getColPosition() + col < this.mummy.getPyramid().getMapWidthInTiles() - 1;
+	}
+
+	protected int typeEndPlatform(float positionX, int iDeltaX)
+	{
+		int type;
+		Pyramid pyramid = this.mummy.getPyramid();
+		if (pyramid.getCell(positionX, this.mummy.y, iDeltaX, 0) == null
+				&& pyramid.getCell(positionX, this.mummy.y, iDeltaX, 1) == null
+				&& pyramid.getCell(positionX, this.mummy.y, iDeltaX, -1) == null)
+			type = EndPlatform.END_CLIFF;
+		else if ((pyramid.getCell(positionX, this.mummy.y, iDeltaX, 1) != null
+				&& pyramid.getCell(positionX, this.mummy.y, iDeltaX, 2) == null
+				&& pyramid.getCell(positionX, this.mummy.y, iDeltaX, 3) == null)
+				|| (pyramid.getCell(positionX, this.mummy.y, iDeltaX, 0) != null
+						&& pyramid.getCell(positionX, this.mummy.y, iDeltaX, 1) == null
+						&& pyramid.getCell(positionX, this.mummy.y, iDeltaX, 2) == null))
+			type = EndPlatform.END_STEP;
+		else
+			type = EndPlatform.END_BLOCK;
+		return type;
+	}
 }

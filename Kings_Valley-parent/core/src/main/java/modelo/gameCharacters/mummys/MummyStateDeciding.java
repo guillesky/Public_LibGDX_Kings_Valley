@@ -8,7 +8,6 @@ import modelo.level.Stair;
 public class MummyStateDeciding extends MummyState
 {
 
-	
 	public MummyStateDeciding(Mummy mummy)
 	{
 		super(mummy, Mummy.ST_IDDLE);
@@ -32,42 +31,41 @@ public class MummyStateDeciding extends MummyState
 	{
 		if (this.mummy.player.y > this.mummy.y)// player esta arriba
 		{
-			NearStairResult nearStairResult=this.getNearStair(true);
-			
-			
+			NearStairResult nearStairResult = this.getNearStair(true);
+
 			if (nearStairResult != null)
 			{
-				this.mummy.mummyState = new MummyStateSearchingStair(this.mummy,nearStairResult.getStair(),1);
+				this.mummy.mummyState = new MummyStateSearchingStair(this.mummy, nearStairResult.getStair(),
+						nearStairResult.getDirectionX(), MummyState.PLAYER_IS_UP);
 			} else
 			{
-				int direction=this.searchEndPlatform(EndPlatform.END_STEP);
-				if(direction==NONE)
-				direction=	this.searchEndPlatform(EndPlatform.END_CLIFF);
-				else this.mummy.mummyState=new MummyStateWalking(this.mummy,direction);
+				int directionX = this.searchEndPlatform(EndPlatform.END_STEP);
+				if (directionX == NONE)
+					directionX = this.searchEndPlatform(EndPlatform.END_CLIFF);
+				this.mummy.mummyState = new MummyStateWalking(this.mummy, directionX, MummyState.PLAYER_IS_UP);
 			}
 
 		} else if (this.mummy.player.y < this.mummy.y)// player esta abajo
 		{
-			NearStairResult nearStairResult=this.getNearStair(true);
-					if (nearStairResult != null)
+			NearStairResult nearStairResult = this.getNearStair(false);
+			if (nearStairResult != null)
 			{
-				this.mummy.mummyState = new MummyStateSearchingStair(this.mummy, nearStairResult.getStair(),-1);
-			}
-			else 
+				this.mummy.mummyState = new MummyStateSearchingStair(this.mummy, nearStairResult.getStair(),
+						nearStairResult.getDirectionX(), MummyState.PLAYER_IS_DOWN);
+
+			} else
 			{
-				int direccion=this.searchEndPlatform(EndPlatform.END_CLIFF);
-				if(direccion==NONE)
-				direccion=	this.searchEndPlatform(EndPlatform.END_STEP);
-				else this.mummy.mummyState=new MummyStateWalking(this.mummy,direccion);
+				int direccion = this.searchEndPlatform(EndPlatform.END_CLIFF);
+				if (direccion == NONE)
+					direccion = this.searchEndPlatform(EndPlatform.END_STEP);
+				this.mummy.mummyState = new MummyStateWalking(this.mummy, direccion, MummyState.PLAYER_IS_DOWN);
 			}
-			
-			
+
 		} else
 		{
-			this.mummy.mummyState=new MummyStateWalking(this.mummy,0);
-		
+			this.mummy.mummyState = new MummyStateWalking(this.mummy, MummyState.NONE, MummyState.PLAYER_IS_SOME_LEVEL);
+
 		} // player esta al mismo nivel
-		
 
 	}
 
@@ -80,17 +78,17 @@ public class MummyStateDeciding extends MummyState
 	private int searchEndPlatform(int typeEnd)
 	{
 		int r = NONE;
-		EndPlatform endToRight = this.mummy.endPlatform(true);
-		EndPlatform endToLeft = this.mummy.endPlatform(false);
-		if (endToRight.getType() == typeEnd || endToLeft.getType()== typeEnd)
+		EndPlatform endToRight = this.endPlatform(true);
+		EndPlatform endToLeft = this.endPlatform(false);
+		if (endToRight.getType() == typeEnd || endToLeft.getType() == typeEnd)
 		{
-			if (endToRight.getType()!= typeEnd)
+			if (endToRight.getType() != typeEnd)
 				r = LEFT;
 			else if (endToLeft.getType() != typeEnd)
 				r = RIGHT;
 			else
 			{
-				if (endToRight.getCount() < endToLeft.getCount() )
+				if (endToRight.getCount() < endToLeft.getCount())
 					r = RIGHT;
 				else
 					r = LEFT;

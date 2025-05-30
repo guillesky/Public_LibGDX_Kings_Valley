@@ -106,30 +106,40 @@ public class Config
 	this.mummyWhiteParameters[Config.INDEX_SPEED_STAIR] = this.playerSpeedWalkStairs*0.5f;
 	this.mummyWhiteParameters[Config.INDEX_TIME_TO_DECIDE] = 1.5f;
 	this.mummyWhiteParameters[Config.INDEX_TIME_DECIDING] = 1f;
+	this.mummyWhiteParameters[Config.INDEX_DECICION_FACTOR_FALL] =0.5f;
+	this.mummyWhiteParameters[Config.INDEX_DECICION_FACTOR_JUMP] =0.5f;
+	   
 	
-
 	this.mummyPinkParameters[Config.INDEX_SPEED_WALK] = this.playerSpeedWalk*0.5f;
 	this.mummyPinkParameters[Config.INDEX_SPEED_STAIR] = this.playerSpeedWalkStairs*2f;
 	this.mummyPinkParameters[Config.INDEX_TIME_TO_DECIDE] = 1.5f;
 	this.mummyPinkParameters[Config.INDEX_TIME_DECIDING] =1f;
+	this.mummyPinkParameters[Config.INDEX_DECICION_FACTOR_FALL] =0.5f;
+	this.mummyPinkParameters[Config.INDEX_DECICION_FACTOR_JUMP] =0.5f;
+	   
 	
 	this.mummyYellowParameters[Config.INDEX_SPEED_WALK] = this.playerSpeedWalk;
 	this.mummyYellowParameters[Config.INDEX_SPEED_STAIR] = this.playerSpeedWalkStairs*0.5f;
 	this.mummyYellowParameters[Config.INDEX_TIME_TO_DECIDE] = 1.5f;
 	this.mummyYellowParameters[Config.INDEX_TIME_DECIDING] = 1f;
-	
+	this.mummyYellowParameters[Config.INDEX_DECICION_FACTOR_FALL] =0.5f;
+	this.mummyYellowParameters[Config.INDEX_DECICION_FACTOR_JUMP] =0.5f;
+	   
 	this.mummyBlueParameters[Config.INDEX_SPEED_WALK] = this.playerSpeedWalk;
 	this.mummyBlueParameters[Config.INDEX_SPEED_STAIR] = this.playerSpeedWalkStairs;
 	this.mummyBlueParameters[Config.INDEX_TIME_TO_DECIDE] = 1.5f;
 	this.mummyBlueParameters[Config.INDEX_TIME_DECIDING] = 0f;
-	
-
+	this.mummyBlueParameters[Config.INDEX_DECICION_FACTOR_FALL] =0.5f;
+	this.mummyBlueParameters[Config.INDEX_DECICION_FACTOR_JUMP] =0.5f;
+	   
 	
 	this.mummyRedParameters[Config.INDEX_SPEED_WALK] = this.playerSpeedWalk;
 	this.mummyRedParameters[Config.INDEX_SPEED_STAIR] = this.playerSpeedWalkStairs*2f;
 	this.mummyRedParameters[Config.INDEX_TIME_TO_DECIDE] = 1.5f;
 	this.mummyRedParameters[Config.INDEX_TIME_DECIDING] = 0f;
-	
+	this.mummyRedParameters[Config.INDEX_DECICION_FACTOR_FALL] =0.5f;
+	this.mummyRedParameters[Config.INDEX_DECICION_FACTOR_JUMP] =0.5f;
+    
     }
 
     public float getCharacterSpeedFall()

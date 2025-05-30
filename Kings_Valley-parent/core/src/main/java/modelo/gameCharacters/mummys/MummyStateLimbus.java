@@ -11,6 +11,7 @@ public class MummyStateLimbus extends MummyState
 	{
 		this(mummy, Config.getInstance().getMummyTimeInLimbus());
 		this.mustTeleport = mustTeleport;
+		this.mummy.resetStress();
 	}
 
 	public MummyStateLimbus(Mummy mummy, float timeToChange)

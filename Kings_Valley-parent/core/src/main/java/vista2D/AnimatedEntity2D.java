@@ -25,7 +25,7 @@ public class AnimatedEntity2D
 	this.spriteWidth=spriteWidth;
 	this.spriteHeight=spriteHeight;
 	this.sprite = new Sprite(animation.getKeyFrame(0));
-	this.sprite.setSize(this.spriteWidth,this.spriteHeight);
+	//this.sprite.setSize(this.spriteWidth,this.spriteHeight);
     }
 
     public void updateElement(float deltaTime)

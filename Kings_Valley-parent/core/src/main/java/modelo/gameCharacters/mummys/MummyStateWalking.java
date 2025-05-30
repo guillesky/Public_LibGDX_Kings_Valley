@@ -7,14 +7,17 @@ import util.Config;
 public class MummyStateWalking extends MummyState
 {
 	protected boolean doJump = false;
+	protected int whereIsPlayer;
 
-	public MummyStateWalking(Mummy mummy, int direction)
+	public MummyStateWalking(Mummy mummy, int directionX, int whereIsPlayer)
 	{
 		super(mummy, GameCharacter.ST_WALKING);
-		if (direction == 0)
+		this.whereIsPlayer = whereIsPlayer;
+
+		if (directionX == MummyState.NONE)
 			this.setDirection();
 		else
-			this.mummy.getDirection().x = direction;
+			this.mummy.getDirection().x = directionX;
 
 		this.timeToChange = this.mummy.getTimeToDecide();
 
@@ -32,40 +35,49 @@ public class MummyStateWalking extends MummyState
 	@Override
 	public void update(float deltaTime)
 	{
-		Player player = this.mummy.player;
-		if (this.mummy.getState() == GameCharacter.ST_WALKING && !this.mummy.isInStair())
-			this.checkEndOfPlataform(player);
+
+		if ((this.mummy.getState() == GameCharacter.ST_WALKING || this.mummy.getState() == GameCharacter.ST_IDDLE)
+				&& !this.mummy.isInStair())
+		{
+			this.checkChangeStatus();
+			float x = this.mummy.x;
+
+			if (this.mummy.isLookRight())
+				x = this.mummy.x + this.mummy.width;
+			int type = this.typeEndPlatform(x, 0);
+			
+			this.checkEndOfPlataform(type);
+		}
 		if (this.mummy.getStressLevel() >= 9)
-		{ // muere por estres o por no encontrar al player
+		{ // muere por estres
 			this.mummy.die(true);
 		}
 
 		if (this.mummy.getStressLevel() > 0)
-			this.mummy.calmStress(deltaTime / 3);
-		if (!this.mummy.isInStair())
-			this.decideEnterStairs(player);
+			this.mummy.calmStress(deltaTime / 6);
+
 		this.mummy.move(this.mummy.getDirection(), doJump, deltaTime);
-		this.checkChangeStatus(player);
+		if (this.mummy.getDirection().x == 0)
+			
 		this.doJump = false;
+		
+		
 	}
 
-	protected void decideEnterStairs(Player player)
+	protected void checkEndOfPlataform(int type)
 	{
-	}
-
-	protected void checkEndOfPlataform(Player player)
-	{
-		int crashStatus = mummy.CrashWallOrGiratory();
+		int crashStatus = mummy.crashWallOrGiratory();
 		if (crashStatus != Mummy.BLOCK_FREE) // si choca contra un ladrillo o una giratoria
 		{
-			this.doInCrashToWallOrGiratory(crashStatus, player);
+			this.doInCrashToWallOrGiratory(crashStatus, type);
 		} else
 		{
-
-			if (mummy.isInBorderCliff()) // Si esta al borde del acantilado
+			;
+/*
+			if (type == EndPlatform.END_CLIFF) // Si esta al borde del acantilado
 			{
-				this.doInBorderCliff(player);
-			}
+				this.doInBorderCliff();
+			}*/
 		}
 	}
 
@@ -75,8 +87,10 @@ public class MummyStateWalking extends MummyState
 		return true;
 	}
 
-	protected void checkChangeStatus(Player player)
+	protected void checkChangeStatus()
 	{
+		if (this.mummy.getTimeInState() >= this.timeToChange)
+			this.mummy.mummyState = new MummyStateDeciding(this.mummy);
 	}
 
 	protected void bounces()
@@ -85,39 +99,28 @@ public class MummyStateWalking extends MummyState
 		this.mummy.stressing();
 	}
 
-	protected boolean playerIsUp(Player player)
+	protected void doInCrashToWallOrGiratory(int crashStatus, int type)
 	{
-		return player.y - Config.getInstance().getLevelTileHeightUnits() * 2 > this.mummy.y;
-	}
+		if (crashStatus == Mummy.BLOCK_BRICK)
 
-	protected boolean playerIsDown(Player player)
-	{
-		return player.y + Config.getInstance().getLevelTileHeightUnits() * 2 < this.mummy.y;
-	}
-
-	protected void doInCrashToWallOrGiratory(int crashStatus, Player player)
-	{
-		if (crashStatus == Mummy.BLOCK_BRICK && this.mummy.makeDecisionForJump() && this.mummy.canJump()) // si es
-																											// ladrillo
-																											// y decide
-		// saltar lo hace
 		{
-			this.doJump = true;
-		} else // sino, rebota
+
+			if (type == EndPlatform.END_STEP && this.whereIsPlayer == MummyState.PLAYER_IS_UP
+					|| this.whereIsPlayer == MummyState.PLAYER_IS_SOME_LEVEL)
+
+				this.doJump = true;
+		} else // rebota pues choco contra giratoria
 		{
 			this.bounces();
 		}
 	}
 
-	protected void doInBorderCliff(Player player)
+	protected void doInBorderCliff()
 	{
-		if (!this.mummy.makeDecisionForFall())
-		{
-			if (this.mummy.makeDecisionForJump() && this.mummy.canJump())
-				this.doJump = true;
-			else
-				this.bounces();
-		}
+		if (this.whereIsPlayer == MummyState.PLAYER_IS_UP || this.whereIsPlayer == MummyState.PLAYER_IS_SOME_LEVEL)
+			if(this.mummy.makeDecisionForJump())this.doJump = true;
+			else this.bounces();
+		
 	}
 
 }

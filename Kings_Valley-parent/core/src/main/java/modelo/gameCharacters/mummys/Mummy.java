@@ -47,7 +47,7 @@ public abstract class Mummy extends GameCharacter
 
 	private Vector2 direction = new Vector2();
 	protected MummyState mummyState;
-	protected float stressLevel = 0;
+	private float stressLevel = 0;
 	protected Player player;
 
 	protected float getTimeInState()
@@ -115,7 +115,7 @@ public abstract class Mummy extends GameCharacter
 		return respuesta;
 	}
 
-	protected int CrashWallOrGiratory()
+	protected int crashWallOrGiratory()
 	{
 		boolean condicion = false;
 
@@ -319,76 +319,8 @@ public abstract class Mummy extends GameCharacter
 		return super.checkStairsFeetColision(positiveStairs, isUpping);
 	}
 
-	protected EndPlatform endPlatform(boolean toRight)
-	{
-		int inc;
-		int acum = 0;
-		int type;
-		int count;
-		float xAux;
-		xAux = x + width * .5f;
-		if (toRight)
-			inc = 1;
-		else
-			inc = -1;
-
-		while (this.pyramid.getCell(xAux, y, acum, 0) == null && this.pyramid.getCell(xAux, y, acum, 1) == null
-				&& this.pyramid.getCell(xAux, y, acum, -1) != null && this.isColDesplaInMap(acum))
-		{
-			acum += inc;
-		}
-
-		if (this.pyramid.getCell(xAux, y, acum, 0) == null && this.pyramid.getCell(xAux, y, acum, 1) == null
-				&& this.pyramid.getCell(xAux, y, acum, -1) == null)
-			type = EndPlatform.END_CLIFF;
-		else if ((this.pyramid.getCell(xAux, y, acum, 1) != null && this.pyramid.getCell(xAux, y, acum, 2) == null
-				&& this.pyramid.getCell(xAux, y, acum, 3) == null)
-				|| (this.pyramid.getCell(xAux, y, acum, 0) != null && this.pyramid.getCell(xAux, y, acum, 1) == null
-						&& this.pyramid.getCell(xAux, y, acum, 2) == null))
-			type = EndPlatform.END_STEP;
-		else
-			type = EndPlatform.END_BLOCK;
-
-		if (acum < 0)
-			acum *= -1;
-		count = acum;
-		EndPlatform r=new EndPlatform(type,count);
-		this.correctGiratoryEndPlatform(r, toRight);
-
-		return r;
-
-	}
-
-	private void correctGiratoryEndPlatform(EndPlatform r, boolean toRight)
-	{
-		Iterator<LevelObject> it = this.pyramid.getGiratories().iterator();
-		boolean condicion = false;
-		float posX = this.x + this.width * 0.5f;
-		while (it.hasNext() && !condicion)
-		{
-			LevelObject giratoria = it.next();
-			if (giratoria.y == this.y && (toRight && giratoria.x >= posX || !toRight && giratoria.x <= posX))
-			{
-				float aux = posX - (giratoria.x + giratoria.width * 0.5f);
-				if (aux < 0)
-					aux = -1;
-				int dist = (int) (aux / Config.getInstance().getLevelTileWidthUnits());
-				if (dist < r.getCount())
-				{
-					r.setCount(dist);
-					r.setType(EndPlatform.END_BLOCK);
-					condicion = true;
-				}
-			}
-		}
-
-	}
-
-	private boolean isColDesplaInMap(int col)
-	{
-
-		return this.getColPosition() + col > 1 && this.getColPosition() + col < this.pyramid.getMapWidthInTiles() - 1;
-	}
+	
+	
 
 	
 	@Override
