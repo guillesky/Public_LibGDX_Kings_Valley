@@ -17,8 +17,6 @@ archiDoorRight: pics/exitdoor_right.png
 archiDoorLever: pics/exitdoor_lever.png
 archiNewTileset: pics/tiles64.png
 archiSky: pics/sky1.png
-CharacterFrameWidth: 16
-CharacterFrameHeight: 20
 frameDuration: 0.1
 mummyStartIddle: 9
 mummyCountIddle: 2
@@ -30,7 +28,7 @@ mummyCountWalk: 8
 mummyCountAppear: 10
 mummyCountDeath: 5
 giratoryCount: 13
-collectableCount: 7
+collectableCount: 8
 playerStartIddle: 2
 playerCountIddle: 1
 playerStartFall: 5
@@ -56,7 +54,7 @@ playerDaggerCountThrowing: 2
 playerStartDeath: 21
 playerCountDeath: 4
 flyingDaggerCount: 8
-pickingCellCount: 4
+pickingCellCount: 8
 doorLeverCount: 10
-pickingCellFrameDuration: 0.25
+
 }

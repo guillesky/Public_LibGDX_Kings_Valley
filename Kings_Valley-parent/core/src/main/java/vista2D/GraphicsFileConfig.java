@@ -2,91 +2,89 @@ package vista2D;
 
 public class GraphicsFileConfig
 {
-    private String archiPlayer = "pics/vick.png";
-    private String archiPickingCell = "pics/picking_cell.png";
-    private String archiCollectables = "pics/collectables.png";
-    private String archiGiratory = "pics/giratory.png";
-    private String archiMummyBlue = "pics/mummy_blue.png";
-    private String archiMummyPink = "pics/mummy_pink.png";
-    private String archiMummyRed = "pics/mummy_red.png";
-    private String archiMummyWhite = "pics/mummy_white.png";
-    private String archiMummyYellow = "pics/mummy_yellow.png";
-    private String archiMummyAppear = "pics/mummy_appear.png";
-    private String archiMummyDisappear = "pics/mummy_disappear.png";
-    private String archiFlyingDagger = "pics/knife.png";
-    private String archiDoorPassage = "pics/exitdoor_central.png";
-    private String archiDoorLeft = "pics/exitdoor_left.png";
-    private String archiDoorRight = "pics/exitdoor_right.png";
-    private String archiDoorLever = "pics/exitdoor_lever.png";
-    private String archiNewTileset="pics/tiles64.png";
-    private String archiSky="pics/sky1.png";
+    private String archiPlayer;
+    private String archiPickingCell;
+    private String archiCollectables; 
+    private String archiGiratory ;
+    private String archiMummyBlue ;
+    private String archiMummyPink ;
+    private String archiMummyRed ;
+    private String archiMummyWhite; 
+    private String archiMummyYellow; 
+    private String archiMummyAppear ;
+    private String archiMummyDisappear;
+    private String archiFlyingDagger ;
+    private String archiDoorPassage;
+    private String archiDoorLeft ; 
+    private String archiDoorRight ;
+    private String archiDoorLever ;
+    private String archiNewTileset;
+    private String archiSky;
     
     
 
-    private int CharacterFrameWidth = 16;
-    private int CharacterFrameHeight = 20;
-    private float frameDuration = 0.1f;
+    private float frameDuration ;
 
-    private int mummyStartIddle = 9;
-    private int mummyCountIddle = 2;
-    private float mummyIddleFrameDuration = 0.3f;
-    private int mummyStartFall = 8;
-    private int mummyCountFall = 1;
+    private int mummyStartIddle ;
+    private int mummyCountIddle ;
+    private float mummyIddleFrameDuration ;
+    private int mummyStartFall ;
+    private int mummyCountFall ;
 
-    private int mummyStartWalk = 0;
-    private int mummyCountWalk = 8;
-    private int mummyCountAppear = 10;
-    private int mummyCountDeath = 5;
+    private int mummyStartWalk ;
+    private int mummyCountWalk ;
+    private int mummyCountAppear ;
+    private int mummyCountDeath ;
 
-    private int giratoryCount = 10;
+    private int giratoryCount ;
     
     
     
-    private int collectableCount = 7;
+    private int collectableCount ;
   
-    private int playerStartIddle = 2;
-    private int playerCountIddle = 1;
-    private int playerStartFall = 5;
-    private int playerCountFall = 1;
+    private int playerStartIddle ;
+    private int playerCountIddle ;
+    private int playerStartFall ;
+    private int playerCountFall;
 
-    private int playerStartWalk = 0;
-    private int playerCountWalk = 5;
+    private int playerStartWalk ;
+    private int playerCountWalk;
     
-    private int playerPickerStartIddle = 8;
-    private int playerPickerCountIddle = 1;
-    private int playerPickerStartFall = 11;
-    private int playerPickerCountFall = 1;
+    private int playerPickerStartIddle ;
+    private int playerPickerCountIddle ;
+    private int playerPickerStartFall ;
+    private int playerPickerCountFall ;
 
-    private int playerPickerStartWalk = 6;
-    private int playerPickerCountWalk = 5;
+    private int playerPickerStartWalk ;
+    private int playerPickerCountWalk ;
 
-    private int playerPickerStartPicking = 19;
-    private int playerPickerCountPicking = 2;
+    private int playerPickerStartPicking ;
+    private int playerPickerCountPicking;
 
     
-    private int playerDaggerStartIddle = 14;
-    private int playerDaggerCountIddle = 1;
-    private int playerDaggerStartFall = 17;
-    private int playerDaggerCountFall = 1;
+    private int playerDaggerStartIddle ;
+    private int playerDaggerCountIddle ;
+    private int playerDaggerStartFall ;
+    private int playerDaggerCountFall ;
 
-    private int playerDaggerStartWalk = 12;
-    private int playerDaggerCountWalk = 5;
+    private int playerDaggerStartWalk ;
+    private int playerDaggerCountWalk;
 
-    private int playerDaggerStartThrowing = 17;
-    private int playerDaggerCountThrowing = 2;
+    private int playerDaggerStartThrowing ;
+    private int playerDaggerCountThrowing ;
     
-    private int playerStartDeath = 21;
-    private int playerCountDeath = 4;
+    private int playerStartDeath ;
+    private int playerCountDeath ;
     
-    private int flyingDaggerCount=8;
-   private int pickingCellCount=4;
+    private int flyingDaggerCount;
+   private int pickingCellCount;
     
     
-    private int doorLeverCount=3;
+    private int doorLeverCount;
   
     
     
-    private float pickingCellFrameDuration=0.25f;
+    
     
 
     
@@ -242,15 +240,7 @@ public class GraphicsFileConfig
 	return collectableCount;
     }
 
-    public int getCharacterFrameWidth()
-    {
-	return CharacterFrameWidth;
-    }
-
-    public int getCharacterFrameHeight()
-    {
-	return CharacterFrameHeight;
-    }
+  
 
     public float getFrameDuration()
     {
@@ -367,11 +357,6 @@ public class GraphicsFileConfig
     protected int getPickingCellCount()
     {
         return pickingCellCount;
-    }
-
-    protected float getPickingCellFrameDuration()
-    {
-        return pickingCellFrameDuration;
     }
 
 	public String getArchiDoorPassage()
