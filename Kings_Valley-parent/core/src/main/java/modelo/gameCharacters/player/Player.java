@@ -244,7 +244,7 @@ public class Player extends GameCharacter
 		if (activator != null)
 			this.pyramid.activateWall(activator);
 		if (!this.isInStair())
-			this.checkGiratory(v);
+			this.checkGiratory();
 	}
 
 	private void pickupCollectables()

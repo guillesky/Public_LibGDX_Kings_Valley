@@ -18,17 +18,22 @@ public class EndPlatform
 	{
 		return type;
 	}
-	protected int getCount()
+	public int getCount()
 	{
 		return count;
 	}
-	protected void setType(int type)
+	public void setType(int type)
 	{
 		this.type = type;
 	}
-	protected void setCount(int count)
+	public void setCount(int count)
 	{
 		this.count = count;
+	}
+	@Override
+	public String toString()
+	{
+		return "EndPlatform [type=" + type + ", count=" + count + "]";
 	}
 	
 	

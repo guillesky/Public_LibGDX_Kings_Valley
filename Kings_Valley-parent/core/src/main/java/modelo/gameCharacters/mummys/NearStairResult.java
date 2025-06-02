@@ -20,5 +20,10 @@ protected int getDirectionX()
 {
 	return directionX;
 }
+@Override
+public String toString()
+{
+	return "NearStairResult [stair=" + stair + ", directionX=" + directionX + "]";
+}
 
 }

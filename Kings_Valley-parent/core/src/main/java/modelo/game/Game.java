@@ -1,17 +1,17 @@
 package modelo.game;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.TreeMap;
 
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 
 import modelo.IGrafica;
 import modelo.KVEventListener;
 import modelo.control.Controls;
+import modelo.gameCharacters.abstractGameCharacter.Lolo;
+import modelo.gameCharacters.player.Player;
 import modelo.level.Level;
 import modelo.level.LevelReader;
 import modelo.level.door.Door;
@@ -37,6 +37,7 @@ public class Game implements KVEventListener
 	private int score = 0;
 	protected int lives;
 	private float maxDeltaTimeRegistered = 0;
+	private Lolo lolo=null;
 
 	public void incScore(int cant)
 	{
@@ -94,8 +95,8 @@ public class Game implements KVEventListener
 		 * deltaTime; System.out.println(deltaTime); }
 		 */
 
-		if (deltaTime > 0.02f)
-			deltaTime = 0.02f;
+		if (deltaTime > 0.015f)
+			deltaTime = 0.015f;
 
 		if (controles.getShot(Input.Keys.P))
 		{
@@ -107,6 +108,8 @@ public class Game implements KVEventListener
 			this.stateGame.updateframe(deltaTime);
 
 		}
+		if(this.lolo!=null)
+			lolo.update();
 	}
 
 	public Controls getControles()
@@ -290,7 +293,20 @@ public class Game implements KVEventListener
 	}
 
 	public void showPlayer()
-	{System.out.println(this.level.getPlayer());/*
+	{
+		
+		Player player=this.level.getPlayer();
+		this.lolo=new Lolo(player);
+	
+	System.out.println("IZQUIERDA: "+lolo.endPlatform(false));
+	
+	System.out.println("Derecha: "+lolo.endPlatform(true));
+	
+	//System.out.println("Arriba: "+lolo.getNearStair(true, player));
+	//lolo.getNearStair(true, player);
+	//System.out.println("Abajo: "+lolo.getNearStair(false, player));
+	
+		/*System.out.println(this.level.getPlayer());/*
 		Iterator it = this.level.getMummys().iterator();
 		while (it.hasNext())
 			System.out.println(it.next().toString());*/

@@ -21,12 +21,7 @@ public abstract class MummyState
 	protected Mummy mummy;
 	protected float timeToChange;
 
-	protected static float getSecureDistanceToPlayer()
-	{
-		return (64 * Config.getInstance().getLevelTileHeightUnits()
-
-				* Config.getInstance().getLevelTileHeightUnits());
-	}
+	
 
 	public MummyState(Mummy mummy, int state)
 	{

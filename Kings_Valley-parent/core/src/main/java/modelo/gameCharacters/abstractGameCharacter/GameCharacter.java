@@ -125,7 +125,7 @@ public abstract class GameCharacter extends LevelObject
 		return respuesta;
 	}
 
-	protected boolean checkGiratory(Vector2 v)
+	protected boolean checkGiratory()
 	{
 		boolean r = false;
 		LevelObject giratory = this.checkRectangleColision(this.pyramid.getGiratories());

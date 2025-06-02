@@ -141,7 +141,7 @@ public abstract class Mummy extends GameCharacter
 		}
 		if (condicion)
 			respuesta = Mummy.BLOCK_BRICK;
-		else if (this.checkGiratory(direction))
+		else if (this.checkGiratory())
 			respuesta = Mummy.BLOCK_GIRATORY;
 
 		return respuesta;
@@ -319,10 +319,7 @@ public abstract class Mummy extends GameCharacter
 		return super.checkStairsFeetColision(positiveStairs, isUpping);
 	}
 
-	
-	
-
-	
+		
 	@Override
 	protected void enterStair(Stair stair)
 	{
@@ -332,13 +329,5 @@ public abstract class Mummy extends GameCharacter
 
 	
 	
-	/*
-	 * @Override public String toString() { int[] der = this.endPlatform(true);
-	 * int[] izq = this.endPlatform(false); return " x=" + x + ", y=" + y +
-	 * " DERECHA " + der[0] + "  " + der[1] + " IZQUIERDA " + izq[0] + "  " + izq[1]
-	 * + "\nEscalera IZQ arriba: " + this.nearStair(true, false) +
-	 * " Escalera DER arriba: " + this.nearStair(true, true) +
-	 * "\nEscalera IZQ abajo: " + this.nearStair(false, false) +
-	 * " Escalera DER abajo: " + this.nearStair(false, true); }
-	 */
+	
 }
