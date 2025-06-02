@@ -64,7 +64,7 @@ public class LevelObject extends Rectangle implements IGraphicRenderer
 	return LevelObject.rectangleColision(this, another);
     }
 
-    protected static boolean rectangleColision(Rectangle rectangleA, Rectangle rectangleB)
+    public static boolean rectangleColision(Rectangle rectangleA, Rectangle rectangleB)
     {
 	boolean respuesta = false;
 	if (rectangleA != null && rectangleB != null)

@@ -3,10 +3,9 @@ package modelo.gameCharacters.abstractGameCharacter;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Rectangle;
 
 import modelo.gameCharacters.mummys.EndPlatform;
-import modelo.gameCharacters.mummys.Mummy;
 import modelo.gameCharacters.mummys.NearStairResult;
 import modelo.level.LevelObject;
 import modelo.level.Pyramid;
@@ -29,11 +28,14 @@ public class Lolo
 	private static final int BLOCK_GIRATORY = 12;
 
 	private GameCharacter gameCharacter;
+	private Rectangle r;
 
 	public Lolo(GameCharacter gameCharacter)
 	{
 		super();
 		this.gameCharacter = gameCharacter;
+		this.r = new Rectangle(this.gameCharacter.x, this.gameCharacter.y, this.gameCharacter.width,
+				this.gameCharacter.height);
 	}
 
 	public Stair nearStair(boolean toUp, boolean toRight)
@@ -92,7 +94,6 @@ public class Lolo
 					minStair = stair;
 				}
 			}
-//System.out.println("MIN: "+min+" COUNT: "+count);
 			if (min <= count)
 				r = minStair;
 		}
@@ -296,10 +297,22 @@ public class Lolo
 		}
 		if (condicion)
 			respuesta = BLOCK_BRICK;
-		else if (gameCharacter.checkGiratory())
+		else if (this.checkGiratory())
 			respuesta = BLOCK_GIRATORY;
 
 		return respuesta;
+	}
+
+	private boolean checkGiratory()
+	{
+	float epsilon=Config.getInstance().getLevelTileWidthUnits()*0.1f;
+		if (this.gameCharacter.isLookRight())
+			this.r.x=this.gameCharacter.x+epsilon;
+		else
+			this.r.x=this.gameCharacter.x-epsilon;
+		this.r.y=this.gameCharacter.y;
+			
+		return this.checkRectangleColision(this.gameCharacter.getPyramid().getGiratories());
 	}
 
 	public void update()
@@ -316,6 +329,21 @@ public class Lolo
 			this.checkEndOfPlataform(type);
 		}
 
+	}
+
+	public boolean checkRectangleColision( ArrayList levelObjects)
+	{
+
+		Iterator<LevelObject> it = levelObjects.iterator();
+		LevelObject item = null;
+		if (it.hasNext())
+			do
+			{
+				item = it.next();
+			} while (it.hasNext() && !LevelObject.rectangleColision(r, item));
+
+		return (LevelObject.rectangleColision(r, item));
+		
 	}
 
 }
