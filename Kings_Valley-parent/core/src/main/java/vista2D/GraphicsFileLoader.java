@@ -130,8 +130,8 @@ public class GraphicsFileLoader
 	int startDeath = this.graphicsFileConfig.getPlayerStartDeath();
 	int countDeath = this.graphicsFileConfig.getPlayerCountDeath();
 	float frameDuration = this.graphicsFileConfig.getFrameDuration();
-
-	int totalCount = 25;/*
+	
+	int totalCount = 37;/*
 			     * countIddle + countFall + countWalk + pickerCountIddle + pickerCountFall +
 			     * pickerCountWalk + pickerCountPicking + daggerCountIddle + daggerCountFall +
 			     * daggerCountWalk + daggerCountThrowing + countDeath;
@@ -141,9 +141,9 @@ public class GraphicsFileLoader
 		totalCount);
 
 	this.animationPlayer_Nothing[TileMapGrafica2D.IDDLE] = this.framesToAnimation(linearFrames, startIddle,
-		countIddle, 0);
+		countIddle, frameDuration);
 	this.animationPlayer_Nothing[TileMapGrafica2D.FALL] = this.framesToAnimation(linearFrames, startFall, countFall,
-		0);
+		frameDuration);
 	this.animationPlayer_Nothing[TileMapGrafica2D.JUMP] = this.animationPlayer_Nothing[TileMapGrafica2D.FALL];
 	this.animationPlayer_Nothing[TileMapGrafica2D.WALK] = this.framesToAnimation(linearFrames, startWalk, countWalk,
 		frameDuration);
@@ -218,8 +218,8 @@ public class GraphicsFileLoader
 	int collectableCount = this.graphicsFileConfig.getCollectableCount();
 	float maxFrameDuration = this.graphicsFileConfig.getFrameDuration();
 
-	float minFrameDuration = maxFrameDuration*0.7f;
-	
+	float minFrameDuration = maxFrameDuration * 0.7f;
+
 	int flyingDaggerCount = this.graphicsFileConfig.getFlyingDaggerCount();
 	int pickingCellCount = this.graphicsFileConfig.getPickingCellCount();
 	float pickingCellFrameDuration = 1.0f / (float) pickingCellCount;
@@ -230,25 +230,25 @@ public class GraphicsFileLoader
 
 	Array<TextureRegion> linearFrames = this.linearFramesForFile(this.graphicsFileConfig.getArchiCollectables(),
 		collectableWidth, collectableHeight);
-	this.animations.put(Constantes.It_dagger,
-		this.framesToAnimation(linearFrames, 0, collectableCount, this.getRandomFrameDuration(minFrameDuration, maxFrameDuration)));
-	this.animations.put(Constantes.It_picker,
-		this.framesToAnimation(linearFrames, collectableCount, collectableCount, this.getRandomFrameDuration(minFrameDuration, maxFrameDuration)));
+	this.animations.put(Constantes.It_dagger, this.framesToAnimation(linearFrames, 0, collectableCount,
+		this.getRandomFrameDuration(minFrameDuration, maxFrameDuration)));
+	this.animations.put(Constantes.It_picker, this.framesToAnimation(linearFrames, collectableCount,
+		collectableCount, this.getRandomFrameDuration(minFrameDuration, maxFrameDuration)));
 
-	this.animations.put(Constantes.JEWEL_1,
-		this.framesToAnimation(linearFrames, collectableCount * 2, collectableCount, this.getRandomFrameDuration(minFrameDuration, maxFrameDuration)));
-	this.animations.put(Constantes.JEWEL_2,
-		this.framesToAnimation(linearFrames, collectableCount * 3, collectableCount, this.getRandomFrameDuration(minFrameDuration, maxFrameDuration)));
-	this.animations.put(Constantes.JEWEL_3,
-		this.framesToAnimation(linearFrames, collectableCount * 4, collectableCount, this.getRandomFrameDuration(minFrameDuration, maxFrameDuration)));
-	this.animations.put(Constantes.JEWEL_4,
-		this.framesToAnimation(linearFrames, collectableCount * 5, collectableCount, this.getRandomFrameDuration(minFrameDuration, maxFrameDuration)));
-	this.animations.put(Constantes.JEWEL_5,
-		this.framesToAnimation(linearFrames, collectableCount * 6, collectableCount, this.getRandomFrameDuration(minFrameDuration, maxFrameDuration)));
-	this.animations.put(Constantes.JEWEL_6,
-		this.framesToAnimation(linearFrames, collectableCount * 7, collectableCount, this.getRandomFrameDuration(minFrameDuration, maxFrameDuration)));
-	this.animations.put(Constantes.JEWEL_7,
-		this.framesToAnimation(linearFrames, collectableCount * 8, collectableCount, this.getRandomFrameDuration(minFrameDuration, maxFrameDuration)));
+	this.animations.put(Constantes.JEWEL_1, this.framesToAnimation(linearFrames, collectableCount * 2,
+		collectableCount, this.getRandomFrameDuration(minFrameDuration, maxFrameDuration)));
+	this.animations.put(Constantes.JEWEL_2, this.framesToAnimation(linearFrames, collectableCount * 3,
+		collectableCount, this.getRandomFrameDuration(minFrameDuration, maxFrameDuration)));
+	this.animations.put(Constantes.JEWEL_3, this.framesToAnimation(linearFrames, collectableCount * 4,
+		collectableCount, this.getRandomFrameDuration(minFrameDuration, maxFrameDuration)));
+	this.animations.put(Constantes.JEWEL_4, this.framesToAnimation(linearFrames, collectableCount * 5,
+		collectableCount, this.getRandomFrameDuration(minFrameDuration, maxFrameDuration)));
+	this.animations.put(Constantes.JEWEL_5, this.framesToAnimation(linearFrames, collectableCount * 6,
+		collectableCount, this.getRandomFrameDuration(minFrameDuration, maxFrameDuration)));
+	this.animations.put(Constantes.JEWEL_6, this.framesToAnimation(linearFrames, collectableCount * 7,
+		collectableCount, this.getRandomFrameDuration(minFrameDuration, maxFrameDuration)));
+	this.animations.put(Constantes.JEWEL_7, this.framesToAnimation(linearFrames, collectableCount * 8,
+		collectableCount, this.getRandomFrameDuration(minFrameDuration, maxFrameDuration)));
 
 	this.linearFramesGiratory = this.linearFramesForFile(this.graphicsFileConfig.getArchiGiratory(),
 		this.graphicsFileConfig.getGiratoryCount());
