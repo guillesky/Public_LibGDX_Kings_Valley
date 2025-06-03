@@ -29,12 +29,18 @@ mummyCountAppear: 10
 mummyCountDeath: 5
 giratoryCount: 13
 collectableCount: 8
-playerStartIddle: 8
-playerCountIddle: 6
-playerStartFall: 14
-playerCountFall: 6
 playerStartWalk: 0
-playerCountWalk: 8
+playerCountWalk: 16
+playerStartIddle: 16
+playerCountIddle: 8
+playerStartJump: 24
+playerCountJump: 8
+
+playerStartFall: 32
+playerCountFall: 8
+playerStartDeath: 40
+playerCountDeath: 13
+
 playerPickerStartIddle: 8
 playerPickerCountIddle: 1
 playerPickerStartFall: 11
@@ -51,8 +57,6 @@ playerDaggerStartWalk: 12
 playerDaggerCountWalk: 5
 playerDaggerStartThrowing: 17
 playerDaggerCountThrowing: 2
-playerStartDeath: 21
-playerCountDeath: 4
 flyingDaggerCount: 8
 pickingCellCount: 8
 doorLeverCount: 10

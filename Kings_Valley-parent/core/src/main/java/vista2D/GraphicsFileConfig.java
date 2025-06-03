@@ -46,7 +46,11 @@ public class GraphicsFileConfig
     private int playerCountIddle ;
     private int playerStartFall ;
     private int playerCountFall;
+    private int playerStartJump ;
+    private int playerCountJump;
 
+
+    
     private int playerStartWalk ;
     private int playerCountWalk;
     
@@ -382,6 +386,16 @@ public class GraphicsFileConfig
 	public int getDoorLeverCount()
 	{
 	    return doorLeverCount;
+	}
+
+	protected int getPlayerStartJump()
+	{
+		return playerStartJump;
+	}
+
+	protected int getPlayerCountJump()
+	{
+		return playerCountJump;
 	}
 
 
