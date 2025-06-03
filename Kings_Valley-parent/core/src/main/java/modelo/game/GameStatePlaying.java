@@ -47,7 +47,7 @@ public class GameStatePlaying extends GameState
 			}
 		}
 
-		if (!this.godMode && currentLevel.checkPlayerDie())
+		if (!this.godMode && currentLevel.checkPlayerDieByMummy())
 		{
 			this.game.dying();
 		}

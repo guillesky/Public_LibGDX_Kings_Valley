@@ -180,7 +180,7 @@ public class Level
 		return doorIn;
 	}
 
-	public boolean checkPlayerDie()
+	public boolean checkPlayerDieByMummy()
 	{
 
 		Iterator<Mummy> it = this.mummys.iterator();
