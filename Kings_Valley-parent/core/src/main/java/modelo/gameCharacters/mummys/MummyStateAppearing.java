@@ -32,4 +32,11 @@ public class MummyStateAppearing extends MummyState
 	return false;
 	}
 
+	@Override
+	protected void die(boolean mustTeleport)
+	{
+	   
+	    
+	}
+
 }

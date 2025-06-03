@@ -39,4 +39,11 @@ public class MummyStateLimbus extends MummyState
 	{
 		return false;
 	}
+
+	@Override
+	protected void die(boolean mustTeleport)
+	{
+	   
+	    
+	}
 }

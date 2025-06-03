@@ -1,5 +1,7 @@
 package modelo.gameCharacters.mummys;
 
+import modelo.KVEventListener;
+import modelo.game.Game;
 import modelo.gameCharacters.abstractGameCharacter.GameCharacter;
 import modelo.gameCharacters.player.Player;
 import util.Config;
@@ -121,6 +123,13 @@ public class MummyStateWalking extends MummyState
 			if(this.mummy.makeDecisionForJump())this.doJump = true;
 			else this.bounces();
 		
+	}
+
+	@Override
+	protected void die(boolean mustTeleport)
+	{
+	    this.mummy.mummyState = new MummyStateDying(this.mummy, mustTeleport);
+		Game.getInstance().eventFired(KVEventListener.MUMMY_DIE, this);
 	}
 
 }

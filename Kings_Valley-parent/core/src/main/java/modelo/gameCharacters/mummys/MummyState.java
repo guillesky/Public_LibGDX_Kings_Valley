@@ -229,4 +229,6 @@ public abstract class MummyState
 			type = EndPlatform.END_BLOCK;
 		return type;
 	}
+
+	protected abstract void die(boolean mustTeleport);
 }

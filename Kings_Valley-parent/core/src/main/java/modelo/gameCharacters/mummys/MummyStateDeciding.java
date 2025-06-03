@@ -2,6 +2,8 @@ package modelo.gameCharacters.mummys;
 
 import com.badlogic.gdx.math.Vector2;
 
+import modelo.KVEventListener;
+import modelo.game.Game;
 import modelo.level.LevelObject;
 import modelo.level.Stair;
 
@@ -96,6 +98,13 @@ public class MummyStateDeciding extends MummyState
 		}
 
 		return r;
+	}
+
+	@Override
+	protected void die(boolean mustTeleport)
+	{
+	    this.mummy.mummyState = new MummyStateDying(this.mummy, mustTeleport);
+		Game.getInstance().eventFired(KVEventListener.MUMMY_DIE, this);
 	}
 
 }

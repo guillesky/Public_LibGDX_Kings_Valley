@@ -271,8 +271,8 @@ public abstract class Mummy extends GameCharacter
 
 	public void die(boolean mustTeleport)
 	{
-		this.mummyState = new MummyStateDying(this, mustTeleport);
-		Game.getInstance().eventFired(KVEventListener.MUMMY_DIE, this);
+	    
+		this.mummyState.die(mustTeleport);
 	}
 
 	public boolean isDanger()
