@@ -39,7 +39,7 @@ playerCountJump: 8
 playerStartFall: 32
 playerCountFall: 8
 playerStartDeath: 40
-playerCountDeath: 13
+playerCountDeath: 14
 
 playerPickerStartIddle: 8
 playerPickerCountIddle: 1

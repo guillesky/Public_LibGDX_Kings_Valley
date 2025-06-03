@@ -19,4 +19,11 @@ public class PlayerStateWalking extends PlayerState
 
 	}
 
+	@Override
+	protected void die()
+	{
+	    this.player.setPlayerState(new PlayerStateDying(this.player));
+	    
+	}
+
 }

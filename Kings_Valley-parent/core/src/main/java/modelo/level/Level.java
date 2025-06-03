@@ -93,7 +93,7 @@ public class Level
 	private void death()
 	{
 		Game.getInstance().dying();
-		System.out.println("PLAYER SMASH");
+		
 	}
 
 	private boolean checkCharacterSmash(TrapMechanism trapMechanism, GameCharacter gameCharacter)

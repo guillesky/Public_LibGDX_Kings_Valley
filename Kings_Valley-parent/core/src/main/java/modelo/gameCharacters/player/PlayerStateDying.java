@@ -17,4 +17,11 @@ public class PlayerStateDying extends PlayerState
 	
     }
 
+    @Override
+    protected void die()
+    {
+	
+	
+    }
+
 }

@@ -310,7 +310,7 @@ public class Player extends GameCharacter
 
 	public void die()
 	{
-		this.playerState = new PlayerStateDying(this);
+		this.playerState.die();
 	}
 
 		

@@ -31,7 +31,7 @@ public class AnimatedEntity2D
     public void updateElement(float deltaTime)
     {
 
-	sprite.setRegion(animation.getKeyFrame(deltaTime, true));
+	sprite.setRegion(animation.getKeyFrame(deltaTime));
 	float x = this.levelObject.getX() + (this.levelObject.getWidth() - this.sprite.getWidth()) / 2;
 	float y = this.levelObject.getY();
 	this.sprite.setPosition(x, y);

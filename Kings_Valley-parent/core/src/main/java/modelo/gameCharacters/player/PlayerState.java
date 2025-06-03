@@ -14,5 +14,7 @@ public abstract class PlayerState
 	}
 	
 	public abstract void update(Vector2 v, boolean b, float deltaTime);
+
+	protected abstract void die();
     
 }
