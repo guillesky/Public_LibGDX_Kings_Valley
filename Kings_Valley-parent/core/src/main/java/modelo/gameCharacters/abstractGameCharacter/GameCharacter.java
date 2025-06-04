@@ -211,7 +211,7 @@ public abstract class GameCharacter extends LevelObject
 		this.animationDelta += delta;
 	}
 
-	protected Pyramid getPyramid()
+	public Pyramid getPyramid()
 	{
 		return pyramid;
 	}

@@ -10,11 +10,11 @@ public class MummyStateSearchingStair extends MummyStateWalking
 	private LevelObject footStair;
 	
 
-	public MummyStateSearchingStair(Mummy mummy, Stair stair, int directionX, int whereIsPlayer)
+	public MummyStateSearchingStair(Mummy mummy, NearStairResult nearStairResult, int whereIsPlayer)
 	{
-		super(mummy,directionX,whereIsPlayer);
+		super(mummy,nearStairResult.getDirectionX(),whereIsPlayer);
 		this.whereIsPlayer=whereIsPlayer;
-		this.stair = stair;
+		this.stair = nearStairResult.getStair();
 		
 		if (whereIsPlayer == MummyState.PLAYER_IS_UP)
 			this.footStair = stair.getDownStair();

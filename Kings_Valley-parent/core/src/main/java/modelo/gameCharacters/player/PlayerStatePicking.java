@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import modelo.gameCharacters.abstractGameCharacter.GameCharacter;
 import modelo.level.DrawableElement;
 import modelo.level.Pyramid;
+import util.Config;
 import util.Constantes;
 
 public class PlayerStatePicking extends PlayerState
@@ -30,7 +31,7 @@ public class PlayerStatePicking extends PlayerState
 
 		this.player.incTimePicking(deltaTime);
 
-		if (this.player.getTimePicking() >= 1.f) // termino de picar una celda
+		if (this.player.getTimePicking() >= Config.getInstance().getTimeToEndPicking()) // termino de picar una celda
 		{
 
 			TiledMapTileLayer layer = (TiledMapTileLayer) pyramid.getMap().getLayers().get("front");

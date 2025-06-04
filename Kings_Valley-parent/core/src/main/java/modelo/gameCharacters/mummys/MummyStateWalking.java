@@ -43,11 +43,14 @@ public class MummyStateWalking extends MummyState
 		{
 			this.checkChangeStatus();
 			float x = this.mummy.x;
-
-			if (this.mummy.isLookRight())
+			int desp = 1;
+			if (!this.mummy.isLookRight())
+			{
 				x = this.mummy.x + this.mummy.width;
-			int type = this.typeEndPlatform(x, 0);
-			
+				desp = -1;
+			}
+			int type = this.typeEndPlatform(x, desp);
+
 			this.checkEndOfPlataform(type);
 		}
 		if (this.mummy.getStressLevel() >= 9)
@@ -59,28 +62,9 @@ public class MummyStateWalking extends MummyState
 			this.mummy.calmStress(deltaTime / 6);
 
 		this.mummy.move(this.mummy.getDirection(), doJump, deltaTime);
-		if (this.mummy.getDirection().x == 0)
-			
-		this.doJump = false;
-		
-		
-	}
 
-	protected void checkEndOfPlataform(int type)
-	{
-		int crashStatus = mummy.crashWallOrGiratory();
-		if (crashStatus != Mummy.BLOCK_FREE) // si choca contra un ladrillo o una giratoria
-		{
-			this.doInCrashToWallOrGiratory(crashStatus, type);
-		} else
-		{
-			;
-/*
-			if (type == EndPlatform.END_CLIFF) // Si esta al borde del acantilado
-			{
-				this.doInBorderCliff();
-			}*/
-		}
+		this.doJump = false;
+
 	}
 
 	@Override
@@ -101,16 +85,18 @@ public class MummyStateWalking extends MummyState
 		this.mummy.stressing();
 	}
 
-	protected void doInCrashToWallOrGiratory(int crashStatus, int type)
+	public void doInCrashToWallOrGiratory(int crashStatus, int type)
 	{
 		if (crashStatus == Mummy.BLOCK_BRICK)
 
 		{
-
-			if (type == EndPlatform.END_STEP && this.whereIsPlayer == MummyState.PLAYER_IS_UP
-					|| this.whereIsPlayer == MummyState.PLAYER_IS_SOME_LEVEL)
+		
+			if (type == EndPlatform.END_STEP && (this.whereIsPlayer == MummyState.PLAYER_IS_UP
+					|| this.whereIsPlayer == MummyState.PLAYER_IS_SOME_LEVEL))
 
 				this.doJump = true;
+			else
+				this.bounces();
 		} else // rebota pues choco contra giratoria
 		{
 			this.bounces();
@@ -120,16 +106,18 @@ public class MummyStateWalking extends MummyState
 	protected void doInBorderCliff()
 	{
 		if (this.whereIsPlayer == MummyState.PLAYER_IS_UP || this.whereIsPlayer == MummyState.PLAYER_IS_SOME_LEVEL)
-			if(this.mummy.makeDecisionForJump())this.doJump = true;
-			else this.bounces();
-		
+			if (this.mummy.makeDecisionForJump())
+				this.doJump = true;
+			else
+				this.bounces();
+
 	}
 
 	@Override
 	protected void die(boolean mustTeleport)
 	{
-	    this.mummy.mummyState = new MummyStateDying(this.mummy, mustTeleport);
-		Game.getInstance().eventFired(KVEventListener.MUMMY_DIE, this);
+		this.mummy.mummyState = new MummyStateDying(this.mummy, mustTeleport);
+
 	}
 
 }

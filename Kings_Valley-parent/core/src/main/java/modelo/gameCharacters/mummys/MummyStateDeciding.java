@@ -37,8 +37,7 @@ public class MummyStateDeciding extends MummyState
 
 			if (nearStairResult != null)
 			{
-				this.mummy.mummyState = new MummyStateSearchingStair(this.mummy, nearStairResult.getStair(),
-						nearStairResult.getDirectionX(), MummyState.PLAYER_IS_UP);
+				this.mummy.mummyState = new MummyStateSearchingStair(this.mummy, nearStairResult, MummyState.PLAYER_IS_UP);
 			} else
 			{
 				int directionX = this.searchEndPlatform(EndPlatform.END_STEP);
@@ -52,8 +51,7 @@ public class MummyStateDeciding extends MummyState
 			NearStairResult nearStairResult = this.getNearStair(false);
 			if (nearStairResult != null)
 			{
-				this.mummy.mummyState = new MummyStateSearchingStair(this.mummy, nearStairResult.getStair(),
-						nearStairResult.getDirectionX(), MummyState.PLAYER_IS_DOWN);
+				this.mummy.mummyState = new MummyStateSearchingStair(this.mummy, nearStairResult, MummyState.PLAYER_IS_DOWN);
 
 			} else
 			{
@@ -90,7 +88,9 @@ public class MummyStateDeciding extends MummyState
 				r = RIGHT;
 			else
 			{
-				if (endToRight.getCount() < endToLeft.getCount())
+				
+				if (this.mummy.x<this.mummy.player.x)
+						
 					r = RIGHT;
 				else
 					r = LEFT;

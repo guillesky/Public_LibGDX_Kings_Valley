@@ -1,18 +1,17 @@
-package modelo.gameCharacters.abstractGameCharacter;
+package modelo.gameCharacters.mummys;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import com.badlogic.gdx.math.Rectangle;
 
-import modelo.gameCharacters.mummys.EndPlatform;
-import modelo.gameCharacters.mummys.NearStairResult;
+import modelo.gameCharacters.abstractGameCharacter.GameCharacter;
 import modelo.level.LevelObject;
 import modelo.level.Pyramid;
 import modelo.level.Stair;
 import util.Config;
 
-public class Lolo
+public abstract class Lolo
 
 {
 
@@ -25,30 +24,29 @@ public class Lolo
 	protected static final int PLAYER_IS_DOWN = -1;
 	private static final int BLOCK_FREE = 0;
 	private static final int BLOCK_BRICK = 1;
-	private static final int BLOCK_GIRATORY = 12;
+	private static final int BLOCK_GIRATORY = 2;
 
-	private GameCharacter gameCharacter;
+	protected Mummy mummy;
 	private Rectangle r;
 
-	public Lolo(GameCharacter gameCharacter)
+	public Lolo(Mummy gameCharacter)
 	{
 		super();
-		this.gameCharacter = gameCharacter;
-		this.r = new Rectangle(this.gameCharacter.x, this.gameCharacter.y, this.gameCharacter.width,
-				this.gameCharacter.height);
+		this.mummy = gameCharacter;
+		this.r = new Rectangle(this.mummy.x, this.mummy.y, this.mummy.width, this.mummy.height);
 	}
 
 	public Stair nearStair(boolean toUp, boolean toRight)
 	{
 		Stair r = null;
-		Pyramid pyramid = gameCharacter.getPyramid();
+		Pyramid pyramid = mummy.getPyramid();
 		int count = this.endPlatform(toRight).getCount();
 		ArrayList<Stair> candidatesStairs = new ArrayList<Stair>();
 		LevelObject footStair;
 
 		Iterator<Stair> it = pyramid.getAllStairs().iterator();
 		float tileWidth = Config.getInstance().getLevelTileWidthUnits();
-		float posX = gameCharacter.x + gameCharacter.width * 0.5f;
+		float posX = mummy.x + mummy.width * 0.5f;
 		while (it.hasNext())
 		{
 			Stair stair = it.next();
@@ -56,7 +54,7 @@ public class Lolo
 				footStair = stair.getDownStair();
 			else
 				footStair = stair.getUpStair();
-			if (footStair.y == gameCharacter.y && (toRight && footStair.x >= posX || !toRight && footStair.x <= posX))
+			if (footStair.y == mummy.y && (toRight && footStair.x >= posX || !toRight && footStair.x <= posX))
 				candidatesStairs.add(stair);
 		}
 
@@ -129,7 +127,7 @@ public class Lolo
 					footStairLeft = toLeft.getUpStair();
 				}
 
-				if (footStairRight.x - gameCharacter.x < gameCharacter.x - footStairLeft.x)
+				if (footStairRight.x - mummy.x < mummy.x - footStairLeft.x)
 					stair = toRight;
 				else
 					stair = toLeft;
@@ -153,13 +151,13 @@ public class Lolo
 		int acum = 0;
 		int type;
 		int count;
-		float xAux;
-		Pyramid pyramid = gameCharacter.getPyramid();
-		xAux = gameCharacter.x;
+		float x;
+		Pyramid pyramid = mummy.getPyramid();
+		x = mummy.x;
 		if (toRight)
 		{
 			inc = 1;
-			xAux += gameCharacter.width;
+			x += mummy.width;
 		} else
 
 		{
@@ -167,14 +165,13 @@ public class Lolo
 
 		}
 
-		while (pyramid.getCell(xAux, gameCharacter.y, acum, 0) == null
-				&& pyramid.getCell(xAux, gameCharacter.y, acum, 1) == null
-				&& pyramid.getCell(xAux, gameCharacter.y, acum, -1) != null && this.isColDesplaInMap(acum))
+		while (pyramid.getCell(x, mummy.y, acum, 0) == null && pyramid.getCell(x, mummy.y, acum, 1) == null
+				&& pyramid.getCell(x, mummy.y, acum, -1) != null && this.isColDesplaInMap(acum))
 		{
 			acum += inc;
 
 		}
-		type = this.typeEndPlatform(xAux, acum);
+		type = this.typeEndPlatform(x, acum);
 		if (acum < 0)
 			acum *= -1;
 		count = acum;
@@ -187,17 +184,17 @@ public class Lolo
 
 	public void correctGiratoryEndPlatform(EndPlatform r, boolean toRight)
 	{
-		Iterator<LevelObject> it = gameCharacter.getPyramid().getGiratories().iterator();
+		Iterator<LevelObject> it = mummy.getPyramid().getGiratories().iterator();
 		boolean condicion = false;
-		float posX = gameCharacter.x;
+		float posX = mummy.x;
 
 		if (toRight)
-			posX += gameCharacter.width;
+			posX += mummy.width;
 
 		while (it.hasNext() && !condicion)
 		{
 			LevelObject giratoria = it.next();
-			if (giratoria.y == gameCharacter.y && (toRight && giratoria.x >= posX || !toRight && giratoria.x <= posX))
+			if (giratoria.y == mummy.y && (toRight && giratoria.x >= posX || !toRight && giratoria.x <= posX))
 			{
 				float aux = posX - (giratoria.x + giratoria.width * 0.5f);
 				if (aux < 0)
@@ -218,24 +215,24 @@ public class Lolo
 	public boolean isColDesplaInMap(int col)
 	{
 
-		return gameCharacter.getColPosition() + col > 1
-				&& gameCharacter.getColPosition() + col < gameCharacter.getPyramid().getMapWidthInTiles() - 1;
+		return mummy.getColPosition() + col > 1
+				&& mummy.getColPosition() + col < mummy.getPyramid().getMapWidthInTiles() - 1;
 	}
 
 	public int typeEndPlatform(float positionX, int iDeltaX)
 	{
-		int type;
-		Pyramid pyramid = gameCharacter.getPyramid();
-		if (pyramid.getCell(positionX, gameCharacter.y, iDeltaX, 0) == null
-				&& pyramid.getCell(positionX, gameCharacter.y, iDeltaX, 1) == null
-				&& pyramid.getCell(positionX, gameCharacter.y, iDeltaX, -1) == null)
+		int type = -1;
+		Pyramid pyramid = mummy.getPyramid();
+		if (pyramid.getCell(positionX, mummy.y, iDeltaX, 0) == null
+				&& pyramid.getCell(positionX, mummy.y, iDeltaX, 1) == null
+				&& pyramid.getCell(positionX, mummy.y, iDeltaX, -1) == null)
 			type = EndPlatform.END_CLIFF;
-		else if ((pyramid.getCell(positionX, gameCharacter.y, iDeltaX, 1) != null
-				&& pyramid.getCell(positionX, gameCharacter.y, iDeltaX, 2) == null
-				&& pyramid.getCell(positionX, gameCharacter.y, iDeltaX, 3) == null)
-				|| (pyramid.getCell(positionX, gameCharacter.y, iDeltaX, 0) != null
-						&& pyramid.getCell(positionX, gameCharacter.y, iDeltaX, 1) == null
-						&& pyramid.getCell(positionX, gameCharacter.y, iDeltaX, 2) == null))
+		else if ((pyramid.getCell(positionX, mummy.y, iDeltaX, 1) != null
+				&& pyramid.getCell(positionX, mummy.y, iDeltaX, 2) == null
+				&& pyramid.getCell(positionX, mummy.y, iDeltaX, 3) == null)
+				|| (pyramid.getCell(positionX, mummy.y, iDeltaX, 0) != null
+						&& pyramid.getCell(positionX, mummy.y, iDeltaX, 1) == null
+						&& pyramid.getCell(positionX, mummy.y, iDeltaX, 2) == null))
 			type = EndPlatform.END_STEP;
 		else
 			type = EndPlatform.END_BLOCK;
@@ -259,40 +256,32 @@ public class Lolo
 		}
 	}
 
-	private void doInBorderCliff()
-	{
-		System.out.println("BORDEEEE!!!!!!");
-	}
+	protected abstract void doInBorderCliff();
 
-	public void doInCrashToWallOrGiratory(int crashStatus, int type)
-	{
-		System.out.println("CRASH: " + crashStatus + "    Type: " + type);
-
-	}
+	public abstract void doInCrashToWallOrGiratory(int crashStatus, int type);
 
 	public int crashWallOrGiratory()
 	{
 		boolean condicion = false;
-
+		Pyramid pyramid = this.mummy.getPyramid();
 		int respuesta = BLOCK_FREE;
 		float epsilon = Config.getInstance().getLevelTileWidthUnits() * 0.1f;
-		if (gameCharacter.isLookRight())
+		if (mummy.isLookRight())
 		{
-			condicion = gameCharacter.getColPosition() >= gameCharacter.pyramid.getMapWidthInTiles() - 2
-					|| gameCharacter.pyramid.getCell(gameCharacter.x + Config.getInstance().getLevelTileWidthUnits(),
-							gameCharacter.y + Config.getInstance().getLevelTileHeightUnits()) != null
+			condicion = mummy.getColPosition() >= pyramid.getMapWidthInTiles() - 2
+					|| pyramid.getCell(mummy.x + Config.getInstance().getLevelTileWidthUnits(),
+							mummy.y + Config.getInstance().getLevelTileHeightUnits()) != null
 					||
 
-					gameCharacter.pyramid.getCell(gameCharacter.x + Config.getInstance().getLevelTileWidthUnits(),
-							gameCharacter.y) != null;
+					pyramid.getCell(mummy.x + Config.getInstance().getLevelTileWidthUnits(), mummy.y) != null;
 
 		} else
 		{
 
-			condicion = gameCharacter.getColPosition() <= 1 || gameCharacter.pyramid.getCell(gameCharacter.x - epsilon,
-					gameCharacter.y + Config.getInstance().getLevelTileHeightUnits()) != null ||
+			condicion = mummy.getColPosition() <= 1 || pyramid.getCell(mummy.x - epsilon,
+					mummy.y + Config.getInstance().getLevelTileHeightUnits()) != null ||
 
-					gameCharacter.pyramid.getCell(gameCharacter.x - epsilon, gameCharacter.y) != null;
+					pyramid.getCell(mummy.x - epsilon, mummy.y) != null;
 
 		}
 		if (condicion)
@@ -305,25 +294,25 @@ public class Lolo
 
 	private boolean checkGiratory()
 	{
-	float epsilon=Config.getInstance().getLevelTileWidthUnits()*0.1f;
-		if (this.gameCharacter.isLookRight())
-			this.r.x=this.gameCharacter.x+epsilon;
+		float epsilon = Config.getInstance().getLevelTileWidthUnits() * 0.1f;
+		if (this.mummy.isLookRight())
+			this.r.x = this.mummy.x + epsilon;
 		else
-			this.r.x=this.gameCharacter.x-epsilon;
-		this.r.y=this.gameCharacter.y;
-			
-		return this.checkRectangleColision(this.gameCharacter.getPyramid().getGiratories());
+			this.r.x = this.mummy.x - epsilon;
+		this.r.y = this.mummy.y;
+
+		return this.checkRectangleColision(this.mummy.getPyramid().getGiratories());
 	}
 
 	public void update()
 	{
 
-		if (this.gameCharacter.state == GameCharacter.ST_WALKING)
+		if (this.mummy.getState() == GameCharacter.ST_WALKING)
 		{
-			float x = this.gameCharacter.x;
+			float x = this.mummy.x;
 
-			if (this.gameCharacter.isLookRight())
-				x = this.gameCharacter.x + this.gameCharacter.width;
+			if (!this.mummy.isLookRight())
+				x = this.mummy.x + this.mummy.width;
 			int type = this.typeEndPlatform(x, 0);
 
 			this.checkEndOfPlataform(type);
@@ -331,7 +320,7 @@ public class Lolo
 
 	}
 
-	public boolean checkRectangleColision( ArrayList levelObjects)
+	public boolean checkRectangleColision(ArrayList levelObjects)
 	{
 
 		Iterator<LevelObject> it = levelObjects.iterator();
@@ -343,7 +332,7 @@ public class Lolo
 			} while (it.hasNext() && !LevelObject.rectangleColision(r, item));
 
 		return (LevelObject.rectangleColision(r, item));
-		
+
 	}
 
 }

@@ -301,12 +301,7 @@ public class Player extends GameCharacter
 		return respuesta;
 	}
 
-	@Override
-	protected Pyramid getPyramid()
-	{
-
-		return super.getPyramid();
-	}
+	
 
 	public void die()
 	{

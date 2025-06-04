@@ -49,8 +49,21 @@ public class Config
     private float timeToEndGiratory = 1f;
     private float timeToEndTrapMechanism = 1f;
     private float timeToOpenCloseDoor = 1f;
+    private float timeToEndPicking=1f;
+    private float timeToEndThrowDagger=0.2f;
+    
+    
+    public float getTimeToEndPicking()
+	{
+		return timeToEndPicking;
+	}
 
-    private float speedGame = 1.0f;
+    public float getTimeToEndThrowDagger()
+	{
+		return timeToEndThrowDagger;
+	}
+
+	private float speedGame = 1.0f;
 
     private static final Config instance = new Config();
 

@@ -263,11 +263,7 @@ public abstract class Mummy extends GameCharacter
 		super.resetAnimationDelta();
 	}
 
-	@Override
-	protected Pyramid getPyramid()
-	{
-		return super.getPyramid();
-	}
+	
 
 	public void die(boolean mustTeleport)
 	{

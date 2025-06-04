@@ -3,6 +3,7 @@ package modelo.gameCharacters.player;
 import com.badlogic.gdx.math.Vector2;
 
 import modelo.gameCharacters.abstractGameCharacter.GameCharacter;
+import util.Config;
 
 public class PlayerStateThrowingDagger extends PlayerState
 {
@@ -17,7 +18,7 @@ public class PlayerStateThrowingDagger extends PlayerState
 	public void update(Vector2 v, boolean b, float deltaTime)
 	{
 
-		if (this.player.getAnimationDelta() >= 0.2f) // termino de LANZAR LA DAGA
+		if (this.player.getAnimationDelta() >= Config.getInstance().getTimeToEndThrowDagger()) // termino de LANZAR LA DAGA
 		{
 			int state;
 			if (v.x == 0)
