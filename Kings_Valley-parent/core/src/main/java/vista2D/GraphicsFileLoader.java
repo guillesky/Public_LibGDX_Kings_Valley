@@ -119,72 +119,41 @@ public class GraphicsFileLoader
 	int startDeath = startFall+countFall;
 	int countDeath = this.graphicsFileConfig.getPlayerCountDeath();
 	
-	int totalCount=startDeath+countDeath;
+	int pickerStartWalk = startDeath+countDeath;
+	int pickerCountWalk = this.graphicsFileConfig.getPlayerPickerCountWalk();
 	
-	
-	int pickerStartIddle = this.graphicsFileConfig.getPlayerPickerStartIddle();
+	int pickerStartIddle = pickerStartWalk+pickerCountWalk;
 	int pickerCountIddle = this.graphicsFileConfig.getPlayerPickerCountIddle();
-	int pickerStartFall = this.graphicsFileConfig.getPlayerPickerStartFall();
+	
+	int pickerStartFall = pickerStartIddle+pickerCountIddle;
 	int pickerCountFall = this.graphicsFileConfig.getPlayerPickerCountFall();
 
-	int pickerStartWalk = this.graphicsFileConfig.getPlayerPickerStartWalk();
-	int pickerCountWalk = this.graphicsFileConfig.getPlayerPickerCountWalk();
-	int pickerStartPicking = this.graphicsFileConfig.getPlayerPickerStartPicking();
-	int pickerCountPicking = this.graphicsFileConfig.getPlayerPickerCountPicking();
-
-	int daggerStartIddle = this.graphicsFileConfig.getPlayerDaggerStartIddle();
+	int pickerStartDeath=pickerStartFall+pickerCountFall;
+	int pickerCountDeath=countDeath;
+	
+	int daggerStartWalk = pickerStartDeath+pickerCountDeath;
+	int daggerCountWalk = this.graphicsFileConfig.getPlayerDaggerCountWalk();
+	
+	int daggerStartIddle = daggerStartWalk+daggerCountWalk;
 	int daggerCountIddle = this.graphicsFileConfig.getPlayerDaggerCountIddle();
-	int daggerStartFall = this.graphicsFileConfig.getPlayerDaggerStartFall();
+	
+	int daggerStartFall = daggerStartIddle+daggerCountIddle;
 	int daggerCountFall = this.graphicsFileConfig.getPlayerDaggerCountFall();
 
-	int daggerStartWalk = this.graphicsFileConfig.getPlayerDaggerStartWalk();
-	int daggerCountWalk = this.graphicsFileConfig.getPlayerDaggerCountWalk();
+	int daggerStartDeath= daggerStartFall+daggerCountFall;
+	int daggerCountDeath=countDeath;
+	
 	int daggerStartThrowing = this.graphicsFileConfig.getPlayerDaggerStartThrowing();
 	int daggerCountThrowing = this.graphicsFileConfig.getPlayerDaggerCountThrowing();
 
-	
-	float frameDuration = this.graphicsFileConfig.getFrameDuration();
-	
-/*
-	int startIddle = this.graphicsFileConfig.getPlayerStartIddle();
-	int countIddle = this.graphicsFileConfig.getPlayerCountIddle();
-	int startFall = this.graphicsFileConfig.getPlayerStartFall();
-	int countFall = this.graphicsFileConfig.getPlayerCountFall();
-	int startJump = this.graphicsFileConfig.getPlayerStartJump();
-	int countJump = this.graphicsFileConfig.getPlayerCountJump();
-
-	int startWalk = this.graphicsFileConfig.getPlayerStartWalk();
-	int countWalk = this.graphicsFileConfig.getPlayerCountWalk();
-
-	int pickerStartIddle = this.graphicsFileConfig.getPlayerPickerStartIddle();
-	int pickerCountIddle = this.graphicsFileConfig.getPlayerPickerCountIddle();
-	int pickerStartFall = this.graphicsFileConfig.getPlayerPickerStartFall();
-	int pickerCountFall = this.graphicsFileConfig.getPlayerPickerCountFall();
-
-	int pickerStartWalk = this.graphicsFileConfig.getPlayerPickerStartWalk();
-	int pickerCountWalk = this.graphicsFileConfig.getPlayerPickerCountWalk();
 	int pickerStartPicking = this.graphicsFileConfig.getPlayerPickerStartPicking();
 	int pickerCountPicking = this.graphicsFileConfig.getPlayerPickerCountPicking();
 
-	int daggerStartIddle = this.graphicsFileConfig.getPlayerDaggerStartIddle();
-	int daggerCountIddle = this.graphicsFileConfig.getPlayerDaggerCountIddle();
-	int daggerStartFall = this.graphicsFileConfig.getPlayerDaggerStartFall();
-	int daggerCountFall = this.graphicsFileConfig.getPlayerDaggerCountFall();
-
-	int daggerStartWalk = this.graphicsFileConfig.getPlayerDaggerStartWalk();
-	int daggerCountWalk = this.graphicsFileConfig.getPlayerDaggerCountWalk();
-	int daggerStartThrowing = this.graphicsFileConfig.getPlayerDaggerStartThrowing();
-	int daggerCountThrowing = this.graphicsFileConfig.getPlayerDaggerCountThrowing();
-
-	int startDeath = this.graphicsFileConfig.getPlayerStartDeath();
-	int countDeath = this.graphicsFileConfig.getPlayerCountDeath();
+	int totalCount=daggerStartDeath+daggerCountDeath;
+	
 	float frameDuration = this.graphicsFileConfig.getFrameDuration();
+	
 
-	int totalCount = 53;/*
-			     * countIddle + countFall + countWalk + pickerCountIddle + pickerCountFall +
-			     * pickerCountWalk + pickerCountPicking + daggerCountIddle + daggerCountFall +
-			     * daggerCountWalk + daggerCountThrowing + countDeath;
-			     */
 
 	Array<TextureRegion> linearFrames = this.linearFramesForFile(this.graphicsFileConfig.getArchiPlayer(),
 		totalCount);
@@ -204,26 +173,30 @@ public class GraphicsFileLoader
 	this.animationPlayer_Nothing[TileMapGrafica2D.DEATH].setPlayMode(PlayMode.NORMAL);
 
 	this.animationPlayer_Picker[TileMapGrafica2D.IDDLE] = this.framesToAnimation(linearFrames, pickerStartIddle,
-		pickerCountIddle, 0);
+		pickerCountIddle, frameDuration);
 	this.animationPlayer_Picker[TileMapGrafica2D.FALL] = this.framesToAnimation(linearFrames, pickerStartFall,
-		pickerCountFall, 0);
+		pickerCountFall, frameDuration);
 
 	this.animationPlayer_Picker[TileMapGrafica2D.WALK] = this.framesToAnimation(linearFrames, pickerStartWalk,
-		pickerCountWalk, frameDuration);
+		pickerCountWalk, .75f / pickerCountWalk);
 
-	this.animationPlayer_Picker[TileMapGrafica2D.DEATH] = this.animationPlayer_Nothing[TileMapGrafica2D.DEATH];
+	this.animationPlayer_Picker[TileMapGrafica2D.DEATH] = this.framesToAnimation(linearFrames, pickerStartDeath,
+		pickerCountDeath, Game.getInstance().getInterfaz().getTimeDying() / (float) countDeath);
+	this.animationPlayer_Picker[TileMapGrafica2D.DEATH].setPlayMode(PlayMode.NORMAL);
 	this.animationPlayer_Picker[TileMapGrafica2D.PICKING] = this.framesToAnimation(linearFrames, pickerStartPicking,
 		pickerCountPicking, frameDuration);
 	this.animationPlayer_Picker[TileMapGrafica2D.PICKING].setPlayMode(PlayMode.LOOP);
 	this.animationPlayer_Picker[TileMapGrafica2D.JUMP] = this.animationPlayer_Picker[TileMapGrafica2D.FALL];
 	this.animationPlayer_Dagger[TileMapGrafica2D.IDDLE] = this.framesToAnimation(linearFrames, daggerStartIddle,
-		daggerCountIddle, 0);
+		daggerCountIddle, frameDuration);
 	this.animationPlayer_Dagger[TileMapGrafica2D.FALL] = this.framesToAnimation(linearFrames, daggerStartFall,
-		daggerCountFall, 0);
+		daggerCountFall, frameDuration);
 	this.animationPlayer_Dagger[TileMapGrafica2D.WALK] = this.framesToAnimation(linearFrames, daggerStartWalk,
-		daggerCountWalk, frameDuration);
+		daggerCountWalk, .75f / pickerCountWalk);
 
-	this.animationPlayer_Dagger[TileMapGrafica2D.DEATH] = this.animationPlayer_Nothing[TileMapGrafica2D.DEATH];
+	this.animationPlayer_Dagger[TileMapGrafica2D.DEATH] = this.framesToAnimation(linearFrames, daggerStartDeath,
+		daggerCountDeath, Game.getInstance().getInterfaz().getTimeDying() / (float) countDeath);
+	this.animationPlayer_Dagger[TileMapGrafica2D.DEATH].setPlayMode(PlayMode.NORMAL); 
 	this.animationPlayer_Dagger[TileMapGrafica2D.JUMP] = this.animationPlayer_Dagger[TileMapGrafica2D.FALL];
 	this.animationPlayer_Dagger[TileMapGrafica2D.THROW_DAGGER] = this.framesToAnimation(linearFrames,
 		daggerStartThrowing, daggerCountThrowing, frameDuration);

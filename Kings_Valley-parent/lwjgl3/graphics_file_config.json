@@ -42,19 +42,19 @@ playerStartDeath: 40
 playerCountDeath: 14
 
 playerPickerStartIddle: 8
-playerPickerCountIddle: 1
+playerPickerCountIddle: 8
 playerPickerStartFall: 11
-playerPickerCountFall: 1
+playerPickerCountFall: 8
 playerPickerStartWalk: 6
-playerPickerCountWalk: 5
+playerPickerCountWalk: 16
 playerPickerStartPicking: 19
 playerPickerCountPicking: 2
 playerDaggerStartIddle: 14
-playerDaggerCountIddle: 1
+playerDaggerCountIddle: 8
 playerDaggerStartFall: 17
-playerDaggerCountFall: 1
+playerDaggerCountFall: 8
 playerDaggerStartWalk: 12
-playerDaggerCountWalk: 5
+playerDaggerCountWalk: 16
 playerDaggerStartThrowing: 17
 playerDaggerCountThrowing: 2
 flyingDaggerCount: 8
