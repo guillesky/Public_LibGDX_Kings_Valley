@@ -3,6 +3,7 @@ package vista2D;
 public class GraphicsFileConfig
 {
     private String archiPlayer;
+    private String archiPlayerThrowing;
     private String archiPickingCell;
     private String archiCollectables; 
     private String archiGiratory ;
@@ -42,42 +43,42 @@ public class GraphicsFileConfig
     
     private int collectableCount ;
   
-    private int playerStartIddle ;
+    
     private int playerCountIddle ;
-    private int playerStartFall ;
+    
     private int playerCountFall;
-    private int playerStartJump ;
+    
     private int playerCountJump;
 
 
     
-    private int playerStartWalk ;
+    
     private int playerCountWalk;
     
-    private int playerPickerStartIddle ;
+    
     private int playerPickerCountIddle ;
-    private int playerPickerStartFall ;
+    
     private int playerPickerCountFall ;
 
-    private int playerPickerStartWalk ;
+    
     private int playerPickerCountWalk ;
 
-    private int playerPickerStartPicking ;
+    
     private int playerPickerCountPicking;
 
     
-    private int playerDaggerStartIddle ;
+    
     private int playerDaggerCountIddle ;
-    private int playerDaggerStartFall ;
+    
     private int playerDaggerCountFall ;
 
-    private int playerDaggerStartWalk ;
+    
     private int playerDaggerCountWalk;
 
-    private int playerDaggerStartThrowing ;
+    
     private int playerDaggerCountThrowing ;
     
-    private int playerStartDeath ;
+    
     private int playerCountDeath ;
     
     private int flyingDaggerCount;
@@ -199,39 +200,22 @@ public class GraphicsFileConfig
 
     
     
-    public int getPlayerStartIddle()
-    {
-	return playerStartIddle;
-    }
 
     public int getPlayerCountIddle()
     {
 	return playerCountIddle;
     }
 
-    public int getPlayerStartFall()
-    {
-	return playerStartFall;
-    }
 
     public int getPlayerCountFall()
     {
 	return playerCountFall;
     }
 
-    public int getPlayerStartWalk()
-    {
-	return playerStartWalk;
-    }
 
     public int getPlayerCountWalk()
     {
 	return playerCountWalk;
-    }
-
-    public int getPlayerStartDeath()
-    {
-	return playerStartDeath;
     }
 
     public int getPlayerCountDeath()
@@ -266,80 +250,48 @@ public class GraphicsFileConfig
         return mummyIddleFrameDuration;
     }
 
-    public int getPlayerPickerStartIddle()
-    {
-        return playerPickerStartIddle;
-    }
 
     public int getPlayerPickerCountIddle()
     {
         return playerPickerCountIddle;
     }
 
-    public int getPlayerPickerStartFall()
-    {
-        return playerPickerStartFall;
-    }
 
     public int getPlayerPickerCountFall()
     {
         return playerPickerCountFall;
     }
 
-    public int getPlayerPickerStartWalk()
-    {
-        return playerPickerStartWalk;
-    }
 
     public int getPlayerPickerCountWalk()
     {
         return playerPickerCountWalk;
     }
 
-    public int getPlayerPickerStartPicking()
-    {
-        return playerPickerStartPicking;
-    }
 
     public int getPlayerPickerCountPicking()
     {
         return playerPickerCountPicking;
     }
 
-    public int getPlayerDaggerStartIddle()
-    {
-        return playerDaggerStartIddle;
-    }
 
     public int getPlayerDaggerCountIddle()
     {
         return playerDaggerCountIddle;
     }
 
-    public int getPlayerDaggerStartFall()
-    {
-        return playerDaggerStartFall;
-    }
 
     public int getPlayerDaggerCountFall()
     {
         return playerDaggerCountFall;
     }
 
-    public int getPlayerDaggerStartWalk()
-    {
-        return playerDaggerStartWalk;
-    }
 
     public int getPlayerDaggerCountWalk()
     {
         return playerDaggerCountWalk;
     }
 
-    public int getPlayerDaggerStartThrowing()
-    {
-        return playerDaggerStartThrowing;
-    }
 
     public int getPlayerDaggerCountThrowing()
     {
@@ -388,14 +340,15 @@ public class GraphicsFileConfig
 	    return doorLeverCount;
 	}
 
-	protected int getPlayerStartJump()
-	{
-		return playerStartJump;
-	}
 
 	protected int getPlayerCountJump()
 	{
 		return playerCountJump;
+	}
+
+	public String getArchiPlayerThrowing()
+	{
+	    return archiPlayerThrowing;
 	}
 
 

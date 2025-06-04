@@ -1,5 +1,6 @@
 {
 archiPlayer: pics/player.png
+archiPlayerThrowing: pics/throwing.png
 archiPickingCell: pics/picking_cell.png
 archiCollectables: pics/collectables.png
 archiGiratory: pics/giratory.png
@@ -10,7 +11,7 @@ archiMummyWhite: pics/mummy_white.png
 archiMummyYellow: pics/mummy_yellow.png
 archiMummyAppear: pics/mummy_appear.png
 archiMummyDisappear: pics/mummy_disappear.png
-archiFlyingDagger: pics/knife.png
+archiFlyingDagger: pics/dagger.png
 archiDoorPassage: pics/exitdoor_central.png
 archiDoorLeft: pics/exitdoor_left.png
 archiDoorRight: pics/exitdoor_right.png
@@ -29,33 +30,33 @@ mummyCountAppear: 10
 mummyCountDeath: 5
 giratoryCount: 13
 collectableCount: 8
-playerStartWalk: 0
+
 playerCountWalk: 16
-playerStartIddle: 16
+
 playerCountIddle: 8
-playerStartJump: 24
+
 playerCountJump: 8
 
-playerStartFall: 32
+
 playerCountFall: 8
-playerStartDeath: 40
+
 playerCountDeath: 14
 
-playerPickerStartIddle: 8
+
 playerPickerCountIddle: 8
-playerPickerStartFall: 11
+
 playerPickerCountFall: 8
-playerPickerStartWalk: 6
+
 playerPickerCountWalk: 16
-playerPickerStartPicking: 19
+
 playerPickerCountPicking: 2
-playerDaggerStartIddle: 14
+
 playerDaggerCountIddle: 8
-playerDaggerStartFall: 17
+
 playerDaggerCountFall: 8
-playerDaggerStartWalk: 12
+
 playerDaggerCountWalk: 16
-playerDaggerStartThrowing: 17
+
 playerDaggerCountThrowing: 2
 flyingDaggerCount: 8
 pickingCellCount: 8

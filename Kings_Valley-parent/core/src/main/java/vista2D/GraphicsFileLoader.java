@@ -71,6 +71,8 @@ public class GraphicsFileLoader
 	this.graphicsFileConfig = loadConfig();
 	// this.graphicsFileConfig = new GraphicsFileConfig();
 	this.manager.load(graphicsFileConfig.getArchiPlayer(), Texture.class);
+	this.manager.load(graphicsFileConfig.getArchiPlayerThrowing(), Texture.class);
+	
 	this.manager.load(graphicsFileConfig.getArchiCollectables(), Texture.class);
 	this.manager.load(graphicsFileConfig.getArchiGiratory(), Texture.class);
 	this.manager.load(graphicsFileConfig.getArchiPickingCell(), Texture.class);
@@ -89,6 +91,9 @@ public class GraphicsFileLoader
 	this.manager.load(graphicsFileConfig.getArchiDoorPassage(), Texture.class);
 	this.manager.load(graphicsFileConfig.getArchiNewTileset(), Texture.class);
 	this.manager.load(graphicsFileConfig.getArchiSky(), Texture.class);
+	
+	
+	
 	// saveConfig(graphicsFileConfig);
     }
 
@@ -143,10 +148,10 @@ public class GraphicsFileLoader
 	int daggerStartDeath= daggerStartFall+daggerCountFall;
 	int daggerCountDeath=countDeath;
 	
-	int daggerStartThrowing = this.graphicsFileConfig.getPlayerDaggerStartThrowing();
+
 	int daggerCountThrowing = this.graphicsFileConfig.getPlayerDaggerCountThrowing();
 
-	int pickerStartPicking = this.graphicsFileConfig.getPlayerPickerStartPicking();
+
 	int pickerCountPicking = this.graphicsFileConfig.getPlayerPickerCountPicking();
 
 	int totalCount=daggerStartDeath+daggerCountDeath;
@@ -183,7 +188,7 @@ public class GraphicsFileLoader
 	this.animationPlayer_Picker[TileMapGrafica2D.DEATH] = this.framesToAnimation(linearFrames, pickerStartDeath,
 		pickerCountDeath, Game.getInstance().getInterfaz().getTimeDying() / (float) countDeath);
 	this.animationPlayer_Picker[TileMapGrafica2D.DEATH].setPlayMode(PlayMode.NORMAL);
-	this.animationPlayer_Picker[TileMapGrafica2D.PICKING] = this.framesToAnimation(linearFrames, pickerStartPicking,
+	this.animationPlayer_Picker[TileMapGrafica2D.PICKING] = this.framesToAnimation(linearFrames, 0,
 		pickerCountPicking, frameDuration);
 	this.animationPlayer_Picker[TileMapGrafica2D.PICKING].setPlayMode(PlayMode.LOOP);
 	this.animationPlayer_Picker[TileMapGrafica2D.JUMP] = this.animationPlayer_Picker[TileMapGrafica2D.FALL];
@@ -198,8 +203,12 @@ public class GraphicsFileLoader
 		daggerCountDeath, Game.getInstance().getInterfaz().getTimeDying() / (float) countDeath);
 	this.animationPlayer_Dagger[TileMapGrafica2D.DEATH].setPlayMode(PlayMode.NORMAL); 
 	this.animationPlayer_Dagger[TileMapGrafica2D.JUMP] = this.animationPlayer_Dagger[TileMapGrafica2D.FALL];
+
+	linearFrames = this.linearFramesForFile(this.graphicsFileConfig.getArchiPlayerThrowing(),
+		daggerCountThrowing);
 	this.animationPlayer_Dagger[TileMapGrafica2D.THROW_DAGGER] = this.framesToAnimation(linearFrames,
-		daggerStartThrowing, daggerCountThrowing, frameDuration);
+		0, daggerCountThrowing, Config.getInstance().getTimeToEndThrowDagger()/8);
+	this.animationPlayer_Dagger[TileMapGrafica2D.THROW_DAGGER].setPlayMode(PlayMode.NORMAL); 
 
     }
 
