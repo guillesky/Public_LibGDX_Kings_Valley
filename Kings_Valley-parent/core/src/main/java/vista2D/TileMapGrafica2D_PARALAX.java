@@ -9,10 +9,10 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.utils.Array.ArrayIterator;
 
+import i18n.Messages;
 import modelo.game.Game;
 import modelo.level.Pyramid;
 import util.Config;
-import util.Messages;
 
 public class TileMapGrafica2D_PARALAX extends TileMapGrafica2D
 {

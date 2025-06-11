@@ -37,9 +37,9 @@ public class Main2 implements ApplicationListener
 	int Help_Guides = 12;
 	int row_height = Gdx.graphics.getWidth() / 12;
 	int col_width = Gdx.graphics.getWidth() / 12;
-	TextureAtlas atlas = new TextureAtlas("skin/glassy-ui.atlas");
+	TextureAtlas atlas = new TextureAtlas("skin/golden-ui-skin.atlas");
 	Skin mySkin = new Skin(atlas);
-	Skin mySkin2 = new Skin(Gdx.files.internal("skin/glassy-ui.json"));
+	Skin mySkin2 = new Skin(Gdx.files.internal("skin/golden-ui-skin.json"));
 
 
 	Label title = new Label("Buttons with Skins", mySkin2);
@@ -70,7 +70,7 @@ public class Main2 implements ApplicationListener
 	stage.addActor(button1);
 
 	// Text Button
-	Button button2 = new TextButton("Text Button", mySkin2, "small");
+	Button button2 = new TextButton("Text Button", mySkin2, "default");
 	button2.setSize(col_width * 4, row_height);
 	button2.setPosition(col_width * 7, Gdx.graphics.getHeight() - row_height * 3);
 	button2.addListener(new InputListener()
@@ -91,7 +91,7 @@ public class Main2 implements ApplicationListener
 	stage.addActor(button2);
 
 	// ImageButton
-	ImageButton button3 = new ImageButton(mySkin.getDrawable("button-small"), mySkin.getDrawable("button-small-down"));
+	ImageButton button3 = new ImageButton(mySkin.getDrawable("button-small"), mySkin.getDrawable("default"));
 	button3.setSize(col_width * 4, (float) (row_height * 2));
 	/*button3.getStyle().imageUp = new TextureRegionDrawable(
 		new TextureRegion(new Texture(Gdx.files.internal("switch_off.png"))));

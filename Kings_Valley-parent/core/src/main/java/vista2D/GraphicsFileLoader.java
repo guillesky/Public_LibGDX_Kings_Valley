@@ -534,4 +534,10 @@ public class GraphicsFileLoader
 	return minFrameDuration + random.nextFloat(delta);
     }
 
+	public void dispose()
+	{
+		
+		
+	}
+
 }

@@ -1,4 +1,4 @@
-package util;
+package i18n;
 
 public enum Messages
 {

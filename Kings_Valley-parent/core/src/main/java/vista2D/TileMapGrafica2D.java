@@ -26,6 +26,7 @@ import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Array.ArrayIterator;
 
+import i18n.Messages;
 import io.github.some_example_name.IMyApplicationListener;
 import modelo.game.Game;
 import modelo.gameCharacters.mummys.Mummy;
@@ -40,7 +41,6 @@ import modelo.level.dagger.Dagger;
 import modelo.level.door.Door;
 import util.Config;
 import util.Constantes;
-import util.Messages;
 
 public class TileMapGrafica2D implements IMyApplicationListener
 {
@@ -550,6 +550,10 @@ public class TileMapGrafica2D implements IMyApplicationListener
 	this.spriteBatch.dispose();
 	if (this.rectaglesRenderDebug != null)
 	    this.rectaglesRenderDebug.dispose();
+	this.font48.dispose();
+	this.font24.dispose();
+	this.pixel.dispose();
+	this.graphicsFileLoader.dispose();
 
     }
 

@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import modelo.control.Controls;
 import modelo.game.Game;
+import util.Utils;
 import vista2D.TileMapGrafica2D;
 import vista2D.TileMapGrafica2D_PARALAX;
 
@@ -23,6 +24,7 @@ public class Main implements ApplicationListener
 	@Override
 	public void create()
 	{
+		Utils.i18n("en");
 		manager = new AssetManager();
 		/*
 		 * manager.setLoader(TiledMap.class, new TmxMapLoader());
@@ -30,9 +32,9 @@ public class Main implements ApplicationListener
 		 * for (int i = 1; i <= 15; i++) manager.load(Constantes.levelFileName.get(i),
 		 * TiledMap.class);
 		 */
-		grafica = new TileMapGrafica2D_PARALAX(manager,.5f);
-		//grafica = new TileMapGrafica2D(manager);
-		
+		grafica = new TileMapGrafica2D_PARALAX(manager, .5f);
+		// grafica = new TileMapGrafica2D(manager);
+
 		/*
 		 * Thread th = new Thread(new Runnable() {
 		 * 
@@ -46,18 +48,17 @@ public class Main implements ApplicationListener
 		manager.finishLoading();
 
 		Game.getInstance().setInterfaz(grafica);
-/*
-		for (int i = 1; i <= 15; i++)
-		{
-			TiledMap map = manager.get(Constantes.levelFileName.get(i), TiledMap.class);
-			Game.getInstance().addMap(i, map);
-		}*/
+		/*
+		 * for (int i = 1; i <= 15; i++) { TiledMap map =
+		 * manager.get(Constantes.levelFileName.get(i), TiledMap.class);
+		 * Game.getInstance().addMap(i, map); }
+		 */
 		Game.getInstance().start();
 		this.grafica.create();
-		
-		TileMapGrafica2D mytile2d=(TileMapGrafica2D) this.grafica;
+
+		TileMapGrafica2D mytile2d = (TileMapGrafica2D) this.grafica;
 		// mytile2d.changeTileSet();
-		 
+
 	}
 
 	@Override
@@ -105,8 +106,6 @@ public class Main implements ApplicationListener
 
 	}
 
-	
-
 	@Override
 	public void resize(int width, int height)
 	{
@@ -127,7 +126,5 @@ public class Main implements ApplicationListener
 		this.grafica.resume();
 
 	}
-
-	
 
 }

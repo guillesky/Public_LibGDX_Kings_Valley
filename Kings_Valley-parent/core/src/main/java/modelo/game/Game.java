@@ -215,12 +215,7 @@ public class Game implements KVEventListener
 		this.start();
 	}
 
-	public void priorLevel()
-	{
-		// TODO Auto-generated method stub
-
-	}
-
+	
 	protected void resetDelta()
 	{
 		this.delta = 0;

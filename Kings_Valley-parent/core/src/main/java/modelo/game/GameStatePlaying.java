@@ -62,7 +62,7 @@ public class GameStatePlaying extends GameState
 			this.game.nextLevel();
 
 		if (controles.getShot(Input.Keys.O))
-			this.game.priorLevel();
+			this.game.dying();
 		
 		if (controles.getShot(Input.Keys.S))
 			this.game.showPlayer();
