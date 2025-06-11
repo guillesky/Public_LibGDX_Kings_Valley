@@ -26,6 +26,13 @@ com.badlogic.gdx.graphics.Color: {
 		b: 1
 		a: 1
 	}
+
+	transparent: {
+		r: 0
+		g: 0
+		b: 0
+		a: 0
+	}
 	yellow: {
 		r: 1
 		g: 0.8980392
@@ -232,7 +239,7 @@ com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle: {
 	default: {
 		background: window
 		titleFont: font
-		stageBackground: white
+		stageBackground: transparent
 	}
 	small: {
 		background: textfield

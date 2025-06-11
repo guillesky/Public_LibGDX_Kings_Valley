@@ -91,7 +91,7 @@ public class Main2 implements ApplicationListener
 	stage.addActor(button2);
 
 	// ImageButton
-	ImageButton button3 = new ImageButton(mySkin.getDrawable("button-small"), mySkin.getDrawable("default"));
+	ImageButton button3 = new ImageButton(mySkin2);
 	button3.setSize(col_width * 4, (float) (row_height * 2));
 	/*button3.getStyle().imageUp = new TextureRegionDrawable(
 		new TextureRegion(new Texture(Gdx.files.internal("switch_off.png"))));
@@ -140,7 +140,7 @@ public class Main2 implements ApplicationListener
 	});
 	stage.addActor(button4);
 
-	outputLabel = new Label("Press a Button", mySkin2, "black");
+	outputLabel = new Label("Press a Button", mySkin2);
 	outputLabel.setSize(Gdx.graphics.getWidth(), row_height);
 	outputLabel.setPosition(0, row_height);
 	outputLabel.setAlignment(Align.center);
@@ -150,7 +150,7 @@ public class Main2 implements ApplicationListener
     @Override
     public void render()
     {
-	Gdx.gl.glClearColor(1, 1, 1, 1);
+	Gdx.gl.glClearColor(0, 0, 0, 1);
 	Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 	stage.act();
 	stage.draw();
