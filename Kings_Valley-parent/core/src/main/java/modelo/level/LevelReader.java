@@ -26,8 +26,6 @@ import util.Constantes;
 public class LevelReader
 {
 
-	
-	
 	private ArrayList<Door> doors = null;
 
 	private ArrayList<LevelObject> jewels = new ArrayList<LevelObject>();
@@ -48,16 +46,13 @@ public class LevelReader
 	private ArrayList<Stair> positiveStairs;
 	private ArrayList<Stair> negativeStairs;
 	private TmxMapLoader mapLoader = new TmxMapLoader();
-	
-
-	
 
 	public Level getLevel(int id, String mapFile, int dificultLevel, boolean isCompleted, Door doorFrom,
 			IGrafica interfaz)
 	{
 		TiledMap map = this.mapLoader.load(mapFile);
 		this.resetAll();
-		this.readLevelObjects(map, dificultLevel, id);
+		this.readLevelObjects(map, id);
 		this.readStairs(map);
 		if (isCompleted)
 		{
@@ -74,11 +69,11 @@ public class LevelReader
 		Door door = this.getDoorIn(id, doorFrom);
 		float y = door.getPassage().y;
 		float x = door.getPassage().x;
-		
+
 		Player player = new Player(x, y, this.pyramid);
-		this.generateMummys(player,dificultLevel);
-		
-		Level level = new Level(id, pyramid, mummys, door,player);
+		this.generateMummys(player, dificultLevel);
+
+		Level level = new Level(id, pyramid, mummys, door, player);
 		return level;
 
 	}
@@ -202,7 +197,7 @@ public class LevelReader
 
 	private void resetAll()
 	{
-		
+
 		this.doors = new ArrayList<Door>();
 		this.jewels = new ArrayList<LevelObject>();
 		this.pickers = new ArrayList<LevelObject>();
@@ -222,8 +217,7 @@ public class LevelReader
 		this.mummyDatas = new ArrayList<MummyData>();
 	}
 
-
-	private void readLevelObjects(TiledMap map, int dificultLevel, int id)
+	private void readLevelObjects(TiledMap map, int id)
 	{
 		MapLayers mapLayers = map.getLayers();
 		MapLayer layerObject = mapLayers.get("items");
@@ -271,7 +265,7 @@ public class LevelReader
 				break;
 			case Constantes.It_door_lever:
 				levelObject = new LevelObject(type, fx, fy, p0, width, height);
-				Door door = new Door(levelObject, id,Config.getInstance().getTimeToOpenCloseDoor());
+				Door door = new Door(levelObject, id, Config.getInstance().getTimeToOpenCloseDoor());
 				this.doors.add(door);
 
 				break;
@@ -293,7 +287,8 @@ public class LevelReader
 				levelObject = new LevelObject(type, fx, fy, p0, width, height);
 
 				this.giratorys.add(levelObject);
-				GiratoryMechanism giratoryMechanism = new GiratoryMechanism(levelObject,Config.getInstance().getTimeToEndGiratory());
+				GiratoryMechanism giratoryMechanism = new GiratoryMechanism(levelObject,
+						Config.getInstance().getTimeToEndGiratory());
 				this.giratoryMechanisms.add(giratoryMechanism);
 				this.hashGiratoryMechanisms.put(levelObject, giratoryMechanism);
 				this.unpickableCells.add(this.getCell(map, levelObject.getX(),
@@ -371,8 +366,13 @@ public class LevelReader
 			int mummyType = dificultLevel + mummyData.getType();
 			if (mummyType > MummyFactory.RED_MUMMY)
 				mummyType = MummyFactory.RED_MUMMY;
+			if (mummyType < MummyFactory.WHITE_MUMMY)
+				mummyType = MummyFactory.WHITE_MUMMY;
+			
+			
 
-			Mummy mummy = this.mummyFactory.getMummy(mummyData.getX(), mummyData.getY(), mummyType, this.pyramid,player);
+			Mummy mummy = this.mummyFactory.getMummy(mummyData.getX(), mummyData.getY(), mummyType, this.pyramid,
+					player);
 			this.mummys.add(mummy);
 		}
 	}

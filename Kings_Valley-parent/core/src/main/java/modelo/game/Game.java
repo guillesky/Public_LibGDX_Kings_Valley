@@ -10,12 +10,11 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import modelo.IGrafica;
 import modelo.KVEventListener;
 import modelo.control.Controls;
-import modelo.gameCharacters.mummys.Lolo;
-import modelo.gameCharacters.player.Player;
 import modelo.level.Level;
 import modelo.level.LevelReader;
 import modelo.level.door.Door;
 import util.Constantes;
+import util.GameConfig;
 
 public class Game implements KVEventListener
 {
@@ -29,7 +28,7 @@ public class Game implements KVEventListener
 	private boolean paused = false;
 	private Level level = null;
 	protected int idCurrentLevel = 1;
-	private int dificult = 0;
+	private int dificultLevel = 0;
 	private float delta = 0;
 	private IGrafica interfaz = null;
 	protected GameState stateGame;
@@ -37,7 +36,15 @@ public class Game implements KVEventListener
 	private int score = 0;
 	protected int lives;
 	private float maxDeltaTimeRegistered = 0;
+	private GameConfig gameConfig;
 	
+	
+	
+	public void setGameConfig(GameConfig gameConfig)
+	{
+		this.gameConfig = gameConfig;
+	}
+
 	public void incScore(int cant)
 	{
 		this.score += cant;
@@ -147,7 +154,7 @@ public class Game implements KVEventListener
 			this.eventFired(KVEventListener.FINISH_ALL_LEVELS, null);
 
 		}
-		this.level = levelReader.getLevel(idCurrentLevel, Constantes.levelFileName.get(idCurrentLevel), dificult,
+		this.level = levelReader.getLevel(idCurrentLevel, Constantes.levelFileName.get(idCurrentLevel), dificultLevel,
 				this.completedLevels.get(this.idCurrentLevel), door, interfaz);
 		this.stateGame = new GameStateEntering();
 		this.interfaz.reset();
@@ -265,7 +272,7 @@ public class Game implements KVEventListener
 		{
 		case KVEventListener.FINISH_ALL_LEVELS:
 			this.idCurrentLevel = 1;
-			this.dificult++;
+			this.dificultLevel++;
 			this.resetCompletedLevels();
 			break;
 
@@ -310,4 +317,18 @@ public class Game implements KVEventListener
 
 	}
 
+	public int getDificultLevel()
+	{
+		return dificultLevel;
+	}
+
+	public void setDificultLevel(int dificultLevel)
+	{
+		this.dificultLevel = dificultLevel;
+	}
+
+	
+	
+	
+	
 }

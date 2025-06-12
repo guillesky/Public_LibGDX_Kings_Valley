@@ -1,0 +1,81 @@
+package util;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.utils.Json;
+
+import vista2D.GraphicsFileConfig;
+
+public class GameConfig
+{
+	private String language="es";
+	private float masterVolume=1f;
+	private float musicVolume=1f;
+	private float soundsVolume=1f;
+
+	private static final String GAME_CONFIG_FILE = "game_config.json";
+	private static final Json json = new Json();
+
+	public static void saveConfig(GameConfig config)
+	{
+		FileHandle file = Gdx.files.local(GAME_CONFIG_FILE);
+		json.setUsePrototypes(false);
+		file.writeString(json.prettyPrint(config), false);
+	}
+
+	public static GameConfig loadConfig()
+	{
+		GameConfig gameConfig;
+		FileHandle file = Gdx.files.local(GAME_CONFIG_FILE);
+		if (file.exists())
+		{
+			gameConfig = json.fromJson(GameConfig.class, file);
+		} else
+			gameConfig = new GameConfig();
+		return gameConfig; // Valores por defecto
+	}
+
+	public String getLanguage()
+	{
+		return language;
+	}
+
+	public void setLanguage(String language)
+	{
+		this.language = language;
+	}
+
+	public float getMasterVolume()
+	{
+		return masterVolume;
+	}
+
+	public void setMasterVolume(float masterVolume)
+	{
+		this.masterVolume = masterVolume;
+	}
+
+	public float getMusicVolume()
+	{
+		return musicVolume;
+	}
+
+	public void setMusicVolume(float musicVolume)
+	{
+		this.musicVolume = musicVolume;
+	}
+
+	public float getSoundsVolume()
+	{
+		return soundsVolume;
+	}
+
+	public void setSoundsVolume(float soundsVolume)
+	{
+		this.soundsVolume = soundsVolume;
+	}
+
+	
+	
+
+}
