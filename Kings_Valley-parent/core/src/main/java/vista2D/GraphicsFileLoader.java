@@ -71,7 +71,7 @@ public class GraphicsFileLoader
 	this.graphicsFileConfig = loadConfig();
 	// this.graphicsFileConfig = new GraphicsFileConfig();
 	this.manager.load(graphicsFileConfig.getArchiPlayer(), Texture.class);
-	this.manager.load(graphicsFileConfig.getArchiPlayerThrowing(), Texture.class);
+	this.manager.load(graphicsFileConfig.getArchiPlayerSpecial(), Texture.class);
 	
 	this.manager.load(graphicsFileConfig.getArchiCollectables(), Texture.class);
 	this.manager.load(graphicsFileConfig.getArchiGiratory(), Texture.class);
@@ -188,9 +188,8 @@ public class GraphicsFileLoader
 	this.animationPlayer_Picker[TileMapGrafica2D.DEATH] = this.framesToAnimation(linearFrames, pickerStartDeath,
 		pickerCountDeath, Game.getInstance().getInterfaz().getTimeDying() / (float) countDeath);
 	this.animationPlayer_Picker[TileMapGrafica2D.DEATH].setPlayMode(PlayMode.NORMAL);
-	this.animationPlayer_Picker[TileMapGrafica2D.PICKING] = this.framesToAnimation(linearFrames, 0,
-		pickerCountPicking, frameDuration);
-	this.animationPlayer_Picker[TileMapGrafica2D.PICKING].setPlayMode(PlayMode.LOOP);
+	
+
 	this.animationPlayer_Picker[TileMapGrafica2D.JUMP] = this.animationPlayer_Picker[TileMapGrafica2D.FALL];
 	this.animationPlayer_Dagger[TileMapGrafica2D.IDDLE] = this.framesToAnimation(linearFrames, daggerStartIddle,
 		daggerCountIddle, frameDuration);
@@ -204,12 +203,16 @@ public class GraphicsFileLoader
 	this.animationPlayer_Dagger[TileMapGrafica2D.DEATH].setPlayMode(PlayMode.NORMAL); 
 	this.animationPlayer_Dagger[TileMapGrafica2D.JUMP] = this.animationPlayer_Dagger[TileMapGrafica2D.FALL];
 
-	linearFrames = this.linearFramesForFile(this.graphicsFileConfig.getArchiPlayerThrowing(),
-		daggerCountThrowing);
+	linearFrames = this.linearFramesForFile(this.graphicsFileConfig.getArchiPlayerSpecial(),
+		daggerCountThrowing+pickerCountPicking);
 	this.animationPlayer_Dagger[TileMapGrafica2D.THROW_DAGGER] = this.framesToAnimation(linearFrames,
-		0, daggerCountThrowing, Config.getInstance().getTimeToEndThrowDagger()/8);
-	this.animationPlayer_Dagger[TileMapGrafica2D.THROW_DAGGER].setPlayMode(PlayMode.NORMAL); 
-
+		pickerCountPicking, daggerCountThrowing, Config.getInstance().getTimeToEndThrowDagger()/8);
+	this.animationPlayer_Dagger[TileMapGrafica2D.THROW_DAGGER].setPlayMode(PlayMode.NORMAL);
+	float framePickingDuration=Config.getInstance().getTimeToEndPicking()/(float)(pickerCountPicking*4);
+	
+	this.animationPlayer_Picker[TileMapGrafica2D.PICKING] = this.framesToAnimation(linearFrames, 0,
+		pickerCountPicking, framePickingDuration);
+	this.animationPlayer_Picker[TileMapGrafica2D.PICKING].setPlayMode(PlayMode.LOOP);
     }
 
     private Animation<TextureRegion> framesToAnimation(Array<TextureRegion> linearFrames, int init, int count,

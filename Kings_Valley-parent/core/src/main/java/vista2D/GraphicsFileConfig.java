@@ -3,7 +3,7 @@ package vista2D;
 public class GraphicsFileConfig
 {
 	private String archiPlayer;
-	private String archiPlayerThrowing;
+	private String archiPlayerSpecial;
 	private String archiPickingCell;
 	private String archiCollectables;
 	private String archiGiratory;
@@ -280,9 +280,11 @@ public class GraphicsFileConfig
 		return playerCountJump;
 	}
 
-	public String getArchiPlayerThrowing()
+	public String getArchiPlayerSpecial()
 	{
-		return archiPlayerThrowing;
+	    return archiPlayerSpecial;
 	}
+
+	
 
 }

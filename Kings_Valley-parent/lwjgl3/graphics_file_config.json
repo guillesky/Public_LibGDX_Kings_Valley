@@ -1,6 +1,6 @@
 {
 archiPlayer: pics/player.png
-archiPlayerThrowing: pics/throwing.png
+archiPlayerSpecial: pics/special_moves.png
 archiPickingCell: pics/picking_cell.png
 archiCollectables: pics/collectables.png
 archiGiratory: pics/giratory.png
@@ -49,7 +49,7 @@ playerPickerCountFall: 8
 
 playerPickerCountWalk: 16
 
-playerPickerCountPicking: 2
+playerPickerCountPicking: 8
 
 playerDaggerCountIddle: 8
 
