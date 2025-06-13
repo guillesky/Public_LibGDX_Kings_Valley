@@ -13,10 +13,13 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.List;
+import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
+import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
@@ -127,32 +130,6 @@ public class UI2D implements IView, ApplicationListener
 	    }
 	});
 
-	// ImageButton
-	ImageButton button3 = new ImageButton(skin);
-	button3.setSize(col_width * 4, (float) (row_height * 2));
-	/*
-	 * button3.getStyle().imageUp = new TextureRegionDrawable( new TextureRegion(new
-	 * Texture(Gdx.files.internal("switch_off.png")))); button3.getStyle().imageDown
-	 * = new TextureRegionDrawable( new TextureRegion(new
-	 * Texture(Gdx.files.internal("switch_on.png"))));
-	 */
-	button3.setPosition(col_width, Gdx.graphics.getHeight() - row_height * 6);
-	button3.addListener(new InputListener()
-	{
-	    @Override
-	    public void touchUp(InputEvent event, float x, float y, int pointer, int button)
-	    {
-		outputLabel.setText("Press a Button");
-	    }
-
-	    @Override
-	    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
-	    {
-		outputLabel.setText("Pressed Image Button");
-		return true;
-	    }
-	});
-
 	// ImageTextButton
 	ImageTextButton button4 = new ImageTextButton("ImageText Btn", skin);
 	button4.setSize(col_width * 4, (float) (row_height * 2));
@@ -192,38 +169,41 @@ public class UI2D implements IView, ApplicationListener
 	table.row();
 
 	// Botones alineados a la izquierda
-/*
-	table.add(button1).uniformX().fillX().expandY().pad(10).left();
-	
-	table.row();
-	table.add(button2).uniformX().fillX().expandY().pad(10).left();
-	
-	table.row();
-	table.add(button3).uniformX().fillX().expandY().pad(10).left();
-	
-	table.row();
-	table.add(button4).uniformX().fillX().expandY().pad(10).left();
-	
-	table.row();
-	table.add(outputLabel).left().pad(10).row();
-*/
-	
-	table.add(button1).size(400, 100).expandY().pad(10).left();
-	
-	table.row();
-	
-	table.add(button2).expandY().pad(10).left();
-	
-	table.row();
-	table.add(button3).expandY().pad(10).left();
-	
-	table.row();
-	table.add(button4).expandY().pad(10).left();
-	
+	/*
+	 * table.add(button1).uniformX().fillX().expandY().pad(10).left();
+	 * 
+	 * table.row(); table.add(button2).uniformX().fillX().expandY().pad(10).left();
+	 * 
+	 * table.row(); table.add(button3).uniformX().fillX().expandY().pad(10).left();
+	 * 
+	 * table.row(); table.add(button4).uniformX().fillX().expandY().pad(10).left();
+	 * 
+	 * table.row(); table.add(outputLabel).left().pad(10).row();
+	 */
+	ProgressBar pg = new ProgressBar(0, 100, 1, false, skin);
+	Slider sl = new Slider(0, 9, 1, false, skin);
+	SelectBox<String> l = new SelectBox<String>(skin);
+	l.setItems("holas y chauses", "jamones", "quesos");
+
+	// table.add(l).size(400, 100).expandY().pad(10).left();
+	table.add(l).expandY().pad(10).left();
 	table.row();
 
-    
-    
+	table.add(button2).expandY().pad(10).left();
+
+	table.row();
+	table.add(sl).expandY().pad(10).left();
+
+	table.row();
+	table.add(button4).expandY().pad(10).left();
+
+	table.row();
+	table.add(outputLabel).expandX().pad(0).row();
+	table.add(pg).expandX().pad(0).row();
+
+	table.row();
+	pg.setValue(57);
+
     }
 
     private void prepareFonts()

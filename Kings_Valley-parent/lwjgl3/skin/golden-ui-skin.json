@@ -44,10 +44,10 @@ com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
 	red: {
 		name: white
 		color: {
-			r: 0.66666675
-			g: 0.07555556
-			b: 0.07555556
-			a: 1
+			r: 0.984
+			g: 0.788
+			b: 0.149
+			a: 0.5
 		}
 	}
 }
