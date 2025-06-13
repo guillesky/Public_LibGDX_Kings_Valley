@@ -4,6 +4,7 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -28,165 +29,47 @@ public class Main2 implements ApplicationListener
 	private Stage stage;
 	private Label outputLabel;
 	private AssetManager manager;
+	private UI2D ui;
+	private FreeTypeFontGenerator generator;
 
 	@Override
 	public void create()
 	{
 		this.manager = Facade.getInstance().getManager();
-	//	UI2D ui = new UI2D(this.manager);
-
-		stage = new Stage(new ScreenViewport());
-		Gdx.input.setInputProcessor(stage);
-
-		int row_height = Gdx.graphics.getWidth() / 12;
-		int col_width = Gdx.graphics.getWidth() / 12;
-
-		Skin mySkin2 = new Skin(Gdx.files.internal("skin/golden-ui-skin.json"));
-
-		Label title = new Label("Buttons with Skins", mySkin2);
-		title.setSize(Gdx.graphics.getWidth(), row_height * 2);
-		title.setPosition(0, Gdx.graphics.getHeight() - row_height * 2);
-		title.setAlignment(Align.center);
-		stage.addActor(title);
-
-		// Button
-		Button button1 = new Button(mySkin2);
-		button1.setSize(col_width * 4, row_height);
-		button1.setPosition(col_width, Gdx.graphics.getHeight() - row_height * 3);
-		button1.addListener(new InputListener()
-		{
-			@Override
-			public void touchUp(InputEvent event, float x, float y, int pointer, int button)
-			{
-				outputLabel.setText("Press a Button");
-			}
-
-			@Override
-			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
-			{
-				outputLabel.setText("Pressed Button");
-				return true;
-			}
-		});
-		stage.addActor(button1);
-
-		// Text Button
-		Button button2 = new TextButton("Text Button", mySkin2, "default");
-		button2.setSize(col_width * 4, row_height);
-		button2.setPosition(col_width * 7, Gdx.graphics.getHeight() - row_height * 3);
-		button2.addListener(new InputListener()
-		{
-			@Override
-			public void touchUp(InputEvent event, float x, float y, int pointer, int button)
-			{
-				outputLabel.setText("Press a Button");
-			}
-
-			@Override
-			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
-			{
-				outputLabel.setText("Pressed Text Button");
-				return true;
-			}
-		});
-		stage.addActor(button2);
-
-		// ImageButton
-		ImageButton button3 = new ImageButton(mySkin2);
-		button3.setSize(col_width * 4, (float) (row_height * 2));
-		/*
-		 * button3.getStyle().imageUp = new TextureRegionDrawable( new TextureRegion(new
-		 * Texture(Gdx.files.internal("switch_off.png")))); button3.getStyle().imageDown
-		 * = new TextureRegionDrawable( new TextureRegion(new
-		 * Texture(Gdx.files.internal("switch_on.png"))));
-		 */
-		button3.setPosition(col_width, Gdx.graphics.getHeight() - row_height * 6);
-		button3.addListener(new InputListener()
-		{
-			@Override
-			public void touchUp(InputEvent event, float x, float y, int pointer, int button)
-			{
-				outputLabel.setText("Press a Button");
-			}
-
-			@Override
-			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
-			{
-				outputLabel.setText("Pressed Image Button");
-				return true;
-			}
-		});
-		stage.addActor(button3);
-
-		// ImageTextButton
-		ImageTextButton button4 = new ImageTextButton("ImageText Btn", mySkin2);
-		button4.setSize(col_width * 4, (float) (row_height * 2));
-		/*
-		 * button4.getStyle().imageUp = new TextureRegionDrawable( new TextureRegion(new
-		 * Texture(Gdx.files.internal("switch_off.png")))); button4.getStyle().imageDown
-		 * = new TextureRegionDrawable( new TextureRegion(new
-		 * Texture(Gdx.files.internal("switch_on.png"))));
-		 */
-		button4.setPosition(col_width * 7, Gdx.graphics.getHeight() - row_height * 6);
-		button4.addListener(new InputListener()
-		{
-			@Override
-			public void touchUp(InputEvent event, float x, float y, int pointer, int button)
-			{
-				outputLabel.setText("Press a Button");
-			}
-
-			@Override
-			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
-			{
-				outputLabel.setText("Pressed Image Text Button");
-				return true;
-			}
-		});
-		stage.addActor(button4);
-
-		outputLabel = new Label("Press a Button", mySkin2);
-		outputLabel.setSize(Gdx.graphics.getWidth(), row_height);
-		outputLabel.setPosition(0, row_height);
-		outputLabel.setAlignment(Align.center);
-		stage.addActor(outputLabel);
+		this.generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/PAPYRUS.TTF"));
+		this.ui = new UI2D(this.manager, generator);
+		this.ui.create();
 	}
 
 	@Override
 	public void render()
 	{
-		Gdx.gl.glClearColor(0, 0, 0, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		stage.act();
-		stage.draw();
-
+		this.ui.render();
 	}
 
 	@Override
 	public void resize(int width, int height)
 	{
-		// TODO Auto-generated method stub
-
+		this.ui.resize(width, height);
 	}
 
 	@Override
 	public void pause()
 	{
-		// TODO Auto-generated method stub
-
+		this.ui.pause();
 	}
 
 	@Override
 	public void resume()
 	{
-		// TODO Auto-generated method stub
-
+		this.ui.resume();
 	}
 
 	@Override
 	public void dispose()
 	{
-		// TODO Auto-generated method stub
 
+		generator.dispose();
+		this.manager.dispose();
 	}
 }
