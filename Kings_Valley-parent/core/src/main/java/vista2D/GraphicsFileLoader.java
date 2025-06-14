@@ -72,7 +72,7 @@ public class GraphicsFileLoader
 	// this.graphicsFileConfig = new GraphicsFileConfig();
 	this.manager.load(graphicsFileConfig.getArchiPlayer(), Texture.class);
 	this.manager.load(graphicsFileConfig.getArchiPlayerSpecial(), Texture.class);
-	
+
 	this.manager.load(graphicsFileConfig.getArchiCollectables(), Texture.class);
 	this.manager.load(graphicsFileConfig.getArchiGiratory(), Texture.class);
 	this.manager.load(graphicsFileConfig.getArchiPickingCell(), Texture.class);
@@ -81,8 +81,6 @@ public class GraphicsFileLoader
 	this.manager.load(graphicsFileConfig.getArchiMummyRed(), Texture.class);
 	this.manager.load(graphicsFileConfig.getArchiMummyWhite(), Texture.class);
 	this.manager.load(graphicsFileConfig.getArchiMummyYellow(), Texture.class);
-	this.manager.load(graphicsFileConfig.getArchiMummyAppear(), Texture.class);
-	this.manager.load(graphicsFileConfig.getArchiMummyDisappear(), Texture.class);
 	this.manager.load(graphicsFileConfig.getArchiFlyingDagger(), Texture.class);
 
 	this.manager.load(graphicsFileConfig.getArchiDoorLeft(), Texture.class);
@@ -91,9 +89,7 @@ public class GraphicsFileLoader
 	this.manager.load(graphicsFileConfig.getArchiDoorPassage(), Texture.class);
 	this.manager.load(graphicsFileConfig.getArchiNewTileset(), Texture.class);
 	this.manager.load(graphicsFileConfig.getArchiSky(), Texture.class);
-	
-	
-	
+
 	// saveConfig(graphicsFileConfig);
     }
 
@@ -104,61 +100,53 @@ public class GraphicsFileLoader
 
     private void loadPlayerAnimations()
     {
-	
-	
-	
-	
 
 	int startWalk = 0;
 	int countWalk = this.graphicsFileConfig.getPlayerCountWalk();
-	
+
 	int startIddle = countWalk;
 	int countIddle = this.graphicsFileConfig.getPlayerCountIddle();
-	
-	int startJump = startIddle+countIddle;
+
+	int startJump = startIddle + countIddle;
 	int countJump = this.graphicsFileConfig.getPlayerCountJump();
 
-	int startFall = startJump+countJump;
+	int startFall = startJump + countJump;
 	int countFall = this.graphicsFileConfig.getPlayerCountFall();
 
-	int startDeath = startFall+countFall;
+	int startDeath = startFall + countFall;
 	int countDeath = this.graphicsFileConfig.getPlayerCountDeath();
-	
-	int pickerStartWalk = startDeath+countDeath;
+
+	int pickerStartWalk = startDeath + countDeath;
 	int pickerCountWalk = this.graphicsFileConfig.getPlayerPickerCountWalk();
-	
-	int pickerStartIddle = pickerStartWalk+pickerCountWalk;
+
+	int pickerStartIddle = pickerStartWalk + pickerCountWalk;
 	int pickerCountIddle = this.graphicsFileConfig.getPlayerPickerCountIddle();
-	
-	int pickerStartFall = pickerStartIddle+pickerCountIddle;
+
+	int pickerStartFall = pickerStartIddle + pickerCountIddle;
 	int pickerCountFall = this.graphicsFileConfig.getPlayerPickerCountFall();
 
-	int pickerStartDeath=pickerStartFall+pickerCountFall;
-	int pickerCountDeath=countDeath;
-	
-	int daggerStartWalk = pickerStartDeath+pickerCountDeath;
+	int pickerStartDeath = pickerStartFall + pickerCountFall;
+	int pickerCountDeath = countDeath;
+
+	int daggerStartWalk = pickerStartDeath + pickerCountDeath;
 	int daggerCountWalk = this.graphicsFileConfig.getPlayerDaggerCountWalk();
-	
-	int daggerStartIddle = daggerStartWalk+daggerCountWalk;
+
+	int daggerStartIddle = daggerStartWalk + daggerCountWalk;
 	int daggerCountIddle = this.graphicsFileConfig.getPlayerDaggerCountIddle();
-	
-	int daggerStartFall = daggerStartIddle+daggerCountIddle;
+
+	int daggerStartFall = daggerStartIddle + daggerCountIddle;
 	int daggerCountFall = this.graphicsFileConfig.getPlayerDaggerCountFall();
 
-	int daggerStartDeath= daggerStartFall+daggerCountFall;
-	int daggerCountDeath=countDeath;
-	
+	int daggerStartDeath = daggerStartFall + daggerCountFall;
+	int daggerCountDeath = countDeath;
 
 	int daggerCountThrowing = this.graphicsFileConfig.getPlayerDaggerCountThrowing();
 
-
 	int pickerCountPicking = this.graphicsFileConfig.getPlayerPickerCountPicking();
 
-	int totalCount=daggerStartDeath+daggerCountDeath;
-	
-	float frameDuration = this.graphicsFileConfig.getFrameDuration();
-	
+	int totalCount = daggerStartDeath + daggerCountDeath;
 
+	float frameDuration = this.graphicsFileConfig.getFrameDuration();
 
 	Array<TextureRegion> linearFrames = this.linearFramesForFile(this.graphicsFileConfig.getArchiPlayer(),
 		totalCount);
@@ -188,7 +176,6 @@ public class GraphicsFileLoader
 	this.animationPlayer_Picker[TileMapGrafica2D.DEATH] = this.framesToAnimation(linearFrames, pickerStartDeath,
 		pickerCountDeath, Game.getInstance().getInterfaz().getTimeDying() / (float) countDeath);
 	this.animationPlayer_Picker[TileMapGrafica2D.DEATH].setPlayMode(PlayMode.NORMAL);
-	
 
 	this.animationPlayer_Picker[TileMapGrafica2D.JUMP] = this.animationPlayer_Picker[TileMapGrafica2D.FALL];
 	this.animationPlayer_Dagger[TileMapGrafica2D.IDDLE] = this.framesToAnimation(linearFrames, daggerStartIddle,
@@ -200,16 +187,16 @@ public class GraphicsFileLoader
 
 	this.animationPlayer_Dagger[TileMapGrafica2D.DEATH] = this.framesToAnimation(linearFrames, daggerStartDeath,
 		daggerCountDeath, Game.getInstance().getInterfaz().getTimeDying() / (float) countDeath);
-	this.animationPlayer_Dagger[TileMapGrafica2D.DEATH].setPlayMode(PlayMode.NORMAL); 
+	this.animationPlayer_Dagger[TileMapGrafica2D.DEATH].setPlayMode(PlayMode.NORMAL);
 	this.animationPlayer_Dagger[TileMapGrafica2D.JUMP] = this.animationPlayer_Dagger[TileMapGrafica2D.FALL];
 
 	linearFrames = this.linearFramesForFile(this.graphicsFileConfig.getArchiPlayerSpecial(),
-		daggerCountThrowing+pickerCountPicking);
+		daggerCountThrowing + pickerCountPicking);
 	this.animationPlayer_Dagger[TileMapGrafica2D.THROW_DAGGER] = this.framesToAnimation(linearFrames,
-		pickerCountPicking, daggerCountThrowing, Config.getInstance().getTimeToEndThrowDagger()/8);
+		pickerCountPicking, daggerCountThrowing, Config.getInstance().getTimeToEndThrowDagger() / 8);
 	this.animationPlayer_Dagger[TileMapGrafica2D.THROW_DAGGER].setPlayMode(PlayMode.NORMAL);
-	float framePickingDuration=Config.getInstance().getTimeToEndPicking()/(float)(pickerCountPicking*4);
-	
+	float framePickingDuration = Config.getInstance().getTimeToEndPicking() / (float) (pickerCountPicking * 4);
+
 	this.animationPlayer_Picker[TileMapGrafica2D.PICKING] = this.framesToAnimation(linearFrames, 0,
 		pickerCountPicking, framePickingDuration);
 	this.animationPlayer_Picker[TileMapGrafica2D.PICKING].setPlayMode(PlayMode.LOOP);
@@ -306,7 +293,7 @@ public class GraphicsFileLoader
 
     }
 
-	private Array<TextureRegion> linearFramesForFile(String file, int count)
+    private Array<TextureRegion> linearFramesForFile(String file, int count)
     {
 	Texture spriteSheet = manager.get(file, Texture.class);
 	int width = spriteSheet.getWidth() / count;
@@ -316,32 +303,47 @@ public class GraphicsFileLoader
 
     private Animation<TextureRegion>[] loadMummyAnimations(String archiMummy)
     {
-	int startIddle = this.graphicsFileConfig.getMummyStartIddle();
-	int countIddle = this.graphicsFileConfig.getMummyCountIddle();
-	int startFall = this.graphicsFileConfig.getMummyStartFall();
-	int countFall = this.graphicsFileConfig.getMummyCountFall();
 
-	int startWalk = this.graphicsFileConfig.getMummyStartWalk();
-	int countWalk = this.graphicsFileConfig.getMummyCountWalk();
+	int mummyCountAppear = this.graphicsFileConfig.getMummyCountAppear();
+	int mummyCountWalk = this.graphicsFileConfig.getMummyCountWalk();
+	int mummyCountIddle = this.graphicsFileConfig.getMummyCountIddle();
+	int mummyCountFall = this.graphicsFileConfig.getMummyCountFall();
+	int mummyCountJump = this.graphicsFileConfig.getMummyCountJump();
+	int mummyCountDeath = this.graphicsFileConfig.getMummyCountDeath();
+
+	int mummyStartWalk = mummyCountAppear;
+	int mummyStartIddle = mummyStartWalk + mummyCountWalk;
+	int mummyStartFall = mummyStartIddle + mummyCountIddle;
+	int mummyStartJump = mummyStartFall + mummyCountFall;
+	int mummyStartDeath = mummyStartJump + mummyCountJump;
+	int mummyTotalCount = mummyStartDeath + mummyCountDeath;
+	float frameAppearingDuration=Config.getInstance().getMummyTimeAppearing()/(float)mummyCountAppear;
+	float frameDeathDuration=Config.getInstance().getMummyTimeDying()/(float)mummyCountDeath;
 
 	float frameDuration = this.graphicsFileConfig.getFrameDuration();
-	float mummyIddleFrameDuration = this.graphicsFileConfig.getMummyIddleFrameDuration();
 
 	Animation<TextureRegion>[] animationMummy = new Animation[7];
-	int countMummyFrames = 11;
-	Array<TextureRegion> linearFrames = this.linearFramesForFile(archiMummy, countMummyFrames);
 
-	animationMummy[TileMapGrafica2D.IDDLE] = this.framesToAnimation(linearFrames, startIddle, countIddle,
-		mummyIddleFrameDuration);
-	animationMummy[TileMapGrafica2D.FALL] = this.framesToAnimation(linearFrames, startFall, countFall,
+	Array<TextureRegion> linearFrames = this.linearFramesForFile(archiMummy, mummyTotalCount);
+
+	animationMummy[TileMapGrafica2D.APPEAR] = this.framesToAnimation(linearFrames, 0, mummyCountAppear,
+		frameAppearingDuration);
+	animationMummy[TileMapGrafica2D.APPEAR].setPlayMode(PlayMode.NORMAL);
+	
+	animationMummy[TileMapGrafica2D.WALK] = this.framesToAnimation(linearFrames, mummyStartWalk, mummyCountWalk,
 		frameDuration);
-	animationMummy[TileMapGrafica2D.WALK] = this.framesToAnimation(linearFrames, startWalk, countWalk,
+
+	animationMummy[TileMapGrafica2D.IDDLE] = this.framesToAnimation(linearFrames, mummyStartIddle, mummyCountIddle,
+		frameDuration);
+	animationMummy[TileMapGrafica2D.FALL] = this.framesToAnimation(linearFrames, mummyStartFall, mummyCountFall,
 		frameDuration);
 
-	animationMummy[TileMapGrafica2D.JUMP] = animationMummy[TileMapGrafica2D.FALL];
-	animationMummy[TileMapGrafica2D.DEATH] = this.animationMummyDeath;
-	animationMummy[TileMapGrafica2D.APPEAR] = this.animationMummyAppear;
-
+	animationMummy[TileMapGrafica2D.JUMP] = this.framesToAnimation(linearFrames, mummyStartJump, mummyCountJump,
+		frameDuration);
+	animationMummy[TileMapGrafica2D.DEATH] = this.framesToAnimation(linearFrames, mummyStartDeath, mummyCountDeath,
+		frameDeathDuration);
+	animationMummy[TileMapGrafica2D.DEATH].setPlayMode(PlayMode.NORMAL);
+	
 	return animationMummy;
     }
 
@@ -350,18 +352,9 @@ public class GraphicsFileLoader
 
 	this.loadPlayerAnimations();
 	this.loadColectablesAnimations();
-	int mummyCountAppear = this.graphicsFileConfig.getMummyCountAppear();
-	int mummyCountDeath = this.graphicsFileConfig.getMummyCountDeath();
 
 	float frameDuration = this.graphicsFileConfig.getFrameDuration();
-	Array<TextureRegion> linearFrame = this.linearFramesForFile(this.graphicsFileConfig.getArchiMummyAppear(),
-		mummyCountAppear);
 
-	this.animationMummyAppear = this.framesToAnimation(linearFrame, 0, mummyCountAppear, frameDuration);
-	linearFrame = this.linearFramesForFile(this.graphicsFileConfig.getArchiMummyDisappear(), mummyCountDeath);
-
-	this.animationMummyDeath = this.framesToAnimation(linearFrame, 0, mummyCountDeath, 0.1f);
-	this.animationMummyDeath.setPlayMode(PlayMode.NORMAL);
 	this.animationMummyBlue = this.loadMummyAnimations(this.graphicsFileConfig.getArchiMummyBlue());
 	this.animationMummyPink = this.loadMummyAnimations(this.graphicsFileConfig.getArchiMummyPink());
 	this.animationMummyRed = this.loadMummyAnimations(this.graphicsFileConfig.getArchiMummyRed());
@@ -372,7 +365,7 @@ public class GraphicsFileLoader
 	this.doorSingleRight = manager.get(this.graphicsFileConfig.getArchiDoorRight(), Texture.class);
 	this.doorPassage = manager.get(this.graphicsFileConfig.getArchiDoorPassage(), Texture.class);
 	this.skyTexture = manager.get(this.graphicsFileConfig.getArchiSky(), Texture.class);
-	linearFrame = this.linearFramesForFile(this.graphicsFileConfig.getArchiDoorLever(),
+	Array<TextureRegion> linearFrame = this.linearFramesForFile(this.graphicsFileConfig.getArchiDoorLever(),
 		this.graphicsFileConfig.getDoorLeverCount());
 
 	this.animationDoorLever = this.framesToAnimation(linearFrame, 0, this.graphicsFileConfig.getDoorLeverCount(),
@@ -537,10 +530,9 @@ public class GraphicsFileLoader
 	return minFrameDuration + random.nextFloat(delta);
     }
 
-	public void dispose()
-	{
-		
-		
-	}
+    public void dispose()
+    {
+
+    }
 
 }

@@ -12,8 +12,6 @@ public class GraphicsFileConfig
 	private String archiMummyRed;
 	private String archiMummyWhite;
 	private String archiMummyYellow;
-	private String archiMummyAppear;
-	private String archiMummyDisappear;
 	private String archiFlyingDagger;
 	private String archiDoorPassage;
 	private String archiDoorLeft;
@@ -21,16 +19,20 @@ public class GraphicsFileConfig
 	private String archiDoorLever;
 	private String archiNewTileset;
 	private String archiSky;
+	
 	private float frameDuration;
-	private int mummyStartIddle;
+	
 	private int mummyCountIddle;
-	private float mummyIddleFrameDuration;
-	private int mummyStartFall;
+		
 	private int mummyCountFall;
-	private int mummyStartWalk;
+	
 	private int mummyCountWalk;
 	private int mummyCountAppear;
 	private int mummyCountDeath;
+	private int mummyCountJump;
+	
+	
+	
 	private int giratoryCount;
 	private int collectableCount;
 	private int playerCountIddle;
@@ -105,40 +107,22 @@ public class GraphicsFileConfig
 		return archiMummyYellow;
 	}
 
-	public String getArchiMummyAppear()
-	{
-		return archiMummyAppear;
-	}
-
-	public String getArchiMummyDisappear()
-	{
-		return archiMummyDisappear;
-	}
-
-	public int getMummyStartIddle()
-	{
-		return mummyStartIddle;
-	}
+	
+	
 
 	public int getMummyCountIddle()
 	{
 		return mummyCountIddle;
 	}
 
-	public int getMummyStartFall()
-	{
-		return mummyStartFall;
-	}
+	
 
 	public int getMummyCountFall()
 	{
 		return mummyCountFall;
 	}
 
-	public int getMummyStartWalk()
-	{
-		return mummyStartWalk;
-	}
+	
 
 	public int getMummyCountWalk()
 	{
@@ -190,10 +174,7 @@ public class GraphicsFileConfig
 		return mummyCountDeath;
 	}
 
-	public float getMummyIddleFrameDuration()
-	{
-		return mummyIddleFrameDuration;
-	}
+	
 
 	public int getPlayerPickerCountIddle()
 	{
@@ -283,6 +264,11 @@ public class GraphicsFileConfig
 	public String getArchiPlayerSpecial()
 	{
 	    return archiPlayerSpecial;
+	}
+
+	public int getMummyCountJump()
+	{
+	    return mummyCountJump;
 	}
 
 	

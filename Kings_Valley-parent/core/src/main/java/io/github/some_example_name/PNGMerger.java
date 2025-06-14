@@ -1,7 +1,5 @@
 package io.github.some_example_name;
 
-
-
 import java.util.ArrayList;
 
 import com.badlogic.gdx.ApplicationAdapter;
@@ -13,53 +11,98 @@ import com.badlogic.gdx.graphics.PixmapIO;
 public class PNGMerger extends ApplicationAdapter
 {
 
-	@Override
-	public void create()
+    @Override
+    public void create()
+    {
+	// Ruta de los archivos PNG
+	FileHandle inputFolder = Gdx.files.local("input/");
+	FileHandle[] allFiles = inputFolder.list();
+	ArrayList<FileHandle> pngFiles = new ArrayList<FileHandle>();
+
+	for (FileHandle file : allFiles)
 	{
-		// Ruta de los archivos PNG
-		FileHandle inputFolder = Gdx.files.local("input/");
-		FileHandle[] allFiles = inputFolder.list();
-		ArrayList<FileHandle> pngFiles = new ArrayList<FileHandle>();
-
-		for (FileHandle file : allFiles) {
-		    if (file.extension().toLowerCase().equals("png")) {
-		        pngFiles.add(file);
-		    }
-		}
-		if (pngFiles.isEmpty())
-		{
-			System.out.println("No se encontraron archivos PNG en la carpeta input/");
-			Gdx.app.exit();
-			return;
-		}
-
-		// Asumimos que todos los PNG tienen las mismas dimensiones
-		Pixmap firstImage = new Pixmap(pngFiles.get(0));
-		int singleWidth = firstImage.getWidth();
-		int height = firstImage.getHeight();
-		int totalWidth = singleWidth * pngFiles.size();
-
-		// Imagen final
-		Pixmap result = new Pixmap(totalWidth, height, Pixmap.Format.RGBA8888);
-
-		// Pegar todas las imágenes una al lado de la otra
-		for (int i = 0; i < pngFiles.size(); i++)
-		{System.out.println(pngFiles.get(i).name()); 
-			Pixmap current = new Pixmap(pngFiles.get(i));
-			result.drawPixmap(current, i * singleWidth, 0);
-			current.dispose();
-		}
-
-		// Guardar la imagen final
-		FileHandle output = Gdx.files.local("output/merged.png");
-		PixmapIO.writePNG(output, result);
-		result.dispose();
-		firstImage.dispose();
-
-		System.out.println("Imagen final guardada en: " + output.file().getAbsolutePath());
-
-		// Cierra la aplicación después de crear la imagen
-		Gdx.app.exit();
+	    if (file.extension().toLowerCase().equals("png"))
+	    {
+		pngFiles.add(file);
+	    }
 	}
+	if (pngFiles.isEmpty())
+	{
+	    System.out.println("No se encontraron archivos PNG en la carpeta input/");
+	    Gdx.app.exit();
+	    return;
+	}
+	// this.arrayDeImagenesIguales(pngFiles);
+	this.arrayDeImagenesVariables(pngFiles);
+	// Cierra la aplicación después de crear la imagen
+	Gdx.app.exit();
+    }
+
+    private void arrayDeImagenesIguales(ArrayList<FileHandle> pngFiles)
+    {
+	// Asumimos que todos los PNG tienen las mismas dimensiones
+	Pixmap firstImage = new Pixmap(pngFiles.get(0));
+	int singleWidth = firstImage.getWidth();
+	int height = firstImage.getHeight();
+	int totalWidth = singleWidth * pngFiles.size();
+
+	// Imagen final
+	Pixmap result = new Pixmap(totalWidth, height, Pixmap.Format.RGBA8888);
+
+	// Pegar todas las imágenes una al lado de la otra
+	for (int i = 0; i < pngFiles.size(); i++)
+	{
+	    System.out.println(pngFiles.get(i).name());
+	    Pixmap current = new Pixmap(pngFiles.get(i));
+	    result.drawPixmap(current, i * singleWidth, 0);
+	    current.dispose();
+	}
+	// Guardar la imagen final
+	FileHandle output = Gdx.files.local("output/merged.png");
+	PixmapIO.writePNG(output, result);
+	result.dispose();
+	firstImage.dispose();
+	System.out.println("Imagen final guardada en: " + output.file().getAbsolutePath());
+
+    }
+
+    private void arrayDeImagenesVariables(ArrayList<FileHandle> pngFiles)
+    {
+	// Asumimos que todos los PNG tienen las mismas dimensiones
+	ArrayList<Pixmap> pixmaps = new ArrayList<Pixmap>();
+
+	// Imagen final
+
+	// Pegar todas las imágenes una al lado de la otra
+	int totalWidth = 0;
+	for (int i = 0; i < pngFiles.size(); i++)
+	{
+	    System.out.println(pngFiles.get(i).name());
+	    Pixmap current = new Pixmap(pngFiles.get(i));
+	    pixmaps.add(current);
+	    totalWidth += current.getWidth();
+	}
+	int height = pixmaps.get(0).getHeight();
+	Pixmap result = new Pixmap(totalWidth, height, Pixmap.Format.RGBA8888);
+	int offsetX = 0;
+	for (int i = 0; i < pixmaps.size(); i++)
+	{
+	    Pixmap current = pixmaps.get(i);
+
+	    result.drawPixmap(current, offsetX, 0);
+	    offsetX += current.getWidth();
+	    current.dispose();
+	}
+	// Guardar la imagen final
+
+	FileHandle output = Gdx.files.local("output/merged.png");
+	PixmapIO.writePNG(output, result);
+	result.dispose();
+
+	
+
+	System.out.println("Imagen final guardada en: " + output.file().getAbsolutePath());
+
+    }
 
 }
