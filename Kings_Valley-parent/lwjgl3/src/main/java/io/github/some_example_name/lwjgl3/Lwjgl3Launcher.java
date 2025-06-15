@@ -13,8 +13,8 @@ public class Lwjgl3Launcher {
     }
 
     private static Lwjgl3Application createApplication() {
-    	 return new Lwjgl3Application(new Main(), getDefaultConfiguration());
-    //   return new Lwjgl3Application(new PNGMerger(), getDefaultConfiguration());
+   	 return new Lwjgl3Application(new Main(), getDefaultConfiguration());
+   //   return new Lwjgl3Application(new PNGMerger(), getDefaultConfiguration());
     }
 
     private static Lwjgl3ApplicationConfiguration getDefaultConfiguration() {
