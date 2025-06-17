@@ -32,7 +32,7 @@ public class PNGMerger extends ApplicationAdapter
 	    Gdx.app.exit();
 	    return;
 	}
-	// this.arrayDeImagenesIguales(pngFiles);
+	//this.arrayDeImagenesIguales(pngFiles);
 	this.arrayDeImagenesVariables(pngFiles);
 	// Cierra la aplicación después de crear la imagen
 	Gdx.app.exit();

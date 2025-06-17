@@ -28,12 +28,7 @@ public abstract class Mummy extends GameCharacter
 	protected static final int BLOCK_BRICK = 1;
 	protected static final int BLOCK_GIRATORY = 2;
 
-	private static final int INDEX_SPEED_WALK = 0;
-	private static final int INDEX_SPEED_STAIR = 1;
-	private static final int INDEX_TIME_TO_DECIDE = 2;
-	private static final int INDEX_TIME_DECIDING = 3;
-	private static final int INDEX_DECICION_FACTOR_FALL = 4;
-	private static final int INDEX_DECICION_FACTOR_JUMP = 5;
+	
 
 	
 
@@ -67,11 +62,11 @@ public abstract class Mummy extends GameCharacter
 
 	public Mummy(int type, float x, float y, float[] parameters, Pyramid pyramid, Player player)
 	{
-		super(type, x, y, parameters[INDEX_SPEED_WALK], parameters[INDEX_SPEED_STAIR], pyramid);
-		this.decisionFactorForFall = parameters[INDEX_DECICION_FACTOR_FALL];
-		this.decisionFactorForJump = parameters[INDEX_DECICION_FACTOR_JUMP];
-		this.timeToDecide = parameters[INDEX_TIME_TO_DECIDE];
-		this.timeDeciding = parameters[INDEX_TIME_DECIDING];
+		super(type, x, y, parameters[Config.INDEX_SPEED_WALK], parameters[Config.INDEX_SPEED_STAIR], pyramid);
+		this.decisionFactorForFall = parameters[Config.INDEX_DECICION_FACTOR_FALL];
+		this.decisionFactorForJump = parameters[Config.INDEX_DECICION_FACTOR_JUMP];
+		this.timeToDecide = parameters[Config.INDEX_TIME_TO_DECIDE];
+		this.timeDeciding = parameters[Config.INDEX_TIME_DECIDING];
 
 		this.mummyState = new MummyStateLimbus(this, 1);
 		this.player = player;

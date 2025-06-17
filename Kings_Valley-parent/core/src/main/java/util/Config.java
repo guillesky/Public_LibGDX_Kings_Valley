@@ -3,12 +3,12 @@ package util;
 public class Config
 {
 
-	private static final int INDEX_SPEED_WALK = 0;
-	private static final int INDEX_SPEED_STAIR = 1;
-	private static final int INDEX_TIME_TO_DECIDE = 2;
-	private static final int INDEX_TIME_DECIDING = 3;
-	private static final int INDEX_DECICION_FACTOR_FALL = 4;
-	private static final int INDEX_DECICION_FACTOR_JUMP = 5;
+	public static final int INDEX_SPEED_WALK = 0;
+	public static final int INDEX_SPEED_STAIR = 1;
+	public static final int INDEX_TIME_TO_DECIDE = 2;
+	public static final int INDEX_TIME_DECIDING = 3;
+	public static final int INDEX_DECICION_FACTOR_FALL = 4;
+	public static final int INDEX_DECICION_FACTOR_JUMP = 5;
 	
 	
 
