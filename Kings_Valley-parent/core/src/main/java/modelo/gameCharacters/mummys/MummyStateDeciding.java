@@ -14,6 +14,7 @@ public class MummyStateDeciding extends MummyState
 	{
 		super(mummy, Mummy.ST_IDDLE);
 		this.timeToChange = this.mummy.getTimeDeciding();
+		
 		this.update(0);
 
 	}
@@ -105,6 +106,20 @@ public class MummyStateDeciding extends MummyState
 	{
 	    this.mummy.mummyState = new MummyStateDying(this.mummy, mustTeleport);
 		Game.getInstance().eventFired(KVEventListener.MUMMY_DIE, this);
+	}
+
+	@Override
+	protected void doInBorderCliff()
+	{
+	    // TODO Auto-generated method stub
+	    
+	}
+
+	@Override
+	public void doInCrashToWallOrGiratory(int crashStatus, int type)
+	{
+	    // TODO Auto-generated method stub
+	    
 	}
 
 }

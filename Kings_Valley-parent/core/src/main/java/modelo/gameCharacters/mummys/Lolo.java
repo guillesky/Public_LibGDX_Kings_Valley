@@ -36,7 +36,7 @@ public abstract class Lolo
 		this.r = new Rectangle(this.mummy.x, this.mummy.y, this.mummy.width, this.mummy.height);
 	}
 
-	public Stair nearStair(boolean toUp, boolean toRight)
+	private Stair nearStair(boolean toUp, boolean toRight)
 	{
 		Stair r = null;
 		Pyramid pyramid = mummy.getPyramid();
@@ -99,7 +99,7 @@ public abstract class Lolo
 		return r;
 	}
 
-	public NearStairResult getNearStair(boolean toUp)
+	protected NearStairResult getNearStair(boolean toUp)
 	{
 		Stair stair = null;
 		Stair toRight = this.nearStair(toUp, true);
@@ -145,7 +145,7 @@ public abstract class Lolo
 		return r;
 	}
 
-	public EndPlatform endPlatform(boolean toRight)
+	protected EndPlatform endPlatform(boolean toRight)
 	{
 		int inc;
 		int acum = 0;
@@ -182,7 +182,7 @@ public abstract class Lolo
 
 	}
 
-	public void correctGiratoryEndPlatform(EndPlatform r, boolean toRight)
+	private void correctGiratoryEndPlatform(EndPlatform r, boolean toRight)
 	{
 		Iterator<LevelObject> it = mummy.getPyramid().getGiratories().iterator();
 		boolean condicion = false;
@@ -212,14 +212,14 @@ public abstract class Lolo
 
 	}
 
-	public boolean isColDesplaInMap(int col)
+	private boolean isColDesplaInMap(int col)
 	{
 
 		return mummy.getColPosition() + col > 1
 				&& mummy.getColPosition() + col < mummy.getPyramid().getMapWidthInTiles() - 1;
 	}
 
-	public int typeEndPlatform(float positionX, int iDeltaX)
+	protected int typeEndPlatform(float positionX, int iDeltaX)
 	{
 		int type = -1;
 		Pyramid pyramid = mummy.getPyramid();
@@ -260,7 +260,7 @@ public abstract class Lolo
 
 	public abstract void doInCrashToWallOrGiratory(int crashStatus, int type);
 
-	public int crashWallOrGiratory()
+	private int crashWallOrGiratory()
 	{
 		boolean condicion = false;
 		Pyramid pyramid = this.mummy.getPyramid();

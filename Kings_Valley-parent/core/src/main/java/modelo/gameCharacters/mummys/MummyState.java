@@ -31,19 +31,7 @@ public abstract class MummyState extends Lolo
 
 	public abstract void update(float deltaTime);
 
-	@Override
-	protected void doInBorderCliff()
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void doInCrashToWallOrGiratory(int crashStatus, int type)
-	{
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 	protected abstract boolean isDanger();
 
