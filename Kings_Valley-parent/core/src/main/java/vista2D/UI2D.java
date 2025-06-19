@@ -15,7 +15,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -25,7 +24,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
-import controler.Controler;
+import controler.AbstractControler;
 import controler.IView;
 import util.GameConfig;
 
@@ -43,6 +42,7 @@ public class UI2D implements IView, ApplicationListener
     private FreeTypeFontGenerator fontGenerator;
     private final String fontSmallName = "fontSmall";
     private final String fontLargeName = "fontLarge";
+	private AbstractControler controler;
 
     public UI2D(AssetManager manager, FreeTypeFontGenerator fontGenerator)
     {
@@ -288,10 +288,9 @@ public class UI2D implements IView, ApplicationListener
     }
 
     @Override
-    public void setControler(Controler Controler)
+    public void setControler(AbstractControler controler)
     {
-	// TODO Auto-generated method stub
-
+	this.controler=controler;
     }
 
     public void dispose()

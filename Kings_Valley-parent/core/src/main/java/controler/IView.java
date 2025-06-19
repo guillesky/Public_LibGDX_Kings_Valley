@@ -11,7 +11,7 @@ String getLanguage();
 float getMasterVolume();
 float getMusicVolume();
 float getSoundsVolume();
-void setControler(Controler Controler);
+void setControler(AbstractControler controler);
 
 
 

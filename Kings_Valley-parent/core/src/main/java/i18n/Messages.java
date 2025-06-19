@@ -3,7 +3,7 @@ package i18n;
 public enum Messages
 {
 
-    GAME_PAUSED("Juego Pausado"),CURRENT_PYRAMID("Piramide Actual: "), SCORE("Score: "), LIVES("Lives: ");
+    GAME_PAUSED("Juego Pausado"),CURRENT_PYRAMID("Piramide Actual: "), SCORE("Score: "), LIVES("Lives: "),LANGUAGE_NAME("English");
 
     private String value;
 

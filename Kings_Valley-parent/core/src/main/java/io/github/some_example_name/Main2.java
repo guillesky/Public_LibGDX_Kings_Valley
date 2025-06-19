@@ -26,8 +26,7 @@ import vista2D.UI2D;
  */
 public class Main2 implements ApplicationListener
 {
-	private Stage stage;
-	private Label outputLabel;
+	
 	private AssetManager manager;
 	private UI2D ui;
 	private FreeTypeFontGenerator generator;

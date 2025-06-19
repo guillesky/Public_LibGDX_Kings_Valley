@@ -8,10 +8,10 @@ import vista2D.GraphicsFileConfig;
 
 public class GameConfig
 {
-	private String language="es";
-	private float masterVolume=1f;
-	private float musicVolume=1f;
-	private float soundsVolume=1f;
+	private String language;
+	private float masterVolume ;
+	private float musicVolume;
+	private float soundsVolume;
 
 	private static final String GAME_CONFIG_FILE = "game_config.json";
 	private static final Json json = new Json();

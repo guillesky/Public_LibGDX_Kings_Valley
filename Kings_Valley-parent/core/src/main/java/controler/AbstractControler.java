@@ -1,10 +1,10 @@
 package controler;
 
-public class Controler
+public abstract class AbstractControler
 {
 	private IView view;
 
-	public Controler(IView view)
+	public AbstractControler(IView view)
 	{
 		this.setView(view);
 	}

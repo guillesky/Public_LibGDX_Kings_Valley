@@ -146,7 +146,7 @@ public abstract class GameCharacter extends LevelObject
 		return r;
 	}
 
-	protected boolean isLocked()
+	public boolean isLocked()
 	{
 
 		return this.isLockedRight() && this.isLockedLeft();

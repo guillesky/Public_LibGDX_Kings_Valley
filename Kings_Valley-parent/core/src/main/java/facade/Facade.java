@@ -30,7 +30,7 @@ public class Facade
 		this.gameConfig = GameConfig.loadConfig();
 		Utils.i18n(this.gameConfig.getLanguage());
 		Game.getInstance().setGameConfig(gameConfig);
-		GameConfig.saveConfig(gameConfig);
+		//GameConfig.saveConfig(gameConfig);
 		manager = new AssetManager();
 
 	}
