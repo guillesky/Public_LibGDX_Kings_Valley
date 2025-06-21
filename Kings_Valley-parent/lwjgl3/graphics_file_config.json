@@ -4,11 +4,7 @@ archiPlayerSpecial: pics/special_moves.png
 archiPickingCell: pics/picking_cell.png
 archiCollectables: pics/collectables.png
 archiGiratory: pics/giratory.png
-archiMummyBlue: pics/mummy_blue.png
-archiMummyPink: pics/mummy_pink.png
-archiMummyRed: pics/mummy_red.png
-archiMummyWhite: pics/mummy_white.png
-archiMummyYellow: pics/mummy_yellow.png
+archiMummys: pics/mummys.png
 archiFlyingDagger: pics/dagger.png
 archiDoorPassage: pics/exitdoor_central.png
 archiDoorLeft: pics/exitdoor_left.png

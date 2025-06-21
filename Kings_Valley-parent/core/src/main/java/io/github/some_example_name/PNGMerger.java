@@ -32,29 +32,42 @@ public class PNGMerger extends ApplicationAdapter
 	    Gdx.app.exit();
 	    return;
 	}
-	//this.arrayDeImagenesIguales(pngFiles);
-	this.arrayDeImagenesVariables(pngFiles);
+	// this.arrayDeImagenesIguales(pngFiles);
+	// this.arrayDeImagenesVariables(pngFiles);
+	this.arrayDeImagenesIguales(pngFiles, false);
 	// Cierra la aplicación después de crear la imagen
 	Gdx.app.exit();
     }
 
-    private void arrayDeImagenesIguales(ArrayList<FileHandle> pngFiles)
+    private void arrayDeImagenesIguales(ArrayList<FileHandle> pngFiles, boolean isHorizontal)
     {
 	// Asumimos que todos los PNG tienen las mismas dimensiones
 	Pixmap firstImage = new Pixmap(pngFiles.get(0));
 	int singleWidth = firstImage.getWidth();
-	int height = firstImage.getHeight();
-	int totalWidth = singleWidth * pngFiles.size();
+	int singleHeight = firstImage.getHeight();
 
-	// Imagen final
-	Pixmap result = new Pixmap(totalWidth, height, Pixmap.Format.RGBA8888);
+	int totalDimension;
+	Pixmap result;
+	if (isHorizontal)
+	{
+	    totalDimension = singleWidth * pngFiles.size();
+	    result = new Pixmap(totalDimension, singleHeight, Pixmap.Format.RGBA8888);
+	} else
+	{
+	    totalDimension = singleHeight * pngFiles.size();
+	    result = new Pixmap(singleWidth, totalDimension, Pixmap.Format.RGBA8888);
+	}
 
 	// Pegar todas las imágenes una al lado de la otra
 	for (int i = 0; i < pngFiles.size(); i++)
 	{
 	    System.out.println(pngFiles.get(i).name());
 	    Pixmap current = new Pixmap(pngFiles.get(i));
-	    result.drawPixmap(current, i * singleWidth, 0);
+
+	    if (isHorizontal)
+		result.drawPixmap(current, i * singleWidth, 0);
+	    else
+		result.drawPixmap(current, 0, i * singleHeight);
 	    current.dispose();
 	}
 	// Guardar la imagen final
@@ -73,7 +86,6 @@ public class PNGMerger extends ApplicationAdapter
 
 	// Imagen final
 
-	// Pegar todas las imágenes una al lado de la otra
 	int totalWidth = 0;
 	for (int i = 0; i < pngFiles.size(); i++)
 	{
@@ -98,8 +110,6 @@ public class PNGMerger extends ApplicationAdapter
 	FileHandle output = Gdx.files.local("output/merged.png");
 	PixmapIO.writePNG(output, result);
 	result.dispose();
-
-	
 
 	System.out.println("Imagen final guardada en: " + output.file().getAbsolutePath());
 

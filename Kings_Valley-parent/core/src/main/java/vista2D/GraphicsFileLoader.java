@@ -35,8 +35,7 @@ public class GraphicsFileLoader
     private Animation<TextureRegion>[] animationMummyRed;
     private Animation<TextureRegion>[] animationMummyWhite;
     private Animation<TextureRegion>[] animationMummyYellow;
-    private Animation<TextureRegion> animationMummyAppear;
-    private Animation<TextureRegion> animationMummyDeath;
+
     private Array<TextureRegion> linearFramesGiratory;
     private GraphicsFileConfig graphicsFileConfig;
     private HashMap<Integer, Animation<TextureRegion>> animations = new HashMap<Integer, Animation<TextureRegion>>();
@@ -76,11 +75,7 @@ public class GraphicsFileLoader
 	this.manager.load(graphicsFileConfig.getArchiCollectables(), Texture.class);
 	this.manager.load(graphicsFileConfig.getArchiGiratory(), Texture.class);
 	this.manager.load(graphicsFileConfig.getArchiPickingCell(), Texture.class);
-	this.manager.load(graphicsFileConfig.getArchiMummyBlue(), Texture.class);
-	this.manager.load(graphicsFileConfig.getArchiMummyPink(), Texture.class);
-	this.manager.load(graphicsFileConfig.getArchiMummyRed(), Texture.class);
-	this.manager.load(graphicsFileConfig.getArchiMummyWhite(), Texture.class);
-	this.manager.load(graphicsFileConfig.getArchiMummyYellow(), Texture.class);
+	this.manager.load(graphicsFileConfig.getArchiMummys(), Texture.class);
 	this.manager.load(graphicsFileConfig.getArchiFlyingDagger(), Texture.class);
 
 	this.manager.load(graphicsFileConfig.getArchiDoorLeft(), Texture.class);
@@ -217,11 +212,12 @@ public class GraphicsFileLoader
 
     }
 
-    private Array<TextureRegion> linearFramesForFile(String file, int width, int height)
+    private Array<TextureRegion> linearFramesForFile(String file, int widthCount, int heightCount)
     {
 
 	Texture spriteSheet = manager.get(file, Texture.class);
-
+	int width = spriteSheet.getWidth() / widthCount;
+	int height = spriteSheet.getHeight() / heightCount;
 	TextureRegion[][] tmpFrames = TextureRegion.split(spriteSheet, width, height);
 	Array<TextureRegion> linearFrames = new Array<>();
 
@@ -249,12 +245,8 @@ public class GraphicsFileLoader
 	int pickingCellCount = this.graphicsFileConfig.getPickingCellCount();
 	float pickingCellFrameDuration = 1.0f / (float) pickingCellCount;
 
-	Texture spriteSheet = manager.get(this.graphicsFileConfig.getArchiCollectables(), Texture.class);
-	int collectableWidth = spriteSheet.getWidth() / collectableCount;
-	int collectableHeight = spriteSheet.getHeight() / 9;
-
 	Array<TextureRegion> linearFrames = this.linearFramesForFile(this.graphicsFileConfig.getArchiCollectables(),
-		collectableWidth, collectableHeight);
+		collectableCount, 9);
 	this.animations.put(Constantes.It_dagger, this.framesToAnimation(linearFrames, 0, collectableCount,
 		this.getRandomFrameDuration(minFrameDuration, maxFrameDuration)));
 	this.animations.put(Constantes.It_picker, this.framesToAnimation(linearFrames, collectableCount,
@@ -296,12 +288,12 @@ public class GraphicsFileLoader
     private Array<TextureRegion> linearFramesForFile(String file, int count)
     {
 	Texture spriteSheet = manager.get(file, Texture.class);
-	int width = spriteSheet.getWidth() / count;
 
-	return linearFramesForFile(file, width, spriteSheet.getHeight());
+	return linearFramesForFile(file, count, 1);
     }
 
-    private Animation<TextureRegion>[] loadMummyAnimations(String archiMummy, int mummyType)
+    @SuppressWarnings("unused")
+    private void loadMummyAnimations()
     {
 
 	int mummyCountAppear = this.graphicsFileConfig.getMummyCountAppear();
@@ -321,58 +313,78 @@ public class GraphicsFileLoader
 	float frameDeathDuration = Config.getInstance().getMummyTimeDying() / (float) mummyCountDeath;
 
 	float frameDuration = this.graphicsFileConfig.getFrameDuration();
+	Array<TextureRegion> linearFrames = this.linearFramesForFile(this.graphicsFileConfig.getArchiMummys(),
+		mummyTotalCount, 5);
 
-	float[] mummyParameters = null;
-	switch (mummyType)
+	for (int mummyType = 0; mummyType < 5; mummyType++)
 	{
-	case MummyFactory.WHITE_MUMMY:
-	    mummyParameters = Config.getInstance().getMummyWhiteParameters();
-	    break;
-	case MummyFactory.PINK_MUMMY:
-	    mummyParameters = Config.getInstance().getMummyPinkParameters();
-	    break;
-	case MummyFactory.YELLOW_MUMMY:
-	    mummyParameters = Config.getInstance().getMummyYellowParameters();
-	    break;
-	case MummyFactory.BLUE_MUMMY:
-	    mummyParameters = Config.getInstance().getMummyBlueParameters();
-	    break;
-	case MummyFactory.RED_MUMMY:
-	    mummyParameters = Config.getInstance().getMummyRedParameters();
-	    break;
 
-	    
-	    
-	    
+	    float[] mummyParameters = null;
+	    switch (mummyType)
+	    {
+	    case MummyFactory.WHITE_MUMMY:
+		mummyParameters = Config.getInstance().getMummyWhiteParameters();
+		break;
+	    case MummyFactory.PINK_MUMMY:
+		mummyParameters = Config.getInstance().getMummyPinkParameters();
+		break;
+	    case MummyFactory.YELLOW_MUMMY:
+		mummyParameters = Config.getInstance().getMummyYellowParameters();
+		break;
+	    case MummyFactory.BLUE_MUMMY:
+		mummyParameters = Config.getInstance().getMummyBlueParameters();
+		break;
+	    case MummyFactory.RED_MUMMY:
+		mummyParameters = Config.getInstance().getMummyRedParameters();
+		break;
+
+	    }
+	    float speedMummyWalk = mummyParameters[Config.INDEX_SPEED_WALK];
+	    float speedPlayerWalk = Config.getInstance().getPlayerSpeedWalk();
+	    float factorFrameWalk = speedPlayerWalk / speedMummyWalk;
+	    float frameWalkDuration = factorFrameWalk * .75f / (float) mummyCountWalk;
+
+	    Animation<TextureRegion>[] animationMummy = new Animation[7];
+
+	    animationMummy[TileMapGrafica2D.APPEAR] = this.framesToAnimation(linearFrames, mummyType * mummyTotalCount,
+		    mummyCountAppear, frameAppearingDuration);
+	    animationMummy[TileMapGrafica2D.APPEAR].setPlayMode(PlayMode.NORMAL);
+
+	    animationMummy[TileMapGrafica2D.WALK] = this.framesToAnimation(linearFrames,
+		    mummyType * mummyTotalCount + mummyStartWalk, mummyCountWalk, frameWalkDuration);
+
+	    animationMummy[TileMapGrafica2D.IDDLE] = this.framesToAnimation(linearFrames,
+		    mummyType * mummyTotalCount + mummyStartIddle, mummyCountIddle, frameDuration);
+	    animationMummy[TileMapGrafica2D.FALL] = this.framesToAnimation(linearFrames,
+		    mummyType * mummyTotalCount + mummyStartFall, mummyCountFall, frameDuration);
+
+	    animationMummy[TileMapGrafica2D.JUMP] = this.framesToAnimation(linearFrames,
+		    mummyType * mummyTotalCount + mummyStartJump, mummyCountJump, frameDuration);
+	    animationMummy[TileMapGrafica2D.DEATH] = this.framesToAnimation(linearFrames,
+		    mummyType * mummyTotalCount + mummyStartDeath, mummyCountDeath, frameDeathDuration);
+	    animationMummy[TileMapGrafica2D.DEATH].setPlayMode(PlayMode.NORMAL);
+
+	    switch (mummyType)
+	    {
+	    case MummyFactory.WHITE_MUMMY:
+		this.animationMummyWhite = animationMummy;
+		break;
+	    case MummyFactory.PINK_MUMMY:
+		this.animationMummyPink = animationMummy;
+		break;
+	    case MummyFactory.YELLOW_MUMMY:
+		this.animationMummyYellow = animationMummy;
+		break;
+	    case MummyFactory.BLUE_MUMMY:
+		this.animationMummyBlue = animationMummy;
+		break;
+	    case MummyFactory.RED_MUMMY:
+		this.animationMummyRed = animationMummy;
+		break;
+
+	    }
 	}
-	float speedMummyWalk = mummyParameters[Config.INDEX_SPEED_WALK];
-	float speedPlayerWalk = Config.getInstance().getPlayerSpeedWalk();
-	float factorFrameWalk=speedPlayerWalk/speedMummyWalk;
-	float frameWalkDuration=	factorFrameWalk*.75f/(float)mummyCountWalk;
-	
-	Animation<TextureRegion>[] animationMummy = new Animation[7];
 
-	Array<TextureRegion> linearFrames = this.linearFramesForFile(archiMummy, mummyTotalCount);
-
-	animationMummy[TileMapGrafica2D.APPEAR] = this.framesToAnimation(linearFrames, 0, mummyCountAppear,
-		frameAppearingDuration);
-	animationMummy[TileMapGrafica2D.APPEAR].setPlayMode(PlayMode.NORMAL);
-
-	animationMummy[TileMapGrafica2D.WALK] = this.framesToAnimation(linearFrames, mummyStartWalk, mummyCountWalk,
-		frameWalkDuration);
-
-	animationMummy[TileMapGrafica2D.IDDLE] = this.framesToAnimation(linearFrames, mummyStartIddle, mummyCountIddle,
-		frameDuration);
-	animationMummy[TileMapGrafica2D.FALL] = this.framesToAnimation(linearFrames, mummyStartFall, mummyCountFall,
-		frameDuration);
-
-	animationMummy[TileMapGrafica2D.JUMP] = this.framesToAnimation(linearFrames, mummyStartJump, mummyCountJump,
-		frameDuration);
-	animationMummy[TileMapGrafica2D.DEATH] = this.framesToAnimation(linearFrames, mummyStartDeath, mummyCountDeath,
-		frameDeathDuration);
-	animationMummy[TileMapGrafica2D.DEATH].setPlayMode(PlayMode.NORMAL);
-
-	return animationMummy;
     }
 
     public void loadAnimations()
@@ -382,16 +394,7 @@ public class GraphicsFileLoader
 	this.loadColectablesAnimations();
 
 	float frameDuration = this.graphicsFileConfig.getFrameDuration();
-	this.animationMummyWhite = this.loadMummyAnimations(this.graphicsFileConfig.getArchiMummyWhite(),
-		MummyFactory.WHITE_MUMMY);
-	this.animationMummyPink = this.loadMummyAnimations(this.graphicsFileConfig.getArchiMummyPink(),
-		MummyFactory.PINK_MUMMY);
-	this.animationMummyYellow = this.loadMummyAnimations(this.graphicsFileConfig.getArchiMummyYellow(),
-		MummyFactory.YELLOW_MUMMY);
-	this.animationMummyBlue = this.loadMummyAnimations(this.graphicsFileConfig.getArchiMummyBlue(),
-		MummyFactory.BLUE_MUMMY);
-	this.animationMummyRed = this.loadMummyAnimations(this.graphicsFileConfig.getArchiMummyRed(),
-		MummyFactory.RED_MUMMY);
+	this.loadMummyAnimations();
 
 	this.doorSingleLeft = manager.get(this.graphicsFileConfig.getArchiDoorLeft(), Texture.class);
 	this.doorSingleRight = manager.get(this.graphicsFileConfig.getArchiDoorRight(), Texture.class);

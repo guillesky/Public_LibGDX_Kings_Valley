@@ -7,11 +7,7 @@ public class GraphicsFileConfig
 	private String archiPickingCell;
 	private String archiCollectables;
 	private String archiGiratory;
-	private String archiMummyBlue;
-	private String archiMummyPink;
-	private String archiMummyRed;
-	private String archiMummyWhite;
-	private String archiMummyYellow;
+	private String archiMummys;
 	private String archiFlyingDagger;
 	private String archiDoorPassage;
 	private String archiDoorLeft;
@@ -82,33 +78,15 @@ public class GraphicsFileConfig
 		return archiGiratory;
 	}
 
-	public String getArchiMummyBlue()
-	{
-		return archiMummyBlue;
-	}
-
-	public String getArchiMummyPink()
-	{
-		return archiMummyPink;
-	}
-
-	public String getArchiMummyRed()
-	{
-		return archiMummyRed;
-	}
-
-	public String getArchiMummyWhite()
-	{
-		return archiMummyWhite;
-	}
-
-	public String getArchiMummyYellow()
-	{
-		return archiMummyYellow;
-	}
+	
 
 	
 	
+
+	public String getArchiMummys()
+	{
+	    return archiMummys;
+	}
 
 	public int getMummyCountIddle()
 	{
