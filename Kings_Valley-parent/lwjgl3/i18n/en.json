@@ -3,5 +3,15 @@
 "GAME_PAUSED": "Game Paused",
 "CURRENT_PYRAMID":"Current Pyramid: ", 
 "SCORE": "Score: ", 
-"LIVES": "Lives: "
+"LIVES": "Lives: ",
+"NEW_GAME": "New Game", 
+"OPTIONS":"Options", 
+"CREDITS":"Credits", 
+"EXIT":"Exit",
+"GO_BACK":"Go Back", 
+"MUSIC_VOLUME":"Music Volume", 
+"SOUNDS_VOLUME":"Sounds Volume",
+"MASTER_VOLUME":"Master Volume",
+"DIFICULT_LEVEL":"Dificult Level", 
+"LOAD_PROGRESS":"Load Progress"
 }

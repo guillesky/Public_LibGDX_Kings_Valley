@@ -45,6 +45,7 @@ public class GraphicsFileLoader
     private Texture doorPassage;
     private Texture skyTexture;
     private Animation<TextureRegion> animationDoorLever;
+    private boolean firstTime = true;
     private static Random random = new Random();
 
     public static void saveConfig(GraphicsFileConfig config)
@@ -68,24 +69,19 @@ public class GraphicsFileLoader
     {
 	this.manager = manager;
 	this.graphicsFileConfig = loadConfig();
-	// this.graphicsFileConfig = new GraphicsFileConfig();
 	this.manager.load(graphicsFileConfig.getArchiPlayer(), Texture.class);
 	this.manager.load(graphicsFileConfig.getArchiPlayerSpecial(), Texture.class);
-
 	this.manager.load(graphicsFileConfig.getArchiCollectables(), Texture.class);
 	this.manager.load(graphicsFileConfig.getArchiGiratory(), Texture.class);
 	this.manager.load(graphicsFileConfig.getArchiPickingCell(), Texture.class);
 	this.manager.load(graphicsFileConfig.getArchiMummys(), Texture.class);
 	this.manager.load(graphicsFileConfig.getArchiFlyingDagger(), Texture.class);
-
 	this.manager.load(graphicsFileConfig.getArchiDoorLeft(), Texture.class);
 	this.manager.load(graphicsFileConfig.getArchiDoorRight(), Texture.class);
 	this.manager.load(graphicsFileConfig.getArchiDoorLever(), Texture.class);
 	this.manager.load(graphicsFileConfig.getArchiDoorPassage(), Texture.class);
 	this.manager.load(graphicsFileConfig.getArchiNewTileset(), Texture.class);
 	this.manager.load(graphicsFileConfig.getArchiSky(), Texture.class);
-
-	// saveConfig(graphicsFileConfig);
     }
 
     public String getArchiNewTileset()
@@ -389,22 +385,27 @@ public class GraphicsFileLoader
 
     public void loadAnimations()
     {
+	if (this.firstTime)
+	{
+	   
+	    this.loadPlayerAnimations();
+	    this.loadColectablesAnimations();
 
-	this.loadPlayerAnimations();
-	this.loadColectablesAnimations();
+	    float frameDuration = this.graphicsFileConfig.getFrameDuration();
+	    this.loadMummyAnimations();
 
-	float frameDuration = this.graphicsFileConfig.getFrameDuration();
-	this.loadMummyAnimations();
+	    this.doorSingleLeft = manager.get(this.graphicsFileConfig.getArchiDoorLeft(), Texture.class);
+	    this.doorSingleRight = manager.get(this.graphicsFileConfig.getArchiDoorRight(), Texture.class);
+	    this.doorPassage = manager.get(this.graphicsFileConfig.getArchiDoorPassage(), Texture.class);
+	    this.skyTexture = manager.get(this.graphicsFileConfig.getArchiSky(), Texture.class);
+	    Array<TextureRegion> linearFrame = this.linearFramesForFile(this.graphicsFileConfig.getArchiDoorLever(),
+		    this.graphicsFileConfig.getDoorLeverCount());
 
-	this.doorSingleLeft = manager.get(this.graphicsFileConfig.getArchiDoorLeft(), Texture.class);
-	this.doorSingleRight = manager.get(this.graphicsFileConfig.getArchiDoorRight(), Texture.class);
-	this.doorPassage = manager.get(this.graphicsFileConfig.getArchiDoorPassage(), Texture.class);
-	this.skyTexture = manager.get(this.graphicsFileConfig.getArchiSky(), Texture.class);
-	Array<TextureRegion> linearFrame = this.linearFramesForFile(this.graphicsFileConfig.getArchiDoorLever(),
-		this.graphicsFileConfig.getDoorLeverCount());
+	    this.animationDoorLever = this.framesToAnimation(linearFrame, 0,
+		    this.graphicsFileConfig.getDoorLeverCount(), frameDuration);
 
-	this.animationDoorLever = this.framesToAnimation(linearFrame, 0, this.graphicsFileConfig.getDoorLeverCount(),
-		frameDuration);
+	   
+	}
 
     }
 
@@ -567,7 +568,7 @@ public class GraphicsFileLoader
 
     public void dispose()
     {
-
+	this.manager.dispose();
     }
 
 }

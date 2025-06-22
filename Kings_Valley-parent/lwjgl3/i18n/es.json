@@ -1,7 +1,18 @@
 {
-"LANGUAGE_NAME": "Español",
+"LANGUAGE_NAME": "EspaÃ±ol",
 "GAME_PAUSED": "Juego Pausado",
 "CURRENT_PYRAMID":"Piramide Actual: ", 
 "SCORE": "Puntaje: ", 
-"LIVES": "Vidas: "
+"LIVES": "Vidas: ",
+"NEW_GAME": "Juego Nuevo", 
+"OPTIONS":"Opciones", 
+"CREDITS":"Creditos", 
+"EXIT":"Salir",
+"GO_BACK":"Volver", 
+"MUSIC_VOLUME":"Volumen de Musica", 
+"SOUNDS_VOLUME":"Volumen de Sonidos",
+"MASTER_VOLUME":"Volumen General",
+"DIFICULT_LEVEL":"Nivel de Dificultad", 
+"LOAD_PROGRESS":"Progreso de Carga"
+
 }

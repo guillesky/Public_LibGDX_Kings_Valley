@@ -3,7 +3,6 @@ package vista2D;
 import java.util.Iterator;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -20,9 +19,9 @@ public class TileMapGrafica2D_PARALAX extends TileMapGrafica2D
     private float factor;
     float[] paramFloat = new float[4];
 
-    public TileMapGrafica2D_PARALAX(AssetManager manager, float factor)
+    public TileMapGrafica2D_PARALAX(GraphicsFileLoader graphicsFileLoader, float factor)
     {
-	super(manager);
+	super(graphicsFileLoader);
 	this.factor = factor;
     }
 

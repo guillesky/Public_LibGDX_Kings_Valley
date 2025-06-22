@@ -4,6 +4,8 @@ import util.GameConfig;
 
 public interface IView
 {
+    
+    
 void updateCredits(String credits);
 void updateGameConfig(GameConfig gameConfig);
 int getDificultLevel();
@@ -12,7 +14,7 @@ float getMasterVolume();
 float getMusicVolume();
 float getSoundsVolume();
 void setControler(AbstractControler controler);
-
+void updateLoadProgress(float value);
 
 
 }

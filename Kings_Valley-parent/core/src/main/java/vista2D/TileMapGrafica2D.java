@@ -56,7 +56,7 @@ public class TileMapGrafica2D implements IMyApplicationListener
     protected OrthographicCamera camera;
     protected OrthographicCamera cameraUI;
     protected OrthogonalTiledMapRenderer renderer;
-    private AssetManager manager;
+    
     protected Array<MySpriteKV> instances = new Array<MySpriteKV>();
     protected Array<AnimatedEntity2D> animatedEntities = new Array<AnimatedEntity2D>();
     private HashMap<LevelObject, AnimatedEntity2D> hashMapLevelAnimation = new HashMap<LevelObject, AnimatedEntity2D>();
@@ -85,10 +85,10 @@ public class TileMapGrafica2D implements IMyApplicationListener
     private float timeDying = 1f;
     protected float cameraOffsetY = (12f / 22f);
 
-    public TileMapGrafica2D(AssetManager manager)
+    public TileMapGrafica2D(GraphicsFileLoader graphicsFileLoader)
     {
-	this.manager = manager;
-	this.graphicsFileLoader = new GraphicsFileLoader(manager);
+	
+	this.graphicsFileLoader =  graphicsFileLoader;
     }
 
     @Override
@@ -546,7 +546,7 @@ public class TileMapGrafica2D implements IMyApplicationListener
     public void dispose()
     {
 	this.renderer.dispose();
-	this.manager.dispose();
+	
 	this.spriteBatch.dispose();
 	if (this.rectaglesRenderDebug != null)
 	    this.rectaglesRenderDebug.dispose();

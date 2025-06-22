@@ -3,57 +3,76 @@ package vista2D;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
-import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import controler.AbstractControler;
 import controler.IView;
+import i18n.Messages;
 import util.GameConfig;
 
 public class UI2D implements IView, ApplicationListener
 {
     private String backgroundFile = "ui/background.jpg";
     private String skinFile = "skin/golden-ui-skin.json";
+    private String musicUIName = "music/WombatNoisesAudio - The Legend of Narmer.mp3";
     private Texture backgroundText;
     private Image background;
     private Skin skin;
     private Stage stage;
-    private Label outputLabel;
+    private Label progressLabel;
     protected BitmapFont fontLarge = new BitmapFont();
     private BitmapFont fontSmall = new BitmapFont();
     private FreeTypeFontGenerator fontGenerator;
     private final String fontSmallName = "fontSmall";
     private final String fontLargeName = "fontLarge";
-	private AbstractControler controler;
+    private Controler2D controler;
+    private TextButton buttonNewGame;
+    private TextButton buttonExit;
+    private TextButton buttonCredits;
+    private TextButton buttonOptions;
+    private ProgressBar progressBar;
+    private TextButton buttonBack;
+    private Label titleMain;
+    private Label titleOption;
+    private Table tableMain;
+    private Table tableOption;
+    private AssetManager manager;
+    private boolean loading = true;
+    private String KVName = "Kings Valley Remake";
+    private Slider slMusicVolume;
+    private Slider slSoundVolume;
+    private Slider slMasterVolume;
+    private Slider slDificultLevel;
 
     public UI2D(AssetManager manager, FreeTypeFontGenerator fontGenerator)
     {
 	this.fontGenerator = fontGenerator;
 	manager.load(this.backgroundFile, Texture.class);
+	manager.load(this.musicUIName, Music.class);
 	manager.load(this.skinFile, Skin.class);
 	manager.finishLoading();
 	this.backgroundText = manager.get(this.backgroundFile, Texture.class);
 	this.background = new Image(backgroundText);
 	this.skin = manager.get(this.skinFile, Skin.class);
-
+	this.manager = manager;
     }
 
     @Override
@@ -66,43 +85,59 @@ public class UI2D implements IView, ApplicationListener
 	this.calulateBackground(stage.getWidth(), stage.getHeight());
 
 	stage.addActor(background); // ¡Agregarlo antes que todo lo demás!
-	Table table = new Table();
-	table.setFillParent(true);
-	table.top();
-	stage.addActor(table);
+	this.tableMain = new Table();
+	this.tableMain.setFillParent(true);
+	this.tableMain.top();
+
+	this.tableOption = new Table();
+	this.tableOption.setFillParent(true);
+	this.tableOption.top();
+
+	this.slDificultLevel = new Slider(0, 9, 1, false, skin);
+	this.slMasterVolume = new Slider(0, 100, 1, false, skin);
+	this.slSoundVolume = new Slider(0, 100, 1, false, skin);
+	this.slMusicVolume = new Slider(0, 100, 1, false, skin);
+
+	this.stage.addActor(this.tableMain);
 
 	int row_height = Gdx.graphics.getWidth() / 12;
 	int col_width = Gdx.graphics.getWidth() / 12;
 
-	Label.LabelStyle labelStyle = new Label.LabelStyle();
-	labelStyle.font = skin.getFont(this.fontLargeName);
+	Label.LabelStyle labelStyleLarge = new Label.LabelStyle();
+	labelStyleLarge.font = skin.getFont(this.fontLargeName);
 
-	skin.add("miLabelStyle", labelStyle);
+	this.skin.add("myLabelStyleLarge", labelStyleLarge);
+	Label.LabelStyle labelStyleSmall = skin.get("default", Label.LabelStyle.class);
+	labelStyleSmall.font = skin.getFont(this.fontSmallName);
+	// skin.add("myLabelStyleSmall", labelStyleSmall);
 
-	Label title = new Label("Kings Valley Remake", skin, "miLabelStyle");
-	title.setSize(Gdx.graphics.getWidth(), row_height * 2);
-	title.setPosition(0, Gdx.graphics.getHeight() - row_height * 2);
-	title.setAlignment(Align.center);
+	this.titleMain = new Label(this.KVName, skin, "myLabelStyleLarge");
+	this.titleMain.setSize(Gdx.graphics.getWidth(), row_height * 2);
+	this.titleMain.setPosition(0, Gdx.graphics.getHeight() - row_height * 2);
+	this.titleMain.setAlignment(Align.center);
 
-	// Button
-	Button button1 = new Button(skin);
-	button1.setSize(col_width * 4, row_height);
-	button1.setPosition(col_width, Gdx.graphics.getHeight() - row_height * 3);
-	button1.addListener(new InputListener()
-	{
-	    @Override
-	    public void touchUp(InputEvent event, float x, float y, int pointer, int button)
-	    {
-		outputLabel.setText("Press a Button");
-	    }
+	this.titleOption = new Label(Messages.OPTIONS.getValue(), skin, "myLabelStyleLarge");
+	this.titleOption.setSize(Gdx.graphics.getWidth(), row_height * 2);
+	this.titleOption.setPosition(0, Gdx.graphics.getHeight() - row_height * 2);
+	this.titleOption.setAlignment(Align.center);
 
-	    @Override
-	    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
-	    {
-		outputLabel.setText("Pressed Button");
-		return true;
-	    }
-	});
+	titleOption.setAlignment(Align.center);
+
+	tableOption.add(titleOption).colspan(3).expandX().fillX().pad(20).row();
+
+	tableOption.row();
+
+	tableOption.add(this.slMasterVolume).expandY().pad(10).left();
+	tableOption.row();
+
+	tableOption.add(this.slMusicVolume).expandY().pad(10).left();
+	tableOption.row();
+
+	tableOption.add(this.slSoundVolume).expandY().pad(10).left();
+	tableOption.row();
+
+	tableOption.add(this.slDificultLevel).expandY().pad(10).left();
+	tableOption.row();
 
 	// Text Button
 	// TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
@@ -111,99 +146,74 @@ public class UI2D implements IView, ApplicationListener
 	buttonStyle.font = skin.getFont(this.fontSmallName);
 	// skin.add("buttonStyle", buttonStyle);
 
-	Button button2 = new TextButton("Text Button lalala lolo uololo", skin, "default");
-	button2.setSize(col_width * 4, row_height);
-	button2.setPosition(col_width * 7, Gdx.graphics.getHeight() - row_height * 3);
-	button2.addListener(new InputListener()
+	this.buttonNewGame = new TextButton(Messages.NEW_GAME.getValue(), skin, "default");
+	buttonNewGame.addListener(this.controler.getInputListener());
+	this.buttonNewGame.setTouchable(Touchable.disabled);
+	this.buttonNewGame.setUserObject(AbstractControler.NEW_GAME);
+
+	this.buttonOptions = new TextButton(Messages.OPTIONS.getValue(), skin);
+	this.buttonOptions.addListener(new ClickListener()
 	{
 	    @Override
-	    public void touchUp(InputEvent event, float x, float y, int pointer, int button)
+	    public void clicked(InputEvent event, float x, float y)
 	    {
-		outputLabel.setText("Press a Button");
-	    }
-
-	    @Override
-	    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
-	    {
-		outputLabel.setText("Pressed Text Button");
-		return true;
+		doOptions();
 	    }
 	});
+	this.buttonOptions.setUserObject(AbstractControler.OPTIONS);
 
-	// ImageTextButton
-	ImageTextButton button4 = new ImageTextButton("ImageText Btn", skin);
-	button4.setSize(col_width * 4, (float) (row_height * 2));
-	/*
-	 * button4.getStyle().imageUp = new TextureRegionDrawable( new TextureRegion(new
-	 * Texture(Gdx.files.internal("switch_off.png")))); button4.getStyle().imageDown
-	 * = new TextureRegionDrawable( new TextureRegion(new
-	 * Texture(Gdx.files.internal("switch_on.png"))));
-	 */
-	button4.setPosition(col_width * 7, Gdx.graphics.getHeight() - row_height * 6);
-	button4.addListener(new InputListener()
-	{
-	    @Override
-	    public void touchUp(InputEvent event, float x, float y, int pointer, int button)
-	    {
-		outputLabel.setText("Press a Button");
-	    }
+	this.buttonCredits = new TextButton(Messages.CREDITS.getValue(), skin);
+	this.buttonCredits.addListener(this.controler.getInputListener());
+	this.buttonCredits.setUserObject(AbstractControler.CREDITS);
 
-	    @Override
-	    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
-	    {
-		outputLabel.setText("Pressed Image Text Button");
-		return true;
-	    }
-	});
+	this.buttonExit = new TextButton(Messages.EXIT.getValue(), skin);
+	this.buttonExit.addListener(this.controler.getInputListener());
+	this.buttonExit.setUserObject(AbstractControler.EXIT);
 
-	outputLabel = new Label("Press a Button", skin);
-	outputLabel.setSize(Gdx.graphics.getWidth(), row_height);
-	outputLabel.setPosition(0, row_height);
-	outputLabel.setAlignment(Align.center);
+	progressLabel = new Label(Messages.LOAD_PROGRESS.getValue(), skin, "default");
+	progressLabel.setSize(Gdx.graphics.getWidth(), row_height);
+	progressLabel.setPosition(0, row_height);
+	progressLabel.setAlignment(Align.center);
 
 	// Fila del título, centrado arriba
-	title.setAlignment(Align.center);
+	titleMain.setAlignment(Align.center);
 
-	table.add(title).colspan(3).expandX().fillX().pad(20).row();
+	tableMain.add(titleMain).colspan(3).expandX().fillX().pad(20).row();
 
-	table.row();
+	tableMain.row();
 
-	// Botones alineados a la izquierda
-	/*
-	 * table.add(button1).uniformX().fillX().expandY().pad(10).left();
-	 * 
-	 * table.row(); table.add(button2).uniformX().fillX().expandY().pad(10).left();
-	 * 
-	 * table.row(); table.add(button3).uniformX().fillX().expandY().pad(10).left();
-	 * 
-	 * table.row(); table.add(button4).uniformX().fillX().expandY().pad(10).left();
-	 * 
-	 * table.row(); table.add(outputLabel).left().pad(10).row();
-	 */
-	ProgressBar pg = new ProgressBar(0, 100, 1, false, skin);
-	Slider sl = new Slider(0, 9, 1, false, skin);
-	SelectBox<String> l = new SelectBox<String>(skin);
-	l.setItems("holas y chauses", "jamones", "quesos");
+	this.progressBar = new ProgressBar(0, 100, 1, false, skin);
 
-	// table.add(l).size(400, 100).expandY().pad(10).left();
-	table.add(l).expandY().pad(10).left();
-	table.row();
+	tableMain.add(this.buttonNewGame).expandY().pad(10).left();
+	tableMain.row();
 
-	table.add(button2).expandY().pad(10).left();
+	tableMain.add(this.buttonOptions).expandY().pad(10).left();
+	tableMain.row();
 
-	table.row();
-	table.add(sl).expandY().pad(10).left();
+	tableMain.add(this.buttonCredits).expandY().pad(10).left();
+	tableMain.row();
 
-	table.row();
-	table.add(button4).expandY().pad(10).left();
+	tableMain.add(this.buttonExit).expandY().pad(10).left();
+	tableMain.row();
 
-	table.row();
-	table.add(outputLabel).expandX().pad(0).row();
-	table.add(pg).expandX().pad(0).row();
+	tableMain.add(progressLabel).expandX().pad(0).row();
+	tableMain.add(this.progressBar).expandX().pad(0).row();
 
-	table.row();
-	pg.setValue(57);
+	tableMain.row();
 
+	Music musica = manager.get(this.musicUIName, Music.class);
+	musica.setLooping(true);
+
+	musica.play();
+
+    }
+
+    protected void 
+		doOptions()
+    {
+	this.stage.getRoot().removeActor(this.tableMain);
+	this.stage.addActor(this.tableOption);
+	
     }
 
     private void prepareFonts()
@@ -290,7 +300,7 @@ public class UI2D implements IView, ApplicationListener
     @Override
     public void setControler(AbstractControler controler)
     {
-	this.controler=controler;
+	this.controler = (Controler2D) controler;
     }
 
     public void dispose()
@@ -303,6 +313,18 @@ public class UI2D implements IView, ApplicationListener
     {
 	Gdx.gl.glClearColor(0, 0, 0, 1);
 	Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+	if (loading)
+	    if (this.manager.update())
+	    {
+		this.buttonNewGame.setTouchable(Touchable.enabled);
+		this.progressLabel.setVisible(false);
+		this.progressBar.setVisible(false);
+		this.loading = false;
+	    } else
+	    {
+		this.progressBar.setValue(this.manager.getProgress());
+
+	    }
 	stage.act();
 	stage.draw();
 
@@ -348,4 +370,24 @@ public class UI2D implements IView, ApplicationListener
 	background.setPosition((width - background.getWidth()) / 2f, (height - background.getHeight()) / 2f);
 
     }
+
+    @Override
+    public void updateLoadProgress(float value)
+    {
+	this.progressBar.setValue(value);
+
+    }
+
+    /*
+     * 
+     * Slider sl = new Slider(0, 9, 1, false, skin); SelectBox<String> l = new
+     * SelectBox<String>(skin); l.setItems("holas y chauses", "jamones", "quesos");
+     * 
+     * // table.add(l).size(400, 100).expandY().pad(10).left();
+     * table.add(l).expandY().pad(10).left(); table.row();
+     * table.add(sl).expandY().pad(10).left();
+     * 
+     * table.row();
+     * 
+     */
 }

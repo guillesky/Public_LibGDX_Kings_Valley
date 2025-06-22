@@ -9,11 +9,11 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import modelo.level.Level;
 import modelo.level.LevelReader;
 import util.Constantes;
+import vista2D.GraphicsFileLoader;
 import vista2D.TileMapGrafica2D;
 
 /**
@@ -31,7 +31,7 @@ public class Main_ContadorTiles implements ApplicationListener
     public void create()
     {
 	manager = new AssetManager();
-	grafica = new TileMapGrafica2D(manager);
+	grafica = new TileMapGrafica2D(new GraphicsFileLoader(manager));
 
 	manager.finishLoading();
 	LevelReader levelReader = new LevelReader();
