@@ -4,21 +4,24 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -33,6 +36,10 @@ public class UI2D implements IView, ApplicationListener
 {
     private String backgroundFile = "ui/background.jpg";
     private String skinFile = "skin/golden-ui-skin.json";
+    private String sfxClickFile = "sfx/756269.wav";
+    private String sfxFocusFile = "sfx/342200__christopherderp__videogame-menu-button-click.wav";
+    private String slideSoundFile="sfx/slider.wav";
+
     private String musicUIName = "music/WombatNoisesAudio - The Legend of Narmer.mp3";
     private Texture backgroundText;
     private Image background;
@@ -64,6 +71,12 @@ public class UI2D implements IView, ApplicationListener
     private SliderWithLabel slMasterVolume;
     private SliderWithLabel slDificultLevel;
     private Music musica;
+    private Sound focusSound;
+    private Sound clickSound;
+    private Sound slideSound;
+    
+    private InputListener inputListenerSounds;
+    private ChangeListener changeListenerSounds;
 
     public UI2D(AssetManager manager, FreeTypeFontGenerator fontGenerator)
     {
@@ -71,11 +84,49 @@ public class UI2D implements IView, ApplicationListener
 	manager.load(this.backgroundFile, Texture.class);
 	manager.load(this.musicUIName, Music.class);
 	manager.load(this.skinFile, Skin.class);
+	manager.load(this.sfxClickFile, Sound.class);
+	manager.load(this.sfxFocusFile, Sound.class);
+	manager.load(this.slideSoundFile, Sound.class);
 	manager.finishLoading();
 	this.backgroundText = manager.get(this.backgroundFile, Texture.class);
+	this.clickSound = manager.get(this.sfxClickFile, Sound.class);
+	this.focusSound = manager.get(this.sfxFocusFile, Sound.class);
+	this.slideSound=manager.get(this.slideSoundFile, Sound.class);
 	this.background = new Image(backgroundText);
 	this.skin = manager.get(this.skinFile, Skin.class);
 	this.manager = manager;
+
+	this.inputListenerSounds = new InputListener()
+	{
+
+	    @Override
+	    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
+	    {
+		clickSound.play(Facade.getInstance().getGameConfig().getMasterVolume()
+			* Facade.getInstance().getGameConfig().getSoundsVolume());
+		return super.touchDown(event, x, y, pointer, button);
+	    }
+
+	    @Override
+	    public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor)
+	    {
+		if (pointer == -1)
+		{
+		    focusSound.play(Facade.getInstance().getGameConfig().getMasterVolume()
+			    * Facade.getInstance().getGameConfig().getSoundsVolume());
+		}
+	    }
+	};
+	
+	this.changeListenerSounds = new ChangeListener() {
+
+	    @Override
+	    public void changed(ChangeEvent event, Actor actor)
+	    {
+		slideSound.play(Facade.getInstance().getGameConfig().getMasterVolume()
+			* Facade.getInstance().getGameConfig().getSoundsVolume());
+		
+	    }};
     }
 
     @Override
@@ -109,12 +160,22 @@ public class UI2D implements IView, ApplicationListener
 
 	this.slDificultLevel = new SliderDificult(Messages.DIFICULT_LEVEL.getValue(), -4, 4, 1, 0, skin,
 		AbstractControler.DIFICULT_LEVEL, controler.getChangeListener(), "Facil", "Normal", "Dificil");
-	this.slMasterVolume = new SliderWithLabel(Messages.MASTER_VOLUME.getValue(), 0, 100, 1, Facade.getInstance().getGameConfig().getMasterVolume()*100, skin,
-		AbstractControler.MASTER_VOLUME, controler.getChangeListener());
-	this.slFXVolume = new SliderWithLabel(Messages.FX_VOLUME.getValue(), 0, 100, 1, Facade.getInstance().getGameConfig().getSoundsVolume()*100, skin,
-		AbstractControler.FX_VOLUME, controler.getChangeListener());
-	this.slMusicVolume = new SliderWithLabel(Messages.MUSIC_VOLUME.getValue(), 0, 100, 1, Facade.getInstance().getGameConfig().getMusicVolume()*100, skin,
-		AbstractControler.MUSIC_VOLUME, controler.getChangeListener());
+	this.slMasterVolume = new SliderWithLabel(Messages.MASTER_VOLUME.getValue(), 0, 100, 1,
+		Facade.getInstance().getGameConfig().getMasterVolume() * 100, skin, AbstractControler.MASTER_VOLUME,
+		controler.getChangeListener());
+	this.slFXVolume = new SliderWithLabel(Messages.FX_VOLUME.getValue(), 0, 100, 1,
+		Facade.getInstance().getGameConfig().getSoundsVolume() * 100, skin, AbstractControler.FX_VOLUME,
+		controler.getChangeListener());
+	this.slMusicVolume = new SliderWithLabel(Messages.MUSIC_VOLUME.getValue(), 0, 100, 1,
+		Facade.getInstance().getGameConfig().getMusicVolume() * 100, skin, AbstractControler.MUSIC_VOLUME,
+		controler.getChangeListener());
+	
+	
+	
+	this.slDificultLevel.addChangeListener(changeListenerSounds);
+	this.slMasterVolume.addChangeListener(changeListenerSounds);
+	this.slFXVolume.addChangeListener(changeListenerSounds);
+	this.slMusicVolume.addChangeListener(changeListenerSounds);
 
 	this.stage.addActor(this.tableMain);
 
@@ -123,6 +184,19 @@ public class UI2D implements IView, ApplicationListener
 
 	this.labelTitleOption = new Label(Messages.OPTIONS.getValue(), skin, "myLabelStyleLarge");
 	this.labelTitleOption.setAlignment(Align.center);
+
+	this.buttonBack = new TextButton(Messages.GO_BACK.getValue(), skin);
+	
+	this.buttonBack.addListener(new ClickListener()
+	{
+	    @Override
+	    public void clicked(InputEvent event, float x, float y)
+	    {
+		doMainMenu();
+	    }
+	});
+	
+	
 
 	labelTitleOption.setAlignment(Align.center);
 
@@ -152,7 +226,7 @@ public class UI2D implements IView, ApplicationListener
 	tableOption.row();
 	tableOption.add(this.slDificultLevel).expandY().pad(10).left();
 	tableOption.row();
-	tableOption.add(new TextButton(Messages.NEW_GAME.getValue(), skin, "default")).expandY().pad(10).left();
+	tableOption.add(this.buttonBack).expandY().pad(10).left();
 	tableOption.row();
 
 	this.buttonNewGame = new TextButton(Messages.NEW_GAME.getValue(), skin, "default");
@@ -169,7 +243,7 @@ public class UI2D implements IView, ApplicationListener
 		doOptions();
 	    }
 	});
-	this.buttonOptions.setUserObject(AbstractControler.OPTIONS);
+	
 
 	this.buttonCredits = new TextButton(Messages.CREDITS.getValue(), skin);
 	this.buttonCredits.addListener(this.controler.getInputListener());
@@ -207,23 +281,40 @@ public class UI2D implements IView, ApplicationListener
 
 	tableMain.row();
 
+	this.buttonBack.addListener(inputListenerSounds);
+	buttonBack.getLabel().setTouchable(Touchable.disabled);
+
+	this.buttonNewGame.addListener(inputListenerSounds);
+	buttonNewGame.getLabel().setTouchable(Touchable.disabled);
+
+	this.buttonOptions.addListener(inputListenerSounds);
+	buttonOptions.getLabel().setTouchable(Touchable.disabled);
+
+	this.buttonCredits.addListener(inputListenerSounds);
+	buttonCredits.getLabel().setTouchable(Touchable.disabled);
+
+	this.buttonExit.addListener(inputListenerSounds);
+	buttonExit.getLabel().setTouchable(Touchable.disabled);
+
 	this.musica = manager.get(this.musicUIName, Music.class);
 	musica.setLooping(true);
-	musica.setVolume(Facade.getInstance().getGameConfig().getMasterVolume()*Facade.getInstance().getGameConfig().getMusicVolume());
+	musica.setVolume(Facade.getInstance().getGameConfig().getMasterVolume()
+		* Facade.getInstance().getGameConfig().getMusicVolume());
 	musica.play();
-	
 
-	
-	  
-	
-	
-	
     }
 
     protected void doOptions()
     {
 	this.stage.getRoot().removeActor(this.tableMain);
 	this.stage.addActor(this.tableOption);
+
+    }
+    
+    protected void doMainMenu()
+    {
+	this.stage.getRoot().removeActor(this.tableOption);
+	this.stage.addActor(this.tableMain);
 
     }
 
@@ -422,15 +513,16 @@ public class UI2D implements IView, ApplicationListener
     @Override
     public void updateMasterVolume()
     {
-	musica.setVolume(Facade.getInstance().getGameConfig().getMasterVolume()*Facade.getInstance().getGameConfig().getMusicVolume());
-
+	musica.setVolume(Facade.getInstance().getGameConfig().getMasterVolume()
+		* Facade.getInstance().getGameConfig().getMusicVolume());
 
     }
 
     @Override
     public void updateMusicVolume()
     {
-	musica.setVolume(Facade.getInstance().getGameConfig().getMasterVolume()*Facade.getInstance().getGameConfig().getMusicVolume());
+	musica.setVolume(Facade.getInstance().getGameConfig().getMasterVolume()
+		* Facade.getInstance().getGameConfig().getMusicVolume());
 
     }
 

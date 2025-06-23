@@ -10,7 +10,7 @@
 "EXIT":"Salir",
 "GO_BACK":"Volver", 
 "MUSIC_VOLUME":"Volumen de Musica", 
-"SOUNDS_VOLUME":"Volumen de Sonidos",
+"FX_VOLUME":"Volumen de Sonidos",
 "MASTER_VOLUME":"Volumen General",
 "DIFICULT_LEVEL":"Nivel de Dificultad", 
 "LOAD_PROGRESS":"Progreso de Carga"
