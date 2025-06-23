@@ -16,5 +16,11 @@ float getSoundsVolume();
 void setControler(AbstractControler controler);
 void updateLoadProgress(float value);
 
+void  updateMasterVolume();
+void updateMusicVolume();
+void updateSoundsVolume();
+
+
+
 
 }

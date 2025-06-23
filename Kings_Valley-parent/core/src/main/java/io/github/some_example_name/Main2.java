@@ -6,9 +6,9 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
 import facade.Facade;
-import vista2D.Controler2D;
 import vista2D.GraphicsFileLoader;
-import vista2D.UI2D;
+import vista2D.ui.Controler2D;
+import vista2D.ui.UI2D;
 
 /**
  * {@link com.badlogic.gdx.ApplicationListener} implementation shared by all
@@ -65,5 +65,6 @@ public class Main2 implements ApplicationListener
 
 	generator.dispose();
 	this.manager.dispose();
+	Facade.getInstance().saveGameOption();
     }
 }

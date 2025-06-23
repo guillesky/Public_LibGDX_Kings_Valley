@@ -70,6 +70,18 @@ public class Facade
 		Game.getInstance().dying();
 	}
 	
+	public void saveGameOption() 
+	{
+	    if (this.changeConfig)
+		GameConfig.saveConfig(gameConfig);
+	    
+	}
+
+	public GameConfig getGameConfig()
+	{
+	    return gameConfig;
+	}
+	
 	
 	
 

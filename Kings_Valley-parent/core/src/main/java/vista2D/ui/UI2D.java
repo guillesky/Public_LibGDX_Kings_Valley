@@ -1,4 +1,4 @@
-package vista2D;
+package vista2D.ui;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -25,6 +25,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import controler.AbstractControler;
 import controler.IView;
+import facade.Facade;
 import i18n.Messages;
 import util.GameConfig;
 
@@ -37,7 +38,7 @@ public class UI2D implements IView, ApplicationListener
     private Image background;
     private Skin skin;
     private Stage stage;
-    private Label progressLabel;
+    private Label labelProgressLoading;
     protected BitmapFont fontLarge = new BitmapFont();
     private BitmapFont fontSmall = new BitmapFont();
     private FreeTypeFontGenerator fontGenerator;
@@ -50,17 +51,19 @@ public class UI2D implements IView, ApplicationListener
     private TextButton buttonOptions;
     private ProgressBar progressBar;
     private TextButton buttonBack;
-    private Label titleMain;
-    private Label titleOption;
+    private Label labelTitleMain;
+    private Label labelTitleOption;
+
     private Table tableMain;
     private Table tableOption;
     private AssetManager manager;
     private boolean loading = true;
     private String KVName = "Kings Valley Remake";
-    private Slider slMusicVolume;
-    private Slider slSoundVolume;
-    private Slider slMasterVolume;
-    private Slider slDificultLevel;
+    private SliderWithLabel slMusicVolume;
+    private SliderWithLabel slFXVolume;
+    private SliderWithLabel slMasterVolume;
+    private SliderWithLabel slDificultLevel;
+    private Music musica;
 
     public UI2D(AssetManager manager, FreeTypeFontGenerator fontGenerator)
     {
@@ -85,6 +88,17 @@ public class UI2D implements IView, ApplicationListener
 	this.calulateBackground(stage.getWidth(), stage.getHeight());
 
 	stage.addActor(background); // ¡Agregarlo antes que todo lo demás!
+	TextButton.TextButtonStyle buttonStyle = skin.get("default", TextButton.TextButtonStyle.class);
+
+	buttonStyle.font = skin.getFont(this.fontSmallName);
+
+	Label.LabelStyle labelStyleLarge = new Label.LabelStyle();
+	labelStyleLarge.font = skin.getFont(this.fontLargeName);
+
+	this.skin.add("myLabelStyleLarge", labelStyleLarge);
+	Label.LabelStyle labelStyleSmall = skin.get("default", Label.LabelStyle.class);
+	labelStyleSmall.font = skin.getFont(this.fontSmallName);
+
 	this.tableMain = new Table();
 	this.tableMain.setFillParent(true);
 	this.tableMain.top();
@@ -93,58 +107,53 @@ public class UI2D implements IView, ApplicationListener
 	this.tableOption.setFillParent(true);
 	this.tableOption.top();
 
-	this.slDificultLevel = new Slider(0, 9, 1, false, skin);
-	this.slMasterVolume = new Slider(0, 100, 1, false, skin);
-	this.slSoundVolume = new Slider(0, 100, 1, false, skin);
-	this.slMusicVolume = new Slider(0, 100, 1, false, skin);
+	this.slDificultLevel = new SliderDificult(Messages.DIFICULT_LEVEL.getValue(), -4, 4, 1, 0, skin,
+		AbstractControler.DIFICULT_LEVEL, controler.getChangeListener(), "Facil", "Normal", "Dificil");
+	this.slMasterVolume = new SliderWithLabel(Messages.MASTER_VOLUME.getValue(), 0, 100, 1, Facade.getInstance().getGameConfig().getMasterVolume()*100, skin,
+		AbstractControler.MASTER_VOLUME, controler.getChangeListener());
+	this.slFXVolume = new SliderWithLabel(Messages.FX_VOLUME.getValue(), 0, 100, 1, Facade.getInstance().getGameConfig().getSoundsVolume()*100, skin,
+		AbstractControler.FX_VOLUME, controler.getChangeListener());
+	this.slMusicVolume = new SliderWithLabel(Messages.MUSIC_VOLUME.getValue(), 0, 100, 1, Facade.getInstance().getGameConfig().getMusicVolume()*100, skin,
+		AbstractControler.MUSIC_VOLUME, controler.getChangeListener());
 
 	this.stage.addActor(this.tableMain);
 
-	int row_height = Gdx.graphics.getWidth() / 12;
-	int col_width = Gdx.graphics.getWidth() / 12;
+	this.labelTitleMain = new Label(this.KVName, skin, "myLabelStyleLarge");
+	this.labelTitleMain.setAlignment(Align.center);
 
-	Label.LabelStyle labelStyleLarge = new Label.LabelStyle();
-	labelStyleLarge.font = skin.getFont(this.fontLargeName);
+	this.labelTitleOption = new Label(Messages.OPTIONS.getValue(), skin, "myLabelStyleLarge");
+	this.labelTitleOption.setAlignment(Align.center);
 
-	this.skin.add("myLabelStyleLarge", labelStyleLarge);
-	Label.LabelStyle labelStyleSmall = skin.get("default", Label.LabelStyle.class);
-	labelStyleSmall.font = skin.getFont(this.fontSmallName);
-	// skin.add("myLabelStyleSmall", labelStyleSmall);
+	labelTitleOption.setAlignment(Align.center);
 
-	this.titleMain = new Label(this.KVName, skin, "myLabelStyleLarge");
-	this.titleMain.setSize(Gdx.graphics.getWidth(), row_height * 2);
-	this.titleMain.setPosition(0, Gdx.graphics.getHeight() - row_height * 2);
-	this.titleMain.setAlignment(Align.center);
-
-	this.titleOption = new Label(Messages.OPTIONS.getValue(), skin, "myLabelStyleLarge");
-	this.titleOption.setSize(Gdx.graphics.getWidth(), row_height * 2);
-	this.titleOption.setPosition(0, Gdx.graphics.getHeight() - row_height * 2);
-	this.titleOption.setAlignment(Align.center);
-
-	titleOption.setAlignment(Align.center);
-
-	tableOption.add(titleOption).colspan(3).expandX().fillX().pad(20).row();
+	tableOption.add(labelTitleOption).colspan(3).expandX().fillX().pad(20).row();
 
 	tableOption.row();
 
-	tableOption.add(this.slMasterVolume).expandY().pad(10).left();
-	tableOption.row();
+	/*
+	 * tableOption.add(this.slMasterVolume).expandY().pad(10).left();
+	 * tableOption.row();
+	 * 
+	 * tableOption.add(this.slMusicVolume).expandY().pad(10).left();
+	 * tableOption.row();
+	 * 
+	 * tableOption.add(this.slSoundVolume).expandY().pad(10).left();
+	 * tableOption.row();
+	 * 
+	 * tableOption.add(this.slDificultLevel).expandY().pad(10).left();
+	 * tableOption.row();
+	 */
 
 	tableOption.add(this.slMusicVolume).expandY().pad(10).left();
 	tableOption.row();
-
-	tableOption.add(this.slSoundVolume).expandY().pad(10).left();
+	tableOption.add(this.slFXVolume).expandY().pad(10).left();
 	tableOption.row();
-
+	tableOption.add(this.slMasterVolume).expandY().pad(10).left();
+	tableOption.row();
 	tableOption.add(this.slDificultLevel).expandY().pad(10).left();
 	tableOption.row();
-
-	// Text Button
-	// TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
-	TextButton.TextButtonStyle buttonStyle = skin.get("default", TextButton.TextButtonStyle.class);
-
-	buttonStyle.font = skin.getFont(this.fontSmallName);
-	// skin.add("buttonStyle", buttonStyle);
+	tableOption.add(new TextButton(Messages.NEW_GAME.getValue(), skin, "default")).expandY().pad(10).left();
+	tableOption.row();
 
 	this.buttonNewGame = new TextButton(Messages.NEW_GAME.getValue(), skin, "default");
 	buttonNewGame.addListener(this.controler.getInputListener());
@@ -170,15 +179,12 @@ public class UI2D implements IView, ApplicationListener
 	this.buttonExit.addListener(this.controler.getInputListener());
 	this.buttonExit.setUserObject(AbstractControler.EXIT);
 
-	progressLabel = new Label(Messages.LOAD_PROGRESS.getValue(), skin, "default");
-	progressLabel.setSize(Gdx.graphics.getWidth(), row_height);
-	progressLabel.setPosition(0, row_height);
-	progressLabel.setAlignment(Align.center);
+	labelProgressLoading = new Label(Messages.LOAD_PROGRESS.getValue(), skin, "default");
 
 	// Fila del título, centrado arriba
-	titleMain.setAlignment(Align.center);
+	labelTitleMain.setAlignment(Align.center);
 
-	tableMain.add(titleMain).colspan(3).expandX().fillX().pad(20).row();
+	tableMain.add(labelTitleMain).colspan(3).expandX().fillX().pad(20).row();
 
 	tableMain.row();
 
@@ -196,24 +202,29 @@ public class UI2D implements IView, ApplicationListener
 	tableMain.add(this.buttonExit).expandY().pad(10).left();
 	tableMain.row();
 
-	tableMain.add(progressLabel).expandX().pad(0).row();
+	tableMain.add(labelProgressLoading).expandX().pad(0).row();
 	tableMain.add(this.progressBar).expandX().pad(0).row();
 
 	tableMain.row();
 
-	Music musica = manager.get(this.musicUIName, Music.class);
+	this.musica = manager.get(this.musicUIName, Music.class);
 	musica.setLooping(true);
-
+	musica.setVolume(Facade.getInstance().getGameConfig().getMasterVolume()*Facade.getInstance().getGameConfig().getMusicVolume());
 	musica.play();
+	
 
+	
+	  
+	
+	
+	
     }
 
-    protected void 
-		doOptions()
+    protected void doOptions()
     {
 	this.stage.getRoot().removeActor(this.tableMain);
 	this.stage.addActor(this.tableOption);
-	
+
     }
 
     private void prepareFonts()
@@ -317,7 +328,7 @@ public class UI2D implements IView, ApplicationListener
 	    if (this.manager.update())
 	    {
 		this.buttonNewGame.setTouchable(Touchable.enabled);
-		this.progressLabel.setVisible(false);
+		this.labelProgressLoading.setVisible(false);
 		this.progressBar.setVisible(false);
 		this.loading = false;
 	    } else
@@ -390,4 +401,43 @@ public class UI2D implements IView, ApplicationListener
      * table.row();
      * 
      */
+    void setText()
+
+    {
+	this.buttonBack.setText(Messages.GO_BACK.getValue());
+	this.buttonCredits.setText(Messages.CREDITS.getValue());
+	this.buttonExit.setText(Messages.EXIT.getValue());
+	this.buttonNewGame.setText(Messages.OPTIONS.getValue());
+	this.buttonNewGame.setText(Messages.NEW_GAME.getValue());
+	this.labelTitleOption.setText(Messages.OPTIONS.getValue());
+
+	this.labelProgressLoading.setText(Messages.LOAD_PROGRESS.getValue());
+	this.slDificultLevel.setText(Messages.DIFICULT_LEVEL.getValue());
+	this.slMasterVolume.setText(Messages.MASTER_VOLUME.getValue());
+	this.slMusicVolume.setText(Messages.MUSIC_VOLUME.getValue());
+	this.slFXVolume.setText(Messages.FX_VOLUME.getValue());
+
+    }
+
+    @Override
+    public void updateMasterVolume()
+    {
+	musica.setVolume(Facade.getInstance().getGameConfig().getMasterVolume()*Facade.getInstance().getGameConfig().getMusicVolume());
+
+
+    }
+
+    @Override
+    public void updateMusicVolume()
+    {
+	musica.setVolume(Facade.getInstance().getGameConfig().getMasterVolume()*Facade.getInstance().getGameConfig().getMusicVolume());
+
+    }
+
+    @Override
+    public void updateSoundsVolume()
+    {
+	// TODO Auto-generated method stub
+
+    }
 }
