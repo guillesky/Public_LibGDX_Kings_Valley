@@ -54,9 +54,9 @@ public class SliderWithLabel extends Table
 
     }
 
-    public float getValue()
+    public int getValue()
     {
-	return slider.getValue();
+	return (int) slider.getValue();
     }
 
     public void setValue(float value)

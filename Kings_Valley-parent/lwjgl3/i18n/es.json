@@ -1,5 +1,6 @@
 {
 "LANGUAGE_NAME": "Español",
+"LANGUAGE": "Idioma",
 "GAME_PAUSED": "Juego Pausado",
 "CURRENT_PYRAMID":"Piramide Actual: ", 
 "SCORE": "Puntaje: ", 
@@ -13,6 +14,9 @@
 "FX_VOLUME":"Volumen de Sonidos",
 "MASTER_VOLUME":"Volumen General",
 "DIFICULT_LEVEL":"Nivel de Dificultad", 
-"LOAD_PROGRESS":"Progreso de Carga"
+"LOAD_PROGRESS":"Progreso de Carga",
+"EASY": "Facil",
+"NORMAL":"Normal",
+"HARD":"Dificil"
 
 }

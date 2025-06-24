@@ -7,7 +7,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -48,8 +47,6 @@ public class UI2D implements IView, ApplicationListener
     private String sfxFocusFile = "sfx/342200__christopherderp__videogame-menu-button-click.wav";
     private String slideSoundFile = "sfx/slider.wav";
 
-  
-
     private String musicUIName = "music/WombatNoisesAudio - The Legend of Narmer.mp3";
     private Texture backgroundText;
     private Image background;
@@ -73,7 +70,7 @@ public class UI2D implements IView, ApplicationListener
     private Label labelTitleOption;
     private Label labelTitleCredits;
     private Label labelLanguage;
-private Label creditsLabel;
+
     private Table tableMain;
     private Table tableOption;
     private Table tableCredits;
@@ -99,18 +96,13 @@ private Label creditsLabel;
 
     public UI2D(AssetManager manager, FreeTypeFontGenerator fontGenerator)
     {
-	
-
-
 	this.fontGenerator = fontGenerator;
-	this.manager = manager;
 	manager.load(this.backgroundFile, Texture.class);
 	manager.load(this.musicUIName, Music.class);
 	manager.load(this.skinFile, Skin.class);
 	manager.load(this.sfxClickFile, Sound.class);
 	manager.load(this.sfxFocusFile, Sound.class);
 	manager.load(this.slideSoundFile, Sound.class);
-
 	manager.finishLoading();
 	this.backgroundText = manager.get(this.backgroundFile, Texture.class);
 	this.clickSound = manager.get(this.sfxClickFile, Sound.class);
@@ -118,6 +110,7 @@ private Label creditsLabel;
 	this.slideSound = manager.get(this.slideSoundFile, Sound.class);
 	this.background = new Image(backgroundText);
 	this.skin = manager.get(this.skinFile, Skin.class);
+	this.manager = manager;
 
 	this.inputListenerSounds = new InputListener()
 	{
@@ -163,7 +156,7 @@ private Label creditsLabel;
 
 	this.calulateBackground(stage.getWidth(), stage.getHeight());
 
-	stage.addActor(background); // �Agregarlo antes que todo lo dem�s!
+	stage.addActor(background); // ¡Agregarlo antes que todo lo demás!
 	TextButton.TextButtonStyle buttonStyle = skin.get("default", TextButton.TextButtonStyle.class);
 
 	buttonStyle.font = skin.getFont(this.fontSmallName);
@@ -256,13 +249,13 @@ private Label creditsLabel;
 	int fontSize = (int) (Gdx.graphics.getHeight() * (1.f / 12.f));
 
 	FreeTypeFontGenerator.FreeTypeFontParameter parameterLarge = new FreeTypeFontGenerator.FreeTypeFontParameter();
-	parameterLarge.size = fontSize; // Tama�o de fuente
+	parameterLarge.size = fontSize; // Tamaño de fuente
 	parameterLarge.color = Color.GOLD;
 	parameterLarge.borderColor = Color.BLACK;
 	fontLarge = fontGenerator.generateFont(parameterLarge);
 
 	FreeTypeFontGenerator.FreeTypeFontParameter parameterSmall = new FreeTypeFontGenerator.FreeTypeFontParameter();
-	parameterSmall.size = (int) (fontSize * .4); // Tama�o de fuente
+	parameterSmall.size = (int) (fontSize * .4); // Tamaño de fuente
 	parameterSmall.color = Color.WHITE;
 	parameterSmall.borderColor = Color.BLACK;
 	parameterSmall.borderWidth = 1;
@@ -300,37 +293,36 @@ private Label creditsLabel;
     @Override
     public int getDificultLevel()
     {
-	
-	return this.slDificultLevel.getValue();
+	// TODO Auto-generated method stub
+	return 0;
     }
 
     @Override
     public String getLanguage()
     {
-	
+	// TODO Auto-generated method stub
 	return null;
     }
 
     @Override
     public float getMasterVolume()
     {
-	
-	return this.slMasterVolume.getValue();
+	// TODO Auto-generated method stub
+	return 0;
     }
 
     @Override
     public float getMusicVolume()
     {
-	
-	return this.slMusicVolume.getValue();
+	// TODO Auto-generated method stub
+	return 0;
     }
 
     @Override
     public float getSoundsVolume()
     {
-	
-	return this.slFXVolume.getValue();
-	
+	// TODO Auto-generated method stub
+	return 0;
     }
 
     @Override
@@ -363,10 +355,10 @@ private Label creditsLabel;
 	    }
 	if (this.inCredits)
 	{
-	    float velocidadScroll = 30f; // p�xeles por segundo
+	    float velocidadScroll = 30f; // píxeles por segundo
 	    float nuevoScrollY = scrollPane.getScrollY() + velocidadScroll * Gdx.graphics.getDeltaTime();
 
-	    // Asegurarte de no pasar el l�mite
+	    // Asegurarte de no pasar el límite
 
 	    if (nuevoScrollY < scrollPane.getMaxY())
 		scrollPane.setScrollY(nuevoScrollY);
@@ -437,12 +429,10 @@ private Label creditsLabel;
 	this.labelTitleOption.setText(Messages.OPTIONS.getValue());
 	this.labelTitleCredits.setText(Messages.CREDITS.getValue());
 	this.labelProgressLoading.setText(Messages.LOAD_PROGRESS.getValue());
-	this.slDificultLevel.setText(Messages.DIFICULT_LEVEL.getValue(), Messages.EASY.getValue(),
-		Messages.NORMAL.getValue(), Messages.HARD.getValue());
+	this.slDificultLevel.setText(Messages.DIFICULT_LEVEL.getValue(),Messages.EASY.getValue(),Messages.NORMAL.getValue(),Messages.HARD.getValue());
 	this.slMasterVolume.setText(Messages.MASTER_VOLUME.getValue());
 	this.slMusicVolume.setText(Messages.MUSIC_VOLUME.getValue());
 	this.slFXVolume.setText(Messages.FX_VOLUME.getValue());
-	this.creditsLabel.setText(Facade.getInstance().getCredits());
 
     }
 
@@ -465,7 +455,8 @@ private Label creditsLabel;
     @Override
     public void updateSoundsVolume()
     {
-	
+	// TODO Auto-generated method stub
+
     }
 
     private void createOptionTable()
@@ -493,8 +484,7 @@ private Label creditsLabel;
 	{
 	    @Override
 	    public void clicked(InputEvent event, float x, float y)
-	    {
-		if (!selectBox.getSelected().equals(Messages.LANGUAGE_NAME.getValue()))
+	    {if (!selectBox.getSelected().equals(Messages.LANGUAGE_NAME.getValue()))
 		    controler.changeLanguage(selectBox.getSelected());
 		doMainMenu();
 	    }
@@ -557,7 +547,7 @@ private Label creditsLabel;
 	    @Override
 	    public void clicked(InputEvent event, float x, float y)
 	    {
-
+		
 		doOptions();
 	    }
 	});
@@ -572,7 +562,7 @@ private Label creditsLabel;
 
 	labelProgressLoading = new Label(Messages.LOAD_PROGRESS.getValue(), skin, "default");
 
-	// Fila del t�tulo, centrado arriba
+	// Fila del título, centrado arriba
 	labelTitleMain.setAlignment(Align.center);
 
 	tableMain.add(labelTitleMain).colspan(3).expandX().fillX().pad(20).row();
@@ -614,19 +604,21 @@ private Label creditsLabel;
 
 	float anchoTexto = stage.getWidth() * 0.8f;
 	float altoTexto = stage.getHeight() * 0.6f;
-	String textoCreditos = Facade.getInstance().getCredits();
+	String textoCreditos = "Desarrollado por Guillermo Lazzurri " + "Inspirado en King's Valley de Konami "
+		+ "Música: Biblioteca libre " + "Agradecimientos especiales a... " + "(etc...)";
 
-	
+	for (int i = 0; i < 8; i++)
+	    textoCreditos += textoCreditos;
 
-	this.creditsLabel = new Label(textoCreditos, skin);
-	creditsLabel.setWrap(true); // Muy importante para que el texto se ajuste al ancho
+	Label creditosLabel = new Label(textoCreditos, skin);
+	creditosLabel.setWrap(true); // Muy importante para que el texto se ajuste al ancho
 
-	creditsLabel.setAlignment(Align.topLeft); // Opcional, m�s natural
+	creditosLabel.setAlignment(Align.topLeft); // Opcional, más natural
 
 	Table contenedorTexto = new Table();
 
 	contenedorTexto.top(); // para que el texto quede arriba
-	contenedorTexto.add(creditsLabel).width(anchoTexto - 40).pad(10).left().expandX();
+	contenedorTexto.add(creditosLabel).width(anchoTexto - 40).pad(10).left().expandX();
 
 	this.scrollPane = new ScrollPane(contenedorTexto, skin);
 	scrollPane.setFadeScrollBars(false); // opcional: mantiene visibles las barras

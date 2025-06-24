@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import controler.AbstractControler;
 import controler.IView;
 import facade.Facade;
+import util.Utils;
 
 public class Controler2D extends AbstractControler
 {
@@ -93,23 +94,23 @@ public class Controler2D extends AbstractControler
 
     protected void changeSoundsVolume(float value)
     {
-	Facade.getInstance().setSoundsVolume(value/100f);
+	Facade.getInstance().setSoundsVolume(value / 100f);
 	this.view.updateSoundsVolume();
-	
+
     }
 
     protected void changeMusicVolume(float value)
     {
-	Facade.getInstance().setMusicVolume(value/100f);
+	Facade.getInstance().setMusicVolume(value / 100f);
 	this.view.updateMusicVolume();
-	
+
     }
 
     protected void changeMasterVolume(float value)
     {
-	Facade.getInstance().setMasterVolume(value/100f);
+	Facade.getInstance().setMasterVolume(value / 100f);
 	this.view.updateMasterVolume();
-	
+
     }
 
     public ClickListener getInputListener()
@@ -129,18 +130,23 @@ public class Controler2D extends AbstractControler
 
     private void doNewGame()
     {
-
+	Facade.getInstance().startNewGame(this.view.getDificultLevel());
     }
 
     private void doCredits()
     {
-	// TODO Auto-generated method stub
-
+	this.view.updateCredits(null);
     }
 
     private void changeDificultLevel(int value)
     {
 	// TODO Auto-generated method stub
 
+    }
+
+    public void changeLanguage(String languageName)
+    {
+	Facade.getInstance().changeLanguage(languageName);
+	this.view.updateLanguage();
     }
 }

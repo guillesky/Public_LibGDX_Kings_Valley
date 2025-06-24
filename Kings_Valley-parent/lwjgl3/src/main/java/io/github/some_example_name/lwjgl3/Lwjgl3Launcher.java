@@ -3,6 +3,7 @@ package io.github.some_example_name.lwjgl3;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 
+import facade.Facade;
 import io.github.some_example_name.Main2;
 
 /** Launches the desktop (LWJGL3) application. */
@@ -17,7 +18,8 @@ public class Lwjgl3Launcher
 
     private static Lwjgl3Application createApplication()
     {
-return new Lwjgl3Application(new Main2(), getDefaultConfiguration());
+	//return new Lwjgl3Application(new Main2(), getDefaultConfiguration());
+	return new Lwjgl3Application(Facade.getInstance(), getDefaultConfiguration());
 	// return new Lwjgl3Application(new PNGMerger(), getDefaultConfiguration());
     }
 

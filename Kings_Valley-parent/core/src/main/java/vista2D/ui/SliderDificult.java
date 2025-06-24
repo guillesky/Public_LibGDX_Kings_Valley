@@ -45,4 +45,14 @@ public class SliderDificult extends SliderWithLabel
 	return r;
     }
 
+    public void setText(String text, String easy, String normal, String hard)
+    {
+
+	this.setText(text);
+	this.easy = easy;
+	this.normal = normal;
+	this.hard = hard;
+
+    }
+
 }

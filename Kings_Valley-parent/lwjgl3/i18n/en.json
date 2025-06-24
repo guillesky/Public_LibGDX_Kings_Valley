@@ -1,5 +1,6 @@
 {
 "LANGUAGE_NAME": "English",	
+"LANGUAGE": "Language",
 "GAME_PAUSED": "Game Paused",
 "CURRENT_PYRAMID":"Current Pyramid: ", 
 "SCORE": "Score: ", 
@@ -13,5 +14,8 @@
 "FX_VOLUME":"Sounds Volume",
 "MASTER_VOLUME":"Master Volume",
 "DIFICULT_LEVEL":"Dificult Level", 
-"LOAD_PROGRESS":"Load Progress"
+"LOAD_PROGRESS":"Load Progress",
+"EASY": "Easy",
+"NORMAL":"Normal",
+"HARD":"Hard"
 }

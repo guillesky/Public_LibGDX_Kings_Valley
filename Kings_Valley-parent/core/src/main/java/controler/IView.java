@@ -19,6 +19,7 @@ void updateLoadProgress(float value);
 void  updateMasterVolume();
 void updateMusicVolume();
 void updateSoundsVolume();
+void updateLanguage();
 
 
 
