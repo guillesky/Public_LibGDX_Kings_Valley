@@ -55,6 +55,7 @@ public class RenderStateInGame extends RenderState
 	controles.processKey(Input.Keys.O);
 
 	controles.processKey(Input.Keys.P);
+	controles.processKey(Input.Keys.ESCAPE);
 	controles.processKey(Input.Keys.S);
 	Game.getInstance().updateframe(Gdx.graphics.getDeltaTime());
 

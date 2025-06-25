@@ -63,6 +63,7 @@ public class AudioManager implements KVEventListener
     @Override
     public void eventFired(int eventCode, Object param)
     {
+    	
 	switch (eventCode)
 	{
 	case KVEventListener.FINISH_ALL_LEVELS:
@@ -81,7 +82,7 @@ public class AudioManager implements KVEventListener
 	    
 	    break;
 	case KVEventListener.ENTER_LEVEL:
-	    this.musicMain.setVolume(Game.getInstance().getGameConfig().getMasterVolume()/100f * Game.getInstance().getGameConfig().getMusicVolume()/100f);
+	    this.musicMain.setVolume(Game.getInstance().getGameConfig().getMasterVolume() * Game.getInstance().getGameConfig().getMusicVolume());
 	    this.musicMain.setLooping(true);
 	    this.musicMain.play();
 

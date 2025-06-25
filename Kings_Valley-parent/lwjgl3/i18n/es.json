@@ -17,6 +17,7 @@
 "LOAD_PROGRESS":"Progreso de Carga",
 "EASY": "Facil",
 "NORMAL":"Normal",
-"HARD":"Dificil"
-
+"HARD":"Dificil",
+"RETRY":"Reintentar",
+"MAIN_MENU":"Menu Principal"
 }

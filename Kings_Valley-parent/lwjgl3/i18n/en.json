@@ -17,5 +17,7 @@
 "LOAD_PROGRESS":"Load Progress",
 "EASY": "Easy",
 "NORMAL":"Normal",
-"HARD":"Hard"
+"HARD":"Hard",
+"RETRY":"Retry",
+"MAIN_MENU":"Main Menu"
 }

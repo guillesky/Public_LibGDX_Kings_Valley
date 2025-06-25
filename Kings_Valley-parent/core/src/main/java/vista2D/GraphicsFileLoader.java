@@ -89,7 +89,7 @@ public class GraphicsFileLoader
 	return this.graphicsFileConfig.getArchiNewTileset();
     }
 
-    private void loadPlayerAnimations()
+    private void loadPlayerAnimations(float timeDying)
     {
 
 	int startWalk = 0;
@@ -153,7 +153,7 @@ public class GraphicsFileLoader
 		.75f / (float) (countWalk));
 
 	this.animationPlayer_Nothing[TileMapGrafica2D.DEATH] = this.framesToAnimation(linearFrames, startDeath,
-		countDeath, Game.getInstance().getInterfaz().getTimeDying() / (float) countDeath);
+		countDeath, timeDying / (float) countDeath);
 	this.animationPlayer_Nothing[TileMapGrafica2D.DEATH].setPlayMode(PlayMode.NORMAL);
 
 	this.animationPlayer_Picker[TileMapGrafica2D.IDDLE] = this.framesToAnimation(linearFrames, pickerStartIddle,
@@ -165,7 +165,7 @@ public class GraphicsFileLoader
 		pickerCountWalk, .75f / pickerCountWalk);
 
 	this.animationPlayer_Picker[TileMapGrafica2D.DEATH] = this.framesToAnimation(linearFrames, pickerStartDeath,
-		pickerCountDeath, Game.getInstance().getInterfaz().getTimeDying() / (float) countDeath);
+		pickerCountDeath, timeDying / (float) countDeath);
 	this.animationPlayer_Picker[TileMapGrafica2D.DEATH].setPlayMode(PlayMode.NORMAL);
 
 	this.animationPlayer_Picker[TileMapGrafica2D.JUMP] = this.animationPlayer_Picker[TileMapGrafica2D.FALL];
@@ -177,7 +177,7 @@ public class GraphicsFileLoader
 		daggerCountWalk, .75f / pickerCountWalk);
 
 	this.animationPlayer_Dagger[TileMapGrafica2D.DEATH] = this.framesToAnimation(linearFrames, daggerStartDeath,
-		daggerCountDeath, Game.getInstance().getInterfaz().getTimeDying() / (float) countDeath);
+		daggerCountDeath, timeDying / (float) countDeath);
 	this.animationPlayer_Dagger[TileMapGrafica2D.DEATH].setPlayMode(PlayMode.NORMAL);
 	this.animationPlayer_Dagger[TileMapGrafica2D.JUMP] = this.animationPlayer_Dagger[TileMapGrafica2D.FALL];
 
@@ -383,12 +383,12 @@ public class GraphicsFileLoader
 
     }
 
-    public void loadAnimations()
+    public void loadAnimations( float timeDying)
     {
 	if (this.firstTime)
 	{
 	   
-	    this.loadPlayerAnimations();
+	    this.loadPlayerAnimations(timeDying);
 	    this.loadColectablesAnimations();
 
 	    float frameDuration = this.graphicsFileConfig.getFrameDuration();
