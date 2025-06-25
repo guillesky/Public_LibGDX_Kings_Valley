@@ -16,7 +16,7 @@ public class RenderStateInUI extends RenderState
     @Override
     public void newGame()
     {
-	
+	Facade.getInstance().setRenderState(new RenderStateStartingGame(Facade.getInstance().getUi()));
 	
     }
    

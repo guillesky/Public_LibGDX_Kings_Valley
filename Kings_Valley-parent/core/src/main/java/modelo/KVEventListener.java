@@ -3,11 +3,12 @@ package modelo;
 public interface KVEventListener
 {
 
-	int ENTER_LEVEL = 0;
-	int PICKUP_JEWEL = 1;
-	int PICKUP_DAGGER = 2;
-	int PICKUP_PICKER = 3;
-	int PICKUP_ALL_JEWEL = 4;
+	int ENTERING_LEVEL = 0;
+	int ENTER_LEVEL = 1;
+	int EXITING_LEVEL = 2;
+	int EXIT_LEVEL = 3;
+	
+	
 	int THROW_DAGGER = 5;
 	int ENTER_GIRATORY = 6;
 	int ACTIVATE_TRAP = 7;
@@ -20,6 +21,13 @@ public interface KVEventListener
 	int MUMMY_KILLED_BY_SWORD = 22;
 	int FINISH_CURRENT_LEVEL = 30;
 	int ADD_ONE_LIVE = 40;
+	int PICKUP_JEWEL = 51;
+	int PICKUP_DAGGER = 52;
+	int PICKUP_PICKER = 53;
+	int PICKUP_ALL_JEWEL = 54;
+	int OPEN_DOOR=60;
+	int CLOSE_DOOR=61;
+	
 	int FINISH_ALL_LEVELS=100;
 	
 

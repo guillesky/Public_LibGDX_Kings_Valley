@@ -669,5 +669,9 @@ public class UI2D implements IView, ApplicationListener
     {
 	this.setText();
     }
+    public void doEnterGame() 
+    {
+	this.stage.getRoot().removeActor(this.tableMain);
+    }
 
 }

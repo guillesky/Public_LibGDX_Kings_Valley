@@ -6,9 +6,11 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
 
-import vista2D.GraphicsFileConfig;
+import modelo.KVEventListener;
+import modelo.game.Game;
+import util.Constantes;
 
-public class AudioManager
+public class AudioManager implements KVEventListener
 {   private final static String CONFIG_AUDIO_FILE = "audio_config.json";
     private static final Json json = new Json();
 
@@ -55,6 +57,35 @@ public class AudioManager
     {
 	this.manager.finishLoading();
 	this.musicMain=this.manager.get(audioConfig.getMainMusicFile(), Music.class);
+	
+    }
+
+    @Override
+    public void eventFired(int eventCode, Object param)
+    {
+	switch (eventCode)
+	{
+	case KVEventListener.FINISH_ALL_LEVELS:
+	   
+	    break;
+
+	case KVEventListener.MUMMY_KILLED_BY_SWORD:
+	   
+	    break;
+
+	case KVEventListener.PICKUP_JEWEL:
+	    
+	    break;
+
+	case KVEventListener.FINISH_CURRENT_LEVEL:
+	    
+	    break;
+	case KVEventListener.ENTER_LEVEL:
+	    this.musicMain.setVolume(Game.getInstance().getGameConfig().getMasterVolume()/100f * Game.getInstance().getGameConfig().getMusicVolume()/100f);
+	    this.musicMain.setLooping(true);
+	    this.musicMain.play();
+
+	}
 	
     }
 

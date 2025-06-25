@@ -44,8 +44,8 @@ public class Facade implements ApplicationListener
     private String creditsEsFile = "credits/credits.es";
     private String creditsEn;
     private String creditsEs;
-   
-    private IMyApplicationListener grafica;
+
+    private IMyApplicationListener gameAppListener;
     private GraphicsFileLoader graphicsFileLoader;
     private Music musicActual;
     private Music musicUI;
@@ -111,14 +111,16 @@ public class Facade implements ApplicationListener
 	musicActual.setVolume(Facade.getInstance().getGameConfig().getMasterVolume()
 		* Facade.getInstance().getGameConfig().getMusicVolume());
 	musicActual.play();
-
-	grafica = new TileMapGrafica2D_PARALAX(this.graphicsFileLoader, .5f);
-	Game.getInstance().setInterfaz(grafica);
+	this.audioManager.create();
+	gameAppListener = new TileMapGrafica2D_PARALAX(this.graphicsFileLoader, .5f);
+	Game.getInstance().setInterfaz(gameAppListener);
+	Game.getInstance().setAudioListener(audioManager);
 	Game.getInstance().setDificultLevel(dificultLevel);
 	Game.getInstance().start();
-	this.grafica.create();
-	this.renderState=new RenderStateInGame(this.grafica);
-	
+	this.gameAppListener.create();
+	this.ui.doEnterGame();
+	this.renderState.newGame();
+
     }
 
     public void retry()
@@ -234,8 +236,7 @@ public class Facade implements ApplicationListener
     public void render()
     {
 	this.renderState.render();
-	
-	   
+
     }
 
     @Override
@@ -265,16 +266,19 @@ public class Facade implements ApplicationListener
 	Facade.getInstance().saveGameOption();
     }
 
-    
+    protected void setRenderState(RenderState renderState)
+    {
+	this.renderState = renderState;
+    }
 
-    public static void saveConfig(UIConfig config)
+    private static void saveConfig(UIConfig config)
     {
 	FileHandle file = Gdx.files.local(CONFIG_UI_FILE);
 	json.setUsePrototypes(false);
 	file.writeString(json.prettyPrint(config), false);
     }
 
-    public static UIConfig loadConfig()
+    private static UIConfig loadConfig()
     {
 	FileHandle file = Gdx.files.local(CONFIG_UI_FILE);
 	if (file.exists())
@@ -282,6 +286,21 @@ public class Facade implements ApplicationListener
 	    return json.fromJson(UIConfig.class, file);
 	}
 	return new UIConfig(); // Valores por defecto
+    }
+
+    protected UI2D getUi()
+    {
+	return ui;
+    }
+
+    protected IMyApplicationListener getGameAppListener()
+    {
+	return gameAppListener;
+    }
+
+    protected Music getMusicIntro()
+    {
+	return musicIntro;
     }
 
 }

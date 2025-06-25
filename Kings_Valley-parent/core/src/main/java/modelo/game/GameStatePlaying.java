@@ -16,6 +16,8 @@ public class GameStatePlaying extends GameState
 	public GameStatePlaying()
 	{
 		super(Game.ST_GAME_PLAYING);
+		this.game.eventFired(KVEventListener.ENTER_LEVEL, null);
+		
 	}
 
 	@Override
