@@ -1,6 +1,7 @@
 package vista2D.ui;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
@@ -9,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 public class SliderWithLabel extends Table
 {
-    private final Label labelTitle;
+    protected final Label labelTitle;
     protected final Slider slider;
     protected final Label labelValue;
     protected ChangeListener changeListener;
@@ -64,8 +65,6 @@ public class SliderWithLabel extends Table
 	slider.setValue(value);
     }
 
-   
-
     public void setText(String text)
     {
 	this.labelTitle.setText(text);
@@ -75,4 +74,17 @@ public class SliderWithLabel extends Table
     {
 	this.slider.addListener(changeListener);
     }
+
+    @Override
+    public void setTouchable(Touchable touchable)
+    {
+	super.setTouchable(touchable);
+	if (this.slider != null)
+	    this.slider.setTouchable(touchable);
+	if (this.labelValue != null)
+	    this.labelValue.setTouchable(touchable);
+	if (this.labelTitle != null)
+	    this.labelTitle.setTouchable(touchable);
+    }
+
 }

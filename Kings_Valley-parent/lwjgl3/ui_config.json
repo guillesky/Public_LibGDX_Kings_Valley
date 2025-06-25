@@ -1,0 +1,9 @@
+{
+backgroundFile: ui/background.jpg
+musicUIName: music/WombatNoisesAudio - The Legend of Narmer.mp3
+musicIntroName: music/KV_INTRO.mp3
+skinFile: skin/golden-ui-skin.json
+sfxClickFile: sfx/756269.wav
+sfxFocusFile: sfx/342200__christopherderp__videogame-menu-button-click.wav
+slideSoundFile: sfx/slider.wav
+}

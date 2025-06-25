@@ -7,8 +7,7 @@ import java.util.HashMap;
 import modelo.level.LevelReader;
 
 public class Constantes
-{
-	public static final int PLAYER = 1;
+{	public static final int PLAYER = 1;
 	public static final int It_giratory = 107;
 	public static final int It_dagger = 137;
 	public static final int It_picker = 138;
@@ -57,6 +56,8 @@ public class Constantes
 	public static ArrayList<Integer> tilesPositiveStairs;
 	public static ArrayList<Integer> tilesNegativeStairs;
 	public static ArrayList<Integer> tilesPreviusToStairs;
+	public static final String VERSION="v 1.0.0 r 2025-06-14";
+	
 
 	static
 	{

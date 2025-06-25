@@ -4,7 +4,6 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 
 import facade.Facade;
-import io.github.some_example_name.Main2;
 
 /** Launches the desktop (LWJGL3) application. */
 public class Lwjgl3Launcher

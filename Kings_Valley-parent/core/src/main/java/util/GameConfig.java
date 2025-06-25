@@ -12,6 +12,7 @@ public class GameConfig
 	private float masterVolume ;
 	private float musicVolume;
 	private float soundsVolume;
+	private boolean finishedOneTime=false;
 
 	private static final String GAME_CONFIG_FILE = "game_config.json";
 	private static final Json json = new Json();
@@ -73,6 +74,16 @@ public class GameConfig
 	public void setSoundsVolume(float soundsVolume)
 	{
 		this.soundsVolume = soundsVolume;
+	}
+
+	public boolean isFinishedOneTime()
+	{
+	    return finishedOneTime;
+	}
+
+	public void setFinishedOneTime(boolean finishedOneTime)
+	{
+	    this.finishedOneTime = finishedOneTime;
 	}
 
 	

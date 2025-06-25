@@ -6,10 +6,13 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Json;
 
+import audio.AudioManager;
 import i18n.AllLanguages;
 import i18n.Language;
 import io.github.some_example_name.IMyApplicationListener;
@@ -21,10 +24,14 @@ import vista2D.GraphicsFileLoader;
 import vista2D.TileMapGrafica2D_PARALAX;
 import vista2D.ui.Controler2D;
 import vista2D.ui.UI2D;
+import vista2D.ui.UIConfig;
 
 public class Facade implements ApplicationListener
 {
     private static Facade instance = null;
+    private final static String CONFIG_UI_FILE = "ui_config.json";
+
+    private static final Json json = new Json();
 
     private UI2D ui;
     private FreeTypeFontGenerator generator;
@@ -37,8 +44,15 @@ public class Facade implements ApplicationListener
     private String creditsEsFile = "credits/credits.es";
     private String creditsEn;
     private String creditsEs;
-    private ApplicationListener currentAppListener;
+   
     private IMyApplicationListener grafica;
+    private GraphicsFileLoader graphicsFileLoader;
+    private Music musicActual;
+    private Music musicUI;
+    private Music musicIntro;
+    private Music musicInGame;
+    private AudioManager audioManager;
+    private RenderState renderState;
 
     public AssetManager getManager()
     {
@@ -68,12 +82,18 @@ public class Facade implements ApplicationListener
     {
 	this.gameConfig.setMasterVolume(volume);
 	this.changeConfig = true;
+	musicActual.setVolume(Facade.getInstance().getGameConfig().getMasterVolume()
+		* Facade.getInstance().getGameConfig().getMusicVolume());
+
     }
 
     public void setMusicVolume(float volume)
     {
 	this.gameConfig.setMusicVolume(volume);
 	this.changeConfig = true;
+	musicActual.setVolume(Facade.getInstance().getGameConfig().getMasterVolume()
+		* Facade.getInstance().getGameConfig().getMusicVolume());
+
     }
 
     public void setSoundsVolume(float volume)
@@ -84,12 +104,21 @@ public class Facade implements ApplicationListener
 
     public void startNewGame(int dificultLevel)
     {
-	grafica = new TileMapGrafica2D_PARALAX(new GraphicsFileLoader(manager), .5f);
+	this.musicUI.stop();
+	this.musicActual = this.musicIntro;
+	this.musicActual.setLooping(false);
+
+	musicActual.setVolume(Facade.getInstance().getGameConfig().getMasterVolume()
+		* Facade.getInstance().getGameConfig().getMusicVolume());
+	musicActual.play();
+
+	grafica = new TileMapGrafica2D_PARALAX(this.graphicsFileLoader, .5f);
 	Game.getInstance().setInterfaz(grafica);
 	Game.getInstance().setDificultLevel(dificultLevel);
 	Game.getInstance().start();
 	this.grafica.create();
-	this.currentAppListener = this.grafica;
+	this.renderState=new RenderStateInGame(this.grafica);
+	
     }
 
     public void retry()
@@ -169,6 +198,8 @@ public class Facade implements ApplicationListener
     @Override
     public void create()
     {
+	UIConfig uiConfig = Facade.loadConfig();
+
 	this.gameConfig = GameConfig.loadConfig();
 	Utils.i18n(this.gameConfig.getLanguage());
 	Game.getInstance().setGameConfig(gameConfig);
@@ -176,37 +207,53 @@ public class Facade implements ApplicationListener
 	this.readLanguageFiles();
 	this.readCredits();
 	this.generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/PAPYRUS.TTF"));
-	this.ui = new UI2D(this.manager, generator);
+	manager.load(uiConfig.getMusicUIName(), Music.class);
+	manager.load(uiConfig.getMusicIntroName(), Music.class);
+
+	this.ui = new UI2D(this.manager, generator, uiConfig);
+
+	manager.finishLoading();// termina la primera carga
+
 	this.controler = new Controler2D(this.ui);
-	GraphicsFileLoader graphicsFileLoader = new GraphicsFileLoader(this.manager);
+	this.graphicsFileLoader = new GraphicsFileLoader(this.manager);
+	this.audioManager = new AudioManager(manager);
 	this.ui.create();
-	this.currentAppListener = this.ui;
+
+	this.musicUI = manager.get(uiConfig.getMusicUIName(), Music.class);
+	this.musicIntro = manager.get(uiConfig.getMusicIntroName(), Music.class);
+	this.musicActual = this.musicUI;
+	musicActual.setLooping(true);
+	musicActual.setVolume(Facade.getInstance().getGameConfig().getMasterVolume()
+		* Facade.getInstance().getGameConfig().getMusicVolume());
+	musicActual.play();
+	this.renderState = new RenderStateInUI(this.ui);
+
     }
 
     @Override
     public void render()
     {
-	this.currentAppListener.render();
-	if (this.currentAppListener == this.grafica)
-	    this.updateInput();
+	this.renderState.render();
+	
+	   
     }
 
     @Override
     public void resize(int width, int height)
     {
-	this.currentAppListener.resize(width, height);
+	this.renderState.resize(width, height);
     }
 
     @Override
     public void pause()
     {
-	this.currentAppListener.pause();
+	this.renderState.pause();
     }
 
     @Override
     public void resume()
     {
-	this.currentAppListener.resume();
+	this.renderState.resume();
     }
 
     @Override
@@ -218,33 +265,23 @@ public class Facade implements ApplicationListener
 	Facade.getInstance().saveGameOption();
     }
 
-    private void updateInput()
+    
+
+    public static void saveConfig(UIConfig config)
     {
-	Controls controles = Game.getInstance().getControles();
+	FileHandle file = Gdx.files.local(CONFIG_UI_FILE);
+	json.setUsePrototypes(false);
+	file.writeString(json.prettyPrint(config), false);
+    }
 
-	float x = 0, y = 0;
-
-	Vector2 aux;
-	if (Gdx.input.isKeyPressed(Input.Keys.UP))
-	    y += 1;
-	if (Gdx.input.isKeyPressed(Input.Keys.DOWN))
-	    y -= 1;
-	if (Gdx.input.isKeyPressed(Input.Keys.RIGHT))
-	    x += 1;
-	if (Gdx.input.isKeyPressed(Input.Keys.LEFT))
-	    x -= 1;
-	aux = new Vector2(x, y);
-
-	controles.setNuevoRumbo(aux);
-	controles.processKey(Input.Keys.SPACE);
-	controles.processKey(Input.Keys.F);
-	controles.processKey(Input.Keys.N);
-	controles.processKey(Input.Keys.O);
-
-	controles.processKey(Input.Keys.P);
-	controles.processKey(Input.Keys.S);
-	Game.getInstance().updateframe(Gdx.graphics.getDeltaTime());
-
+    public static UIConfig loadConfig()
+    {
+	FileHandle file = Gdx.files.local(CONFIG_UI_FILE);
+	if (file.exists())
+	{
+	    return json.fromJson(UIConfig.class, file);
+	}
+	return new UIConfig(); // Valores por defecto
     }
 
 }

@@ -38,19 +38,17 @@ import controler.AbstractControler;
 import controler.IView;
 import facade.Facade;
 import i18n.Messages;
+import util.Constantes;
 import util.GameConfig;
 
 public class UI2D implements IView, ApplicationListener
 {
-    private String backgroundFile = "ui/background.jpg";
-    private String skinFile = "skin/golden-ui-skin.json";
-    private String sfxClickFile = "sfx/756269.wav";
-    private String sfxFocusFile = "sfx/342200__christopherderp__videogame-menu-button-click.wav";
-    private String slideSoundFile = "sfx/slider.wav";
+    private String backgroundFile;
+    private String skinFile;
+    private String sfxClickFile;
+    private String sfxFocusFile;
+    private String slideSoundFile;
 
-  
-
-    private String musicUIName = "music/WombatNoisesAudio - The Legend of Narmer.mp3";
     private Texture backgroundText;
     private Image background;
     private Skin skin;
@@ -73,7 +71,7 @@ public class UI2D implements IView, ApplicationListener
     private Label labelTitleOption;
     private Label labelTitleCredits;
     private Label labelLanguage;
-private Label creditsLabel;
+    private Label creditsLabel;
     private Table tableMain;
     private Table tableOption;
     private Table tableCredits;
@@ -86,7 +84,7 @@ private Label creditsLabel;
     private SliderWithLabel slMasterVolume;
     private SliderDificult slDificultLevel;
 
-    private Music musica;
+   
     private Sound focusSound;
     private Sound clickSound;
     private Sound slideSound;
@@ -97,28 +95,25 @@ private Label creditsLabel;
     private boolean inCredits = false;
     private SelectBox<String> selectBox;
 
-    public UI2D(AssetManager manager, FreeTypeFontGenerator fontGenerator)
+    public UI2D(AssetManager manager, FreeTypeFontGenerator fontGenerator, UIConfig uiConfig)
     {
-	
-
 
 	this.fontGenerator = fontGenerator;
 	this.manager = manager;
+	this.backgroundFile=uiConfig.getBackgroundFile();
+	this.skinFile=uiConfig.getSkinFile();
+	this.sfxClickFile=uiConfig.getSfxClickFile();
+	this.sfxFocusFile=uiConfig.getSfxFocusFile();
+	this.slideSoundFile=uiConfig.getSlideSoundFile();
+	
+	
 	manager.load(this.backgroundFile, Texture.class);
-	manager.load(this.musicUIName, Music.class);
 	manager.load(this.skinFile, Skin.class);
 	manager.load(this.sfxClickFile, Sound.class);
 	manager.load(this.sfxFocusFile, Sound.class);
 	manager.load(this.slideSoundFile, Sound.class);
 
-	manager.finishLoading();
-	this.backgroundText = manager.get(this.backgroundFile, Texture.class);
-	this.clickSound = manager.get(this.sfxClickFile, Sound.class);
-	this.focusSound = manager.get(this.sfxFocusFile, Sound.class);
-	this.slideSound = manager.get(this.slideSoundFile, Sound.class);
-	this.background = new Image(backgroundText);
-	this.skin = manager.get(this.skinFile, Skin.class);
-
+	
 	this.inputListenerSounds = new InputListener()
 	{
 
@@ -157,6 +152,7 @@ private Label creditsLabel;
     @Override
     public void create()
     {
+	this.loadResources();
 	stage = new Stage(new ScreenViewport());
 	Gdx.input.setInputProcessor(stage);
 	this.prepareFonts();
@@ -188,11 +184,26 @@ private Label creditsLabel;
 
 	this.stage.addActor(this.tableMain);
 
-	this.musica = manager.get(this.musicUIName, Music.class);
-	musica.setLooping(true);
-	musica.setVolume(Facade.getInstance().getGameConfig().getMasterVolume()
-		* Facade.getInstance().getGameConfig().getMusicVolume());
-	musica.play();
+	Table tablaVersion = new Table();
+	tablaVersion.bottom().right();
+	tablaVersion.setFillParent(true);
+	Label versionLabel = new Label(Constantes.VERSION, skin);
+
+	tablaVersion.add(versionLabel).pad(10);
+	stage.addActor(tablaVersion);
+
+
+    }
+
+    private void loadResources()
+    {
+	manager.finishLoading();
+	this.backgroundText = manager.get(this.backgroundFile, Texture.class);
+	this.clickSound = manager.get(this.sfxClickFile, Sound.class);
+	this.focusSound = manager.get(this.sfxFocusFile, Sound.class);
+	this.slideSound = manager.get(this.slideSoundFile, Sound.class);
+	this.background = new Image(backgroundText);
+	this.skin = manager.get(this.skinFile, Skin.class);
 
     }
 
@@ -300,37 +311,37 @@ private Label creditsLabel;
     @Override
     public int getDificultLevel()
     {
-	
+
 	return this.slDificultLevel.getValue();
     }
 
     @Override
     public String getLanguage()
     {
-	
+
 	return null;
     }
 
     @Override
     public float getMasterVolume()
     {
-	
+
 	return this.slMasterVolume.getValue();
     }
 
     @Override
     public float getMusicVolume()
     {
-	
+
 	return this.slMusicVolume.getValue();
     }
 
     @Override
     public float getSoundsVolume()
     {
-	
+
 	return this.slFXVolume.getValue();
-	
+
     }
 
     @Override
@@ -449,23 +460,19 @@ private Label creditsLabel;
     @Override
     public void updateMasterVolume()
     {
-	musica.setVolume(Facade.getInstance().getGameConfig().getMasterVolume()
-		* Facade.getInstance().getGameConfig().getMusicVolume());
-
+	
     }
 
     @Override
     public void updateMusicVolume()
     {
-	musica.setVolume(Facade.getInstance().getGameConfig().getMasterVolume()
-		* Facade.getInstance().getGameConfig().getMusicVolume());
-
+	
     }
 
     @Override
     public void updateSoundsVolume()
     {
-	
+
     }
 
     private void createOptionTable()
@@ -601,6 +608,11 @@ private Label creditsLabel;
 
 	tableMain.row();
 
+	if (!Facade.getInstance().getGameConfig().isFinishedOneTime())
+	{
+	    this.slDificultLevel.setVisible(false);
+	    this.slDificultLevel.setTouchable(Touchable.disabled);
+	}
     }
 
     private void createCreditsTable()
@@ -615,8 +627,6 @@ private Label creditsLabel;
 	float anchoTexto = stage.getWidth() * 0.8f;
 	float altoTexto = stage.getHeight() * 0.6f;
 	String textoCreditos = Facade.getInstance().getCredits();
-
-	
 
 	this.creditsLabel = new Label(textoCreditos, skin);
 	creditsLabel.setWrap(true); // Muy importante para que el texto se ajuste al ancho
