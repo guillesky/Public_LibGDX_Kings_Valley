@@ -12,6 +12,7 @@ public interface KVEventListener
 	int THROW_DAGGER = 5;
 	int ENTER_GIRATORY = 6;
 	int ACTIVATE_TRAP = 7;
+	int PLAYER_PICKING = 8;
 	int PLAYER_JUMP = 10;
 	int PLAYER_LANDING = 11;
 	int PLAYER_BEGIN_FALL = 12;
@@ -27,8 +28,13 @@ public interface KVEventListener
 	int PICKUP_ALL_JEWEL = 54;
 	int OPEN_DOOR=60;
 	int CLOSE_DOOR=61;
+	int SWORD_STUCK=70;
+	int SWORD_CLASH=71;
+	int SWORD_CLASH_FLESH=72;
+	
 	
 	int FINISH_ALL_LEVELS=100;
+	
 	
 
 	void eventFired(int eventCode, Object param);

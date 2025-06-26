@@ -1,3 +1,28 @@
 {
 mainMusicFile: music/KV_MAIN.mp3
+mummyAppearFile: sfx/Mummy_Appear.wav
+mummyDeath1File: sfx/mummy_Death1.wav
+mummyDeath2File: sfx/mummy_Death2.wav
+mummyDeath3File: sfx/mummy_Death3.wav
+pickingFile: sfx/Picking.wav
+pickupPickerFile: sfx/Pickup_Picker.wav
+pickupSwordFile: sfx/Sword_Pickup.wav
+pickupJewelFile: sfx/Pickup_Gem.wav
+swordThrow1File: sfx/Sword_Throw1.wav
+swordThrow2File: sfx/Sword_Throw2.wav
+swordThrow3File: sfx/Sword_Throw3.wav
+swordThrow4File: sfx/Sword_Throw4.wav
+swordThrow5File: sfx/Sword_Throw5.wav
+swordStuckFile: sfx/Sword_Stuck.wav
+swordClashFile: sfx/Sword_Clash.wav
+swordClashFleshFile: sfx/Sword_Flesh.wav
+playerDeath1File: sfx/pl_Death1.wav
+playerDeath2File: sfx/pl_Death2.wav
+playerDeath3File: sfx/pl_Death3.wav
+playerDeath4File: sfx/pl_Death4.wav
+playerDeath5File: sfx/pl_Death5.wav
+playerJumpFile: sfx/Pl_Jump.wav
+giratoryFile: sfx/giratory.wav
+DoorOpenClose1File: sfx/Door_OC1.wav
+DoorOpenClose2File: sfx/Door_OC2.wav
 }
