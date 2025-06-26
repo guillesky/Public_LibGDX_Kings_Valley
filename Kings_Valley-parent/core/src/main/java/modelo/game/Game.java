@@ -275,7 +275,7 @@ public class Game implements KVEventListener
 		this.stateGame = new GameStateDying();
 		this.level.getPlayer().die();
 
-		this.eventFired(KVEventListener.PLAYER_DIE, null);
+		
 	}
 
 	@Override

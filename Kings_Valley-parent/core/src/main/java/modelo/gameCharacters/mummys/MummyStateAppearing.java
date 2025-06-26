@@ -1,5 +1,7 @@
 package modelo.gameCharacters.mummys;
 
+import modelo.KVEventListener;
+import modelo.game.Game;
 import modelo.gameCharacters.player.Player;
 import util.Config;
 
@@ -9,6 +11,7 @@ public class MummyStateAppearing extends MummyState
     {
 	super(mummy, Mummy.ST_APPEARING);
 	this.timeToChange = Config.getInstance().getMummyTimeAppearing();
+	Game.getInstance().eventFired(KVEventListener.MUMMY_APPEAR, this.mummy);
 
 
     }

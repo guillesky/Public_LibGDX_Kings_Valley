@@ -1,6 +1,7 @@
 package audio;
 
 import java.util.HashMap;
+import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
@@ -24,7 +25,8 @@ public class AudioManager implements KVEventListener
     private Sound[] mummyDeathSounds = new Sound[3];
     private Sound[] playerDeathSounds = new Sound[5];
     private Sound[] throwSwordSounds = new Sound[5];
-    private Sound[] doorOpenCloseSounds = new Sound[2];
+    private Sound[] doorOpenCloseSounds = new Sound[3];
+    private static final Random random = new Random();
 
     private static void saveConfig(AudioConfig config)
     {
@@ -53,6 +55,7 @@ public class AudioManager implements KVEventListener
 	this.manager.load(audioConfig.getMainMusicFile(), Music.class);
 	this.manager.load(audioConfig.getDoorOpenClose1File(), Sound.class);
 	this.manager.load(audioConfig.getDoorOpenClose2File(), Sound.class);
+	this.manager.load(audioConfig.getDoorOpenClose3File(), Sound.class);
 	this.manager.load(audioConfig.getGiratoryFile(), Sound.class);
 	this.manager.load(audioConfig.getMummyAppearFile(), Sound.class);
 	this.manager.load(audioConfig.getMummyDeath1File(), Sound.class);
@@ -77,6 +80,7 @@ public class AudioManager implements KVEventListener
 	this.manager.load(audioConfig.getSwordThrow3File(), Sound.class);
 	this.manager.load(audioConfig.getSwordThrow4File(), Sound.class);
 	this.manager.load(audioConfig.getSwordThrow5File(), Sound.class);
+	this.manager.load(audioConfig.getTrapMechanismActivate(), Sound.class);
 
     }
 
@@ -106,9 +110,12 @@ public class AudioManager implements KVEventListener
 	this.hashMapSounds.put(KVEventListener.SWORD_STUCK,
 		this.manager.get(audioConfig.getSwordStuckFile(), Sound.class));
 
-	this.doorOpenCloseSounds[0] = this.manager.get(audioConfig.getDoorOpenClose1File(), Sound.class);
+	this.hashMapSounds.put(KVEventListener.ACTIVATE_TRAP,
+		this.manager.get(audioConfig.getTrapMechanismActivate(), Sound.class));
 
+	this.doorOpenCloseSounds[0] = this.manager.get(audioConfig.getDoorOpenClose1File(), Sound.class);
 	this.doorOpenCloseSounds[1] = this.manager.get(audioConfig.getDoorOpenClose2File(), Sound.class);
+	this.doorOpenCloseSounds[2] = this.manager.get(audioConfig.getDoorOpenClose3File(), Sound.class);
 
 	this.mummyDeathSounds[0] = this.manager.get(audioConfig.getMummyDeath1File(), Sound.class);
 
@@ -137,6 +144,34 @@ public class AudioManager implements KVEventListener
 	    sound.play(Game.getInstance().getGameConfig().getMasterVolume()
 		    * Game.getInstance().getGameConfig().getSoundsVolume());
 
+	if (eventCode == KVEventListener.THROW_DAGGER)
+	{
+	    int i = random.nextInt(this.throwSwordSounds.length);
+	    this.throwSwordSounds[i].play(Game.getInstance().getGameConfig().getMasterVolume()
+		    * Game.getInstance().getGameConfig().getSoundsVolume());
+	}
+
+	if (eventCode == KVEventListener.THROW_DAGGER)
+	{
+	    this.playRandomSound(throwSwordSounds);
+	}
+
+	if (eventCode == KVEventListener.PLAYER_DIE)
+	{
+	    this.playRandomSound(this.playerDeathSounds);
+	}
+
+	if (eventCode == KVEventListener.MUMMY_KILLED_BY_SWORD)
+	{
+	    this.playRandomSound(this.mummyDeathSounds);
+
+	}
+
+	if (eventCode == KVEventListener.OPEN_DOOR || eventCode == KVEventListener.CLOSE_DOOR)
+	{
+	    this.playRandomSound(this.doorOpenCloseSounds);
+	}
+
 	switch (eventCode)
 	{
 	case KVEventListener.FINISH_ALL_LEVELS:
@@ -144,10 +179,6 @@ public class AudioManager implements KVEventListener
 	    break;
 
 	case KVEventListener.MUMMY_KILLED_BY_SWORD:
-
-	    break;
-
-	case KVEventListener.PICKUP_JEWEL:
 
 	    break;
 
@@ -164,4 +195,10 @@ public class AudioManager implements KVEventListener
 
     }
 
+    private void playRandomSound(Sound[] arrayOfSound)
+    {
+	int i = random.nextInt(arrayOfSound.length);
+	arrayOfSound[i].play(Game.getInstance().getGameConfig().getMasterVolume()
+		* Game.getInstance().getGameConfig().getSoundsVolume());
+    }
 }

@@ -25,4 +25,6 @@ playerJumpFile: sfx/Pl_Jump.wav
 giratoryFile: sfx/giratory.wav
 DoorOpenClose1File: sfx/Door_OC1.wav
 DoorOpenClose2File: sfx/Door_OC2.wav
+DoorOpenClose3File: sfx/Door_OC3.wav
+trapMechanismActivate: sfx/Mechanism_Activation_Sequence.wav
 }

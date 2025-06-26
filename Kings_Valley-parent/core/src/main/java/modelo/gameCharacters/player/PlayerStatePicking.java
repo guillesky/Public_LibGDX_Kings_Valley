@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 
+import modelo.KVEventListener;
+import modelo.game.Game;
 import modelo.gameCharacters.abstractGameCharacter.GameCharacter;
 import modelo.level.DrawableElement;
 import modelo.level.Pyramid;
@@ -27,8 +29,9 @@ public class PlayerStatePicking extends PlayerState
 		Pyramid pyramid = this.player.getPyramid();
 		PairInt pairInt = coordToPick.get(0);
 		if (this.player.getTimePicking() == 0)// Recien comienza a picar
-			this.player.getPyramid().addGraphicElement(new DrawableElement(Constantes.DRAWABLE_PICKING_CELL, pairInt));
-
+			{this.player.getPyramid().addGraphicElement(new DrawableElement(Constantes.DRAWABLE_PICKING_CELL, pairInt));
+			 Game.getInstance().eventFired(KVEventListener.PLAYER_PICKING, this.player);
+			}
 		this.player.incTimePicking(deltaTime);
 
 		if (this.player.getTimePicking() >= Config.getInstance().getTimeToEndPicking()) // termino de picar una celda

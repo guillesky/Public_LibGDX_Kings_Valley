@@ -37,7 +37,8 @@ private String giratoryFile="sfx/giratory.wav";
 
 private String DoorOpenClose1File="sfx/Door_OC1.wav";
 private String DoorOpenClose2File="sfx/Door_OC2.wav";
-
+private String DoorOpenClose3File="sfx/Door_OC3.wav";
+private String trapMechanismActivate;
 
 public String getMainMusicFile()
 {
@@ -192,6 +193,18 @@ public String getDoorOpenClose1File()
 public String getDoorOpenClose2File()
 {
     return DoorOpenClose2File;
+}
+
+
+public String getTrapMechanismActivate()
+{
+    return trapMechanismActivate;
+}
+
+
+public String getDoorOpenClose3File()
+{
+    return DoorOpenClose3File;
 }
 
 
