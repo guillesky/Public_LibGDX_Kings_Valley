@@ -1,5 +1,6 @@
 {
 backgroundFile: ui/background.jpg
+cursorFile: ui/cursor.png
 musicUIName: music/WombatNoisesAudio - The Legend of Narmer.mp3
 musicIntroName: music/KV_INTRO.mp3
 skinFile: skin/golden-ui-skin.json

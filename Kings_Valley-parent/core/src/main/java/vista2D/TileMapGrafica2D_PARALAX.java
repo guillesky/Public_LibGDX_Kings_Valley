@@ -64,6 +64,7 @@ public class TileMapGrafica2D_PARALAX extends TileMapGrafica2D
 			this.drawPauseMessage();
 			stage.act();
 			stage.draw();
+			Gdx.input.setCursorCatched(false);
 		}
 		this.drawUI();
 

@@ -1,43 +1,55 @@
 package vista2D.ui;
 
 public class UIConfig
-{   private String backgroundFile;
+{
+    private String backgroundFile;
+    private String cursorFile;
     private String musicUIName;
     private String musicIntroName;
     private String skinFile;
     private String sfxClickFile;
     private String sfxFocusFile;
     private String slideSoundFile;
-   
-    
+
     public String getBackgroundFile()
     {
-        return backgroundFile;
+	return backgroundFile;
     }
+
     public String getMusicUIName()
     {
-        return musicUIName;
+	return musicUIName;
     }
+
     public String getSkinFile()
     {
-        return skinFile;
+	return skinFile;
     }
+
     public String getSfxClickFile()
     {
-        return sfxClickFile;
+	return sfxClickFile;
     }
+
     public String getSfxFocusFile()
     {
-        return sfxFocusFile;
+	return sfxFocusFile;
     }
+
     public String getSlideSoundFile()
     {
-        return slideSoundFile;
+	return slideSoundFile;
     }
+
     public String getMusicIntroName()
     {
-        return musicIntroName;
+	return musicIntroName;
+    }
+
+    public String getCursorFile()
+    {
+        return cursorFile;
     }
     
-    
+
 }

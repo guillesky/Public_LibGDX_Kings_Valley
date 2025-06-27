@@ -1,7 +1,10 @@
 package facade;
 
 import com.badlogic.gdx.ApplicationListener;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
+
+import modelo.game.Game;
 
 public class RenderStateStartingGame extends RenderState
 {
@@ -11,7 +14,7 @@ public class RenderStateStartingGame extends RenderState
     public RenderStateStartingGame(ApplicationListener appListener)
     {
 	super(appListener);
-	this.introMusic =Facade.getInstance().getMusicIntro();
+	this.introMusic = Facade.getInstance().getMusicIntro();
 
     }
 
@@ -20,8 +23,12 @@ public class RenderStateStartingGame extends RenderState
     {
 
 	super.render();
-	if (!this.introMusic.isPlaying())
+
+	if (7 - this.introMusic.getPosition() <= Game.getInstance().getInterfaz().getTimeToEnterLevel())
+	{
 	    Facade.getInstance().setRenderState(new RenderStateInGame(Facade.getInstance().getGameAppListener()));
+	    Gdx.input.setCursorCatched(true);
+	}
     }
 
     @Override
