@@ -10,16 +10,17 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import controler.AbstractControler;
 import controler.IView;
 import facade.Facade;
-import util.Utils;
+import modelo.KVEventListener;
 
-public class Controler2D extends AbstractControler
+public class Controler2D extends AbstractControler implements KVEventListener
 {
     private ClickListener clickListener;
     private ChangeListener changeListener;
-
+private UI2D ui;
     public Controler2D(IView view)
     {
 	super(view);
+	this.ui=(UI2D) view;
 	this.clickListener = new ClickListener()
 	{
 	    @Override
@@ -148,5 +149,24 @@ public class Controler2D extends AbstractControler
     {
 	Facade.getInstance().changeLanguage(languageName);
 	this.view.updateLanguage();
+    }
+
+    @Override
+    public void eventFired(int eventCode, Object param)
+    {
+	switch(eventCode) 
+	{
+	case KVEventListener.PAUSED_IS_CHANGED:
+	{
+	    boolean isPaused=(boolean) param;
+	    if(isPaused) 
+	    {this.ui.doUiInGame();;
+		
+	    }
+	    else this.ui.doEnterGame();
+	}
+	
+	}
+	
     }
 }

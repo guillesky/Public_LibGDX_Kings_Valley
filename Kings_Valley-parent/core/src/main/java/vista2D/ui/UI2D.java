@@ -77,7 +77,7 @@ public class UI2D implements IView, ApplicationListener
     private Table tableOption;
     private Table tableCredits;
     private Table tableInGame;
-
+    private Table tableVersion;
     private AssetManager manager;
     private boolean loading = true;
     private String KVName = "Kings Valley Remake";
@@ -148,14 +148,12 @@ public class UI2D implements IView, ApplicationListener
     @Override
     public void create()
     {
+
 	this.getResources();
-	stage = new Stage(new ScreenViewport());
-	Gdx.input.setInputProcessor(stage);
 	this.prepareFonts();
 
-	this.calulateBackground(stage.getWidth(), stage.getHeight());
+	this.calulateBackground(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-	stage.addActor(background); // ¡Agregarlo antes que todo lo demás!
 	TextButton.TextButtonStyle buttonStyle = skin.get("default", TextButton.TextButtonStyle.class);
 
 	buttonStyle.font = skin.getFont(this.fontSmallName);
@@ -174,20 +172,32 @@ public class UI2D implements IView, ApplicationListener
 	labelStyleSmall.font = skin.getFont(this.fontSmallName);
 	this.createMainTable();
 	this.createOptionTable();
-	this.createCreditsTable();
+
 	this.createInGameTable();
-	this.tableMainActual = this.tableMainInUi;
+	this.createTableVersion();
+	this.doEnterUi();
+	this.createCreditsTable();
 	this.addSounds();
 
-	this.stage.addActor(this.tableMainInUi);
+    }
 
-	Table tablaVersion = new Table();
-	tablaVersion.bottom().right();
-	tablaVersion.setFillParent(true);
+    private void createTableVersion()
+    {
+	this.tableVersion = new Table();
+	tableVersion.bottom().right();
+	tableVersion.setFillParent(true);
 	Label versionLabel = new Label(Constantes.VERSION, skin);
+	tableVersion.add(versionLabel).pad(10);
+    }
 
-	tablaVersion.add(versionLabel).pad(10);
-	stage.addActor(tablaVersion);
+    public void doEnterUi()
+    {
+	stage = new Stage(new ScreenViewport());
+	Gdx.input.setInputProcessor(stage);
+	stage.addActor(background); // ¡Agregarlo antes que todo lo demás!
+	this.tableMainActual = this.tableMainInUi;
+	this.stage.addActor(this.tableMainInUi);
+	stage.addActor(tableVersion);
 
     }
 
@@ -427,7 +437,7 @@ public class UI2D implements IView, ApplicationListener
     {
 
 	float imageRatio = background.getWidth() / (float) background.getHeight();
-	float stageRatio = width / stage.getHeight();
+	float stageRatio = width / height;
 
 	if (imageRatio < stageRatio)
 	{
@@ -709,7 +719,7 @@ public class UI2D implements IView, ApplicationListener
 	    public void clicked(InputEvent event, float x, float y)
 	    {
 
-		System.out.println("OPTIONS");
+		doOptions();
 	    }
 	});
 
@@ -750,12 +760,26 @@ public class UI2D implements IView, ApplicationListener
 
     public void doEnterGame()
     {
-	this.stage.getRoot().removeActor(this.tableMainInUi);
+	this.stage.getRoot().removeActor(this.tableMainActual);
+	Gdx.input.setCursorCatched(true);
     }
 
-    public Table getTableInGame()
+    public void doInGame()
     {
-	return tableInGame;
+
+    }
+
+    public Stage getStage()
+    {
+	return stage;
+    }
+
+    public void doUiInGame()
+    {
+	this.stage.getRoot().removeActor(this.background);
+	this.tableMainActual = tableInGame;
+	this.stage.addActor(tableInGame);
+	Gdx.input.setCursorCatched(false);
     }
 
 }

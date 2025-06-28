@@ -15,7 +15,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 
-import modelo.game.Game;
 import modelo.gameCharacters.mummys.MummyFactory;
 import modelo.level.LevelObject;
 import util.Config;

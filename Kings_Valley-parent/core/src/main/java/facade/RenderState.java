@@ -2,57 +2,24 @@ package facade;
 
 import com.badlogic.gdx.ApplicationListener;
 
+import vista2D.ui.UI2D;
+
 public abstract class RenderState implements ApplicationListener
 {
-protected ApplicationListener appListener;
+protected UI2D ui;
+protected ApplicationListener gameInterfaz;
 
-    public RenderState(ApplicationListener appListener)
-{
     
-    this.appListener = appListener;
+
+    
+
+    public RenderState(UI2D ui, ApplicationListener gameInterfaz)
+{
+    super();
+    this.ui = ui;
+    this.gameInterfaz = gameInterfaz;
 }
 
-    @Override
-    public void create()
-    {
-	this.appListener.create();
-	
-    }
-
-    @Override
-    public void resize(int width, int height)
-    {
-	this.appListener.resize( width, height);
-	
-    }
-
-    @Override
-    public void render()
-    {
-	this.appListener.render();
-	
-    }
-
-    @Override
-    public void pause()
-    {
-	this.appListener.render();
-	
-    }
-
-    @Override
-    public void resume()
-    {
-	this.appListener.resume();
-	
-    }
-
-    @Override
-    public void dispose()
-    {
-	this.appListener.dispose();
-	
-    }
     
     public abstract void newGame();
     

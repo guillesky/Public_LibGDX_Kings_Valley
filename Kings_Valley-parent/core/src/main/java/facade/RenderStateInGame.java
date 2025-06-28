@@ -7,26 +7,77 @@ import com.badlogic.gdx.math.Vector2;
 
 import modelo.control.Controls;
 import modelo.game.Game;
+import vista2D.ui.UI2D;
 
 public class RenderStateInGame extends RenderState
 {
 
-    public RenderStateInGame(ApplicationListener appListener)
-    {
-	super(appListener);
-	
-    }
-    
+   
     
     
   
+   
+
+
+
+    public RenderStateInGame(UI2D ui, ApplicationListener gameInterfaz)
+    {
+	super(ui, gameInterfaz);
+	
+    }
+
+
+
+
+    @Override
+    public void create()
+    {
+	this.gameInterfaz.create();
+	
+    }
+
+    @Override
+    public void resize(int width, int height)
+    {
+	this.gameInterfaz.resize( width, height);
+	
+    }
+
+   
+
+    @Override
+    public void pause()
+    {
+	this.gameInterfaz.render();
+	
+    }
+
+    @Override
+    public void resume()
+    {
+	this.gameInterfaz.resume();
+	
+    }
+
+    @Override
+    public void dispose()
+    {
+	this.gameInterfaz.dispose();
+	
+    }
+    
     @Override
     public void render()
     {
-	
-	super.render();
+	this.gameInterfaz.render();
 	this.updateGame();
+	if(Game.getInstance().isPaused())
+	{
+	    this.ui.getStage().act();
+	    this.ui.getStage().draw();
+	}
     }
+
 
 
 

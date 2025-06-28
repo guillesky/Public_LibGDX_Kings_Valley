@@ -10,6 +10,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
 
+import facade.Facade;
 import modelo.KVEventListener;
 import modelo.game.Game;
 
@@ -200,5 +201,13 @@ public class AudioManager implements KVEventListener
 	int i = random.nextInt(arrayOfSound.length);
 	arrayOfSound[i].play(Game.getInstance().getGameConfig().getMasterVolume()
 		* Game.getInstance().getGameConfig().getSoundsVolume());
+    }
+
+    public void updateMusicVolume()
+    {
+
+	this.musicMain.setVolume(Facade.getInstance().getGameConfig().getMasterVolume()
+		* Facade.getInstance().getGameConfig().getMusicVolume());
+
     }
 }

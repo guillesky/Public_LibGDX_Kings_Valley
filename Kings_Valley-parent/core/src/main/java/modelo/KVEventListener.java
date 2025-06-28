@@ -31,9 +31,10 @@ public interface KVEventListener
 	int SWORD_STUCK=70;
 	int SWORD_CLASH=71;
 	int SWORD_CLASH_FLESH=72;
-	
+	int PAUSED_IS_CHANGED = 80;
 	
 	int FINISH_ALL_LEVELS=100;
+	
 	
 	
 
