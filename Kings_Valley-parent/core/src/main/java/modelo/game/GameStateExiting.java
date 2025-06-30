@@ -20,7 +20,6 @@ public class GameStateExiting extends GameState
     public void updateframe(float deltaTime)
     {
 	super.updateframe(deltaTime);
-	System.out.println(this.game.getDelta());
 	if (this.game.getDelta() >= this.game.getInterfaz().getTimeToExitLevel())
 	{
 	    this.game.goToLevel(door);
