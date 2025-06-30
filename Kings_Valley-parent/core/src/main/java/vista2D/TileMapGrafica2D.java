@@ -85,6 +85,7 @@ public class TileMapGrafica2D implements IMyApplicationListener
 	private float timeToExitLevel = 1f;
 	private float timeDying = 1f;
 	protected float cameraOffsetY = (12f / 22f);
+	private float timeToEndGame=1f;
 	
 
 	public TileMapGrafica2D(GraphicsFileLoader graphicsFileLoader)
@@ -627,6 +628,13 @@ public class TileMapGrafica2D implements IMyApplicationListener
 	{
 
 		return this.timeDying;
+	}
+
+	@Override
+	public float getTimeToEndGame()
+	{
+	    // TODO Auto-generated method stub
+	    return this.timeToEndGame;
 	}
 
 }

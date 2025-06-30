@@ -3,6 +3,8 @@ package modelo;
 public interface IGrafica
 {
 
+  
+
     void addGraphicElement(Object element);
 
     void removeGraphicElement(Object element);
@@ -14,5 +16,7 @@ public interface IGrafica
     float getTimeToEnterLevel();
 
     float getTimeDying();
+
+    float getTimeToEndGame();
 
 }

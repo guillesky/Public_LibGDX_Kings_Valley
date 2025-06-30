@@ -103,7 +103,7 @@ public class Facade implements ApplicationListener
     public void startNewGame(int dificultLevel)
     {
 	Game.getInstance().setDificultLevel(dificultLevel);
-	Game.getInstance().start();
+	Game.getInstance().startNewGame();
 	this.gameAppListener.create();
 
 	this.ui.doEnterGame();
@@ -132,6 +132,8 @@ public class Facade implements ApplicationListener
     public void retry()
     {
 	Game.getInstance().dying();
+	Game.getInstance().pressPause();
+	
     }
 
     public void saveGameOption()
@@ -310,6 +312,11 @@ public class Facade implements ApplicationListener
     protected Music getMusicIntro()
     {
 	return musicIntro;
+    }
+
+    public void mainMenu()
+    {
+	
     }
 
 }

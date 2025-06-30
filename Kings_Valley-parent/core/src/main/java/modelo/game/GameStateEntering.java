@@ -1,6 +1,7 @@
 package modelo.game;
 
 import modelo.KVEventListener;
+import modelo.level.door.Door;
 
 public class GameStateEntering extends GameState
 {
@@ -18,5 +19,19 @@ public class GameStateEntering extends GameState
 		if (this.game.getDelta() >= this.game.getInterfaz().getTimeToEnterLevel())
 			this.game.stateGame = new GameStatePlaying();
 	}
+
+	@Override
+	public void startNewGame()
+	{
+  	}
+
+	
+
+	
+
+	@Override
+	protected void dying()
+	{
+   	}
 
 }

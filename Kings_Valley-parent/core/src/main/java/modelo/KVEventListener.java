@@ -34,6 +34,7 @@ public interface KVEventListener
 	int PAUSED_IS_CHANGED = 80;
 	
 	int FINISH_ALL_LEVELS=100;
+	int GAME_OVER = 200;
 	
 	
 	

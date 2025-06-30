@@ -6,7 +6,9 @@ import modelo.KVEventListener;
 import modelo.control.Controls;
 import modelo.gameCharacters.player.Player;
 import modelo.level.Level;
+import modelo.level.LevelReader;
 import modelo.level.door.Door;
+import util.Constantes;
 
 public class GameStatePlaying extends GameState
 {
@@ -70,6 +72,21 @@ public class GameStatePlaying extends GameState
 			this.game.showPlayer();
 		
 
+	}
+
+	@Override
+	public void startNewGame()
+	{
+	   
+	}
+
+
+	
+	@Override
+	protected void dying()
+	{
+	    this.game.level.getPlayer().die();
+	    this.game.stateGame=new GameStateDying();
 	}
 
 }

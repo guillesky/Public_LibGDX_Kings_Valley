@@ -23,11 +23,13 @@ public class Game implements KVEventListener
     public static final int ST_GAME_ENTERING = 1;
     public static final int ST_GAME_EXITING = 2;
     public static final int ST_GAME_DYING = 3;
-    private static Game instance = new Game();
+    public static final int ST_NOT_IN_GAME = 100;
+    public static final int ST_ENDING = 99;
+    private static Game instance = null;
     private Controls controles = new Controls();
-    private HashMap<Integer, Boolean> completedLevels = new HashMap<Integer, Boolean>();
+    protected HashMap<Integer, Boolean> completedLevels = new HashMap<Integer, Boolean>();
     private boolean paused = false;
-    private Level level = null;
+    protected Level level = null;
     protected int idCurrentLevel = 1;
     private int dificultLevel = 0;
     private float delta = 0;
@@ -41,21 +43,15 @@ public class Game implements KVEventListener
     private float maxDeltaTimeRegistered = 0;
     private GameConfig gameConfig;
 
-   
-
     public void addKVEventListener(KVEventListener kvEventListener)
     {
 	this.kvEventListeners.add(kvEventListener);
     }
 
-    
-    
     public ArrayList<KVEventListener> getKvEventListeners()
     {
-        return kvEventListeners;
+	return kvEventListeners;
     }
-
-
 
     public void setGameConfig(GameConfig gameConfig)
     {
@@ -97,8 +93,9 @@ public class Game implements KVEventListener
 	this.initNewGame();
     }
 
-    private void initNewGame()
+    protected void initNewGame()
     {
+	this.score = 0;
 	this.resetCompletedLevels();
 	this.lives = 3;
     }
@@ -113,6 +110,11 @@ public class Game implements KVEventListener
 
     public static Game getInstance()
     {
+	if (instance == null)
+	{
+	    instance = new Game();
+	    instance.stateGame = new GameStateNotInGame();
+	}
 	return instance;
     }
 
@@ -128,8 +130,7 @@ public class Game implements KVEventListener
 
 	if (controles.getShot(Input.Keys.P) || controles.getShot(Input.Keys.ESCAPE))
 	{
-	    this.paused = !this.paused;
-	    this.eventFired(KVEventListener.PAUSED_IS_CHANGED, this.paused);
+	    this.pressPause();
 	}
 
 	if (!this.paused)
@@ -137,6 +138,13 @@ public class Game implements KVEventListener
 	    this.stateGame.updateframe(deltaTime);
 
 	}
+
+    }
+
+    public void pressPause()
+    {
+	this.paused = !this.paused;
+	this.eventFired(KVEventListener.PAUSED_IS_CHANGED, this.paused);
 
     }
 
@@ -167,20 +175,7 @@ public class Game implements KVEventListener
 
     public void start(Door door)
     {
-	// this.countTiles();
-
-	LevelReader levelReader = new LevelReader();
-	if (this.level != null)
-	    this.level.dispose();
-	if (Constantes.levelFileName.get(idCurrentLevel) == null)
-	{
-	    this.eventFired(KVEventListener.FINISH_ALL_LEVELS, null);
-
-	}
-	this.level = levelReader.getLevel(idCurrentLevel, Constantes.levelFileName.get(idCurrentLevel), dificultLevel,
-		this.completedLevels.get(this.idCurrentLevel), door, interfaz);
-	this.stateGame = new GameStateEntering();
-	this.interfaz.reset();
+	this.stateGame.startNewLevel(door);
 
     }
 
@@ -242,7 +237,7 @@ public class Game implements KVEventListener
     public void nextLevel()
     {
 	this.idCurrentLevel++;
-	this.start();
+	this.start(null);
     }
 
     protected void resetDelta()
@@ -274,15 +269,9 @@ public class Game implements KVEventListener
 	return state;
     }
 
-    public void start()
-    {
-	this.start(null);
-    }
-
     public void dying()
     {
-	this.stateGame = new GameStateDying();
-	this.level.getPlayer().die();
+	this.stateGame.dying();
 
     }
 
@@ -345,6 +334,20 @@ public class Game implements KVEventListener
     public void setDificultLevel(int dificultLevel)
     {
 	this.dificultLevel = dificultLevel;
+    }
+
+    public void startNewGame()
+    {
+	this.stateGame.startNewGame();
+
+    }
+
+    public void endGame()
+    {
+
+	this.stateGame.endGame();
+	this.eventFired(KVEventListener.GAME_OVER, null);
+	this.initNewGame();
     }
 
 }

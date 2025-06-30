@@ -55,6 +55,13 @@ private UI2D ui;
 		    break;
 
 		}
+		case AbstractControler.RETRY:
+		    Facade.getInstance().retry();
+		    break;
+		    
+		case AbstractControler.MAIN_MENU:
+		    Facade.getInstance().mainMenu();
+		    break;
 		}
 	    }
 
@@ -85,6 +92,8 @@ private UI2D ui;
 		case AbstractControler.FX_VOLUME:
 		    changeSoundsVolume(sl.getValue());
 		    break;
+		    
+		
 
 		}
 	    }

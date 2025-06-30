@@ -355,6 +355,13 @@ public class Pyramid implements IGrafica
 	{
 		return allStairs;
 	}
+
+	@Override
+	public float getTimeToEndGame()
+	{
+	    
+	    return this.interfaz.getTimeToEndGame();
+	}
 	
 	
 

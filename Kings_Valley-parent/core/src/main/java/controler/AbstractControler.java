@@ -12,8 +12,8 @@ public abstract class AbstractControler
 	public static final int MASTER_VOLUME = 11;
 	public static final int FX_VOLUME = 12;
 	public static final int MUSIC_VOLUME = 13;
-	public static final Object RETRY = 20;
-	public static final Object MAIN_MENU = 21;
+	public static final int RETRY = 20;
+	public static final int MAIN_MENU = 21;
 	
 	
 	
