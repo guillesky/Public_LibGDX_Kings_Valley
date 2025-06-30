@@ -42,10 +42,7 @@ public class GameStateDying extends GameState
     {
     }
 
-    @Override
-    public void endGame()
-    {
-    }
+   
 
     @Override
     protected void dying()

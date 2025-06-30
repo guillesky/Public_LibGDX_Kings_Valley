@@ -15,7 +15,7 @@ public abstract class GameState
     }
 
     public GameState(int state)
-    {System.out.println(state);
+    {
 	this.game = Game.getInstance();
 	this.game.state = state;
 	this.game.resetDelta();
