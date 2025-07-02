@@ -36,6 +36,7 @@ public class Player extends GameCharacter
 	super(Constantes.PLAYER, x, y, Config.getInstance().getPlayerSpeedWalk(),
 		Config.getInstance().getPlayerSpeedWalkStairs(), pyramid);
 	this.playerState = new PlayerStateWalking(this, GameCharacter.ST_IDDLE);
+	Game.getInstance().eventFired(KVEventListener.PLAYER_RESPAWN, this);
     }
 
     public void update(Vector2 v, boolean b, float deltaTime)

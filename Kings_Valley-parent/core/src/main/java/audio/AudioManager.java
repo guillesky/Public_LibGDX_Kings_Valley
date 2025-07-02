@@ -27,7 +27,11 @@ public class AudioManager implements KVEventListener
     private Sound[] playerDeathSounds = new Sound[5];
     private Sound[] throwSwordSounds = new Sound[5];
     private Sound[] doorOpenCloseSounds = new Sound[3];
+    private boolean fadeOutMusic = false;
     private static final Random random = new Random();
+    private float stepForFade = 0;
+    private float volimueInitialForFade = 0;
+    private boolean initFade = true;
 
     private static void saveConfig(AudioConfig config)
     {
@@ -160,6 +164,7 @@ public class AudioManager implements KVEventListener
 	if (eventCode == KVEventListener.PLAYER_DIE)
 	{
 	    this.playRandomSound(this.playerDeathSounds);
+	    this.fadeOutMusic = true;
 	}
 
 	if (eventCode == KVEventListener.MUMMY_KILLED_BY_SWORD)
@@ -184,9 +189,10 @@ public class AudioManager implements KVEventListener
 	    break;
 
 	case KVEventListener.FINISH_CURRENT_LEVEL:
-
+	    this.fadeOutMusic = true;
 	    break;
 	case KVEventListener.ENTER_LEVEL:
+	    this.endFade();
 	    this.musicMain.setVolume(Game.getInstance().getGameConfig().getMasterVolume()
 		    * Game.getInstance().getGameConfig().getMusicVolume());
 	    this.musicMain.setLooping(true);
@@ -208,6 +214,40 @@ public class AudioManager implements KVEventListener
 
 	this.musicMain.setVolume(Facade.getInstance().getGameConfig().getMasterVolume()
 		* Facade.getInstance().getGameConfig().getMusicVolume());
+
+    }
+
+    @Override
+    public void updateframe(float deltaTime)
+    {
+	if (this.fadeOutMusic)
+	{
+	    if (this.initFade)
+	    {
+		this.volimueInitialForFade = this.musicMain.getVolume();
+		this.initFade = false;
+	    }
+
+	    float timeToDie = Game.getInstance().getInterfaz().getTimeDying();
+	    float factorFade = deltaTime / timeToDie;
+
+	    float volume = this.musicMain.getVolume() - this.volimueInitialForFade * factorFade;
+	    if (volume < 0)
+	    {
+		volume = 0;
+		this.endFade();
+
+	    }
+	    this.musicMain.setVolume(volume);
+	}
+
+    }
+
+    private void endFade()
+    {
+	this.musicMain.stop();
+	this.fadeOutMusic = false;
+	this.initFade = true;
 
     }
 }

@@ -138,6 +138,8 @@ public class Game implements KVEventListener
 	    this.stateGame.updateframe(deltaTime);
 
 	}
+	for (KVEventListener kvEventListner : this.kvEventListeners)
+	    kvEventListner.updateframe(deltaTime);
 
     }
 

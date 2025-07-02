@@ -12,11 +12,14 @@ public interface KVEventListener
 	int THROW_DAGGER = 5;
 	int ENTER_GIRATORY = 6;
 	int ACTIVATE_TRAP = 7;
-	int PLAYER_PICKING = 8;
+	
 	int PLAYER_JUMP = 10;
 	int PLAYER_LANDING = 11;
 	int PLAYER_BEGIN_FALL = 12;
 	int PLAYER_DIE = 13;
+	int PLAYER_PICKING = 14;
+	int PLAYER_RESPAWN = 15;
+	
 	int MUMMY_APPEAR = 20;
 	int MUMMY_DIE = 21;
 	int MUMMY_KILLED_BY_SWORD = 22;
@@ -38,6 +41,13 @@ public interface KVEventListener
 	
 	
 	
+	
 
 	void eventFired(int eventCode, Object param);
+
+
+
+
+
+	void updateframe(float deltaTime);
 }

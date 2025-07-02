@@ -102,10 +102,7 @@ public class Facade implements ApplicationListener
 
     public void startNewGame(int dificultLevel)
     {
-	Game.getInstance().setDificultLevel(dificultLevel);
-	Game.getInstance().startNewGame();
-	this.gameAppListener.create();
-
+	
 	this.ui.doEnterGame();
 	this.musicUI.stop();
 	this.musicActual = this.musicIntro;
@@ -115,6 +112,9 @@ public class Facade implements ApplicationListener
 	musicActual.play();
 
 	this.renderState.newGame();
+	Game.getInstance().setDificultLevel(dificultLevel);
+	Game.getInstance().startNewGame();
+	this.gameAppListener.create();
 
     }
 

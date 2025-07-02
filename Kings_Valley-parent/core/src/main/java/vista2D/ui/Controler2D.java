@@ -178,4 +178,11 @@ private UI2D ui;
 	}
 	
     }
+
+    @Override
+    public void updateframe(float deltaTime)
+    {
+	// TODO Auto-generated method stub
+	
+    }
 }
