@@ -822,7 +822,7 @@ public class UI2D implements IView, ApplicationListener
 	    {
 		doUiInGame();
 	    }
-	});
+	});     
 
 	tableMap.add(labelTitleMap).colspan(3).expandX().fillX().pad(20).row();
 
