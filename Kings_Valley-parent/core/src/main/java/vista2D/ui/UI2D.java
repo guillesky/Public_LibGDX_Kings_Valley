@@ -1,5 +1,6 @@
 package vista2D.ui;
 
+import java.util.HashMap;
 import java.util.Iterator;
 
 import com.badlogic.gdx.ApplicationListener;
@@ -38,6 +39,7 @@ import controler.AbstractControler;
 import controler.IView;
 import facade.Facade;
 import i18n.Messages;
+import modelo.game.Game;
 import util.Constantes;
 import util.GameConfig;
 
@@ -45,7 +47,10 @@ public class UI2D implements IView, ApplicationListener
 {
 
     private Texture backgroundText;
-    private Image background;
+
+    private Image mapImage;
+  
+    private Image backgroundImage;
     private Skin skin;
     private Stage stage;
     private Label labelProgressLoading;
@@ -63,10 +68,12 @@ public class UI2D implements IView, ApplicationListener
     private TextButton buttonExitInGame;
     private TextButton buttonOptionsInGame;
     private TextButton buttonMainMenu;
-
-    private ProgressBar progressBar;
+    private TextButton buttonMap;
     private TextButton buttonBackFromOptions;
     private TextButton buttonBackFromCredits;
+    private TextButton buttonBackFromMap;
+
+    private ProgressBar progressBar;
     private Label labelTitleMain;
     private Label labelTitleOption;
     private Label labelTitleCredits;
@@ -97,6 +104,8 @@ public class UI2D implements IView, ApplicationListener
     private SelectBox<String> selectBox;
     private UIConfig uiConfig;
     private Cursor cursor;
+    private Table tableMap;
+    private Label labelTitleMap;
 
     public UI2D(AssetManager manager, FreeTypeFontGenerator fontGenerator, UIConfig uiConfig)
     {
@@ -105,6 +114,10 @@ public class UI2D implements IView, ApplicationListener
 	this.manager = manager;
 
 	manager.load(this.uiConfig.getBackgroundFile(), Texture.class);
+	manager.load(this.uiConfig.getMapFile(), Texture.class);
+	manager.load(this.uiConfig.getPiramydActualFile(), Texture.class);
+	manager.load(this.uiConfig.getPiramydCompletedFile(), Texture.class);
+
 	manager.load(this.uiConfig.getSkinFile(), Skin.class);
 	manager.load(this.uiConfig.getSfxClickFile(), Sound.class);
 	manager.load(this.uiConfig.getSfxFocusFile(), Sound.class);
@@ -152,7 +165,7 @@ public class UI2D implements IView, ApplicationListener
 	this.getResources();
 	this.prepareFonts();
 
-	this.calulateBackground(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+	this.calulateBackground(backgroundImage, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
 	TextButton.TextButtonStyle buttonStyle = skin.get("default", TextButton.TextButtonStyle.class);
 
@@ -177,6 +190,7 @@ public class UI2D implements IView, ApplicationListener
 	this.createTableVersion();
 	this.doEnterUi();
 	this.createCreditsTable();
+	this.createMapTable();
 	this.addSounds();
 
     }
@@ -194,7 +208,7 @@ public class UI2D implements IView, ApplicationListener
     {
 	stage = new Stage(new ScreenViewport());
 	Gdx.input.setInputProcessor(stage);
-	stage.addActor(background); // ¡Agregarlo antes que todo lo demás!
+	stage.addActor(backgroundImage); // ¡Agregarlo antes que todo lo demás!
 	this.tableMainActual = this.tableMainInUi;
 	this.stage.addActor(this.tableMainInUi);
 	stage.addActor(tableVersion);
@@ -208,7 +222,10 @@ public class UI2D implements IView, ApplicationListener
 	this.clickSound = manager.get(this.uiConfig.getSfxClickFile(), Sound.class);
 	this.focusSound = manager.get(this.uiConfig.getSfxFocusFile(), Sound.class);
 	this.slideSound = manager.get(this.uiConfig.getSlideSoundFile(), Sound.class);
-	this.background = new Image(backgroundText);
+	this.backgroundImage = new Image(backgroundText);
+
+	
+	
 	this.skin = manager.get(this.uiConfig.getSkinFile(), Skin.class);
 
 	Pixmap pixmap = new Pixmap(Gdx.files.internal(this.uiConfig.getCursorFile()));
@@ -416,7 +433,10 @@ public class UI2D implements IView, ApplicationListener
     public void resize(int width, int height)
     {
 	stage.getViewport().update(width, height, true);
-	this.calulateBackground(width, height);
+	this.calulateBackground(backgroundImage, width, height);
+	if (this.mapImage != null)
+	    this.calulateMap(this.mapImage, width, height);
+
     }
 
     @Override
@@ -433,23 +453,43 @@ public class UI2D implements IView, ApplicationListener
 
     }
 
-    private void calulateBackground(float width, float height)
+    private void calulateBackground(Image image, float width, float height)
     {
 
-	float imageRatio = background.getWidth() / (float) background.getHeight();
+	float imageRatio = image.getWidth() / (float) image.getHeight();
 	float stageRatio = width / height;
 
 	if (imageRatio < stageRatio)
 	{
-	    background.setWidth(width);
-	    background.setHeight(width / imageRatio);
+	    image.setWidth(width);
+	    image.setHeight(width / imageRatio);
 	} else
 	{
-	    background.setHeight(height);
-	    background.setWidth(height * imageRatio);
+	    image.setHeight(height);
+	    image.setWidth(height * imageRatio);
 	}
 
-	background.setPosition((width - background.getWidth()) / 2f, (height - background.getHeight()) / 2f);
+	image.setPosition((width - image.getWidth()) / 2f, (height - image.getHeight()) / 2f);
+
+    }
+
+    private void calulateMap(Image image, float width, float height)
+    {
+
+	float imageRatio = (float) image.getWidth() / (float) image.getHeight();
+	float stageRatio = width / height;
+
+	if (imageRatio > stageRatio)
+	{
+	    image.setWidth(width);
+	    image.setHeight(width / imageRatio);
+	} else
+	{
+	    image.setHeight(height);
+	    image.setWidth(height * imageRatio);
+	}
+
+	image.setPosition((width - image.getWidth()) / 2f, (height - image.getHeight()) / 2f);
 
     }
 
@@ -727,6 +767,16 @@ public class UI2D implements IView, ApplicationListener
 	buttonMainMenu.addListener(this.controler.getInputListener());
 	buttonMainMenu.setUserObject(AbstractControler.MAIN_MENU);
 
+	this.buttonMap = new TextButton(Messages.MAP.getValue(), skin);
+	buttonMap.addListener(new ClickListener()
+	{
+	    @Override
+	    public void clicked(InputEvent event, float x, float y)
+	    {
+		doMap();
+	    }
+	});
+
 	this.buttonExitInGame = new TextButton(Messages.EXIT.getValue(), skin);
 	buttonExitInGame.addListener(this.controler.getInputListener());
 	buttonExitInGame.setUserObject(AbstractControler.EXIT);
@@ -741,6 +791,9 @@ public class UI2D implements IView, ApplicationListener
 	tableInGame.add(buttonRetry).expandY().pad(10).left();
 	tableInGame.row();
 
+	tableInGame.add(this.buttonMap).expandY().pad(10).left();
+	tableInGame.row();
+
 	tableInGame.add(buttonOptionsInGame).expandY().pad(10).left();
 	tableInGame.row();
 
@@ -749,6 +802,34 @@ public class UI2D implements IView, ApplicationListener
 
 	tableInGame.add(buttonExitInGame).expandY().pad(10).left();
 	tableInGame.row();
+    }
+
+    private void createMapTable()
+    {	this.createMap();
+	this.tableMap = new Table();
+	this.tableMap.setFillParent(true);
+	this.tableMap.top();
+
+	this.labelTitleMap = new Label(Messages.MAP.getValue(), skin, "myLabelStyleLarge");
+	this.labelTitleMap.setAlignment(Align.center);
+
+	this.buttonBackFromMap = new TextButton(Messages.GO_BACK.getValue(), skin);
+
+	this.buttonBackFromMap.addListener(new ClickListener()
+	{
+	    @Override
+	    public void clicked(InputEvent event, float x, float y)
+	    {
+		doUiInGame();
+	    }
+	});
+
+	tableMap.add(labelTitleMap).colspan(3).expandX().fillX().pad(20).row();
+
+	tableMap.row();
+
+	tableMap.add(this.buttonBackFromMap).expandY().pad(10).left();
+	tableMap.row();
 
     }
 
@@ -776,10 +857,108 @@ public class UI2D implements IView, ApplicationListener
 
     public void doUiInGame()
     {
-	this.stage.getRoot().removeActor(this.background);
+	this.stage.getRoot().removeActor(this.backgroundImage);
+	this.stage.getRoot().removeActor(this.tableMainActual);
 	this.tableMainActual = tableInGame;
 	this.stage.addActor(tableInGame);
 	Gdx.input.setCursorCatched(false);
     }
 
+    private void doMap()
+    {
+	this.stage.addActor(mapImage);
+	this.stage.getRoot().removeActor(this.tableInGame);
+	this.tableMainActual = this.tableMap;
+	this.stage.addActor(tableMainActual);
+
+    }
+
+    private void createMap()
+    {
+	Pixmap result;
+
+	Pixmap actualPiramidPixmap;
+	Pixmap completedPiramidPixmap;
+
+	Texture mapText = manager.get(this.uiConfig.getMapFile(), Texture.class);
+	mapText.getTextureData().prepare();
+	result = mapText.getTextureData().consumePixmap();
+
+	Texture actualPyramidText = manager.get(this.uiConfig.getPiramydActualFile(), Texture.class);
+	actualPyramidText.getTextureData().prepare();
+	actualPiramidPixmap = actualPyramidText.getTextureData().consumePixmap();
+
+	Texture completedPiramidText = manager.get(this.uiConfig.getPiramydCompletedFile(), Texture.class);
+	completedPiramidText.getTextureData().prepare();
+	completedPiramidPixmap = completedPiramidText.getTextureData().consumePixmap();
+
+	int width = mapText.getWidth() / 6;
+	int height = mapText.getHeight() / 6;
+
+//	HashMap<Integer, Boolean> completedLevels = Game.getInstance().getCompletedLevels();
+//	int currentLevel = Game.getInstance().getCurrentLevel().getId();
+
+	
+HashMap<Integer, Boolean> completedLevels =new HashMap<Integer, Boolean>();
+	
+	for (int i=1;i<11;i++)
+	    completedLevels.put(i, true);
+	
+	for (int i=11;i<=16;i++)
+	    completedLevels.put(i, false);
+	
+	
+	int currentLevel = 11;
+	
+	
+	int p = 1;
+	int w = 1;
+	int h = 1;
+	int direction = 1;
+
+	while (p < 16)
+	{
+	    if (p == currentLevel)
+		result.drawPixmap(actualPiramidPixmap, w * width, h * height);
+	    if (completedLevels.get(p))
+		result.drawPixmap(completedPiramidPixmap, w * width, h * height);
+	    p++;
+	    w += direction;
+	    if (w == 0 || w == 5)
+	    {
+		h++;
+		direction *= -1;
+		w+=direction;
+
+	    }
+	}
+	this.mapImage = new Image(new Texture(result));
+	// result.dispose();
+	completedPiramidPixmap.dispose();
+	actualPiramidPixmap.dispose();
+
+    }
+    /*
+     * Pixmap result; if (isHorizontal) { totalDimension = singleWidth *
+     * pngFiles.size(); result = new Pixmap(totalDimension, singleHeight,
+     * Pixmap.Format.RGBA8888); } else { totalDimension = singleHeight *
+     * pngFiles.size(); result = new Pixmap(singleWidth, totalDimension,
+     * Pixmap.Format.RGBA8888); }
+     * 
+     * // Pegar todas las imágenes una al lado de la otra for (int i = 0; i <
+     * pngFiles.size(); i++) { System.out.println(pngFiles.get(i).name()); Pixmap
+     * current = new Pixmap(pngFiles.get(i));
+     * 
+     * if (isHorizontal) result.drawPixmap(current, i * singleWidth, 0); else
+     * 
+     * 
+     */
+
+    public void doEnterLevel()
+    {/*
+	this.createMap();
+	this.calulateMap(this.mapImage, getMasterVolume(), getDificultLevel());
+	this.createMapTable();
+*/
+    }
 }

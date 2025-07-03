@@ -14,6 +14,7 @@ public abstract class AbstractControler
 	public static final int MUSIC_VOLUME = 13;
 	public static final int RETRY = 20;
 	public static final int MAIN_MENU = 21;
+	public static final Object MAP = 30;
 	
 	
 	

@@ -16,11 +16,12 @@ public class Controler2D extends AbstractControler implements KVEventListener
 {
     private ClickListener clickListener;
     private ChangeListener changeListener;
-private UI2D ui;
+    private UI2D ui;
+
     public Controler2D(IView view)
     {
 	super(view);
-	this.ui=(UI2D) view;
+	this.ui = (UI2D) view;
 	this.clickListener = new ClickListener()
 	{
 	    @Override
@@ -58,7 +59,7 @@ private UI2D ui;
 		case AbstractControler.RETRY:
 		    Facade.getInstance().retry();
 		    break;
-		    
+
 		case AbstractControler.MAIN_MENU:
 		    Facade.getInstance().mainMenu();
 		    break;
@@ -92,8 +93,6 @@ private UI2D ui;
 		case AbstractControler.FX_VOLUME:
 		    changeSoundsVolume(sl.getValue());
 		    break;
-		    
-		
 
 		}
 	    }
@@ -163,26 +162,36 @@ private UI2D ui;
     @Override
     public void eventFired(int eventCode, Object param)
     {
-	switch(eventCode) 
+	switch (eventCode)
 	{
 	case KVEventListener.PAUSED_IS_CHANGED:
 	{
-	    boolean isPaused=(boolean) param;
-	    if(isPaused) 
-	    {this.ui.doUiInGame();;
-		
-	    }
-	    else this.ui.doEnterGame();
+	    boolean isPaused = (boolean) param;
+	    if (isPaused)
+	    {
+		this.ui.doUiInGame();
+		;
+
+	    } else
+		this.ui.doEnterGame();
+	    break;
+	}
+
+	case KVEventListener.ENTER_LEVEL:
+	{
+	    this.ui.doEnterLevel();
+		break;
 	}
 	
-	}
 	
+	}
+
     }
 
     @Override
     public void updateframe(float deltaTime)
     {
 	// TODO Auto-generated method stub
-	
+
     }
 }

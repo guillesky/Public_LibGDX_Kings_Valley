@@ -247,7 +247,7 @@ public class Game implements KVEventListener
 	this.delta = 0;
     }
 
-    protected HashMap<Integer, Boolean> getCompletedLevels()
+    public HashMap<Integer, Boolean> getCompletedLevels()
     {
 	return completedLevels;
     }

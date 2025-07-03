@@ -3,6 +3,10 @@ package vista2D.ui;
 public class UIConfig
 {
     private String backgroundFile;
+    private String mapFile;
+    private String piramydActualFile;
+    private String piramydCompletedFile;
+    
     private String cursorFile;
     private String musicUIName;
     private String musicIntroName;
@@ -49,6 +53,21 @@ public class UIConfig
     public String getCursorFile()
     {
         return cursorFile;
+    }
+
+    public String getMapFile()
+    {
+        return mapFile;
+    }
+
+    public String getPiramydActualFile()
+    {
+        return piramydActualFile;
+    }
+
+    public String getPiramydCompletedFile()
+    {
+        return piramydCompletedFile;
     }
     
 
