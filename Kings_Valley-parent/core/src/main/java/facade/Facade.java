@@ -50,6 +50,7 @@ public class Facade implements ApplicationListener
     private Music musicInGame;
     private AudioManager audioManager;
     private RenderState renderState;
+	protected boolean showMap;
 
     public AssetManager getManager()
     {
@@ -318,5 +319,17 @@ public class Facade implements ApplicationListener
     {
 	
     }
+
+	public void showMap()
+	{
+	this.showMap=true;	
+	System.out.println("SHOWMAP");
+	}
+
+	public void hideMap()
+	{
+		this.showMap=false;	
+		System.out.println("HIDEMAP");	
+	}
 
 }

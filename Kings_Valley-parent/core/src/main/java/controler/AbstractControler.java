@@ -14,8 +14,8 @@ public abstract class AbstractControler
 	public static final int MUSIC_VOLUME = 13;
 	public static final int RETRY = 20;
 	public static final int MAIN_MENU = 21;
-	public static final int MAP = 30;
-	public static final int UI_IN_GAME = 31;
+	public static final int SHOW_MAP = 30;
+	public static final int HIDE_MAP = 31;
 	
 	
 	
