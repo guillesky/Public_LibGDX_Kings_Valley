@@ -1,1 +1,39 @@
-Cuando un cuerpo está enteramente sumergido en un líquido en equilibrio, sí...cuando ya todo es igual para él, cuando se siente abandonado por el universo, ese universo que permanece indiferente más allá de la superficie de separación "liquido-aire" que siempre se mantiene horizontal, porque es el lugar geométrico de todas las moléculas sometidas a la presión atmosférica. Cuando ese cuerpo siente esfumarse lentamente su relación con el alienado mundo de los que creen que viven. ¡Ay de ellos! Cuando ese cuerpo extingue su vivencia postreras en el seno del líquido que alberga su agonía...¡zacate!... el empuje. ¿Pero qué es el empuje? ¿Es en verdad un impulso que devuelve las esperanzas perdidas? ¿Es el flujo vital que nutre los últimos vestigios de la resurrección? No, nada de eso. El empuje es la resultante única de las fuerzas que el líquido ejerce sobre la superficie del cuerpo, como si intentara oprimirlo hasta su asfixia, y esta resultante es única, igual, y directamente opuesta al peso del volumen del líquido desalojado, y entra directamente por el centro de gravedad de este volumen, atravesando el cuerpo sin piedad y sometiéndolo a un suplicio irremediable. Eso sí, hay otros cuerpos que flotan.
+Créditos del Juego
+Remake de King's Valley
+Desarrollado por: Guillermo Lazzurri
+Basado en el juego original de Konami para MSX (1985)
+
+Música
+Tema principal del juego
+Composición de Bart Roijmans (youtube.com/@garlicsaucer)
+Utilizado con permiso del autor.
+Fuente original: https://youtu.be/fnMw5JK0-Ps?si=R3UfeAPR9NzAXMpn
+
+Música de fondo de la interfaz
+Composición de Hooman Voice (youtube.com/@hoomanvoice)
+Egyptian & Middle Eastern – The Legend of Narmer, por Wombat Noises Audio
+Fuente original: https://youtu.be/xNNVAVnQfwo?si=O2HyOPxjxINu8BhS
+
+Herramientas
+Motor: Java + libGDX
+
+Editor de mapas: Tiled
+
+Editor de gráficos: GIMP y herramientas propias en Java para pegado de bloques
+
+Imágenes de personajes y fondos: Generadas con ChatGPT y Leonardo AI
+
+Imágenes adicionales: Extraídas de bancos de imágenes royalty-free
+
+Efectos de sonido: Descargados desde freesound.org
+
+Editor de Audio: Audacity
+
+Agradecimientos
+A la comunidad retro, por mantener viva la pasión por los clásicos
+
+A los creadores de contenido libre, que comparten sus obras para que otros puedan crear
+
+Aviso
+Este proyecto es una obra hecha por fans, sin fines comerciales, con fines educativos y de homenaje.
+Todos los derechos del juego original pertenecen a Konami.

@@ -12,7 +12,6 @@ import modelo.IGrafica;
 import modelo.KVEventListener;
 import modelo.control.Controls;
 import modelo.level.Level;
-import modelo.level.LevelReader;
 import modelo.level.door.Door;
 import util.Constantes;
 import util.GameConfig;
@@ -181,50 +180,7 @@ public class Game implements KVEventListener
 
     }
 
-    /*
-     * private void countTiles() { TreeMap<Integer, Integer> tileCounter = new
-     * TreeMap<Integer, Integer>();
-     * 
-     * Iterator<TiledMap> it = this.maps.values().iterator(); int i = 0; while
-     * (it.hasNext())
-     * 
-     * { i++; TiledMap map = it.next(); TiledMapTileLayer layer1 =
-     * (TiledMapTileLayer) map.getLayers().get("back"); TiledMapTileLayer layer2 =
-     * (TiledMapTileLayer) map.getLayers().get("front"); TiledMapTileLayer layer3 =
-     * (TiledMapTileLayer) map.getLayers().get("stairs");
-     * 
-     * int mapWidthInTiles = map.getProperties().get("width", Integer.class); int
-     * mapHeightInTiles = map.getProperties().get("height", Integer.class);
-     * this.searchInLayer(mapWidthInTiles, mapHeightInTiles, layer1, tileCounter);
-     * this.searchInLayer(mapWidthInTiles, mapHeightInTiles, layer2, tileCounter);
-     * this.searchInLayer(mapWidthInTiles, mapHeightInTiles, layer3, tileCounter);
-     * if (tileCounter.get(33) != tileCounter.get(34)) System.out
-     * .println("ERROR en MAPA: " + i + "     " + tileCounter.get(33) + "    " +
-     * tileCounter.get(34)); } System.out.println(tileCounter);
-     * System.out.println("Total de tiles: " + tileCounter.size()); }
-     */
-    private void searchInLayer(int mapWidthInTiles, int mapHeightInTiles, TiledMapTileLayer layer,
-	    TreeMap<Integer, Integer> tileCounter)
-    {
-	Cell cell;
-	for (int i = 0; i < mapHeightInTiles; i++)
-	    for (int j = 0; j < mapWidthInTiles; j++)
-	    {
-		cell = layer.getCell(j, i);
-		if (cell != null)
-		{
-		    int value = cell.getTile().getId();
-		    if (tileCounter.get(value) == null)
-		    {
-			tileCounter.put(value, 1);
-		    } else
-		    {
-			int count = tileCounter.get(value) + 1;
-			tileCounter.put(value, count);
-		    }
-		}
-	    }
-    }
+      
 
     public boolean isPaused()
     {

@@ -29,6 +29,7 @@ public class RenderStateInGame extends RenderState
 	public void resize(int width, int height)
 	{
 		this.gameInterfaz.resize(width, height);
+		this.ui.resize(width, height);
 
 	}
 

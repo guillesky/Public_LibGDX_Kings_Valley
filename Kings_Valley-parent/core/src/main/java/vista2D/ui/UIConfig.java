@@ -4,8 +4,8 @@ public class UIConfig
 {
     private String backgroundFile;
     private String mapFile;
-    private String piramydActualFile;
-    private String piramydCompletedFile;
+    private String pyramidActualFile;
+    private String pyramidCompletedFile;
     
     private String cursorFile;
     private String musicUIName;
@@ -60,14 +60,14 @@ public class UIConfig
         return mapFile;
     }
 
-    public String getPiramydActualFile()
+    public String getPyramidActualFile()
     {
-        return piramydActualFile;
+        return pyramidActualFile;
     }
 
-    public String getPiramydCompletedFile()
+    public String getPyramidCompletedFile()
     {
-        return piramydCompletedFile;
+        return pyramidCompletedFile;
     }
     
 

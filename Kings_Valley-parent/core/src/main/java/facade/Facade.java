@@ -50,7 +50,7 @@ public class Facade implements ApplicationListener
     private Music musicInGame;
     private AudioManager audioManager;
     private RenderState renderState;
-	protected boolean showMap;
+    protected boolean showMap;
 
     public AssetManager getManager()
     {
@@ -103,7 +103,7 @@ public class Facade implements ApplicationListener
 
     public void startNewGame(int dificultLevel)
     {
-	
+
 	this.ui.doEnterGame();
 	this.musicUI.stop();
 	this.musicActual = this.musicIntro;
@@ -134,7 +134,7 @@ public class Facade implements ApplicationListener
     {
 	Game.getInstance().dying();
 	Game.getInstance().pressPause();
-	
+
     }
 
     public void saveGameOption()
@@ -317,19 +317,19 @@ public class Facade implements ApplicationListener
 
     public void mainMenu()
     {
-	
+
     }
 
-	public void showMap()
-	{
-	this.showMap=true;	
-	System.out.println("SHOWMAP");
-	}
+    public void showMap()
+    {
+	this.showMap = true;
 
-	public void hideMap()
-	{
-		this.showMap=false;	
-		System.out.println("HIDEMAP");	
-	}
+    }
+
+    public void hideMap()
+    {
+	this.showMap = false;
+
+    }
 
 }
