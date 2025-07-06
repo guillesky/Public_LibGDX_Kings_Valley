@@ -29,7 +29,7 @@ public abstract class GameState
 	this.game.stateGame = new GameStateEndingGame();
     }
 
-    protected void startNewLevel(Door door)
+    protected void startNewLevel(Door door, boolean fromDeath)
     {
 
 	this.game.setGoingBack((door != null && door.getLevelConnected() == Door.TO_PREVIUS));
@@ -41,10 +41,10 @@ public abstract class GameState
 	{
 	    this.game.eventFired(KVEventListener.FINISH_ALL_LEVELS, null);
 
-	}
+	} 
 	this.game.level = levelReader.getLevel(this.game.idCurrentLevel,
 		Constantes.levelFileName.get(this.game.idCurrentLevel), this.game.getDificultLevel(),
-		this.game.completedLevels.get(this.game.idCurrentLevel), door, this.game.getInterfaz());
+		this.game.completedLevels.get(this.game.idCurrentLevel), door,fromDeath, this.game.getInterfaz());
 	this.game.stateGame = new GameStateEntering();
 	this.game.getInterfaz().reset();
 

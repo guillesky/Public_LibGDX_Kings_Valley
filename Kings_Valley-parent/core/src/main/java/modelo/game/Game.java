@@ -2,11 +2,8 @@ package modelo.game;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.TreeMap;
 
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 
 import modelo.IGrafica;
 import modelo.KVEventListener;
@@ -42,6 +39,7 @@ public class Game implements KVEventListener
     private float maxDeltaTimeRegistered = 0;
     private GameConfig gameConfig;
     private boolean goingBack;
+   
 
     public void addKVEventListener(KVEventListener kvEventListener)
     {
@@ -175,13 +173,11 @@ public class Game implements KVEventListener
 	return delta;
     }
 
-    public void start(Door door)
+    public void start(Door door, boolean fromDeath)
     {
-	this.stateGame.startNewLevel(door);
+	this.stateGame.startNewLevel(door, fromDeath);
 
     }
-
-      
 
     public boolean isPaused()
     {
@@ -196,7 +192,7 @@ public class Game implements KVEventListener
     public void nextLevel()
     {
 	this.idCurrentLevel++;
-	this.start(null);
+	this.start(null, false);
     }
 
     protected void resetDelta()
@@ -219,7 +215,7 @@ public class Game implements KVEventListener
 	    this.idCurrentLevel--;
 	else
 	    this.idCurrentLevel = door.getLevelConnected();
-	this.start(door);
+	this.start(door, false);
 
     }
 
@@ -311,15 +307,14 @@ public class Game implements KVEventListener
 
     public void setGoingBack(boolean backing)
     {
-	
-	this.goingBack=backing;
-	
+
+	this.goingBack = backing;
+
     }
 
     public boolean isGoingBack()
     {
-        return goingBack;
+	return goingBack;
     }
-    
 
 }

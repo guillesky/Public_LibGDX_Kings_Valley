@@ -54,7 +54,7 @@ public class Main implements ApplicationListener
 	 * manager.get(Constantes.levelFileName.get(i), TiledMap.class);
 	 * Game.getInstance().addMap(i, map); }
 	 */
-	Game.getInstance().start(null);
+	Game.getInstance().start(null,false);
 	this.grafica.create();
 
 	TileMapGrafica2D mytile2d = (TileMapGrafica2D) this.grafica;

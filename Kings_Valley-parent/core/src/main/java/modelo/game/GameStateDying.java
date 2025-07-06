@@ -31,7 +31,7 @@ public class GameStateDying extends GameState
 	{
 	    this.game.lives--;
 	    if (this.game.lives >= 0)
-		this.game.start(null);
+		this.game.start(null,true);
 	    else
 		this.game.endGame();
 	}

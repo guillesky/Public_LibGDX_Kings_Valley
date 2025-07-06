@@ -1,7 +1,6 @@
 package modelo.game;
 
 import modelo.KVEventListener;
-import modelo.level.door.Door;
 
 public class GameStateNotInGame extends GameState
 {
@@ -20,7 +19,7 @@ public class GameStateNotInGame extends GameState
 	@Override
 	public void startNewGame()
 	{
-	    super.startNewLevel(null);
+	    super.startNewLevel(null,false);
 	   
 	}
 
