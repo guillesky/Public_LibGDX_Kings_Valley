@@ -184,12 +184,14 @@ public class UI2D implements IView, ApplicationListener
 	this.skin.add("myLabelStyleLarge", labelStyleLarge);
 	Label.LabelStyle labelStyleSmall = skin.get("default", Label.LabelStyle.class);
 	labelStyleSmall.font = skin.getFont(this.fontSmallName);
+	stage = new Stage(new ScreenViewport());
+	Gdx.input.setInputProcessor(stage);
 	this.createMainTable();
 	this.createOptionTable();
 
 	this.createInGameTable();
 	this.createTableVersion();
-	this.doEnterUi();
+
 	this.createCreditsTable();
 	this.createMapTable();
 	this.addSounds();
@@ -271,12 +273,12 @@ public class UI2D implements IView, ApplicationListener
 
     public void doEnterUi()
     {
-	stage = new Stage(new ScreenViewport());
-	Gdx.input.setInputProcessor(stage);
+
 	stage.addActor(backgroundImage); // ¡Agregarlo antes que todo lo demás!
 	this.tableMainActual = this.tableMainInUi;
 	this.stage.addActor(this.tableMainInUi);
 	stage.addActor(tableVersion);
+	Gdx.input.setCursorCatched(false);
 
     }
 

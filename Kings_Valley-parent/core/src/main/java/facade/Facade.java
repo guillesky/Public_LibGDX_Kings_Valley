@@ -47,7 +47,6 @@ public class Facade implements ApplicationListener
     private Music musicActual;
     private Music musicUI;
     private Music musicIntro;
-    private Music musicInGame;
     private AudioManager audioManager;
     private RenderState renderState;
     protected boolean showMap;
@@ -229,18 +228,12 @@ public class Facade implements ApplicationListener
 	this.graphicsFileLoader = new GraphicsFileLoader(this.manager);
 	this.audioManager = new AudioManager(manager);
 	this.ui.create();
-
+	Game.getInstance().addKVEventListener(controler);
 	this.musicUI = manager.get(uiConfig.getMusicUIName(), Music.class);
 	this.musicIntro = manager.get(uiConfig.getMusicIntroName(), Music.class);
 	this.createInterfaces();
 
-	this.musicActual = this.musicUI;
-	musicActual.setLooping(true);
-	musicActual.setVolume(Facade.getInstance().getGameConfig().getMasterVolume()
-		* Facade.getInstance().getGameConfig().getMusicVolume());
-	musicActual.play();
-	this.renderState = new RenderStateInUI(this.ui, this.gameAppListener);
-	Game.getInstance().addKVEventListener(controler);
+	this.mainMenu();
 
     }
 
@@ -317,6 +310,14 @@ public class Facade implements ApplicationListener
 
     public void mainMenu()
     {
+	this.ui.doEnterUi();
+	
+	this.musicActual = this.musicUI;
+	musicActual.setLooping(true);
+	musicActual.setVolume(Facade.getInstance().getGameConfig().getMasterVolume()
+		* Facade.getInstance().getGameConfig().getMusicVolume());
+	musicActual.play();
+	this.renderState = new RenderStateInUI(this.ui, this.gameAppListener);
 
     }
 

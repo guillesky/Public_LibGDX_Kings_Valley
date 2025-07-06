@@ -11,220 +11,223 @@ import controler.AbstractControler;
 import controler.IView;
 import facade.Facade;
 import modelo.KVEventListener;
+import modelo.game.Game;
 
 public class Controler2D extends AbstractControler implements KVEventListener
 {
-	private ClickListener clickListener;
-	private ChangeListener changeListener;
-	private UI2D ui;
+    private ClickListener clickListener;
+    private ChangeListener changeListener;
+    private UI2D ui;
 
-	public Controler2D(IView view)
+    public Controler2D(IView view)
+    {
+	super(view);
+	this.ui = (UI2D) view;
+	this.clickListener = new ClickListener()
 	{
-		super(view);
-		this.ui = (UI2D) view;
-		this.clickListener = new ClickListener()
+	    @Override
+	    public void clicked(InputEvent event, float x, float y)
+	    {
+		Actor actor = event.getTarget();
+
+		// Si el actor clickeado no tiene nombre, buscá el padre que sí lo tenga
+		while (actor != null && actor.getUserObject() == null)
 		{
-			@Override
-			public void clicked(InputEvent event, float x, float y)
-			{
-				Actor actor = event.getTarget();
-
-				// Si el actor clickeado no tiene nombre, buscá el padre que sí lo tenga
-				while (actor != null && actor.getUserObject() == null)
-				{
-					actor = actor.getParent();
-				}
-				int action = (int) actor.getUserObject();
-				switch (action)
-				{
-				case AbstractControler.NEW_GAME:
-				{
-					doNewGame();
-					break;
-
-				}
-				case AbstractControler.EXIT:
-				{
-					doExit();
-					break;
-
-				}
-
-				case AbstractControler.CREDITS:
-				{
-					doCredits();
-					break;
-
-				}
-				case AbstractControler.RETRY:
-					doRetry();
-					
-					break;
-
-				case AbstractControler.MAIN_MENU:
-					doMainMenu();
-					break;
-				case AbstractControler.SHOW_MAP:
-					doShowMap();
-					break;
-				case AbstractControler.HIDE_MAP:
-					doHideMap();
-					break;
-				}
-			}
-
-			
-
-		};
-
-		this.changeListener = new ChangeListener()
-		{
-			@Override
-			public void changed(ChangeEvent event, Actor actor)
-			{
-				while (actor != null && actor.getUserObject() == null)
-				{
-					actor = actor.getParent();
-				}
-				int action = (int) actor.getUserObject();
-				Slider sl = (Slider) actor;
-				switch (action)
-				{
-				case AbstractControler.DIFICULT_LEVEL:
-					changeDificultLevel((int) sl.getValue());
-					break;
-				case AbstractControler.MASTER_VOLUME:
-					changeMasterVolume(sl.getValue());
-					break;
-				case AbstractControler.MUSIC_VOLUME:
-					changeMusicVolume(sl.getValue());
-					break;
-				case AbstractControler.FX_VOLUME:
-					changeSoundsVolume(sl.getValue());
-					break;
-
-				}
-			}
-
-		};
-
-	}
-
-	protected void changeSoundsVolume(float value)
-	{
-		Facade.getInstance().setSoundsVolume(value / 100f);
-		this.view.updateSoundsVolume();
-
-	}
-
-	protected void changeMusicVolume(float value)
-	{
-		Facade.getInstance().setMusicVolume(value / 100f);
-		this.view.updateMusicVolume();
-
-	}
-
-	protected void changeMasterVolume(float value)
-	{
-		Facade.getInstance().setMasterVolume(value / 100f);
-		this.view.updateMasterVolume();
-
-	}
-
-	public ClickListener getInputListener()
-	{
-		return clickListener;
-	}
-
-	private void doExit()
-	{
-		Gdx.app.exit();
-	}
-
-	public ChangeListener getChangeListener()
-	{
-		return changeListener;
-	}
-
-	private void doNewGame()
-	{
-		Facade.getInstance().startNewGame(this.view.getDificultLevel());
-	}
-
-	private void doCredits()
-	{
-		this.view.updateCredits(null);
-	}
-
-	private void changeDificultLevel(int value)
-	{
-		// TODO Auto-generated method stub
-
-	}
-
-	public void changeLanguage(String languageName)
-	{
-		Facade.getInstance().changeLanguage(languageName);
-		this.view.updateLanguage();
-	}
-
-	@Override
-	public void eventFired(int eventCode, Object param)
-	{
-		switch (eventCode)
-		{
-		case KVEventListener.PAUSED_IS_CHANGED:
-		{
-			boolean isPaused = (boolean) param;
-			if (isPaused)
-			{
-				this.ui.doUiInGame();
-
-			} else
-			{
-				this.ui.doEnterGame();
-				doHideMap();
-			
-			}
-			break;
+		    actor = actor.getParent();
 		}
-
-		case KVEventListener.ENTERING_LEVEL:
+		int action = (int) actor.getUserObject();
+		switch (action)
 		{
-			this.ui.doEnteringLevel();
-			break;
+		case AbstractControler.NEW_GAME:
+		{
+		    doNewGame();
+		    break;
+
 		}
+		case AbstractControler.EXIT:
+		{
+		    doExit();
+		    break;
 
 		}
 
+		case AbstractControler.CREDITS:
+		{
+		    doCredits();
+		    break;
+
+		}
+		case AbstractControler.RETRY:
+		    doRetry();
+
+		    break;
+
+		case AbstractControler.MAIN_MENU:
+		    Game.getInstance().endGame();
+		    break;
+		case AbstractControler.SHOW_MAP:
+		    doShowMap();
+		    break;
+		case AbstractControler.HIDE_MAP:
+		    doHideMap();
+		    break;
+		}
+	    }
+
+	};
+
+	this.changeListener = new ChangeListener()
+	{
+	    @Override
+	    public void changed(ChangeEvent event, Actor actor)
+	    {
+		while (actor != null && actor.getUserObject() == null)
+		{
+		    actor = actor.getParent();
+		}
+		int action = (int) actor.getUserObject();
+		Slider sl = (Slider) actor;
+		switch (action)
+		{
+		case AbstractControler.DIFICULT_LEVEL:
+		    changeDificultLevel((int) sl.getValue());
+		    break;
+		case AbstractControler.MASTER_VOLUME:
+		    changeMasterVolume(sl.getValue());
+		    break;
+		case AbstractControler.MUSIC_VOLUME:
+		    changeMusicVolume(sl.getValue());
+		    break;
+		case AbstractControler.FX_VOLUME:
+		    changeSoundsVolume(sl.getValue());
+		    break;
+
+		}
+	    }
+
+	};
+
+    }
+
+    protected void changeSoundsVolume(float value)
+    {
+	Facade.getInstance().setSoundsVolume(value / 100f);
+	this.view.updateSoundsVolume();
+
+    }
+
+    protected void changeMusicVolume(float value)
+    {
+	Facade.getInstance().setMusicVolume(value / 100f);
+	this.view.updateMusicVolume();
+
+    }
+
+    protected void changeMasterVolume(float value)
+    {
+	Facade.getInstance().setMasterVolume(value / 100f);
+	this.view.updateMasterVolume();
+
+    }
+
+    public ClickListener getInputListener()
+    {
+	return clickListener;
+    }
+
+    private void doExit()
+    {
+	Gdx.app.exit();
+    }
+
+    public ChangeListener getChangeListener()
+    {
+	return changeListener;
+    }
+
+    private void doNewGame()
+    {
+	Facade.getInstance().startNewGame(this.view.getDificultLevel());
+    }
+
+    private void doCredits()
+    {
+	this.view.updateCredits(null);
+    }
+
+    private void changeDificultLevel(int value)
+    {
+	// TODO Auto-generated method stub
+
+    }
+
+    public void changeLanguage(String languageName)
+    {
+	Facade.getInstance().changeLanguage(languageName);
+	this.view.updateLanguage();
+    }
+
+    @Override
+    public void eventFired(int eventCode, Object param)
+    {
+	switch (eventCode)
+	{
+	case KVEventListener.PAUSED_IS_CHANGED:
+	{
+	    boolean isPaused = (boolean) param;
+	    if (isPaused)
+	    {
+		this.ui.doUiInGame();
+
+	    } else
+	    {
+		this.ui.doEnterGame();
+		doHideMap();
+
+	    }
+	    break;
 	}
 
-	@Override
-	public void updateframe(float deltaTime)
+	case KVEventListener.ENTERING_LEVEL:
 	{
-		// TODO Auto-generated method stub
-
-	}
-	
-	
-	
-	private void doHideMap()
-	{
-		Facade.getInstance().hideMap();
+	    this.ui.doEnteringLevel();
+	    break;
 	}
 
-	private void doShowMap()
+	case KVEventListener.GAME_OVER:
 	{
-		Facade.getInstance().showMap();
+	    doMainMenu();
+	    break;
 	}
 
-	private void doMainMenu()
-	{
-		Facade.getInstance().mainMenu();
 	}
 
-	private void doRetry()
-	{
-		Facade.getInstance().retry();
-	}
+    }
+
+    @Override
+    public void updateframe(float deltaTime)
+    {
+	// TODO Auto-generated method stub
+
+    }
+
+    private void doHideMap()
+    {
+	Facade.getInstance().hideMap();
+    }
+
+    private void doShowMap()
+    {
+	Facade.getInstance().showMap();
+    }
+
+    private void doMainMenu()
+    {
+	Facade.getInstance().mainMenu();
+    }
+
+    private void doRetry()
+    {
+	Facade.getInstance().retry();
+    }
 }

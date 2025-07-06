@@ -197,7 +197,12 @@ public class AudioManager implements KVEventListener
 		    * Game.getInstance().getGameConfig().getMusicVolume());
 	    this.musicMain.setLooping(true);
 	    this.musicMain.play();
-
+	    break;
+	    
+	case KVEventListener.GAME_OVER:
+	    this.musicMain.stop();
+	    break;
+    
 	}
 
     }

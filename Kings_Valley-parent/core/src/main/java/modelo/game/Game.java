@@ -39,7 +39,6 @@ public class Game implements KVEventListener
     private float maxDeltaTimeRegistered = 0;
     private GameConfig gameConfig;
     private boolean goingBack;
-   
 
     public void addKVEventListener(KVEventListener kvEventListener)
     {
@@ -93,6 +92,7 @@ public class Game implements KVEventListener
 
     protected void initNewGame()
     {
+	this.idCurrentLevel = 1;
 	this.score = 0;
 	this.resetCompletedLevels();
 	this.lives = 3;
