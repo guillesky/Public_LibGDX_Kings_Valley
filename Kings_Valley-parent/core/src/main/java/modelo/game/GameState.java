@@ -31,6 +31,9 @@ public abstract class GameState
 
     protected void startNewLevel(Door door)
     {
+
+	this.game.setGoingBack((door != null && door.getLevelConnected() == Door.TO_PREVIUS));
+
 	LevelReader levelReader = new LevelReader();
 	if (this.game.level != null)
 	    this.game.level.dispose();

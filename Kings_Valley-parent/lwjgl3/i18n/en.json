@@ -20,5 +20,7 @@
 "HARD":"Hard",
 "RETRY":"Retry",
 "MAIN_MENU":"Main Menu",
-"MAP":"Map"
+"MAP":"Map",
+"GOING_BACK":"Back to Pyramid ",
+"ENTERING":"Entering Pyramid "
 }

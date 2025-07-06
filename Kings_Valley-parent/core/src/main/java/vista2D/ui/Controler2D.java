@@ -189,9 +189,9 @@ public class Controler2D extends AbstractControler implements KVEventListener
 			break;
 		}
 
-		case KVEventListener.ENTER_LEVEL:
+		case KVEventListener.ENTERING_LEVEL:
 		{
-			this.ui.doEnterLevel();
+			this.ui.doEnteringLevel();
 			break;
 		}
 

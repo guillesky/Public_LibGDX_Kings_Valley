@@ -3,6 +3,7 @@ package vista2D;
 import java.util.Iterator;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -18,8 +19,6 @@ public class TileMapGrafica2D_PARALAX extends TileMapGrafica2D
     private OrthographicCamera cameraBack;
     private float factor;
     float[] paramFloat = new float[4];
-
-   
 
     public TileMapGrafica2D_PARALAX(GraphicsFileLoader graphicsFileLoader, float factor)
     {
@@ -58,12 +57,11 @@ public class TileMapGrafica2D_PARALAX extends TileMapGrafica2D
 	if (Game.getInstance().isPaused())
 	{
 	    this.drawPauseMessage();
-	 
 
 	}
 	this.drawUI();
 
-	// this.rectaglesRenderDebug.render(camera.combined);
+	
     }
 
     private void drawPauseMessage()
@@ -166,7 +164,7 @@ public class TileMapGrafica2D_PARALAX extends TileMapGrafica2D
     {
 	spriteBatch.setProjectionMatrix(this.cameraUI.combined);
 	this.spriteBatch.begin();
-
+	this.spriteBatch.setColor(Color.WHITE);
 	this.spriteBatch.draw(this.graphicsFileLoader.getSkyTexture(), this.paramFloat[0], this.paramFloat[1],
 		this.paramFloat[2], this.paramFloat[3]);
 	this.spriteBatch.end();
@@ -273,8 +271,5 @@ public class TileMapGrafica2D_PARALAX extends TileMapGrafica2D
 	cameraBack.position.x = posCameraX;
 	cameraBack.position.y = pyramid.getMapHeightInPixels() * this.cameraOffsetY;
     }
-
-    
-   
 
 }

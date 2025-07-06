@@ -180,11 +180,12 @@ public class UIMap
 
 		SpriteWithId spriteWithId = new SpriteWithId(completedPyramidTexture, p);
 		this.completedPyramidSprites.add(spriteWithId);
-
+		
 	    }
 
 	}
 	this.calulateMapSprites(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+	
     }
 
 }

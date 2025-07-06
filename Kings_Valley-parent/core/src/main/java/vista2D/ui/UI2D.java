@@ -870,7 +870,7 @@ public class UI2D implements IView, ApplicationListener
 	this.stage.addActor(tableMainActual);
     }
 
-    public void doEnterLevel()
+    public void doEnteringLevel()
     {
 	this.uiMap.generateCompletedPyramids();
     }

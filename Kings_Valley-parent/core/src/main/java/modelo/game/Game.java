@@ -41,6 +41,7 @@ public class Game implements KVEventListener
     protected int lives;
     private float maxDeltaTimeRegistered = 0;
     private GameConfig gameConfig;
+    private boolean goingBack;
 
     public void addKVEventListener(KVEventListener kvEventListener)
     {
@@ -307,5 +308,18 @@ public class Game implements KVEventListener
 	this.eventFired(KVEventListener.GAME_OVER, null);
 	this.initNewGame();
     }
+
+    public void setGoingBack(boolean backing)
+    {
+	
+	this.goingBack=backing;
+	
+    }
+
+    public boolean isGoingBack()
+    {
+        return goingBack;
+    }
+    
 
 }
