@@ -102,7 +102,9 @@ public class Facade implements ApplicationListener
 
     public void startNewGame(int dificultLevel)
     {
-
+	Game.getInstance().setDificultLevel(dificultLevel);
+	Game.getInstance().startNewGame();
+	
 	this.ui.doEnterGame();
 	this.musicUI.stop();
 	this.musicActual = this.musicIntro;
@@ -112,8 +114,6 @@ public class Facade implements ApplicationListener
 	musicActual.play();
 
 	this.renderState.newGame();
-	Game.getInstance().setDificultLevel(dificultLevel);
-	Game.getInstance().startNewGame();
 	this.gameAppListener.create();
 
     }
@@ -122,8 +122,6 @@ public class Facade implements ApplicationListener
     {
 	this.audioManager.create();
 	gameAppListener = new TileMapGrafica2D_PARALAX(this.graphicsFileLoader, .5f);
-	TileMapGrafica2D_PARALAX tptpt = (TileMapGrafica2D_PARALAX) gameAppListener;
-
 	Game.getInstance().setInterfaz(gameAppListener);
 	Game.getInstance().addKVEventListener(audioManager);
 
@@ -311,7 +309,7 @@ public class Facade implements ApplicationListener
     public void mainMenu()
     {
 	this.ui.doEnterUi();
-	
+
 	this.musicActual = this.musicUI;
 	musicActual.setLooping(true);
 	musicActual.setVolume(Facade.getInstance().getGameConfig().getMasterVolume()

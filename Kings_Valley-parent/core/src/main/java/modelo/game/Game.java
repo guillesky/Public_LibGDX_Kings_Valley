@@ -301,7 +301,6 @@ public class Game implements KVEventListener
     {
 
 	this.stateGame.endGame();
-	this.eventFired(KVEventListener.GAME_OVER, null);
 	this.initNewGame();
     }
 

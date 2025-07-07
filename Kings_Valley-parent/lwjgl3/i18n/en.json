@@ -22,5 +22,6 @@
 "MAIN_MENU":"Main Menu",
 "MAP":"Map",
 "GOING_BACK":"Back to Pyramid ",
-"ENTERING":"Entering Pyramid "
+"ENTERING":"Entering Pyramid ",
+"GAME_OVER":"Game Over"
 }

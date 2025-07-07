@@ -85,7 +85,7 @@ public class TileMapGrafica2D implements IMyApplicationListener
     private float timeToExitLevel = 1f;
     private float timeDying = 1f;
     protected float cameraOffsetY = (12f / 22f);
-    private float timeToEndGame = 1f;
+    private float timeToEndGame = 2f;
 
     public TileMapGrafica2D(GraphicsFileLoader graphicsFileLoader)
     {
@@ -531,17 +531,23 @@ public class TileMapGrafica2D implements IMyApplicationListener
 
 	font24.draw(spriteBatch, layout, x, y);
 
-	if (Game.getInstance().getState() == Game.ST_GAME_ENTERING)
+	if (Game.getInstance().getState() == Game.ST_GAME_ENTERING || Game.getInstance().getState() == Game.ST_ENDING)
 	{
 	    font24.setColor(1, 1, 0, 1);
-	    String enteringText;
-	    if (Game.getInstance().isGoingBack())
-		enteringText = Messages.GOING_BACK.getValue();
-	    else 
-		enteringText = Messages.ENTERING.getValue();
-	    enteringText+=currentPyramid;
-	    
-	    layout.setText(font24, enteringText);
+	    String textToShow;
+
+	    if (Game.getInstance().getState() == Game.ST_GAME_ENTERING)
+	    {
+		if (Game.getInstance().isGoingBack())
+		    textToShow = Messages.GOING_BACK.getValue();
+		else
+		    textToShow = Messages.ENTERING.getValue();
+		textToShow += currentPyramid;
+	    } else
+	    {
+		textToShow = Messages.GAME_OVER.getValue();
+	    }
+	    layout.setText(font24, textToShow);
 	    x = (Gdx.graphics.getWidth() - layout.width) / 2;
 	    y = (Gdx.graphics.getHeight() - layout.height) / 2;
 

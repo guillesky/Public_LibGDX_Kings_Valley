@@ -8,7 +8,7 @@ public enum Messages
     GO_BACK("Go Back"), MUSIC_VOLUME("Music Volume"), FX_VOLUME("Sounds Volume"), MASTER_VOLUME("Master Volume"),
     DIFICULT_LEVEL("Dificult Level"), LOAD_PROGRESS("Load Progress"), LANGUAGE("Language"), EASY("Easy"),
     NORMAL("Normal"), HARD("Hard"), MAIN_MENU("Main Menu"), RETRY("Retry"), MAP("Map"), GOING_BACK("Back to Pyramid "),
-    ENTERING("Entering Pyramid ");
+    ENTERING("Entering Pyramid "), GAME_OVER("Game Over");
 
     private String value;
 

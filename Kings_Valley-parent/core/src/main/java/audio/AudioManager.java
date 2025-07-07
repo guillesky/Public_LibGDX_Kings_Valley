@@ -166,6 +166,12 @@ public class AudioManager implements KVEventListener
 	    this.playRandomSound(this.playerDeathSounds);
 	    this.fadeOutMusic = true;
 	}
+	
+	if (eventCode == KVEventListener.GAME_OVER_INIT)
+	{
+	    this.fadeOutMusic = true;
+	}
+	
 
 	if (eventCode == KVEventListener.MUMMY_KILLED_BY_SWORD)
 	{

@@ -120,7 +120,7 @@ public class TileMapGrafica2D_PARALAX extends TileMapGrafica2D
 
 	    this.playerAnimated2D.updateElement(Game.getInstance().getDelta());
 	    this.playerAnimated2D.render(spriteBatch);
-	} else
+	} else if(Game.getInstance().getState() != Game.ST_ENDING)
 	{
 	    this.animatedEnteringDoor2D.updateElement(null);
 	    this.animatedEnteringDoor2D.drawBack(spriteBatch);

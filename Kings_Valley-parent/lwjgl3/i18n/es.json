@@ -22,5 +22,6 @@
 "MAIN_MENU":"Menu Principal",
 "MAP":"Mapa",
 "ENTERING":"Entrando a la Piramide ",
-"GOING_BACK":"Volviendo a la Piramide "
+"GOING_BACK":"Volviendo a la Piramide ",
+"GAME_OVER":"Juego Terminado"
 }

@@ -63,6 +63,7 @@ public class Controler2D extends AbstractControler implements KVEventListener
 		    break;
 
 		case AbstractControler.MAIN_MENU:
+		    Game.getInstance().pressPause();
 		    Game.getInstance().endGame();
 		    break;
 		case AbstractControler.SHOW_MAP:
@@ -224,6 +225,8 @@ public class Controler2D extends AbstractControler implements KVEventListener
     private void doMainMenu()
     {
 	Facade.getInstance().mainMenu();
+	
+
     }
 
     private void doRetry()

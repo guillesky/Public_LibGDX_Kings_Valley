@@ -38,6 +38,7 @@ public interface KVEventListener
 	
 	int FINISH_ALL_LEVELS=100;
 	int GAME_OVER = 200;
+	int GAME_OVER_INIT = 201;
 	
 	
 	
