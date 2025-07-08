@@ -91,6 +91,7 @@ public class Constantes
 				levelFileName.put(i, "maps/new_level_" + i + ".tmx");
 
 		}
+		levelFileName.put(16, "maps/goal.tmx");
 		Integer[] valuesPreviusToStair =
 		{ 19, 24, 27, 32, 37, 42, 45, 50 };
 		Integer[] valuesPositiveStair =

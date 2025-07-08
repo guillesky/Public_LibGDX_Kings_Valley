@@ -23,8 +23,9 @@ playerDeath4File: sfx/pl_Death4.wav
 playerDeath5File: sfx/pl_Death5.wav
 playerJumpFile: sfx/Pl_Jump.wav
 giratoryFile: sfx/giratory.wav
-DoorOpenClose1File: sfx/Door_OC1.wav
-DoorOpenClose2File: sfx/Door_OC2.wav
-DoorOpenClose3File: sfx/Door_OC3.wav
+doorOpenClose1File: sfx/Door_OC1.wav
+doorOpenClose2File: sfx/Door_OC2.wav
+doorOpenClose3File: sfx/Door_OC3.wav
+doorEnteringFile: sfx/Door_Entering.wav
 trapMechanismActivate: sfx/Mechanism_Activation_Sequence.wav
 }

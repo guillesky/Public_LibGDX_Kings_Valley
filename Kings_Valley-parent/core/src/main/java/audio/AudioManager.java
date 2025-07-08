@@ -61,6 +61,10 @@ public class AudioManager implements KVEventListener
 	this.manager.load(audioConfig.getDoorOpenClose1File(), Sound.class);
 	this.manager.load(audioConfig.getDoorOpenClose2File(), Sound.class);
 	this.manager.load(audioConfig.getDoorOpenClose3File(), Sound.class);
+	this.manager.load(audioConfig.getDoorEnteringFile(), Sound.class);
+	
+	
+	
 	this.manager.load(audioConfig.getGiratoryFile(), Sound.class);
 	this.manager.load(audioConfig.getMummyAppearFile(), Sound.class);
 	this.manager.load(audioConfig.getMummyDeath1File(), Sound.class);
@@ -86,6 +90,7 @@ public class AudioManager implements KVEventListener
 	this.manager.load(audioConfig.getSwordThrow4File(), Sound.class);
 	this.manager.load(audioConfig.getSwordThrow5File(), Sound.class);
 	this.manager.load(audioConfig.getTrapMechanismActivate(), Sound.class);
+	
 
     }
 
@@ -115,6 +120,13 @@ public class AudioManager implements KVEventListener
 	this.hashMapSounds.put(KVEventListener.SWORD_STUCK,
 		this.manager.get(audioConfig.getSwordStuckFile(), Sound.class));
 
+	
+	this.hashMapSounds.put(KVEventListener.ENTERING_LEVEL,
+		this.manager.get(audioConfig.getDoorEnteringFile(), Sound.class));
+
+	
+	
+	
 	this.hashMapSounds.put(KVEventListener.ACTIVATE_TRAP,
 		this.manager.get(audioConfig.getTrapMechanismActivate(), Sound.class));
 
@@ -179,7 +191,7 @@ public class AudioManager implements KVEventListener
 
 	}
 
-	if (eventCode == KVEventListener.OPEN_DOOR || eventCode == KVEventListener.CLOSE_DOOR)
+	if (eventCode == KVEventListener.OPEN_DOOR || eventCode == KVEventListener.CLOSE_DOOR ||eventCode == KVEventListener.EXITING_LEVEL)
 	{
 	    this.playRandomSound(this.doorOpenCloseSounds);
 	}

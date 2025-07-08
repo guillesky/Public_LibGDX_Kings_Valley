@@ -100,7 +100,7 @@ public class Game implements KVEventListener
 
     private void resetCompletedLevels()
     {
-	for (int i = 1; i <= 15; i++)
+	for (int i = 1; i <= 16; i++)
 	{
 	    this.completedLevels.put(i, false);
 	}

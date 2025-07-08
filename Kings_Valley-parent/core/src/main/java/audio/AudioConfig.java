@@ -35,9 +35,11 @@ private String playerDeath5File="sfx/pl_Death5.wav";
 private String playerJumpFile="sfx/Pl_Jump.wav";
 private String giratoryFile="sfx/giratory.wav";
 
-private String DoorOpenClose1File="sfx/Door_OC1.wav";
-private String DoorOpenClose2File="sfx/Door_OC2.wav";
-private String DoorOpenClose3File="sfx/Door_OC3.wav";
+private String doorOpenClose1File="sfx/Door_OC1.wav";
+private String doorOpenClose2File="sfx/Door_OC2.wav";
+private String doorOpenClose3File="sfx/Door_OC3.wav";
+private String doorEnteringFile="sfx/Door_Entering.wav";
+
 private String trapMechanismActivate;
 
 public String getMainMusicFile()
@@ -184,17 +186,6 @@ public String getGiratoryFile()
 }
 
 
-public String getDoorOpenClose1File()
-{
-    return DoorOpenClose1File;
-}
-
-
-public String getDoorOpenClose2File()
-{
-    return DoorOpenClose2File;
-}
-
 
 public String getTrapMechanismActivate()
 {
@@ -202,9 +193,27 @@ public String getTrapMechanismActivate()
 }
 
 
-public String getDoorOpenClose3File()
+protected String getDoorOpenClose1File()
 {
-    return DoorOpenClose3File;
+    return doorOpenClose1File;
+}
+
+
+protected String getDoorOpenClose2File()
+{
+    return doorOpenClose2File;
+}
+
+
+protected String getDoorOpenClose3File()
+{
+    return doorOpenClose3File;
+}
+
+
+protected String getDoorEnteringFile()
+{
+    return doorEnteringFile;
 }
 
 

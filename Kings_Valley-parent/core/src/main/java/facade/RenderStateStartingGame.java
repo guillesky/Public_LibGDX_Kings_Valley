@@ -12,16 +12,12 @@ public class RenderStateStartingGame extends RenderState
 
     private Music introMusic;
 
-    public RenderStateStartingGame(UI2D ui, ApplicationListener gameInterfaz,Music introMusic)
+    public RenderStateStartingGame(UI2D ui, ApplicationListener gameInterfaz, Music introMusic)
     {
 	super(ui, gameInterfaz);
-	this.introMusic=introMusic;
-	
+	this.introMusic = introMusic;
+
     }
-
-  
-
- 
 
     @Override
     public void render()
@@ -31,7 +27,8 @@ public class RenderStateStartingGame extends RenderState
 
 	if (7 - this.introMusic.getPosition() <= Game.getInstance().getInterfaz().getTimeToEnterLevel())
 	{
-	    Facade.getInstance().setRenderState(new RenderStateInGame(this.ui,this.gameInterfaz));
+	    Facade.getInstance().fireGame();
+	    Facade.getInstance().setRenderState(new RenderStateInGame(this.ui, this.gameInterfaz));
 	}
     }
 
@@ -39,47 +36,37 @@ public class RenderStateStartingGame extends RenderState
     public void create()
     {
 	this.ui.create();
-	
+
     }
 
     @Override
     public void resize(int width, int height)
     {
-	this.ui.resize( width, height);
-	
-    }
+	this.ui.resize(width, height);
 
-   
+    }
 
     @Override
     public void pause()
     {
 	this.ui.render();
-	
+
     }
 
     @Override
     public void resume()
     {
 	this.ui.resume();
-	
+
     }
 
     @Override
     public void dispose()
     {
 	this.ui.dispose();
-	
-    }
-    
-    
 
-    
-    
-    
-    
-    
-    
+    }
+
     @Override
     public void newGame()
     {

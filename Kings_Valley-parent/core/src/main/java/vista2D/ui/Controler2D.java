@@ -200,9 +200,21 @@ public class Controler2D extends AbstractControler implements KVEventListener
 	    doMainMenu();
 	    break;
 	}
+	
+	case KVEventListener.FINISH_ALL_LEVELS:
+	{
+	    doFinishAllLevels();
+	    break;
+	}
+	
 
 	}
 
+    }
+
+    private void doFinishAllLevels()
+    {
+	Facade.getInstance().finishAllLevels();
     }
 
     @Override

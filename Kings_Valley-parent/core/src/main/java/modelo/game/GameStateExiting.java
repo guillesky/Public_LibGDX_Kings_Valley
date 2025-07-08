@@ -1,5 +1,6 @@
 package modelo.game;
 
+import modelo.KVEventListener;
 import modelo.level.DrawableElement;
 import modelo.level.door.Door;
 import util.Constantes;
@@ -13,7 +14,7 @@ public class GameStateExiting extends GameState
 	super(Game.ST_GAME_EXITING);
 	this.door = door;
 	this.game.getInterfaz().addGraphicElement(new DrawableElement(Constantes.DRAWABLE_EXIT_DOOR, door));
-
+	this.game.eventFired(KVEventListener.EXITING_LEVEL, null);
     }
 
     @Override

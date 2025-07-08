@@ -50,6 +50,7 @@ public class Facade implements ApplicationListener
     private AudioManager audioManager;
     private RenderState renderState;
     protected boolean showMap;
+    private int dificultLevel;
 
     public AssetManager getManager()
     {
@@ -102,9 +103,7 @@ public class Facade implements ApplicationListener
 
     public void startNewGame(int dificultLevel)
     {
-	Game.getInstance().setDificultLevel(dificultLevel);
-	Game.getInstance().startNewGame();
-	
+
 	this.ui.doEnterGame();
 	this.musicUI.stop();
 	this.musicActual = this.musicIntro;
@@ -114,6 +113,13 @@ public class Facade implements ApplicationListener
 	musicActual.play();
 
 	this.renderState.newGame();
+	this.dificultLevel = dificultLevel;
+    }
+
+    protected void fireGame()
+    {
+	Game.getInstance().setDificultLevel(dificultLevel);
+	Game.getInstance().startNewGame();
 	this.gameAppListener.create();
 
     }
@@ -137,8 +143,10 @@ public class Facade implements ApplicationListener
     public void saveGameOption()
     {
 	if (this.changeConfig)
+	{
 	    GameConfig.saveConfig(gameConfig);
-
+	    this.changeConfig = false;
+	}
     }
 
     public GameConfig getGameConfig()
@@ -182,6 +190,13 @@ public class Facade implements ApplicationListener
 	Language language = allLanguages.getLanguage(languageName);
 	Utils.i18n(language);
 	this.setLanguage(language.getFileCode());
+    }
+
+    public void finishAllLevels()
+    {
+	this.gameConfig.setFinishedOneTime(true);
+	this.changeConfig = true;
+	this.saveGameOption();
 
     }
 
