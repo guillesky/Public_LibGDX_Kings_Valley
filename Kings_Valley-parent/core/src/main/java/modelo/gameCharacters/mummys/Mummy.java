@@ -1,17 +1,12 @@
 package modelo.gameCharacters.mummys;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Random;
 
 import com.badlogic.gdx.math.Vector2;
 
-import modelo.KVEventListener;
-import modelo.game.Game;
 import modelo.gameCharacters.abstractGameCharacter.GameCharacter;
 import modelo.gameCharacters.player.Player;
 import modelo.level.GiratoryMechanism;
-import modelo.level.LevelObject;
 import modelo.level.Pyramid;
 import modelo.level.Stair;
 import util.Config;
@@ -129,7 +124,7 @@ public abstract class Mummy extends GameCharacter
     protected void move(Vector2 v, boolean b, float deltaTime)
     {
 	super.move(v, b, deltaTime);
-	
+
     }
 
     public Vector2 getDirection()
@@ -240,6 +235,23 @@ public abstract class Mummy extends GameCharacter
     {
 
 	super.enterStair(stair);
+    }
+
+    protected boolean canJump()
+    {
+	float posX;
+	int offset;
+	if (this.lookRight)
+	{
+	    posX = this.x;
+	    offset = 1;
+	} else
+	{
+	    posX = this.x + this.width;
+	    offset = -1;
+	}
+	return this.pyramid.getCell(posX, this.y, offset, 2) == null;
+
     }
 
 }

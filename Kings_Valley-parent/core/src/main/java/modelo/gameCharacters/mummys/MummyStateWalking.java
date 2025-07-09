@@ -91,7 +91,7 @@ public class MummyStateWalking extends MummyState
 
 		{
 		
-			if (type == EndPlatform.END_STEP && (this.whereIsPlayer == MummyState.PLAYER_IS_UP
+			if (this.mummy.canJump()&& type == EndPlatform.END_STEP && (this.whereIsPlayer == MummyState.PLAYER_IS_UP
 					|| this.whereIsPlayer == MummyState.PLAYER_IS_SOME_LEVEL || this.mummy.isLocked()))
 
 				this.doJump = true;
@@ -106,7 +106,7 @@ public class MummyStateWalking extends MummyState
 	protected void doInBorderCliff()
 	{
 		if (this.whereIsPlayer == MummyState.PLAYER_IS_UP || this.whereIsPlayer == MummyState.PLAYER_IS_SOME_LEVEL)
-			if (this.mummy.makeDecisionForJump())
+			if (this.mummy.canJump()&&this.mummy.makeDecisionForJump())
 				this.doJump = true;
 			else
 				this.bounces();
