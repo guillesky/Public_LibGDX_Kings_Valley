@@ -65,6 +65,7 @@ public class Game implements KVEventListener
     public void incScore(int cant)
     {
 	this.score += cant;
+	this.checkExtraLife();
     }
 
     public int getLives()
@@ -244,15 +245,15 @@ public class Game implements KVEventListener
 	    break;
 
 	case KVEventListener.MUMMY_KILLED_BY_SWORD:
-	    this.score += Constantes.MUMMY_KILLED_BY_SWORD_SCORE;
+	    this.incScore(Constantes.MUMMY_KILLED_BY_SWORD_SCORE);
 	    break;
 
 	case KVEventListener.PICKUP_JEWEL:
-	    this.score += Constantes.PICKUP_JEWEL_SCORE;
+	    this.incScore(Constantes.PICKUP_JEWEL_SCORE);
 	    break;
 
 	case KVEventListener.FINISH_CURRENT_LEVEL:
-	    this.score += Constantes.FINISH_CURRENT_LEVEL_SCORE;
+	    this.incScore(Constantes.FINISH_CURRENT_LEVEL_SCORE);
 	    break;
 
 	}
