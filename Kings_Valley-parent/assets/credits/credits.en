@@ -16,12 +16,14 @@ Original source: https://youtu.be/xNNVAVnQfwo?si=O2HyOPxjxINu8BhS
 
 Tools
 Engine: Java + libGDX
+IDE: Eclipse
 
 Map editor: Tiled
 
 Graphics editor: GIMP and custom Java tools for block merging
 
 Character and background images: Generated with ChatGPT and Leonardo AI
+Character animations created with DragonBones
 
 Additional images: Downloaded from royalty-free image banks
 

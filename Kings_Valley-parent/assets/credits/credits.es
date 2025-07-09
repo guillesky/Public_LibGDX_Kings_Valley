@@ -16,12 +16,14 @@ Fuente original: https://youtu.be/xNNVAVnQfwo?si=O2HyOPxjxINu8BhS
 
 Herramientas
 Motor: Java + libGDX
+IDE: Eclipse
 
 Editor de mapas: Tiled
 
 Editor de gráficos: GIMP y herramientas propias en Java para pegado de bloques
 
 Imágenes de personajes y fondos: Generadas con ChatGPT y Leonardo AI
+Animaciones de caracteres creadas con DragonBones
 
 Imágenes adicionales: Extraídas de bancos de imágenes royalty-free
 
