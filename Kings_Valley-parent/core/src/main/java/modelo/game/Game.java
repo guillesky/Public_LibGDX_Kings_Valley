@@ -10,6 +10,7 @@ import modelo.KVEventListener;
 import modelo.control.Controls;
 import modelo.level.Level;
 import modelo.level.door.Door;
+import util.Config;
 import util.Constantes;
 import util.GameConfig;
 
@@ -39,6 +40,7 @@ public class Game implements KVEventListener
     private float maxDeltaTimeRegistered = 0;
     private GameConfig gameConfig;
     private boolean goingBack;
+    private int nextExtraLife = Config.getInstance().getScoreForFirstExtraLife();
 
     public void addKVEventListener(KVEventListener kvEventListener)
     {
@@ -314,6 +316,17 @@ public class Game implements KVEventListener
     public boolean isGoingBack()
     {
 	return goingBack;
+    }
+
+    private void checkExtraLife()
+    {
+	if (this.score >= this.nextExtraLife)
+	{
+	    this.lives++;
+	    this.nextExtraLife += Config.getInstance().getScoreForExtraLife();
+	    this.eventFired(KVEventListener.ADD_EXTRA_LIFE, completedLevels);
+	}
+
     }
 
 }

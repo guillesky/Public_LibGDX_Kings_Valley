@@ -28,4 +28,6 @@ doorOpenClose2File: sfx/Door_OC2.wav
 doorOpenClose3File: sfx/Door_OC3.wav
 doorEnteringFile: sfx/Door_Entering.wav
 trapMechanismActivate: sfx/Mechanism_Activation_Sequence.wav
+extraLifeFile: sfx/extraLife.wav
+
 }

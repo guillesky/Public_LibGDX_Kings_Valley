@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "goal.tmx",
+    "activeFile": "new_level_15.tmx",
     "automapping.whileDrawing": false,
     "expandedProjectPaths": [
         "."
@@ -154,7 +154,7 @@
         },
         "C:/Users/Guille/tiles2.tsx": {
             "dynamicWrapping": false,
-            "scaleInDock": 1
+            "scaleInDock": 2
         },
         "C:/Users/guill/git/Kings_Valley/Kings Valley/assets/levels/_level.01.tmx": {
             "scale": 1.3775,
@@ -441,14 +441,11 @@
             }
         },
         "goal.tmx": {
-            "expandedObjectLayers": [
-                3
-            ],
             "scale": 0.25,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 1060,
-                "y": 376
+                "x": 2050,
+                "y": 702
             }
         },
         "level_01.tmx": {
@@ -618,132 +615,156 @@
             }
         },
         "new_level_01.tmx": {
+            "scale": 0.5,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 1025,
+                "y": 703
+            }
+        },
+        "new_level_02.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 2050,
+                "y": 702
+            }
+        },
+        "new_level_03.tmx": {
+            "scale": 2,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 1024.25,
+                "y": 704.25
+            }
+        },
+        "new_level_04.tmx": {
+            "expandedObjectLayers": [
+                3
+            ],
+            "scale": 0.33,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 3245.454545454546,
+                "y": 703.0303030303031
+            }
+        },
+        "new_level_05.tmx": {
+            "expandedObjectLayers": [
+                3
+            ],
+            "scale": 0.33,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 1227.2727272727273,
+                "y": 866.6666666666667
+            }
+        },
+        "new_level_06.tmx": {
             "expandedObjectLayers": [
                 3
             ],
             "scale": 0.5,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 622,
-                "y": 660
-            }
-        },
-        "new_level_02.tmx": {
-            "expandedObjectLayers": [
-                3
-            ],
-            "scale": 0.25,
-            "selectedLayer": 3,
-            "viewCenter": {
-                "x": 1468,
-                "y": 700
-            }
-        },
-        "new_level_03.tmx": {
-            "expandedObjectLayers": [
-                3
-            ],
-            "scale": 0.75,
-            "selectedLayer": 3,
-            "viewCenter": {
-                "x": 1025.3333333333333,
-                "y": 705.3333333333333
-            }
-        },
-        "new_level_04.tmx": {
-            "scale": 0.33,
-            "selectedLayer": 0,
-            "viewCenter": {
-                "x": 2046.969696969697,
-                "y": 704.5454545454545
-            }
-        },
-        "new_level_05.tmx": {
-            "scale": 0.33,
-            "selectedLayer": 0,
-            "viewCenter": {
-                "x": 1022.7272727272727,
-                "y": 704.5454545454545
-            }
-        },
-        "new_level_06.tmx": {
-            "scale": 0.25,
-            "selectedLayer": 1,
-            "viewCenter": {
-                "x": 2050,
-                "y": 702
+                "x": 546,
+                "y": 812
             }
         },
         "new_level_07.tmx": {
+            "expandedObjectLayers": [
+                3
+            ],
             "scale": 0.33,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 1022.7272727272727,
-                "y": 704.5454545454545
+                "x": 1021.2121212121212,
+                "y": 703.0303030303031
             }
         },
         "new_level_08.tmx": {
-            "scale": 0.25,
-            "selectedLayer": 1,
+            "expandedObjectLayers": [
+                3
+            ],
+            "scale": 0.33,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 2050,
-                "y": 702
+                "x": 2869.69696969697,
+                "y": 703.0303030303031
             }
         },
         "new_level_09.tmx": {
-            "scale": 2.648125,
-            "selectedLayer": 0,
+            "expandedObjectLayers": [
+                3
+            ],
+            "scale": 0.25,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 1023.9320273778618,
-                "y": 704.0830776492801
+                "x": 1020,
+                "y": 700
             }
         },
         "new_level_10.tmx": {
-            "scale": 0.33,
-            "selectedLayer": 1,
+            "expandedObjectLayers": [
+                3
+            ],
+            "scale": 0.25,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 2046.969696969697,
-                "y": 704.5454545454545
+                "x": 2052,
+                "y": 700
             }
         },
         "new_level_11.tmx": {
+            "expandedObjectLayers": [
+                3
+            ],
             "scale": 0.33,
-            "selectedLayer": 1,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 1022.7272727272727,
-                "y": 704.5454545454545
+                "x": 1187.8787878787878,
+                "y": 745.4545454545456
             }
         },
         "new_level_12.tmx": {
-            "scale": 1.3240625,
-            "selectedLayer": 1,
+            "expandedObjectLayers": [
+                3
+            ],
+            "scale": 0.25,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 2047.8640547557236,
-                "y": 704.2718904885533
+                "x": 1172,
+                "y": 700
             }
         },
         "new_level_13.tmx": {
-            "scale": 2,
-            "selectedLayer": 0,
+            "expandedObjectLayers": [
+                3
+            ],
+            "scale": 0.5,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 1024.25,
-                "y": 704.25
+                "x": 1192,
+                "y": 612
             }
         },
         "new_level_14.tmx": {
-            "scale": 1.3240625,
-            "selectedLayer": 0,
+            "expandedObjectLayers": [
+                3
+            ],
+            "scale": 0.33,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 2047.8640547557236,
-                "y": 704.2718904885533
+                "x": 4133.333333333334,
+                "y": 703.0303030303031
             }
         },
         "new_level_15.tmx": {
-            "scale": 0.33,
-            "selectedLayer": 0,
+            "scale": 0.5,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 1022.7272727272727,
-                "y": 704.5454545454545
+                "x": 550,
+                "y": 702
             }
         },
         "p01.tmx": {
@@ -806,6 +827,7 @@
         "goal.tmx"
     ],
     "project": "KingsValley.tiled-project",
+    "property.type": "int",
     "recentFiles": [
         "D:/temp/sin nombre.tmx",
         "C:/Users/Guille/git/LibGDX_Kings_Valley/Kings_Valley_Converter/assets/levels/level_01.tmx",

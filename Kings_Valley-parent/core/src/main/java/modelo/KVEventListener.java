@@ -24,7 +24,7 @@ public interface KVEventListener
 	int MUMMY_DIE = 21;
 	int MUMMY_KILLED_BY_SWORD = 22;
 	int FINISH_CURRENT_LEVEL = 30;
-	int ADD_ONE_LIVE = 40;
+	int ADD_EXTRA_LIFE = 40;
 	int PICKUP_JEWEL = 51;
 	int PICKUP_DAGGER = 52;
 	int PICKUP_PICKER = 53;

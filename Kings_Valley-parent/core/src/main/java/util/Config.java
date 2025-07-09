@@ -3,14 +3,12 @@ package util;
 public class Config
 {
 
-	public static final int INDEX_SPEED_WALK = 0;
-	public static final int INDEX_SPEED_STAIR = 1;
-	public static final int INDEX_TIME_TO_DECIDE = 2;
-	public static final int INDEX_TIME_DECIDING = 3;
-	public static final int INDEX_DECICION_FACTOR_FALL = 4;
-	public static final int INDEX_DECICION_FACTOR_JUMP = 5;
-	
-	
+    public static final int INDEX_SPEED_WALK = 0;
+    public static final int INDEX_SPEED_STAIR = 1;
+    public static final int INDEX_TIME_TO_DECIDE = 2;
+    public static final int INDEX_TIME_DECIDING = 3;
+    public static final int INDEX_DECICION_FACTOR_FALL = 4;
+    public static final int INDEX_DECICION_FACTOR_JUMP = 5;
 
     private float characterSpeedFall;
     private float characterSpeedJump;
@@ -49,24 +47,26 @@ public class Config
     private float timeToEndGiratory = 1f;
     private float timeToEndTrapMechanism = 1f;
     private float timeToOpenCloseDoor = 1f;
-    private float timeToEndPicking=1f;
-    private float timeToEndThrowDagger=0.2f;
-    
-    
-    public float getTimeToEndPicking()
-	{
-		return timeToEndPicking;
-	}
-
-    public float getTimeToEndThrowDagger()
-	{
-		return timeToEndThrowDagger;
-	}
-
-	private float speedGame = 1.0f;
+    private float timeToEndPicking = 1f;
+    private float timeToEndThrowDagger = 0.2f;
+    private float speedGame = 1.0f;
+    private int scoreForFirstExtraLife = 10000;
+    private int scoreForExtraLife = 20000;
 
     private static final Config instance = new Config();
 
+
+    public float getTimeToEndPicking()
+    {
+	return timeToEndPicking;
+    }
+
+    public float getTimeToEndThrowDagger()
+    {
+	return timeToEndThrowDagger;
+    }
+
+   
     private Config()
     {
 	this.defaultValues(64, 64);
@@ -115,44 +115,41 @@ public class Config
 	this.mummyTimeAppearing = 2;
 	this.mummyTimeDying = 1;
 	this.mummyTimeInLimbus = 5;
-	this.mummyWhiteParameters[Config.INDEX_SPEED_WALK] = this.playerSpeedWalk*0.5f;
-	this.mummyWhiteParameters[Config.INDEX_SPEED_STAIR] = this.playerSpeedWalkStairs*0.5f;
+	this.mummyWhiteParameters[Config.INDEX_SPEED_WALK] = this.playerSpeedWalk * 0.5f;
+	this.mummyWhiteParameters[Config.INDEX_SPEED_STAIR] = this.playerSpeedWalkStairs * 0.5f;
 	this.mummyWhiteParameters[Config.INDEX_TIME_TO_DECIDE] = 1.5f;
 	this.mummyWhiteParameters[Config.INDEX_TIME_DECIDING] = 1f;
-	this.mummyWhiteParameters[Config.INDEX_DECICION_FACTOR_FALL] =0.5f;
-	this.mummyWhiteParameters[Config.INDEX_DECICION_FACTOR_JUMP] =0.5f;
-	   
-	
-	this.mummyPinkParameters[Config.INDEX_SPEED_WALK] = this.playerSpeedWalk*0.5f;
-	this.mummyPinkParameters[Config.INDEX_SPEED_STAIR] = this.playerSpeedWalkStairs*2f;
+	this.mummyWhiteParameters[Config.INDEX_DECICION_FACTOR_FALL] = 0.5f;
+	this.mummyWhiteParameters[Config.INDEX_DECICION_FACTOR_JUMP] = 0.5f;
+
+	this.mummyPinkParameters[Config.INDEX_SPEED_WALK] = this.playerSpeedWalk * 0.5f;
+	this.mummyPinkParameters[Config.INDEX_SPEED_STAIR] = this.playerSpeedWalkStairs * 2f;
 	this.mummyPinkParameters[Config.INDEX_TIME_TO_DECIDE] = 1.5f;
-	this.mummyPinkParameters[Config.INDEX_TIME_DECIDING] =1f;
-	this.mummyPinkParameters[Config.INDEX_DECICION_FACTOR_FALL] =0.5f;
-	this.mummyPinkParameters[Config.INDEX_DECICION_FACTOR_JUMP] =0.5f;
-	   
-	
+	this.mummyPinkParameters[Config.INDEX_TIME_DECIDING] = 1f;
+	this.mummyPinkParameters[Config.INDEX_DECICION_FACTOR_FALL] = 0.5f;
+	this.mummyPinkParameters[Config.INDEX_DECICION_FACTOR_JUMP] = 0.5f;
+
 	this.mummyYellowParameters[Config.INDEX_SPEED_WALK] = this.playerSpeedWalk;
-	this.mummyYellowParameters[Config.INDEX_SPEED_STAIR] = this.playerSpeedWalkStairs*0.5f;
+	this.mummyYellowParameters[Config.INDEX_SPEED_STAIR] = this.playerSpeedWalkStairs * 0.5f;
 	this.mummyYellowParameters[Config.INDEX_TIME_TO_DECIDE] = 1.5f;
 	this.mummyYellowParameters[Config.INDEX_TIME_DECIDING] = 1f;
-	this.mummyYellowParameters[Config.INDEX_DECICION_FACTOR_FALL] =0.5f;
-	this.mummyYellowParameters[Config.INDEX_DECICION_FACTOR_JUMP] =0.5f;
-	   
+	this.mummyYellowParameters[Config.INDEX_DECICION_FACTOR_FALL] = 0.5f;
+	this.mummyYellowParameters[Config.INDEX_DECICION_FACTOR_JUMP] = 0.5f;
+
 	this.mummyBlueParameters[Config.INDEX_SPEED_WALK] = this.playerSpeedWalk;
 	this.mummyBlueParameters[Config.INDEX_SPEED_STAIR] = this.playerSpeedWalkStairs;
 	this.mummyBlueParameters[Config.INDEX_TIME_TO_DECIDE] = 1.5f;
 	this.mummyBlueParameters[Config.INDEX_TIME_DECIDING] = 0f;
-	this.mummyBlueParameters[Config.INDEX_DECICION_FACTOR_FALL] =0.5f;
-	this.mummyBlueParameters[Config.INDEX_DECICION_FACTOR_JUMP] =0.5f;
-	   
-	
+	this.mummyBlueParameters[Config.INDEX_DECICION_FACTOR_FALL] = 0.5f;
+	this.mummyBlueParameters[Config.INDEX_DECICION_FACTOR_JUMP] = 0.5f;
+
 	this.mummyRedParameters[Config.INDEX_SPEED_WALK] = this.playerSpeedWalk;
-	this.mummyRedParameters[Config.INDEX_SPEED_STAIR] = this.playerSpeedWalkStairs*2f;
+	this.mummyRedParameters[Config.INDEX_SPEED_STAIR] = this.playerSpeedWalkStairs * 2f;
 	this.mummyRedParameters[Config.INDEX_TIME_TO_DECIDE] = 1.5f;
 	this.mummyRedParameters[Config.INDEX_TIME_DECIDING] = 0f;
-	this.mummyRedParameters[Config.INDEX_DECICION_FACTOR_FALL] =0.5f;
-	this.mummyRedParameters[Config.INDEX_DECICION_FACTOR_JUMP] =0.5f;
-    
+	this.mummyRedParameters[Config.INDEX_DECICION_FACTOR_FALL] = 0.5f;
+	this.mummyRedParameters[Config.INDEX_DECICION_FACTOR_JUMP] = 0.5f;
+
     }
 
     public float getCharacterSpeedFall()
@@ -437,32 +434,56 @@ public class Config
 
     public float getTimeToEndGiratory()
     {
-        return timeToEndGiratory;
+	return timeToEndGiratory;
     }
 
     public void setTimeToEndGiratory(float timeToEndGiratory)
     {
-        this.timeToEndGiratory = timeToEndGiratory;
+	this.timeToEndGiratory = timeToEndGiratory;
     }
 
     public float getTimeToEndTrapMechanism()
     {
-        return timeToEndTrapMechanism;
+	return timeToEndTrapMechanism;
     }
 
     public void setTimeToEndTrapMechanism(float timeToEndTrapMechanism)
     {
-        this.timeToEndTrapMechanism = timeToEndTrapMechanism;
+	this.timeToEndTrapMechanism = timeToEndTrapMechanism;
     }
 
     public float getTimeToOpenCloseDoor()
     {
-        return timeToOpenCloseDoor;
+	return timeToOpenCloseDoor;
     }
 
     public void setTimeToOpenCloseDoor(float timeToOpenCloseDoor)
     {
-        this.timeToOpenCloseDoor = timeToOpenCloseDoor;
+	this.timeToOpenCloseDoor = timeToOpenCloseDoor;
     }
+
+    public int getScoreForFirstExtraLife()
+    {
+        return scoreForFirstExtraLife;
+    }
+
+    public void setScoreForFirstExtraLife(int scoreForFirstExtraLife)
+    {
+        this.scoreForFirstExtraLife = scoreForFirstExtraLife;
+    }
+
+    public int getScoreForExtraLife()
+    {
+        return scoreForExtraLife;
+    }
+
+    public void setScoreForExtraLife(int scoreForExtraLife)
+    {
+        this.scoreForExtraLife = scoreForExtraLife;
+    }
+
+   
+
+   
 
 }

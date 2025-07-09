@@ -279,6 +279,11 @@ public class UI2D implements IView, ApplicationListener
 	this.stage.addActor(this.tableMainInUi);
 	stage.addActor(tableVersion);
 	Gdx.input.setCursorCatched(false);
+	if (Facade.getInstance().getGameConfig().isFinishedOneTime())
+	{
+	    this.slDificultLevel.setVisible(true);
+	    this.slDificultLevel.setTouchable(Touchable.enabled);
+	}
 
     }
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="32" height="22" tilewidth="64" tileheight="64" infinite="0" nextlayerid="4" nextobjectid="30">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="32" height="22" tilewidth="64" tileheight="64" infinite="0" nextlayerid="4" nextobjectid="31">
  <tileset firstgid="1" source="tiles_new.tsx"/>
  <layer id="1" name="back" width="32" height="22">
   <data encoding="csv">
@@ -140,14 +140,14 @@
     <property name="p0" value="1"/>
    </properties>
   </object>
-  <object id="29" type="Mummy" gid="123" x="1408" y="192" width="64" height="64">
-   <properties>
-    <property name="p0" value="1"/>
-   </properties>
-  </object>
   <object id="30" type="Mummy" gid="122" x="192" y="384" width="64" height="64">
    <properties>
     <property name="p0" value="0"/>
+   </properties>
+  </object>
+  <object id="30" type="Mummy" gid="125" x="1408" y="192" width="64" height="64">
+   <properties>
+    <property name="p0" value="3"/>
    </properties>
   </object>
  </objectgroup>

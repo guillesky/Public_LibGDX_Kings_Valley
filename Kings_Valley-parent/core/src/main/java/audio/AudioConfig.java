@@ -39,6 +39,7 @@ private String doorOpenClose1File="sfx/Door_OC1.wav";
 private String doorOpenClose2File="sfx/Door_OC2.wav";
 private String doorOpenClose3File="sfx/Door_OC3.wav";
 private String doorEnteringFile="sfx/Door_Entering.wav";
+private String extraLifeFile="sfx/extraLife.wav";
 
 private String trapMechanismActivate;
 
@@ -214,6 +215,12 @@ protected String getDoorOpenClose3File()
 protected String getDoorEnteringFile()
 {
     return doorEnteringFile;
+}
+
+
+public String getExtraLifeFile()
+{
+    return extraLifeFile;
 }
 
 

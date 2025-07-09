@@ -62,9 +62,7 @@ public class AudioManager implements KVEventListener
 	this.manager.load(audioConfig.getDoorOpenClose2File(), Sound.class);
 	this.manager.load(audioConfig.getDoorOpenClose3File(), Sound.class);
 	this.manager.load(audioConfig.getDoorEnteringFile(), Sound.class);
-	
-	
-	
+
 	this.manager.load(audioConfig.getGiratoryFile(), Sound.class);
 	this.manager.load(audioConfig.getMummyAppearFile(), Sound.class);
 	this.manager.load(audioConfig.getMummyDeath1File(), Sound.class);
@@ -90,8 +88,7 @@ public class AudioManager implements KVEventListener
 	this.manager.load(audioConfig.getSwordThrow4File(), Sound.class);
 	this.manager.load(audioConfig.getSwordThrow5File(), Sound.class);
 	this.manager.load(audioConfig.getTrapMechanismActivate(), Sound.class);
-	
-
+	this.manager.load(audioConfig.getExtraLifeFile(), Sound.class);
     }
 
     public void create()
@@ -120,15 +117,13 @@ public class AudioManager implements KVEventListener
 	this.hashMapSounds.put(KVEventListener.SWORD_STUCK,
 		this.manager.get(audioConfig.getSwordStuckFile(), Sound.class));
 
-	
 	this.hashMapSounds.put(KVEventListener.ENTERING_LEVEL,
 		this.manager.get(audioConfig.getDoorEnteringFile(), Sound.class));
 
-	
-	
-	
 	this.hashMapSounds.put(KVEventListener.ACTIVATE_TRAP,
 		this.manager.get(audioConfig.getTrapMechanismActivate(), Sound.class));
+	this.hashMapSounds.put(KVEventListener.ADD_EXTRA_LIFE,
+		this.manager.get(audioConfig.getExtraLifeFile(), Sound.class));
 
 	this.doorOpenCloseSounds[0] = this.manager.get(audioConfig.getDoorOpenClose1File(), Sound.class);
 	this.doorOpenCloseSounds[1] = this.manager.get(audioConfig.getDoorOpenClose2File(), Sound.class);
@@ -178,12 +173,11 @@ public class AudioManager implements KVEventListener
 	    this.playRandomSound(this.playerDeathSounds);
 	    this.fadeOutMusic = true;
 	}
-	
+
 	if (eventCode == KVEventListener.GAME_OVER_INIT)
 	{
 	    this.fadeOutMusic = true;
 	}
-	
 
 	if (eventCode == KVEventListener.MUMMY_KILLED_BY_SWORD)
 	{
@@ -191,7 +185,8 @@ public class AudioManager implements KVEventListener
 
 	}
 
-	if (eventCode == KVEventListener.OPEN_DOOR || eventCode == KVEventListener.CLOSE_DOOR ||eventCode == KVEventListener.EXITING_LEVEL)
+	if (eventCode == KVEventListener.OPEN_DOOR || eventCode == KVEventListener.CLOSE_DOOR
+		|| eventCode == KVEventListener.EXITING_LEVEL)
 	{
 	    this.playRandomSound(this.doorOpenCloseSounds);
 	}
@@ -216,11 +211,11 @@ public class AudioManager implements KVEventListener
 	    this.musicMain.setLooping(true);
 	    this.musicMain.play();
 	    break;
-	    
+
 	case KVEventListener.GAME_OVER:
 	    this.musicMain.stop();
 	    break;
-    
+
 	}
 
     }
