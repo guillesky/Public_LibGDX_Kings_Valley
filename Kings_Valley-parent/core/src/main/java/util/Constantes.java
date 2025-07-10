@@ -84,9 +84,9 @@ public class Constantes
 		{
 			if (i < 10)
 			{
-				levelFileName.put(i, "maps/new_level_0" + i + ".tmx");
+				levelFileName.put(i, "maps/level_0" + i + ".tmx");
 			} else
-				levelFileName.put(i, "maps/new_level_" + i + ".tmx");
+				levelFileName.put(i, "maps/level_" + i + ".tmx");
 
 		}
 		levelFileName.put(16, "maps/goal.tmx");
