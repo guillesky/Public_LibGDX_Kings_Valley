@@ -30,7 +30,7 @@ public class Controler2D extends AbstractControler implements KVEventListener
 	    {
 		Actor actor = event.getTarget();
 
-		// Si el actor clickeado no tiene nombre, buscá el padre que sí lo tenga
+		
 		while (actor != null && actor.getUserObject() == null)
 		{
 		    actor = actor.getParent();

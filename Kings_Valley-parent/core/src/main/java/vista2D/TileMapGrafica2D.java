@@ -295,12 +295,12 @@ public class TileMapGrafica2D implements IMyApplicationListener
 
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/PAPYRUS.TTF"));
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		parameter.size = 48; // Tamaño de fuente
+		parameter.size = 48; 
 		parameter.color = Color.WHITE;
 		font48 = generator.generateFont(parameter);
 
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter24 = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		parameter24.size = fontSize; // Tamaño de fuente
+		parameter24.size = fontSize; 
 		parameter24.color = Color.WHITE;
 
 		font24 = generator.generateFont(parameter24);
@@ -346,7 +346,7 @@ public class TileMapGrafica2D implements IMyApplicationListener
 			for (int col = 0; col < splitTiles[row].length; col++)
 			{
 				StaticTiledMapTile tile = new StaticTiledMapTile(splitTiles[row][col]);
-				tile.setId(row * splitTiles[row].length + col + 1); // Asignar un ID único a cada tile
+				tile.setId(row * splitTiles[row].length + col + 1); 
 				newTileSet.putTile(tile.getId(), tile);
 			}
 		}
@@ -354,7 +354,7 @@ public class TileMapGrafica2D implements IMyApplicationListener
 		// Agregar el nuevo tileset al mapa
 		map.getTileSets().addTileSet(newTileSet);
 
-		// Crear una nueva capa con el tamaño de tile especificado
+		
 
 		TiledMapTileLayer originalLayer = (TiledMapTileLayer) map.getLayers().get("back");
 		this.replaceLayer(map, originalLayer, newTileSet, newWidth, newHeight);

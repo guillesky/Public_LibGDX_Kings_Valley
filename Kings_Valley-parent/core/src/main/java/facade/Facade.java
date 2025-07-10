@@ -202,9 +202,9 @@ public class Facade implements ApplicationListener
 
     private void readCredits()
     {
-	FileHandle archivo = Gdx.files.internal(this.creditsEsFile); // si está en assets
+	FileHandle archivo = Gdx.files.internal(this.creditsEsFile); 
 	this.creditsEs = archivo.readString("UTF-8");
-	archivo = Gdx.files.internal(this.creditsEnFile); // si está en assets
+	archivo = Gdx.files.internal(this.creditsEnFile); 
 	this.creditsEn = archivo.readString("UTF-8");
     }
 

@@ -29,7 +29,7 @@ allprojects {
 
 configure(subprojects) {
   apply plugin: 'java-library'
-  sourceCompatibility = 11
+  sourceCompatibility = 1.8
 
   // From https://lyze.dev/2021/04/29/libGDX-Internal-Assets-List/
   // The article can be helpful when using assets.txt in your project.
@@ -72,15 +72,5 @@ subprojects {
 
 eclipse.project.name = 'Kings_Valley' + '-parent'
 
-task fatJar(type: Jar) {
-    manifest {
-        attributes 'Main-Class': 'io.github.some_example_name.lwjgl3.Lwjgl3Launcher'
-    }
-    archiveClassifier = 'all'
-    from sourceSets.main.output
 
-    dependsOn configurations.runtimeClasspath
-    from {
-        configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.collect { zipTree(it) }
-    }
-}
+

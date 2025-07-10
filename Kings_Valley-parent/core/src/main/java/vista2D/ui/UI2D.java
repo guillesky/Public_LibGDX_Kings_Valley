@@ -273,7 +273,7 @@ public class UI2D implements IView, ApplicationListener
     public void doEnterUi()
     {
 
-	stage.addActor(backgroundImage); // ¡Agregarlo antes que todo lo demás!
+	stage.addActor(backgroundImage); 
 	this.tableMainActual = this.tableMainInUi;
 	this.stage.addActor(this.tableMainInUi);
 	stage.addActor(tableVersion);
@@ -317,13 +317,13 @@ public class UI2D implements IView, ApplicationListener
 	int fontSize = (int) (Gdx.graphics.getHeight() * (1.f / 12.f));
 
 	FreeTypeFontGenerator.FreeTypeFontParameter parameterLarge = new FreeTypeFontGenerator.FreeTypeFontParameter();
-	parameterLarge.size = fontSize; // Tamaño de fuente
+	parameterLarge.size = fontSize; 
 	parameterLarge.color = Color.GOLD;
 	parameterLarge.borderColor = Color.BLACK;
 	fontLarge = fontGenerator.generateFont(parameterLarge);
 
 	FreeTypeFontGenerator.FreeTypeFontParameter parameterSmall = new FreeTypeFontGenerator.FreeTypeFontParameter();
-	parameterSmall.size = (int) (fontSize * .4); // Tamaño de fuente
+	parameterSmall.size = (int) (fontSize * .4);
 	parameterSmall.color = Color.WHITE;
 	parameterSmall.borderColor = Color.BLACK;
 	parameterSmall.borderWidth = 1;
@@ -426,10 +426,10 @@ public class UI2D implements IView, ApplicationListener
 	    }
 	if (this.inCredits)
 	{
-	    float velocidadScroll = 30f; // píxeles por segundo
+	    float velocidadScroll = 30f; 
 	    float nuevoScrollY = scrollPane.getScrollY() + velocidadScroll * Gdx.graphics.getDeltaTime();
 
-	    // Asegurarte de no pasar el límite
+	    
 
 	    if (nuevoScrollY < scrollPane.getMaxY())
 		scrollPane.setScrollY(nuevoScrollY);
@@ -655,7 +655,7 @@ public class UI2D implements IView, ApplicationListener
 
 	labelProgressLoading = new Label(Messages.LOAD_PROGRESS.getValue(), skin, "default");
 
-	// Fila del título, centrado arriba
+
 	labelTitleMain.setAlignment(Align.center);
 
 	tableMainInUi.add(labelTitleMain).colspan(3).expandX().fillX().pad(20).row();
@@ -705,9 +705,9 @@ public class UI2D implements IView, ApplicationListener
 	String textoCreditos = Facade.getInstance().getCredits();
 
 	this.creditsLabel = new Label(textoCreditos, skin);
-	creditsLabel.setWrap(true); // Muy importante para que el texto se ajuste al ancho
+	creditsLabel.setWrap(true); 
 
-	creditsLabel.setAlignment(Align.topLeft); // Opcional, más natural
+	creditsLabel.setAlignment(Align.topLeft); 
 
 	Table contenedorTexto = new Table();
 
@@ -784,7 +784,7 @@ public class UI2D implements IView, ApplicationListener
 	buttonExitInGame.addListener(this.controler.getInputListener());
 	buttonExitInGame.setUserObject(AbstractControler.EXIT);
 
-	// Fila del título, centrado arriba
+	
 	label.setAlignment(Align.center);
 
 	tableInGame.add(label).colspan(3).expandX().fillX().pad(20).row();

@@ -514,7 +514,7 @@ public class GraphicsFileLoader
 	{
 	    tiledPixmap.drawPixmap(originalPixmap, 0, i * tileHeight, // destino
 		    tileRegion.getRegionX(), tileRegion.getRegionY(), // origen
-		    tileWidth, tileHeight // tamaño del recorte
+		    tileWidth, tileHeight 
 	    );
 	}
 
@@ -561,7 +561,7 @@ public class GraphicsFileLoader
     private float getRandomFrameDuration(float minFrameDuration, float maxFrameDuration)
     {
 	float delta = maxFrameDuration - minFrameDuration;
-	return minFrameDuration + random.nextFloat(delta);
+	return minFrameDuration + random.nextFloat()*delta;
     }
 
     public void dispose()

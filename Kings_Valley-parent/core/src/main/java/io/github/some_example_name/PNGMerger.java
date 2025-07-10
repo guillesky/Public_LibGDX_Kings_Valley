@@ -35,7 +35,7 @@ public class PNGMerger extends ApplicationAdapter
 	// this.arrayDeImagenesIguales(pngFiles);
 	// this.arrayDeImagenesVariables(pngFiles);
 	this.arrayDeImagenesIguales(pngFiles, false);
-	// Cierra la aplicación después de crear la imagen
+	
 	Gdx.app.exit();
     }
 
@@ -58,7 +58,7 @@ public class PNGMerger extends ApplicationAdapter
 	    result = new Pixmap(singleWidth, totalDimension, Pixmap.Format.RGBA8888);
 	}
 
-	// Pegar todas las imágenes una al lado de la otra
+	
 	for (int i = 0; i < pngFiles.size(); i++)
 	{
 	    System.out.println(pngFiles.get(i).name());

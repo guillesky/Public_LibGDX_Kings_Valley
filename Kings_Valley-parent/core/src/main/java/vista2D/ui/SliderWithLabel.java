@@ -33,14 +33,9 @@ public class SliderWithLabel extends Table
 	};
 	slider.setValue(valorInicial);
 
-	// Escuchar cambios y actualizar el número
+	
 	slider.addListener(this.changeListener);
 
-	// Construir el layout en vertical
-	/*
-	 * this.add(labelTitle); this.row(); this.add(slider).width(300); this.row();
-	 * this.add(labelValue);
-	 */
 	this.add(labelTitle).width(350).left().padRight(10);
 	this.add(slider).width(300).padRight(10);
 	this.add(labelValue).width(40).right();

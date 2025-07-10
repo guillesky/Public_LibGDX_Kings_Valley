@@ -97,7 +97,7 @@ public abstract class Mummy extends GameCharacter
 
     protected boolean makeDecisionForJump()
     {
-	return Mummy.random.nextDouble(1) <= this.decisionFactorForJump;
+	return Mummy.random.nextDouble() <= this.decisionFactorForJump;
     }
 
     @Override
