@@ -1,6 +1,5 @@
 package vista2D.ui;
 
-import java.util.HashMap;
 import java.util.Iterator;
 
 import com.badlogic.gdx.ApplicationListener;

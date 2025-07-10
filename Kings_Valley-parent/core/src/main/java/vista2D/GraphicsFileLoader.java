@@ -282,8 +282,7 @@ public class GraphicsFileLoader
 
     private Array<TextureRegion> linearFramesForFile(String file, int count)
     {
-	Texture spriteSheet = manager.get(file, Texture.class);
-
+	
 	return linearFramesForFile(file, count, 1);
     }
 

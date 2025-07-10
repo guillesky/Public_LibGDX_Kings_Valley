@@ -6,20 +6,18 @@ import modelo.KVEventListener;
 import modelo.control.Controls;
 import modelo.gameCharacters.player.Player;
 import modelo.level.Level;
-import modelo.level.LevelReader;
 import modelo.level.door.Door;
-import util.Constantes;
 
 public class GameStatePlaying extends GameState
 {
 	private boolean readyToExit = false;
-	private boolean godMode = true;
+	private boolean godMode = false;
 
 	public GameStatePlaying()
 	{
 		super(Game.ST_GAME_PLAYING);
 		this.game.eventFired(KVEventListener.ENTER_LEVEL, null);
-		
+
 	}
 
 	@Override
@@ -56,37 +54,29 @@ public class GameStatePlaying extends GameState
 			this.game.dying();
 		}
 		// CHEATS FOR DEBUG
-		if (controles.getShot(Input.Keys.F))
-		{
-			currentLevel.prepareToExit();
-			this.readyToExit = true;
-		}
-
-		if (controles.getShot(Input.Keys.N))
-			this.game.nextLevel();
-
-		if (controles.getShot(Input.Keys.O))
-			this.game.dying();
-		
-		if (controles.getShot(Input.Keys.S))
-			this.game.showPlayer();
-		
-
+		/*
+		 * if (controles.getShot(Input.Keys.F)) { currentLevel.prepareToExit();
+		 * this.readyToExit = true; }
+		 * 
+		 * if (controles.getShot(Input.Keys.N)) this.game.nextLevel();
+		 * 
+		 * if (controles.getShot(Input.Keys.O)) this.game.dying();
+		 * 
+		 * if (controles.getShot(Input.Keys.S)) this.game.showPlayer();
+		 */
 	}
 
 	@Override
 	public void startNewGame()
 	{
-	   
+
 	}
 
-
-	
 	@Override
 	protected void dying()
 	{
-	    this.game.level.getPlayer().die();
-	    this.game.stateGame=new GameStateDying();
+		this.game.level.getPlayer().die();
+		this.game.stateGame = new GameStateDying();
 	}
 
 }

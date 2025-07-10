@@ -2,8 +2,6 @@ package modelo.gameCharacters.abstractGameCharacter;
 
 import com.badlogic.gdx.math.Vector2;
 
-import modelo.gameCharacters.mummys.Mummy;
-
 public class GameCharacterStateJumping extends GameCharacterState
 {
 	private float initialMotionX;

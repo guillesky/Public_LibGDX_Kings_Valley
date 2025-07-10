@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 
 import modelo.IGraphicRenderer;
 import modelo.level.TrapMechanism;
-import util.Config;
 
 public class AnimatedTrapKV2 implements IGraphicRenderer
 {

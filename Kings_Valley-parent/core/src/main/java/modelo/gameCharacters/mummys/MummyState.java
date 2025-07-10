@@ -331,7 +331,7 @@ public abstract class MummyState
 
 	}
 
-	public boolean checkRectangleColision(ArrayList levelObjects)
+	public boolean checkRectangleColision(ArrayList<LevelObject> levelObjects)
 	{
 
 		Iterator<LevelObject> it = levelObjects.iterator();

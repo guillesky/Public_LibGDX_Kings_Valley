@@ -5,7 +5,6 @@ import com.badlogic.gdx.Input;
 import modelo.control.Controls;
 import modelo.gameCharacters.player.Player;
 import modelo.level.Level;
-import modelo.level.door.Door;
 
 public class GameStateDying extends GameState
 {

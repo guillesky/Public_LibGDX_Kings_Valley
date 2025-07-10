@@ -4,8 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
 
-import vista2D.GraphicsFileConfig;
-
 public class GameConfig
 {
 	private String language;

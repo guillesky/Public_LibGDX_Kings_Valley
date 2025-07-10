@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import modelo.game.Game;
 import modelo.level.door.Door;
-import util.Config;
 
 public class AnimatedEnteringDoor2D extends AbstractAnimatedDoor2D
 {

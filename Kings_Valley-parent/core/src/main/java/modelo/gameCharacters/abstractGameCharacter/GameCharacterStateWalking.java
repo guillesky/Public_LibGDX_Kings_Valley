@@ -1,11 +1,7 @@
 package modelo.gameCharacters.abstractGameCharacter;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
 import com.badlogic.gdx.math.Vector2;
 
-import modelo.level.LevelObject;
 import modelo.level.Stair;
 
 public class GameCharacterStateWalking extends GameCharacterState

@@ -1,10 +1,6 @@
 package modelo.gameCharacters.mummys;
 
-import modelo.KVEventListener;
-import modelo.game.Game;
 import modelo.gameCharacters.abstractGameCharacter.GameCharacter;
-import modelo.gameCharacters.player.Player;
-import util.Config;
 
 public class MummyStateWalking extends MummyState
 {

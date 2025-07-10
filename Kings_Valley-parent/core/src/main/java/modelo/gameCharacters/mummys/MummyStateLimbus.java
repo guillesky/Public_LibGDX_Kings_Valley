@@ -1,6 +1,5 @@
 package modelo.gameCharacters.mummys;
 
-import modelo.gameCharacters.player.Player;
 import util.Config;
 
 public class MummyStateLimbus extends MummyState

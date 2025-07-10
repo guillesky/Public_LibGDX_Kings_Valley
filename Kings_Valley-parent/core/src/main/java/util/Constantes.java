@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import modelo.level.LevelReader;
-
 public class Constantes
 {	public static final int PLAYER = 1;
 	public static final int It_giratory = 107;

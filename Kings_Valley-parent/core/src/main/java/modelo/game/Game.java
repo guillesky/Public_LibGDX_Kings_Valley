@@ -37,7 +37,7 @@ public class Game implements KVEventListener
     protected int state;
     private int score = 0;
     protected int lives;
-    private float maxDeltaTimeRegistered = 0;
+    
     private GameConfig gameConfig;
     private boolean goingBack;
     private int nextExtraLife = Config.getInstance().getScoreForFirstExtraLife();

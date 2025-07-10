@@ -3,7 +3,6 @@ package modelo.gameCharacters.abstractGameCharacter;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -12,7 +11,6 @@ import modelo.level.LevelObject;
 import modelo.level.Pyramid;
 import modelo.level.Stair;
 import util.Config;
-import util.Constantes;
 
 @SuppressWarnings("serial")
 public abstract class GameCharacter extends LevelObject

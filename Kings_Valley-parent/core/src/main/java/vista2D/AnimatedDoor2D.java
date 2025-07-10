@@ -5,9 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import modelo.game.Game;
 import modelo.level.door.Door;
-import util.Config;
 
 public class AnimatedDoor2D extends AbstractAnimatedDoor2D
 {

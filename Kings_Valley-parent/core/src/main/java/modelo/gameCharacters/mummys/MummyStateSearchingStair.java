@@ -1,6 +1,5 @@
 package modelo.gameCharacters.mummys;
 
-import modelo.gameCharacters.abstractGameCharacter.GameCharacter;
 import modelo.level.LevelObject;
 import modelo.level.Stair;
 

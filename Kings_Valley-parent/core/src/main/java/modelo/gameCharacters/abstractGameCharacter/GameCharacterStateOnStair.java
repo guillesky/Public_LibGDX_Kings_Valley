@@ -34,17 +34,17 @@ public class GameCharacterStateOnStair extends GameCharacterState
 
 			this.checkExitStair(v);
 			this.gameCharacter.lookRight = v.x > 0;
-			if (this.gameCharacter.state != gameCharacter.ST_WALKING)
+			if (this.gameCharacter.state != GameCharacter.ST_WALKING)
 			{
 				this.gameCharacter.resetAnimationDelta();
-				this.gameCharacter.state = gameCharacter.ST_WALKING;
+				this.gameCharacter.state = GameCharacter.ST_WALKING;
 			}
 		} else
 		{
-			if (this.gameCharacter.state != this.gameCharacter.ST_IDDLE)
+			if (this.gameCharacter.state != GameCharacter.ST_IDDLE)
 			{
 				this.gameCharacter.resetAnimationDelta();
-				this.gameCharacter.state = this.gameCharacter.ST_IDDLE;
+				this.gameCharacter.state = GameCharacter.ST_IDDLE;
 			}
 		}
 

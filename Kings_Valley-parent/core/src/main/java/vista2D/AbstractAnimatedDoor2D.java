@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import modelo.IGraphicRenderer;
-import modelo.level.LevelObject;
 import modelo.level.door.Door;
 import util.Config;
 

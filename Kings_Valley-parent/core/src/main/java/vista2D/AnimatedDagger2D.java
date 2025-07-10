@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import modelo.level.dagger.Dagger;
 import modelo.level.dagger.DaggerState;
-import util.Config;
 
 public class AnimatedDagger2D extends AnimatedEntity2D
 {
@@ -18,7 +17,7 @@ public class AnimatedDagger2D extends AnimatedEntity2D
 	public AnimatedDagger2D(Dagger dagger, Animation<TextureRegion> animationStucked,
 			Animation<TextureRegion> animationFlying)
 	{
-		super(dagger, animationStucked,Config.getInstance().getLevelTileWidthUnits(),Config.getInstance().getLevelTileHeightUnits());
+		super(dagger, animationStucked);
 		this.daggerAnimationStucked = animationStucked;
 		this.daggerAnimationFlying = animationFlying;
 		this.oldState = DaggerState.ST_STUCKED;

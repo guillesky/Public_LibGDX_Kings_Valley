@@ -2,8 +2,6 @@ package modelo.gameCharacters.abstractGameCharacter;
 
 import com.badlogic.gdx.math.Vector2;
 
-import util.Config;
-
 public class GameCharacterStateIddle extends GameCharacterState
 {
 

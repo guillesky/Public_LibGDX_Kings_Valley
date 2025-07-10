@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import modelo.level.LevelObject;
-import util.Config;
 
 public class AnimatedEntity2D
 {
@@ -14,16 +13,14 @@ public class AnimatedEntity2D
     protected Animation<TextureRegion> animation;
 
     protected Sprite sprite;
-    private float spriteWidth;
-    private float spriteHeight;
+    
 
-    public AnimatedEntity2D(LevelObject levelObject, Animation<TextureRegion> animation,float spriteWidth,float spriteHeight)
+    public AnimatedEntity2D(LevelObject levelObject, Animation<TextureRegion> animation)
     {
 	this.animation = animation;
 	
 	this.levelObject = levelObject;
-	this.spriteWidth=spriteWidth;
-	this.spriteHeight=spriteHeight;
+	
 	this.sprite = new Sprite(animation.getKeyFrame(0));
 	
     }

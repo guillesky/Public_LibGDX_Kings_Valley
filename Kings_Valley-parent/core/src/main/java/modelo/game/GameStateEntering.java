@@ -1,7 +1,6 @@
 package modelo.game;
 
 import modelo.KVEventListener;
-import modelo.level.door.Door;
 
 public class GameStateEntering extends GameState
 {

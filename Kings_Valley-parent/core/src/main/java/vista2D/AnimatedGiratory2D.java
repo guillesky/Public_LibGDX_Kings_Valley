@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import modelo.level.GiratoryMechanism;
-import util.Config;
 
 public class AnimatedGiratory2D extends AnimatedEntity2D
 {
@@ -15,7 +14,7 @@ public class AnimatedGiratory2D extends AnimatedEntity2D
 	
 	public AnimatedGiratory2D(GiratoryMechanism giratoryMechanism, Animation<TextureRegion> animation)
 	{
-		super(giratoryMechanism.getLevelObject(), animation,Config.getInstance().getLevelTileWidthUnits(),Config.getInstance().getLevelTileHeightUnits());
+		super(giratoryMechanism.getLevelObject(), animation);
 		this.giratoryMechanism = giratoryMechanism;
 		this.setAnimationPlayMode();
 		this.sprite = new Sprite(animation.getKeyFrame(0));

@@ -2,8 +2,6 @@ package modelo.gameCharacters.player;
 
 import com.badlogic.gdx.math.Vector2;
 
-import modelo.gameCharacters.abstractGameCharacter.GameCharacter;
-
 public class PlayerStateWalking extends PlayerState
 {
 
