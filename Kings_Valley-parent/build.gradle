@@ -71,3 +71,16 @@ subprojects {
 }
 
 eclipse.project.name = 'Kings_Valley' + '-parent'
+
+task fatJar(type: Jar) {
+    manifest {
+        attributes 'Main-Class': 'io.github.some_example_name.lwjgl3.Lwjgl3Launcher'
+    }
+    archiveClassifier = 'all'
+    from sourceSets.main.output
+
+    dependsOn configurations.runtimeClasspath
+    from {
+        configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.collect { zipTree(it) }
+    }
+}
