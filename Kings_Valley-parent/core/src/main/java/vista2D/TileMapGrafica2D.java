@@ -26,7 +26,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Array.ArrayIterator;
 
 import i18n.Messages;
-import io.github.some_example_name.IMyApplicationListener;
+import mainPackage.IMyApplicationListener;
 import modelo.game.Game;
 import modelo.gameCharacters.mummys.Mummy;
 import modelo.gameCharacters.player.PairInt;

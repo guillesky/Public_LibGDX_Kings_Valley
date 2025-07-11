@@ -13,7 +13,7 @@ import com.badlogic.gdx.utils.Json;
 import audio.AudioManager;
 import i18n.AllLanguages;
 import i18n.Language;
-import io.github.some_example_name.IMyApplicationListener;
+import mainPackage.IMyApplicationListener;
 import modelo.game.Game;
 import util.GameConfig;
 import util.Utils;

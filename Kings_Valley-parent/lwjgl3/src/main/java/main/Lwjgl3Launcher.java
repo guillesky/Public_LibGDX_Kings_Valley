@@ -1,4 +1,4 @@
-package io.github.some_example_name.lwjgl3;
+package main;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
@@ -45,7 +45,7 @@ public class Lwjgl3Launcher
 	//// cause screen tearing.
 	// configuration.setWindowedMode(800,600);
 	//configuration.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayMode());
-	configuration.setWindowedMode(1920, 1080);
+	configuration.setWindowedMode(1600, 600);
 
 	//// You can change these files; they are in lwjgl3/src/main/resources/ .
 	configuration.setWindowIcon("libgdx128.png", "libgdx64.png", "libgdx32.png", "libgdx16.png");

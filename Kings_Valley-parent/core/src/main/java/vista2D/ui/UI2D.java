@@ -49,7 +49,7 @@ public class UI2D implements IView, ApplicationListener
     private Image backgroundImage;
     private Skin skin;
     private Stage stage;
-    private Label labelProgressLoading;
+   // private Label labelProgressLoading;
     protected BitmapFont fontLarge = new BitmapFont();
     private BitmapFont fontSmall = new BitmapFont();
     private FreeTypeFontGenerator fontGenerator;
@@ -69,7 +69,7 @@ public class UI2D implements IView, ApplicationListener
     private TextButton buttonBackFromCredits;
     private TextButton buttonBackFromMap;
 
-    private ProgressBar progressBar;
+  //  private ProgressBar progressBar;
     private Label labelTitleMain;
     private Label labelTitleOption;
     private Label labelTitleCredits;
@@ -82,7 +82,7 @@ public class UI2D implements IView, ApplicationListener
     private Table tableInGame;
     private Table tableVersion;
     private AssetManager manager;
-    private boolean loading = true;
+    //private boolean loading = true;
     private String KVName = "Kings Valley Remake";
     private SliderWithLabel slMusicVolume;
     private SliderWithLabel slFXVolume;
@@ -412,7 +412,7 @@ public class UI2D implements IView, ApplicationListener
     {
 	Gdx.gl.glClearColor(0, 0, 0, 1);
 	Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-	if (loading)
+	/*if (loading)
 	    if (this.manager.update())
 	    {
 		this.buttonNewGame.setTouchable(Touchable.enabled);
@@ -423,7 +423,7 @@ public class UI2D implements IView, ApplicationListener
 	    {
 		this.progressBar.setValue(this.manager.getProgress());
 
-	    }
+	    }*/
 	if (this.inCredits)
 	{
 	    float velocidadScroll = 30f; 
@@ -484,11 +484,7 @@ public class UI2D implements IView, ApplicationListener
 
     }
 
-    @Override
-    public void updateLoadProgress(float value)
-    {
-	this.progressBar.setValue(value);
-    }
+  
 
     void setText()
 
@@ -498,7 +494,6 @@ public class UI2D implements IView, ApplicationListener
 	this.buttonExit.setText(Messages.EXIT.getValue());
 	this.buttonOptions.setText(Messages.OPTIONS.getValue());
 	this.buttonNewGame.setText(Messages.NEW_GAME.getValue());
-	this.labelProgressLoading.setText(Messages.LOAD_PROGRESS.getValue());
 	this.slDificultLevel.setText(Messages.DIFICULT_LEVEL.getValue(), Messages.EASY.getValue(),
 		Messages.NORMAL.getValue(), Messages.HARD.getValue());
 
@@ -595,26 +590,19 @@ public class UI2D implements IView, ApplicationListener
 
 	labelTitleOption.setAlignment(Align.center);
 
-	tableOption.add(labelTitleOption).colspan(3).expandX().fillX().pad(20).row();
+	tableOption.add(labelTitleOption).colspan(3).expandX().fillX().row();
 
-	tableOption.row();
-
-	tableOption.add(this.slMusicVolume).expandY().pad(10).left();
-	tableOption.row();
-	tableOption.add(this.slFXVolume).expandY().pad(10).left();
-	tableOption.row();
-	tableOption.add(this.slMasterVolume).expandY().pad(10).left();
 	tableOption.row();
 	Table t = new Table();
 	t.add(labelLanguage).width(350).left().padRight(10);
 	t.add(selectBox).width(300).padRight(10);
-
-	tableOption.add(t).expandY().pad(10).left();
-	tableOption.row();
-	tableOption.row();
-	tableOption.add(this.buttonBackFromOptions).expandY().pad(10).left();
-	tableOption.row();
-
+	
+	this.addExpandableRow(tableOption, slMusicVolume);
+	this.addExpandableRow(tableOption, slFXVolume);
+	this.addExpandableRow(tableOption, slMasterVolume);
+	this.addExpandableRow(tableOption, t);
+	this.addExpandableRow(tableOption, buttonBackFromOptions);
+	
     }
 
     private void createMainTable()
@@ -653,37 +641,24 @@ public class UI2D implements IView, ApplicationListener
 	this.buttonExit.addListener(this.controler.getInputListener());
 	this.buttonExit.setUserObject(AbstractControler.EXIT);
 
-	labelProgressLoading = new Label(Messages.LOAD_PROGRESS.getValue(), skin, "default");
-
+	
 
 	labelTitleMain.setAlignment(Align.center);
 
-	tableMainInUi.add(labelTitleMain).colspan(3).expandX().fillX().pad(20).row();
+	tableMainInUi.add(labelTitleMain).colspan(3).expandX().fillX().row();
 
 	tableMainInUi.row();
 
-	this.progressBar = new ProgressBar(0, 100, 1, false, skin);
-
-	tableMainInUi.add(this.buttonNewGame).expandY().pad(10).left();
-	tableMainInUi.row();
-
-	tableMainInUi.add(this.buttonOptions).expandY().pad(10).left();
-	tableMainInUi.row();
-
-	tableMainInUi.add(this.buttonCredits).expandY().pad(10).left();
-	tableMainInUi.row();
-
-	tableMainInUi.add(this.slDificultLevel).expandY().pad(10).left();
-	tableMainInUi.row();
-
-	tableMainInUi.add(this.buttonExit).expandY().pad(10).left();
-	tableMainInUi.row();
-
-	tableMainInUi.add(labelProgressLoading).expandX().pad(0).row();
-	tableMainInUi.add(this.progressBar).expandX().pad(0).row();
-
-	tableMainInUi.row();
-
+	
+	this.addExpandableRow(tableMainInUi, this.buttonNewGame);
+	this.addExpandableRow(tableMainInUi, this.buttonOptions);
+	this.addExpandableRow(tableMainInUi, this.buttonCredits);
+	this.addExpandableRow(tableMainInUi, this.slDificultLevel);
+	this.addExpandableRow(tableMainInUi, this.buttonExit);
+	
+	
+	
+	
 	if (!Facade.getInstance().getGameConfig().isFinishedOneTime())
 	{
 	    this.slDificultLevel.setVisible(false);
@@ -729,7 +704,7 @@ public class UI2D implements IView, ApplicationListener
 	    }
 	});
 
-	tableCredits.add(labelTitleCredits).colspan(3).expandX().fillX().pad(20).row();
+	tableCredits.add(labelTitleCredits).colspan(3).expandX().fillX().row();
 
 	tableCredits.row();
 
@@ -787,10 +762,10 @@ public class UI2D implements IView, ApplicationListener
 	
 	label.setAlignment(Align.center);
 
-	tableInGame.add(label).colspan(3).expandX().fillX().pad(20).row();
+	tableInGame.add(label).colspan(3).expandX().fillX().row();
 
 	tableInGame.row();
-
+/*
 	tableInGame.add(buttonRetry).expandY().pad(10).left();
 	tableInGame.row();
 
@@ -804,7 +779,14 @@ public class UI2D implements IView, ApplicationListener
 	tableInGame.row();
 
 	tableInGame.add(buttonExitInGame).expandY().pad(10).left();
-	tableInGame.row();
+	tableInGame.row();*/
+	this.addExpandableRow(tableInGame, buttonRetry);
+	this.addExpandableRow(tableInGame, buttonMap);
+	this.addExpandableRow(tableInGame, buttonOptionsInGame);
+	this.addExpandableRow(tableInGame, buttonMainMenu);
+	this.addExpandableRow(tableInGame, buttonExitInGame);
+	
+	
     }
 
     private void createMapTable()
@@ -829,7 +811,7 @@ public class UI2D implements IView, ApplicationListener
 	});
 	this.buttonBackFromMap.addListener(this.controler.getInputListener());
 
-	tableMap.add(labelTitleMap).colspan(3).expandX().fillX().pad(20).row();
+	tableMap.add(labelTitleMap).colspan(3).expandX().fillX().row();
 
 	tableMap.row();
 
@@ -886,4 +868,12 @@ public class UI2D implements IView, ApplicationListener
 	this.uiMap.render();
 
     }
+    
+    
+    private void addExpandableRow(Table table,Actor actor) {
+        table.add(actor).expandY().fillY().pad(5).left().maxHeight(120).row();
+    }
+    
+    
+    
 }
