@@ -55,14 +55,14 @@ public class GameStatePlaying extends GameState
 		}
 		// CHEATS FOR DEBUG
 		/*
-		 * if (controles.getShot(Input.Keys.F)) { currentLevel.prepareToExit();
-		 * this.readyToExit = true; }
-		 * 
-		 * if (controles.getShot(Input.Keys.N)) this.game.nextLevel();
-		 * 
-		 * if (controles.getShot(Input.Keys.O)) this.game.dying();
-		 * 
-		 * if (controles.getShot(Input.Keys.S)) this.game.showPlayer();
+		  if (controles.getShot(Input.Keys.F)) { currentLevel.prepareToExit();
+		  this.readyToExit = true; }
+		  
+		  if (controles.getShot(Input.Keys.N)) this.game.nextLevel();
+		  
+		  if (controles.getShot(Input.Keys.O)) this.game.dying();
+		  
+		  if (controles.getShot(Input.Keys.S)) this.game.showPlayer();
 		 */
 	}
 

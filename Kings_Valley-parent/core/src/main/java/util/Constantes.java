@@ -54,7 +54,7 @@ public class Constantes
 	public static ArrayList<Integer> tilesPositiveStairs;
 	public static ArrayList<Integer> tilesNegativeStairs;
 	public static ArrayList<Integer> tilesPreviusToStairs;
-	public static final String VERSION="v 1.0.0 r 2025-07-09";
+	public static final String VERSION="v 1.0.0 r 2025-07-11";
 	
 
 	static

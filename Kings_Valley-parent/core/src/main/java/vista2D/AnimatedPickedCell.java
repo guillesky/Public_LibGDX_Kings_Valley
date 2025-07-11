@@ -23,9 +23,9 @@ public class AnimatedPickedCell extends AnimatedEntity2D
     @Override
     public void updateElement(float deltaTime)
     {
-	super.updateElement(deltaTime - this.stateTime);
+	if (deltaTime - this.stateTime > 0)
+	    super.updateElement(deltaTime - this.stateTime);
 
-	
     }
 
 }
