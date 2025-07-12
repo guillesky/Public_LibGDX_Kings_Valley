@@ -50,6 +50,18 @@ com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
 			a: 0.5
 		}
 	}
+
+	window-black: {
+  		name: window
+  		color: {
+    			r: 0
+    			g: 0
+    			b: 0
+    			a: 0.9
+  		}
+	}
+
+
 }
 com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
 	default: {
@@ -245,5 +257,14 @@ com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle: {
 		background: textfield
 		titleFont: font
 	}
+	dialog-black: {
+	  background: window-black
+  titleFont: font
+  titleFontColor: white
+  stageBackground: white
+}
+
+
+
 }
 }

@@ -30,7 +30,6 @@ public class Controler2D extends AbstractControler implements KVEventListener
 	    {
 		Actor actor = event.getTarget();
 
-		
 		while (actor != null && actor.getUserObject() == null)
 		{
 		    actor = actor.getParent();
@@ -63,8 +62,7 @@ public class Controler2D extends AbstractControler implements KVEventListener
 		    break;
 
 		case AbstractControler.MAIN_MENU:
-		    Game.getInstance().pressPause();
-		    Game.getInstance().endGame();
+		    Controler2D.this.doBackToMainMenu();
 		    break;
 		case AbstractControler.SHOW_MAP:
 		    doShowMap();
@@ -136,7 +134,7 @@ public class Controler2D extends AbstractControler implements KVEventListener
 	return clickListener;
     }
 
-    private void doExit()
+    protected void doExit()
     {
 	Gdx.app.exit();
     }
@@ -200,13 +198,12 @@ public class Controler2D extends AbstractControler implements KVEventListener
 	    doMainMenu();
 	    break;
 	}
-	
+
 	case KVEventListener.FINISH_ALL_LEVELS:
 	{
 	    doFinishAllLevels();
 	    break;
 	}
-	
 
 	}
 
@@ -237,11 +234,16 @@ public class Controler2D extends AbstractControler implements KVEventListener
     private void doMainMenu()
     {
 	Facade.getInstance().mainMenu();
-	
 
     }
 
-    private void doRetry()
+    protected void doBackToMainMenu()
+    {
+	Game.getInstance().pressPause();
+	Game.getInstance().endGame();
+    }
+
+    protected void doRetry()
     {
 	Facade.getInstance().retry();
     }

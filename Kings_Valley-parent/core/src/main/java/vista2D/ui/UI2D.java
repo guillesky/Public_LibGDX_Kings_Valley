@@ -18,16 +18,17 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.List.ListStyle;
-import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox.SelectBoxStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
@@ -49,7 +50,7 @@ public class UI2D implements IView, ApplicationListener
     private Image backgroundImage;
     private Skin skin;
     private Stage stage;
-   // private Label labelProgressLoading;
+    // private Label labelProgressLoading;
     protected BitmapFont fontLarge = new BitmapFont();
     private BitmapFont fontSmall = new BitmapFont();
     private FreeTypeFontGenerator fontGenerator;
@@ -69,7 +70,7 @@ public class UI2D implements IView, ApplicationListener
     private TextButton buttonBackFromCredits;
     private TextButton buttonBackFromMap;
 
-  //  private ProgressBar progressBar;
+    // private ProgressBar progressBar;
     private Label labelTitleMain;
     private Label labelTitleOption;
     private Label labelTitleCredits;
@@ -82,7 +83,7 @@ public class UI2D implements IView, ApplicationListener
     private Table tableInGame;
     private Table tableVersion;
     private AssetManager manager;
-    //private boolean loading = true;
+    // private boolean loading = true;
     private String KVName = "Kings Valley Remake";
     private SliderWithLabel slMusicVolume;
     private SliderWithLabel slFXVolume;
@@ -105,6 +106,12 @@ public class UI2D implements IView, ApplicationListener
     private UIMap uiMap;
 
     private boolean fromInGameTable;
+
+    private Dialog confirmRetryDialog;
+
+    private Dialog confirmExitDialog;
+
+    private Dialog confirmGoMainMenuDialog;
 
     public UI2D(AssetManager manager, FreeTypeFontGenerator fontGenerator, UIConfig uiConfig)
     {
@@ -185,6 +192,7 @@ public class UI2D implements IView, ApplicationListener
 	labelStyleSmall.font = skin.getFont(this.fontSmallName);
 	stage = new Stage(new ScreenViewport());
 	Gdx.input.setInputProcessor(stage);
+	this.createDialogs();
 	this.createMainTable();
 	this.createOptionTable();
 
@@ -273,7 +281,7 @@ public class UI2D implements IView, ApplicationListener
     public void doEnterUi()
     {
 
-	stage.addActor(backgroundImage); 
+	stage.addActor(backgroundImage);
 	this.tableMainActual = this.tableMainInUi;
 	this.stage.addActor(this.tableMainInUi);
 	stage.addActor(tableVersion);
@@ -317,7 +325,7 @@ public class UI2D implements IView, ApplicationListener
 	int fontSize = (int) (Gdx.graphics.getHeight() * (1.f / 12.f));
 
 	FreeTypeFontGenerator.FreeTypeFontParameter parameterLarge = new FreeTypeFontGenerator.FreeTypeFontParameter();
-	parameterLarge.size = fontSize; 
+	parameterLarge.size = fontSize;
 	parameterLarge.color = Color.GOLD;
 	parameterLarge.borderColor = Color.BLACK;
 	fontLarge = fontGenerator.generateFont(parameterLarge);
@@ -412,24 +420,19 @@ public class UI2D implements IView, ApplicationListener
     {
 	Gdx.gl.glClearColor(0, 0, 0, 1);
 	Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-	/*if (loading)
-	    if (this.manager.update())
-	    {
-		this.buttonNewGame.setTouchable(Touchable.enabled);
-		this.labelProgressLoading.setVisible(false);
-		this.progressBar.setVisible(false);
-		this.loading = false;
-	    } else
-	    {
-		this.progressBar.setValue(this.manager.getProgress());
-
-	    }*/
+	/*
+	 * if (loading) if (this.manager.update()) {
+	 * this.buttonNewGame.setTouchable(Touchable.enabled);
+	 * this.labelProgressLoading.setVisible(false);
+	 * this.progressBar.setVisible(false); this.loading = false; } else {
+	 * this.progressBar.setValue(this.manager.getProgress());
+	 * 
+	 * }
+	 */
 	if (this.inCredits)
 	{
-	    float velocidadScroll = 30f; 
+	    float velocidadScroll = 30f;
 	    float nuevoScrollY = scrollPane.getScrollY() + velocidadScroll * Gdx.graphics.getDeltaTime();
-
-	    
 
 	    if (nuevoScrollY < scrollPane.getMaxY())
 		scrollPane.setScrollY(nuevoScrollY);
@@ -484,8 +487,6 @@ public class UI2D implements IView, ApplicationListener
 
     }
 
-  
-
     void setText()
 
     {
@@ -520,7 +521,10 @@ public class UI2D implements IView, ApplicationListener
 	// Table inMap
 	this.labelTitleMap.setText(Messages.MAP.getValue());
 	this.buttonBackFromMap.setText(Messages.GO_BACK.getValue());
-
+	
+	this.createDialogs();
+	
+	
     }
 
     @Override
@@ -596,13 +600,13 @@ public class UI2D implements IView, ApplicationListener
 	Table t = new Table();
 	t.add(labelLanguage).width(350).left().padRight(10);
 	t.add(selectBox).width(300).padRight(10);
-	
+
 	this.addExpandableRow(tableOption, slMusicVolume);
 	this.addExpandableRow(tableOption, slFXVolume);
 	this.addExpandableRow(tableOption, slMasterVolume);
 	this.addExpandableRow(tableOption, t);
 	this.addExpandableRow(tableOption, buttonBackFromOptions);
-	
+
     }
 
     private void createMainTable()
@@ -638,10 +642,14 @@ public class UI2D implements IView, ApplicationListener
 	this.buttonCredits.setUserObject(AbstractControler.CREDITS);
 
 	this.buttonExit = new TextButton(Messages.EXIT.getValue(), skin);
-	this.buttonExit.addListener(this.controler.getInputListener());
-	this.buttonExit.setUserObject(AbstractControler.EXIT);
-
-	
+	buttonExit.addListener(new ClickListener()
+	{
+	    @Override
+	    public void clicked(InputEvent event, float x, float y)
+	    {
+		UI2D.this.confirmExitDialog.show(stage);
+	    }
+	});
 
 	labelTitleMain.setAlignment(Align.center);
 
@@ -649,16 +657,12 @@ public class UI2D implements IView, ApplicationListener
 
 	tableMainInUi.row();
 
-	
 	this.addExpandableRow(tableMainInUi, this.buttonNewGame);
 	this.addExpandableRow(tableMainInUi, this.buttonOptions);
 	this.addExpandableRow(tableMainInUi, this.buttonCredits);
 	this.addExpandableRow(tableMainInUi, this.slDificultLevel);
 	this.addExpandableRow(tableMainInUi, this.buttonExit);
-	
-	
-	
-	
+
 	if (!Facade.getInstance().getGameConfig().isFinishedOneTime())
 	{
 	    this.slDificultLevel.setVisible(false);
@@ -680,9 +684,9 @@ public class UI2D implements IView, ApplicationListener
 	String textoCreditos = Facade.getInstance().getCredits();
 
 	this.creditsLabel = new Label(textoCreditos, skin);
-	creditsLabel.setWrap(true); 
+	creditsLabel.setWrap(true);
 
-	creditsLabel.setAlignment(Align.topLeft); 
+	creditsLabel.setAlignment(Align.topLeft);
 
 	Table contenedorTexto = new Table();
 
@@ -725,8 +729,14 @@ public class UI2D implements IView, ApplicationListener
 	label.setAlignment(Align.center);
 
 	this.buttonRetry = new TextButton(Messages.RETRY.getValue(), skin, "default");
-	buttonRetry.addListener(this.controler.getInputListener());
-	buttonRetry.setUserObject(AbstractControler.RETRY);
+	buttonRetry.addListener(new ClickListener()
+	{
+	    @Override
+	    public void clicked(InputEvent event, float x, float y)
+	    {
+		UI2D.this.confirmRetryDialog.show(stage);
+	    }
+	});
 
 	this.buttonOptionsInGame = new TextButton(Messages.OPTIONS.getValue(), skin);
 	buttonOptionsInGame.addListener(new ClickListener()
@@ -737,13 +747,19 @@ public class UI2D implements IView, ApplicationListener
 
 		doOptions();
 		UI2D.this.fromInGameTable = true;
+		// UI2D.this.confirmRetryDialog.show(stage);
 	    }
 	});
 
 	this.buttonMainMenu = new TextButton(Messages.MAIN_MENU.getValue(), skin);
-	buttonMainMenu.addListener(this.controler.getInputListener());
-	buttonMainMenu.setUserObject(AbstractControler.MAIN_MENU);
-
+	buttonMainMenu.addListener(new ClickListener()
+	{
+	    @Override
+	    public void clicked(InputEvent event, float x, float y)
+	    {
+		UI2D.this.confirmGoMainMenuDialog.show(stage);
+	    }
+	});
 	this.buttonMap = new TextButton(Messages.MAP.getValue(), skin);
 	buttonMap.addListener(new ClickListener()
 	{
@@ -756,37 +772,40 @@ public class UI2D implements IView, ApplicationListener
 	this.buttonMap.addListener(this.controler.getInputListener());
 	this.buttonMap.setUserObject(AbstractControler.SHOW_MAP);
 	this.buttonExitInGame = new TextButton(Messages.EXIT.getValue(), skin);
-	buttonExitInGame.addListener(this.controler.getInputListener());
-	buttonExitInGame.setUserObject(AbstractControler.EXIT);
+	buttonExitInGame.addListener(new ClickListener()
+	{
+	    @Override
+	    public void clicked(InputEvent event, float x, float y)
+	    {
+		UI2D.this.confirmExitDialog.show(stage);
+	    }
+	});
 
-	
 	label.setAlignment(Align.center);
 
 	tableInGame.add(label).colspan(3).expandX().fillX().row();
 
 	tableInGame.row();
-/*
-	tableInGame.add(buttonRetry).expandY().pad(10).left();
-	tableInGame.row();
-
-	tableInGame.add(this.buttonMap).expandY().pad(10).left();
-	tableInGame.row();
-
-	tableInGame.add(buttonOptionsInGame).expandY().pad(10).left();
-	tableInGame.row();
-
-	tableInGame.add(buttonMainMenu).expandY().pad(10).left();
-	tableInGame.row();
-
-	tableInGame.add(buttonExitInGame).expandY().pad(10).left();
-	tableInGame.row();*/
-	this.addExpandableRow(tableInGame, buttonRetry);
+	/*
+	 * tableInGame.add(buttonRetry).expandY().pad(10).left(); tableInGame.row();
+	 * 
+	 * tableInGame.add(this.buttonMap).expandY().pad(10).left(); tableInGame.row();
+	 * 
+	 * tableInGame.add(buttonOptionsInGame).expandY().pad(10).left();
+	 * tableInGame.row();
+	 * 
+	 * tableInGame.add(buttonMainMenu).expandY().pad(10).left(); tableInGame.row();
+	 * 
+	 * tableInGame.add(buttonExitInGame).expandY().pad(10).left();
+	 * tableInGame.row();
+	 */
+	
 	this.addExpandableRow(tableInGame, buttonMap);
 	this.addExpandableRow(tableInGame, buttonOptionsInGame);
+	this.addExpandableRow(tableInGame, buttonRetry);
 	this.addExpandableRow(tableInGame, buttonMainMenu);
 	this.addExpandableRow(tableInGame, buttonExitInGame);
-	
-	
+
     }
 
     private void createMapTable()
@@ -868,12 +887,81 @@ public class UI2D implements IView, ApplicationListener
 	this.uiMap.render();
 
     }
-    
-    
-    private void addExpandableRow(Table table,Actor actor) {
-        table.add(actor).expandY().fillY().pad(5).left().maxHeight(120).row();
+
+    private void addExpandableRow(Table table, Actor actor)
+    {
+	table.add(actor).expandY().fillY().pad(5).left().maxHeight(120).row();
     }
-    
-    
-    
+
+    private void createDialogs()
+    {
+
+	this.confirmRetryDialog = new Dialog(Messages.DIALOG_RETRY_TITLE.getValue(), skin)
+	{
+	    @Override
+	    protected void result(Object object)
+	    {
+		if (object.equals(true))
+		{
+		    doRetry();
+		}
+	    }
+	};
+	
+	confirmRetryDialog.text(Messages.DIALOG_RETRY_TEXT.getValue());
+	confirmRetryDialog.button(Messages.YES.getValue(), true);
+	confirmRetryDialog.button(Messages.NO.getValue(), false);
+	
+	
+	this.confirmExitDialog = new Dialog(Messages.DIALOG_EXIT_TITLE.getValue(), skin)
+	{
+	    @Override
+	    protected void result(Object object)
+	    {
+		if (object.equals(true))
+		{
+		    doExit();
+		}
+	    }
+	};
+
+	confirmExitDialog.text(Messages.DIALOG_EXIT_TEXT.getValue());
+	confirmExitDialog.button(Messages.YES.getValue(), true);
+	confirmExitDialog.button(Messages.NO.getValue(), false);
+
+	this.confirmGoMainMenuDialog = new Dialog(Messages.DIALOG_GO_MAIN_MENU_TITLE.getValue(), skin)
+	{
+	    @Override
+	    protected void result(Object object)
+	    {
+		if (object.equals(true))
+		{
+		    doGoBackMainMenu();
+		}
+	    }
+
+	};
+
+	confirmGoMainMenuDialog.text(Messages.DIALOG_GO_MAIN_MENU_TEXT.getValue());
+	confirmGoMainMenuDialog.button(Messages.YES.getValue(), true);
+	confirmGoMainMenuDialog.button(Messages.NO.getValue(), false);
+	
+    }
+
+    private void doRetry()
+    {
+	this.controler.doRetry();
+    }
+
+    private void doExit()
+    {
+	this.controler.doExit();
+
+    }
+
+    private void doGoBackMainMenu()
+    {
+	this.controler.doBackToMainMenu();
+
+    }
 }
