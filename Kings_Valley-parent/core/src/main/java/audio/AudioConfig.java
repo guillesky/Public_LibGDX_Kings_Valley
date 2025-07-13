@@ -1,5 +1,10 @@
 package audio;
 
+
+/**
+ * @author Guillermo Lazzurri
+ * Clase que contiene los getters de los parametros de configuracion del audio. Los nombres de los archivos de audio correspondientes a efectos de sonido y musica. 
+ */
 public class AudioConfig
 {
 

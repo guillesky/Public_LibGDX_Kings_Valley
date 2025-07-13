@@ -80,9 +80,10 @@ public class Facade implements ApplicationListener
     {
 	this.gameConfig.setMasterVolume(volume);
 	this.changeConfig = true;
-	musicActual.setVolume(Facade.getInstance().getGameConfig().getMasterVolume()
-		* Facade.getInstance().getGameConfig().getMusicVolume());
-	this.audioManager.updateMusicVolume();
+	float volumen=Facade.getInstance().getGameConfig().getMasterVolume()
+		* Facade.getInstance().getGameConfig().getMusicVolume();
+	musicActual.setVolume(volumen);
+	this.audioManager.updateMusicVolume(volumen);
 
     }
 
@@ -90,9 +91,11 @@ public class Facade implements ApplicationListener
     {
 	this.gameConfig.setMusicVolume(volume);
 	this.changeConfig = true;
-	musicActual.setVolume(Facade.getInstance().getGameConfig().getMasterVolume()
-		* Facade.getInstance().getGameConfig().getMusicVolume());
-	this.audioManager.updateMusicVolume();
+	float volumen=Facade.getInstance().getGameConfig().getMasterVolume()
+		* Facade.getInstance().getGameConfig().getMusicVolume();
+	musicActual.setVolume(volumen);
+	musicActual.setVolume(volumen);
+	this.audioManager.updateMusicVolume(volumen);
     }
 
     public void setSoundsVolume(float volume)

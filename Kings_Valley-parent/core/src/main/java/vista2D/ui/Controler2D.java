@@ -1,5 +1,7 @@
 package vista2D.ui;
 
+import java.util.Iterator;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -247,4 +249,37 @@ public class Controler2D extends AbstractControler implements KVEventListener
     {
 	Facade.getInstance().retry();
     }
+    
+    protected String getCredits() 
+    {
+	return Facade.getInstance().getCredits();
+    }
+
+    public boolean isFinishedOneTime()
+    {
+	
+	return Facade.getInstance().getGameConfig().isFinishedOneTime();
+    }
+    
+    protected float getMasterVolume() 
+    {
+	return Facade.getInstance().getGameConfig().getMasterVolume();
+    }
+    
+    
+    protected float getMusicVolume() 
+    {
+	return Facade.getInstance().getGameConfig().getMusicVolume();
+    }
+    protected float getSoundsVolume() 
+    {
+	return Facade.getInstance().getGameConfig().getSoundsVolume();
+    }
+
+    public Iterator<String> getLanguagesName()
+    {
+	
+	return Facade.getInstance().getAllLanguages().getLanguagesName();
+    }
+    
 }

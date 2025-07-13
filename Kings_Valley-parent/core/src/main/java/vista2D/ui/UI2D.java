@@ -135,8 +135,8 @@ public class UI2D implements IView, ApplicationListener
 	    @Override
 	    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button)
 	    {
-		clickSound.play(Facade.getInstance().getGameConfig().getMasterVolume()
-			* Facade.getInstance().getGameConfig().getSoundsVolume());
+		clickSound.play(controler.getMasterVolume()
+			* controler.getSoundsVolume());
 		return super.touchDown(event, x, y, pointer, button);
 	    }
 
@@ -145,8 +145,8 @@ public class UI2D implements IView, ApplicationListener
 	    {
 		if (pointer == -1)
 		{
-		    focusSound.play(Facade.getInstance().getGameConfig().getMasterVolume()
-			    * Facade.getInstance().getGameConfig().getSoundsVolume());
+		    focusSound.play(controler.getMasterVolume()
+			    * controler.getSoundsVolume());
 		}
 	    }
 	};
@@ -157,8 +157,8 @@ public class UI2D implements IView, ApplicationListener
 	    @Override
 	    public void changed(ChangeEvent event, Actor actor)
 	    {
-		slideSound.play(Facade.getInstance().getGameConfig().getMasterVolume()
-			* Facade.getInstance().getGameConfig().getSoundsVolume());
+		slideSound.play(controler.getMasterVolume()
+			* controler.getSoundsVolume());
 
 	    }
 	};
@@ -286,7 +286,7 @@ public class UI2D implements IView, ApplicationListener
 	this.stage.addActor(this.tableMainInUi);
 	stage.addActor(tableVersion);
 	Gdx.input.setCursorCatched(false);
-	if (Facade.getInstance().getGameConfig().isFinishedOneTime())
+	if (this.controler.isFinishedOneTime())
 	{
 	    this.slDificultLevel.setVisible(true);
 	    this.slDificultLevel.setTouchable(Touchable.enabled);
@@ -509,7 +509,7 @@ public class UI2D implements IView, ApplicationListener
 	// Table Credits
 	this.buttonBackFromCredits.setText(Messages.GO_BACK.getValue());
 	this.labelTitleCredits.setText(Messages.CREDITS.getValue());
-	this.creditsLabel.setText(Facade.getInstance().getCredits());
+	this.creditsLabel.setText(this.controler.getCredits());
 
 	// Table InGame
 	this.buttonExitInGame.setText(Messages.EXIT.getValue());
@@ -552,13 +552,13 @@ public class UI2D implements IView, ApplicationListener
 	this.tableOption.top();
 
 	this.slMasterVolume = new SliderWithLabel(Messages.MASTER_VOLUME.getValue(), 0, 100, 1,
-		Facade.getInstance().getGameConfig().getMasterVolume() * 100, skin, AbstractControler.MASTER_VOLUME,
+		this.controler.getMasterVolume() * 100, skin, AbstractControler.MASTER_VOLUME,
 		controler.getChangeListener());
 	this.slFXVolume = new SliderWithLabel(Messages.FX_VOLUME.getValue(), 0, 100, 1,
-		Facade.getInstance().getGameConfig().getSoundsVolume() * 100, skin, AbstractControler.FX_VOLUME,
+		this.controler.getSoundsVolume() * 100, skin, AbstractControler.FX_VOLUME,
 		controler.getChangeListener());
 	this.slMusicVolume = new SliderWithLabel(Messages.MUSIC_VOLUME.getValue(), 0, 100, 1,
-		Facade.getInstance().getGameConfig().getMusicVolume() * 100, skin, AbstractControler.MUSIC_VOLUME,
+		this.controler.getMusicVolume() * 100, skin, AbstractControler.MUSIC_VOLUME,
 		controler.getChangeListener());
 
 	this.labelTitleOption = new Label(Messages.OPTIONS.getValue(), skin, "myLabelStyleLarge");
@@ -585,7 +585,7 @@ public class UI2D implements IView, ApplicationListener
 
 	this.selectBox = new SelectBox<String>(skin);
 	Array<String> array = new Array<String>();
-	Iterator<String> it = Facade.getInstance().getAllLanguages().getLanguagesName();
+	Iterator<String> it = this.controler.getLanguagesName();
 	while (it.hasNext())
 	    array.add(it.next());
 
@@ -663,7 +663,7 @@ public class UI2D implements IView, ApplicationListener
 	this.addExpandableRow(tableMainInUi, this.slDificultLevel);
 	this.addExpandableRow(tableMainInUi, this.buttonExit);
 
-	if (!Facade.getInstance().getGameConfig().isFinishedOneTime())
+	if (!this.controler.isFinishedOneTime())
 	{
 	    this.slDificultLevel.setVisible(false);
 	    this.slDificultLevel.setTouchable(Touchable.disabled);
@@ -681,7 +681,7 @@ public class UI2D implements IView, ApplicationListener
 
 	float anchoTexto = stage.getWidth() * 0.8f;
 	float altoTexto = stage.getHeight() * 0.6f;
-	String textoCreditos = Facade.getInstance().getCredits();
+	String textoCreditos = this.controler.getCredits();
 
 	this.creditsLabel = new Label(textoCreditos, skin);
 	creditsLabel.setWrap(true);
