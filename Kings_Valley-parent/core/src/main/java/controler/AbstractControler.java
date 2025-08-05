@@ -40,7 +40,9 @@ public abstract class AbstractControler
     }
 
     /**
-     * @param view setea el atributo de tipo IView, representa la vista interfaz de usuario
+     * Setea el atributo de tipo IView, y gestiona la doble referencia. 
+     * 
+     * @param view Representa la vista interfaz de usuario
      */
     public void setView(IView view)
     {

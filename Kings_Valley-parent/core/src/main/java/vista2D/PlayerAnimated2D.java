@@ -28,10 +28,10 @@ public class PlayerAnimated2D extends GameCharacterAnimated2D
 	this.animation_Dagger = animation_Dagger;
 	this.animation_Picker = animation_Picker;
 	this.animation_Nothing = animation;
-	this.specialWidth = animation_Dagger[TileMapGrafica2D.THROW_DAGGER].getKeyFrame(0).getRegionWidth();
-	this.specialHeight = animation_Dagger[TileMapGrafica2D.THROW_DAGGER].getKeyFrame(0).getRegionHeight();
-	this.normalWidth = animation[TileMapGrafica2D.IDDLE].getKeyFrame(0).getRegionWidth();
-	this.normalHeight = animation[TileMapGrafica2D.IDDLE].getKeyFrame(0).getRegionHeight();
+	this.specialWidth = animation_Dagger[TileMapGrafica2D_OLD.THROW_DAGGER].getKeyFrame(0).getRegionWidth();
+	this.specialHeight = animation_Dagger[TileMapGrafica2D_OLD.THROW_DAGGER].getKeyFrame(0).getRegionHeight();
+	this.normalWidth = animation[TileMapGrafica2D_OLD.IDDLE].getKeyFrame(0).getRegionWidth();
+	this.normalHeight = animation[TileMapGrafica2D_OLD.IDDLE].getKeyFrame(0).getRegionHeight();
 
 	Player p = (Player) character;
 	this.item = p.getItem();
@@ -51,7 +51,7 @@ public class PlayerAnimated2D extends GameCharacterAnimated2D
 	if (player.getState() == Player.ST_PICKING)
 
 	{
-	    this.animation = this.animation_Picker[TileMapGrafica2D.PICKING];
+	    this.animation = this.animation_Picker[TileMapGrafica2D_OLD.PICKING];
 	    this.sprite.setSize(this.specialWidth, this.specialWidth);
 	    this.specialSize = true;
 	    
@@ -59,7 +59,7 @@ public class PlayerAnimated2D extends GameCharacterAnimated2D
 
 	if (player.getState() == Player.ST_THROWING_DAGGER)
 	{
-	    this.animation = this.animation_Dagger[TileMapGrafica2D.THROW_DAGGER];
+	    this.animation = this.animation_Dagger[TileMapGrafica2D_OLD.THROW_DAGGER];
 	    this.sprite.setSize(this.specialWidth, this.specialHeight);
 	    this.specialSize = true;
 	   
@@ -94,12 +94,12 @@ public class PlayerAnimated2D extends GameCharacterAnimated2D
 
     private void changeArrayAnimation(Animation<TextureRegion>[] arrayAnimation)
     {
-	this.characterAnimationDeath = arrayAnimation[TileMapGrafica2D.DEATH];
-	this.characterAnimationFall = arrayAnimation[TileMapGrafica2D.FALL];
-	this.characterAnimationWalk = arrayAnimation[TileMapGrafica2D.WALK];
+	this.characterAnimationDeath = arrayAnimation[TileMapGrafica2D_OLD.DEATH];
+	this.characterAnimationFall = arrayAnimation[TileMapGrafica2D_OLD.FALL];
+	this.characterAnimationWalk = arrayAnimation[TileMapGrafica2D_OLD.WALK];
 
-	this.characterAnimationIddle = arrayAnimation[TileMapGrafica2D.IDDLE];
-	this.characterAnimationJump = arrayAnimation[TileMapGrafica2D.JUMP];
+	this.characterAnimationIddle = arrayAnimation[TileMapGrafica2D_OLD.IDDLE];
+	this.characterAnimationJump = arrayAnimation[TileMapGrafica2D_OLD.JUMP];
     }
 
     

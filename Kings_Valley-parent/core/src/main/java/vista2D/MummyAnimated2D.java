@@ -14,7 +14,7 @@ public class MummyAnimated2D extends GameCharacterAnimated2D
 	public MummyAnimated2D(GameCharacter character, Animation<TextureRegion>[] animations)
 	{
 		super(character, animations);
-		this.mummyAnimationAppear = animations[TileMapGrafica2D.APPEAR];
+		this.mummyAnimationAppear = animations[TileMapGrafica2D_OLD.APPEAR];
 
 	}
 

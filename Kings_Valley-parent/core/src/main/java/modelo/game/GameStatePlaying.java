@@ -8,11 +8,21 @@ import modelo.gameCharacters.player.Player;
 import modelo.level.Level;
 import modelo.level.door.Door;
 
+/**
+ * @author Guillermo Lazzurri
+ * 
+ *         Clase que representa el estado Jugando
+ */
 public class GameStatePlaying extends GameState
 {
 	private boolean readyToExit = false;
 	private boolean godMode = false;
 
+	/**
+	 * Se llama a super(Game.ST_GAME_PLAYING);<br>
+	 * Se dispara el evento this.game.eventFired(KVEventListener.ENTER_LEVEL, null);
+	 * 
+	 */
 	public GameStatePlaying()
 	{
 		super(Game.ST_GAME_PLAYING);
@@ -20,6 +30,12 @@ public class GameStatePlaying extends GameState
 
 	}
 
+	/**
+	 * llama a super.updateframe(deltaTime); <br>
+	 * Actaliza el estado del player, las momias, los mecanismos, las dagas
+	 * lanzadas, chequea muertes, verifica salidas de nivel, etc.
+	 * 
+	 */
 	@Override
 	public void updateframe(float deltaTime)
 	{
@@ -55,23 +71,28 @@ public class GameStatePlaying extends GameState
 		}
 		// CHEATS FOR DEBUG
 		/*
-		  if (controles.getShot(Input.Keys.F)) { currentLevel.prepareToExit();
-		  this.readyToExit = true; }
-		  
-		  if (controles.getShot(Input.Keys.N)) this.game.nextLevel();
-		  
-		  if (controles.getShot(Input.Keys.O)) this.game.dying();
-		  
-		  if (controles.getShot(Input.Keys.S)) this.game.showPlayer();
+		 * if (controles.getShot(Input.Keys.F)) { currentLevel.prepareToExit();
+		 * this.readyToExit = true; }
+		 * 
+		 * if (controles.getShot(Input.Keys.N)) this.game.nextLevel();
+		 * 
+		 * if (controles.getShot(Input.Keys.O)) this.game.dying();
+		 * 
+		 * if (controles.getShot(Input.Keys.S)) this.game.showPlayer();
 		 */
 	}
-
+	/**
+	 * Se sobreescribe como metodo vacio (no hace nada)
+	 */
 	@Override
 	public void startNewGame()
 	{
 
 	}
 
+	/**
+	 *Se provcesa la muerte del player. Se cambia el estado del juego a GameStateDying
+	 */
 	@Override
 	protected void dying()
 	{

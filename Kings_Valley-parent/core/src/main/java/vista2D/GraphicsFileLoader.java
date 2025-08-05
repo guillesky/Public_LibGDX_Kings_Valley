@@ -141,55 +141,55 @@ public class GraphicsFileLoader
 	Array<TextureRegion> linearFrames = this.linearFramesForFile(this.graphicsFileConfig.getArchiPlayer(),
 		totalCount);
 
-	this.animationPlayer_Nothing[TileMapGrafica2D.IDDLE] = this.framesToAnimation(linearFrames, startIddle,
+	this.animationPlayer_Nothing[TileMapGrafica2D_OLD.IDDLE] = this.framesToAnimation(linearFrames, startIddle,
 		countIddle, frameDuration);
 
-	this.animationPlayer_Nothing[TileMapGrafica2D.FALL] = this.framesToAnimation(linearFrames, startFall, countFall,
+	this.animationPlayer_Nothing[TileMapGrafica2D_OLD.FALL] = this.framesToAnimation(linearFrames, startFall, countFall,
 		frameDuration);
-	this.animationPlayer_Nothing[TileMapGrafica2D.JUMP] = this.framesToAnimation(linearFrames, startJump, countJump,
+	this.animationPlayer_Nothing[TileMapGrafica2D_OLD.JUMP] = this.framesToAnimation(linearFrames, startJump, countJump,
 		frameDuration);
-	this.animationPlayer_Nothing[TileMapGrafica2D.WALK] = this.framesToAnimation(linearFrames, startWalk, countWalk,
+	this.animationPlayer_Nothing[TileMapGrafica2D_OLD.WALK] = this.framesToAnimation(linearFrames, startWalk, countWalk,
 		.75f / (float) (countWalk));
 
-	this.animationPlayer_Nothing[TileMapGrafica2D.DEATH] = this.framesToAnimation(linearFrames, startDeath,
+	this.animationPlayer_Nothing[TileMapGrafica2D_OLD.DEATH] = this.framesToAnimation(linearFrames, startDeath,
 		countDeath, timeDying / (float) countDeath);
-	this.animationPlayer_Nothing[TileMapGrafica2D.DEATH].setPlayMode(PlayMode.NORMAL);
+	this.animationPlayer_Nothing[TileMapGrafica2D_OLD.DEATH].setPlayMode(PlayMode.NORMAL);
 
-	this.animationPlayer_Picker[TileMapGrafica2D.IDDLE] = this.framesToAnimation(linearFrames, pickerStartIddle,
+	this.animationPlayer_Picker[TileMapGrafica2D_OLD.IDDLE] = this.framesToAnimation(linearFrames, pickerStartIddle,
 		pickerCountIddle, frameDuration);
-	this.animationPlayer_Picker[TileMapGrafica2D.FALL] = this.framesToAnimation(linearFrames, pickerStartFall,
+	this.animationPlayer_Picker[TileMapGrafica2D_OLD.FALL] = this.framesToAnimation(linearFrames, pickerStartFall,
 		pickerCountFall, frameDuration);
 
-	this.animationPlayer_Picker[TileMapGrafica2D.WALK] = this.framesToAnimation(linearFrames, pickerStartWalk,
+	this.animationPlayer_Picker[TileMapGrafica2D_OLD.WALK] = this.framesToAnimation(linearFrames, pickerStartWalk,
 		pickerCountWalk, .75f / pickerCountWalk);
 
-	this.animationPlayer_Picker[TileMapGrafica2D.DEATH] = this.framesToAnimation(linearFrames, pickerStartDeath,
+	this.animationPlayer_Picker[TileMapGrafica2D_OLD.DEATH] = this.framesToAnimation(linearFrames, pickerStartDeath,
 		pickerCountDeath, timeDying / (float) countDeath);
-	this.animationPlayer_Picker[TileMapGrafica2D.DEATH].setPlayMode(PlayMode.NORMAL);
+	this.animationPlayer_Picker[TileMapGrafica2D_OLD.DEATH].setPlayMode(PlayMode.NORMAL);
 
-	this.animationPlayer_Picker[TileMapGrafica2D.JUMP] = this.animationPlayer_Picker[TileMapGrafica2D.FALL];
-	this.animationPlayer_Dagger[TileMapGrafica2D.IDDLE] = this.framesToAnimation(linearFrames, daggerStartIddle,
+	this.animationPlayer_Picker[TileMapGrafica2D_OLD.JUMP] = this.animationPlayer_Picker[TileMapGrafica2D_OLD.FALL];
+	this.animationPlayer_Dagger[TileMapGrafica2D_OLD.IDDLE] = this.framesToAnimation(linearFrames, daggerStartIddle,
 		daggerCountIddle, frameDuration);
-	this.animationPlayer_Dagger[TileMapGrafica2D.FALL] = this.framesToAnimation(linearFrames, daggerStartFall,
+	this.animationPlayer_Dagger[TileMapGrafica2D_OLD.FALL] = this.framesToAnimation(linearFrames, daggerStartFall,
 		daggerCountFall, frameDuration);
-	this.animationPlayer_Dagger[TileMapGrafica2D.WALK] = this.framesToAnimation(linearFrames, daggerStartWalk,
+	this.animationPlayer_Dagger[TileMapGrafica2D_OLD.WALK] = this.framesToAnimation(linearFrames, daggerStartWalk,
 		daggerCountWalk, .75f / pickerCountWalk);
 
-	this.animationPlayer_Dagger[TileMapGrafica2D.DEATH] = this.framesToAnimation(linearFrames, daggerStartDeath,
+	this.animationPlayer_Dagger[TileMapGrafica2D_OLD.DEATH] = this.framesToAnimation(linearFrames, daggerStartDeath,
 		daggerCountDeath, timeDying / (float) countDeath);
-	this.animationPlayer_Dagger[TileMapGrafica2D.DEATH].setPlayMode(PlayMode.NORMAL);
-	this.animationPlayer_Dagger[TileMapGrafica2D.JUMP] = this.animationPlayer_Dagger[TileMapGrafica2D.FALL];
+	this.animationPlayer_Dagger[TileMapGrafica2D_OLD.DEATH].setPlayMode(PlayMode.NORMAL);
+	this.animationPlayer_Dagger[TileMapGrafica2D_OLD.JUMP] = this.animationPlayer_Dagger[TileMapGrafica2D_OLD.FALL];
 
 	linearFrames = this.linearFramesForFile(this.graphicsFileConfig.getArchiPlayerSpecial(),
 		daggerCountThrowing + pickerCountPicking);
-	this.animationPlayer_Dagger[TileMapGrafica2D.THROW_DAGGER] = this.framesToAnimation(linearFrames,
+	this.animationPlayer_Dagger[TileMapGrafica2D_OLD.THROW_DAGGER] = this.framesToAnimation(linearFrames,
 		pickerCountPicking, daggerCountThrowing, Config.getInstance().getTimeToEndThrowDagger() / 8);
-	this.animationPlayer_Dagger[TileMapGrafica2D.THROW_DAGGER].setPlayMode(PlayMode.NORMAL);
+	this.animationPlayer_Dagger[TileMapGrafica2D_OLD.THROW_DAGGER].setPlayMode(PlayMode.NORMAL);
 	float framePickingDuration = Config.getInstance().getTimeToEndPicking() / (float) (pickerCountPicking * 4);
 
-	this.animationPlayer_Picker[TileMapGrafica2D.PICKING] = this.framesToAnimation(linearFrames, 0,
+	this.animationPlayer_Picker[TileMapGrafica2D_OLD.PICKING] = this.framesToAnimation(linearFrames, 0,
 		pickerCountPicking, framePickingDuration);
-	this.animationPlayer_Picker[TileMapGrafica2D.PICKING].setPlayMode(PlayMode.LOOP);
+	this.animationPlayer_Picker[TileMapGrafica2D_OLD.PICKING].setPlayMode(PlayMode.LOOP);
     }
 
     private Animation<TextureRegion> framesToAnimation(Array<TextureRegion> linearFrames, int init, int count,
@@ -340,23 +340,23 @@ public class GraphicsFileLoader
 
 	    Animation<TextureRegion>[] animationMummy = new Animation[7];
 
-	    animationMummy[TileMapGrafica2D.APPEAR] = this.framesToAnimation(linearFrames, mummyType * mummyTotalCount,
+	    animationMummy[TileMapGrafica2D_OLD.APPEAR] = this.framesToAnimation(linearFrames, mummyType * mummyTotalCount,
 		    mummyCountAppear, frameAppearingDuration);
-	    animationMummy[TileMapGrafica2D.APPEAR].setPlayMode(PlayMode.NORMAL);
+	    animationMummy[TileMapGrafica2D_OLD.APPEAR].setPlayMode(PlayMode.NORMAL);
 
-	    animationMummy[TileMapGrafica2D.WALK] = this.framesToAnimation(linearFrames,
+	    animationMummy[TileMapGrafica2D_OLD.WALK] = this.framesToAnimation(linearFrames,
 		    mummyType * mummyTotalCount + mummyStartWalk, mummyCountWalk, frameWalkDuration);
 
-	    animationMummy[TileMapGrafica2D.IDDLE] = this.framesToAnimation(linearFrames,
+	    animationMummy[TileMapGrafica2D_OLD.IDDLE] = this.framesToAnimation(linearFrames,
 		    mummyType * mummyTotalCount + mummyStartIddle, mummyCountIddle, frameDuration);
-	    animationMummy[TileMapGrafica2D.FALL] = this.framesToAnimation(linearFrames,
+	    animationMummy[TileMapGrafica2D_OLD.FALL] = this.framesToAnimation(linearFrames,
 		    mummyType * mummyTotalCount + mummyStartFall, mummyCountFall, frameDuration);
 
-	    animationMummy[TileMapGrafica2D.JUMP] = this.framesToAnimation(linearFrames,
+	    animationMummy[TileMapGrafica2D_OLD.JUMP] = this.framesToAnimation(linearFrames,
 		    mummyType * mummyTotalCount + mummyStartJump, mummyCountJump, frameDuration);
-	    animationMummy[TileMapGrafica2D.DEATH] = this.framesToAnimation(linearFrames,
+	    animationMummy[TileMapGrafica2D_OLD.DEATH] = this.framesToAnimation(linearFrames,
 		    mummyType * mummyTotalCount + mummyStartDeath, mummyCountDeath, frameDeathDuration);
-	    animationMummy[TileMapGrafica2D.DEATH].setPlayMode(PlayMode.NORMAL);
+	    animationMummy[TileMapGrafica2D_OLD.DEATH].setPlayMode(PlayMode.NORMAL);
 
 	    switch (mummyType)
 	    {

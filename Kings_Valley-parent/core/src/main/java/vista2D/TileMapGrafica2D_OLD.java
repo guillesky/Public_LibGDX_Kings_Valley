@@ -41,7 +41,7 @@ import modelo.level.door.Door;
 import util.Config;
 import util.Constantes;
 
-public class TileMapGrafica2D implements IMyApplicationListener
+public class TileMapGrafica2D_OLD implements IMyApplicationListener
 {
 	public static final int IDDLE = 0;
 	public static final int FALL = 1;
@@ -56,7 +56,7 @@ public class TileMapGrafica2D implements IMyApplicationListener
 	protected OrthographicCamera cameraUI;
 	protected OrthogonalTiledMapRenderer renderer;
 
-	protected Array<MySpriteKV> arrayOfMySpritesKV = new Array<MySpriteKV>();
+	protected Array<MySpriteKV> instances = new Array<MySpriteKV>();
 	protected Array<AnimatedEntity2D> animatedEntities = new Array<AnimatedEntity2D>();
 	private HashMap<LevelObject, AnimatedEntity2D> hashMapLevelAnimation = new HashMap<LevelObject, AnimatedEntity2D>();
 	private HashMap<TrapMechanism, AnimatedTrapKV2> hashMapTrapAnimation = new HashMap<TrapMechanism, AnimatedTrapKV2>();
@@ -83,16 +83,13 @@ public class TileMapGrafica2D implements IMyApplicationListener
 	private float timeDying = 1f;
 	protected float cameraOffsetY = (12f / 22f);
 	private float timeToEndGame = 2f;
-	private OrthographicCamera cameraBack;
-	private float factor;
-	float[] paramFloat = new float[4];
 
-	public TileMapGrafica2D(GraphicsFileLoader graphicsFileLoader, float factor)
+	public TileMapGrafica2D_OLD(GraphicsFileLoader graphicsFileLoader)
 	{
 
 		this.graphicsFileLoader = graphicsFileLoader;
 		this.graphicsFileLoader.loadAnimations(timeDying);
-		this.factor = factor;
+		
 
 	}
 
@@ -189,7 +186,7 @@ public class TileMapGrafica2D implements IMyApplicationListener
 	@Override
 	public void create()
 	{
-		this.arrayOfMySpritesKV = new Array<MySpriteKV>();
+		this.instances = new Array<MySpriteKV>();
 		this.animatedEntities = new Array<AnimatedEntity2D>();
 		this.hashMapLevelAnimation = new HashMap<LevelObject, AnimatedEntity2D>();
 		this.hashMapTrapAnimation = new HashMap<TrapMechanism, AnimatedTrapKV2>();
@@ -224,7 +221,7 @@ public class TileMapGrafica2D implements IMyApplicationListener
 						new DrawableElement(Constantes.DRAWABLE_GYRATORY, pyramid.getGiratoryMechanism(item)));
 			} else if (item.getType() == Constantes.It_wall && this.debug)
 			{
-				this.arrayOfMySpritesKV.add(new MySpriteKV(map.getTileSets().getTile(item.getType()).getTextureRegion(), item));
+				this.instances.add(new MySpriteKV(map.getTileSets().getTile(item.getType()).getTextureRegion(), item));
 			} else if (item.getType() == Constantes.It_dagger)
 				this.addGraphicElement(new DrawableElement(Constantes.DRAWABLE_FLYING_DAGGER, item));
 
@@ -265,10 +262,6 @@ public class TileMapGrafica2D implements IMyApplicationListener
 
 		// this.rectaglesRenderDebug=new RectaglesRender(map);
 		this.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-
-		cameraBack = new OrthographicCamera(pyramid.getMapHeightInPixels() * 4 / 3, pyramid.getMapHeightInPixels());
-		this.resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-
 	}
 
 	private void cargaEscaleras()
@@ -282,9 +275,9 @@ public class TileMapGrafica2D implements IMyApplicationListener
 		for (int i = 0; i < escaleras.size(); i++)
 		{
 			LevelObject item = escaleras.get(i).getDownStair();
-			this.arrayOfMySpritesKV.add(new MySpriteKV(map.getTileSets().getTile(item.getP0() + 250).getTextureRegion(), item));
+			this.instances.add(new MySpriteKV(map.getTileSets().getTile(item.getP0() + 250).getTextureRegion(), item));
 			item = escaleras.get(i).getUpStair();
-			this.arrayOfMySpritesKV.add(new MySpriteKV(map.getTileSets().getTile(item.getP0() + 250).getTextureRegion(), item));
+			this.instances.add(new MySpriteKV(map.getTileSets().getTile(item.getP0() + 250).getTextureRegion(), item));
 
 		}
 	}
@@ -303,12 +296,12 @@ public class TileMapGrafica2D implements IMyApplicationListener
 
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/PAPYRUS.TTF"));
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		parameter.size = 48;
+		parameter.size = 48; 
 		parameter.color = Color.WHITE;
 		font48 = generator.generateFont(parameter);
 
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter24 = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		parameter24.size = fontSize;
+		parameter24.size = fontSize; 
 		parameter24.color = Color.WHITE;
 
 		font24 = generator.generateFont(parameter24);
@@ -354,13 +347,15 @@ public class TileMapGrafica2D implements IMyApplicationListener
 			for (int col = 0; col < splitTiles[row].length; col++)
 			{
 				StaticTiledMapTile tile = new StaticTiledMapTile(splitTiles[row][col]);
-				tile.setId(row * splitTiles[row].length + col + 1);
+				tile.setId(row * splitTiles[row].length + col + 1); 
 				newTileSet.putTile(tile.getId(), tile);
 			}
 		}
 
 		// Agregar el nuevo tileset al mapa
 		map.getTileSets().addTileSet(newTileSet);
+
+		
 
 		TiledMapTileLayer originalLayer = (TiledMapTileLayer) map.getLayers().get("back");
 		this.replaceLayer(map, originalLayer, newTileSet, newWidth, newHeight);
@@ -421,176 +416,100 @@ public class TileMapGrafica2D implements IMyApplicationListener
 			this.calculateCameraFull();
 		}
 		this.prepareUI();
-		
-
-		if (height != 0 && this.cameraBack != null)
-		{
-
-		    cameraBack.setToOrtho(false, ancho, alto);
-		    this.calculateCameraBackFull();
-		}
-		this.calculateTextureRegionSky(width, height, pyramid.getMapWidthInTiles());
-
-		
-		
 	}
 
 	@Override
-    public void render()
-    {
-
-	Gdx.gl.glClearColor(.0f, .0f, .0f, 1);
-	Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-	camera.update();
-	this.calculateCamera();
-	this.calculateCameraBack();
-
-	this.drawBackground();
-
-	camera.update();
-	this.drawLayersMap();
-
-	this.drawItemsCharactersMechanism();
-
-	if (Game.getInstance().isPaused())
+	public void render()
 	{
-	    this.drawPauseMessage();
+		Gdx.gl.glClearColor(.0f, .0f, .0f, 1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		camera.update();
+		this.calculateCamera();
 
-	}
-	this.drawUI();
+		this.drawUI();
 
-	
-    }
-	
-	
-	
-	
-	  private void drawPauseMessage()
-	    {
-		spriteBatch.begin();
-		this.cameraUI.update();
-		spriteBatch.setProjectionMatrix(cameraUI.combined);
-		GlyphLayout layout = new GlyphLayout(font48, Messages.GAME_PAUSED.getValue());
-		float x = (Gdx.graphics.getWidth() - layout.width) / 2;
-		float y = (Gdx.graphics.getHeight() + layout.height) / 2;
-		spriteBatch.setColor(0, 0, 0, 0.5f); // negro con 50% opacidad
-		spriteBatch.draw(pixel, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		font48.draw(spriteBatch, layout, x, y);
-		spriteBatch.end();
-	    }
+		spriteBatch.setProjectionMatrix(camera.combined);
 
-	    private void drawItemsCharactersMechanism()
-	    {
 		this.spriteBatch.begin();
+		renderer.setView(camera);
+		renderer.render(new int[]
+		{ 1 });
 		ArrayIterator<AnimatedTrapKV2> it3 = this.animatedTraps.iterator();
 		while (it3.hasNext())
 		{
-		    AnimatedTrapKV2 animatedTrapKV2 = it3.next();
-		    animatedTrapKV2.updateElement(Game.getInstance().getDelta());
-		    animatedTrapKV2.getSprite().draw(spriteBatch);
+			AnimatedTrapKV2 animatedTrapKV2 = it3.next();
+			animatedTrapKV2.updateElement(Game.getInstance().getDelta());
+			animatedTrapKV2.getSprite().draw(spriteBatch);
 		}
 		if (Game.getInstance().getState() == Game.ST_GAME_PLAYING)
 		{
-		    Iterator<AbstractAnimatedDoor2D> itDoors = this.animatedDoor2D.iterator();
-		    while (itDoors.hasNext())
-		    {
-			AbstractAnimatedDoor2D animatedDoor = itDoors.next();
-			animatedDoor.updateElement(null);
-			animatedDoor.draw(spriteBatch);
-		    }
+			Iterator<AbstractAnimatedDoor2D> itDoors = this.animatedDoor2D.iterator();
+			while (itDoors.hasNext())
+			{
+				AbstractAnimatedDoor2D animatedDoor = itDoors.next();
+				animatedDoor.updateElement(null);
+				animatedDoor.draw(spriteBatch);
+			}
 		}
-		ArrayIterator<MySpriteKV> it = this.arrayOfMySpritesKV.iterator();
+		ArrayIterator<MySpriteKV> it = this.instances.iterator();
 		while (it.hasNext())
 		{
-		    MySpriteKV mySpriteKV = it.next();
-		    mySpriteKV.updateElement(null);
-		    mySpriteKV.draw(spriteBatch);
+			MySpriteKV mySpriteKV = it.next();
+			mySpriteKV.updateElement(null);
+			mySpriteKV.draw(spriteBatch);
 		}
 
 		ArrayIterator<AnimatedEntity2D> it2 = this.animatedEntities.iterator();
 		while (it2.hasNext())
 		{
-		    AnimatedEntity2D animatedEntity2D = it2.next();
-		    animatedEntity2D.updateElement(Game.getInstance().getDelta());
-		    animatedEntity2D.render(spriteBatch);
+			AnimatedEntity2D animatedEntity2D = it2.next();
+			animatedEntity2D.updateElement(Game.getInstance().getDelta());
+			animatedEntity2D.render(spriteBatch);
 		}
 
 		if (Game.getInstance().getState() == Game.ST_GAME_PLAYING
-			|| Game.getInstance().getState() == Game.ST_GAME_DYING)
+				|| Game.getInstance().getState() == Game.ST_GAME_DYING)
 		{
 
-		    this.playerAnimated2D.updateElement(Game.getInstance().getDelta());
-		    this.playerAnimated2D.render(spriteBatch);
-		} else if(Game.getInstance().getState() != Game.ST_ENDING)
+			this.playerAnimated2D.updateElement(Game.getInstance().getDelta());
+			this.playerAnimated2D.render(spriteBatch);
+		} else
 		{
-		    this.animatedEnteringDoor2D.updateElement(null);
-		    this.animatedEnteringDoor2D.drawBack(spriteBatch);
-		    this.playerAnimated2D.updateElement(Game.getInstance().getDelta());
-		    if ((Game.getInstance().getState() == Game.ST_GAME_ENTERING
-			    && Game.getInstance().getDelta() <= this.getTimeToExitLevel())
-			    || Game.getInstance().getState() == Game.ST_GAME_EXITING)
-		    {
-			this.playerAnimated2D.render(spriteBatch);
-			this.animatedEnteringDoor2D.drawFront(spriteBatch);
-		    } else
-		    {
-			this.animatedEnteringDoor2D.drawFront(spriteBatch);
-			this.playerAnimated2D.render(spriteBatch);
+			this.animatedEnteringDoor2D.updateElement(null);
+			this.animatedEnteringDoor2D.drawBack(spriteBatch);
+			this.playerAnimated2D.updateElement(Game.getInstance().getDelta());
+			if ((Game.getInstance().getState() == Game.ST_GAME_ENTERING
+					&& Game.getInstance().getDelta() <= this.getTimeToExitLevel())
+					|| Game.getInstance().getState() == Game.ST_GAME_EXITING)
+			{
+				this.playerAnimated2D.render(spriteBatch);
+				this.animatedEnteringDoor2D.drawFront(spriteBatch);
+			} else
+			{
+				this.animatedEnteringDoor2D.drawFront(spriteBatch);
+				this.playerAnimated2D.render(spriteBatch);
 
-		    }
+			}
 
 		}
-		this.spriteBatch.end();
-	    }
 
-	    private void drawLayersMap()
-	    {
-		spriteBatch.setProjectionMatrix(camera.combined);
-		this.spriteBatch.begin();
-		this.cameraBack.update();
-		renderer.setView(cameraBack);
+		if (Game.getInstance().isPaused())
+		{
+			this.cameraUI.update();
+			spriteBatch.setProjectionMatrix(cameraUI.combined);
+			GlyphLayout layout = new GlyphLayout(font48, Messages.GAME_PAUSED.getValue());
+			float x = (Gdx.graphics.getWidth() - layout.width) / 2;
+			float y = (Gdx.graphics.getHeight() + layout.height) / 2;
+			spriteBatch.setColor(0, 0, 0, 0.5f); // negro con 50% opacidad
+			spriteBatch.draw(pixel, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+			font48.draw(spriteBatch, layout, x, y);
 
-		renderer.render(new int[]
-		{ 0 });
-		this.spriteBatch.end();
-		this.spriteBatch.begin();
-		renderer.setView(camera);
-		renderer.render(new int[]
-		{ 1, 2 });
-		this.spriteBatch.end();
+		}
 
-	    }
+		spriteBatch.end();
+		// this.rectaglesRenderDebug.render(camera.combined);
+	}
 
-	    private void drawBackground()
-	    {
-		spriteBatch.setProjectionMatrix(this.cameraUI.combined);
-		this.spriteBatch.begin();
-		this.spriteBatch.setColor(Color.WHITE);
-		this.spriteBatch.draw(this.graphicsFileLoader.getSkyTexture(), this.paramFloat[0], this.paramFloat[1],
-			this.paramFloat[2], this.paramFloat[3]);
-		this.spriteBatch.end();
-
-	    }
-
-	    private void calculateCameraBack()
-	    {
-		Pyramid pyramid = Game.getInstance().getCurrentLevel().getPyramid();
-		float playerX = Game.getInstance().getCurrentLevel().getPlayer().getX();
-		float medioX = pyramid.getMapWidthInPixels() / 2;
-		float dif = (medioX - playerX) * factor;
-		float aux_X = playerX + dif;
-
-		if (playerX >= (cameraBack.viewportWidth / 2)
-			&& playerX + (cameraBack.viewportWidth / 2) <= pyramid.getMapWidthInPixels())
-		    cameraBack.position.x = aux_X;
-
-		cameraBack.position.y = pyramid.getMapHeightInPixels() * this.cameraOffsetY;
-	    }
-
-	    
-	    
-	
-	
 	protected void drawUI()
 	{
 		this.spriteBatch.begin();
@@ -742,72 +661,5 @@ public class TileMapGrafica2D implements IMyApplicationListener
 		// TODO Auto-generated method stub
 		return this.timeToEndGame;
 	}
-
-    private void calculateTextureRegionSky(int width, int height, int mapWidthInTiles)
-    {
-
-	float cameraWidth = this.cameraUI.viewportWidth;
-
-	float cameraTileHeight = this.cameraUI.viewportHeight / 24;
-	float cameraTileWidth = Config.getInstance().getLevelTileWidthUnits()
-		/ Config.getInstance().getLevelTileHeightUnits() * cameraTileHeight;
-
-	this.paramFloat[1] = cameraTileHeight;
-	this.paramFloat[3] = cameraTileHeight * 21;
-	int mapWidthInPixels = (int) (cameraTileWidth * mapWidthInTiles);
-
-	if (mapWidthInPixels < cameraWidth)
-	{
-	    this.paramFloat[0] = (cameraWidth - mapWidthInPixels) / 2;
-	    this.paramFloat[2] = mapWidthInPixels;
-	} else
-	{
-	    this.paramFloat[0] = 0;
-	    this.paramFloat[2] = cameraWidth;
-	}
-    }
-
-    private void calculateCameraBackFull()
-    {
-	float posCameraX = 0;
-	Pyramid pyramid = Game.getInstance().getCurrentLevel().getPyramid();
-
-	float playerX = Game.getInstance().getCurrentLevel().getPlayer().getX();
-	float medioX = pyramid.getMapWidthInPixels() / 2;
-	float dif = (medioX - playerX) * this.factor;
-	float aux_X = playerX + dif;
-
-	if (playerX >= (cameraBack.viewportWidth / 2)
-		&& playerX + (cameraBack.viewportWidth / 2) <= pyramid.getMapWidthInPixels())
-	    posCameraX = aux_X;
-
-	else
-	{
-	    if (cameraBack.viewportWidth >= pyramid.getMapWidthInPixels())
-		posCameraX = pyramid.getMapWidthInPixels() * .5f;
-	    else
-	    {
-		if (playerX < pyramid.getMapWidthInPixels() / 2)
-		{
-
-		    playerX = cameraBack.viewportWidth / 2;
-		    medioX = pyramid.getMapWidthInPixels() / 2;
-		    dif = (medioX - playerX) * this.factor;
-		    posCameraX = playerX + dif;
-
-		} else
-		{
-		    playerX = pyramid.getMapWidthInPixels() - cameraBack.viewportWidth / 2;
-		    medioX = pyramid.getMapWidthInPixels() / 2;
-		    dif = (medioX - playerX) * this.factor;
-
-		    posCameraX = playerX + dif;
-		}
-	    }
-	}
-
-	cameraBack.position.x = posCameraX;
-	cameraBack.position.y = pyramid.getMapHeightInPixels() * this.cameraOffsetY;
-    }
 
 }

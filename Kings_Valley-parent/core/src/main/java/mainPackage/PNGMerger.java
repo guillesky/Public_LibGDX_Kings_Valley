@@ -8,6 +8,11 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.PixmapIO;
 
+/**
+ * @author Guillermo Lazzurri
+ * NO USADA DURANTE EL JUEGO.
+ * Funcionalidad escrita para desarrollo. Permite crear plantillas de imagenes (usada para la creacion de  recursos)
+ */
 public class PNGMerger extends ApplicationAdapter
 {
 

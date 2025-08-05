@@ -1,6 +1,6 @@
 package modelo;
 
-public interface IGrafica
+public interface IGraphic
 {
 
   

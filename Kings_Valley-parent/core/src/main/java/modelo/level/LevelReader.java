@@ -13,7 +13,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 
-import modelo.IGrafica;
+import modelo.IGraphic;
 import modelo.game.Game;
 import modelo.gameCharacters.mummys.Mummy;
 import modelo.gameCharacters.mummys.MummyFactory;
@@ -48,7 +48,7 @@ public class LevelReader
     private TmxMapLoader mapLoader = new TmxMapLoader();
 
     public Level getLevel(int id, String mapFile, int dificultLevel, boolean isCompleted, Door doorFrom,
-	    boolean fromDeath, IGrafica interfaz)
+	    boolean fromDeath, IGraphic interfaz)
     {
 	TiledMap map = this.mapLoader.load(mapFile);
 	this.resetAll();

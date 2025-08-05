@@ -1,5 +1,10 @@
 package modelo;
 
+/**
+ * @author Guillermo Lazzurri
+ * 
+ * Interfaz que responde a los eventos generados durante el juego. Es invocada internamente
+ */
 public interface KVEventListener
 {
 
@@ -44,11 +49,20 @@ public interface KVEventListener
 	
 	
 
+	/**
+	 * Metodo llamado cuando sucede un evento durante el juego
+	 * @param eventCode codigo numerico que indica el evento disparado
+	 * @param param parametro extra, dependiendo el tipo de evento debera castearse a la clase correspondiente
+	 */
 	void eventFired(int eventCode, Object param);
 
 
 
 
 
+	/**
+	 * Metodo llamado cada vez que se actualiza una frame, puede usarse para realizar cualquier accion necesaria
+	 * @param deltaTime indica el tiempo medido en segundos desde la ultima actualizacion
+	 */
 	void updateframe(float deltaTime);
 }

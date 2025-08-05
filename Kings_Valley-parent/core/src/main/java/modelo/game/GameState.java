@@ -5,51 +5,82 @@ import modelo.level.LevelReader;
 import modelo.level.door.Door;
 import util.Constantes;
 
+/**
+ * @author Guillermo Lazzurri
+ * 
+ *         Clase abstracta que representa un estado del juego (patron State)
+ */
 public abstract class GameState
 {
-    protected Game game;
+	protected Game game;
 
-    public void updateframe(float deltaTime)
-    {
-	this.game.incDelta(deltaTime);
-    }
-
-    public GameState(int state)
-    {
-	this.game = Game.getInstance();
-	this.game.state = state;
-	this.game.resetDelta();
-    }
-
-    public abstract void startNewGame();
-
-    public void endGame()
-    {
-
-	this.game.stateGame = new GameStateEndingGame();
-    }
-
-    protected void startNewLevel(Door door, boolean fromDeath)
-    {
-
-	this.game.setGoingBack((door != null && door.getLevelConnected() == Door.TO_PREVIUS));
-
-	LevelReader levelReader = new LevelReader();
-	if (this.game.level != null)
-	    this.game.level.dispose();
-	if (Constantes.levelFileName.get(this.game.idCurrentLevel) == null)
+	/**
+	 * Actualiza un fram del juego.
+	 * 
+	 * @param deltaTime indica cuanto tiempo transcurrio desde la ultima
+	 *                  actualizacion medido en segundos
+	 */
+	public void updateframe(float deltaTime)
 	{
-	    this.game.eventFired(KVEventListener.FINISH_ALL_LEVELS, null);
+		this.game.incDelta(deltaTime);
+	}
 
-	} 
-	this.game.level = levelReader.getLevel(this.game.idCurrentLevel,
-		Constantes.levelFileName.get(this.game.idCurrentLevel), this.game.getDificultLevel(),
-		this.game.completedLevels.get(this.game.idCurrentLevel), door,fromDeath, this.game.getInterfaz());
-	this.game.stateGame = new GameStateEntering();
-	this.game.getInterfaz().reset();
+	/**
+	 * Constructor de clase. Gestiona la doble referencia del patron state. Resetea el delta del juego. 
+	 * @param state indica el codigo numerico del estado del juego.
+	 */
+	public GameState(int state)
+	{
+		this.game = Game.getInstance();
+		this.game.state = state;
+		this.game.resetDelta();
+	}
 
-    }
+	/**
+	 * Llamado al iniciar un nuevo juego
+	 */
+	public abstract void startNewGame();
 
-    protected abstract void dying();
+	/**
+	 * Llamado al terminar el juego
+	 */
+	public void endGame()
+	{
+
+		this.game.stateGame = new GameStateEndingGame();
+	}
+
+	/**
+	 * Metodo llamado para iniciar un nivel
+	 * 
+	 * @param door      Indica la puerta desde la que debe ingresar el player
+	 * @param fromDeath Indica true si el player acaba de morir y esta reiniciando
+	 *                  el nivel, false en caso contrario
+	 */
+	protected void startNewLevel(Door door, boolean fromDeath)
+	{
+
+		this.game.setGoingBack((door != null && door.getLevelConnected() == Door.TO_PREVIUS));
+
+		LevelReader levelReader = new LevelReader();
+		if (this.game.level != null)
+			this.game.level.dispose();
+		if (Constantes.levelFileName.get(this.game.idCurrentLevel) == null)
+		{
+			this.game.eventFired(KVEventListener.FINISH_ALL_LEVELS, null);
+
+		}
+		this.game.level = levelReader.getLevel(this.game.idCurrentLevel,
+				Constantes.levelFileName.get(this.game.idCurrentLevel), this.game.getDificultLevel(),
+				this.game.completedLevels.get(this.game.idCurrentLevel), door, fromDeath, this.game.getInterfaz());
+		this.game.stateGame = new GameStateEntering();
+		this.game.getInterfaz().reset();
+
+	}
+
+	/**
+	 * Llamado al morir el player
+	 */
+	protected abstract void dying();
 
 }

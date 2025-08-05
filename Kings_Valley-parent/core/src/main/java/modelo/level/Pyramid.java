@@ -9,7 +9,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 
-import modelo.IGrafica;
+import modelo.IGraphic;
 import modelo.KVEventListener;
 import modelo.game.Game;
 import modelo.gameCharacters.player.PairInt;
@@ -18,7 +18,7 @@ import modelo.level.door.Door;
 import util.Config;
 import util.Constantes;
 
-public class Pyramid implements IGrafica
+public class Pyramid implements IGraphic
 {
 	private TiledMap map;
 	private int tileWidth;
@@ -44,14 +44,14 @@ public class Pyramid implements IGrafica
 
 	private HashMap<LevelObject, LevelObject> hashTraps = new HashMap<LevelObject, LevelObject>();
 	private HashMap<LevelObject, GiratoryMechanism> hashGiratoryMechanisms = new HashMap<LevelObject, GiratoryMechanism>();
-	private IGrafica interfaz = null;
+	private IGraphic interfaz = null;
 
 	public Pyramid(TiledMap map, ArrayList<Door> doors, ArrayList<LevelObject> jewels, ArrayList<Stair> positiveStairs,
 			ArrayList<Stair> negativeStairs, ArrayList<LevelObject> pickers, ArrayList<Dagger> stuckedDaggers,
 			ArrayList<LevelObject> giratorys, ArrayList<LevelObject> walls, ArrayList<LevelObject> activators,
 			ArrayList<TrapMechanism> trapMechanisms, ArrayList<GiratoryMechanism> giratoryMechanisms,
 			ArrayList<Cell> unpickableCells, HashMap<LevelObject, LevelObject> hashTraps,
-			HashMap<LevelObject, GiratoryMechanism> hashGiratoryMechanisms, IGrafica interfaz)
+			HashMap<LevelObject, GiratoryMechanism> hashGiratoryMechanisms, IGraphic interfaz)
 	{
 
 		this.map = map;

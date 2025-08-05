@@ -14,13 +14,13 @@ import modelo.game.Game;
 import modelo.level.Pyramid;
 import util.Config;
 
-public class TileMapGrafica2D_PARALAX extends TileMapGrafica2D
+public class TileMapGrafica2D_OLD_PARALAX extends TileMapGrafica2D_OLD
 {
     private OrthographicCamera cameraBack;
     private float factor;
     float[] paramFloat = new float[4];
 
-    public TileMapGrafica2D_PARALAX(GraphicsFileLoader graphicsFileLoader, float factor)
+    public TileMapGrafica2D_OLD_PARALAX(GraphicsFileLoader graphicsFileLoader, float factor)
     {
 	super(graphicsFileLoader);
 	this.factor = factor;

@@ -9,6 +9,9 @@ import modelo.control.Controls;
 import modelo.game.Game;
 import vista2D.ui.UI2D;
 
+/**
+ * @author Guillermo Lazzurri Clase que representa el estado durante el juego
+ */
 public class RenderStateInGame extends RenderState
 {
 
@@ -18,46 +21,66 @@ public class RenderStateInGame extends RenderState
 
 	}
 
+	/**
+	 * Llama al metodo create de su atributo gameInterface
+	 */
 	@Override
 	public void create()
 	{
-		this.gameInterfaz.create();
+		this.gameInterface.create();
 
 	}
 
+	/**
+	 * Llama a los metodos resize de su ui y su gameIterface
+	 */
 	@Override
 	public void resize(int width, int height)
 	{
-		this.gameInterfaz.resize(width, height);
+		this.gameInterface.resize(width, height);
 		this.ui.resize(width, height);
 
 	}
 
+	/**
+	 * LLama al metodo pause de su gameInterface
+	 */
 	@Override
 	public void pause()
 	{
-		this.gameInterfaz.render();
+		this.gameInterface.render();
 
 	}
 
+	/**
+	 * LLama al metodo resume de su gameInterface
+	 */
 	@Override
 	public void resume()
 	{
-		this.gameInterfaz.resume();
+		this.gameInterface.resume();
 
 	}
 
+	/**
+	 * LLama al metodo dispose de su gameInterface
+	 */
 	@Override
 	public void dispose()
 	{
-		this.gameInterfaz.dispose();
+		this.gameInterface.dispose();
 
 	}
 
+	/**
+	 * LLama al metodo render de su gameInterface ademas realiza las acciones en
+	 * caso de estar pausado o mostrar o no el mapa<br>
+	 * Llama tambien al metodo updateGame
+	 */
 	@Override
 	public void render()
 	{
-		this.gameInterfaz.render();
+		this.gameInterface.render();
 		this.updateGame();
 		if (Game.getInstance().isPaused())
 		{
@@ -70,6 +93,13 @@ public class RenderStateInGame extends RenderState
 		}
 	}
 
+	/**
+	 * Lee el teclado para controlar al jugador y realiza la llamada a Game.getInstance().updateframe(Gdx.graphics.getDeltaTime())
+	 *
+	 */
+	/**
+	 * 
+	 */
 	private void updateGame()
 	{
 		Controls controles = Game.getInstance().getControles();
@@ -100,6 +130,9 @@ public class RenderStateInGame extends RenderState
 
 	}
 
+	/**
+	 *Se sobreescribe como metodo vacio (no hace nada)
+	 */
 	@Override
 	public void newGame()
 	{
