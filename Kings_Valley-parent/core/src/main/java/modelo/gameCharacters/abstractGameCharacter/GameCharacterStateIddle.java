@@ -2,7 +2,7 @@ package modelo.gameCharacters.abstractGameCharacter;
 
 import com.badlogic.gdx.math.Vector2;
 
-public class GameCharacterStateIddle extends GameCharacterState
+public class GameCharacterStateIddle extends GameCharacterStateOnFloor
 {
 
     public GameCharacterStateIddle(GameCharacter gameCharacter)
@@ -31,5 +31,6 @@ public class GameCharacterStateIddle extends GameCharacterState
     {
 
     }
+
 
 }

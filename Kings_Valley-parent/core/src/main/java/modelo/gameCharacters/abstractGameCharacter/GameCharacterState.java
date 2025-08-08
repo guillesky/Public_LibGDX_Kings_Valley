@@ -6,21 +6,46 @@ import modelo.level.Stair;
 import util.Config;
 import util.Constantes;
 
+/**
+ * @author Guillermo Lazzurri
+ * 
+ * Clase que aplica el patron state. Representa el estado el caracter.
+ */
 public abstract class GameCharacterState
 {
 	protected GameCharacter gameCharacter;
 
+	/**
+	 * Constructor de clase
+	 * @param gameCharacter Caracter al cual pertenece el estado
+	 * @param state valor entero que representa el estado
+	 */
 	public GameCharacterState(GameCharacter gameCharacter, int state)
 	{
 		this.gameCharacter = gameCharacter;
 		this.gameCharacter.setState(state);
 	}
 
+	/**
+	 * Metodo llamado durante los calculos de movimiento antes de realizar el escalado por valor delta.
+	 * @param v Objecto de tipo Vector2 que representa la trayectoria pretendida.
+	 * @param b true si se pretende realizar una accion, false en caso contrario
+	 * @param deltaTime tiempo en segundos desde la ultima actualizacion
+	 */
 	protected abstract void moveFirstStep(Vector2 v, boolean b, float deltaTime);
 
+	/**
+	 * Metodo llamado durante los calculos de movimiento despues de realizar el escalado por valor delta.
+	 * @param escalado Objeto de tipo Vector2 que representa la trayectoria pretendida.
+	 */
 	protected abstract void moveSecondStep(Vector2 escalado);
 
-	protected int colision(Vector2 vectMove)
+	
+	/**
+	 * Metodo llamado para calcular las colisiones al intentar moverse de acuerdo a la trayectoria pasada por parametro. Se realizan las correciones necesarias.
+	 * @param vectMove Objeto de tipo Vector2 que representa la trayectoria pretendida.
+	 */
+	protected void colision(Vector2 vectMove)
 	{
 		int r = -1;
 		if (vectMove.x <= 0)
@@ -40,11 +65,14 @@ public abstract class GameCharacterState
 
 		
 		this.corrigeDirecciones(r, vectMove);
-		/*if(r!=-1)
-		    this.colision(vectMove);*/
-		return r;
+		
+		
 	}
 
+	/**
+	 * Calcula las colisiones al intentar moverse en la trayectoria pretendida durante una caminata
+	 * @param vectMove Objeto de tipo Vector2 que representa la trayectoria pretendida.
+	 */
 	protected void colisionForWalk(Vector2 vectMove)
 	{
 		int r = -1;
@@ -57,6 +85,11 @@ public abstract class GameCharacterState
 		this.corrigeDirecciones(r, vectMove);
 	}
 
+	/**
+	 * 
+	 * @param vectMove
+	 * @return
+	 */
 	private boolean colisionMiddleRight(Vector2 vectMove)
 	{
 		return isCellBlocked(this.gameCharacter.x + vectMove.x + this.gameCharacter.getWidth(),
@@ -286,5 +319,9 @@ public abstract class GameCharacterState
 		}
 
 	}
+
+	protected abstract void enterStair(Stair stair);
+
+	protected abstract boolean doJump();
 
 }

@@ -2,6 +2,8 @@ package modelo.gameCharacters.abstractGameCharacter;
 
 import com.badlogic.gdx.math.Vector2;
 
+import modelo.level.Stair;
+
 public class GameCharacterStateFalling extends GameCharacterState
 {
 
@@ -35,10 +37,19 @@ public class GameCharacterStateFalling extends GameCharacterState
     protected void moveSecondStep(Vector2 escalado)
     {
 	this.checkLanding(escalado);
-	//this.colision(escalado);
-	
-	
 	
     }
+
+	@Override
+	protected void enterStair(Stair stair)
+	{
+	
+	}
+
+	@Override
+	protected boolean doJump()
+	{
+		return false;
+	}
 
 }

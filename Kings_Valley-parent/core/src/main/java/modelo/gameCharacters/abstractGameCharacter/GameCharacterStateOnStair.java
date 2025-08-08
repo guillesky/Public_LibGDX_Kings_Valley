@@ -102,4 +102,16 @@ public class GameCharacterStateOnStair extends GameCharacterState
 		return this.stair;
 	}
 
+	@Override
+	protected void enterStair(Stair stair)
+	{
+		
+	}
+
+	@Override
+	protected boolean doJump()
+	{
+		return false;
+	}
+
 }

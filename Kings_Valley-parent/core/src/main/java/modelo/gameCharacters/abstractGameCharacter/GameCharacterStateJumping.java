@@ -2,6 +2,8 @@ package modelo.gameCharacters.abstractGameCharacter;
 
 import com.badlogic.gdx.math.Vector2;
 
+import modelo.level.Stair;
+
 public class GameCharacterStateJumping extends GameCharacterState
 {
 	private float initialMotionX;
@@ -47,5 +49,17 @@ public class GameCharacterStateJumping extends GameCharacterState
 	private boolean hasBlocked()
 	{
 		return this.initialMotionX != 0 && this.gameCharacter.motionVector.x == 0;
+	}
+
+	@Override
+	protected void enterStair(Stair stair)
+	{
+		
+	}
+
+	@Override
+	protected boolean doJump()
+	{
+		return false;
 	}
 }

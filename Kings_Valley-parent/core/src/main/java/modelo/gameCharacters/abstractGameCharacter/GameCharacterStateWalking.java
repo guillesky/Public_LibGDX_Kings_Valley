@@ -4,72 +4,74 @@ import com.badlogic.gdx.math.Vector2;
 
 import modelo.level.Stair;
 
-public class GameCharacterStateWalking extends GameCharacterState
+public class GameCharacterStateWalking extends GameCharacterStateOnFloor
 {
 
-    public GameCharacterStateWalking(GameCharacter gameCharacter)
-    {
-	super(gameCharacter, GameCharacter.ST_WALKING);
-	this.gameCharacter.resetAnimationDelta();
-    }
-
-    @Override
-    protected void moveFirstStep(Vector2 v, boolean b, float deltaTime)
-    {
-
-	this.gameCharacter.motionVector.x = v.x * this.gameCharacter.speedWalk;
-	if (v.x != 0)
-	    this.gameCharacter.lookRight = v.x > 0;
-
-	if (b)
-	    this.gameCharacter.doAction();
-	else
+	public GameCharacterStateWalking(GameCharacter gameCharacter)
 	{
-
-	    if (v.x == 0)
-		this.gameCharacter.gameCharacterState = new GameCharacterStateIddle(this.gameCharacter);
-	    // }
-	    if (v.y != 0 && v.x != 0)
-		this.checkEnterStair(v);
-	    if (!this.isFloorDown())
-		this.gameCharacter.gameCharacterState = new GameCharacterStateFalling(this.gameCharacter);
+		super(gameCharacter, GameCharacter.ST_WALKING);
+		this.gameCharacter.resetAnimationDelta();
 	}
-    }
 
-    protected void checkEnterStair(Vector2 v)
-    {
-	Stair stair = null;
-	if (v.y > 0)
+	@Override
+	protected void moveFirstStep(Vector2 v, boolean b, float deltaTime)
 	{
-	    if (v.x > 0)
-	    {
-		stair = this.gameCharacter.checkStairsFeetColision(true, true);
 
-	    } else
-	    {
-		stair = this.gameCharacter.checkStairsFeetColision(false, true);
-	    }
-	} else
-	{
-	    if (v.x > 0)
-	    {
-		stair = this.gameCharacter.checkStairsFeetColision(false, false);
+		this.gameCharacter.motionVector.x = v.x * this.gameCharacter.speedWalk;
+		if (v.x != 0)
+			this.gameCharacter.lookRight = v.x > 0;
 
-	    } else
-	    {
-		stair = this.gameCharacter.checkStairsFeetColision(true, false);
+		if (b)
+			this.gameCharacter.doAction();
+		else
+		{
 
-	    }
+			if (v.x == 0)
+				this.gameCharacter.gameCharacterState = new GameCharacterStateIddle(this.gameCharacter);
+			// }
+			if (v.y != 0 && v.x != 0)
+				this.checkEnterStair(v);
+			if (!this.isFloorDown())
+				this.gameCharacter.gameCharacterState = new GameCharacterStateFalling(this.gameCharacter);
+		}
 	}
-	if (stair != null)
-	    this.gameCharacter.enterStair(stair);
 
-    }
+	protected void checkEnterStair(Vector2 v)
+	{
+		Stair stair = null;
+		if (v.y > 0)
+		{
+			if (v.x > 0)
+			{
+				stair = this.gameCharacter.checkStairsFeetColision(true, true);
 
-    @Override
-    protected void moveSecondStep(Vector2 escalado)
-    {
-	this.colisionForWalk(escalado);
-    }
+			} else
+			{
+				stair = this.gameCharacter.checkStairsFeetColision(false, true);
+			}
+		} else
+		{
+			if (v.x > 0)
+			{
+				stair = this.gameCharacter.checkStairsFeetColision(false, false);
+
+			} else
+			{
+				stair = this.gameCharacter.checkStairsFeetColision(true, false);
+
+			}
+		}
+		if (stair != null)
+			this.gameCharacter.enterStair(stair);
+
+	}
+
+	@Override
+	protected void moveSecondStep(Vector2 escalado)
+	{
+		this.colisionForWalk(escalado);
+	}
+
+	
 
 }
