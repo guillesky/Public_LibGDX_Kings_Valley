@@ -15,7 +15,7 @@ public class GameStateDying extends GameState
 {
 
 	/**
-	 * Sontructor de clase Llama a super(Game.ST_GAME_DYING);
+	 * Contructor de clase Llama a super(Game.ST_GAME_DYING);
 	 */
 	public GameStateDying()
 	{

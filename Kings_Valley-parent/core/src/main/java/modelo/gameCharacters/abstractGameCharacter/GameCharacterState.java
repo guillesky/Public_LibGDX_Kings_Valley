@@ -86,9 +86,9 @@ public abstract class GameCharacterState
 	}
 
 	/**
-	 * 
-	 * @param vectMove
-	 * @return
+	 * Indica si existira colision en el medio del caracter a la derecha. Usado por los metodos colision y colisionForWalk
+	 * @param vectMove Objeto de tipo Vector2 que representa la trayectoria pretendida.
+	 * @return true si existira colision, false en caso contrario.
 	 */
 	private boolean colisionMiddleRight(Vector2 vectMove)
 	{
@@ -96,11 +96,25 @@ public abstract class GameCharacterState
 				this.gameCharacter.y + vectMove.y + this.gameCharacter.getHeight() * .55f);
 	}
 
+
+	
+	/**
+	 * Indica si existira colision en el medio del caracter a la izquierda. Usado por los metodos colision y colisionForWalk
+	 * @param vectMove Objeto de tipo Vector2 que representa la trayectoria pretendida.
+	 * @return true si existira colision, false en caso contrario.
+	 */
+
 	private boolean colisionMiddleLeft(Vector2 vectMove)
 	{
 		return isCellBlocked(this.gameCharacter.x + vectMove.x,
 				this.gameCharacter.y + vectMove.y + this.gameCharacter.getHeight() * .55f);
 	}
+
+	/**
+	 * Indica si existira colision en el en la esquina superior derecha del caracter a la derecha. Usado por el metodo colisionForWalk
+	 * @param vectMove Objeto de tipo Vector2 que representa la trayectoria pretendida.
+	 * @return true si existira colision, false en caso contrario.
+	 */
 
 	private boolean colisionUpRight(Vector2 vectMove)
 	{
@@ -108,22 +122,45 @@ public abstract class GameCharacterState
 				this.gameCharacter.y + vectMove.y + this.gameCharacter.getHeight());
 	}
 
+	/**
+	 * Indica si existira colision en el en la esquina superior izquierda del caracter a la derecha. Usado por el metodo colisionForWalk
+	 * @param vectMove Objeto de tipo Vector2 que representa la trayectoria pretendida.
+	 * @return true si existira colision, false en caso contrario.
+	 */
+
 	private boolean colisionUpLeft(Vector2 vectMove)
 	{
 		return isCellBlocked(this.gameCharacter.x + vectMove.x,
 				this.gameCharacter.y + vectMove.y + this.gameCharacter.getHeight());
 	}
-
+	/**
+	 * Indica si existira colision en el en la esquina inferior izquierda del caracter a la derecha. Usado por los metodos colision, colisionForWalk, y checkLanding
+	 * @param vectMove Objeto de tipo Vector2 que representa la trayectoria pretendida.
+	 * @return true si existira colision, false en caso contrario.
+	 */
 	private boolean colisionDownLeftForLanding(Vector2 vectMove)
 	{
 		return colisionDown(this.gameCharacter.x, vectMove);
 	}
+
+	/**
+	 * Indica si existira colision en el en la esquina inferior derecha del caracter a la derecha. Usado por los metodos colision, colisionForWalk, y checkLanding
+	 * @param vectMove Objeto de tipo Vector2 que representa la trayectoria pretendida.
+	 * @return true si existira colision, false en caso contrario.
+	 */
 
 	private boolean colisionDownRightForLanding(Vector2 vectMove)
 	{
 		return colisionDown(this.gameCharacter.x + this.gameCharacter.width, vectMove);
 	}
 
+	
+	/**
+	 * Indica si existira colision en el en la esquina inferior derecha del caracter a la derecha. Usado por los metodos colisionDownRightForLanding, y colisionDownLeftForLanding
+	 * @param x indica un desplazamiento para calcular una u otra esquina
+	 * @param vectMove Objeto de tipo Vector2 que representa la trayectoria pretendida.
+	 * @return
+	 */
 	private boolean colisionDown(float x, Vector2 vectMove)
 	{
 		boolean respuesta = false;
@@ -136,6 +173,10 @@ public abstract class GameCharacterState
 		return respuesta;
 	}
 
+	/**
+	 * Corrige la trayectoria pretendida en caso de colision por derecha
+	 * @param vectMove Objeto de tipo Vector2 que representa la trayectoria pretendida.
+	 */
 	private void correctRight(Vector2 vectMove)
 	{
 		float epsilon = 0.002f * Config.getInstance().getLevelTileWidthUnits();
@@ -146,7 +187,11 @@ public abstract class GameCharacterState
 		this.gameCharacter.motionVector.x = 0;
 
 	}
-
+	
+	/**
+	 * Corrige la trayectoria pretendida en caso de colision por izquierda
+	 * @param vectMove Objeto de tipo Vector2 que representa la trayectoria pretendida.
+	 */
 	private void correctLeft(Vector2 vectMove)
 	{
 		float epsilon = 0.002f * Config.getInstance().getLevelTileWidthUnits();
@@ -156,6 +201,10 @@ public abstract class GameCharacterState
 
 	}
 
+	/**
+	 * Corrige la trayectoria pretendida en caso de colision por abajo
+	 * @param vectMove Objeto de tipo Vector2 que representa la trayectoria pretendida.
+	 */
 	private void correctDown(Vector2 vectMove)
 	{
 		float aux = (int) ((this.gameCharacter.y + vectMove.y) / Config.getInstance().getLevelTileHeightUnits());
@@ -172,6 +221,13 @@ public abstract class GameCharacterState
 
 	}
 
+	/**
+	 * Metodo que decide si la colision fue lateral o por debajo, en caso de que la colision solo se detecta en un vertice inferior del caracter. Es invocado por el metodo checkLanding. Utiliza un calculo de funcion lineal. 
+	 * @param x desplazamiento en x necesario para decidir el vertice a evaluar
+	 * @param y desplazamiento en y necesario para decidir el vertice a evaluar 
+	 * @param vectMove Objeto de tipo Vector2 que representa la trayectoria pretendida.
+	 * @return un valor indicando el tipo de tipo de colision. Puede ser: Constantes.DOWN; Constantes.RIGHT; Constantes.LEFT  
+	 */
 	private int buscarColisionPorVertice(float x, float y, Vector2 vectMove)
 	{
 
@@ -220,6 +276,11 @@ public abstract class GameCharacterState
 
 	}
 
+	/**
+	 * Corrige la trayectoria pretendida en caso de colision. Es llamado por los metodos colision, colisionForWalk, y checkLanding 
+	 * @param direction indica la direccion desde la que se produjo la colision. Puede tomar los valores: Constantes.DOWN; Constantes.RIGHT; Constantes.LEFT 
+	 * @param vectMove Objeto de tipo Vector2 que representa la trayectoria pretendida.
+	 */
 	private void corrigeDirecciones(int direction, Vector2 vectMove)
 	{
 		switch (direction)
@@ -240,11 +301,21 @@ public abstract class GameCharacterState
 
 	}
 
+	/**
+	 * Indica si una celda de la piramide esta bloqueada, es decir, sea diferente de null
+	 * @param x valor float de la coordenada x a evaluar
+	 * @param y valor float de la coordenada y a evaluar
+	 * @return retorna true si la celda esta bloqueada, false en caso contrario
+	 */
 	protected boolean isCellBlocked(float x, float y)
 	{
 		return this.gameCharacter.pyramid.getCell(x, y) != null;
 	}
 
+	/**
+	 * Verifica si el caracter ha aterrizado. 
+	 * @param vectMove Objeto de tipo Vector2 que representa la trayectoria pretendida.
+	 */
 	protected void checkLanding(Vector2 vectMove)
 	{
 		int r = -1;
@@ -273,6 +344,10 @@ public abstract class GameCharacterState
 			this.checkLanding(vectMove);
 	}
 
+	/**
+	 * Indica si hay piso bajo los pies del caracter
+	 * @return true si hay piso bajo el caracter, false en caso contrario.
+	 */
 	protected boolean isFloorDown()
 	{
 		float epsilon = 0.000001f * Config.getInstance().getLevelTileHeightUnits();
@@ -285,11 +360,21 @@ public abstract class GameCharacterState
 								this.gameCharacter.y - this.gameCharacter.height * 0.25f)));
 	}
 
+	/**
+	 * Retorna la escalera sobre la que esta parado el caracter. Podria ser null
+	 * @return objeto de tipo Stair sobre la que esta el caracter. Si no esta en ninguna escalera retorna null
+	 */
 	protected Stair getStair()
 	{
 		return null;
 	}
 
+	/**
+	 * Metodo invocado para mover el caracter.
+	 * @param v Objeto de tipo Vector2 que representa la trayectoria pretendida.
+	 * @param b Indica si se pretenda realizar una accion (puede ser saltar, arrojar espada o picar)
+	 * @param deltaTime indica el deltaTime desde la ultima actualizacion
+	 */
 	public void move(Vector2 v, boolean b, float deltaTime)
 	{
 		deltaTime *= Config.getInstance().getSpeedGame();
@@ -301,6 +386,9 @@ public abstract class GameCharacterState
 		this.checkOutLevel();
 	}
 
+	/**
+	 * Corrige posibles salidas del caracter fuera de la piramide
+	 */
 	private void checkOutLevel()
 	{
 		float epsilon = .1f * Config.getInstance().getLevelTileWidthUnits();
@@ -320,8 +408,16 @@ public abstract class GameCharacterState
 
 	}
 
+	/**
+	 * Metodo llamado al entrar en una escalera
+	 * @param stair Objeto de tipo Stair que indica la escalera a la qu se esta entrando
+	 */
 	protected abstract void enterStair(Stair stair);
 
+	/**
+	 * Metodo llamado al intentar un salto
+	 * @return true si el salto pudo realizarse, fale en caso contrario
+	 */
 	protected abstract boolean doJump();
 
 }
