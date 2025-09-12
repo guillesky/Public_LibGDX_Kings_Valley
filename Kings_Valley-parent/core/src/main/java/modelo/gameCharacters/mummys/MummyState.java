@@ -11,6 +11,11 @@ import modelo.level.Pyramid;
 import modelo.level.Stair;
 import util.Config;
 
+/**
+ * @author Guillermo Lazzurri
+ * 
+ *         Clase abstracta que representa el estado de la momia (patron state)
+ */
 public abstract class MummyState
 
 {
@@ -29,6 +34,12 @@ public abstract class MummyState
 	protected Mummy mummy;
 	private Rectangle r;
 
+	/**
+	 * Contructor de clase
+	 * 
+	 * @param mummy Momia a la que pertences el estado (patron state)
+	 * @param state tipo de estado
+	 */
 	public MummyState(Mummy mummy, int state)
 	{
 		this.mummy = mummy;
@@ -38,15 +49,31 @@ public abstract class MummyState
 		mummy.resetTimeInState();
 
 	}
-	
-	
-	
-	
-	
+
+	/**
+	 * Metodo llamado al actualizar la momia
+	 * 
+	 * @param deltaTime tiempo transcurrido desde la ultima actualizacion
+	 */
 	public abstract void update(float deltaTime);
+
+	/**
+	 * @return true si la momia es peligrosa, false en caso contrario
+	 */
 	protected abstract boolean isDanger();
 
+	/**
+	 * Evento que podria pasar a modo muerto.
+	 * @param mustTeleport true si la momia debe teletransportarse al reaparecer, false en caso contrarioF
+	 */
 	protected abstract void die(boolean mustTeleport);
+
+	/**
+	 * Metodo que retorna la escalera mas cercana a la momia hacia las direcciones indicadas. Si no hay una escalera en la direccion pretendida retorna null
+	 * @param toUp true si se pretende subir, false si se pretende bajar
+	 * @param toRight true si busco hacia la derecha, false si busco a la izquierda
+	 * @return La escalera mas cercana a la direccion pretendida. Si no hay escalera en la plataforma en la direccion requerido retorna null
+	 */
 	private Stair nearStair(boolean toUp, boolean toRight)
 	{
 		Stair r = null;
@@ -110,6 +137,11 @@ public abstract class MummyState
 		return r;
 	}
 
+	/**
+	 * Retorna el resultado de buscar una escalera cercana que suba o baje (podria retornar true)
+	 * @param toUp true si se busca una escalera que suba, false si busco una escalera que baje
+	 * @return El resultado de la escalera buscada, si no hay una escalera con las caracteristicas pedidas, retorna null
+	 */
 	protected NearStairResult getNearStair(boolean toUp)
 	{
 		Stair stair = null;

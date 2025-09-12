@@ -4,23 +4,42 @@ import com.badlogic.gdx.math.Vector2;
 
 import modelo.level.Stair;
 
+/**
+ * @author Guillermo Lazzurri
+ * 
+ *         Clase que representa del estado del caracter "Saltando" (ya sea
+ *         subiendo o bajando)
+ */
 public class GameCharacterStateJumping extends GameCharacterState
 {
 	private float initialMotionX;
 
+	/**
+	 * Constructor encadenado. Llama a <br>
+	 * super(gameCharacter, GameCharacter.ST_JUMPING);<br>
+	 * this.gameCharacter.resetAnimationDelta();<br>
+	 * this.gameCharacter.motionVector.y = this.gameCharacter.speedJump;<br>
+	 * this.initialMotionX = this.gameCharacter.motionVector.x;<br>
+	 * 
+	 * 
+	 * @param gameCharacter correspondiente al sujeto del patron state.
+	 */
 	public GameCharacterStateJumping(GameCharacter gameCharacter)
 	{
 		super(gameCharacter, GameCharacter.ST_JUMPING);
 		this.gameCharacter.resetAnimationDelta();
 		this.gameCharacter.motionVector.y = this.gameCharacter.speedJump;
 		this.initialMotionX = this.gameCharacter.motionVector.x;
-		
+
 	}
 
+	/**
+	 *Calcula las colisione durante el salto. En caso de que el player se desbloquee horizontalmente durante el salto podra desplazarse para el costado para salir de un pozo.
+	 */
 	@Override
 	protected void moveFirstStep(Vector2 v, boolean b, float deltaTime)
 	{
-		if (this.hasBlocked()&& this.gameCharacter.motionVector.y>0)
+		if (this.hasBlocked() && this.gameCharacter.motionVector.y > 0)
 			this.tryUnblock();
 		this.gameCharacter.motionVector.y += this.gameCharacter.speedFall * deltaTime;
 
@@ -29,6 +48,9 @@ public class GameCharacterStateJumping extends GameCharacterState
 
 	}
 
+	/**
+	 *Llama a checkLanding para verificar si llego al suelo
+	 */
 	@Override
 	protected void moveSecondStep(Vector2 escalado)
 	{
@@ -37,6 +59,9 @@ public class GameCharacterStateJumping extends GameCharacterState
 
 	}
 
+	/**
+	 * Intenta desplazarse hacia el costado en caso de ser necesario
+	 */
 	private void tryUnblock()
 	{
 		float coordX = this.gameCharacter.x + this.initialMotionX;
@@ -46,17 +71,29 @@ public class GameCharacterStateJumping extends GameCharacterState
 			this.gameCharacter.motionVector.x = this.initialMotionX;
 	}
 
+	/**
+	 * Indica si el caracter esta bloqueado para desplazamiento horizontal
+	 * @return true si esta bloqueado horizontalemente, false en caso contrario
+	 */
 	private boolean hasBlocked()
 	{
 		return this.initialMotionX != 0 && this.gameCharacter.motionVector.x == 0;
 	}
 
+	/**
+	 *
+	 * Se sobreescribe como metodo vacio (no hace nada)
+	 */
+
 	@Override
 	protected void enterStair(Stair stair)
 	{
-		
+
 	}
 
+	/**
+	 * Siempre retorna false (ya esta saltado)
+	 */
 	@Override
 	protected boolean doJump()
 	{

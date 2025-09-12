@@ -24,15 +24,33 @@ import util.Config;
 public abstract class GameCharacter extends LevelObject
 {
 
-	public static final int ST_IDDLE = 0; // Inicializando
-	public static final int ST_WALKING = 11; // Andando
-	public static final int ST_ONSTAIRS = 2; // En una escalera pendiente positiva
+	/**
+	 * Quieto en el piso
+	 */
+	public static final int ST_IDDLE = 0; 
+	/**
+	 * Caminando
+	 */
+	public static final int ST_WALKING = 11; 
+	/**
+	 * En escalera
+	 */
+	public static final int ST_ONSTAIRS = 2; 
 
-	public static final int ST_JUMPING = 5; // Saltando
+	/**
+	 * Saltando
+	 */
+	public static final int ST_JUMPING = 5; 
 
-	public static final int ST_FALLING = 7; // Cayendo
+	/**
+	 * Cayendo
+	 */
+	public static final int ST_FALLING = 7; 
 
-	public static final int ST_DYING = 8; // Muriendo
+	/**
+	 * Muriendo
+	 */
+	public static final int ST_DYING = 8; 
 
 	protected int state = GameCharacter.ST_IDDLE;
 

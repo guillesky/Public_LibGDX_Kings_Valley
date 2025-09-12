@@ -5,16 +5,32 @@ import com.badlogic.gdx.math.Vector2;
 import modelo.level.LevelObject;
 import modelo.level.Stair;
 
+/**
+ * @author Guillermo Lazzurri
+ * 
+ *         Clase que representa del estado del caracter "En escalera"
+ */
 public class GameCharacterStateOnStair extends GameCharacterState
 {
 	private Stair stair;
 
+	/**
+	 * Llama a super(gameCharacter, GameCharacter.ST_WALKING);<br>
+	 * this.stair = stair;
+	 * 
+	 * @param gameCharacter correspondiente al sujeto del patron state.
+	 * @param stair         indica la escalera en la que esta el caracter (debe ser
+	 *                      distinto de null)
+	 */
 	public GameCharacterStateOnStair(GameCharacter gameCharacter, Stair stair)
 	{
 		super(gameCharacter, GameCharacter.ST_WALKING);
 		this.stair = stair;
 	}
 
+	/**
+	 * Movera el caracter por la escalera dependiendo de su direccion horizontal
+	 */
 	@Override
 	protected void moveFirstStep(Vector2 v, boolean b, float deltaTime)
 	{
@@ -50,6 +66,11 @@ public class GameCharacterStateOnStair extends GameCharacterState
 
 	}
 
+	/**
+	 * Verifica si debe salir de la escalera y en ese caso llama a exitStair
+	 * 
+	 * @param v indica la direcion pretendida
+	 */
 	private void checkExitStair(Vector2 v)
 	{
 		if (this.stair.isPositive())
@@ -81,6 +102,15 @@ public class GameCharacterStateOnStair extends GameCharacterState
 
 	}
 
+	/**
+	 * Llamado al salir de la escalera y realiza el cambio de estado mediante
+	 * this.gameCharacter.gameCharacterState = new
+	 * GameCharacterStateWalking(this.gameCharacter);
+	 * 
+	 * @param endStair indica el pie o cabecera de la escalera por la que el
+	 *                 caracter sale de la misma. Sirve para setear la posicion y
+	 *                 del caracter
+	 */
 	private void exitStair(LevelObject endStair)
 	{
 		this.gameCharacter.y = endStair.y;
@@ -90,24 +120,36 @@ public class GameCharacterStateOnStair extends GameCharacterState
 
 	}
 
+	/**
+	 * Se sobreescribe como metodo vacio (no hace nada)
+	 */
+
 	@Override
 	protected void moveSecondStep(Vector2 escalado)
 	{
 
 	}
 
+	/**
+	 *Retorna la escalera sobre la que esta el caracter. En este caso no puede ser null (si lo puede ser en otro tipo de estado)
+	 */
 	@Override
 	protected Stair getStair()
 	{
 		return this.stair;
 	}
-
+	/**
+	 * Se sobreescribe como metodo vacio (no hace nada)
+	 */
 	@Override
 	protected void enterStair(Stair stair)
 	{
-		
+
 	}
 
+	/**
+	 *Retorna false (no se puede saltar en la escalera)
+	 */
 	@Override
 	protected boolean doJump()
 	{

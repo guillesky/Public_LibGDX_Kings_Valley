@@ -17,7 +17,7 @@ public abstract class GameCharacterState
 
 	/**
 	 * Constructor de clase
-	 * @param gameCharacter Caracter al cual pertenece el estado
+	 * @param gameCharacter Caracter al cual pertenece el estado (patron state)
 	 * @param state valor entero que representa el estado
 	 */
 	public GameCharacterState(GameCharacter gameCharacter, int state)

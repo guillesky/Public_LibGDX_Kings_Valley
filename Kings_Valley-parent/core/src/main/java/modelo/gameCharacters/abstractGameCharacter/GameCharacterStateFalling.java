@@ -13,9 +13,10 @@ public class GameCharacterStateFalling extends GameCharacterState
 {
 
 	/**
-	 * Constructor encadenado. Llama a super(gameCharacter,
-	 * GameCharacter.ST_FALLING); this.gameCharacter.motionVector.x=0;
-	 * this.gameCharacter.resetAnimationDelta();
+	 * Constructor encadenado. Llama a <br>
+	 * super(gameCharacter, GameCharacter.ST_FALLING); <br>
+	 * this.gameCharacter.motionVector.x=0;<br>
+	 * this.gameCharacter.resetAnimationDelta();<br>
 	 * 
 	 * @param gameCharacter correspondiente al sujeto del patron state.
 	 */

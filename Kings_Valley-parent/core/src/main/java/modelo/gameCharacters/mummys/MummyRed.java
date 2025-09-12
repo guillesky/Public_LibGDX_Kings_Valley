@@ -4,19 +4,40 @@ import modelo.gameCharacters.player.Player;
 import modelo.level.Pyramid;
 import util.Config;
 
+/**
+ * @author Guillermo Lazzurri
+ *
+ *         Representa una momia roja
+ */
 @SuppressWarnings("serial")
 public class MummyRed extends Mummy
 {
+	/**
+	 * 
+	 * 
+	 * Llama a super(MummyFactory.RED_MUMMY, x, y,
+	 * Config.getInstance().getMummyRedParameters(), pyramid,player);
+	 * 
+	 * 
+	 * @param x       Coordenada x
+	 * @param y       Coordenada y
+	 * @param pyramid piramide en la que esta ubicada la momia
+	 * @param player  referencia al player que la momia persigue
+	 * 
+	 */
 
-	public MummyRed(float x, float y, Pyramid pyramid,Player player)
+	public MummyRed(float x, float y, Pyramid pyramid, Player player)
 	{
-		super(MummyFactory.RED_MUMMY, x, y, Config.getInstance().getMummyRedParameters(), pyramid,player);
+		super(MummyFactory.RED_MUMMY, x, y, Config.getInstance().getMummyRedParameters(), pyramid, player);
 
 	}
 
+	/**
+	 * Retorna una cadena de texto que representa la momia (solo para debug)
+	 */
 	@Override
 	public String toString()
 	{
-		return "MummyRed "+ super.toString();
+		return "MummyRed " + super.toString();
 	}
 }

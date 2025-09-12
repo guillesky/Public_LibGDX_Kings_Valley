@@ -97,9 +97,7 @@ public class RenderStateInGame extends RenderState
 	 * Lee el teclado para controlar al jugador y realiza la llamada a Game.getInstance().updateframe(Gdx.graphics.getDeltaTime())
 	 *
 	 */
-	/**
-	 * 
-	 */
+	
 	private void updateGame()
 	{
 		Controls controles = Game.getInstance().getControles();
