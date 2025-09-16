@@ -32,7 +32,7 @@ public abstract class MummyState
 	private static final int BLOCK_GIRATORY = 2;
 	protected float timeToChange;
 	protected Mummy mummy;
-	private Rectangle r;
+	private Rectangle mummyRectangleWithOffset;
 
 	/**
 	 * Contructor de clase
@@ -43,7 +43,7 @@ public abstract class MummyState
 	public MummyState(Mummy mummy, int state)
 	{
 		this.mummy = mummy;
-		this.r = new Rectangle(this.mummy.x, this.mummy.y, this.mummy.width, this.mummy.height);
+		this.mummyRectangleWithOffset = new Rectangle(this.mummy.x, this.mummy.y, this.mummy.width, this.mummy.height);
 		mummy.setState(state);
 		mummy.resetAnimationDelta();
 		mummy.resetTimeInState();
@@ -64,15 +64,20 @@ public abstract class MummyState
 
 	/**
 	 * Evento que podria pasar a modo muerto.
-	 * @param mustTeleport true si la momia debe teletransportarse al reaparecer, false en caso contrarioF
+	 * 
+	 * @param mustTeleport true si la momia debe teletransportarse al reaparecer,
+	 *                     false en caso contrarioF
 	 */
 	protected abstract void die(boolean mustTeleport);
 
 	/**
-	 * Metodo que retorna la escalera mas cercana a la momia hacia las direcciones indicadas. Si no hay una escalera en la direccion pretendida retorna null
-	 * @param toUp true si se pretende subir, false si se pretende bajar
+	 * Metodo que retorna la escalera mas cercana a la momia hacia las direcciones
+	 * indicadas. Si no hay una escalera en la direccion pretendida retorna null
+	 * 
+	 * @param toUp    true si se pretende subir, false si se pretende bajar
 	 * @param toRight true si busco hacia la derecha, false si busco a la izquierda
-	 * @return La escalera mas cercana a la direccion pretendida. Si no hay escalera en la plataforma en la direccion requerido retorna null
+	 * @return La escalera mas cercana a la direccion pretendida. Si no hay escalera
+	 *         en la plataforma en la direccion requerido retorna null
 	 */
 	private Stair nearStair(boolean toUp, boolean toRight)
 	{
@@ -138,9 +143,13 @@ public abstract class MummyState
 	}
 
 	/**
-	 * Retorna el resultado de buscar una escalera cercana que suba o baje (podria retornar true)
-	 * @param toUp true si se busca una escalera que suba, false si busco una escalera que baje
-	 * @return El resultado de la escalera buscada, si no hay una escalera con las caracteristicas pedidas, retorna null
+	 * Retorna el resultado de buscar una escalera cercana que suba o baje (podria
+	 * retornar true)
+	 * 
+	 * @param toUp true si se busca una escalera que suba, false si busco una
+	 *             escalera que baje
+	 * @return El resultado de la escalera buscada, si no hay una escalera con las
+	 *         caracteristicas pedidas, retorna null
 	 */
 	protected NearStairResult getNearStair(boolean toUp)
 	{
@@ -188,6 +197,14 @@ public abstract class MummyState
 		return r;
 	}
 
+	/**
+	 * Crea y retorna un objeto de tipo EndPlatform indicando el tipo de final de
+	 * plataforma buscado
+	 * 
+	 * @param toRight true si se busca el final de plataforma or derecha, false si
+	 *                se lo busca por izquierda
+	 * @return Objeto de tipo EndPlatform que indica el tipo de final de plataforma
+	 */
 	protected EndPlatform endPlatform(boolean toRight)
 	{
 		int inc;
@@ -225,7 +242,17 @@ public abstract class MummyState
 
 	}
 
-	private void correctGiratoryEndPlatform(EndPlatform r, boolean toRight)
+	/**
+	 * Corrige los atributos del objeto endPlatform pasado como parametro en caso de
+	 * encontrar una puerta giratoria. En ese caso se considera que hay un bloqueo
+	 * insalvable para la momia. Este metodo es invocado por this.endPlatform
+	 * 
+	 * @param endPlatform objeto de tipo endPlatform que debe ser evaluado. Su
+	 *                    estado podria cambiar
+	 * @param toRight     true si el endPlatform esta a la derecha, false si esta a
+	 *                    la izquierda.
+	 */
+	private void correctGiratoryEndPlatform(EndPlatform endPlatform, boolean toRight)
 	{
 		Iterator<LevelObject> it = mummy.getPyramid().getGiratories().iterator();
 		boolean condicion = false;
@@ -244,10 +271,10 @@ public abstract class MummyState
 					aux *= -1;
 				int dist = (int) (aux / (float) Config.getInstance().getLevelTileWidthUnits());
 
-				if (dist < r.getCount())
+				if (dist < endPlatform.getCount())
 				{
-					r.setCount(dist);
-					r.setType(EndPlatform.END_BLOCK);
+					endPlatform.setCount(dist);
+					endPlatform.setType(EndPlatform.END_BLOCK);
 					condicion = true;
 				}
 			}
@@ -255,6 +282,13 @@ public abstract class MummyState
 
 	}
 
+	/**
+	 * Metodo llamado internadmente por this.endPlatform. Evita que durante los
+	 * calculos se busque fuera de la piramide
+	 * 
+	 * @param col cantidad de desplazamiento
+	 * @return true si se esta dentro del mapa, false en caso contrario.
+	 */
 	private boolean isColDesplaInMap(int col)
 	{
 
@@ -262,6 +296,16 @@ public abstract class MummyState
 				&& mummy.getColPosition() + col < mummy.getPyramid().getMapWidthInTiles() - 1;
 	}
 
+	/**
+	 * Indica el tipo de fin de plataforma que existe de acuerdo a la posicionX y al
+	 * desplazamiento en x pasado por parametro
+	 * 
+	 * @param positionX coordenada X pretendida
+	 * @param iDeltaX   Desplazamiento en x
+	 * @return valor entero que representa el tipo de final de plataforma. Puede
+	 *         tomar los valores: EndPlatform.END_CLIFF; EndPlatform.END_STEP;
+	 *         EndPlatform.END_BLOCK
+	 */
 	protected int typeEndPlatform(float positionX, int iDeltaX)
 	{
 		int type = -1;
@@ -282,6 +326,13 @@ public abstract class MummyState
 		return type;
 	}
 
+	/**
+	 * Chequea si llega al final de la plataforma y actua en consecuencia. Puede
+	 * llamar a this.doInCrashToWallOrGiratory, o a this.doInBorderCliff()
+	 * 
+	 * @param type indica el tipo de final de plataforma al que se esta acercando la
+	 *             momia.
+	 */
 	public void checkEndOfPlataform(int type)
 	{
 		int crashStatus = this.crashWallOrGiratory();
@@ -299,10 +350,30 @@ public abstract class MummyState
 		}
 	}
 
+	/**
+	 * Indica que debe hacer la momia en caso de llegar al borde de una cornisa
+	 */
 	protected abstract void doInBorderCliff();
 
+	/**
+	 * Indica que debe hacer la momia si choca contra una pared o una giratoria
+	 * 
+	 * @param crashStatus valor entero que determina si el choque es contra un muro
+	 *                    o una giratoria, los valores respectivamente son
+	 *                    BLOCK_BRICK y BLOCK_GIRATORY
+	 * @param type        indica el tipo de final de plataforma al que se esta
+	 *                    acercando la momia.
+	 */
 	public abstract void doInCrashToWallOrGiratory(int crashStatus, int type);
 
+	/**
+	 * Llamado internamente por checkEndOfPlatform. Indica si la momia choca contra
+	 * un muro o contra una giratoria
+	 * 
+	 * @return indica si la momia no esta bloqueada, si choca contra un muro o
+	 *         contra una giratoria. Puede tomar respectivamente los valores
+	 *         BLOCK_FREE; BLOCK_BRICK; BLOCK_GIRATORY
+	 */
 	private int crashWallOrGiratory()
 	{
 		boolean condicion = false;
@@ -335,35 +406,32 @@ public abstract class MummyState
 		return respuesta;
 	}
 
+	/**
+	 * Llamado internamente por this.crashWallOrGiratory. Indica si la momia choco
+	 * contra una giratoria
+	 * 
+	 * @return true si choco contra una giratoria, false en caso contrario.
+	 */
 	private boolean checkGiratory()
 	{
 		float epsilon = Config.getInstance().getLevelTileWidthUnits() * 0.1f;
 		if (this.mummy.isLookRight())
-			this.r.x = this.mummy.x + epsilon;
+			this.mummyRectangleWithOffset.x = this.mummy.x + epsilon;
 		else
-			this.r.x = this.mummy.x - epsilon;
-		this.r.y = this.mummy.y;
+			this.mummyRectangleWithOffset.x = this.mummy.x - epsilon;
+		this.mummyRectangleWithOffset.y = this.mummy.y;
 
 		return this.checkRectangleColision(this.mummy.getPyramid().getGiratories());
 	}
 
-	public void update()
-	{
+	
 
-		if (this.mummy.getState() == GameCharacter.ST_WALKING)
-		{
-			float x = this.mummy.x;
-
-			if (!this.mummy.isLookRight())
-				x = this.mummy.x + this.mummy.width;
-			int type = this.typeEndPlatform(x, 0);
-
-			this.checkEndOfPlataform(type);
-		}
-
-	}
-
-	public boolean checkRectangleColision(ArrayList<LevelObject> levelObjects)
+	/**
+	 * Llamado internamente por checkGiratory. Verifica si la momia choca contra alguna giratoria
+	 * @param levelObjects Coleccion de objetos de tipo levelObjects. Representara la totalidad de giratorias en la piramide 
+	 * @return true si hay colision, false en caso contrario.
+	 */
+	private boolean checkRectangleColision(ArrayList<LevelObject> levelObjects)
 	{
 
 		Iterator<LevelObject> it = levelObjects.iterator();
@@ -372,9 +440,9 @@ public abstract class MummyState
 			do
 			{
 				item = it.next();
-			} while (it.hasNext() && !LevelObject.rectangleColision(r, item));
+			} while (it.hasNext() && !LevelObject.rectangleColision(mummyRectangleWithOffset, item));
 
-		return (LevelObject.rectangleColision(r, item));
+		return (LevelObject.rectangleColision(mummyRectangleWithOffset, item));
 
 	}
 
