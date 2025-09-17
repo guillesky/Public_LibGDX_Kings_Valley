@@ -16,7 +16,7 @@ import modelo.level.door.Door;
 public class GameStatePlaying extends GameState
 {
 	private boolean readyToExit = false;
-	private boolean godMode = false;
+	private boolean godMode = true;
 
 	/**
 	 * Se llama a super(Game.ST_GAME_PLAYING);<br>

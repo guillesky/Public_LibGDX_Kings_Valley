@@ -1,5 +1,10 @@
-package modelo.gameCharacters.player;
+package modelo.level;
 
+/**
+ * @author Guillermo Lazzurri
+ * Clase que representa 
+ * 
+ */
 public class PairInt
 {
 private int x;

@@ -9,10 +9,10 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 
+import modelo.DrawableElement;
 import modelo.IGraphic;
 import modelo.KVEventListener;
 import modelo.game.Game;
-import modelo.gameCharacters.player.PairInt;
 import modelo.level.dagger.Dagger;
 import modelo.level.door.Door;
 import util.Config;
@@ -267,13 +267,13 @@ public class Pyramid implements IGraphic
 	}
 
 	@Override
-	public void addGraphicElement(Object element)
+	public void addGraphicElement(DrawableElement element)
 	{
 		this.interfaz.addGraphicElement(element);
 	}
 
 	@Override
-	public void removeGraphicElement(Object element)
+	public void removeGraphicElement(DrawableElement element)
 	{
 		this.interfaz.removeGraphicElement(element);
 

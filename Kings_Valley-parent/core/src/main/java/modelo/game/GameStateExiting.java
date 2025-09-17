@@ -1,7 +1,7 @@
 package modelo.game;
 
+import modelo.DrawableElement;
 import modelo.KVEventListener;
-import modelo.level.DrawableElement;
 import modelo.level.door.Door;
 import util.Constantes;
 

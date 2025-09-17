@@ -3,6 +3,7 @@ package modelo.level;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import modelo.DrawableElement;
 import modelo.game.Game;
 import modelo.gameCharacters.abstractGameCharacter.GameCharacter;
 import modelo.gameCharacters.mummys.Mummy;

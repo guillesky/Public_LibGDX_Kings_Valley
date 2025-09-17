@@ -1,4 +1,4 @@
-package modelo.level;
+package modelo;
 
 public class DrawableElement
 {

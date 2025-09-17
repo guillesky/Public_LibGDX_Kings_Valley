@@ -27,12 +27,12 @@ import com.badlogic.gdx.utils.Array.ArrayIterator;
 
 import i18n.Messages;
 import mainPackage.IMyApplicationListener;
+import modelo.DrawableElement;
 import modelo.game.Game;
 import modelo.gameCharacters.mummys.Mummy;
-import modelo.gameCharacters.player.PairInt;
-import modelo.level.DrawableElement;
 import modelo.level.GiratoryMechanism;
 import modelo.level.LevelObject;
+import modelo.level.PairInt;
 import modelo.level.Pyramid;
 import modelo.level.Stair;
 import modelo.level.TrapMechanism;
@@ -97,12 +97,12 @@ public class TileMapGrafica2D implements IMyApplicationListener
 	}
 
 	@Override
-	public void addGraphicElement(Object element)
+	public void addGraphicElement(DrawableElement element)
 	{
-		DrawableElement dr = (DrawableElement) element;
-		if (dr.getType() == Constantes.DRAWABLE_LEVEL_ITEM)
+		
+		if (element.getType() == Constantes.DRAWABLE_LEVEL_ITEM)
 		{
-			LevelObject item = (LevelObject) dr.getDrawable();
+			LevelObject item = (LevelObject) element.getDrawable();
 			AnimatedEntity2D animatedEntity2D = null;
 			int id = 0;
 			if (item.getType() == Constantes.It_jewel)
@@ -112,34 +112,34 @@ public class TileMapGrafica2D implements IMyApplicationListener
 			animatedEntity2D = new AnimatedEntity2D(item, this.graphicsFileLoader.getAnimations().get(id));
 			this.animatedEntities.add(animatedEntity2D);
 			this.hashMapLevelAnimation.put(item, animatedEntity2D);
-		} else if (dr.getType() == Constantes.DRAWABLE_TRAP)
+		} else if (element.getType() == Constantes.DRAWABLE_TRAP)
 		{
-			TrapMechanism trapMech = (TrapMechanism) dr.getDrawable();
+			TrapMechanism trapMech = (TrapMechanism) element.getDrawable();
 			AnimatedTrapKV2 atrapKV = new AnimatedTrapKV2(trapMech);
 			this.hashMapTrapAnimation.put(trapMech, atrapKV);
 			this.animatedTraps.add(atrapKV);
 
-		} else if (dr.getType() == Constantes.DRAWABLE_GYRATORY)
+		} else if (element.getType() == Constantes.DRAWABLE_GYRATORY)
 		{
 
-			GiratoryMechanism gm = (GiratoryMechanism) dr.getDrawable();
+			GiratoryMechanism gm = (GiratoryMechanism) element.getDrawable();
 			AnimatedGiratory2D a;
 			a = new AnimatedGiratory2D(gm, this.graphicsFileLoader.getNewAnimationGiratory(gm.getHeightInTiles()));
 
 			this.animatedEntities.add(a);
 			this.hashMapLevelAnimation.put(gm.getLevelObject(), a);
-		} else if (dr.getType() == Constantes.DRAWABLE_PICKING_CELL)
+		} else if (element.getType() == Constantes.DRAWABLE_PICKING_CELL)
 		{
-			PairInt pairInt = (PairInt) dr.getDrawable();
+			PairInt pairInt = (PairInt) element.getDrawable();
 
 			this.animatedPickedCell.getLevelObject().setX(pairInt.getX() * this.tileWidth);
 			this.animatedPickedCell.getLevelObject().setY(pairInt.getY() * this.tileHeight);
 			this.animatedEntities.add(this.animatedPickedCell);
 			this.animatedPickedCell.resetTime(Game.getInstance().getDelta());
 
-		} else if (dr.getType() == Constantes.DRAWABLE_FLYING_DAGGER)
+		} else if (element.getType() == Constantes.DRAWABLE_FLYING_DAGGER)
 		{
-			Dagger dagger = (Dagger) dr.getDrawable();
+			Dagger dagger = (Dagger) element.getDrawable();
 			AnimatedDagger2D animatedEntity2D = new AnimatedDagger2D(dagger,
 					this.graphicsFileLoader.getAnimations().get(dagger.getP0()),
 					this.graphicsFileLoader.getAnimations().get(Constantes.DRAWABLE_FLYING_DAGGER));
@@ -148,9 +148,9 @@ public class TileMapGrafica2D implements IMyApplicationListener
 
 		}
 
-		else if (dr.getType() == Constantes.DRAWABLE_EXIT_DOOR)
+		else if (element.getType() == Constantes.DRAWABLE_EXIT_DOOR)
 		{
-			Door door = (Door) dr.getDrawable();
+			Door door = (Door) element.getDrawable();
 			this.animatedEnteringDoor2D = new AnimatedEnteringDoor2D(door, this.graphicsFileLoader.getDoorPassage(),
 					this.graphicsFileLoader.getDoorSingleLeft(), this.graphicsFileLoader.getDoorSingleRight(),
 					this.graphicsFileLoader.getAnimationDoorLever());
@@ -158,27 +158,26 @@ public class TileMapGrafica2D implements IMyApplicationListener
 	}
 
 	@Override
-	public void removeGraphicElement(Object element)
+	public void removeGraphicElement(DrawableElement element)
 	{
-		DrawableElement dr = (DrawableElement) element;
-		if (dr.getType() == Constantes.DRAWABLE_LEVEL_ITEM)
+		if (element.getType() == Constantes.DRAWABLE_LEVEL_ITEM)
 		{
-			LevelObject item = (LevelObject) dr.getDrawable();
+			LevelObject item = (LevelObject) element.getDrawable();
 			AnimatedEntity2D animatedEntity2D = this.hashMapLevelAnimation.get(item);
 			this.animatedEntities.removeValue(animatedEntity2D, true);
 			this.hashMapLevelAnimation.remove(item);
-		} else if (dr.getType() == Constantes.DRAWABLE_TRAP)
+		} else if (element.getType() == Constantes.DRAWABLE_TRAP)
 		{
-			TrapMechanism trapMech = (TrapMechanism) dr.getDrawable();
+			TrapMechanism trapMech = (TrapMechanism) element.getDrawable();
 			AnimatedTrapKV2 atrapKV = this.hashMapTrapAnimation.get(trapMech);
 			this.animatedTraps.removeValue(atrapKV, true);
 			this.hashMapTrapAnimation.remove(trapMech);
-		} else if (dr.getType() == Constantes.DRAWABLE_PICKING_CELL)
+		} else if (element.getType() == Constantes.DRAWABLE_PICKING_CELL)
 		{
 			this.animatedEntities.removeValue(this.animatedPickedCell, true);
-		} else if (dr.getType() == Constantes.DRAWABLE_GYRATORY)
+		} else if (element.getType() == Constantes.DRAWABLE_GYRATORY)
 		{
-			LevelObject giratory = (LevelObject) dr.getDrawable();
+			LevelObject giratory = (LevelObject) element.getDrawable();
 			AnimatedEntity2D animatedEntity2D = this.hashMapLevelAnimation.get(giratory);
 
 			this.animatedEntities.removeValue(animatedEntity2D, true);

@@ -33,7 +33,7 @@ public class Game implements KVEventListener
 	protected HashMap<Integer, Boolean> completedLevels = new HashMap<Integer, Boolean>();
 	private boolean paused = false;
 	protected Level level = null;
-	protected int idCurrentLevel = 1;
+	protected int idCurrentLevel;
 	private int dificultLevel = 0;
 	private float delta = 0;
 	private IGraphic interfaz = null;
@@ -45,6 +45,7 @@ public class Game implements KVEventListener
 	private GameConfig gameConfig;
 	private boolean goingBack;
 	private int nextExtraLife = Config.getInstance().getScoreForFirstExtraLife();
+	private int firstLevel=1;
 
 	/**
 	 * Agrega un objeto de tipo KVEventListener a la lista.
@@ -142,7 +143,7 @@ public class Game implements KVEventListener
 	 */
 	protected void initNewGame()
 	{
-		this.idCurrentLevel = 1;
+		this.idCurrentLevel = this.firstLevel;
 		this.score = 0;
 		this.resetCompletedLevels();
 		this.lives = 3;

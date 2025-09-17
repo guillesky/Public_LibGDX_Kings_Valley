@@ -16,12 +16,12 @@ public class GameCharacterAnimated2D extends AnimatedEntity2D
 
     public GameCharacterAnimated2D(GameCharacter character, Animation<TextureRegion>[] animation)
     {
-	super(character, animation[TileMapGrafica2D_OLD.IDDLE]);
-	this.characterAnimationIddle = animation[TileMapGrafica2D_OLD.IDDLE];
-	this.characterAnimationWalk = animation[TileMapGrafica2D_OLD.WALK];
-	this.characterAnimationJump = animation[TileMapGrafica2D_OLD.JUMP];
-	this.characterAnimationFall = animation[TileMapGrafica2D_OLD.FALL];
-	this.characterAnimationDeath = animation[TileMapGrafica2D_OLD.DEATH];
+	super(character, animation[TileMapGrafica2D.IDDLE]);
+	this.characterAnimationIddle = animation[TileMapGrafica2D.IDDLE];
+	this.characterAnimationWalk = animation[TileMapGrafica2D.WALK];
+	this.characterAnimationJump = animation[TileMapGrafica2D.JUMP];
+	this.characterAnimationFall = animation[TileMapGrafica2D.FALL];
+	this.characterAnimationDeath = animation[TileMapGrafica2D.DEATH];
     }
 
     @Override

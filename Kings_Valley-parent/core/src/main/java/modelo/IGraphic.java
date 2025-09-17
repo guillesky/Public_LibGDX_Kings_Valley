@@ -5,9 +5,9 @@ public interface IGraphic
 
   
 
-    void addGraphicElement(Object element);
+    void addGraphicElement(DrawableElement element);
 
-    void removeGraphicElement(Object element);
+    void removeGraphicElement(DrawableElement element);
 
     void reset();
 
