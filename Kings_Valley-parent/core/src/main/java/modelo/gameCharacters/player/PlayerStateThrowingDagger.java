@@ -2,6 +2,8 @@ package modelo.gameCharacters.player;
 
 import com.badlogic.gdx.math.Vector2;
 
+import modelo.KVEventListener;
+import modelo.game.Game;
 import modelo.gameCharacters.abstractGameCharacter.GameCharacter;
 import modelo.level.GiratoryMechanism;
 import util.Config;
@@ -13,13 +15,19 @@ public class PlayerStateThrowingDagger extends PlayerState
 {
 
 	/**
-	 * Contructor de clase, llama a super(player, Player.ST_THROWING_DAGGER);
+	 * Contructor de clase, llama a super(player, Player.ST_THROWING_DAGGER);<br>
+	 * dispara el evento Game.getInstance().eventFired(KVEventListener.THROW_DAGGER,
+	 * this.player.item);
+	 * 
 	 * 
 	 * @param player Corresponde al sujeto del patron state
 	 */
 	public PlayerStateThrowingDagger(Player player)
 	{
 		super(player, Player.ST_THROWING_DAGGER);
+
+		Game.getInstance().eventFired(KVEventListener.THROW_DAGGER, this.player.item);
+		this.player.item = null;
 
 	}
 

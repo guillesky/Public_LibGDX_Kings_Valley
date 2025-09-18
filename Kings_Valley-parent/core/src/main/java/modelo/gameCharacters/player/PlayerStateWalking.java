@@ -157,9 +157,7 @@ public class PlayerStateWalking extends PlayerState
 	}
 
 	/**
-	 * Llamado al intentar lanzar la espada. Si se lanza, se dispara el evento
-	 * Game.getInstance().eventFired(KVEventListener.THROW_DAGGER, dagger);
-	 * 
+	 * Llamado al intentar lanzar la espada. Si se lanza, se realiza el cambio de estado mediante this.player.setPlayerState(new PlayerStateThrowingDagger(this.player));
 	 */
 	protected void throwDagger()
 	{
@@ -176,8 +174,6 @@ public class PlayerStateWalking extends PlayerState
 			// this.pyramid.addFlyingDagger(dagger);
 
 			dagger.throwHorizontal(this.player.isLookRight());
-			Game.getInstance().eventFired(KVEventListener.THROW_DAGGER, dagger);
-			this.player.item = null;
 			this.player.setPlayerState(new PlayerStateThrowingDagger(this.player));
 		} else if (this.player.getPyramid().getCell(this.player.x, this.player.y, direccion, 2) == null
 				&& this.player.getPyramid().getCell(this.player.x, this.player.y, 0, 2) == null)
@@ -185,9 +181,9 @@ public class PlayerStateWalking extends PlayerState
 			dagger.x = this.player.x;
 			dagger.y = this.player.y + Config.getInstance().getLevelTileHeightUnits();
 			dagger.throwVertical(this.player.isLookRight());
-			Game.getInstance().eventFired(KVEventListener.THROW_DAGGER, dagger);
+			
 			this.player.setPlayerState(new PlayerStateThrowingDagger(this.player));
-			this.player.item = null;
+			
 
 		}
 

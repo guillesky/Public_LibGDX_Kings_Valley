@@ -17,12 +17,13 @@ public abstract class DaggerState
 	
 	protected Dagger dagger;
 	private int state;
-
+	protected float delta;
+	
 	public DaggerState(Dagger dagger, int state)
 	{
 		this.dagger = dagger;
 		this.state = state;
-		this.dagger.resetDelta();
+		this.delta=0;
 	}
 
 	public abstract void updateDagger(float deltaTime, Pyramid pyramid, ArrayList<Mummy> mummys);
@@ -53,5 +54,34 @@ public abstract class DaggerState
 	{
 		return state;
 	}
+	
+	
+	public void incX(float delta)
+	{
+		if (this.dagger.isRight())
+			this.dagger.x += delta;
+		else
+			this.dagger.x -= delta;
+
+	}
+
+	public void incY(float delta)
+	{
+		this.dagger.y += delta;
+
+	}
+	public void incDelta(float inc)
+	{
+		this.delta += inc;
+	}
+
+	protected abstract void throwHorizontal();
+
+	protected abstract void hasPickuped();
+
+	protected abstract void throwVertical();
+
+	
+
 
 }

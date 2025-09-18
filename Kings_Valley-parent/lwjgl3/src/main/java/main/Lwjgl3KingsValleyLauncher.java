@@ -6,7 +6,7 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import facade.Facade;
 
 /** Launches the desktop (LWJGL3) application. */
-public class Lwjgl3Launcher
+public class Lwjgl3KingsValleyLauncher
 {
     public static void main(String[] args)
     {

@@ -20,7 +20,7 @@ public class DaggerStateFalling extends DaggerState
 	@Override
 	public void updateDagger(float deltaTime, Pyramid pyramid, ArrayList<Mummy> mummys)
 	{
-		dagger.incY(Config.getInstance().getFlyingDaggerSpeedFall() * deltaTime);
+		this.incY(Config.getInstance().getFlyingDaggerSpeedFall() * deltaTime);
 		if (pyramid.getCell(dagger.x, dagger.y) != null)
 		{
 			this.roundY();
@@ -28,6 +28,27 @@ public class DaggerStateFalling extends DaggerState
 			Game.getInstance().eventFired(KVEventListener.SWORD_STUCK, this.dagger);
 			
 		}
+	}
+
+	@Override
+	protected void throwHorizontal()
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void hasPickuped()
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void throwVertical()
+	{
+		// TODO Auto-generated method stub
+		
 	}
 
 }

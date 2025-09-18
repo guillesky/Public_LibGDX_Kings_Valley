@@ -284,7 +284,7 @@ public class LevelReader
 
 	    case Constantes.It_dagger:
 
-		this.stuckedDaggers.add(new Dagger(type, fx, fy, p0, width, height));
+		this.stuckedDaggers.add(new Dagger(fx, fy, p0, width, height));
 		break;
 
 	    case Constantes.It_giratory:

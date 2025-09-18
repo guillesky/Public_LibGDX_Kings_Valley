@@ -33,12 +33,11 @@ public class DaggerStateThrowingVertical extends DaggerState
     @Override
     public void updateDagger(float deltaTime, Pyramid pyramid, ArrayList<Mummy> mummys)
     {
-	float delta = this.dagger.getDelta();
 	if (delta < 1)
 	{
-	    dagger.incX(-Config.getInstance().getFlyingDaggerSpeed() / 20 * deltaTime);
+	    this.incX(-Config.getInstance().getFlyingDaggerSpeed() / 20 * deltaTime);
 	    this.dagger.y = this.originalY + (delta - 1f) * (delta) * -Config.getInstance().getFlyingDaggerSpeed() / 3f;
-	    dagger.incDelta(deltaTime);
+	    this.incDelta(deltaTime);
 	} else
 	{
 	    dagger.x = this.x;
@@ -50,5 +49,26 @@ public class DaggerStateThrowingVertical extends DaggerState
 	}
 
     }
+
+	@Override
+	protected void throwHorizontal()
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void hasPickuped()
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void throwVertical()
+	{
+		// TODO Auto-generated method stub
+		
+	}
 
 }

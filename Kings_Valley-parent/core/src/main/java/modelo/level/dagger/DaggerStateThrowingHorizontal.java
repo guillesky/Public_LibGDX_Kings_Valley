@@ -25,7 +25,7 @@ public class DaggerStateThrowingHorizontal extends DaggerState
     public void updateDagger(float deltaTime, Pyramid pyramid, ArrayList<Mummy> mummys)
     {
 	Cell cell = null;
-	dagger.incX(Config.getInstance().getFlyingDaggerSpeed() * deltaTime);
+	this.incX(Config.getInstance().getFlyingDaggerSpeed() * deltaTime);
 	if (dagger.isRight())
 	    cell = pyramid.getCell(dagger.x + dagger.width, dagger.y);
 	else
@@ -68,5 +68,26 @@ public class DaggerStateThrowingHorizontal extends DaggerState
 	    dagger.setDaggerState(new DaggerStateBouncing(dagger));
 	}
     }
+
+	@Override
+	protected void throwHorizontal()
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void hasPickuped()
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void throwVertical()
+	{
+		// TODO Auto-generated method stub
+		
+	}
 
 }
