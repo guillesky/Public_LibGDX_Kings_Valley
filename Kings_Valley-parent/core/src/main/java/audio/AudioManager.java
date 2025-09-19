@@ -206,7 +206,7 @@ public class AudioManager implements KVEventListener
 
 	}
 
-	if (eventCode == KVEventListener.OPEN_DOOR || eventCode == KVEventListener.CLOSE_DOOR
+	if (eventCode == KVEventListener.OPENING_DOOR || eventCode == KVEventListener.CLOSING_DOOR
 		|| eventCode == KVEventListener.EXITING_LEVEL)
 	{
 	    this.playRandomSound(this.doorOpenCloseSounds);

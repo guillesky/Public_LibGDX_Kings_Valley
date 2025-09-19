@@ -13,6 +13,12 @@ import modelo.level.door.Door;
 import util.Config;
 import util.Constantes;
 
+/**
+ * @author Guillermo Lazzurri
+ * 
+ *         Clase que representa un nivel, con informacion la piramide, las
+ *         momias, el player y un identificador numerico
+ */
 public class Level
 {
 
@@ -22,6 +28,15 @@ public class Level
 	private int id;
 	private Door doorIn;
 
+	/**
+	 * Constructor de clase
+	 * 
+	 * @param id      Idenificador numerico del nivel dentro del juego
+	 * @param pyramid Piramide correspondiente
+	 * @param mummys  Coleccion de momias
+	 * @param door    Puerta por la que el player ingreso al nivel
+	 * @param player  Corresponde al player
+	 */
 	public Level(int id, Pyramid pyramid, ArrayList<Mummy> mummys, Door door, Player player)
 	{
 
@@ -33,7 +48,12 @@ public class Level
 
 	}
 
-	public void updateMummys(float deltaTime)
+	/**
+	 * Actualiza todas las momias
+	 * 
+	 * @param deltaTime Tiempo transucurrido desde la ultima llamada
+	 */
+	private void updateMummys(float deltaTime)
 	{
 		Iterator<Mummy> it = this.mummys.iterator();
 		while (it.hasNext())
@@ -41,12 +61,20 @@ public class Level
 
 	}
 
+	/**
+	 * @return la coleccion de momias
+	 */
 	public ArrayList<Mummy> getMummys()
 	{
 		return mummys;
 	}
 
-	public void updateMechanism(float deltaTime)
+	/**
+	 * Actualiza todos los mecanismos (puertas, giratorias, y trampas)
+	 * 
+	 * @param deltaTime Tiempo transucurrido desde la ultima llamada
+	 */
+	private void updateMechanism(float deltaTime)
 	{
 		ArrayList<TrapMechanism> trapMechanisms = this.pyramid.getTrapMechanisms();
 		ArrayList<GiratoryMechanism> giratoryMechanisms = this.pyramid.getGiratoryMechanisms();
@@ -55,12 +83,12 @@ public class Level
 		{
 			trapMechanism.update(deltaTime);
 			if (this.checkCharacterSmash(trapMechanism, this.player))
-				this.death();
+				Game.getInstance().dying();
 			for (Mummy mummy : mummys)
 			{
 				if (this.checkCharacterSmash(trapMechanism, mummy))
 					mummy.die(true);
-						
+
 			}
 
 		}
@@ -91,12 +119,14 @@ public class Level
 
 	}
 
-	private void death()
-	{
-		Game.getInstance().dying();
-		
-	}
-
+	/**
+	 * Verifica si un GameCharacter (el player o una momia) es aplastado por una
+	 * trampa
+	 * 
+	 * @param trapMechanism muro trampa a verificar
+	 * @param gameCharacter GameCharacter a veriicar
+	 * @return
+	 */
 	private boolean checkCharacterSmash(TrapMechanism trapMechanism, GameCharacter gameCharacter)
 	{
 		boolean condicionX = (gameCharacter.x + gameCharacter.width > trapMechanism.getX()
@@ -107,17 +137,29 @@ public class Level
 
 	}
 
+	/**
+	 * @return el Player
+	 */
 	public Player getPlayer()
 	{
 		return player;
 	}
 
+	/**
+	 * @return la piramide asociada
+	 */
 	public Pyramid getPyramid()
 	{
 		return pyramid;
 	}
 
-	public void updateFlyingDagger(float deltaTime)
+	/**
+	 * Actualiza todas las espadas. Solo afectara a las espadas no clavas en el
+	 * suelo
+	 * 
+	 * @param deltaTime Tiempo transucurrido desde la ultima llamada
+	 */
+	private void updateFlyingDagger(float deltaTime)
 	{
 
 		Iterator<Dagger> it = this.pyramid.getStuckedDaggers().iterator();
@@ -129,6 +171,9 @@ public class Level
 
 	}
 
+	/**
+	 * Llamado cuando el player recolecto todas las gemas. Lo delega en this.pyramid.prepareToExit(); 
+	 */
 	public void prepareToExit()
 	{
 		this.pyramid.prepareToExit();
@@ -210,6 +255,12 @@ public class Level
 		this.pyramid.dispose();
 	}
 
-	
-	
+	public void update(float deltaTime)
+	{
+		this.updateMechanism(deltaTime);
+		this.updateMummys(deltaTime);
+		this.updateFlyingDagger(deltaTime);
+
+	}
+
 }

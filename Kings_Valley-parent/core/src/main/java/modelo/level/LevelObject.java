@@ -12,12 +12,11 @@ import util.Constantes;
  * @author Guillermo Lazzurri
  * 
  *         Clase que representa un objeto del nivel que tenga una posicion y un
- *         tamano. Se extiende de la clase Rectangle e implementa
- *         IGraphicRenderer (es un objeto renderizable)
+ *         tamano.
  */
 @SuppressWarnings("serial")
 
-public class LevelObject extends Rectangle implements IGraphicRenderer
+public class LevelObject extends Rectangle
 {
 	private static int count = 0;
 	private int id;
@@ -27,11 +26,12 @@ public class LevelObject extends Rectangle implements IGraphicRenderer
 
 	/**
 	 * Constructor de clase
-	 * @param type entero que indica el tipo de objeto (util para renderizar)
-	 * @param x (posicion x en el mapa)
-	 * @param y (posicion y en el mapa)
-	 * @param p0 (parametro extra en caso de ser necesario)
-	 * @param width (ancho del objeto)
+	 * 
+	 * @param type   entero que indica el tipo de objeto (util para renderizar)
+	 * @param x      (posicion x en el mapa)
+	 * @param y      (posicion y en el mapa)
+	 * @param p0     (parametro extra en caso de ser necesario)
+	 * @param width  (ancho del objeto)
 	 * @param height (alto del objeto)
 	 */
 	public LevelObject(int type, float x, float y, int p0, float width, float height)
@@ -43,11 +43,17 @@ public class LevelObject extends Rectangle implements IGraphicRenderer
 		this.id = count;
 	}
 
+	/**
+	 * @return tipo del objeto (solo deberia usarse para renderizar)
+	 */
 	public int getType()
 	{
 		return type;
 	}
 
+	/**
+	 * @return parametro extra en caso de ser necesario
+	 */
 	public int getP0()
 	{
 		return p0;
@@ -60,29 +66,25 @@ public class LevelObject extends Rectangle implements IGraphicRenderer
 				+ ", p0=" + p0 + "]";
 	}
 
-	public IGraphicRenderer getGraphicRenderer()
-	{
-		return graphicRenderer;
-	}
-
-	public void setGraphicRenderer(IGraphicRenderer graphicRenderer)
-	{
-		this.graphicRenderer = graphicRenderer;
-	}
-
-	@Override
-	public void updateElement(Object element)
-	{
-		if (this.graphicRenderer != null)
-			this.graphicRenderer.updateElement(element);
-
-	}
-
+	/**
+	 * Calcula si existe colision rectangular entre este objeto y otro rectangulo
+	 * 
+	 * @param another Rectangulo contra el que quiero verificar colision
+	 * @return true si hay colision, false en caso contrario
+	 */
 	public boolean isColision(Rectangle another)
 	{
 		return LevelObject.rectangleColision(this, another);
 	}
 
+	/**
+	 * Indica si existe colision entre dos rectangulos
+	 * 
+	 * @param rectangleA primer rectangulo
+	 * @param rectangleB segundo rectangulo
+	 * @return true si el prmer rectangulo colisiona con el segundo, false en caso
+	 *         contrario
+	 */
 	public static boolean rectangleColision(Rectangle rectangleA, Rectangle rectangleB)
 	{
 		boolean respuesta = false;
@@ -97,16 +99,27 @@ public class LevelObject extends Rectangle implements IGraphicRenderer
 		return respuesta;
 	}
 
+	/**
+	 * @return la coordenada matricial de la columna del tile en el que se encuentra
+	 *         el objeto
+	 */
 	public int getColPosition()
 	{
 		return (int) (this.x / Config.getInstance().getLevelTileWidthUnits());
 	}
 
+	/**
+	 * @return la coordenada matricial de la fila del tile en el que se encuentra el
+	 *         objeto
+	 */
 	public int getRowPosition()
 	{
 		return (int) (this.y / Config.getInstance().getLevelTileHeightUnits());
 	}
 
+	/**
+	 *Se sobreescribe utilizando un id autoincremental
+	 */
 	@Override
 	public int hashCode()
 	{
@@ -116,6 +129,10 @@ public class LevelObject extends Rectangle implements IGraphicRenderer
 		return result;
 	}
 
+	/**
+	 *Se sobreescribe utilizando un id autoincremental
+	 */
+	
 	@Override
 	public boolean equals(Object obj)
 	{

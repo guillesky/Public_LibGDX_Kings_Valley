@@ -5,34 +5,59 @@ import java.util.ArrayList;
 import modelo.gameCharacters.mummys.Mummy;
 import modelo.level.Pyramid;
 
+/**
+ * @author Guillermo Lazzurri
+ * 
+ *         Representa el estado "portada por el player"
+ */
 public class DaggerStatePickuped extends DaggerState
 {
 
+	/**
+	 * Constructor de clase. Llama a super(dagger, DaggerState.ST_PICKUPED);
+	 * 
+	 * @param dagger Corresponde al sujeto del patron state
+	 * 
+	 */
 	public DaggerStatePickuped(Dagger dagger)
 	{
 		super(dagger, DaggerState.ST_PICKUPED);
 
 	}
 
+	/**
+	 * Se sobreescribe como metodo vacio (no hace nada)
+	 */
 	@Override
 	public void updateDagger(float deltaTime, Pyramid pyramid, ArrayList<Mummy> mummys)
 	{
 	}
 
+	/**
+	 * Cambie el estado a this.dagger.setDaggerState(new
+	 * DaggerStateThrowingHorizontal(this.dagger));
+	 * 
+	 */
 	@Override
 	protected void throwHorizontal()
 	{
 		this.dagger.setDaggerState(new DaggerStateThrowingHorizontal(this.dagger));
-
 	}
 
+	/**
+	 * Se sobreescribe como metodo vacio (no hace nada)
+	 */
 	@Override
 	protected void hasPickuped()
 	{
-		// TODO Auto-generated method stub
 
 	}
 
+	/**
+	 * Cambia el estado a this.dagger.setDaggerState(new
+	 * DaggerStateThrowingVertical(this.dagger));
+	 * 
+	 */
 	@Override
 	protected void throwVertical()
 	{

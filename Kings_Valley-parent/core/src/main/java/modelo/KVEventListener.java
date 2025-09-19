@@ -34,8 +34,8 @@ public interface KVEventListener
 	int PICKUP_DAGGER = 52;
 	int PICKUP_PICKER = 53;
 	int PICKUP_ALL_JEWEL = 54;
-	int OPEN_DOOR=60;
-	int CLOSE_DOOR=61;
+	int OPENING_DOOR=60;
+	int CLOSING_DOOR=61;
 	int SWORD_STUCK=70;
 	int SWORD_CLASH=71;
 	int SWORD_CLASH_FLESH=72;

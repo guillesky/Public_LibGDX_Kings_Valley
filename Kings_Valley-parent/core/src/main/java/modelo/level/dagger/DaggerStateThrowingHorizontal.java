@@ -12,82 +12,108 @@ import modelo.level.LevelObject;
 import modelo.level.Pyramid;
 import util.Config;
 
+/**
+ * @author Guillermo Lazzurri
+ * 
+ *         representa el estado "Lanzada horizontalmente"
+ */
 public class DaggerStateThrowingHorizontal extends DaggerState
 {
 
-    public DaggerStateThrowingHorizontal(Dagger dagger)
-    {
-	super(dagger, DaggerState.ST_THROWING_HORIZONTAL);
-
-    }
-
-    @Override
-    public void updateDagger(float deltaTime, Pyramid pyramid, ArrayList<Mummy> mummys)
-    {
-	Cell cell = null;
-	this.incX(Config.getInstance().getFlyingDaggerSpeed() * deltaTime);
-	if (dagger.isRight())
-	    cell = pyramid.getCell(dagger.x + dagger.width, dagger.y);
-	else
-	    cell = pyramid.getCell(dagger.x, dagger.y);
-	if (cell != null)
+	/**
+	 * Constructor de clase. Llama a super(dagger,
+	 * DaggerState.ST_THROWING_HORIZONTAL);
+	 * 
+	 * @param dagger Corresponde al sujeto del patron state
+	 */
+	public DaggerStateThrowingHorizontal(Dagger dagger)
 	{
-	    dagger.setDaggerState(new DaggerStateBouncing(dagger));
-	    Game.getInstance().eventFired(KVEventListener.SWORD_CLASH, pyramid);
-	}
-	Iterator<Mummy> itMummy = mummys.iterator();
-	Mummy mummy = null;
-	do
-	{
-	    if (itMummy.hasNext())
-		mummy = itMummy.next();
-
-	} while (itMummy.hasNext() && !dagger.isColision(mummy));
-	if (mummy.getState() != Mummy.ST_APPEARING && mummy.getState() != Mummy.ST_DYING
-		&& mummy.getState() != Mummy.ST_LIMBUS && dagger.isColision(mummy))
-	{
-	    dagger.setDaggerState(new DaggerStateBouncing(dagger));
-	    Game.getInstance().eventFired(KVEventListener.MUMMY_KILLED_BY_SWORD, mummy);
-	    Game.getInstance().eventFired(KVEventListener.SWORD_CLASH_FLESH, this.dagger);
-	    
-	    mummy.die(false);
+		super(dagger, DaggerState.ST_THROWING_HORIZONTAL);
 
 	}
 
-	LevelObject giratory = null;
-	Iterator<LevelObject> itgiratorys = pyramid.getGiratories().iterator();
-	do
+	/**
+	 * Si la daga golpea la pared cambia el estado a dagger.setDaggerState(new
+	 * DaggerStateBouncing(dagger)); <br>
+	 * Si la daga golpea una momia, la elimina, cambia el estado a
+	 * dagger.setDaggerState(new DaggerStateBouncing(dagger)); y dispara los
+	 * eventos: Game.getInstance().eventFired(KVEventListener.MUMMY_KILLED_BY_SWORD,
+	 * mummy); y Game.getInstance().eventFired(KVEventListener.SWORD_CLASH_FLESH,
+	 * this.dagger);
+	 */
+	@Override
+	public void updateDagger(float deltaTime, Pyramid pyramid, ArrayList<Mummy> mummys)
 	{
-	    if (itgiratorys.hasNext())
-		giratory = itgiratorys.next();
+		Cell cell = null;
+		this.updateX(Config.getInstance().getFlyingDaggerSpeed() * deltaTime);
+		if (dagger.isRight())
+			cell = pyramid.getCell(dagger.x + dagger.width, dagger.y);
+		else
+			cell = pyramid.getCell(dagger.x, dagger.y);
+		if (cell != null)
+		{
+			dagger.setDaggerState(new DaggerStateBouncing(dagger));
 
-	} while (itgiratorys.hasNext() && !dagger.isColision(giratory));
+		}
+		Iterator<Mummy> itMummy = mummys.iterator();
+		Mummy mummy = null;
+		do
+		{
+			if (itMummy.hasNext())
+				mummy = itMummy.next();
 
-	if (dagger.isColision(giratory))
-	{
-	    dagger.setDaggerState(new DaggerStateBouncing(dagger));
+		} while (itMummy.hasNext() && !dagger.isColision(mummy));
+		if (mummy.getState() != Mummy.ST_APPEARING && mummy.getState() != Mummy.ST_DYING
+				&& mummy.getState() != Mummy.ST_LIMBUS && dagger.isColision(mummy))
+		{
+			dagger.setDaggerState(new DaggerStateBouncing(dagger));
+			Game.getInstance().eventFired(KVEventListener.MUMMY_KILLED_BY_SWORD, mummy);
+			Game.getInstance().eventFired(KVEventListener.SWORD_CLASH_FLESH, this.dagger);
+
+			mummy.die(false);
+
+		}
+
+		LevelObject giratory = null;
+		Iterator<LevelObject> itgiratorys = pyramid.getGiratories().iterator();
+		do
+		{
+			if (itgiratorys.hasNext())
+				giratory = itgiratorys.next();
+
+		} while (itgiratorys.hasNext() && !dagger.isColision(giratory));
+
+		if (dagger.isColision(giratory))
+		{
+			dagger.setDaggerState(new DaggerStateBouncing(dagger));
+		}
 	}
-    }
 
+	/**
+	 * Se sobreescribe como metodo vacio (no hace nada)
+	 */
 	@Override
 	protected void throwHorizontal()
 	{
-		// TODO Auto-generated method stub
-		
+
 	}
 
+	/**
+	 * Se sobreescribe como metodo vacio (no hace nada)
+	 */
 	@Override
 	protected void hasPickuped()
 	{
-		// TODO Auto-generated method stub
-		
+
 	}
 
+	/**
+	 * Se sobreescribe como metodo vacio (no hace nada)
+	 */
 	@Override
 	protected void throwVertical()
 	{
-		// TODO Auto-generated method stub
-		
+
 	}
 
 }

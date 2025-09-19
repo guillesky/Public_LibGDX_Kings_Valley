@@ -51,9 +51,9 @@ public class GameStatePlaying extends GameState
 			this.readyToExit = true;
 		}
 
-		currentLevel.updateMechanism(deltaTime);
-		currentLevel.updateMummys(deltaTime);
-		currentLevel.updateFlyingDagger(deltaTime);
+		
+		currentLevel.update(deltaTime);
+		
 		if (this.readyToExit && player.getState() != Player.ST_ONSTAIRS)
 		{
 			currentLevel.checkLevers();

@@ -36,9 +36,8 @@ public class GameStateDying extends GameState
 		Controls controles = this.game.getControles();
 		Player player = currentLevel.getPlayer();
 		player.update(controles.getNuevoRumbo(), controles.getShot(Input.Keys.SPACE), deltaTime);
-		currentLevel.updateMechanism(deltaTime);
-		currentLevel.updateMummys(deltaTime);
-		currentLevel.updateFlyingDagger(deltaTime);
+
+		currentLevel.update(deltaTime);
 
 		if (this.game.getDelta() >= this.game.getInterfaz().getTimeDying())
 		{
