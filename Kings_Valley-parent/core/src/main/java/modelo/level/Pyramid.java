@@ -18,6 +18,12 @@ import modelo.level.door.Door;
 import util.Config;
 import util.Constantes;
 
+/**
+ * @author Guillermo Lazzurri Clase que representa una piramide. Tiene
+ *         informacion sobre las celdas, escaleras, joyas, picos, espadas,
+ *         puertas giratorias, puertas de salida y las trampas. No incluye
+ *         informacion sobre el player o las o las momias
+ */
 public class Pyramid implements IGraphic
 {
 	private TiledMap map;
@@ -35,7 +41,6 @@ public class Pyramid implements IGraphic
 	private ArrayList<LevelObject> pickers = new ArrayList<LevelObject>();
 
 	private ArrayList<LevelObject> giratories = new ArrayList<LevelObject>();
-	private ArrayList<LevelObject> walls = new ArrayList<LevelObject>();
 	private ArrayList<LevelObject> activators = new ArrayList<LevelObject>();
 	private ArrayList<TrapMechanism> trapMechanisms = new ArrayList<TrapMechanism>();
 	private ArrayList<GiratoryMechanism> giratoryMechanisms = new ArrayList<GiratoryMechanism>();
@@ -46,10 +51,29 @@ public class Pyramid implements IGraphic
 	private HashMap<LevelObject, GiratoryMechanism> hashGiratoryMechanisms = new HashMap<LevelObject, GiratoryMechanism>();
 	private IGraphic interfaz = null;
 
+	/**
+	 * Crea una piramide de acuerdo a los daots suministrdos por parametro. Este
+	 * constructore es llamado por la clase LevelReader.
+	 * 
+	 * @param map                    Mapa que representa la piramida
+	 * @param doors                  Coleccion de puertas de entrada
+	 * @param jewels                 Coleccion de joyas
+	 * @param positiveStairs         Coleccion de escaleras con pendiente positiva
+	 * @param negativeStairs         Coleccion de escaleras con pendiente negativa
+	 * @param pickers                Coleccion de picos
+	 * @param stuckedDaggers         Coleccion de espadas clavadas en el piso
+	 * @param giratorys              Coleccion de puerta giraotiras.
+	 * @param walls                  Coleccion de paredes trampa
+	 * @param activators             Coleccion de activadores de trampa
+	 * @param giratoryMechanisms
+	 * @param unpickableCells
+	 * @param hashTraps
+	 * @param hashGiratoryMechanisms
+	 * @param interfaz
+	 */
 	public Pyramid(TiledMap map, ArrayList<Door> doors, ArrayList<LevelObject> jewels, ArrayList<Stair> positiveStairs,
 			ArrayList<Stair> negativeStairs, ArrayList<LevelObject> pickers, ArrayList<Dagger> stuckedDaggers,
-			ArrayList<LevelObject> giratorys, ArrayList<LevelObject> walls, ArrayList<LevelObject> activators,
-			ArrayList<TrapMechanism> trapMechanisms, ArrayList<GiratoryMechanism> giratoryMechanisms,
+			ArrayList<LevelObject> giratorys, ArrayList<GiratoryMechanism> giratoryMechanisms,
 			ArrayList<Cell> unpickableCells, HashMap<LevelObject, LevelObject> hashTraps,
 			HashMap<LevelObject, GiratoryMechanism> hashGiratoryMechanisms, IGraphic interfaz)
 	{
@@ -73,16 +97,17 @@ public class Pyramid implements IGraphic
 		this.pickers = pickers;
 		this.stuckedDaggers = stuckedDaggers;
 		this.giratories = giratorys;
-		this.walls = walls;
-		this.activators = activators;
-		this.trapMechanisms = trapMechanisms;
+
+		this.trapMechanisms = new ArrayList<TrapMechanism>();
 		this.giratoryMechanisms = giratoryMechanisms;
 		this.unpickableCells = unpickableCells;
 		this.hashTraps = hashTraps;
 		this.hashGiratoryMechanisms = hashGiratoryMechanisms;
-		this.allStairs=new ArrayList<Stair>();
+		this.allStairs = new ArrayList<Stair>();
 		allStairs.addAll(this.positiveStairs);
 		allStairs.addAll(this.negativeStairs);
+		this.activators.addAll(this.hashTraps.keySet());
+
 	}
 
 	public TiledMap getMap()
@@ -116,7 +141,7 @@ public class Pyramid implements IGraphic
 		levelObjects.addAll(this.pickers);
 		levelObjects.addAll(this.jewels);
 
-		levelObjects.addAll(this.walls);
+		// levelObjects.addAll(this.walls);
 		levelObjects.addAll(this.stuckedDaggers);
 
 		levelObjects.addAll(this.giratories);
@@ -158,7 +183,7 @@ public class Pyramid implements IGraphic
 	{
 		this.activators.remove(activator);
 		LevelObject wall = this.hashTraps.get(activator);
-		TrapMechanism trap = new TrapMechanism(this, wall,Config.getInstance().getTimeToEndTrapMechanism());
+		TrapMechanism trap = new TrapMechanism(this, wall, Config.getInstance().getTimeToEndTrapMechanism());
 		this.trapMechanisms.add(trap);
 		this.addGraphicElement(new DrawableElement(Constantes.DRAWABLE_TRAP, trap));
 		Game.getInstance().eventFired(KVEventListener.ACTIVATE_TRAP, trap);
@@ -215,11 +240,6 @@ public class Pyramid implements IGraphic
 		}
 
 		return !this.unpickableCells.contains(celda) && !isBeginStair && cellWithItem != celda;
-	}
-
-	protected ArrayList<LevelObject> getWalls()
-	{
-		return walls;
 	}
 
 	protected ArrayList<TrapMechanism> getTrapMechanisms()
@@ -359,10 +379,8 @@ public class Pyramid implements IGraphic
 	@Override
 	public float getTimeToEndGame()
 	{
-	    
-	    return this.interfaz.getTimeToEndGame();
+
+		return this.interfaz.getTimeToEndGame();
 	}
-	
-	
 
 }

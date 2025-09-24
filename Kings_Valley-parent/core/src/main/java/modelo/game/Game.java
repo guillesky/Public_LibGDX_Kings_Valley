@@ -45,7 +45,7 @@ public class Game implements KVEventListener
 	private GameConfig gameConfig;
 	private boolean goingBack;
 	private int nextExtraLife = Config.getInstance().getScoreForFirstExtraLife();
-	private int firstLevel=1;
+	private int firstLevel=6;
 
 	/**
 	 * Agrega un objeto de tipo KVEventListener a la lista.
@@ -257,7 +257,7 @@ public class Game implements KVEventListener
 	/**
 	 * Metodo llamado para iniciar un nivel
 	 * 
-	 * @param door      Indica la puerta desde la que debe ingresar el player
+	 * @param door      Indica la puerta de origen, es decir, la puerta por la que el player salio del nivel que termino. En caso de no venir de un nivel anterior o de morir, este paremtro podria ser null. 
 	 * @param fromDeath Indica true si el player acaba de morir y esta reiniciando
 	 *                  el nivel, false en caso contrario
 	 */

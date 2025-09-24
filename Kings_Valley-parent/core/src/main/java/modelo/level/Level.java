@@ -17,7 +17,7 @@ import util.Constantes;
  * @author Guillermo Lazzurri
  * 
  *         Clase que representa un nivel, con informacion la piramide, las
- *         momias, el player y un identificador numerico
+ *         momias, el player, la puerta en la cual aparecio el player y un identificador numerico
  */
 public class Level
 {
@@ -172,7 +172,8 @@ public class Level
 	}
 
 	/**
-	 * Llamado cuando el player recolecto todas las gemas. Lo delega en this.pyramid.prepareToExit(); 
+	 * Llamado cuando el player recolecto todas las gemas. Lo delega en
+	 * this.pyramid.prepareToExit();
 	 */
 	public void prepareToExit()
 	{
@@ -180,11 +181,18 @@ public class Level
 
 	}
 
+	/**
+	 * @return true si se recolectaron todas las jemas del nivel, false en caso
+	 *         contrario
+	 */
 	public boolean isReadyToExit()
 	{
 		return this.pyramid.getJewels().isEmpty();
 	}
 
+	/**
+	 * Verifica si se activaron las palancas de las puertas
+	 */
 	public void checkLevers()
 	{
 		Iterator<Door> it = this.pyramid.getDoors().iterator();
@@ -196,11 +204,20 @@ public class Level
 
 	}
 
+	/**
+	 * @return numero identificatorio del nivel
+	 */
 	public int getId()
 	{
 		return id;
 	}
 
+	/**
+	 * Verifica si el Player entro en una puerta, de ser asi, retorna la misma.
+	 * 
+	 * @return La puerta porla cual entro el player. Si el player no entro en
+	 *         ninguna puerta, retorna null
+	 */
 	public Door checkPassages()
 	{
 
@@ -221,11 +238,17 @@ public class Level
 
 	}
 
+	/**
+	 * @return La puerta por la cual el Player ingreso al nivel.
+	 */
 	public Door getDoorIn()
 	{
 		return doorIn;
 	}
 
+	/**
+	 * @return true si una momia mato al Player, false en caso contrario.
+	 */
 	public boolean checkPlayerDieByMummy()
 	{
 
@@ -241,6 +264,14 @@ public class Level
 		return (this.playerCoincideMummy(mummy) && this.player.isColision(mummy));
 	}
 
+	/**
+	 * Llamado internamente por checkPlayerDieByMummy. Verifica si hay colision
+	 * entre el Player y una momia, y su ambos estan en escalera o ambos fuera de
+	 * escalera.
+	 * 
+	 * @param mummy Momia a verificar
+	 * @return true si la momia coincide con el Player, false en caso contrario.
+	 */
 	private boolean playerCoincideMummy(Mummy mummy)
 	{
 		boolean bothInStair = (this.player.isInStair() && mummy.isInStair());
@@ -250,11 +281,22 @@ public class Level
 
 	}
 
+	/**
+	 * Libera en cascada los recursos cargados.
+	 */
 	public void dispose()
 	{
 		this.pyramid.dispose();
 	}
 
+	/**
+	 * Actualiza los elementos del nivel. Llama a:<br>
+	 * this.updateMechanism(deltaTime); <br>
+	 * this.updateMummys(deltaTime); <br>
+	 * this.updateFlyingDagger(deltaTime);
+	 * 
+	 * @param deltaTime Tiempo transcurrido desde la ultima actualizacion.
+	 */
 	public void update(float deltaTime)
 	{
 		this.updateMechanism(deltaTime);
