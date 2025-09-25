@@ -1,6 +1,7 @@
 package modelo.level;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -27,8 +28,7 @@ import util.Constantes;
 public class Pyramid implements IGraphic
 {
 	private TiledMap map;
-	private int tileWidth;
-	private int tileHeight;
+
 	private int mapWidthInTiles;
 	private int mapHeightInTiles;
 	private int mapWidthInPixels;
@@ -40,10 +40,8 @@ public class Pyramid implements IGraphic
 	private ArrayList<Stair> allStairs;
 	private ArrayList<LevelObject> pickers = new ArrayList<LevelObject>();
 
-	private ArrayList<LevelObject> giratories = new ArrayList<LevelObject>();
 	private ArrayList<LevelObject> activators = new ArrayList<LevelObject>();
 	private ArrayList<TrapMechanism> trapMechanisms = new ArrayList<TrapMechanism>();
-	private ArrayList<GiratoryMechanism> giratoryMechanisms = new ArrayList<GiratoryMechanism>();
 	private ArrayList<Cell> unpickableCells = new ArrayList<Cell>();
 	private ArrayList<Dagger> stuckedDaggers = new ArrayList<Dagger>();
 
@@ -51,29 +49,29 @@ public class Pyramid implements IGraphic
 	private HashMap<LevelObject, GiratoryMechanism> hashGiratoryMechanisms = new HashMap<LevelObject, GiratoryMechanism>();
 	private IGraphic interfaz = null;
 
+	
+
 	/**
-	 * Crea una piramide de acuerdo a los daots suministrdos por parametro. Este
-	 * constructore es llamado por la clase LevelReader.
+	 * Crea una piramide de acuerdo a los datos suministrdos por parametro. Este
+	 * constructor es llamado por la clase LevelReader.
 	 * 
-	 * @param map                    Mapa que representa la piramida
+	 * @param map                    Mapa que representa la piramide
 	 * @param doors                  Coleccion de puertas de entrada
 	 * @param jewels                 Coleccion de joyas
 	 * @param positiveStairs         Coleccion de escaleras con pendiente positiva
 	 * @param negativeStairs         Coleccion de escaleras con pendiente negativa
 	 * @param pickers                Coleccion de picos
 	 * @param stuckedDaggers         Coleccion de espadas clavadas en el piso
-	 * @param giratorys              Coleccion de puerta giraotiras.
-	 * @param walls                  Coleccion de paredes trampa
-	 * @param activators             Coleccion de activadores de trampa
-	 * @param giratoryMechanisms
-	 * @param unpickableCells
-	 * @param hashTraps
-	 * @param hashGiratoryMechanisms
-	 * @param interfaz
+	 * @param unpickableCells        Coleccion de celdas que no pueden ser picadas
+	 * @param hashTraps              HashMap de trampas, el objeto clase es su
+	 *                               activador de tipo LevelObject
+	 * @param hashGiratoryMechanisms HashMap de mecanismos giratorios, el objeto
+	 *                               clase es la puerta giratoria de tipo
+	 *                               LevelObject
+	 * @param interfaz               Interfaz grafica asociada.
 	 */
 	public Pyramid(TiledMap map, ArrayList<Door> doors, ArrayList<LevelObject> jewels, ArrayList<Stair> positiveStairs,
 			ArrayList<Stair> negativeStairs, ArrayList<LevelObject> pickers, ArrayList<Dagger> stuckedDaggers,
-			ArrayList<LevelObject> giratorys, ArrayList<GiratoryMechanism> giratoryMechanisms,
 			ArrayList<Cell> unpickableCells, HashMap<LevelObject, LevelObject> hashTraps,
 			HashMap<LevelObject, GiratoryMechanism> hashGiratoryMechanisms, IGraphic interfaz)
 	{
@@ -81,25 +79,19 @@ public class Pyramid implements IGraphic
 		this.map = map;
 		this.interfaz = interfaz;
 		MapProperties properties = map.getProperties();
-		tileWidth = properties.get("tilewidth", Integer.class);
-		tileHeight = properties.get("tileheight", Integer.class);
+		int tileWidth = properties.get("tilewidth", Integer.class);
+		int tileHeight = properties.get("tileheight", Integer.class);
 		mapWidthInTiles = properties.get("width", Integer.class);
 		mapHeightInTiles = properties.get("height", Integer.class);
 		this.mapHeightInPixels = mapHeightInTiles * tileHeight;
 		this.mapWidthInPixels = mapWidthInTiles * tileWidth;
-
 		this.doors = doors;
 		this.jewels = jewels;
-
 		this.positiveStairs = positiveStairs;
 		this.negativeStairs = negativeStairs;
-
 		this.pickers = pickers;
 		this.stuckedDaggers = stuckedDaggers;
-		this.giratories = giratorys;
-
 		this.trapMechanisms = new ArrayList<TrapMechanism>();
-		this.giratoryMechanisms = giratoryMechanisms;
 		this.unpickableCells = unpickableCells;
 		this.hashTraps = hashTraps;
 		this.hashGiratoryMechanisms = hashGiratoryMechanisms;
@@ -110,20 +102,15 @@ public class Pyramid implements IGraphic
 
 	}
 
+	/**
+	 * @return El mapa de la piramide
+	 */
 	public TiledMap getMap()
 	{
 		return map;
 	}
 
-	public int getTileWidth()
-	{
-		return tileWidth;
-	}
-
-	public int getTileHeight()
-	{
-		return tileHeight;
-	}
+	
 
 	public int getMapWidthInTiles()
 	{
@@ -141,10 +128,9 @@ public class Pyramid implements IGraphic
 		levelObjects.addAll(this.pickers);
 		levelObjects.addAll(this.jewels);
 
-		// levelObjects.addAll(this.walls);
 		levelObjects.addAll(this.stuckedDaggers);
 
-		levelObjects.addAll(this.giratories);
+		levelObjects.addAll(this.hashGiratoryMechanisms.keySet());
 
 		return levelObjects.iterator();
 	}
@@ -169,9 +155,9 @@ public class Pyramid implements IGraphic
 		return pickers;
 	}
 
-	public ArrayList<LevelObject> getGiratories()
+	public Collection<LevelObject> getGiratories()
 	{
-		return giratories;
+		return this.hashGiratoryMechanisms.keySet();
 	}
 
 	public ArrayList<LevelObject> getActivators()
@@ -247,9 +233,9 @@ public class Pyramid implements IGraphic
 		return trapMechanisms;
 	}
 
-	protected ArrayList<GiratoryMechanism> getGiratoryMechanisms()
+	protected Collection<GiratoryMechanism> getGiratoryMechanisms()
 	{
-		return giratoryMechanisms;
+		return this.hashGiratoryMechanisms.values();
 	}
 
 	protected ArrayList<Cell> getUnpickableCells()
@@ -265,11 +251,6 @@ public class Pyramid implements IGraphic
 	protected HashMap<LevelObject, LevelObject> getHashTraps()
 	{
 		return hashTraps;
-	}
-
-	protected HashMap<LevelObject, GiratoryMechanism> getHashGiratoryMechanisms()
-	{
-		return hashGiratoryMechanisms;
 	}
 
 	public void removePicker(LevelObject picker)
@@ -301,11 +282,10 @@ public class Pyramid implements IGraphic
 
 	private void removeGiratories()
 	{
-		Iterator<GiratoryMechanism> it = this.giratoryMechanisms.iterator();
+		Iterator<LevelObject> it = this.hashGiratoryMechanisms.keySet().iterator();
 		while (it.hasNext())
-			this.removeGraphicElement(new DrawableElement(Constantes.DRAWABLE_GYRATORY, it.next().getLevelObject()));
-		this.giratoryMechanisms.clear();
-		this.giratories.clear();
+			this.removeGraphicElement(new DrawableElement(Constantes.DRAWABLE_GYRATORY, it.next()));
+		this.hashGiratoryMechanisms.clear();
 	}
 
 	public ArrayList<Stair> getPositiveStairs()

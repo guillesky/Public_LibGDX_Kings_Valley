@@ -1,6 +1,7 @@
 package modelo.level;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 
 import modelo.DrawableElement;
@@ -77,7 +78,7 @@ public class Level
 	private void updateMechanism(float deltaTime)
 	{
 		ArrayList<TrapMechanism> trapMechanisms = this.pyramid.getTrapMechanisms();
-		ArrayList<GiratoryMechanism> giratoryMechanisms = this.pyramid.getGiratoryMechanisms();
+		Collection<GiratoryMechanism> giratoryMechanisms = this.pyramid.getGiratoryMechanisms();
 
 		for (TrapMechanism trapMechanism : trapMechanisms)
 		{

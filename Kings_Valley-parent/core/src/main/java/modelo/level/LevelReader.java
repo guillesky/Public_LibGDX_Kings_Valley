@@ -35,10 +35,8 @@ public class LevelReader
 	private ArrayList<LevelObject> jewels = new ArrayList<LevelObject>();
 	private ArrayList<LevelObject> pickers = new ArrayList<LevelObject>();
 	private ArrayList<Dagger> stuckedDaggers = new ArrayList<Dagger>();
-	private ArrayList<LevelObject> giratorys = new ArrayList<LevelObject>();
 	private ArrayList<LevelObject> walls = new ArrayList<LevelObject>();
 	private ArrayList<LevelObject> activators = new ArrayList<LevelObject>();
-	private ArrayList<GiratoryMechanism> giratoryMechanisms = new ArrayList<GiratoryMechanism>();
 	private ArrayList<Cell> unpickableCells = new ArrayList<Cell>();
 	private HashMap<LevelObject, LevelObject> hashTraps = new HashMap<LevelObject, LevelObject>();
 	private HashMap<LevelObject, GiratoryMechanism> hashGiratoryMechanisms = new HashMap<LevelObject, GiratoryMechanism>();
@@ -95,11 +93,10 @@ public class LevelReader
 		if (isCompleted)
 		{
 			this.jewels.clear();
-			this.giratoryMechanisms.clear();
 			this.hashGiratoryMechanisms.clear();
 		}
 		this.pyramid = new Pyramid(map, doors, jewels, positiveStairs, negativeStairs, pickers, stuckedDaggers,
-				giratorys, giratoryMechanisms, unpickableCells, hashTraps,
+				 unpickableCells, hashTraps,
 				hashGiratoryMechanisms, interfaz);
 
 		if (isCompleted)
@@ -301,10 +298,8 @@ public class LevelReader
 		this.jewels = new ArrayList<LevelObject>();
 		this.pickers = new ArrayList<LevelObject>();
 		this.stuckedDaggers = new ArrayList<Dagger>();
-		this.giratorys = new ArrayList<LevelObject>();
 		this.walls = new ArrayList<LevelObject>();
 		this.activators = new ArrayList<LevelObject>();
-		this.giratoryMechanisms = new ArrayList<GiratoryMechanism>();
 		this.unpickableCells = new ArrayList<Cell>();
 		this.hashTraps = new HashMap<LevelObject, LevelObject>();
 		this.hashGiratoryMechanisms = new HashMap<LevelObject, GiratoryMechanism>();
@@ -393,10 +388,8 @@ public class LevelReader
 			case Constantes.It_giratory:
 				levelObject = new LevelObject(type, fx, fy, p0, width, height);
 
-				this.giratorys.add(levelObject);
 				GiratoryMechanism giratoryMechanism = new GiratoryMechanism(levelObject,
 						Config.getInstance().getTimeToEndGiratory());
-				this.giratoryMechanisms.add(giratoryMechanism);
 				this.hashGiratoryMechanisms.put(levelObject, giratoryMechanism);
 				this.unpickableCells.add(this.getCell(map, levelObject.getX(),
 						levelObject.getY() - Config.getInstance().getLevelTileHeightUnits()));

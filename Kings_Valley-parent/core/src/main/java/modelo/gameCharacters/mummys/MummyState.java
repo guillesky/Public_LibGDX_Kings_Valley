@@ -1,11 +1,11 @@
 package modelo.gameCharacters.mummys;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 
 import com.badlogic.gdx.math.Rectangle;
 
-import modelo.gameCharacters.abstractGameCharacter.GameCharacter;
 import modelo.level.LevelObject;
 import modelo.level.Pyramid;
 import modelo.level.Stair;
@@ -431,7 +431,7 @@ public abstract class MummyState
 	 * @param levelObjects Coleccion de objetos de tipo levelObjects. Representara la totalidad de giratorias en la piramide 
 	 * @return true si hay colision, false en caso contrario.
 	 */
-	private boolean checkRectangleColision(ArrayList<LevelObject> levelObjects)
+	private boolean checkRectangleColision(Collection<LevelObject> levelObjects)
 	{
 
 		Iterator<LevelObject> it = levelObjects.iterator();

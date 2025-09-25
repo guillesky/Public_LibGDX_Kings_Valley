@@ -1,6 +1,6 @@
 package modelo.gameCharacters.abstractGameCharacter;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 
 import com.badlogic.gdx.math.Rectangle;
@@ -189,7 +189,7 @@ public abstract class GameCharacter extends LevelObject
 	 */
 	@SuppressWarnings(
 	{ "rawtypes", "unchecked" })
-	public LevelObject checkRectangleColision(ArrayList levelObjects)
+	public LevelObject checkRectangleColision(Collection levelObjects)
 	{
 
 		Iterator<LevelObject> it = levelObjects.iterator();

@@ -45,7 +45,7 @@ public class Game implements KVEventListener
 	private GameConfig gameConfig;
 	private boolean goingBack;
 	private int nextExtraLife = Config.getInstance().getScoreForFirstExtraLife();
-	private int firstLevel=6;
+	private int firstLevel=2;
 
 	/**
 	 * Agrega un objeto de tipo KVEventListener a la lista.

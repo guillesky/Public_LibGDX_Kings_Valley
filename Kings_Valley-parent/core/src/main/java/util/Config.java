@@ -247,20 +247,14 @@ public class Config
 	return levelTileWidthUnits;
     }
 
-    public void setLevelTileWidthUnits(float levelTileWidthUnits)
-    {
-	this.levelTileWidthUnits = levelTileWidthUnits;
-    }
+    
 
     public float getLevelTileHeightUnits()
     {
 	return levelTileHeightUnits;
     }
 
-    public void setLevelTileHeightUnits(float levelTileHeightUnits)
-    {
-	this.levelTileHeightUnits = levelTileHeightUnits;
-    }
+    
 
     public static Config getInstance()
     {
