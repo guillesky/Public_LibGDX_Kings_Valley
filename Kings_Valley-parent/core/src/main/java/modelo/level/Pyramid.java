@@ -31,8 +31,8 @@ public class Pyramid implements IGraphic
 
 	private int mapWidthInTiles;
 	private int mapHeightInTiles;
-	private int mapWidthInPixels;
-	private int mapHeightInPixels;
+	private int mapWidthInUnits;
+	private int mapHeightInUnits;
 	private ArrayList<Door> doors;
 	private ArrayList<LevelObject> jewels = new ArrayList<LevelObject>();
 	private ArrayList<Stair> positiveStairs;
@@ -48,8 +48,6 @@ public class Pyramid implements IGraphic
 	private HashMap<LevelObject, LevelObject> hashTraps = new HashMap<LevelObject, LevelObject>();
 	private HashMap<LevelObject, GiratoryMechanism> hashGiratoryMechanisms = new HashMap<LevelObject, GiratoryMechanism>();
 	private IGraphic interfaz = null;
-
-	
 
 	/**
 	 * Crea una piramide de acuerdo a los datos suministrdos por parametro. Este
@@ -81,10 +79,11 @@ public class Pyramid implements IGraphic
 		MapProperties properties = map.getProperties();
 		int tileWidth = properties.get("tilewidth", Integer.class);
 		int tileHeight = properties.get("tileheight", Integer.class);
+
 		mapWidthInTiles = properties.get("width", Integer.class);
 		mapHeightInTiles = properties.get("height", Integer.class);
-		this.mapHeightInPixels = mapHeightInTiles * tileHeight;
-		this.mapWidthInPixels = mapWidthInTiles * tileWidth;
+		this.mapHeightInUnits = mapHeightInTiles * tileHeight;
+		this.mapWidthInUnits = mapWidthInTiles * tileWidth;
 		this.doors = doors;
 		this.jewels = jewels;
 		this.positiveStairs = positiveStairs;
@@ -110,18 +109,25 @@ public class Pyramid implements IGraphic
 		return map;
 	}
 
-	
-
+	/**
+	 * @return Ancho del mapa en tiles
+	 */
 	public int getMapWidthInTiles()
 	{
 		return mapWidthInTiles;
 	}
 
+	/**
+	 * @return Alto del mapa en tiles
+	 */
 	public int getMapHeightInTiles()
 	{
 		return mapHeightInTiles;
 	}
 
+	/**
+	 * @return Todos los objetos del mapa. Picos, Joyas, Dagas y Giratorias
+	 */
 	public Iterator<LevelObject> getLevelObjects()
 	{
 		ArrayList<LevelObject> levelObjects = new ArrayList<LevelObject>();
@@ -135,51 +141,89 @@ public class Pyramid implements IGraphic
 		return levelObjects.iterator();
 	}
 
-	public int getMapWidthInPixels()
+	/**
+	 * @return Ancho del mapa en unidades
+	 */
+	public int getMapWidthInUnits()
 	{
-		return mapWidthInPixels;
+		return mapWidthInUnits;
 	}
 
-	public int getMapHeightInPixels()
+	/**
+	 * @return Alto del mapa en unidades
+	 */
+	public int getMapHeightInUnits()
 	{
-		return mapHeightInPixels;
+		return mapHeightInUnits;
 	}
 
+	/**
+	 * @return Las joyas de la piramide
+	 */
 	public ArrayList<LevelObject> getJewels()
 	{
 		return jewels;
 	}
 
+	/**
+	 * @return Los picos de la piramide
+	 */
 	public ArrayList<LevelObject> getPickers()
 	{
 		return pickers;
 	}
 
+	/**
+	 * @return Las puertas giratorias
+	 */
 	public Collection<LevelObject> getGiratories()
 	{
 		return this.hashGiratoryMechanisms.keySet();
 	}
 
+	/**
+	 * @return Los activadores de los muros trampa
+	 */
 	public ArrayList<LevelObject> getActivators()
 	{
 		return activators;
 	}
 
+	/**
+	 * Activa un muro trampa de acuerdo al activador pasado por parametro
+	 * 
+	 * @param activator Asociado al muro trampa que se debe activar
+	 */
 	public void activateWall(LevelObject activator)
 	{
 		this.activators.remove(activator);
 		LevelObject wall = this.hashTraps.get(activator);
 		TrapMechanism trap = new TrapMechanism(this, wall, Config.getInstance().getTimeToEndTrapMechanism());
 		this.trapMechanisms.add(trap);
-		this.addGraphicElement(new DrawableElement(Constantes.DRAWABLE_TRAP, trap));
-		Game.getInstance().eventFired(KVEventListener.ACTIVATE_TRAP, trap);
 	}
 
+	/**
+	 * Retorna el mecanismo giratorio asociado a la puerta giratoria pasada por
+	 * parametro
+	 * 
+	 * @param giratory La puerta giratoria asociada al mecanismo requerido
+	 * @return Mecanismo giratorio asociado a la puerta giratoria pasada por
+	 *         parametro
+	 */
 	public GiratoryMechanism getGiratoryMechanism(LevelObject giratory)
 	{
 		return this.hashGiratoryMechanisms.get(giratory);
 	}
 
+	/**
+	 * Retorna la celda correspondiente a las coordenadas cartesianas pasadas por
+	 * parametro
+	 * 
+	 * @param x Coordenada x
+	 * @param y Coordenada y
+	 * @return Celda correspondiente a las coordenadas cartesianas pasadas por
+	 *         parametro
+	 */
 	public TiledMapTileLayer.Cell getCell(float x, float y)
 	{
 		TiledMapTileLayer layer = (TiledMapTileLayer) this.getMap().getLayers().get("front");
@@ -188,21 +232,48 @@ public class Pyramid implements IGraphic
 		return cell;
 	}
 
-	public TiledMapTileLayer.Cell getCellInTiledCoord(int x, int y)
+	/**
+	 * Retorna la celda correspondiente a las coordenadas matriciales pasadas por
+	 * parametro
+	 * 
+	 * @param col Coordenada matricial (columna)
+	 * @param row Coordenada matricial (fila)
+	 * @return Celda correspondiente a las coordenadas matriciales pasadas por
+	 *         parametro
+	 */
+	public TiledMapTileLayer.Cell getCellInTiledCoord(int col, int row)
 	{
 		TiledMapTileLayer layer = (TiledMapTileLayer) this.getMap().getLayers().get("front");
-		TiledMapTileLayer.Cell cell = layer.getCell(x, y);
+		TiledMapTileLayer.Cell cell = layer.getCell(col, row);
 		return cell;
 	}
 
-	public TiledMapTileLayer.Cell getCell(float x, float y, int i, int j)
+	/**
+	 * /** Retorna la celda correspondiente a las coordenadas cartesianas pasadas
+	 * por parametros considerando un desplazamiento matricial
+	 * 
+	 * @param x         Coordenada x
+	 * @param y         Coordenada y
+	 * @param colOffset desplazamiento en columnas
+	 * @param rowOffset desplazamiento en filas
+	 * @return Celda correspondiente a las coordenadas y desplazamiento pasados por
+	 *         parametro
+	 */
+	public TiledMapTileLayer.Cell getCell(float x, float y, int colOffset, int rowOffset)
 	{
 		TiledMapTileLayer layer = (TiledMapTileLayer) this.getMap().getLayers().get("front");
-		TiledMapTileLayer.Cell cell = layer.getCell((int) (x / Config.getInstance().getLevelTileWidthUnits()) + i,
-				(int) (y / Config.getInstance().getLevelTileHeightUnits()) + j);
+		TiledMapTileLayer.Cell cell = layer.getCell(
+				(int) (x / Config.getInstance().getLevelTileWidthUnits()) + colOffset,
+				(int) (y / Config.getInstance().getLevelTileHeightUnits()) + rowOffset);
 		return cell;
 	}
 
+	/**
+	 * Indica si la celda pasada por parametro es picable (se puede picar)
+	 * 
+	 * @param celda Celda a evaluar
+	 * @return true si es picable, false en caso contrario.
+	 */
 	public boolean isPickable(Cell celda)
 	{
 		boolean isBeginStair = (celda != null && (Constantes.tilesPositiveStairs.contains(celda.getTile().getId())
@@ -228,31 +299,38 @@ public class Pyramid implements IGraphic
 		return !this.unpickableCells.contains(celda) && !isBeginStair && cellWithItem != celda;
 	}
 
+	/**
+	 * @return Los muros trampas activos de la piramide
+	 */
 	protected ArrayList<TrapMechanism> getTrapMechanisms()
 	{
 		return trapMechanisms;
 	}
 
+	/**
+	 * @return Los mecanismos giratorios de la piramide
+	 */
 	protected Collection<GiratoryMechanism> getGiratoryMechanisms()
 	{
 		return this.hashGiratoryMechanisms.values();
 	}
 
-	protected ArrayList<Cell> getUnpickableCells()
-	{
-		return unpickableCells;
-	}
-
+	/**
+	 * @return Las dagas clavadas en el piso de la piramide
+	 */
 	public ArrayList<Dagger> getStuckedDaggers()
 	{
 		return stuckedDaggers;
 	}
 
-	protected HashMap<LevelObject, LevelObject> getHashTraps()
-	{
-		return hashTraps;
-	}
-
+	/**
+	 * Elimina el pico pasado por parametro
+	 * 
+	 * @param picker Pico que debera ser eliminado. Se invoca a
+	 *               this.removeGraphicElement(new
+	 *               DrawableElement(Constantes.DRAWABLE_LEVEL_ITEM, picker));
+	 * 
+	 */
 	public void removePicker(LevelObject picker)
 	{
 		this.pickers.remove(picker);
@@ -260,6 +338,13 @@ public class Pyramid implements IGraphic
 
 	}
 
+	/**
+	 * Elimina la joya pasada por parametro, se invoca a
+	 * this.removeGraphicElement(new DrawableElement(Constantes.DRAWABLE_LEVEL_ITEM,
+	 * joya));
+	 * 
+	 * @param joya
+	 */
 	public void removeJewel(LevelObject joya)
 	{
 		this.jewels.remove(joya);
@@ -267,12 +352,19 @@ public class Pyramid implements IGraphic
 
 	}
 
+	/**
+	 * Invoca a this.interfaz.addGraphicElement(element);
+	 */
 	@Override
 	public void addGraphicElement(DrawableElement element)
 	{
 		this.interfaz.addGraphicElement(element);
 	}
 
+	/**
+	 * Incova a this.interfaz.removeGraphicElement(element);
+	 * 
+	 */
 	@Override
 	public void removeGraphicElement(DrawableElement element)
 	{
@@ -280,6 +372,10 @@ public class Pyramid implements IGraphic
 
 	}
 
+	/**
+	 * Elimina los mecanismos y las puertas giratorias. Llamado al recolectar todas
+	 * las joyas.
+	 */
 	private void removeGiratories()
 	{
 		Iterator<LevelObject> it = this.hashGiratoryMechanisms.keySet().iterator();
@@ -288,33 +384,47 @@ public class Pyramid implements IGraphic
 		this.hashGiratoryMechanisms.clear();
 	}
 
+	/**
+	 * @return Las escaleras con pendiente positiva
+	 */
 	public ArrayList<Stair> getPositiveStairs()
 	{
 		return positiveStairs;
 	}
+
+	/**
+	 * @return Las escaleras con pendiente negativa
+	 */
 
 	public ArrayList<Stair> getNegativeStairs()
 	{
 		return negativeStairs;
 	}
 
-	public void endPicking(PairInt pi)
-	{
-		this.removeGraphicElement(new DrawableElement(Constantes.END_PICKING, pi));
+	
 
-	}
-
+	/**
+	 * @return Las puertas de entrada y salida de la piramide
+	 */
 	public ArrayList<Door> getDoors()
 	{
 		return doors;
 	}
 
+	/**
+	 * Invoca a this.interfaz.reset();
+	 */
 	@Override
-	public void reset()
+	public void inicialize()
 	{
-
+		this.interfaz.inicialize();
 	}
 
+	/**
+	 * Llamado al recolectar todas las joyas, elimina las puertas giratorias y
+	 * vuelve visibles las puertas de entrada y salida. Dispara el evento
+	 * Game.getInstance().eventFired(KVEventListener.PICKUP_ALL_JEWEL, this);
+	 */
 	public void prepareToExit()
 	{
 		this.removeGiratories();
@@ -327,17 +437,26 @@ public class Pyramid implements IGraphic
 		Game.getInstance().eventFired(KVEventListener.PICKUP_ALL_JEWEL, this);
 	}
 
+	/**
+	 * Llama a this.map.dispose();
+	 */
 	public void dispose()
 	{
 		this.map.dispose();
 	}
 
+	/**
+	 * Invoca a return this.interfaz.getTimeToExitLevel();
+	 */
 	@Override
 	public float getTimeToExitLevel()
 	{
 		return this.interfaz.getTimeToExitLevel();
 	}
 
+	/**
+	 * Invoca a return this.interfaz.getTimeToEnterLevel();
+	 */
 	@Override
 	public float getTimeToEnterLevel()
 	{
@@ -345,6 +464,9 @@ public class Pyramid implements IGraphic
 		return this.interfaz.getTimeToEnterLevel();
 	}
 
+	/**
+	 * Invoca a return this.interfaz.getTimeDying();
+	 */
 	@Override
 	public float getTimeDying()
 	{
@@ -356,6 +478,9 @@ public class Pyramid implements IGraphic
 		return allStairs;
 	}
 
+	/**
+	 * Invoca a return this.interfaz.getTimeToEndGame();
+	 */
 	@Override
 	public float getTimeToEndGame()
 	{

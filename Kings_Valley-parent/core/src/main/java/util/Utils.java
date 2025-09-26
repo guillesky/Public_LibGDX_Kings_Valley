@@ -7,7 +7,10 @@ import java.util.Iterator;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.maps.MapProperties;
+import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Json;
@@ -78,8 +81,7 @@ public class Utils
 	boolean r = false;
 	Rectangle a = null;
 	Rectangle b = null;
-	float height = Config.getInstance().getLevelTileHeightUnits();
-
+	
 	Iterator<Rectangle> it = rectangles.iterator();
 	while (it.hasNext() && !r)
 	{
@@ -105,7 +107,8 @@ public class Utils
 	return r;
     }
 
-    public static void i18n(String languageCode)
+    @SuppressWarnings("unchecked")
+	public static void i18n(String languageCode)
     {
 	String path = "i18n/" + languageCode + ".json";
 	FileHandle file = Gdx.files.internal(path);
@@ -130,7 +133,8 @@ public class Utils
 	}
     }
 
-    public static Language i18nToLanguage(String languageCode)
+    @SuppressWarnings("unchecked")
+	public static Language i18nToLanguage(String languageCode)
     {
 	HashMap<String, String> words = new HashMap<String, String>();
 	String path = "i18n/" + languageCode + ".json";
@@ -168,5 +172,41 @@ public class Utils
 	    }
 	}
     }
+ 
+    
+    /**
+     * <b>PRE: </b> Los archivos de configuracion ya han sido leidos<br>
+	 * Verifica que los niveles sean consistentes (De momento solamente verifica que
+	 * tileWidth y tileHeight, coincidan con lo indicado en el archivo
+	 * game_config.json). Caso contario lanza una excepcion
+	 * 
+	 * @throws Exception Lanzada si se detecta inconsistencia en los niveles.
+	 *                   Contiene el mensaje de error correspondiente.
+	 */
+	public static void checkLevelIntegrity() throws Exception
+	{
+		int i = 1;
+		TmxMapLoader mapLoader = new TmxMapLoader();
+		while (Constantes.levelFileName.get(i) != null)
+		{
+			TiledMap map = mapLoader.load(Constantes.levelFileName.get(i));
+			MapProperties properties = map.getProperties();
+			int tileWidth = properties.get("tilewidth", Integer.class);
+			int tileHeight = properties.get("tileheight", Integer.class);
+			if (tileWidth != Config.getInstance().getLevelTileWidthUnits()
+					|| tileHeight != Config.getInstance().getLevelTileHeightUnits())
+			{
+				String errorMsg = ("Invalid tileWidth or tileHeight size. Size of tile may be "
+						+ Config.getInstance().getLevelTileWidthUnits() + " * "
+						+ Config.getInstance().getLevelTileHeightUnits());
+				throw new Exception(errorMsg);
+
+			}
+			i++;
+		}
+
+	}
+    
+    
     
 }

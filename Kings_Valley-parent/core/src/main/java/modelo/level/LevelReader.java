@@ -117,6 +117,8 @@ public class LevelReader
 
 	}
 
+	
+
 	/**
 	 * Llamado internamente por getLevel<br>
 	 * Retorna la puerta en la que debe aparecer el player de acuerdo al id del

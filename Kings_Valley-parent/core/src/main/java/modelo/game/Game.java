@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.maps.MapProperties;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 
 import modelo.IGraphic;
 import modelo.KVEventListener;
@@ -45,7 +48,7 @@ public class Game implements KVEventListener
 	private GameConfig gameConfig;
 	private boolean goingBack;
 	private int nextExtraLife = Config.getInstance().getScoreForFirstExtraLife();
-	private int firstLevel=2;
+	private int firstLevel = 6;
 
 	/**
 	 * Agrega un objeto de tipo KVEventListener a la lista.
@@ -257,7 +260,10 @@ public class Game implements KVEventListener
 	/**
 	 * Metodo llamado para iniciar un nivel
 	 * 
-	 * @param door      Indica la puerta de origen, es decir, la puerta por la que el player salio del nivel que termino. En caso de no venir de un nivel anterior o de morir, este paremtro podria ser null. 
+	 * @param door      Indica la puerta de origen, es decir, la puerta por la que
+	 *                  el player salio del nivel que termino. En caso de no venir
+	 *                  de un nivel anterior o de morir, este paremtro podria ser
+	 *                  null.
 	 * @param fromDeath Indica true si el player acaba de morir y esta reiniciando
 	 *                  el nivel, false en caso contrario
 	 */
@@ -390,8 +396,7 @@ public class Game implements KVEventListener
 	}
 
 	/*
-	 * Metodo usado para debug 
-	 * public void showPlayer() { /* Player player =
+	 * Metodo usado para debug public void showPlayer() { /* Player player =
 	 * this.level.getPlayer(); this.lolo = new Lolo(player);
 	 * 
 	 * System.out.println("IZQUIERDA: " + lolo.endPlatform(false));
@@ -413,7 +418,9 @@ public class Game implements KVEventListener
 	 */
 
 	/**
-	 * @return nivel de dificultad actual. Valor entre -4 y 4, siendo 0 el valor normal. Si el valor es mayor 4 se tomara el valor 4. Si es menor a -4 se tomara el valor -4
+	 * @return nivel de dificultad actual. Valor entre -4 y 4, siendo 0 el valor
+	 *         normal. Si el valor es mayor 4 se tomara el valor 4. Si es menor a -4
+	 *         se tomara el valor -4
 	 */
 	public int getDificultLevel()
 	{
@@ -421,7 +428,9 @@ public class Game implements KVEventListener
 	}
 
 	/**
-	 * @param dificultLevel nivel de dificultad actual. Valor entre -4 y 4, siendo 0 el valor normal. Si el valor es mayor 4 se tomara el valor 4. Si es menor a -4 se tomara el valor -4
+	 * @param dificultLevel nivel de dificultad actual. Valor entre -4 y 4, siendo 0
+	 *                      el valor normal. Si el valor es mayor 4 se tomara el
+	 *                      valor 4. Si es menor a -4 se tomara el valor -4
 	 */
 	public void setDificultLevel(int dificultLevel)
 	{
@@ -449,6 +458,7 @@ public class Game implements KVEventListener
 
 	/**
 	 * Indica si se esta regresando o no a un nivel anterior
+	 * 
 	 * @param backing true si esta regresando, false en caso contrario
 	 */
 	public void setGoingBack(boolean backing)
@@ -460,6 +470,7 @@ public class Game implements KVEventListener
 
 	/**
 	 * Indica si se esta regresando o no a un nivel anterior
+	 * 
 	 * @return true si esta regresando, false en caso contrario
 	 */
 	public boolean isGoingBack()
@@ -480,5 +491,7 @@ public class Game implements KVEventListener
 		}
 
 	}
+
+	
 
 }

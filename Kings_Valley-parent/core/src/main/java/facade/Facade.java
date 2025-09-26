@@ -8,13 +8,17 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.maps.MapProperties;
+import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.utils.Json;
 
 import audio.AudioManager;
 import i18n.AllLanguages;
 import i18n.Language;
 import mainPackage.IMyApplicationListener;
+import modelo.IGraphic;
 import modelo.game.Game;
+import util.Config;
 import util.GameConfig;
 import util.Utils;
 import vista2D.GraphicsFileLoader;
@@ -24,8 +28,7 @@ import vista2D.ui.UI2D;
 import vista2D.ui.UIConfig;
 
 /**
- * @author Guillermo Lazzurri 
- * Clase que implementa el patron Facade y el patron
+ * @author Guillermo Lazzurri Clase que implementa el patron Facade y el patron
  *         Singleton.
  */
 public class Facade implements ApplicationListener
@@ -303,6 +306,15 @@ public class Facade implements ApplicationListener
 		UIConfig uiConfig = Facade.loadConfig();
 
 		this.gameConfig = GameConfig.loadConfig();
+		Config.getInstance().defaultValues(this.gameConfig.getTileWidth(), this.gameConfig.getTileHeight());
+		try
+		{
+			Utils.checkLevelIntegrity();
+		} catch (Exception e)
+		{
+			System.out.println(e.getMessage());
+			Gdx.app.exit();
+		}
 		Utils.i18n(this.gameConfig.getLanguage());
 		Game.getInstance().setGameConfig(gameConfig);
 
@@ -416,6 +428,7 @@ public class Facade implements ApplicationListener
 
 	/**
 	 * Retorna la musica de introduccion
+	 * 
 	 * @return objeto de tipo Music que representa la musica de introduccion
 	 */
 	protected Music getMusicIntro()
@@ -447,10 +460,11 @@ public class Facade implements ApplicationListener
 		this.showMap = true;
 
 	}
+
 	/**
 	 * Se llama al ocultar el mapa
 	 */
-	
+
 	public void hideMap()
 	{
 		this.showMap = false;

@@ -36,13 +36,10 @@ public class Constantes
 	public static final int JEWEL_7 = 136;
 
 	public static final int DRAWABLE_EXIT_DOOR = 2000;
-
 	public static final int DRAWABLE_LEVEL_ITEM = 3000;
 	public static final int DRAWABLE_TRAP = 3001;
 	public static final int DRAWABLE_GYRATORY = 3002;
-
 	public static final int DRAWABLE_PICKING_CELL = 4000;
-	public static final int END_PICKING = 4001;
 	public static final int DRAWABLE_FLYING_DAGGER = 5000;
 
 	public static final HashMap<Integer, String> identificacion = new HashMap<Integer, String>();

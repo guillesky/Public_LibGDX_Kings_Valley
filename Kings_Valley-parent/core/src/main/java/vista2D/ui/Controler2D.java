@@ -138,6 +138,7 @@ public class Controler2D extends AbstractControler implements KVEventListener
 
     protected void doExit()
     {
+    
 	Gdx.app.exit();
     }
 

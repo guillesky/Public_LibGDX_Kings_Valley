@@ -11,4 +11,6 @@ import modelo.IGraphic;
 public interface IMyApplicationListener extends IGraphic, ApplicationListener
 {
 
+
+
 }

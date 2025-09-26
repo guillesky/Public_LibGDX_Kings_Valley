@@ -6,11 +6,13 @@ import com.badlogic.gdx.utils.Json;
 
 public class GameConfig
 {
+	private float tileWidth = 64;
+	private float tileHeight = 64;
 	private String language;
-	private float masterVolume ;
+	private float masterVolume;
 	private float musicVolume;
 	private float soundsVolume;
-	private boolean finishedOneTime=false;
+	private boolean finishedOneTime = false;
 
 	private static final String GAME_CONFIG_FILE = "game_config.json";
 	private static final Json json = new Json();
@@ -76,15 +78,34 @@ public class GameConfig
 
 	public boolean isFinishedOneTime()
 	{
-	    return finishedOneTime;
+		return finishedOneTime;
 	}
 
 	public void setFinishedOneTime(boolean finishedOneTime)
 	{
-	    this.finishedOneTime = finishedOneTime;
+		this.finishedOneTime = finishedOneTime;
+	}
+
+	public float getTileWidth()
+	{
+		return tileWidth;
+	}
+
+	public void setTileWidth(float tileWidth)
+	{
+		this.tileWidth = tileWidth;
+	}
+
+	public float getTileHeight()
+	{
+		return tileHeight;
+	}
+
+	public void setTileHeight(float tileHeight)
+	{
+		this.tileHeight = tileHeight;
 	}
 
 	
 	
-
 }

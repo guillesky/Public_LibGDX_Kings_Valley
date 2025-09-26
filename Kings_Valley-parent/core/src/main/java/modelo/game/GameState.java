@@ -74,7 +74,7 @@ public abstract class GameState
 				Constantes.levelFileName.get(this.game.idCurrentLevel), this.game.getDificultLevel(),
 				this.game.completedLevels.get(this.game.idCurrentLevel), door, fromDeath, this.game.getInterfaz());
 		this.game.stateGame = new GameStateEntering();
-		this.game.getInterfaz().reset();
+		this.game.getInterfaz().inicialize();
 
 	}
 

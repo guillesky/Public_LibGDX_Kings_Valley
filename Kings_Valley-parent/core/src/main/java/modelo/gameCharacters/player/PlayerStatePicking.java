@@ -80,7 +80,7 @@ public class PlayerStatePicking extends PlayerState
 				else
 					state = GameCharacter.ST_WALKING;
 				this.player.setPlayerState(new PlayerStateWalking(this.player, state));
-				pyramid.endPicking(pairInt);
+				
 			}
 			this.resetTimePicking();
 		}

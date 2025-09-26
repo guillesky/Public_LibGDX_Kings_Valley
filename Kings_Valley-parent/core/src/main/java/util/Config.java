@@ -69,7 +69,7 @@ public class Config
    
     private Config()
     {
-	this.defaultValues(64, 64);
+	//this.defaultValues(64, 64);
     }
 
     public void defaultValues(float levelTileWidthUnits, float levelTileHeightUnits)
