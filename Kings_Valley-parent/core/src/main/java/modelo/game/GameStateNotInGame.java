@@ -1,7 +1,7 @@
 package modelo.game;
 
 import modelo.KVEventListener;
-import util.Config;
+import util.GameRules;
 
 /**
  * @author Guillermo Lazzurri

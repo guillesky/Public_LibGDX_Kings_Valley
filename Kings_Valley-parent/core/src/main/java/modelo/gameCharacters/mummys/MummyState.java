@@ -9,7 +9,7 @@ import com.badlogic.gdx.math.Rectangle;
 import modelo.level.LevelObject;
 import modelo.level.Pyramid;
 import modelo.level.Stair;
-import util.Config;
+import util.GameRules;
 
 /**
  * @author Guillermo Lazzurri
@@ -88,7 +88,7 @@ public abstract class MummyState
 		LevelObject footStair;
 
 		Iterator<Stair> it = pyramid.getAllStairs().iterator();
-		float tileWidth = Config.getInstance().getLevelTileWidthUnits();
+		float tileWidth = GameRules.getInstance().getLevelTileWidthUnits();
 		float posX = mummy.x + mummy.width * 0.5f;
 		while (it.hasNext())
 		{
@@ -269,7 +269,7 @@ public abstract class MummyState
 				float aux = posX - (giratoria.x + giratoria.width * 0.5f);
 				if (aux < 0)
 					aux *= -1;
-				int dist = (int) (aux / (float) Config.getInstance().getLevelTileWidthUnits());
+				int dist = (int) (aux / (float) GameRules.getInstance().getLevelTileWidthUnits());
 
 				if (dist < endPlatform.getCount())
 				{
@@ -379,21 +379,21 @@ public abstract class MummyState
 		boolean condicion = false;
 		Pyramid pyramid = this.mummy.getPyramid();
 		int respuesta = BLOCK_FREE;
-		float epsilon = Config.getInstance().getLevelTileWidthUnits() * 0.1f;
+		float epsilon = GameRules.getInstance().getLevelTileWidthUnits() * 0.1f;
 		if (mummy.isLookRight())
 		{
 			condicion = mummy.getColPosition() >= pyramid.getMapWidthInTiles() - 2
-					|| pyramid.getCell(mummy.x + Config.getInstance().getLevelTileWidthUnits(),
-							mummy.y + Config.getInstance().getLevelTileHeightUnits()) != null
+					|| pyramid.getCell(mummy.x + GameRules.getInstance().getLevelTileWidthUnits(),
+							mummy.y + GameRules.getInstance().getLevelTileHeightUnits()) != null
 					||
 
-					pyramid.getCell(mummy.x + Config.getInstance().getLevelTileWidthUnits(), mummy.y) != null;
+					pyramid.getCell(mummy.x + GameRules.getInstance().getLevelTileWidthUnits(), mummy.y) != null;
 
 		} else
 		{
 
 			condicion = mummy.getColPosition() <= 1 || pyramid.getCell(mummy.x - epsilon,
-					mummy.y + Config.getInstance().getLevelTileHeightUnits()) != null ||
+					mummy.y + GameRules.getInstance().getLevelTileHeightUnits()) != null ||
 
 					pyramid.getCell(mummy.x - epsilon, mummy.y) != null;
 
@@ -414,7 +414,7 @@ public abstract class MummyState
 	 */
 	private boolean checkGiratory()
 	{
-		float epsilon = Config.getInstance().getLevelTileWidthUnits() * 0.1f;
+		float epsilon = GameRules.getInstance().getLevelTileWidthUnits() * 0.1f;
 		if (this.mummy.isLookRight())
 			this.mummyRectangleWithOffset.x = this.mummy.x + epsilon;
 		else

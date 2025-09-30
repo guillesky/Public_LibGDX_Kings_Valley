@@ -18,7 +18,7 @@ import i18n.Language;
 import mainPackage.IMyApplicationListener;
 import modelo.IGraphic;
 import modelo.game.Game;
-import util.Config;
+import util.GameRules;
 import util.GameConfig;
 import util.Utils;
 import vista2D.GraphicsFileLoader;
@@ -306,7 +306,7 @@ public class Facade implements ApplicationListener
 		UIConfig uiConfig = Facade.loadConfig();
 
 		this.gameConfig = GameConfig.loadConfig();
-		Config.getInstance().defaultValues(this.gameConfig.getTileWidth(), this.gameConfig.getTileHeight());
+		GameRules.getInstance().defaultValues(this.gameConfig.getTileWidth(), this.gameConfig.getTileHeight());
 		try
 		{
 			Utils.checkLevelIntegrity();

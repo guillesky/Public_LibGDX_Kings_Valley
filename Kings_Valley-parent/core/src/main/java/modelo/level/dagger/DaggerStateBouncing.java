@@ -6,7 +6,7 @@ import modelo.KVEventListener;
 import modelo.game.Game;
 import modelo.gameCharacters.mummys.Mummy;
 import modelo.level.Pyramid;
-import util.Config;
+import util.GameRules;
 
 /**
  * @author Guillermo Lazzurri
@@ -44,8 +44,8 @@ public class DaggerStateBouncing extends DaggerState
 	{
 		if (delta < 1)
 		{
-			this.updateX(-Config.getInstance().getPlayerSpeedWalk() / 6 * deltaTime);
-			this.dagger.y = this.y + (delta - 1f) * (delta) * -Config.getInstance().getPlayerSpeedWalk() / 6;
+			this.updateX(-GameRules.getInstance().getPlayerSpeedWalk() / 6 * deltaTime);
+			this.dagger.y = this.y + (delta - 1f) * (delta) * -GameRules.getInstance().getPlayerSpeedWalk() / 6;
 			this.incDelta(deltaTime);
 		} else
 		{

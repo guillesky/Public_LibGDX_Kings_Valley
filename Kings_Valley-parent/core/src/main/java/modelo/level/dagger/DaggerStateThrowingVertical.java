@@ -6,7 +6,7 @@ import modelo.KVEventListener;
 import modelo.game.Game;
 import modelo.gameCharacters.mummys.Mummy;
 import modelo.level.Pyramid;
-import util.Config;
+import util.GameRules;
 
 /**
  * @author Guillermo Lazzurri
@@ -33,11 +33,11 @@ public class DaggerStateThrowingVertical extends DaggerState
 		this.roundY();
 		this.y = dagger.y;
 		this.x = dagger.x;
-		this.y += Config.getInstance().getLevelTileHeightUnits();
+		this.y += GameRules.getInstance().getLevelTileHeightUnits();
 		if (dagger.isRight())
-			this.x -= Config.getInstance().getLevelTileWidthUnits();
+			this.x -= GameRules.getInstance().getLevelTileWidthUnits();
 		else
-			this.x += Config.getInstance().getLevelTileWidthUnits();
+			this.x += GameRules.getInstance().getLevelTileWidthUnits();
 	}
 
 	/**
@@ -49,8 +49,8 @@ public class DaggerStateThrowingVertical extends DaggerState
 	{
 		if (delta < 1)
 		{
-			this.updateX(-Config.getInstance().getFlyingDaggerSpeed() / 20 * deltaTime);
-			this.dagger.y = this.originalY + (delta - 1f) * (delta) * -Config.getInstance().getFlyingDaggerSpeed() / 3f;
+			this.updateX(-GameRules.getInstance().getFlyingDaggerSpeed() / 20 * deltaTime);
+			this.dagger.y = this.originalY + (delta - 1f) * (delta) * -GameRules.getInstance().getFlyingDaggerSpeed() / 3f;
 			this.incDelta(deltaTime);
 		} else
 		{

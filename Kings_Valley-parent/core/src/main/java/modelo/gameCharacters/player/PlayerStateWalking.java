@@ -12,7 +12,7 @@ import modelo.gameCharacters.abstractGameCharacter.GameCharacter;
 import modelo.level.GiratoryMechanism;
 import modelo.level.PairInt;
 import modelo.level.dagger.Dagger;
-import util.Config;
+import util.GameRules;
 
 /**
  * @author Guillermo Lazzurri
@@ -59,7 +59,7 @@ public class PlayerStateWalking extends PlayerState
 	{
 		this.player.setPlayerState(new PlayerStatePassingGiratory(this.player, giratoryMechanism));
 		giratoryMechanism.activate();
-		Game.getInstance().eventFired(KVEventListener.ENTER_GIRATORY, this);
+		Game.getInstance().eventFired(KVEventListener.ENTER_GIRATORY, giratoryMechanism);
 
 	}
 
@@ -75,23 +75,23 @@ public class PlayerStateWalking extends PlayerState
 		{
 			if (this.player.isLookRight())
 			{
-				px = this.player.x + Config.getInstance().getLevelTileWidthUnits();
+				px = this.player.x + GameRules.getInstance().getLevelTileWidthUnits();
 			} else
 			{
-				px = this.player.x - Config.getInstance().getLevelTileWidthUnits();
+				px = this.player.x - GameRules.getInstance().getLevelTileWidthUnits();
 			}
-			py = this.player.y + Config.getInstance().getLevelTileHeightUnits();
+			py = this.player.y + GameRules.getInstance().getLevelTileHeightUnits();
 			if (this.player.getPyramid().getCell(px, py) != null)
 			{
-				int tileY = (int) (py / Config.getInstance().getLevelTileHeightUnits());
-				int tileX = (int) (px / Config.getInstance().getLevelTileWidthUnits());
+				int tileY = (int) (py / GameRules.getInstance().getLevelTileHeightUnits());
+				int tileX = (int) (px / GameRules.getInstance().getLevelTileWidthUnits());
 				if (this.picking(tileX, tileY, 2, true, new ArrayList<PairInt>()))
 					this.player.item = null;
 
 			} else
 			{
-				int tileY = (int) (this.player.y / Config.getInstance().getLevelTileHeightUnits());
-				int tileX = (int) (px / Config.getInstance().getLevelTileWidthUnits());
+				int tileY = (int) (this.player.y / GameRules.getInstance().getLevelTileHeightUnits());
+				int tileX = (int) (px / GameRules.getInstance().getLevelTileWidthUnits());
 				if (this.picking(tileX, tileY, 1, true, new ArrayList<PairInt>()))
 					this.player.item = null;
 			}
@@ -101,18 +101,18 @@ public class PlayerStateWalking extends PlayerState
 
 			if (this.player.isLookRight())
 			{
-				px = this.player.x + Config.getInstance().getLevelTileWidthUnits();
-				py = this.player.y - Config.getInstance().getLevelTileHeightUnits();
+				px = this.player.x + GameRules.getInstance().getLevelTileWidthUnits();
+				py = this.player.y - GameRules.getInstance().getLevelTileHeightUnits();
 
 			} else
 			{
-				px = this.player.x + this.player.width - Config.getInstance().getLevelTileWidthUnits();
-				py = this.player.y - Config.getInstance().getLevelTileHeightUnits();
+				px = this.player.x + this.player.width - GameRules.getInstance().getLevelTileWidthUnits();
+				py = this.player.y - GameRules.getInstance().getLevelTileHeightUnits();
 
 			}
 
-			int tileY = (int) (py / Config.getInstance().getLevelTileHeightUnits());
-			int tileX = (int) (px / Config.getInstance().getLevelTileWidthUnits());
+			int tileY = (int) (py / GameRules.getInstance().getLevelTileHeightUnits());
+			int tileX = (int) (px / GameRules.getInstance().getLevelTileWidthUnits());
 
 			if (this.picking(tileX, tileY, 2, false, new ArrayList<PairInt>()))
 				this.player.item = null;
@@ -169,8 +169,8 @@ public class PlayerStateWalking extends PlayerState
 			direccion = -1;
 		if (this.player.getPyramid().getCell(this.player.x, this.player.y, direccion, 1) == null)
 		{
-			dagger.x = this.player.x + direccion * Config.getInstance().getLevelTileHeightUnits() * 0.1f;
-			dagger.y = this.player.y + Config.getInstance().getLevelTileHeightUnits();
+			dagger.x = this.player.x + direccion * GameRules.getInstance().getLevelTileHeightUnits() * 0.1f;
+			dagger.y = this.player.y + GameRules.getInstance().getLevelTileHeightUnits();
 			// this.pyramid.addFlyingDagger(dagger);
 
 			dagger.throwHorizontal(this.player.isLookRight());
@@ -179,7 +179,7 @@ public class PlayerStateWalking extends PlayerState
 				&& this.player.getPyramid().getCell(this.player.x, this.player.y, 0, 2) == null)
 		{
 			dagger.x = this.player.x;
-			dagger.y = this.player.y + Config.getInstance().getLevelTileHeightUnits();
+			dagger.y = this.player.y + GameRules.getInstance().getLevelTileHeightUnits();
 			dagger.throwVertical(this.player.isLookRight());
 			
 			this.player.setPlayerState(new PlayerStateThrowingDagger(this.player));

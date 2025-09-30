@@ -12,8 +12,8 @@ import modelo.gameCharacters.abstractGameCharacter.GameCharacter;
 import modelo.level.GiratoryMechanism;
 import modelo.level.PairInt;
 import modelo.level.Pyramid;
-import util.Config;
-import util.Constantes;
+import util.GameRules;
+import util.Constants;
 
 /**
  * @author Guillermo Lazzurri
@@ -59,19 +59,19 @@ public class PlayerStatePicking extends PlayerState
 		PairInt pairInt = coordToPick.get(0);
 		if (this.getTimePicking() == 0)// Recien comienza a picar
 		{
-			this.player.getPyramid().addGraphicElement(new DrawableElement(Constantes.DRAWABLE_PICKING_CELL, pairInt));
+			this.player.getPyramid().addGraphicElement(new DrawableElement(Constants.DRAWABLE_PICKING_CELL, pairInt));
 			Game.getInstance().eventFired(KVEventListener.PLAYER_PICKING, this.player);
 		}
 		this.incTimePicking(deltaTime);
 
-		if (this.getTimePicking() >= Config.getInstance().getTimeToEndPicking()) // termino de picar una celda
+		if (this.getTimePicking() >= GameRules.getInstance().getTimeToEndPicking()) // termino de picar una celda
 		{
 
 			TiledMapTileLayer layer = (TiledMapTileLayer) pyramid.getMap().getLayers().get("front");
 			layer.setCell(pairInt.getX(), pairInt.getY(), null);
 			coordToPick.remove(0);
 			this.player.getPyramid()
-					.removeGraphicElement(new DrawableElement(Constantes.DRAWABLE_PICKING_CELL, pairInt));
+					.removeGraphicElement(new DrawableElement(Constants.DRAWABLE_PICKING_CELL, pairInt));
 			if (coordToPick.isEmpty())
 			{
 				int state;

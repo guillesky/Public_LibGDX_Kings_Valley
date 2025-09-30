@@ -3,7 +3,7 @@ package modelo.gameCharacters.mummys;
 import modelo.KVEventListener;
 import modelo.game.Game;
 import modelo.gameCharacters.abstractGameCharacter.GameCharacter;
-import util.Config;
+import util.GameRules;
 
 
 /**
@@ -27,7 +27,7 @@ public class MummyStateDying extends MummyState
 	{
 		super(mummy, GameCharacter.ST_DYING);
 		this.mustTeleport = mustTeleport;
-		this.timeToChange = Config.getInstance().getMummyTimeDying();
+		this.timeToChange = GameRules.getInstance().getMummyTimeDying();
 		Game.getInstance().eventFired(KVEventListener.MUMMY_DIE, this);
 
 	}

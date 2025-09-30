@@ -2,9 +2,11 @@ package modelo.gameCharacters.abstractGameCharacter;
 
 import com.badlogic.gdx.math.Vector2;
 
+import modelo.KVEventListener;
+import modelo.game.Game;
 import modelo.level.Stair;
-import util.Config;
-import util.Constantes;
+import util.GameRules;
+import util.Constants;
 
 /**
  * @author Guillermo Lazzurri
@@ -51,15 +53,15 @@ public abstract class GameCharacterState
 		if (vectMove.x <= 0)
 		{
 			if (this.colisionMiddleLeft(vectMove) || this.colisionDownLeftForLanding(vectMove))
-				r = Constantes.LEFT;
+				r = Constants.LEFT;
 			else if (this.colisionMiddleRight(vectMove) || this.colisionDownRightForLanding(vectMove))
-				r = Constantes.RIGHT;
+				r = Constants.RIGHT;
 		} else
 		{
 			if (this.colisionMiddleRight(vectMove) || this.colisionDownRightForLanding(vectMove))
-				r = Constantes.RIGHT;
+				r = Constants.RIGHT;
 			else if (this.colisionMiddleLeft(vectMove) || this.colisionDownLeftForLanding(vectMove))
-				r = Constantes.LEFT;
+				r = Constants.LEFT;
 
 		}
 
@@ -78,10 +80,10 @@ public abstract class GameCharacterState
 		int r = -1;
 		if (this.colisionMiddleRight(vectMove) || this.colisionDownRightForLanding(vectMove)
 				|| this.colisionUpRight(vectMove))
-			r = Constantes.RIGHT;
+			r = Constants.RIGHT;
 		else if (this.colisionMiddleLeft(vectMove) || this.colisionDownLeftForLanding(vectMove)
 				|| this.colisionUpLeft(vectMove))
-			r = Constantes.LEFT;
+			r = Constants.LEFT;
 		this.corrigeDirecciones(r, vectMove);
 	}
 
@@ -166,8 +168,8 @@ public abstract class GameCharacterState
 		boolean respuesta = false;
 		if (isCellBlocked(x, this.gameCharacter.y + vectMove.y))
 		{
-			float tileY = (int) ((this.gameCharacter.y + vectMove.y) / Config.getInstance().getLevelTileHeightUnits());
-			tileY = (tileY + 1) * Config.getInstance().getLevelTileHeightUnits();
+			float tileY = (int) ((this.gameCharacter.y + vectMove.y) / GameRules.getInstance().getLevelTileHeightUnits());
+			tileY = (tileY + 1) * GameRules.getInstance().getLevelTileHeightUnits();
 			respuesta = (this.gameCharacter.y > tileY && this.gameCharacter.y + vectMove.y <= tileY);
 		}
 		return respuesta;
@@ -179,10 +181,10 @@ public abstract class GameCharacterState
 	 */
 	private void correctRight(Vector2 vectMove)
 	{
-		float epsilon = 0.002f * Config.getInstance().getLevelTileWidthUnits();
+		float epsilon = 0.002f * GameRules.getInstance().getLevelTileWidthUnits();
 		float aux = (int) ((this.gameCharacter.x + this.gameCharacter.getWidth() + vectMove.x)
-				/ Config.getInstance().getLevelTileWidthUnits());
-		vectMove.x = (aux) * Config.getInstance().getLevelTileWidthUnits()
+				/ GameRules.getInstance().getLevelTileWidthUnits());
+		vectMove.x = (aux) * GameRules.getInstance().getLevelTileWidthUnits()
 				- (this.gameCharacter.getWidth() + epsilon + this.gameCharacter.x);
 		this.gameCharacter.motionVector.x = 0;
 
@@ -194,9 +196,9 @@ public abstract class GameCharacterState
 	 */
 	private void correctLeft(Vector2 vectMove)
 	{
-		float epsilon = 0.002f * Config.getInstance().getLevelTileWidthUnits();
-		float aux = (int) ((this.gameCharacter.x + vectMove.x) / Config.getInstance().getLevelTileWidthUnits());
-		vectMove.x = (aux + 1) * Config.getInstance().getLevelTileWidthUnits() + epsilon - this.gameCharacter.x;
+		float epsilon = 0.002f * GameRules.getInstance().getLevelTileWidthUnits();
+		float aux = (int) ((this.gameCharacter.x + vectMove.x) / GameRules.getInstance().getLevelTileWidthUnits());
+		vectMove.x = (aux + 1) * GameRules.getInstance().getLevelTileWidthUnits() + epsilon - this.gameCharacter.x;
 		this.gameCharacter.motionVector.x = 0;
 
 	}
@@ -207,8 +209,8 @@ public abstract class GameCharacterState
 	 */
 	private void correctDown(Vector2 vectMove)
 	{
-		float aux = (int) ((this.gameCharacter.y + vectMove.y) / Config.getInstance().getLevelTileHeightUnits());
-		vectMove.y = (aux + 1) * Config.getInstance().getLevelTileHeightUnits() - this.gameCharacter.y;
+		float aux = (int) ((this.gameCharacter.y + vectMove.y) / GameRules.getInstance().getLevelTileHeightUnits());
+		vectMove.y = (aux + 1) * GameRules.getInstance().getLevelTileHeightUnits() - this.gameCharacter.y;
 		if (vectMove.x == 0)
 			this.gameCharacter.gameCharacterState = new GameCharacterStateIddle(this.gameCharacter);
 		else
@@ -217,7 +219,9 @@ public abstract class GameCharacterState
 			this.gameCharacter.gameCharacterState = new GameCharacterStateWalking(this.gameCharacter);
 		}
 		this.gameCharacter.motionVector.y = 0;
-		
+		Game.getInstance().eventFired(KVEventListener.CHARACTER_END_JUMP, this.gameCharacter);
+
+
 
 	}
 
@@ -236,7 +240,7 @@ public abstract class GameCharacterState
 		int r;
 		if (this.gameCharacter.motionVector.x == 0)
 		{
-			r = Constantes.DOWN;
+			r = Constants.DOWN;
 		}
 
 		else
@@ -245,18 +249,18 @@ public abstract class GameCharacterState
 			float m = this.gameCharacter.motionVector.y / this.gameCharacter.motionVector.x;
 			float b = y - x * m;
 			float valorX;
-			int tileX = (int) (x / Config.getInstance().getLevelTileWidthUnits());
-			int tileY = (int) (y / Config.getInstance().getLevelTileHeightUnits());
+			int tileX = (int) (x / GameRules.getInstance().getLevelTileWidthUnits());
+			int tileY = (int) (y / GameRules.getInstance().getLevelTileHeightUnits());
 
 			int respuestaLateral = 0;
 			if (this.gameCharacter.motionVector.x > 0)
 			{
-				valorX = tileX * Config.getInstance().getLevelTileWidthUnits();
-				respuestaLateral = Constantes.RIGHT;
+				valorX = tileX * GameRules.getInstance().getLevelTileWidthUnits();
+				respuestaLateral = Constants.RIGHT;
 			} else
 			{
-				valorX = (tileX + 1) * Config.getInstance().getLevelTileWidthUnits();
-				respuestaLateral = Constantes.LEFT;
+				valorX = (tileX + 1) * GameRules.getInstance().getLevelTileWidthUnits();
+				respuestaLateral = Constants.LEFT;
 			}
 
 			if (this.gameCharacter.motionVector.y >= 0)
@@ -264,12 +268,12 @@ public abstract class GameCharacterState
 			else
 			{
 				float yBuscado = m * valorX + b;
-				float abajo = tileY * Config.getInstance().getLevelTileHeightUnits();
-				float arriba = (tileY + 1) * Config.getInstance().getLevelTileHeightUnits();
+				float abajo = tileY * GameRules.getInstance().getLevelTileHeightUnits();
+				float arriba = (tileY + 1) * GameRules.getInstance().getLevelTileHeightUnits();
 				if (abajo <= yBuscado && yBuscado <= arriba)
 					r = respuestaLateral;
 				else
-					r = Constantes.DOWN;
+					r = Constants.DOWN;
 			}
 		}
 		return r;
@@ -286,14 +290,14 @@ public abstract class GameCharacterState
 		switch (direction)
 		{
 
-		case Constantes.LEFT:
+		case Constants.LEFT:
 			this.correctLeft(vectMove);
 			break;
-		case Constantes.DOWN:
+		case Constants.DOWN:
 			this.correctDown(vectMove);
 
 			break;
-		case Constantes.RIGHT:
+		case Constants.RIGHT:
 			this.correctRight(vectMove);
 			break;
 
@@ -327,14 +331,14 @@ public abstract class GameCharacterState
 			else // solo colisiona esquina baja izq
 			{
 				if (vectMove.x >= 0)
-					r = Constantes.DOWN;
+					r = Constants.DOWN;
 				else
 					r = this.buscarColisionPorVertice(this.gameCharacter.x, this.gameCharacter.y, vectMove);
 			}
 		} else if (this.colisionDownRightForLanding(vectMove))
 		{
 			if (vectMove.x <= 0)
-				r = Constantes.DOWN;
+				r = Constants.DOWN;
 			else
 				r = this.buscarColisionPorVertice(this.gameCharacter.x + this.gameCharacter.width, this.gameCharacter.y,
 						vectMove);
@@ -350,7 +354,7 @@ public abstract class GameCharacterState
 	 */
 	protected boolean isFloorDown()
 	{
-		float epsilon = 0.000001f * Config.getInstance().getLevelTileHeightUnits();
+		float epsilon = 0.000001f * GameRules.getInstance().getLevelTileHeightUnits();
 		return ((isCellBlocked(this.gameCharacter.x + this.gameCharacter.getWidth(),
 				this.gameCharacter.y - epsilon * this.gameCharacter.height)
 				&& isCellBlocked(this.gameCharacter.x + this.gameCharacter.getWidth(),
@@ -377,7 +381,6 @@ public abstract class GameCharacterState
 	 */
 	public void move(Vector2 v, boolean b, float deltaTime)
 	{
-		deltaTime *= Config.getInstance().getSpeedGame();
 		this.moveFirstStep(v, b, deltaTime);
 		Vector2 escalado = this.gameCharacter.motionVector.cpy().scl(deltaTime);
 		this.moveSecondStep(escalado);
@@ -391,18 +394,18 @@ public abstract class GameCharacterState
 	 */
 	private void checkOutLevel()
 	{
-		float epsilon = .1f * Config.getInstance().getLevelTileWidthUnits();
+		float epsilon = .1f * GameRules.getInstance().getLevelTileWidthUnits();
 
-		if (this.gameCharacter.x < Config.getInstance().getLevelTileWidthUnits())
+		if (this.gameCharacter.x < GameRules.getInstance().getLevelTileWidthUnits())
 		{
-			this.gameCharacter.x = Config.getInstance().getLevelTileWidthUnits();
+			this.gameCharacter.x = GameRules.getInstance().getLevelTileWidthUnits();
 		} else
 
 		{
 			if (this.gameCharacter.x + epsilon + this.gameCharacter.width > (this.gameCharacter.pyramid.getMapWidthInTiles() - 1)
-					* Config.getInstance().getLevelTileWidthUnits())
+					* GameRules.getInstance().getLevelTileWidthUnits())
 
-				this.gameCharacter.x = (this.gameCharacter.pyramid.getMapWidthInTiles() - 1) * Config.getInstance().getLevelTileWidthUnits()
+				this.gameCharacter.x = (this.gameCharacter.pyramid.getMapWidthInTiles() - 1) * GameRules.getInstance().getLevelTileWidthUnits()
 						- (this.gameCharacter.width + epsilon);
 		}
 

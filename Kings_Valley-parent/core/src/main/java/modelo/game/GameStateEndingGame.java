@@ -18,7 +18,7 @@ public class GameStateEndingGame extends GameState
 	public GameStateEndingGame()
 	{
 		super(Game.ST_ENDING);
-		this.game.eventFired(KVEventListener.GAME_OVER_INIT, null);
+		this.game.eventFired(KVEventListener.GAME_ENDING, null);
 	}
 
 	/**

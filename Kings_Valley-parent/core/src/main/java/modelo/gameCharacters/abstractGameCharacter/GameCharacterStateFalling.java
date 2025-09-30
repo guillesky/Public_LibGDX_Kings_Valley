@@ -2,6 +2,8 @@ package modelo.gameCharacters.abstractGameCharacter;
 
 import com.badlogic.gdx.math.Vector2;
 
+import modelo.KVEventListener;
+import modelo.game.Game;
 import modelo.level.Stair;
 
 /**
@@ -17,6 +19,9 @@ public class GameCharacterStateFalling extends GameCharacterState
 	 * super(gameCharacter, GameCharacter.ST_FALLING); <br>
 	 * this.gameCharacter.motionVector.x=0;<br>
 	 * this.gameCharacter.resetAnimationDelta();<br>
+	 * Dispara el evento:
+	 * Game.getInstance().eventFired(KVEventListener.CHARACTER_BEGIN_FALL,
+	 * this.gameCharacter);
 	 * 
 	 * @param gameCharacter correspondiente al sujeto del patron state.
 	 */
@@ -25,12 +30,17 @@ public class GameCharacterStateFalling extends GameCharacterState
 		super(gameCharacter, GameCharacter.ST_FALLING);
 		this.gameCharacter.motionVector.x = 0;
 		this.gameCharacter.resetAnimationDelta();
+		Game.getInstance().eventFired(KVEventListener.CHARACTER_BEGIN_FALL, this.gameCharacter);
+
 	}
 
 	/**
 	 * Sobrescribe el metodo de la superclase haciendo caer al caracter, en caso de
 	 * tocar el suelo pasara a estado GameCharacterStateIddle, o
-	 * GameCharacterStateWalking
+	 * GameCharacterStateWalking y dispara el evento
+	 * Game.getInstance().eventFired(KVEventListener.CHARACTER_LANDING,
+	 * this.gameCharacter);
+	 * 
 	 */
 	@Override
 	protected void moveFirstStep(Vector2 v, boolean b, float deltaTime)
@@ -47,7 +57,7 @@ public class GameCharacterStateFalling extends GameCharacterState
 				this.gameCharacter.gameCharacterState = new GameCharacterStateIddle(this.gameCharacter);
 			else
 				this.gameCharacter.gameCharacterState = new GameCharacterStateWalking(this.gameCharacter);
-
+			Game.getInstance().eventFired(KVEventListener.CHARACTER_END_FALL, this.gameCharacter);
 		}
 	}
 
@@ -72,7 +82,8 @@ public class GameCharacterStateFalling extends GameCharacterState
 
 	/**
 	 * Se sobreescribe como metodo vacio (no hace nada) y retorna false
-	 */@Override
+	 */
+	@Override
 	protected boolean doJump()
 	{
 		return false;

@@ -6,9 +6,8 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import modelo.IGraphicRenderer;
 import modelo.level.door.Door;
-import util.Config;
+import util.GameRules;
 
 public abstract class AbstractAnimatedDoor2D implements IGraphicRenderer
 {
@@ -22,7 +21,7 @@ public abstract class AbstractAnimatedDoor2D implements IGraphicRenderer
     public AbstractAnimatedDoor2D(Door door, Texture texturePassage, Texture textureLeft, Texture textureRight,
 	    Animation<TextureRegion> leverAnimation)
     {
-	float tileWidth = Config.getInstance().getLevelTileWidthUnits();
+	float tileWidth = GameRules.getInstance().getLevelTileWidthUnits();
 	this.door = door;
 	this.leverAnimation = leverAnimation;
 
@@ -43,7 +42,7 @@ public abstract class AbstractAnimatedDoor2D implements IGraphicRenderer
 	    deltaTime = 0;
 	float xLeft;
 	float xRight;
-	float tileWidth = Config.getInstance().getLevelTileWidthUnits();
+	float tileWidth = GameRules.getInstance().getLevelTileWidthUnits();
 
 	xLeft = this.door.getPassage().x - tileWidth * (1 + deltaTime);
 	xRight = this.door.getPassage().x + tileWidth * deltaTime;

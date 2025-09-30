@@ -2,6 +2,8 @@ package modelo.gameCharacters.player;
 
 import com.badlogic.gdx.math.Vector2;
 
+import modelo.KVEventListener;
+import modelo.game.Game;
 import modelo.gameCharacters.abstractGameCharacter.GameCharacter;
 import modelo.level.GiratoryMechanism;
 
@@ -49,6 +51,8 @@ public class PlayerStatePassingGiratory extends PlayerState
 				state = GameCharacter.ST_IDDLE;
 			else
 				state = GameCharacter.ST_WALKING;
+			Game.getInstance().eventFired(KVEventListener.EXIT_GIRATORY, this.passingGiratory);
+
 			this.player.setPlayerState(new PlayerStateWalking(this.player, state));
 		}
 

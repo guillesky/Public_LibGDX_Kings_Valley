@@ -6,7 +6,7 @@ import modelo.KVEventListener;
 import modelo.game.Game;
 import modelo.gameCharacters.mummys.Mummy;
 import modelo.level.Pyramid;
-import util.Config;
+import util.GameRules;
 
 /**
  * @author Guillermo Lazzurri
@@ -36,7 +36,7 @@ public class DaggerStateFalling extends DaggerState
 	@Override
 	public void updateDagger(float deltaTime, Pyramid pyramid, ArrayList<Mummy> mummys)
 	{
-		this.dagger.y += (Config.getInstance().getFlyingDaggerSpeedFall() * deltaTime);
+		this.dagger.y += (GameRules.getInstance().getFlyingDaggerSpeedFall() * deltaTime);
 
 		if (pyramid.getCell(dagger.x, dagger.y) != null)
 		{

@@ -1,4 +1,4 @@
-package vista2D;
+package unused_yet_not_implemented;
 
 import java.util.ArrayList;
 
@@ -9,7 +9,6 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
 
-import util.Rectangle2;
 import util.Utils;
 
 public class RectaglesRender
@@ -22,7 +21,7 @@ public class RectaglesRender
 	TiledMapTileLayer layer2 = (TiledMapTileLayer) map.getLayers().get("front");
 	int mapWidthInTiles = map.getProperties().get("width", Integer.class);
 	int mapHeightInTiles = map.getProperties().get("height", Integer.class);
-	this.rectangles = Utils.generateRectangles(mapWidthInTiles,mapHeightInTiles, layer2);
+	this.rectangles = UtilNotUsed.generateRectangles(mapWidthInTiles,mapHeightInTiles, layer2);
     }
     public void render(Matrix4 combined) {
 	shapeRenderer.setProjectionMatrix(combined);

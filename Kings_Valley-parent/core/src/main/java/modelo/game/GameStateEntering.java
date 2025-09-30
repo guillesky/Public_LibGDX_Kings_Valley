@@ -17,7 +17,7 @@ public class GameStateEntering extends GameState
 	public GameStateEntering()
 	{
 		super(Game.ST_GAME_ENTERING);
-		this.game.eventFired(KVEventListener.ENTERING_LEVEL, null);
+		this.game.eventFired(KVEventListener.ENTERING_LEVEL, this.game.getCurrentLevel());
 	}
 
 	/**

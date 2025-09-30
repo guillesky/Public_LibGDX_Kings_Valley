@@ -26,7 +26,7 @@ public class GameStatePlaying extends GameState
 	public GameStatePlaying()
 	{
 		super(Game.ST_GAME_PLAYING);
-		this.game.eventFired(KVEventListener.ENTER_LEVEL, null);
+		this.game.eventFired(KVEventListener.ENTER_LEVEL, this.game.getCurrentLevel());
 
 	}
 
@@ -61,7 +61,6 @@ public class GameStatePlaying extends GameState
 			if (door != null && controles.getNuevoRumbo().y > 0)
 			{
 				this.game.stateGame = new GameStateExiting(door);
-				this.game.eventFired(KVEventListener.FINISH_CURRENT_LEVEL, null);
 			}
 		}
 

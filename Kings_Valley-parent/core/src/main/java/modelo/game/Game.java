@@ -13,8 +13,8 @@ import modelo.KVEventListener;
 import modelo.control.Controls;
 import modelo.level.Level;
 import modelo.level.door.Door;
-import util.Config;
-import util.Constantes;
+import util.GameRules;
+import util.Constants;
 import util.GameConfig;
 
 /**
@@ -47,7 +47,7 @@ public class Game implements KVEventListener
 	protected int lives;
 	private GameConfig gameConfig;
 	private boolean goingBack;
-	private int nextExtraLife = Config.getInstance().getScoreForFirstExtraLife();
+	private int nextExtraLife = GameRules.getInstance().getScoreForFirstExtraLife();
 	private int firstLevel = 6;
 
 	/**
@@ -378,15 +378,15 @@ public class Game implements KVEventListener
 			break;
 
 		case KVEventListener.MUMMY_KILLED_BY_SWORD:
-			this.incScore(Constantes.MUMMY_KILLED_BY_SWORD_SCORE);
+			this.incScore(Constants.MUMMY_KILLED_BY_SWORD_SCORE);
 			break;
 
 		case KVEventListener.PICKUP_JEWEL:
-			this.incScore(Constantes.PICKUP_JEWEL_SCORE);
+			this.incScore(Constants.PICKUP_JEWEL_SCORE);
 			break;
 
-		case KVEventListener.FINISH_CURRENT_LEVEL:
-			this.incScore(Constantes.FINISH_CURRENT_LEVEL_SCORE);
+		case KVEventListener.EXITING_LEVEL:
+			this.incScore(Constants.FINISH_CURRENT_LEVEL_SCORE);
 			break;
 
 		}
@@ -486,7 +486,7 @@ public class Game implements KVEventListener
 		if (this.score >= this.nextExtraLife)
 		{
 			this.lives++;
-			this.nextExtraLife += Config.getInstance().getScoreForExtraLife();
+			this.nextExtraLife += GameRules.getInstance().getScoreForExtraLife();
 			this.eventFired(KVEventListener.ADD_EXTRA_LIFE, completedLevels);
 		}
 

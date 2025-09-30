@@ -16,8 +16,8 @@ import modelo.KVEventListener;
 import modelo.game.Game;
 import modelo.level.dagger.Dagger;
 import modelo.level.door.Door;
-import util.Config;
-import util.Constantes;
+import util.GameRules;
+import util.Constants;
 
 /**
  * @author Guillermo Lazzurri Clase que representa una piramide. Tiene
@@ -198,7 +198,7 @@ public class Pyramid implements IGraphic
 	{
 		this.activators.remove(activator);
 		LevelObject wall = this.hashTraps.get(activator);
-		TrapMechanism trap = new TrapMechanism(this, wall, Config.getInstance().getTimeToEndTrapMechanism());
+		TrapMechanism trap = new TrapMechanism(this, wall, GameRules.getInstance().getTimeToEndTrapMechanism());
 		this.trapMechanisms.add(trap);
 	}
 
@@ -227,8 +227,8 @@ public class Pyramid implements IGraphic
 	public TiledMapTileLayer.Cell getCell(float x, float y)
 	{
 		TiledMapTileLayer layer = (TiledMapTileLayer) this.getMap().getLayers().get("front");
-		TiledMapTileLayer.Cell cell = layer.getCell((int) (x / Config.getInstance().getLevelTileWidthUnits()),
-				(int) (y / Config.getInstance().getLevelTileHeightUnits()));
+		TiledMapTileLayer.Cell cell = layer.getCell((int) (x / GameRules.getInstance().getLevelTileWidthUnits()),
+				(int) (y / GameRules.getInstance().getLevelTileHeightUnits()));
 		return cell;
 	}
 
@@ -263,8 +263,8 @@ public class Pyramid implements IGraphic
 	{
 		TiledMapTileLayer layer = (TiledMapTileLayer) this.getMap().getLayers().get("front");
 		TiledMapTileLayer.Cell cell = layer.getCell(
-				(int) (x / Config.getInstance().getLevelTileWidthUnits()) + colOffset,
-				(int) (y / Config.getInstance().getLevelTileHeightUnits()) + rowOffset);
+				(int) (x / GameRules.getInstance().getLevelTileWidthUnits()) + colOffset,
+				(int) (y / GameRules.getInstance().getLevelTileHeightUnits()) + rowOffset);
 		return cell;
 	}
 
@@ -276,16 +276,16 @@ public class Pyramid implements IGraphic
 	 */
 	public boolean isPickable(Cell celda)
 	{
-		boolean isBeginStair = (celda != null && (Constantes.tilesPositiveStairs.contains(celda.getTile().getId())
-				|| Constantes.tilesNegativeStairs.contains(celda.getTile().getId())
-				|| Constantes.tilesPreviusToStairs.contains(celda.getTile().getId())));
+		boolean isBeginStair = (celda != null && (Constants.tilesPositiveStairs.contains(celda.getTile().getId())
+				|| Constants.tilesNegativeStairs.contains(celda.getTile().getId())
+				|| Constants.tilesPreviusToStairs.contains(celda.getTile().getId())));
 
 		Iterator<LevelObject> itJewels = this.jewels.iterator();
 		Cell cellWithItem = null;
 		while (itJewels.hasNext() && cellWithItem != celda)
 		{
 			LevelObject item = (LevelObject) itJewels.next();
-			cellWithItem = this.getCell(item.getX(), item.getY() - Config.getInstance().getLevelTileHeightUnits());
+			cellWithItem = this.getCell(item.getX(), item.getY() - GameRules.getInstance().getLevelTileHeightUnits());
 		}
 
 		Iterator<Dagger> itDaggers = this.stuckedDaggers.iterator();
@@ -293,7 +293,7 @@ public class Pyramid implements IGraphic
 		while (itDaggers.hasNext() && cellWithItem != celda)
 		{
 			LevelObject item = (LevelObject) itDaggers.next();
-			cellWithItem = this.getCell(item.getX(), item.getY() - Config.getInstance().getLevelTileHeightUnits());
+			cellWithItem = this.getCell(item.getX(), item.getY() - GameRules.getInstance().getLevelTileHeightUnits());
 		}
 
 		return !this.unpickableCells.contains(celda) && !isBeginStair && cellWithItem != celda;
@@ -334,7 +334,7 @@ public class Pyramid implements IGraphic
 	public void removePicker(LevelObject picker)
 	{
 		this.pickers.remove(picker);
-		this.removeGraphicElement(new DrawableElement(Constantes.DRAWABLE_LEVEL_ITEM, picker));
+		this.removeGraphicElement(new DrawableElement(Constants.DRAWABLE_LEVEL_ITEM, picker));
 
 	}
 
@@ -348,7 +348,7 @@ public class Pyramid implements IGraphic
 	public void removeJewel(LevelObject joya)
 	{
 		this.jewels.remove(joya);
-		this.removeGraphicElement(new DrawableElement(Constantes.DRAWABLE_LEVEL_ITEM, joya));
+		this.removeGraphicElement(new DrawableElement(Constants.DRAWABLE_LEVEL_ITEM, joya));
 
 	}
 
@@ -380,7 +380,7 @@ public class Pyramid implements IGraphic
 	{
 		Iterator<LevelObject> it = this.hashGiratoryMechanisms.keySet().iterator();
 		while (it.hasNext())
-			this.removeGraphicElement(new DrawableElement(Constantes.DRAWABLE_GYRATORY, it.next()));
+			this.removeGraphicElement(new DrawableElement(Constants.DRAWABLE_GYRATORY, it.next()));
 		this.hashGiratoryMechanisms.clear();
 	}
 

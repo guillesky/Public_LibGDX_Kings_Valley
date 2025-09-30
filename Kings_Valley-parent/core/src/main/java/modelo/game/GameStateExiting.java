@@ -3,7 +3,7 @@ package modelo.game;
 import modelo.DrawableElement;
 import modelo.KVEventListener;
 import modelo.level.door.Door;
-import util.Constantes;
+import util.Constants;
 
 /**
  * @author Guillermo Lazzurri
@@ -31,8 +31,8 @@ public class GameStateExiting extends GameState
 	{
 		super(Game.ST_GAME_EXITING);
 		this.door = door;
-		this.game.getInterfaz().addGraphicElement(new DrawableElement(Constantes.DRAWABLE_EXIT_DOOR, door));
-		this.game.eventFired(KVEventListener.EXITING_LEVEL, null);
+		this.game.getInterfaz().addGraphicElement(new DrawableElement(Constants.DRAWABLE_EXIT_DOOR, door));
+		this.game.eventFired(KVEventListener.EXITING_LEVEL, this.game.getCurrentLevel());
 	}
 
 	/**
@@ -48,6 +48,8 @@ public class GameStateExiting extends GameState
 		super.updateframe(deltaTime);
 		if (this.game.getDelta() >= this.game.getInterfaz().getTimeToExitLevel())
 		{
+			this.game.eventFired(KVEventListener.EXIT_LEVEL, this.game.getCurrentLevel());
+			
 			this.game.goToLevel(door);
 
 		}

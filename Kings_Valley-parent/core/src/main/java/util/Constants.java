@@ -4,18 +4,22 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-public class Constantes
+/**
+ * @author Guillermo Lazzurri
+ * Clase que contiene valores constantes usados internamente por el juego.
+ */
+public class Constants
 {	public static final int PLAYER = 1;
-	public static final int It_giratory = 107;
-	public static final int It_dagger = 137;
-	public static final int It_picker = 138;
-	public static final int It_jewel = 74;
-	public static final int It_door_lever = 127;
-	public static final int It_wall = 254;
-	public static final int It_mummy = 77;
-	public static final int It_stairs = 69;
-	public static final int It_activator = 100;
-	public static final int It_door_passage = 200;
+	public static final int IT_GIRATORY = 107;
+	public static final int IT_DAGGER = 137;
+	public static final int IT_PICKER = 138;
+	public static final int IT_JEWEL = 74;
+	public static final int IT_DOOR_LEVER = 127;
+	public static final int IT_WALL_TRAP = 254;
+	public static final int IT_MUMMY = 77;
+	public static final int IT_STAIR = 69;
+	public static final int IT_TRAP_ACTIVATOR = 100;
+	public static final int IT_DOOR_PASSAGE = 200;
 
 	public static final int UP = 1000;
 	public static final int DOWN = 1001;
@@ -57,25 +61,25 @@ public class Constantes
 	static
 	{
 
-		identificacion.put(It_giratory, "Giratory");
-		identificacion.put(It_dagger, "Dagger");
-		identificacion.put(It_picker, "Picker");
-		identificacion.put(It_jewel, "Jewel");
-		identificacion.put(It_door_lever, "Door");
-		identificacion.put(It_wall, "Wall");
-		identificacion.put(It_mummy, "Mummy");
-		identificacion.put(It_stairs, "Stairs");
-		identificacion.put(It_activator, "Activator");
+		identificacion.put(IT_GIRATORY, "Giratory");
+		identificacion.put(IT_DAGGER, "Dagger");
+		identificacion.put(IT_PICKER, "Picker");
+		identificacion.put(IT_JEWEL, "Jewel");
+		identificacion.put(IT_DOOR_LEVER, "Door");
+		identificacion.put(IT_WALL_TRAP, "Wall");
+		identificacion.put(IT_MUMMY, "Mummy");
+		identificacion.put(IT_STAIR, "Stairs");
+		identificacion.put(IT_TRAP_ACTIVATOR, "Activator");
 
-		stringToInteger.put("Dagger", It_dagger);
-		stringToInteger.put("Picker", It_picker);
-		stringToInteger.put("Jewel", It_jewel);
-		stringToInteger.put("Door", It_door_lever);
-		stringToInteger.put("Wall", It_wall);
-		stringToInteger.put("Mummy", It_mummy);
-		stringToInteger.put("Stairs", It_stairs);
-		stringToInteger.put("Giratory", It_giratory);
-		stringToInteger.put("Activator", It_activator);
+		stringToInteger.put("Dagger", IT_DAGGER);
+		stringToInteger.put("Picker", IT_PICKER);
+		stringToInteger.put("Jewel", IT_JEWEL);
+		stringToInteger.put("Door", IT_DOOR_LEVER);
+		stringToInteger.put("Wall", IT_WALL_TRAP);
+		stringToInteger.put("Mummy", IT_MUMMY);
+		stringToInteger.put("Stairs", IT_STAIR);
+		stringToInteger.put("Giratory", IT_GIRATORY);
+		stringToInteger.put("Activator", IT_TRAP_ACTIVATOR);
 
 		for (int i = 1; i <= 15; i++)
 		{

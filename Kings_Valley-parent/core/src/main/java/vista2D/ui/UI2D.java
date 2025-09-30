@@ -39,7 +39,7 @@ import controler.AbstractControler;
 import controler.IView;
 import facade.Facade;
 import i18n.Messages;
-import util.Constantes;
+import util.Constants;
 import util.GameConfig;
 
 public class UI2D implements IView, ApplicationListener
@@ -210,7 +210,7 @@ public class UI2D implements IView, ApplicationListener
 	this.tableVersion = new Table();
 	tableVersion.bottom().right();
 	tableVersion.setFillParent(true);
-	Label versionLabel = new Label(Constantes.VERSION, skin);
+	Label versionLabel = new Label(Constants.VERSION, skin);
 	tableVersion.add(versionLabel).pad(10);
     }
 

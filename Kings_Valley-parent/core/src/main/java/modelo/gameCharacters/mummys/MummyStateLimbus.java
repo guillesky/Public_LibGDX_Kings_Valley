@@ -1,6 +1,6 @@
 package modelo.gameCharacters.mummys;
 
-import util.Config;
+import util.GameRules;
 
 /**
  * @author Guillermo Lazzurri
@@ -21,7 +21,7 @@ public class MummyStateLimbus extends MummyState
 	 */
 	public MummyStateLimbus(Mummy mummy, boolean mustTeleport)
 	{
-		this(mummy, Config.getInstance().getMummyTimeInLimbus());
+		this(mummy, GameRules.getInstance().getMummyTimeInLimbus());
 		this.mustTeleport = mustTeleport;
 		this.mummy.resetStress();
 	}

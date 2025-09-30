@@ -2,7 +2,7 @@ package modelo.gameCharacters.mummys;
 
 import modelo.gameCharacters.player.Player;
 import modelo.level.Pyramid;
-import util.Config;
+import util.GameRules;
 
 @SuppressWarnings("serial")
 public class MummyWhite extends Mummy
@@ -23,7 +23,7 @@ public class MummyWhite extends Mummy
 
 	public MummyWhite(float x, float y, Pyramid pyramid, Player player)
 	{
-		super(MummyFactory.WHITE_MUMMY, x, y, Config.getInstance().getMummyWhiteParameters(), pyramid, player);
+		super(MummyFactory.WHITE_MUMMY, x, y, GameRules.getInstance().getMummyWhiteParameters(), pyramid, player);
 
 	}
 

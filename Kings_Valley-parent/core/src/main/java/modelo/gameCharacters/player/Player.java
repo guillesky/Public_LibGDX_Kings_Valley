@@ -13,8 +13,8 @@ import modelo.level.LevelObject;
 import modelo.level.Pyramid;
 import modelo.level.dagger.Dagger;
 import modelo.level.dagger.DaggerState;
-import util.Config;
-import util.Constantes;
+import util.GameRules;
+import util.Constants;
 
 /**
  * @author Guillermo Lazzurri Representa al Player
@@ -42,8 +42,8 @@ public class Player extends GameCharacter
 	 */
 	public Player(float x, float y, Pyramid pyramid)
 	{
-		super(Constantes.PLAYER, x, y, Config.getInstance().getPlayerSpeedWalk(),
-				Config.getInstance().getPlayerSpeedWalkStairs(), pyramid);
+		super(Constants.PLAYER, x, y, GameRules.getInstance().getPlayerSpeedWalk(),
+				GameRules.getInstance().getPlayerSpeedWalkStairs(), pyramid);
 		this.playerState = new PlayerStateWalking(this, GameCharacter.ST_IDDLE);
 		Game.getInstance().eventFired(KVEventListener.PLAYER_RESPAWN, this);
 	}
@@ -89,10 +89,10 @@ public class Player extends GameCharacter
 			if (this.doJump())
 				Game.getInstance().eventFired(KVEventListener.PLAYER_JUMP, this);
 
-		} else if (this.item.getType() == Constantes.It_picker)
+		} else if (this.item.getType() == Constants.IT_PICKER)
 		{
 			this.playerState.doPicker();
-		} else if (this.item.getType() == Constantes.It_dagger)
+		} else if (this.item.getType() == Constants.IT_DAGGER)
 		{
 			this.playerState.throwDagger();
 		}

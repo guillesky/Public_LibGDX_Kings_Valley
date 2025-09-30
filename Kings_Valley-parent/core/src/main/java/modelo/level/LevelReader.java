@@ -20,8 +20,8 @@ import modelo.gameCharacters.mummys.MummyFactory;
 import modelo.gameCharacters.player.Player;
 import modelo.level.dagger.Dagger;
 import modelo.level.door.Door;
-import util.Config;
-import util.Constantes;
+import util.GameRules;
+import util.Constants;
 
 /**
  * @author Guillermo Lazzurri Contiene un metodo publico para obtener un nivel
@@ -208,11 +208,11 @@ public class LevelReader
 				if (cell != null)
 				{
 					int value = cell.getTile().getId();
-					if (Constantes.tilesPositiveStairs.contains(value))
+					if (Constants.tilesPositiveStairs.contains(value))
 					{
 						this.generateStair(map, j, i, true);
 
-					} else if (Constantes.tilesNegativeStairs.contains(value))
+					} else if (Constants.tilesNegativeStairs.contains(value))
 					{
 						this.generateStair(map, j, i, false);
 
@@ -253,19 +253,19 @@ public class LevelReader
 		i++;
 		if (isPositive)
 		{
-			up = Constantes.STAIR_DL;
-			down = Constantes.STAIR_UR;
+			up = Constants.STAIR_DL;
+			down = Constants.STAIR_UR;
 			sign = -1;
 		} else
 		{
-			up = Constantes.STAIR_DR;
-			down = Constantes.STAIR_UL;
+			up = Constants.STAIR_DR;
+			down = Constants.STAIR_UL;
 			sign = 1;
-			incX = Config.getInstance().getLevelTileWidthUnits() - Config.getInstance().getStairWidth();
+			incX = GameRules.getInstance().getLevelTileWidthUnits() - GameRules.getInstance().getStairWidth();
 		}
 
-		xUpStair = j * Config.getInstance().getLevelTileWidthUnits() + incX;
-		yUpStair = i * Config.getInstance().getLevelTileHeightUnits();
+		xUpStair = j * GameRules.getInstance().getLevelTileWidthUnits() + incX;
+		yUpStair = i * GameRules.getInstance().getLevelTileHeightUnits();
 
 		do
 		{
@@ -273,13 +273,13 @@ public class LevelReader
 			j += sign;
 		} while (layer.getCell(j + sign, i - 1) != null);
 
-		xDownStair = j * Config.getInstance().getLevelTileWidthUnits() + incX;
-		yDownStair = i * Config.getInstance().getLevelTileHeightUnits();
+		xDownStair = j * GameRules.getInstance().getLevelTileWidthUnits() + incX;
+		yDownStair = i * GameRules.getInstance().getLevelTileHeightUnits();
 
-		LevelObject upStair = new LevelObject(Constantes.It_stairs, xUpStair, yUpStair, up,
-				Config.getInstance().getStairWidth(), Config.getInstance().getStairHeight());
-		LevelObject downStair = new LevelObject(Constantes.It_stairs, xDownStair, yDownStair, down,
-				Config.getInstance().getStairWidth(), Config.getInstance().getStairHeight());
+		LevelObject upStair = new LevelObject(Constants.IT_STAIR, xUpStair, yUpStair, up,
+				GameRules.getInstance().getStairWidth(), GameRules.getInstance().getStairHeight());
+		LevelObject downStair = new LevelObject(Constants.IT_STAIR, xDownStair, yDownStair, down,
+				GameRules.getInstance().getStairWidth(), GameRules.getInstance().getStairHeight());
 		Stair stair = new Stair(downStair, upStair);
 
 		if (isPositive)
@@ -334,28 +334,28 @@ public class LevelReader
 			float fy = (float) mp.get("y");
 			String sp0 = (String) mp.get("p0");
 
-			int type = Constantes.stringToInteger.get(stype);
+			int type = Constants.stringToInteger.get(stype);
 
 			int p0 = Integer.parseInt(sp0);
 
-			float width = Config.getInstance().getLevelObjectWidth();
-			float height = Config.getInstance().getLevelObjectHeight();
-			if (type == Constantes.It_stairs)
+			float width = GameRules.getInstance().getLevelObjectWidth();
+			float height = GameRules.getInstance().getLevelObjectHeight();
+			if (type == Constants.IT_STAIR)
 			{
-				width = Config.getInstance().getStairWidth();
-				height = Config.getInstance().getStairHeight();
-			} else if (type == Constantes.It_giratory)
+				width = GameRules.getInstance().getStairWidth();
+				height = GameRules.getInstance().getStairHeight();
+			} else if (type == Constants.IT_GIRATORY)
 			{
-				width = Config.getInstance().getGiratoryWidth();
+				width = GameRules.getInstance().getGiratoryWidth();
 				int contador = 2;
-				Cell cell = this.getCell(map, fx, fy + Config.getInstance().getLevelTileHeightUnits() * contador);
+				Cell cell = this.getCell(map, fx, fy + GameRules.getInstance().getLevelTileHeightUnits() * contador);
 				while (cell == null)
 				{
 					contador++;
-					cell = this.getCell(map, fx, fy + Config.getInstance().getLevelTileHeightUnits() * contador);
+					cell = this.getCell(map, fx, fy + GameRules.getInstance().getLevelTileHeightUnits() * contador);
 
 				}
-				height = Config.getInstance().getLevelTileHeightUnits() * contador;
+				height = GameRules.getInstance().getLevelTileHeightUnits() * contador;
 				this.unpickableCells.add(cell);
 
 			}
@@ -363,48 +363,48 @@ public class LevelReader
 			LevelObject levelObject;
 			switch (type)
 			{
-			case Constantes.It_mummy:
+			case Constants.IT_MUMMY:
 				this.mummyDatas.add(new MummyData(fx, fy, p0));
 
 				break;
-			case Constantes.It_door_lever:
+			case Constants.IT_DOOR_LEVER:
 				levelObject = new LevelObject(type, fx, fy, p0, width, height);
-				Door door = new Door(levelObject, id, Config.getInstance().getTimeToOpenCloseDoor());
+				Door door = new Door(levelObject, id, GameRules.getInstance().getTimeToOpenCloseDoor());
 				this.doors.add(door);
 
 				break;
-			case Constantes.It_jewel:
+			case Constants.IT_JEWEL:
 				levelObject = new LevelObject(type, fx, fy, p0, width, height);
 				this.jewels.add(levelObject);
 				break;
-			case Constantes.It_picker:
+			case Constants.IT_PICKER:
 				levelObject = new LevelObject(type, fx, fy, p0, width, height);
 				this.pickers.add(levelObject);
 				break;
 
-			case Constantes.It_dagger:
+			case Constants.IT_DAGGER:
 
 				this.stuckedDaggers.add(new Dagger(fx, fy, p0, width, height));
 				break;
 
-			case Constantes.It_giratory:
+			case Constants.IT_GIRATORY:
 				levelObject = new LevelObject(type, fx, fy, p0, width, height);
 
 				GiratoryMechanism giratoryMechanism = new GiratoryMechanism(levelObject,
-						Config.getInstance().getTimeToEndGiratory());
+						GameRules.getInstance().getTimeToEndGiratory());
 				this.hashGiratoryMechanisms.put(levelObject, giratoryMechanism);
 				this.unpickableCells.add(this.getCell(map, levelObject.getX(),
-						levelObject.getY() - Config.getInstance().getLevelTileHeightUnits()));
+						levelObject.getY() - GameRules.getInstance().getLevelTileHeightUnits()));
 
 				break;
-			case Constantes.It_wall:
+			case Constants.IT_WALL_TRAP:
 				levelObject = new LevelObject(type, fx, fy, p0, width, height);
 
 				this.walls.add(levelObject);
 				this.unpickableCells.add(this.getCell(map, levelObject.getX(), levelObject.getY()));
 				break;
 
-			case Constantes.It_activator:
+			case Constants.IT_TRAP_ACTIVATOR:
 				levelObject = new LevelObject(type, fx, fy, p0, width, height);
 
 				this.activators.add(levelObject);
@@ -456,8 +456,8 @@ public class LevelReader
 	private TiledMapTileLayer.Cell getCell(TiledMap map, float x, float y)
 	{
 		TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get("front");
-		TiledMapTileLayer.Cell cell = layer.getCell((int) (x / Config.getInstance().getLevelTileWidthUnits()),
-				(int) (y / Config.getInstance().getLevelTileHeightUnits()));
+		TiledMapTileLayer.Cell cell = layer.getCell((int) (x / GameRules.getInstance().getLevelTileWidthUnits()),
+				(int) (y / GameRules.getInstance().getLevelTileHeightUnits()));
 		return cell;
 	}
 

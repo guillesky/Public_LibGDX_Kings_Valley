@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import modelo.gameCharacters.mummys.Mummy;
 import modelo.level.Pyramid;
-import util.Config;
+import util.GameRules;
 
 /**
  * @author Guillermo Lazzurri Clase que representa los estados de la daga
@@ -90,7 +90,7 @@ public abstract class DaggerState
 	protected void roundX()
 	{
 
-		dagger.x = this.roundCoord(dagger.x, Config.getInstance().getLevelTileWidthUnits());
+		dagger.x = this.roundCoord(dagger.x, GameRules.getInstance().getLevelTileWidthUnits());
 
 	}
 
@@ -100,7 +100,7 @@ public abstract class DaggerState
 	protected void roundY()
 	{
 
-		dagger.y = this.roundCoord(dagger.y, Config.getInstance().getLevelTileHeightUnits());
+		dagger.y = this.roundCoord(dagger.y, GameRules.getInstance().getLevelTileHeightUnits());
 
 	}
 

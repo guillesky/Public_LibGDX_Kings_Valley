@@ -6,7 +6,7 @@ import modelo.KVEventListener;
 import modelo.game.Game;
 import modelo.gameCharacters.abstractGameCharacter.GameCharacter;
 import modelo.level.GiratoryMechanism;
-import util.Config;
+import util.GameRules;
 
 /**
  * @author Guillermo Lazzurri Representa el estado "Lanzando daga"
@@ -42,7 +42,7 @@ public class PlayerStateThrowingDagger extends PlayerState
 	public void update(Vector2 v, boolean b, float deltaTime)
 	{
 
-		if (this.player.getAnimationDelta() >= Config.getInstance().getTimeToEndThrowDagger()) // termino de LANZAR LA
+		if (this.player.getAnimationDelta() >= GameRules.getInstance().getTimeToEndThrowDagger()) // termino de LANZAR LA
 																								// DAGA
 		{
 			int state;

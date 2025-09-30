@@ -3,7 +3,7 @@ package modelo.game;
 import modelo.KVEventListener;
 import modelo.level.LevelReader;
 import modelo.level.door.Door;
-import util.Constantes;
+import util.Constants;
 
 /**
  * @author Guillermo Lazzurri
@@ -65,13 +65,13 @@ public abstract class GameState
 		LevelReader levelReader = new LevelReader();
 		if (this.game.level != null)
 			this.game.level.dispose();
-		if (Constantes.levelFileName.get(this.game.idCurrentLevel) == null)
+		if (Constants.levelFileName.get(this.game.idCurrentLevel) == null)
 		{
 			this.game.eventFired(KVEventListener.FINISH_ALL_LEVELS, null);
 
 		}
 		this.game.level = levelReader.getLevel(this.game.idCurrentLevel,
-				Constantes.levelFileName.get(this.game.idCurrentLevel), this.game.getDificultLevel(),
+				Constants.levelFileName.get(this.game.idCurrentLevel), this.game.getDificultLevel(),
 				this.game.completedLevels.get(this.game.idCurrentLevel), door, fromDeath, this.game.getInterfaz());
 		this.game.stateGame = new GameStateEntering();
 		this.game.getInterfaz().inicialize();

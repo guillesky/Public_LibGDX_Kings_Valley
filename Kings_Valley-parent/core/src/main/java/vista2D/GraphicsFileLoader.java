@@ -17,8 +17,8 @@ import com.badlogic.gdx.utils.Json;
 
 import modelo.gameCharacters.mummys.MummyFactory;
 import modelo.level.LevelObject;
-import util.Config;
-import util.Constantes;
+import util.GameRules;
+import util.Constants;
 
 @SuppressWarnings("unchecked")
 public class GraphicsFileLoader
@@ -183,9 +183,9 @@ public class GraphicsFileLoader
 	linearFrames = this.linearFramesForFile(this.graphicsFileConfig.getArchiPlayerSpecial(),
 		daggerCountThrowing + pickerCountPicking);
 	this.animationPlayer_Dagger[TileMapGrafica2D.THROW_DAGGER] = this.framesToAnimation(linearFrames,
-		pickerCountPicking, daggerCountThrowing, Config.getInstance().getTimeToEndThrowDagger() / 8);
+		pickerCountPicking, daggerCountThrowing, GameRules.getInstance().getTimeToEndThrowDagger() / 8);
 	this.animationPlayer_Dagger[TileMapGrafica2D.THROW_DAGGER].setPlayMode(PlayMode.NORMAL);
-	float framePickingDuration = Config.getInstance().getTimeToEndPicking() / (float) (pickerCountPicking * 4);
+	float framePickingDuration = GameRules.getInstance().getTimeToEndPicking() / (float) (pickerCountPicking * 4);
 
 	this.animationPlayer_Picker[TileMapGrafica2D.PICKING] = this.framesToAnimation(linearFrames, 0,
 		pickerCountPicking, framePickingDuration);
@@ -242,24 +242,24 @@ public class GraphicsFileLoader
 
 	Array<TextureRegion> linearFrames = this.linearFramesForFile(this.graphicsFileConfig.getArchiCollectables(),
 		collectableCount, 9);
-	this.animations.put(Constantes.It_dagger, this.framesToAnimation(linearFrames, 0, collectableCount,
+	this.animations.put(Constants.IT_DAGGER, this.framesToAnimation(linearFrames, 0, collectableCount,
 		this.getRandomFrameDuration(minFrameDuration, maxFrameDuration)));
-	this.animations.put(Constantes.It_picker, this.framesToAnimation(linearFrames, collectableCount,
+	this.animations.put(Constants.IT_PICKER, this.framesToAnimation(linearFrames, collectableCount,
 		collectableCount, this.getRandomFrameDuration(minFrameDuration, maxFrameDuration)));
 
-	this.animations.put(Constantes.JEWEL_1, this.framesToAnimation(linearFrames, collectableCount * 2,
+	this.animations.put(Constants.JEWEL_1, this.framesToAnimation(linearFrames, collectableCount * 2,
 		collectableCount, this.getRandomFrameDuration(minFrameDuration, maxFrameDuration)));
-	this.animations.put(Constantes.JEWEL_2, this.framesToAnimation(linearFrames, collectableCount * 3,
+	this.animations.put(Constants.JEWEL_2, this.framesToAnimation(linearFrames, collectableCount * 3,
 		collectableCount, this.getRandomFrameDuration(minFrameDuration, maxFrameDuration)));
-	this.animations.put(Constantes.JEWEL_3, this.framesToAnimation(linearFrames, collectableCount * 4,
+	this.animations.put(Constants.JEWEL_3, this.framesToAnimation(linearFrames, collectableCount * 4,
 		collectableCount, this.getRandomFrameDuration(minFrameDuration, maxFrameDuration)));
-	this.animations.put(Constantes.JEWEL_4, this.framesToAnimation(linearFrames, collectableCount * 5,
+	this.animations.put(Constants.JEWEL_4, this.framesToAnimation(linearFrames, collectableCount * 5,
 		collectableCount, this.getRandomFrameDuration(minFrameDuration, maxFrameDuration)));
-	this.animations.put(Constantes.JEWEL_5, this.framesToAnimation(linearFrames, collectableCount * 6,
+	this.animations.put(Constants.JEWEL_5, this.framesToAnimation(linearFrames, collectableCount * 6,
 		collectableCount, this.getRandomFrameDuration(minFrameDuration, maxFrameDuration)));
-	this.animations.put(Constantes.JEWEL_6, this.framesToAnimation(linearFrames, collectableCount * 7,
+	this.animations.put(Constants.JEWEL_6, this.framesToAnimation(linearFrames, collectableCount * 7,
 		collectableCount, this.getRandomFrameDuration(minFrameDuration, maxFrameDuration)));
-	this.animations.put(Constantes.JEWEL_7, this.framesToAnimation(linearFrames, collectableCount * 8,
+	this.animations.put(Constants.JEWEL_7, this.framesToAnimation(linearFrames, collectableCount * 8,
 		collectableCount, this.getRandomFrameDuration(minFrameDuration, maxFrameDuration)));
 
 	this.linearFramesGiratory = this.linearFramesForFile(this.graphicsFileConfig.getArchiGiratory(),
@@ -270,12 +270,12 @@ public class GraphicsFileLoader
 	picking_cell.setPlayMode(PlayMode.NORMAL);
 
 	this.animatedPickedCell = new AnimatedPickedCell(new LevelObject(0, 0, 0, 0,
-		Config.getInstance().getLevelTileWidthUnits(), Config.getInstance().getLevelTileHeightUnits()),
+		GameRules.getInstance().getLevelTileWidthUnits(), GameRules.getInstance().getLevelTileHeightUnits()),
 		picking_cell);
 
 	linearFrames = this.linearFramesForFile(this.graphicsFileConfig.getArchiFlyingDagger(), flyingDaggerCount);
 
-	this.animations.put(Constantes.DRAWABLE_FLYING_DAGGER,
+	this.animations.put(Constants.DRAWABLE_FLYING_DAGGER,
 		this.framesToAnimation(linearFrames, 0, flyingDaggerCount, maxFrameDuration * 0.5f));
 
     }
@@ -303,8 +303,8 @@ public class GraphicsFileLoader
 	int mummyStartJump = mummyStartFall + mummyCountFall;
 	int mummyStartDeath = mummyStartJump + mummyCountJump;
 	int mummyTotalCount = mummyStartDeath + mummyCountDeath;
-	float frameAppearingDuration = Config.getInstance().getMummyTimeAppearing() / (float) mummyCountAppear;
-	float frameDeathDuration = Config.getInstance().getMummyTimeDying() / (float) mummyCountDeath;
+	float frameAppearingDuration = GameRules.getInstance().getMummyTimeAppearing() / (float) mummyCountAppear;
+	float frameDeathDuration = GameRules.getInstance().getMummyTimeDying() / (float) mummyCountDeath;
 
 	float frameDuration = this.graphicsFileConfig.getFrameDuration();
 	Array<TextureRegion> linearFrames = this.linearFramesForFile(this.graphicsFileConfig.getArchiMummys(),
@@ -317,24 +317,24 @@ public class GraphicsFileLoader
 	    switch (mummyType)
 	    {
 	    case MummyFactory.WHITE_MUMMY:
-		mummyParameters = Config.getInstance().getMummyWhiteParameters();
+		mummyParameters = GameRules.getInstance().getMummyWhiteParameters();
 		break;
 	    case MummyFactory.PINK_MUMMY:
-		mummyParameters = Config.getInstance().getMummyPinkParameters();
+		mummyParameters = GameRules.getInstance().getMummyPinkParameters();
 		break;
 	    case MummyFactory.YELLOW_MUMMY:
-		mummyParameters = Config.getInstance().getMummyYellowParameters();
+		mummyParameters = GameRules.getInstance().getMummyYellowParameters();
 		break;
 	    case MummyFactory.BLUE_MUMMY:
-		mummyParameters = Config.getInstance().getMummyBlueParameters();
+		mummyParameters = GameRules.getInstance().getMummyBlueParameters();
 		break;
 	    case MummyFactory.RED_MUMMY:
-		mummyParameters = Config.getInstance().getMummyRedParameters();
+		mummyParameters = GameRules.getInstance().getMummyRedParameters();
 		break;
 
 	    }
-	    float speedMummyWalk = mummyParameters[Config.INDEX_SPEED_WALK];
-	    float speedPlayerWalk = Config.getInstance().getPlayerSpeedWalk();
+	    float speedMummyWalk = mummyParameters[GameRules.INDEX_SPEED_WALK];
+	    float speedPlayerWalk = GameRules.getInstance().getPlayerSpeedWalk();
 	    float factorFrameWalk = speedPlayerWalk / speedMummyWalk;
 	    float frameWalkDuration = factorFrameWalk * .75f / (float) mummyCountWalk;
 
@@ -484,7 +484,7 @@ public class GraphicsFileLoader
 
     public Animation<TextureRegion> getNewAnimationGiratory(int heightInTiles)
     {
-	float frameDuration = Config.getInstance().getTimeToEndGiratory()
+	float frameDuration = GameRules.getInstance().getTimeToEndGiratory()
 		/ (float) this.graphicsFileConfig.getGiratoryCount();
 
 	Array<TextureRegion> linearFrame = new Array<TextureRegion>();

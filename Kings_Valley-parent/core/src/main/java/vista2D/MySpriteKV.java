@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import modelo.IGraphicRenderer;
 import modelo.level.LevelObject;
 
 public class MySpriteKV extends Sprite implements IGraphicRenderer

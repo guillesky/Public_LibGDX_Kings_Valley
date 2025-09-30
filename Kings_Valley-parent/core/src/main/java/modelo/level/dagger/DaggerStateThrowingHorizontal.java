@@ -10,7 +10,7 @@ import modelo.game.Game;
 import modelo.gameCharacters.mummys.Mummy;
 import modelo.level.LevelObject;
 import modelo.level.Pyramid;
-import util.Config;
+import util.GameRules;
 
 /**
  * @author Guillermo Lazzurri
@@ -45,7 +45,7 @@ public class DaggerStateThrowingHorizontal extends DaggerState
 	public void updateDagger(float deltaTime, Pyramid pyramid, ArrayList<Mummy> mummys)
 	{
 		Cell cell = null;
-		this.updateX(Config.getInstance().getFlyingDaggerSpeed() * deltaTime);
+		this.updateX(GameRules.getInstance().getFlyingDaggerSpeed() * deltaTime);
 		if (dagger.isRight())
 			cell = pyramid.getCell(dagger.x + dagger.width, dagger.y);
 		else

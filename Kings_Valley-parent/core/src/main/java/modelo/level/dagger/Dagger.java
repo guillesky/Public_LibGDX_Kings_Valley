@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import modelo.gameCharacters.mummys.Mummy;
 import modelo.level.LevelObject;
 import modelo.level.Pyramid;
-import util.Constantes;
+import util.Constants;
 
 /**
  * @author Guillermo Lazzurri
@@ -32,7 +32,7 @@ public class Dagger extends LevelObject
 	 */
 	public Dagger(float x, float y, int p0, float width, float height)
 	{
-		super(Constantes.It_dagger, x, y, p0, width, height);
+		super(Constants.IT_DAGGER, x, y, p0, width, height);
 		this.daggerState = new DaggerStateStucked(this);
 
 	}

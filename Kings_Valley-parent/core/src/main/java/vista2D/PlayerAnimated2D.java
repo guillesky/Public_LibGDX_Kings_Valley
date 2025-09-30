@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import modelo.gameCharacters.abstractGameCharacter.GameCharacter;
 import modelo.gameCharacters.player.Player;
 import modelo.level.LevelObject;
-import util.Constantes;
+import util.Constants;
 
 public class PlayerAnimated2D extends GameCharacterAnimated2D
 {
@@ -84,7 +84,7 @@ public class PlayerAnimated2D extends GameCharacterAnimated2D
 
 	else
 
-	if (this.item.getType() == Constantes.It_picker)
+	if (this.item.getType() == Constants.IT_PICKER)
 
 	    this.changeArrayAnimation(this.animation_Picker);
 	else

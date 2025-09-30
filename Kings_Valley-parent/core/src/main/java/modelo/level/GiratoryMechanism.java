@@ -1,6 +1,6 @@
 package modelo.level;
 
-import util.Config;
+import util.GameRules;
 
 /**
  * @author Guillermo Lazzurri
@@ -24,7 +24,7 @@ public class GiratoryMechanism extends Mechanism
 	{
 		super(timeToEnd);
 		this.levelObject = levelObject;
-		this.heightInTiles = (int) (levelObject.getHeight() / Config.getInstance().getLevelTileHeightUnits());
+		this.heightInTiles = (int) (levelObject.getHeight() / GameRules.getInstance().getLevelTileHeightUnits());
 		this.right = (levelObject.getP0() == 0);
 		this.active = false;
 

@@ -6,8 +6,8 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import modelo.DrawableElement;
 import modelo.KVEventListener;
 import modelo.game.Game;
-import util.Config;
-import util.Constantes;
+import util.GameRules;
+import util.Constants;
 
 /**
  * @author Guillermo Lazzurri Representa un muro trampa
@@ -41,7 +41,7 @@ public class TrapMechanism extends Mechanism
 		this.x = wall.getColPosition();
 		this.y = wall.getRowPosition();
 		this.tile = this.layer.getCell(x, y).getTile();
-		pyramid.addGraphicElement(new DrawableElement(Constantes.DRAWABLE_TRAP, this));
+		pyramid.addGraphicElement(new DrawableElement(Constants.DRAWABLE_TRAP, this));
 		Game.getInstance().eventFired(KVEventListener.ACTIVATE_TRAP, this);
 
 	}
@@ -88,7 +88,7 @@ public class TrapMechanism extends Mechanism
 	 */
 	public float getX()
 	{
-		float r = x * Config.getInstance().getLevelObjectHeight();
+		float r = x * GameRules.getInstance().getLevelObjectHeight();
 		return r;
 	}
 
@@ -99,7 +99,7 @@ public class TrapMechanism extends Mechanism
 	public float getY()
 	{
 		float auxY = y;
-		float r = (auxY - this.time) * Config.getInstance().getLevelObjectHeight();
+		float r = (auxY - this.time) * GameRules.getInstance().getLevelObjectHeight();
 		return r;
 	}
 

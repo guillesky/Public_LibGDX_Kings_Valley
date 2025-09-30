@@ -2,7 +2,6 @@ package vista2D;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
-import modelo.IGraphicRenderer;
 import modelo.level.TrapMechanism;
 
 public class AnimatedTrapKV2 implements IGraphicRenderer

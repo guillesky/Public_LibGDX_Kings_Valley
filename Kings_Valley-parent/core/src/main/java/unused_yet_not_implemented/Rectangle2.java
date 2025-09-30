@@ -1,4 +1,4 @@
-package util;
+package unused_yet_not_implemented;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;

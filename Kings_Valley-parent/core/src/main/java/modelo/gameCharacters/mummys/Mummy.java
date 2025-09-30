@@ -4,12 +4,14 @@ import java.util.Random;
 
 import com.badlogic.gdx.math.Vector2;
 
+import modelo.KVEventListener;
+import modelo.game.Game;
 import modelo.gameCharacters.abstractGameCharacter.GameCharacter;
 import modelo.gameCharacters.player.Player;
 import modelo.level.GiratoryMechanism;
 import modelo.level.Pyramid;
 import modelo.level.Stair;
-import util.Config;
+import util.GameRules;
 
 /**
  * @author Guillermo Lazzurri
@@ -63,23 +65,27 @@ public abstract class Mummy extends GameCharacter
 	 */
 	public Mummy(int type, float x, float y, float[] parameters, Pyramid pyramid, Player player)
 	{
-		super(type, x, y, parameters[Config.INDEX_SPEED_WALK], parameters[Config.INDEX_SPEED_STAIR], pyramid);
-		this.decisionFactorForFall = parameters[Config.INDEX_DECICION_FACTOR_FALL];
-		this.decisionFactorForJump = parameters[Config.INDEX_DECICION_FACTOR_JUMP];
-		this.timeToDecide = parameters[Config.INDEX_TIME_TO_DECIDE];
-		this.timeDeciding = parameters[Config.INDEX_TIME_DECIDING];
+		super(type, x, y, parameters[GameRules.INDEX_SPEED_WALK], parameters[GameRules.INDEX_SPEED_STAIR], pyramid);
+		this.decisionFactorForFall = parameters[GameRules.INDEX_DECICION_FACTOR_FALL];
+		this.decisionFactorForJump = parameters[GameRules.INDEX_DECICION_FACTOR_JUMP];
+		this.timeToDecide = parameters[GameRules.INDEX_TIME_TO_DECIDE];
+		this.timeDeciding = parameters[GameRules.INDEX_TIME_DECIDING];
 
 		this.mummyState = new MummyStateLimbus(this, 1);
 		this.player = player;
 	}
 
 	/**
-	 * Llama a this.doJump(); (las momias solo pueden saltar)
+	 * Llama a this.doJump(); (las momias solo pueden saltar) y dispara el evento
+	 * Game.getInstance().eventFired(KVEventListener.MUMMY_JUMP, this);
+	 * 
 	 */
 	@Override
 	protected void doAction()
 	{
 		this.doJump();
+		Game.getInstance().eventFired(KVEventListener.MUMMY_JUMP, this);
+
 	}
 
 	/**
@@ -96,9 +102,9 @@ public abstract class Mummy extends GameCharacter
 			probableX = x + width * .5f;
 		else
 			probableX = x;
-		condicion = this.pyramid.getCell(probableX, this.y - Config.getInstance().getLevelTileHeightUnits()) == null
+		condicion = this.pyramid.getCell(probableX, this.y - GameRules.getInstance().getLevelTileHeightUnits()) == null
 				&& this.pyramid.getCell(probableX, this.y) == null
-				&& this.pyramid.getCell(probableX, this.y + Config.getInstance().getLevelTileHeightUnits()) == null;
+				&& this.pyramid.getCell(probableX, this.y + GameRules.getInstance().getLevelTileHeightUnits()) == null;
 		return condicion;
 
 	}
@@ -129,7 +135,7 @@ public abstract class Mummy extends GameCharacter
 	}
 
 	/**
-	 *Siempre retorna false (las momias no pueden utilizar giratorias)
+	 * Siempre retorna false (las momias no pueden utilizar giratorias)
 	 */
 	@Override
 	protected boolean canPassGiratoryMechanism(GiratoryMechanism giratoryMechanism)
@@ -148,6 +154,7 @@ public abstract class Mummy extends GameCharacter
 
 	/**
 	 * Llamado para actualizar la momia
+	 * 
 	 * @param deltaTime tiempo desde la ultima llamada
 	 */
 	public void update(float deltaTime)
@@ -159,8 +166,8 @@ public abstract class Mummy extends GameCharacter
 	}
 
 	/**
-	 *llama a super.move(v, b, deltaTime);
-
+	 * llama a super.move(v, b, deltaTime);
+	 * 
 	 */
 	@Override
 	protected void move(Vector2 v, boolean b, float deltaTime)
@@ -178,7 +185,7 @@ public abstract class Mummy extends GameCharacter
 	}
 
 	/**
-	 * Setea el atribotuo state (no confundir con el patron State) 
+	 * Setea el atribotuo state (no confundir con el patron State)
 	 */
 	protected void setState(int state)
 	{
@@ -196,6 +203,7 @@ public abstract class Mummy extends GameCharacter
 
 	/**
 	 * Calma el nivel de stress de la momia
+	 * 
 	 * @param cant cantidad de stress que debe restar
 	 */
 	protected void calmStress(float cant)
@@ -220,10 +228,10 @@ public abstract class Mummy extends GameCharacter
 
 	}
 
-	
-
 	/**
-	 * Calcula la distancia al cuadrado del player a las coordenadas x e y pasadas por parametro, usado para calcular posibles destinos de teletransporte
+	 * Calcula la distancia al cuadrado del player a las coordenadas x e y pasadas
+	 * por parametro, usado para calcular posibles destinos de teletransporte
+	 * 
 	 * @param paramX coordenada x de destino
 	 * @param paramY coordenada y de destino
 	 * @return distancia al cuadrado
@@ -238,7 +246,8 @@ public abstract class Mummy extends GameCharacter
 	}
 
 	/**
-	 *llama a super.resetAnimationDelta(); (su unico objetivo es hacer visible el metodo dentro del paquete)
+	 * llama a super.resetAnimationDelta(); (su unico objetivo es hacer visible el
+	 * metodo dentro del paquete)
 	 */
 	@Override
 	protected void resetAnimationDelta()
@@ -248,7 +257,9 @@ public abstract class Mummy extends GameCharacter
 
 	/**
 	 * Delega en el metodo this.mummyState.die(mustTeleport); (patron state)
-	 * @param mustTeleport true si la momia debe teletransportarse al renacer, false en caso contrario.
+	 * 
+	 * @param mustTeleport true si la momia debe teletransportarse al renacer, false
+	 *                     en caso contrario.
 	 */
 	public void die(boolean mustTeleport)
 	{
@@ -258,7 +269,9 @@ public abstract class Mummy extends GameCharacter
 
 	/**
 	 * Delega en el metodo this.mummyState.isDanger(); (patron state)
-	 * @return true si la momia es peligrosa, false en caso contrario (esta en el limbo, apareciendo o muriendo)
+	 * 
+	 * @return true si la momia es peligrosa, false en caso contrario (esta en el
+	 *         limbo, apareciendo o muriendo)
 	 * 
 	 */
 	public boolean isDanger()
@@ -276,7 +289,7 @@ public abstract class Mummy extends GameCharacter
 		{
 			coords = this.getRandomCellInFloor();
 
-		} while (this.distanceQuadToPlayer(coords[0], coords[1]) < Config.getInstance()
+		} while (this.distanceQuadToPlayer(coords[0], coords[1]) < GameRules.getInstance()
 				.getMinMummySpawnDistanceToPlayer());
 		this.x = coords[0];
 		this.y = coords[1];
@@ -300,12 +313,13 @@ public abstract class Mummy extends GameCharacter
 		while (this.pyramid.getCellInTiledCoord(j, i - 1) == null)
 			i--;
 		float[] r =
-		{ j * Config.getInstance().getLevelTileWidthUnits(), i * Config.getInstance().getLevelTileHeightUnits() };
+		{ j * GameRules.getInstance().getLevelTileWidthUnits(), i * GameRules.getInstance().getLevelTileHeightUnits() };
 		return r;
 	}
 
 	/**
-	 *Llama super.checkStairsFeetColision(positiveStairs, isUpping); (su unico objetivo es hacer visible el metodo dentro del paquete)
+	 * Llama super.checkStairsFeetColision(positiveStairs, isUpping); (su unico
+	 * objetivo es hacer visible el metodo dentro del paquete)
 	 */
 	@Override
 	protected Stair checkStairsFeetColision(boolean positiveStairs, boolean isUpping)
@@ -315,7 +329,8 @@ public abstract class Mummy extends GameCharacter
 	}
 
 	/**
-	 *Llama super.enterStair(stair); (su unico objetivo es hacer visible el metodo dentro del paquete)
+	 * Llama super.enterStair(stair); (su unico objetivo es hacer visible el metodo
+	 * dentro del paquete)
 	 */
 	@Override
 	protected void enterStair(Stair stair)
@@ -325,7 +340,8 @@ public abstract class Mummy extends GameCharacter
 	}
 
 	/**
-	 * @return true si la momia puede saltar sin chocarse arriba, false en caso contrario
+	 * @return true si la momia puede saltar sin chocarse arriba, false en caso
+	 *         contrario
 	 */
 	protected boolean canJump()
 	{
@@ -362,6 +378,7 @@ public abstract class Mummy extends GameCharacter
 
 	/**
 	 * Incrementa el tiempo en el estaco actual
+	 * 
 	 * @param delta tiempo de incremento
 	 */
 	protected void incTimeInState(float delta)

@@ -10,7 +10,7 @@ import modelo.level.GiratoryMechanism;
 import modelo.level.LevelObject;
 import modelo.level.Pyramid;
 import modelo.level.Stair;
-import util.Config;
+import util.GameRules;
 
 /**
  * @author Guillermo Lazzurri
@@ -80,17 +80,17 @@ public abstract class GameCharacter extends LevelObject
 	 */
 	public GameCharacter(int type, float x, float y, float speedWalk, float speedWalkStairs, Pyramid pyramid)
 	{
-		super(type, x, y, 0, Config.getInstance().getCharacterWidth(), Config.getInstance().getCharacterHeight());
+		super(type, x, y, 0, GameRules.getInstance().getCharacterWidth(), GameRules.getInstance().getCharacterHeight());
 		float feetWidth;
 		float feetHeight;
 
-		this.speedFall = Config.getInstance().getCharacterSpeedFall();
+		this.speedFall = GameRules.getInstance().getCharacterSpeedFall();
 		this.speedWalk = speedWalk;
 		this.speedWalkStairs = speedWalkStairs;
-		this.speedJump = Config.getInstance().getCharacterSpeedJump();
+		this.speedJump = GameRules.getInstance().getCharacterSpeedJump();
 
-		feetHeight = Config.getInstance().getCharacterFeetHeight();
-		feetWidth = Config.getInstance().getCharacterFeetWidth();
+		feetHeight = GameRules.getInstance().getCharacterFeetHeight();
+		feetWidth = GameRules.getInstance().getCharacterFeetWidth();
 		this.pyramid = pyramid;
 
 		float mitad = this.x + this.width / 2;
@@ -156,7 +156,7 @@ public abstract class GameCharacter extends LevelObject
 	 */
 	public boolean isFeetColision(Rectangle another)
 	{
-		this.feet.x = this.x + (this.width - Config.getInstance().getCharacterFeetHeight()) / 2;
+		this.feet.x = this.x + (this.width - GameRules.getInstance().getCharacterFeetHeight()) / 2;
 		this.feet.y = this.y;
 		return LevelObject.rectangleColision(this.feet, another);
 	}
@@ -254,9 +254,9 @@ public abstract class GameCharacter extends LevelObject
 	 */
 	protected boolean isLockedLeft()
 	{
-		return this.pyramid.getCell(this.x - Config.getInstance().getLevelTileWidthUnits(),
-				this.y + Config.getInstance().getLevelTileHeightUnits()) != null
-				|| this.pyramid.getCell(this.x - Config.getInstance().getLevelTileWidthUnits(), this.y) != null;
+		return this.pyramid.getCell(this.x - GameRules.getInstance().getLevelTileWidthUnits(),
+				this.y + GameRules.getInstance().getLevelTileHeightUnits()) != null
+				|| this.pyramid.getCell(this.x - GameRules.getInstance().getLevelTileWidthUnits(), this.y) != null;
 
 	}
 
@@ -267,9 +267,9 @@ public abstract class GameCharacter extends LevelObject
 
 	protected boolean isLockedRight()
 	{
-		return this.pyramid.getCell(this.x + Config.getInstance().getLevelTileWidthUnits(),
-				this.y + Config.getInstance().getLevelTileHeightUnits()) != null
-				|| this.pyramid.getCell(this.x + Config.getInstance().getLevelTileWidthUnits(), this.y) != null;
+		return this.pyramid.getCell(this.x + GameRules.getInstance().getLevelTileWidthUnits(),
+				this.y + GameRules.getInstance().getLevelTileHeightUnits()) != null
+				|| this.pyramid.getCell(this.x + GameRules.getInstance().getLevelTileWidthUnits(), this.y) != null;
 
 	}
 

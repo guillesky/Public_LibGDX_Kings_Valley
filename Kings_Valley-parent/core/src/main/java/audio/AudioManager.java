@@ -195,7 +195,7 @@ public class AudioManager implements KVEventListener
 	    this.fadeOutMusic = true;
 	}
 
-	if (eventCode == KVEventListener.GAME_OVER_INIT)
+	if (eventCode == KVEventListener.GAME_ENDING)
 	{
 	    this.fadeOutMusic = true;
 	}
@@ -222,7 +222,7 @@ public class AudioManager implements KVEventListener
 
 	    break;
 
-	case KVEventListener.FINISH_CURRENT_LEVEL:
+	case KVEventListener.EXITING_LEVEL:
 	    this.fadeOutMusic = true;
 	    break;
 	case KVEventListener.ENTER_LEVEL:

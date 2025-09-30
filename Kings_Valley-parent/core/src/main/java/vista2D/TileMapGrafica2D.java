@@ -38,8 +38,8 @@ import modelo.level.Stair;
 import modelo.level.TrapMechanism;
 import modelo.level.dagger.Dagger;
 import modelo.level.door.Door;
-import util.Config;
-import util.Constantes;
+import util.GameRules;
+import util.Constants;
 
 public class TileMapGrafica2D implements IMyApplicationListener
 {
@@ -100,26 +100,26 @@ public class TileMapGrafica2D implements IMyApplicationListener
 	public void addGraphicElement(DrawableElement element)
 	{
 
-		if (element.getType() == Constantes.DRAWABLE_LEVEL_ITEM)
+		if (element.getType() == Constants.DRAWABLE_LEVEL_ITEM)
 		{
 			LevelObject item = (LevelObject) element.getDrawable();
 			AnimatedEntity2D animatedEntity2D = null;
 			int id = 0;
-			if (item.getType() == Constantes.It_jewel)
+			if (item.getType() == Constants.IT_JEWEL)
 				id = item.getP0();
 			else
 				id = item.getType();
 			animatedEntity2D = new AnimatedEntity2D(item, this.graphicsFileLoader.getAnimations().get(id));
 			this.animatedEntities.add(animatedEntity2D);
 			this.hashMapLevelAnimation.put(item, animatedEntity2D);
-		} else if (element.getType() == Constantes.DRAWABLE_TRAP)
+		} else if (element.getType() == Constants.DRAWABLE_TRAP)
 		{
 			TrapMechanism trapMech = (TrapMechanism) element.getDrawable();
 			AnimatedTrapKV2 atrapKV = new AnimatedTrapKV2(trapMech);
 			this.hashMapTrapAnimation.put(trapMech, atrapKV);
 			this.animatedTraps.add(atrapKV);
 
-		} else if (element.getType() == Constantes.DRAWABLE_GYRATORY)
+		} else if (element.getType() == Constants.DRAWABLE_GYRATORY)
 		{
 
 			GiratoryMechanism gm = (GiratoryMechanism) element.getDrawable();
@@ -128,7 +128,7 @@ public class TileMapGrafica2D implements IMyApplicationListener
 
 			this.animatedEntities.add(a);
 			this.hashMapLevelAnimation.put(gm.getLevelObject(), a);
-		} else if (element.getType() == Constantes.DRAWABLE_PICKING_CELL)
+		} else if (element.getType() == Constants.DRAWABLE_PICKING_CELL)
 		{
 			PairInt pairInt = (PairInt) element.getDrawable();
 
@@ -137,18 +137,18 @@ public class TileMapGrafica2D implements IMyApplicationListener
 			this.animatedEntities.add(this.animatedPickedCell);
 			this.animatedPickedCell.resetTime(Game.getInstance().getDelta());
 
-		} else if (element.getType() == Constantes.DRAWABLE_FLYING_DAGGER)
+		} else if (element.getType() == Constants.DRAWABLE_FLYING_DAGGER)
 		{
 			Dagger dagger = (Dagger) element.getDrawable();
 			AnimatedDagger2D animatedEntity2D = new AnimatedDagger2D(dagger,
 					this.graphicsFileLoader.getAnimations().get(dagger.getP0()),
-					this.graphicsFileLoader.getAnimations().get(Constantes.DRAWABLE_FLYING_DAGGER));
+					this.graphicsFileLoader.getAnimations().get(Constants.DRAWABLE_FLYING_DAGGER));
 			this.animatedEntities.add(animatedEntity2D);
 			this.hashMapLevelAnimation.put(dagger, animatedEntity2D);
 
 		}
 
-		else if (element.getType() == Constantes.DRAWABLE_EXIT_DOOR)
+		else if (element.getType() == Constants.DRAWABLE_EXIT_DOOR)
 		{
 			Door door = (Door) element.getDrawable();
 			this.animatedEnteringDoor2D = new AnimatedEnteringDoor2D(door, this.graphicsFileLoader.getDoorPassage(),
@@ -160,22 +160,22 @@ public class TileMapGrafica2D implements IMyApplicationListener
 	@Override
 	public void removeGraphicElement(DrawableElement element)
 	{
-		if (element.getType() == Constantes.DRAWABLE_LEVEL_ITEM)
+		if (element.getType() == Constants.DRAWABLE_LEVEL_ITEM)
 		{
 			LevelObject item = (LevelObject) element.getDrawable();
 			AnimatedEntity2D animatedEntity2D = this.hashMapLevelAnimation.get(item);
 			this.animatedEntities.removeValue(animatedEntity2D, true);
 			this.hashMapLevelAnimation.remove(item);
-		} else if (element.getType() == Constantes.DRAWABLE_TRAP)
+		} else if (element.getType() == Constants.DRAWABLE_TRAP)
 		{
 			TrapMechanism trapMech = (TrapMechanism) element.getDrawable();
 			AnimatedTrapKV2 atrapKV = this.hashMapTrapAnimation.get(trapMech);
 			this.animatedTraps.removeValue(atrapKV, true);
 			this.hashMapTrapAnimation.remove(trapMech);
-		} else if (element.getType() == Constantes.DRAWABLE_PICKING_CELL)
+		} else if (element.getType() == Constants.DRAWABLE_PICKING_CELL)
 		{
 			this.animatedEntities.removeValue(this.animatedPickedCell, true);
-		} else if (element.getType() == Constantes.DRAWABLE_GYRATORY)
+		} else if (element.getType() == Constants.DRAWABLE_GYRATORY)
 		{
 			LevelObject giratory = (LevelObject) element.getDrawable();
 			AnimatedEntity2D animatedEntity2D = this.hashMapLevelAnimation.get(giratory);
@@ -215,18 +215,18 @@ public class TileMapGrafica2D implements IMyApplicationListener
 
 		{
 			LevelObject item = levelObjects.next();
-			if (item.getType() == Constantes.It_jewel || item.getType() == Constantes.It_picker)
-				this.addGraphicElement(new DrawableElement(Constantes.DRAWABLE_LEVEL_ITEM, item));
-			else if (item.getType() == Constantes.It_giratory)
+			if (item.getType() == Constants.IT_JEWEL || item.getType() == Constants.IT_PICKER)
+				this.addGraphicElement(new DrawableElement(Constants.DRAWABLE_LEVEL_ITEM, item));
+			else if (item.getType() == Constants.IT_GIRATORY)
 			{
 				this.addGraphicElement(
-						new DrawableElement(Constantes.DRAWABLE_GYRATORY, pyramid.getGiratoryMechanism(item)));
-			} else if (item.getType() == Constantes.It_wall && this.debug)
+						new DrawableElement(Constants.DRAWABLE_GYRATORY, pyramid.getGiratoryMechanism(item)));
+			} else if (item.getType() == Constants.IT_WALL_TRAP && this.debug)
 			{
 				this.arrayOfMySpritesKV
 						.add(new MySpriteKV(map.getTileSets().getTile(item.getType()).getTextureRegion(), item));
-			} else if (item.getType() == Constantes.It_dagger)
-				this.addGraphicElement(new DrawableElement(Constantes.DRAWABLE_FLYING_DAGGER, item));
+			} else if (item.getType() == Constants.IT_DAGGER)
+				this.addGraphicElement(new DrawableElement(Constants.DRAWABLE_FLYING_DAGGER, item));
 
 			Iterator<Mummy> it = Game.getInstance().getCurrentLevel().getMummys().iterator();
 			while (it.hasNext())
@@ -414,7 +414,7 @@ public class TileMapGrafica2D implements IMyApplicationListener
 	public void resize(int width, int height)
 	{
 		Pyramid pyramid = Game.getInstance().getCurrentLevel().getPyramid();
-		float alto = pyramid.getMapHeightInUnits() + Config.getInstance().getLevelTileHeightUnits() * 2;
+		float alto = pyramid.getMapHeightInUnits() + GameRules.getInstance().getLevelTileHeightUnits() * 2;
 		float ancho = alto * width / height;
 
 		if (height != 0)
@@ -740,8 +740,8 @@ public class TileMapGrafica2D implements IMyApplicationListener
 		float cameraWidth = this.cameraUI.viewportWidth;
 
 		float cameraTileHeight = this.cameraUI.viewportHeight / 24;
-		float cameraTileWidth = Config.getInstance().getLevelTileWidthUnits()
-				/ Config.getInstance().getLevelTileHeightUnits() * cameraTileHeight;
+		float cameraTileWidth = GameRules.getInstance().getLevelTileWidthUnits()
+				/ GameRules.getInstance().getLevelTileHeightUnits() * cameraTileHeight;
 
 		this.paramFloat[1] = cameraTileHeight;
 		this.paramFloat[3] = cameraTileHeight * 21;

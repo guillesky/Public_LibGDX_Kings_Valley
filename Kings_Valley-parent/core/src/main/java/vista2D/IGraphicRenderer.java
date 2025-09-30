@@ -1,4 +1,4 @@
-package modelo;
+package vista2D;
 
 public interface IGraphicRenderer
 {

@@ -2,6 +2,8 @@ package modelo.gameCharacters.abstractGameCharacter;
 
 import com.badlogic.gdx.math.Vector2;
 
+import modelo.KVEventListener;
+import modelo.game.Game;
 import modelo.level.Stair;
 
 /**
@@ -30,6 +32,7 @@ public class GameCharacterStateJumping extends GameCharacterState
 		this.gameCharacter.resetAnimationDelta();
 		this.gameCharacter.motionVector.y = this.gameCharacter.speedJump;
 		this.initialMotionX = this.gameCharacter.motionVector.x;
+		Game.getInstance().eventFired(KVEventListener.CHARACTER_JUMP, gameCharacter);
 
 	}
 

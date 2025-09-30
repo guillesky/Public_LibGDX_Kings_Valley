@@ -3,8 +3,8 @@ package modelo.level.door;
 import modelo.gameCharacters.player.Player;
 import modelo.level.LevelObject;
 import modelo.level.Mechanism;
-import util.Config;
-import util.Constantes;
+import util.GameRules;
+import util.Constants;
 
 public class Door extends Mechanism
 {
@@ -40,12 +40,12 @@ public class Door extends Mechanism
 	{
 		super(timeToEnd);
 		this.lever = lever;
-		float width = Config.getInstance().getLevelTileWidthUnits();
-		float eight = Config.getInstance().getLevelTileHeightUnits();
+		float width = GameRules.getInstance().getLevelTileWidthUnits();
+		float eight = GameRules.getInstance().getLevelTileHeightUnits();
 		float x = this.lever.x + width * 3;
 		float y = this.lever.y - eight * 2;
 		this.doorState = new DoorStateHide(this);
-		this.passage = new LevelObject(Constantes.It_door_passage, x, y, this.lever.getP0(), width * 0.2f, eight * 2);
+		this.passage = new LevelObject(Constants.IT_DOOR_PASSAGE, x, y, this.lever.getP0(), width * 0.2f, eight * 2);
 		this.active = false;
 		this.levelConnected = lever.getP0() * -1;
 		this.idLevel = idLevel;

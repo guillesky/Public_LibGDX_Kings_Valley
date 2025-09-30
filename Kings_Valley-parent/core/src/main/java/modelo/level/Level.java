@@ -5,14 +5,15 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import modelo.DrawableElement;
+import modelo.KVEventListener;
 import modelo.game.Game;
 import modelo.gameCharacters.abstractGameCharacter.GameCharacter;
 import modelo.gameCharacters.mummys.Mummy;
 import modelo.gameCharacters.player.Player;
 import modelo.level.dagger.Dagger;
 import modelo.level.door.Door;
-import util.Config;
-import util.Constantes;
+import util.GameRules;
+import util.Constants;
 
 /**
  * @author Guillermo Lazzurri
@@ -101,7 +102,9 @@ public class Level
 			if (!mechanism.isActive())
 			{
 				it.remove();
-				this.pyramid.removeGraphicElement(new DrawableElement(Constantes.DRAWABLE_TRAP, mechanism));
+				this.pyramid.removeGraphicElement(new DrawableElement(Constants.DRAWABLE_TRAP, mechanism));
+				Game.getInstance().eventFired(KVEventListener.TRAP_END_DOWN, mechanism);
+
 			}
 
 		}
@@ -131,7 +134,7 @@ public class Level
 	private boolean checkCharacterSmash(TrapMechanism trapMechanism, GameCharacter gameCharacter)
 	{
 		boolean condicionX = (gameCharacter.x + gameCharacter.width > trapMechanism.getX()
-				&& gameCharacter.x < trapMechanism.getX() + Config.getInstance().getLevelTileWidthUnits());
+				&& gameCharacter.x < trapMechanism.getX() + GameRules.getInstance().getLevelTileWidthUnits());
 		boolean condicionY = gameCharacter.y + gameCharacter.height > trapMechanism.getY()
 				&& gameCharacter.y < trapMechanism.getY();
 		return gameCharacter.getState() != GameCharacter.ST_JUMPING && condicionX && condicionY;

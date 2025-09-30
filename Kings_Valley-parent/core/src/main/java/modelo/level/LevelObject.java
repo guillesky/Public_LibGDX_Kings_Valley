@@ -4,9 +4,9 @@ import java.util.Objects;
 
 import com.badlogic.gdx.math.Rectangle;
 
-import modelo.IGraphicRenderer;
-import util.Config;
-import util.Constantes;
+import util.GameRules;
+import util.Constants;
+import vista2D.IGraphicRenderer;
 
 /**
  * @author Guillermo Lazzurri
@@ -22,7 +22,7 @@ public class LevelObject extends Rectangle
 	private int id;
 	private int type;
 	private int p0;
-	private IGraphicRenderer graphicRenderer;
+	
 
 	/**
 	 * Constructor de clase
@@ -62,7 +62,7 @@ public class LevelObject extends Rectangle
 	@Override
 	public String toString()
 	{
-		return "LevelObject [id= " + this.id + " type=" + Constantes.identificacion.get(type) + ", x=" + x + ", y=" + y
+		return "LevelObject [id= " + this.id + " type=" + Constants.identificacion.get(type) + ", x=" + x + ", y=" + y
 				+ ", p0=" + p0 + "]";
 	}
 
@@ -105,7 +105,7 @@ public class LevelObject extends Rectangle
 	 */
 	public int getColPosition()
 	{
-		return (int) (this.x / Config.getInstance().getLevelTileWidthUnits());
+		return (int) (this.x / GameRules.getInstance().getLevelTileWidthUnits());
 	}
 
 	/**
@@ -114,7 +114,7 @@ public class LevelObject extends Rectangle
 	 */
 	public int getRowPosition()
 	{
-		return (int) (this.y / Config.getInstance().getLevelTileHeightUnits());
+		return (int) (this.y / GameRules.getInstance().getLevelTileHeightUnits());
 	}
 
 	/**
