@@ -7,9 +7,23 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import modelo.level.door.Door;
 
+/**
+ * @author Guillermo Lazzurri
+ * Dibuja la puerta del nivel durante el juego.
+ */
 public class AnimatedDoor2D extends AbstractAnimatedDoor2D
 {
 
+	/**
+	 * Constructor de clase. LLama a super(door, texturePassage, textureLeft, textureRight, leverAnimation);
+
+	 * 
+	 * @param door           Puerta que debe ser representada
+	 * @param texturePassage Textura correspondiente al pasaje
+	 * @param textureLeft    Textura de la hoja izquierda
+	 * @param textureRight   Textura de la hoja derecha
+	 * @param leverAnimation Animación de la palanca
+	 */
 	public AnimatedDoor2D(Door door, Texture texturePassage, Texture textureLeft, Texture textureRight,
 			Animation<TextureRegion> leverAnimation)
 	{
@@ -32,16 +46,6 @@ public class AnimatedDoor2D extends AbstractAnimatedDoor2D
 		}
 	}
 
-	@Override
-	public void draw(Batch batch)
-	{
-		if (this.door.isVisible())
-		{
-			this.drawBack(batch);
-			this.drawFront(batch);
-
-		}
-
-	}
+	
 
 }

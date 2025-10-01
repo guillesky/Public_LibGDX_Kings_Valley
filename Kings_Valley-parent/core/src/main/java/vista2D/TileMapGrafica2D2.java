@@ -17,7 +17,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTile;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Array.ArrayIterator;
 
@@ -34,10 +38,10 @@ import modelo.level.Stair;
 import modelo.level.TrapMechanism;
 import modelo.level.dagger.Dagger;
 import modelo.level.door.Door;
-import util.Constants;
 import util.GameRules;
+import util.Constants;
 
-public class TileMapGrafica2D implements IMyApplicationListener
+public class TileMapGrafica2D2 implements IMyApplicationListener
 {
 	public static final int IDDLE = 0;
 	public static final int FALL = 1;
@@ -69,7 +73,9 @@ public class TileMapGrafica2D implements IMyApplicationListener
 	protected Texture pixel;
 	private boolean debug = false;
 	private AnimatedPickedCell animatedPickedCell;
-	
+	private String fileNameTileSetChanged = null;
+	private Texture newTilesetTexture = null;
+	private Float originalWidth = null;
 	protected AnimatedEnteringDoor2D animatedEnteringDoor2D;
 	protected PlayerAnimated2D playerAnimated2D;
 	private float timeToEnterLevel = 2f;
@@ -81,7 +87,7 @@ public class TileMapGrafica2D implements IMyApplicationListener
 	private float factor;
 	float[] paramFloat = new float[4];
 
-	public TileMapGrafica2D(GraphicsFileLoader graphicsFileLoader, float factor)
+	public TileMapGrafica2D2(GraphicsFileLoader graphicsFileLoader, float factor)
 	{
 
 		this.graphicsFileLoader = graphicsFileLoader;
@@ -233,7 +239,11 @@ public class TileMapGrafica2D implements IMyApplicationListener
 
 		}
 
-		
+		if (this.fileNameTileSetChanged != null)
+		{
+			this.changeTileSet();
+		}
+
 		this.playerAnimated2D = new PlayerAnimated2D(Game.getInstance().getCurrentLevel().getPlayer(),
 				this.graphicsFileLoader.getAnimationPlayer_Nothing(),
 				this.graphicsFileLoader.getAnimationPlayer_Picker(),
@@ -308,9 +318,97 @@ public class TileMapGrafica2D implements IMyApplicationListener
 		generator.dispose();
 	}
 
-	
+	public void changeTileSet()
+	{//UNUSED
+		String fileName = "this.graphicsFileLoader.getArchiNewTileset();";
+		System.out.println("cambie");
+		TiledMap map = Game.getInstance().getCurrentLevel().getPyramid().getMap();
+		if (this.originalWidth == null)
+			this.originalWidth = (float) ((int) map.getTileSets().getTileSet(0).getProperties().get("tilewidth"));
+		int newWidth;
+		int newHeight;
 
-	
+		Iterator<TiledMapTileSet> it = map.getTileSets().iterator();
+		while (it.hasNext())
+		{
+			TiledMapTileSet ttt = it.next();
+			map.getTileSets().removeTileSet(ttt);
+		}
+
+		// Cargar el nuevo tileset desde la imagen PNG
+		if (fileName != this.fileNameTileSetChanged)
+		{
+			this.fileNameTileSetChanged = fileName;
+			if (this.newTilesetTexture != null)
+				this.newTilesetTexture.dispose();
+
+			this.newTilesetTexture = new Texture(Gdx.files.internal(fileName));
+		}
+		newWidth = this.newTilesetTexture.getWidth() / 18;
+		newHeight = this.newTilesetTexture.getHeight() / 8;
+		this.scaleFactor = originalWidth / newWidth;
+		TextureRegion[][] splitTiles = TextureRegion.split(newTilesetTexture, newWidth, newHeight);
+
+		// Crear el nuevo TiledMapTileSet y agregar los tiles
+		TiledMapTileSet newTileSet = new TiledMapTileSet();
+		for (int row = 0; row < splitTiles.length; row++)
+		{
+			for (int col = 0; col < splitTiles[row].length; col++)
+			{
+				StaticTiledMapTile tile = new StaticTiledMapTile(splitTiles[row][col]);
+				tile.setId(row * splitTiles[row].length + col + 1);
+				newTileSet.putTile(tile.getId(), tile);
+			}
+		}
+
+		// Agregar el nuevo tileset al mapa
+		map.getTileSets().addTileSet(newTileSet);
+
+		TiledMapTileLayer originalLayer = (TiledMapTileLayer) map.getLayers().get("back");
+		this.replaceLayer(map, originalLayer, newTileSet, newWidth, newHeight);
+		originalLayer = (TiledMapTileLayer) map.getLayers().get("stairs");
+		this.replaceLayer(map, originalLayer, newTileSet, newWidth, newHeight);
+		originalLayer = (TiledMapTileLayer) map.getLayers().get("front");
+		this.replaceLayer(map, originalLayer, newTileSet, newWidth, newHeight);
+		renderer = new OrthogonalTiledMapRenderer(map, this.scaleFactor);
+
+	}
+
+	private void replaceLayer(TiledMap map, TiledMapTileLayer originalLayer, TiledMapTileSet newTileSet, int newWidth,
+			int newHeight)
+	{
+		int width = originalLayer.getWidth();
+		int height = originalLayer.getHeight();
+		TiledMapTileLayer newLayer = new TiledMapTileLayer(width, height, newWidth, newHeight);
+		newLayer.setName(originalLayer.getName());
+		// Configurar las celdas de la nueva capa usando el nuevo tileset
+		for (int x = 0; x < width; x++)
+		{
+			for (int y = 0; y < height; y++)
+			{
+				TiledMapTileLayer.Cell cell = originalLayer.getCell(x, y);
+				if (cell != null)
+				{
+					// Obtener el ID del tile actual y buscar el tile en el nuevo tileset
+					int originalTileId = cell.getTile().getId();
+					TiledMapTile newTile = newTileSet.getTile(originalTileId);
+
+					// Crear una nueva celda y asignar el nuevo tile
+					TiledMapTileLayer.Cell newCell = new TiledMapTileLayer.Cell();
+					if (newTile != null)
+					{
+						newCell.setTile(newTile);
+					}
+					newLayer.setCell(x, y, newCell);
+				}
+			}
+		}
+
+		// Reemplazar la capa original con la nueva capa en el mapa
+		map.getLayers().remove(originalLayer);
+		map.getLayers().add(newLayer);
+
+	}
 
 	@Override
 	public void resize(int width, int height)

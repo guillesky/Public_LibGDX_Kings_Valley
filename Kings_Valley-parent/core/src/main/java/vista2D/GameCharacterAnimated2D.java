@@ -5,101 +5,63 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import modelo.gameCharacters.abstractGameCharacter.GameCharacter;
 
+/**
+ * @author Guillermo Lazzurri Clase que renderiza un GameCharacter (momia o
+ *         player)
+ */
 public class GameCharacterAnimated2D extends AnimatedEntity2D
 {
-    protected Animation<TextureRegion> characterAnimationIddle;
-    protected Animation<TextureRegion> characterAnimationWalk;
-    protected Animation<TextureRegion> characterAnimationStair;
-    protected Animation<TextureRegion> characterAnimationJump;
-    protected Animation<TextureRegion> characterAnimationFall;
-    protected Animation<TextureRegion> characterAnimationDeath;
+	protected Animation<TextureRegion> characterAnimationIddle;
+	protected Animation<TextureRegion> characterAnimationWalk;
+	protected Animation<TextureRegion> characterAnimationStair;
+	protected Animation<TextureRegion> characterAnimationJump;
+	protected Animation<TextureRegion> characterAnimationFall;
+	protected Animation<TextureRegion> characterAnimationDeath;
 
-    public GameCharacterAnimated2D(GameCharacter character, Animation<TextureRegion>[] animation)
-    {
-	super(character, animation[TileMapGrafica2D.IDDLE]);
-	this.characterAnimationIddle = animation[TileMapGrafica2D.IDDLE];
-	this.characterAnimationWalk = animation[TileMapGrafica2D.WALK];
-	this.characterAnimationJump = animation[TileMapGrafica2D.JUMP];
-	this.characterAnimationFall = animation[TileMapGrafica2D.FALL];
-	this.characterAnimationDeath = animation[TileMapGrafica2D.DEATH];
-    }
+	/**
+	 * Constructor de clase, llama a super(character,
+	 * animation[TileMapGrafica2D.IDDLE]);
+	 * 
+	 * @param character GameCharacter a ser dibujado
+	 * @param animation array con las animaciones correspondientes a los estados del
+	 *                  caracter. Debe contener 5 animaciones correspondientes a<br>
+	 *                  TileMapGrafica2D.IDDLE = 0;<br>
+	 *                  TileMapGrafica2D.FALL = 1;<br>
+	 *                  TileMapGrafica2D.WALK = 2;<br>
+	 *                  TileMapGrafica2D.DEATH = 3;<br>
+	 *                  TileMapGrafica2D.JUMP = 4;<br>
+	 * 
+	 */
+	public GameCharacterAnimated2D(GameCharacter character, Animation<TextureRegion>[] animation)
+	{
+		super(character, animation[TileMapGrafica2D.IDDLE]);
+		this.characterAnimationIddle = animation[TileMapGrafica2D.IDDLE];
+		this.characterAnimationFall = animation[TileMapGrafica2D.FALL];
+		this.characterAnimationWalk = animation[TileMapGrafica2D.WALK];
 
-    @Override
-    public void updateElement(float deltaTime)
-    {
-	GameCharacter character = (GameCharacter) this.levelObject;
-	if (character.getState() == GameCharacter.ST_WALKING)
-	    this.animation = this.characterAnimationWalk;
-	else if (character.getState() == GameCharacter.ST_JUMPING)
-	    this.animation = this.characterAnimationJump;
-	else if (character.getState() == GameCharacter.ST_FALLING)
-	    this.animation = this.characterAnimationFall;
-	else if (character.getState() == GameCharacter.ST_IDDLE)
-	    this.animation = this.characterAnimationIddle;
-	else if (character.getState() == GameCharacter.ST_DYING)
-	    this.animation = this.characterAnimationDeath;
-	super.updateElement(character.getAnimationDelta());
-	this.sprite.setFlip(!character.isLookRight(), false);
-    }
+		this.characterAnimationDeath = animation[TileMapGrafica2D.DEATH];
+		this.characterAnimationJump = animation[TileMapGrafica2D.JUMP];
 
-    public Animation<TextureRegion> getAnimationWalk()
-    {
-	return characterAnimationWalk;
-    }
+	}
 
-    public void setAnimationWalk(Animation<TextureRegion> animationWalk)
-    {
-	this.characterAnimationWalk = animationWalk;
-    }
+	@Override
+	public void updateElement(float deltaTime)
+	{
+		GameCharacter character = (GameCharacter) this.levelObject;
+		if (character.getState() == GameCharacter.ST_WALKING)
+			this.animation = this.characterAnimationWalk;
+		else if (character.getState() == GameCharacter.ST_JUMPING)
+			this.animation = this.characterAnimationJump;
+		else if (character.getState() == GameCharacter.ST_FALLING)
+			this.animation = this.characterAnimationFall;
+		else if (character.getState() == GameCharacter.ST_IDDLE)
+			this.animation = this.characterAnimationIddle;
+		else if (character.getState() == GameCharacter.ST_DYING)
+			this.animation = this.characterAnimationDeath;
+		super.updateElement(character.getAnimationDelta());
+		this.sprite.setFlip(!character.isLookRight(), false);
+	}
 
-    public Animation<TextureRegion> getAnimationJump()
-    {
-	return characterAnimationJump;
-    }
-
-    public void setAnimationJump(Animation<TextureRegion> animationJump)
-    {
-	this.characterAnimationJump = animationJump;
-    }
-
-    public Animation<TextureRegion> getAnimationIddle()
-    {
-	return characterAnimationIddle;
-    }
-
-    public void setAnimationIddle(Animation<TextureRegion> animationIddle)
-    {
-	this.characterAnimationIddle = animationIddle;
-    }
-
-    public Animation<TextureRegion> getAnimationStair()
-    {
-	return characterAnimationStair;
-    }
-
-    public void setAnimationStair(Animation<TextureRegion> animationStair)
-    {
-	this.characterAnimationStair = animationStair;
-    }
-
-    public Animation<TextureRegion> getAnimationDeath()
-    {
-	return characterAnimationDeath;
-    }
-
-    public void setAnimationDeath(Animation<TextureRegion> animationDeath)
-    {
-	this.characterAnimationDeath = animationDeath;
-    }
-
-    public Animation<TextureRegion> getAnimationFall()
-    {
-	return characterAnimationFall;
-    }
-
-    public void setAnimationFall(Animation<TextureRegion> animationFall)
-    {
-	this.characterAnimationFall = animationFall;
-    }
+	
 
 }

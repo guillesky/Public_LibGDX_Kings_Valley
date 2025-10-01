@@ -1,29 +1,27 @@
 package util;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.ObjectMap;
 
 import i18n.Language;
 import i18n.Messages;
-import unused_yet_not_implemented.Rectangle2;
 
 public class Utils
 {
    
 
+    /**
+     * Actualiza los enumerados Messages de acuerdo a los valores del codigo de idioma pasado por parametro leyendo el archivo de idioma correspondiente
+     * @param languageCode Cogido de idioma (por ejemplo "es" para espanol, o "en" para english)
+     */
     @SuppressWarnings("unchecked")
 	public static void i18n(String languageCode)
     {
@@ -50,6 +48,11 @@ public class Utils
 	}
     }
 
+    /**
+     * Devuelve un objeto de tipo de Language a partir de un codigo de idioma
+     * @param languageCode Cogido de idioma (por ejemplo "es" para espanol, o "en" para english)
+     * @return Objecto de tipo Language con los datos del codigo de idioma pasado por aparametro
+     */
     @SuppressWarnings("unchecked")
 	public static Language i18nToLanguage(String languageCode)
     {

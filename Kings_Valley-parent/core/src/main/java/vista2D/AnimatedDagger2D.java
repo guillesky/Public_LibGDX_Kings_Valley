@@ -8,12 +8,24 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import modelo.level.dagger.Dagger;
 import modelo.level.dagger.DaggerState;
 
+/**
+ * @author Guillermo Lazzurri Clase encargada de renderizar Dagas
+ */
 public class AnimatedDagger2D extends AnimatedEntity2D
 {
 	protected Animation<TextureRegion> daggerAnimationStucked;
 	protected Animation<TextureRegion> daggerAnimationFlying;
 	private int oldState;
 
+	/**
+	 * Constructor de clase, llama a super(dagger, animationStucked);
+	 * 
+	 * @param dagger           Daga a ser renderizada
+	 * @param animationStucked Animacion correspondiente a la daga cuando esta
+	 *                         clavada en el piso
+	 * @param animationFlying  Animacion correspondiente a la daga cuando esta
+	 *                         volando
+	 */
 	public AnimatedDagger2D(Dagger dagger, Animation<TextureRegion> animationStucked,
 			Animation<TextureRegion> animationFlying)
 	{
@@ -36,6 +48,13 @@ public class AnimatedDagger2D extends AnimatedEntity2D
 
 	}
 
+	/**
+	 * Llamado internamente cuando la daga cambia de estado<br>
+	 * if (dagger.getState() == DaggerState.ST_STUCKED) this.animation =
+	 * this.daggerAnimationStucked;
+	 * 
+	 * else this.animation = this.daggerAnimationFlying;
+	 */
 	private void changeAnimation()
 	{
 		Dagger dagger = (Dagger) this.levelObject;
@@ -46,29 +65,9 @@ public class AnimatedDagger2D extends AnimatedEntity2D
 		else
 			this.animation = this.daggerAnimationFlying;
 		this.sprite = new Sprite(animation.getKeyFrame(0));
-		//this.sprite.setSize(16, 16);
-
 	}
 
-	public Animation<TextureRegion> getAnimationFlying()
-	{
-		return daggerAnimationFlying;
-	}
-
-	public void setAnimationFlying(Animation<TextureRegion> animationFlying)
-	{
-		this.daggerAnimationFlying = animationFlying;
-	}
-
-	public Animation<TextureRegion> getAnimationStucked()
-	{
-		return daggerAnimationStucked;
-	}
-
-	public void setAnimationStucked(Animation<TextureRegion> animationStucked)
-	{
-		this.daggerAnimationStucked = animationStucked;
-	}
+	
 
 	@Override
 	public void render(SpriteBatch batch)

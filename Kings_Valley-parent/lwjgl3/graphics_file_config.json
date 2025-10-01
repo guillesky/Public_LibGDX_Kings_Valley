@@ -10,7 +10,6 @@ archiDoorPassage: pics/exitdoor_central.png
 archiDoorLeft: pics/exitdoor_left.png
 archiDoorRight: pics/exitdoor_right.png
 archiDoorLever: pics/exitdoor_lever.png
-archiNewTileset: pics/tiles64.png
 archiSky: pics/sky1.png
 frameDuration: 0.1
 mummyCountAppear: 24
