@@ -1,4 +1,4 @@
-package vista2D;
+package unused_yet_not_implemented;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,9 +39,21 @@ import modelo.level.TrapMechanism;
 import modelo.level.dagger.Dagger;
 import modelo.level.door.Door;
 import util.GameRules;
+import vista2D.AbstractAnimatedDoor2D;
+import vista2D.AnimatedDagger2D;
+import vista2D.AnimatedDoor2D;
+import vista2D.AnimatedEnteringDoor2D;
+import vista2D.AnimatedEntity2D;
+import vista2D.AnimatedGiratory2D;
+import vista2D.AnimatedPickedCell;
+import vista2D.AnimatedTrapKV2D;
+import vista2D.GraphicsFileLoader;
+import vista2D.MummyAnimated2D;
+import vista2D.MySpriteKV;
+import vista2D.PlayerAnimated2D;
 import util.Constants;
 
-public class TileMapGrafica2D2 implements IMyApplicationListener
+public class TileMapGrafica2D_OLD_CambiaTileset implements IMyApplicationListener
 {
 	public static final int IDDLE = 0;
 	public static final int FALL = 1;
@@ -87,7 +99,7 @@ public class TileMapGrafica2D2 implements IMyApplicationListener
 	private float factor;
 	float[] paramFloat = new float[4];
 
-	public TileMapGrafica2D2(GraphicsFileLoader graphicsFileLoader, float factor)
+	public TileMapGrafica2D_OLD_CambiaTileset(GraphicsFileLoader graphicsFileLoader, float factor)
 	{
 
 		this.graphicsFileLoader = graphicsFileLoader;
@@ -476,7 +488,7 @@ public class TileMapGrafica2D2 implements IMyApplicationListener
 
 	private void drawItemsCharactersMechanism()
 	{
-		this.spriteBatch.begin();
+	/*	this.spriteBatch.begin();
 		ArrayIterator<AnimatedTrapKV2D> it3 = this.animatedTraps.iterator();
 		while (it3.hasNext())
 		{
@@ -535,7 +547,7 @@ public class TileMapGrafica2D2 implements IMyApplicationListener
 			}
 
 		}
-		this.spriteBatch.end();
+		this.spriteBatch.end();*/
 	}
 
 	private void drawLayersMap()

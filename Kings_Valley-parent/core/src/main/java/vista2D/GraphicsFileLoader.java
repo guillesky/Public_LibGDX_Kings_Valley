@@ -440,7 +440,7 @@ public class GraphicsFileLoader
 	{
 		if (this.firstTime)
 		{
-
+			this.manager.finishLoading();
 			this.createPlayerAnimations(timeDying);
 			this.createColectablesAnimations();
 
@@ -599,9 +599,11 @@ public class GraphicsFileLoader
 	}
 
 	/**
-	 * Genera una textura repetida verticalmente en mosaico. Usada para las puertas giratorias. 
+	 * Genera una textura repetida verticalmente en mosaico. Usada para las puertas
+	 * giratorias.
+	 * 
 	 * @param tileRegion textura origen
-	 * @param count cantidad de repeteciones 
+	 * @param count      cantidad de repeteciones
 	 * @return Una textura repetida verticalmente en mosaico.
 	 */
 	private TextureRegion generateVerticalTiledTextureRegion(TextureRegion tileRegion, int count)
@@ -628,8 +630,6 @@ public class GraphicsFileLoader
 		return new TextureRegion(newTexture);
 	}
 
-	
-
 	/**
 	 * @return Textura de la hoja izquierda de las puertas de entrada / salida
 	 */
@@ -641,7 +641,7 @@ public class GraphicsFileLoader
 	/**
 	 * @return Textura de la hoja derecha de las puertas de entrada / salida
 	 */
-	
+
 	public Texture getDoorSingleRight()
 	{
 		return doorSingleRight;
@@ -650,7 +650,7 @@ public class GraphicsFileLoader
 	/**
 	 * @return Textura del pasage de las puertas de entrada / salida
 	 */
-	
+
 	public Texture getDoorPassage()
 	{
 		return doorPassage;
@@ -673,7 +673,9 @@ public class GraphicsFileLoader
 	}
 
 	/**
-	 * Retorna un valor de duracion de frame al azar entre dos valores. Usado para que los coleccionables no se vean sincronizados entre ellos
+	 * Retorna un valor de duracion de frame al azar entre dos valores. Usado para
+	 * que los coleccionables no se vean sincronizados entre ellos
+	 * 
 	 * @param minFrameDuration valor minimo de duracion de frame posible
 	 * @param maxFrameDuration valor maximo de duracion de frame posible
 	 * @return Un valor de duracion de frame al azar

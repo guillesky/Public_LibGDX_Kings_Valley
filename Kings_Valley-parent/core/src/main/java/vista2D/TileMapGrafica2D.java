@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -37,6 +38,10 @@ import modelo.level.door.Door;
 import util.Constants;
 import util.GameRules;
 
+/**
+ * @author Guillermo Lazzurri Se encarga de renderizar el juego utilizando
+ *         tecnicas 2D, con Sprites, animaciones, y paralax
+ */
 public class TileMapGrafica2D implements IMyApplicationListener
 {
 	public static final int IDDLE = 0;
@@ -69,7 +74,7 @@ public class TileMapGrafica2D implements IMyApplicationListener
 	protected Texture pixel;
 	private boolean debug = false;
 	private AnimatedPickedCell animatedPickedCell;
-	
+
 	protected AnimatedEnteringDoor2D animatedEnteringDoor2D;
 	protected PlayerAnimated2D playerAnimated2D;
 	private float timeToEnterLevel = 2f;
@@ -81,15 +86,30 @@ public class TileMapGrafica2D implements IMyApplicationListener
 	private float factor;
 	float[] paramFloat = new float[4];
 
-	public TileMapGrafica2D(GraphicsFileLoader graphicsFileLoader, float factor)
+	/**
+	 * Constructor de clase
+	 * 
+	 * @param assetManager Encargado de cargar los recursos
+	 * @param factor       Indica el factor de desplazamiento del paralax. Toma
+	 *                     valores entre 0 y 1. Valores cercanos a 0 hacen que el
+	 *                     fondo se mueva casi como el frente. Valores cercanos a 1
+	 *                     hace que el fondo quede casi fijo. (por defecto se utliza
+	 *                     0.5f)
+	 */
+	public TileMapGrafica2D(AssetManager assetManager, float factor)
 	{
+		this.graphicsFileLoader = new GraphicsFileLoader(assetManager);
 
-		this.graphicsFileLoader = graphicsFileLoader;
 		this.graphicsFileLoader.createAnimations(timeDying);
 		this.factor = factor;
 
 	}
 
+	/**
+	 * Agrega los elementos graficos a las listas correspondientes de animaciones.
+	 * Es llamado durante la primer lectura del nivel y cada vez que se agrega un
+	 * nuevo objeto renderizable (celda sinedo picada, o muro trampa)
+	 */
 	@Override
 	public void addGraphicElement(DrawableElement element)
 	{
@@ -109,7 +129,7 @@ public class TileMapGrafica2D implements IMyApplicationListener
 		} else if (element.getType() == Constants.DRAWABLE_TRAP)
 		{
 			TrapMechanism trapMech = (TrapMechanism) element.getDrawable();
-			AnimatedTrapKV2D atrapKV = new AnimatedTrapKV2D(trapMech,this.spriteBatch);
+			AnimatedTrapKV2D atrapKV = new AnimatedTrapKV2D(trapMech, this.spriteBatch);
 			this.hashMapTrapAnimation.put(trapMech, atrapKV);
 			this.animatedTraps.add(atrapKV);
 
@@ -151,6 +171,11 @@ public class TileMapGrafica2D implements IMyApplicationListener
 		}
 	}
 
+	/**
+	 * Llamado al eliminar un objeto renderizable de las listas de dibujado. Llamado
+	 * al terminar de picar una celda, al finalizar un muro trampa, al recoger un
+	 * coleccionable, etc.
+	 */
 	@Override
 	public void removeGraphicElement(DrawableElement element)
 	{
@@ -179,6 +204,9 @@ public class TileMapGrafica2D implements IMyApplicationListener
 		}
 	}
 
+	/**
+	 * Crea las listas de dibujado, inicializa las camaras, las fuentes, etc.
+	 */
 	@Override
 	public void create()
 	{
@@ -233,7 +261,6 @@ public class TileMapGrafica2D implements IMyApplicationListener
 
 		}
 
-		
 		this.playerAnimated2D = new PlayerAnimated2D(Game.getInstance().getCurrentLevel().getPlayer(),
 				this.graphicsFileLoader.getAnimationPlayer_Nothing(),
 				this.graphicsFileLoader.getAnimationPlayer_Picker(),
@@ -261,6 +288,10 @@ public class TileMapGrafica2D implements IMyApplicationListener
 
 	}
 
+	/**
+	 * Crea la lista de sprites para visualizar los inicios y fin de escaleras, solo
+	 * se utiliza en modo debug
+	 */
 	private void cargaEscaleras()
 	{
 		Pyramid pyramid = Game.getInstance().getCurrentLevel().getPyramid();
@@ -281,6 +312,9 @@ public class TileMapGrafica2D implements IMyApplicationListener
 		}
 	}
 
+	/**
+	 * Genera la UI durante el juego (Puntaje, vidas, piramide actual)
+	 */
 	private void prepareUI()
 	{
 		int fontSize = (int) (Gdx.graphics.getHeight() * (1.f / 22.f));
@@ -308,10 +342,9 @@ public class TileMapGrafica2D implements IMyApplicationListener
 		generator.dispose();
 	}
 
-	
-
-	
-
+	/**
+	 * Recalcula las camaras en caso de redimensionado de ventana
+	 */
 	@Override
 	public void resize(int width, int height)
 	{
@@ -336,6 +369,9 @@ public class TileMapGrafica2D implements IMyApplicationListener
 
 	}
 
+	/**
+	 * Dibuja los diferentes planos de scroll y las listas de objetos renderizables
+	 */
 	@Override
 	public void render()
 	{
@@ -362,6 +398,9 @@ public class TileMapGrafica2D implements IMyApplicationListener
 
 	}
 
+	/**
+	 * Dibuja el mensaje de juego en pausa
+	 */
 	private void drawPauseMessage()
 	{
 		spriteBatch.begin();
@@ -376,6 +415,10 @@ public class TileMapGrafica2D implements IMyApplicationListener
 		spriteBatch.end();
 	}
 
+	/**
+	 * Llamado internamente por render(). Dibuja los items del juego, los
+	 * mecanismos, y los caracteres (momias y player)
+	 */
 	private void drawItemsCharactersMechanism()
 	{
 		this.spriteBatch.begin();
@@ -384,7 +427,7 @@ public class TileMapGrafica2D implements IMyApplicationListener
 		{
 			AnimatedTrapKV2D animatedTrapKV2 = it3.next();
 			animatedTrapKV2.updateElement(null);
-			
+
 		}
 		if (Game.getInstance().getState() == Game.ST_GAME_PLAYING)
 		{
@@ -440,6 +483,10 @@ public class TileMapGrafica2D implements IMyApplicationListener
 		this.spriteBatch.end();
 	}
 
+	/**
+	 * LLamado internamente por render. Dibuja las capas de la piramide respetando
+	 * el paralax
+	 */
 	private void drawLayersMap()
 	{
 		spriteBatch.setProjectionMatrix(camera.combined);
@@ -458,6 +505,9 @@ public class TileMapGrafica2D implements IMyApplicationListener
 
 	}
 
+	/**
+	 * LLamado internamente por render(). Dibuja el cielo de fondo
+	 */
 	private void drawBackground()
 	{
 		spriteBatch.setProjectionMatrix(this.cameraUI.combined);
@@ -469,6 +519,10 @@ public class TileMapGrafica2D implements IMyApplicationListener
 
 	}
 
+	/**
+	 * Llamado internamente por render(). Calcula la camara para la capa mas
+	 * profunda de la piramide (no confundir con el cielo de fondo)
+	 */
 	private void calculateCameraBack()
 	{
 		Pyramid pyramid = Game.getInstance().getCurrentLevel().getPyramid();
@@ -484,7 +538,11 @@ public class TileMapGrafica2D implements IMyApplicationListener
 		cameraBack.position.y = pyramid.getMapHeightInUnits() * this.cameraOffsetY;
 	}
 
-	protected void drawUI()
+	/**
+	 * Llamado internamente por render(). Dibuja la UI del juego (vidas, puntaje,
+	 * piramide actual)
+	 */
+	private void drawUI()
 	{
 		this.spriteBatch.begin();
 		this.cameraUI.update();
@@ -534,18 +592,27 @@ public class TileMapGrafica2D implements IMyApplicationListener
 		this.spriteBatch.end();
 	}
 
+	/**
+	 * Metodo sobreescrito vacio (no hace nada)
+	 */
 	@Override
 	public void pause()
 	{
 
 	}
 
+	/**
+	 * Metodo sobreescrito vacio (no hace nada)
+	 */
 	@Override
 	public void resume()
 	{
 
 	}
 
+	/**
+	 * Libera recursos creados
+	 */
 	@Override
 	public void dispose()
 	{
@@ -560,7 +627,13 @@ public class TileMapGrafica2D implements IMyApplicationListener
 
 	}
 
-	protected boolean calculateCamera()
+	/**
+	 * Llamado internamente por render(). Calcula la calamara de la capa frontal de
+	 * la piramide.
+	 * 
+	 * @return true si hubo cambios, false en caso contrario
+	 */
+	private boolean calculateCamera()
 	{
 		boolean wasChange = false;
 		Pyramid pyramid = Game.getInstance().getCurrentLevel().getPyramid();
@@ -702,7 +775,5 @@ public class TileMapGrafica2D implements IMyApplicationListener
 		cameraBack.position.x = posCameraX;
 		cameraBack.position.y = pyramid.getMapHeightInUnits() * this.cameraOffsetY;
 	}
-
-	
 
 }

@@ -51,7 +51,6 @@ public class Facade implements ApplicationListener
 	private String creditsEs;
 
 	private IMyApplicationListener gameAppListener;
-	private GraphicsFileLoader graphicsFileLoader;
 	private Music musicActual;
 	private Music musicUI;
 	private Music musicIntro;
@@ -329,14 +328,13 @@ public class Facade implements ApplicationListener
 		assetManager.finishLoading();// termina la primera carga
 
 		this.controler = new Controler2D(this.ui);
-		this.graphicsFileLoader = new GraphicsFileLoader(this.assetManager);
 		this.audioManager = new AudioManager(assetManager);
 		this.ui.create();
 		Game.getInstance().addKVEventListener(controler);
 		this.musicUI = assetManager.get(uiConfig.getMusicUIName(), Music.class);
 		this.musicIntro = assetManager.get(uiConfig.getMusicIntroName(), Music.class);
 		this.audioManager.create();
-		gameAppListener = new TileMapGrafica2D(this.graphicsFileLoader, .5f);
+		gameAppListener = new TileMapGrafica2D(assetManager, .5f);
 		Game.getInstance().setInterfaz(gameAppListener);
 		Game.getInstance().addKVEventListener(audioManager);
 		this.mainMenu();
