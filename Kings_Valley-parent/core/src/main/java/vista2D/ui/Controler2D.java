@@ -11,9 +11,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import controler.AbstractControler;
 import controler.IView;
+import engine.KVEventListener;
+import engine.game.Game;
 import facade.Facade;
-import modelo.KVEventListener;
-import modelo.game.Game;
 
 public class Controler2D extends AbstractControler implements KVEventListener
 {

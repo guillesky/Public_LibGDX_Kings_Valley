@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import modelo.level.LevelObject;
+import engine.level.LevelObject;
 
 /**
  * @author Guillermo Lazzurri

@@ -2,7 +2,7 @@ package mainPackage;
 
 import com.badlogic.gdx.ApplicationListener;
 
-import modelo.IGraphic;
+import engine.IGraphic;
 
 /**
  * @author Guillermo Lazzurri

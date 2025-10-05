@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import modelo.level.door.Door;
+import engine.level.door.Door;
 
 /**
  * @author Guillermo Lazzurri

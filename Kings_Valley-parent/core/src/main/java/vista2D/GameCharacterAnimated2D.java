@@ -3,7 +3,7 @@ package vista2D;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import modelo.gameCharacters.abstractGameCharacter.GameCharacter;
+import engine.gameCharacters.abstractGameCharacter.GameCharacter;
 
 /**
  * @author Guillermo Lazzurri Clase que renderiza un GameCharacter (momia o

@@ -3,7 +3,7 @@ package vista2D;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import modelo.level.LevelObject;
+import engine.level.LevelObject;
 
 /**
  * @author Guillermo Lazzurri Clase encargada de dibujar una celda que esta

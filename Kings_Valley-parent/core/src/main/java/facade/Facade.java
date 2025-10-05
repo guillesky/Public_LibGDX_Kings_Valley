@@ -13,11 +13,11 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.utils.Json;
 
 import audio.AudioManager;
+import engine.IGraphic;
+import engine.game.Game;
 import i18n.AllLanguages;
 import i18n.Language;
 import mainPackage.IMyApplicationListener;
-import modelo.IGraphic;
-import modelo.game.Game;
 import util.GameRules;
 import util.GameConfig;
 import util.Utils;

@@ -5,8 +5,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 
-import modelo.control.Controls;
-import modelo.game.Game;
+import engine.control.Controls;
+import engine.game.Game;
 import vista2D.ui.UI2D;
 
 /**

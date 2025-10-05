@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import modelo.level.LevelObject;
+import engine.level.LevelObject;
 
 /**
  * @author Guillermo Lazzurri Renderiza un Sprite de King Valley. Solo se usa en

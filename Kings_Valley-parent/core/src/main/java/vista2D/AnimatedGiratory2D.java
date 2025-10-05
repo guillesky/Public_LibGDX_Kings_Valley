@@ -2,10 +2,11 @@ package vista2D;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
+
+import engine.level.GiratoryMechanism;
+
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-
-import modelo.level.GiratoryMechanism;
 
 /**
  * @author Guillermo Lazzurri Clase que representa graficamente una puerta

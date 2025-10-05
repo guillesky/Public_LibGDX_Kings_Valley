@@ -10,8 +10,8 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
 
-import modelo.KVEventListener;
-import modelo.game.Game;
+import engine.KVEventListener;
+import engine.game.Game;
 
 /**
  * @author Guillermo Lazzurri Clase que maneja el audio durante el juego.

@@ -3,7 +3,7 @@ package vista2D;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import modelo.level.TrapMechanism;
+import engine.level.TrapMechanism;
 
 /**
  * @author Guillermo Lazzurri Clase que representa graficamente un muro trampa

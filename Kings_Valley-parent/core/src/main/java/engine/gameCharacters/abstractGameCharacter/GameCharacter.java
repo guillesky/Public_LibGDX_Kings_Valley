@@ -1,0 +1,443 @@
+package engine.gameCharacters.abstractGameCharacter;
+
+import java.util.Collection;
+import java.util.Iterator;
+
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+
+import engine.level.GiratoryMechanism;
+import engine.level.LevelObject;
+import engine.level.Pyramid;
+import engine.level.Stair;
+import util.GameRules;
+
+/**
+ * @author Guillermo Lazzurri
+ * 
+ *         Clase abstracta que representa un caracter del juego (puede ser
+ *         player o momia) y se encarga de manejar la fisica de colisiones y
+ *         movimientos generales.<br>
+ *         Aplica el patron State
+ */
+@SuppressWarnings("serial")
+public abstract class GameCharacter extends LevelObject
+{
+
+	/**
+	 * Quieto en el piso
+	 */
+	public static final int ST_IDDLE = 0; 
+	/**
+	 * Caminando
+	 */
+	public static final int ST_WALKING = 11; 
+	/**
+	 * En escalera
+	 */
+	public static final int ST_ONSTAIRS = 2; 
+
+	/**
+	 * Saltando
+	 */
+	public static final int ST_JUMPING = 5; 
+
+	/**
+	 * Cayendo
+	 */
+	public static final int ST_FALLING = 7; 
+
+	/**
+	 * Muriendo
+	 */
+	public static final int ST_DYING = 8; 
+
+	protected int state = GameCharacter.ST_IDDLE;
+
+	protected Vector2 motionVector = new Vector2();
+	protected float speedFall;
+	protected float speedWalk;
+	protected float speedWalkStairs;
+	protected float speedJump;
+	protected float speedY = 0;
+	protected Pyramid pyramid;
+	protected boolean lookRight = true;
+	protected float animationDelta = 0;
+	private Rectangle feet;
+	protected GameCharacterState gameCharacterState;
+
+	/**
+	 * Llama a super(type, x, y, 0, Config.getInstance().getCharacterWidth(),
+	 * Config.getInstance().getCharacterHeight());
+	 * 
+	 * @param type            entero que indica el tipo de objeto (util para
+	 *                        renderizar)
+	 * @param x               (posicion x en el mapa)
+	 * @param y               (posicion y en el mapa)
+	 * @param speedWalk       velocidad de caminata
+	 * @param speedWalkStairs velocidad de subir o bajar escaleras
+	 * @param pyramid         objeto de tipo Pyramid a la cual pertenece
+	 */
+	public GameCharacter(int type, float x, float y, float speedWalk, float speedWalkStairs, Pyramid pyramid)
+	{
+		super(type, x, y, 0, GameRules.getInstance().getCharacterWidth(), GameRules.getInstance().getCharacterHeight());
+		float feetWidth;
+		float feetHeight;
+
+		this.speedFall = GameRules.getInstance().getCharacterSpeedFall();
+		this.speedWalk = speedWalk;
+		this.speedWalkStairs = speedWalkStairs;
+		this.speedJump = GameRules.getInstance().getCharacterVerticalSpeedJump();
+
+		feetHeight = GameRules.getInstance().getCharacterFeetHeight();
+		feetWidth = GameRules.getInstance().getCharacterFeetWidth();
+		this.pyramid = pyramid;
+
+		float mitad = this.x + this.width / 2;
+		mitad -= feetWidth / 2;
+		this.feet = new Rectangle(mitad, y, feetWidth, feetHeight);
+		this.gameCharacterState = new GameCharacterStateIddle(this);
+
+	}
+
+	/**
+	 * Delega en su atributo de estado: this.gameCharacterState.move(v, b,
+	 * deltaTime);
+	 * 
+	 * @param v         vector de direccion pretendida
+	 * @param b         realzar accion (true o false) puede ser saltar, lanzar daga,
+	 *                  o intentar picar
+	 * @param deltaTime tiempo transcurrido desde el ultimo frame en segundos
+	 */
+	protected void move(Vector2 v, boolean b, float deltaTime)
+	{
+		this.gameCharacterState.move(v, b, deltaTime);
+
+	}
+
+	/**
+	 * Metodo llamado en caso de solicitar una accion
+	 */
+	protected abstract void doAction();
+
+	/**
+	 * Delega el metodo a this.gameCharacterState.doJump() 
+	 * Intenta saltar si el techo no lo bloquea. Si puede saltar el estado cambia a
+	 * GameCharacterStateJumping
+	 * 
+	 * @return true si pudo saltar, false en caso contrario
+	 */
+	protected boolean doJump()
+	{
+		
+		return this.gameCharacterState.doJump(); 
+	}
+
+	/**
+	 * @return un codigo de estado (no confundir con el patron state)<br>
+	 *         ST_IDDLE = 0; <br>
+	 *         ST_WALKING = 11;<br>
+	 *         ST_ONSTAIRS = 2; <br>
+	 *         ST_JUMPING = 5; <br>
+	 *         ST_FALLING = 7;<br>
+	 *         ST_DYING = 8; <br>
+	 */
+	public int getState()
+	{
+		return state;
+	}
+
+	/**
+	 * Indica si hay colision entre sus pies con otro objeto de tipo Rectangle (si
+	 * lo esta pisando)
+	 * 
+	 * @param another Rectangulo con el cual calular colision
+	 * @return true si hay colision, false en caso contrario
+	 */
+	public boolean isFeetColision(Rectangle another)
+	{
+		this.feet.x = this.x + (this.width - GameRules.getInstance().getCharacterFeetHeight()) / 2;
+		this.feet.y = this.y;
+		return LevelObject.rectangleColision(this.feet, another);
+	}
+
+	/**
+	 * @return tiempo en segundos transcurrido desde que se inicio la animacion
+	 *         actual
+	 */
+	public float getAnimationDelta()
+	{
+		return animationDelta;
+	}
+
+	/**
+	 * @return true si el caracter mira a la derecha, false si mira a la izquierda
+	 */
+	public boolean isLookRight()
+	{
+		return lookRight;
+	}
+
+	/**
+	 * Devuelve el objeto de tipo de LevelObjet con el cual el caracter colisiona
+	 * desde una lista pasada por parametro. Si no colisiona con ninguno, retorna
+	 * null
+	 * 
+	 * @param levelObjects ArrayList con los objetos a verificar
+	 * @return El objeto de la lista con el cual el caracter colisiona, null si no
+	 *         hay colision.
+	 */
+	@SuppressWarnings(
+	{ "rawtypes", "unchecked" })
+	public LevelObject checkRectangleColision(Collection levelObjects)
+	{
+
+		Iterator<LevelObject> it = levelObjects.iterator();
+		LevelObject respuesta = null;
+		LevelObject item = null;
+		if (it.hasNext())
+			do
+			{
+				item = it.next();
+			} while (it.hasNext() && !this.isColision(item));
+
+		if (this.isColision(item))
+		{
+			respuesta = item;
+		}
+
+		return respuesta;
+	}
+
+	/**
+	 * Verifica que el caracter colisione con una puerta giratoria. Si puede pasar
+	 * lo hace y en caso contrario es bloqueado.
+	 * 
+	 * @return devuelve true si el caracter colisiona con una puerta giratoria (ya
+	 *         sea que pueda pasar o no). Retorna false en caso contrario
+	 */
+	protected boolean checkGiratory()
+	{
+		boolean r = false;
+		LevelObject giratory = this.checkRectangleColision(this.pyramid.getGiratories());
+		if (giratory != null)
+		{
+			GiratoryMechanism gm = this.pyramid.getGiratoryMechanism(giratory);
+
+			if (this.canPassGiratoryMechanism(gm))
+			{
+				this.passGiratoryMechanism(gm);
+
+			} else
+			{
+				this.blockGiratory(gm);
+				r = true;
+			}
+		}
+		return r;
+	}
+
+	/**
+	 * @return Retorna true si esta bloqueado por izquierda y por derecha (eso
+	 *         significa que no puede caminar hacia ninguno de ambos lados). Retorna
+	 *         false en caso contrario
+	 */
+	public boolean isLocked()
+	{
+
+		return this.isLockedRight() && this.isLockedLeft();
+	}
+
+	/**
+	 * @return Retorna true si esta bloqueado por izquierda (eso significa que no
+	 *         puede caminar hacia la izquierda). Retorna false en caso contrario
+	 */
+	protected boolean isLockedLeft()
+	{
+		return this.pyramid.getCell(this.x - GameRules.getInstance().getLevelTileWidthUnits(),
+				this.y + GameRules.getInstance().getLevelTileHeightUnits()) != null
+				|| this.pyramid.getCell(this.x - GameRules.getInstance().getLevelTileWidthUnits(), this.y) != null;
+
+	}
+
+	/**
+	 * @return Retorna true si esta bloqueado por derecha (eso significa que no
+	 *         puede caminar hacia la derecha). Retorna false en caso contrario
+	 */
+
+	protected boolean isLockedRight()
+	{
+		return this.pyramid.getCell(this.x + GameRules.getInstance().getLevelTileWidthUnits(),
+				this.y + GameRules.getInstance().getLevelTileHeightUnits()) != null
+				|| this.pyramid.getCell(this.x + GameRules.getInstance().getLevelTileWidthUnits(), this.y) != null;
+
+	}
+
+	/**
+	 * @return Retorna true si esta libre arriba y podria saltar (esto es que no
+	 *         tenga un tile justo encima de la cabeza del caracter). Retorna false
+	 *         en caso contrario.
+	 */
+	protected boolean isFreeUp()
+	{
+		return this.pyramid.getCell(this.x, this.y, 0, 2) == null
+				&& this.pyramid.getCell(this.x + this.width, this.y, 0, 2) == null;
+
+	}
+
+	/**
+	 * Verifica si el caracter puede pasar a traves de una puerta giratoria pasada
+	 * por parametro
+	 * 
+	 * @param giratoryMechanism La puerta giratoria que debe ser evaluada.
+	 * @return Retorna true si el caracter puede pasar a traves de la puerta
+	 *         giratoria pasada por parametro. Retorna false en caso contrario.
+	 */
+	protected abstract boolean canPassGiratoryMechanism(GiratoryMechanism giratoryMechanism);
+
+	/**
+	 * Raliza las acciones necesarias al pasar por la puerta giratoria pasada como
+	 * parametro.
+	 * 
+	 * @param giratoryMechanism Puerta giratoria por la que esta pasando el
+	 *                          caracter.
+	 */
+	protected abstract void passGiratoryMechanism(GiratoryMechanism giratoryMechanism);
+
+	/**
+	 * Bloquea el paso del caracter por la puerta giratoria pasada por paramentro.
+	 * 
+	 * @param giratoryMechanism La puerta giratoria que bloque al caracter
+	 */
+	protected void blockGiratory(GiratoryMechanism giratoryMechanism)
+	{
+		LevelObject g = giratoryMechanism.getLevelObject();
+		float lado = g.x - this.x;
+
+		this.motionVector.x = 0;
+		if (lado < 0)
+		{
+			this.x = g.x + g.width;
+		} else
+
+		{
+			this.x = g.x - this.width;
+		}
+
+	}
+
+	/**
+	 * 
+	 * @param state Valor entero que representa el estado del caracter (no confundir
+	 *              con un objeto de tipo GameCharacterState). Estan contemplados
+	 *              los tipos:<br>
+	 *              ST_IDDLE = 0; <br>
+	 *              ST_WALKING = 11; <br>
+	 *              ST_ONSTAIRS = 2; <br>
+	 *              ST_JUMPING = 5; <br>
+	 *              ST_FALLING = 7; <br>
+	 *              ST_DYING = 8; <br>
+	 */
+	protected void setState(int state)
+	{
+		this.state = state;
+	}
+
+	/**
+	 * this.animationDelta = 0;
+	 */
+	protected void resetAnimationDelta()
+	{
+		this.animationDelta = 0;
+	}
+
+	/**
+	 * this.animationDelta += delta;
+	 * 
+	 * @param delta El valor en segundos que debe incrementarse el atributo
+	 *              this.animationDelta
+	 */
+	protected void incAnimationDelta(float delta)
+	{
+		this.animationDelta += delta;
+	}
+
+	/**
+	 * @return la piramide a la cual pertence el caracter
+	 */
+	public Pyramid getPyramid()
+	{
+		return pyramid;
+	}
+
+	/**
+	 * @return Retorna true si el caracter esta ascendiendo o descendiendo de una
+	 *         escalera. Retorna false en caso contrario.
+	 */
+	public boolean isInStair()
+	{
+		return this.gameCharacterState.getStair() != null;
+	}
+
+	/**
+	 * @return La escalera en la cual el caracter esta ascendiendo o descendiendo.
+	 *         Si no esta en una escalera retorna null
+	 */
+	public Stair getStair()
+	{
+		return this.gameCharacterState.getStair();
+	}
+
+	/**
+	 * Retorna la escalera (positiva o negativa segun parametro) a traves de la cual
+	 * es caracter pretende subir o bajar (segun parametro)
+	 * 
+	 * @param positiveStairs true si se pretende acceder a una escalera positiva,
+	 *                       false en caso contrario.
+	 * @param isUpping       true si se intenta subir, false en caso contrario.
+	 * @return La escalera la escalera (positiva o negativa segun parametro) a
+	 *         traves de la cual es caracter pretende subir o bajar (segun
+	 *         parametro). Si no hay una escalera accesible segun las condicione,
+	 *         retorna null
+	 */
+	protected Stair checkStairsFeetColision(boolean positiveStairs, boolean isUpping)
+	{
+
+		Iterator<Stair> it;
+		if (positiveStairs)
+			it = this.getPyramid().getPositiveStairs().iterator();
+		else
+			it = this.getPyramid().getNegativeStairs().iterator();
+		Stair respuesta = null;
+		Stair stair = null;
+		LevelObject item = null;
+		if (it.hasNext())
+			do
+			{
+				stair = it.next();
+				if (isUpping)
+					item = stair.getDownStair();
+				else
+					item = stair.getUpStair();
+			} while (it.hasNext() && !this.isFeetColision(item));
+
+		if (this.isFeetColision(item))
+		{
+			respuesta = stair;
+		}
+
+		return respuesta;
+	}
+
+	/**
+	 * Delega el metodo a this.gameCharacterState.enterStair(stair);
+	 * Llamado cuando el caracter entra a una escalera pasada por parametro
+	 * 
+	 * @param stair Escalera a la cual entro el caracter
+	 */
+	protected void enterStair(Stair stair)
+	{
+		this.gameCharacterState.enterStair(stair);
+	}
+
+}

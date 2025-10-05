@@ -5,8 +5,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import modelo.level.dagger.Dagger;
-import modelo.level.dagger.DaggerState;
+import engine.level.dagger.Dagger;
+import engine.level.dagger.DaggerState;
 
 /**
  * @author Guillermo Lazzurri Clase encargada de renderizar Dagas

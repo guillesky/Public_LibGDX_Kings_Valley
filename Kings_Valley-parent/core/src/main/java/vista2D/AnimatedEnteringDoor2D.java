@@ -5,8 +5,8 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import modelo.game.Game;
-import modelo.level.door.Door;
+import engine.game.Game;
+import engine.level.door.Door;
 
 /**
  * @author Guillermo Lazzurri Dibuja la puerta durante la entrada y salida del
