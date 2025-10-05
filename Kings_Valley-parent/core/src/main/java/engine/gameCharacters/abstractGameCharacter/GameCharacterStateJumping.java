@@ -35,7 +35,6 @@ public class GameCharacterStateJumping extends GameCharacterState
 		this.gameCharacter.motionVector.x=Math.signum(this.gameCharacter.motionVector.x)*GameRules.getInstance().getCharacterHorizontalSpeedJump();
 		this.initialMotionX = this.gameCharacter.motionVector.x;
 		Game.getInstance().eventFired(KVEventListener.CHARACTER_JUMP, gameCharacter);
-
 	}
 
 	/**
