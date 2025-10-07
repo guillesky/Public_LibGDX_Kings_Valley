@@ -121,7 +121,7 @@ public class Game implements KVEventListener
 
 	/**
 	 * incrementa el score del juego<br>
-	 * <b>PRE:</b> cant debe ser >= que cero.
+	 * <b>PRE:</b> cant debe ser mayor o igual que cero.
 	 * 
 	 * @param cant cantidad a incrementar
 	 */
