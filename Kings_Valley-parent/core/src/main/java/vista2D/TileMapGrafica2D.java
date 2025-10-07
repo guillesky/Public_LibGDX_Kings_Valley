@@ -365,7 +365,7 @@ public class TileMapGrafica2D implements IMyApplicationListener
 			cameraBack.setToOrtho(false, ancho, alto);
 			this.calculateCameraBackFull();
 		}
-		this.calculateTextureRegionSky(width, height, pyramid.getMapWidthInTiles());
+		this.calculateTextureRegionSky(pyramid.getMapWidthInTiles());
 
 	}
 
@@ -426,7 +426,7 @@ public class TileMapGrafica2D implements IMyApplicationListener
 		while (it3.hasNext())
 		{
 			AnimatedTrapKV2D animatedTrapKV2 = it3.next();
-			animatedTrapKV2.updateElement(null);
+			animatedTrapKV2.updateElement();
 
 		}
 		if (Game.getInstance().getState() == Game.ST_GAME_PLAYING)
@@ -435,7 +435,7 @@ public class TileMapGrafica2D implements IMyApplicationListener
 			while (itDoors.hasNext())
 			{
 				AbstractAnimatedDoor2D animatedDoor = itDoors.next();
-				animatedDoor.updateElement(null);
+				animatedDoor.updateElement();
 				animatedDoor.draw(spriteBatch);
 			}
 		}
@@ -443,7 +443,7 @@ public class TileMapGrafica2D implements IMyApplicationListener
 		while (it.hasNext())
 		{
 			MySpriteKV mySpriteKV = it.next();
-			mySpriteKV.updateElement(null);
+			mySpriteKV.updateElement();
 			mySpriteKV.draw(spriteBatch);
 		}
 
@@ -463,7 +463,7 @@ public class TileMapGrafica2D implements IMyApplicationListener
 			this.playerAnimated2D.render(spriteBatch);
 		} else if (Game.getInstance().getState() != Game.ST_ENDING)
 		{
-			this.animatedEnteringDoor2D.updateElement(null);
+			this.animatedEnteringDoor2D.updateElement();
 			this.animatedEnteringDoor2D.drawBack(spriteBatch);
 			this.playerAnimated2D.updateElement(Game.getInstance().getDelta());
 			if ((Game.getInstance().getState() == Game.ST_GAME_ENTERING
@@ -628,7 +628,7 @@ public class TileMapGrafica2D implements IMyApplicationListener
 	}
 
 	/**
-	 * Llamado internamente por render(). Calcula la calamara de la capa frontal de
+	 * Llamado internamente por render(). Calcula la camara de la capa frontal de
 	 * la piramide.
 	 * 
 	 * @return true si hubo cambios, false en caso contrario
@@ -649,6 +649,11 @@ public class TileMapGrafica2D implements IMyApplicationListener
 		return wasChange;
 	}
 
+	/**
+	 * Llamado internamente por resize(). Calcula la camara de la capa frontal de
+	 * la piramide realizando mas calculos que calculateCamera, ya que considera los cambios ocurridos durante el redimensionado.
+	 * 
+	 */
 	private void calculateCameraFull()
 	{
 		float posCameraX = 0;
@@ -674,17 +679,18 @@ public class TileMapGrafica2D implements IMyApplicationListener
 		camera.position.y = pyramid.getMapHeightInUnits() * this.cameraOffsetY;
 	}
 
+	/**
+	 *Llama a this.create()
+	 */
 	@Override
 	public void inicialize()
 	{
 		this.create();
-
 	}
 
 	@Override
 	public float getTimeToExitLevel()
 	{
-
 		return this.timeToExitLevel;
 	}
 
@@ -709,7 +715,11 @@ public class TileMapGrafica2D implements IMyApplicationListener
 		return this.timeToEndGame;
 	}
 
-	private void calculateTextureRegionSky(int width, int height, int mapWidthInTiles)
+	/**
+	 * Llamado internamente por resize. Calcula cual es la region de cielo de fondo mas grande que puede utilizarse de acuerdo al radio de aspecto de la pantalla.
+	 * @param mapWidthInTiles Cantidad de tiles de ancho que tiene la piramide
+	 */
+	private void calculateTextureRegionSky(int mapWidthInTiles)
 	{
 
 		float cameraWidth = this.cameraUI.viewportWidth;
@@ -733,6 +743,11 @@ public class TileMapGrafica2D implements IMyApplicationListener
 		}
 	}
 
+	/**
+	 * Llamado internamente por resize(). Calcula la camara de la capa de fondo de
+	 * la piramide realizando mas calculos que calculateCameraBack, ya que considera los cambios ocurridos durante el redimensionado.
+	 * 
+	 */
 	private void calculateCameraBackFull()
 	{
 		float posCameraX = 0;

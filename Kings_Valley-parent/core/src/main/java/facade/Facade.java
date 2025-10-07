@@ -56,7 +56,7 @@ public class Facade implements ApplicationListener
 	private Music musicIntro;
 	private AudioManager audioManager;
 	private RenderState renderState;
-	protected boolean showMap;
+	private boolean showMap;
 	private int dificultLevel;
 
 	/**
@@ -468,5 +468,15 @@ public class Facade implements ApplicationListener
 		this.showMap = false;
 
 	}
+
+	/**
+	 * @return true si el mapa es visible, false en caso contrario
+	 */
+	public boolean isShowMap()
+	{
+		return showMap;
+	}
+	
+	
 
 }

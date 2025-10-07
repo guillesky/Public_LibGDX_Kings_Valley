@@ -15,7 +15,7 @@ public class DoorStateClosed extends DoorState
 	/**
 	 * Constructor de clase. Llama a super(door, Door.CLOSED);
 	 * 
-	 * @param door
+	 * @param door Corresponde al sujeto del patron state
 	 * 
 	 */
 	public DoorStateClosed(Door door)

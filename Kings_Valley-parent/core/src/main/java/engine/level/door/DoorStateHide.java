@@ -13,7 +13,7 @@ public class DoorStateHide extends DoorState
 	/**
 	 * Constructor de clase, llama a super(door, Door.HIDE);
 	 * 
-	 * @param door corresponde al sujeto del patron state
+	 * @param door Corresponde al sujeto del patron state
 	 */
 	public DoorStateHide(Door door)
 	{

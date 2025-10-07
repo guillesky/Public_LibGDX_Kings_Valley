@@ -144,15 +144,7 @@ public class Player extends GameCharacter
 		super.resetAnimationDelta();
 	}
 
-	/**
-	 * Velocidad que el caracter tiene en la escalera
-	 * 
-	 * @return this.speedWalkStairs
-	 */
-	protected float getSpeedWalkStairs()
-	{
-		return speedWalkStairs;
-	}
+	
 
 	/**
 	 * Incrementa la coordenada x del caracter (admite valores positivos y

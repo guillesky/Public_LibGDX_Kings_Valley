@@ -14,9 +14,18 @@ import engine.level.LevelObject;
  */
 public class AnimatedEntity2D
 {
+    /**
+     * Representa la entidad del juego que debe dibujarse
+     */
     protected LevelObject levelObject;
+    /**
+     * Animacion correspondiente a la entidad del juego
+     */
     protected Animation<TextureRegion> animation;
 
+    /**
+     * Sprite actual a dibujarse. Se actualiza a partir de la animacion
+     */
     protected Sprite sprite;
     
 

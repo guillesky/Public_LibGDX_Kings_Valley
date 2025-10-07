@@ -545,7 +545,7 @@ public class GraphicsFileLoader
 	/**
 	 * Retorna el array con las animaciones de la momia pasada por parametro
 	 * 
-	 * @param Codigo de color de la momia. puede tomar los valores:<br>
+	 * @param color Codigo de color de la momia. puede tomar los valores:<br>
 	 *               MummyFactory.WHITE_MUMMY = 0;<br>
 	 *               MummyFactory.PINK_MUMMY = 1;<br>
 	 *               MummyFactory.YELLOW_MUMMY = 2;<br>

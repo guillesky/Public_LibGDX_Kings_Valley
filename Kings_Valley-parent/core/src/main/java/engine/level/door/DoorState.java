@@ -9,6 +9,9 @@ import engine.gameCharacters.player.Player;
  */
 public abstract class DoorState
 {
+	/**
+	 * Corresponde al sujeto del patron state
+	 */
 	protected Door door;
 
 	/**

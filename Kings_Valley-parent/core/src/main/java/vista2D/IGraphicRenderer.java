@@ -8,8 +8,7 @@ public interface IGraphicRenderer
 {
 /**
  * Actualiza la representacion del objeto pasado por parametro
- * @param element
  */
-void updateElement(Object element);
+void updateElement();
 
 }

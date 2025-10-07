@@ -41,8 +41,8 @@ public class GameStateDying extends GameState
 
 		if (this.game.getDelta() >= this.game.getInterfaz().getTimeDying())
 		{
-			this.game.lives--;
-			if (this.game.lives >= 0)
+			this.game.loseLive();
+			if (this.game.getLives() >= 0)
 				this.game.start(null, true);
 			else
 				this.game.endGame();

@@ -34,7 +34,7 @@ public class GameCharacterStateOnStair extends GameCharacterState
 	@Override
 	protected void moveFirstStep(Vector2 v, boolean b, float deltaTime)
 	{
-		this.gameCharacter.motionVector.x = v.x * this.gameCharacter.speedWalkStairs;
+		this.gameCharacter.motionVector.x = v.x * this.gameCharacter.getSpeedWalkStairs();
 		int sign;
 		if (this.stair.isPositive())
 		{
@@ -44,7 +44,7 @@ public class GameCharacterStateOnStair extends GameCharacterState
 		{
 			sign = -1;
 		}
-		this.gameCharacter.motionVector.y = v.x * this.gameCharacter.speedWalkStairs * sign;
+		this.gameCharacter.motionVector.y = v.x * this.gameCharacter.getSpeedWalkStairs() * sign;
 		if (v.x != 0)
 		{
 

@@ -15,11 +15,17 @@ import util.GameRules;
  */
 public abstract class AbstractAnimatedDoor2D implements IGraphicRenderer
 {
+	/**
+	 * Puerta que debe ser representada
+	 */
 	protected Door door;
 	private Sprite lever;
 	private Sprite doorSingleLeft;
 	private Sprite doorSingleRight;
 	private Sprite doorPassage;
+	/**
+	 * Animación de la palanca
+	 */
 	protected Animation<TextureRegion> leverAnimation;
 
 	/**

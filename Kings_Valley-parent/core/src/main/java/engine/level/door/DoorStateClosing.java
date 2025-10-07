@@ -16,7 +16,7 @@ public class DoorStateClosing extends DoorState
 	 * Constructor de clase. Llama a super(door, Door.CLOSING); y dispara el evento
 	 * Game.getInstance().eventFired(KVEventListener.CLOSING_DOOR, this.door);
 	 * 
-	 * @param door
+	 * @param door Corresponde al sujeto del patron state
 	 */
 	public DoorStateClosing(Door door)
 	{

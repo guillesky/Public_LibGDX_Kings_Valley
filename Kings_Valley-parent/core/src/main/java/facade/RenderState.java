@@ -21,7 +21,7 @@ protected ApplicationListener gameInterface;
     /**
      * Constructor de clase
      * @param ui Objeto que representa la Interfaz de usuario (menues)
-     * @param gameInterfaz representa la interfaz grafica del juego. Facade la implementa con un objeto de tipo TileMapGrafica2D
+     * @param gameInterface representa la interfaz grafica del juego. Facade la implementa con un objeto de tipo TileMapGrafica2D
      */
     public RenderState(UI2D ui, ApplicationListener gameInterface)
 {

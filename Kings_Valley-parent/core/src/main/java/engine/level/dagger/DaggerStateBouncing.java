@@ -22,7 +22,7 @@ public class DaggerStateBouncing extends DaggerState
 	 * Dispara el evento Game.getInstance().eventFired(KVEventListener.SWORD_CLASH, dagger);
 	
 	 * 
-	 * @param dagger
+	 * @param dagger Corresponde al sujeto del patron state
 	 */
 	public DaggerStateBouncing(Dagger dagger)
 	{

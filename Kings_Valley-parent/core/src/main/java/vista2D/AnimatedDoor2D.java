@@ -32,7 +32,7 @@ public class AnimatedDoor2D extends AbstractAnimatedDoor2D
 	}
 
 	@Override
-	public void updateElement(Object element)
+	public void updateElement()
 	{
 		
 		if (this.door.isVisible() &&  (this.door.getState() == Door.CLOSING || this.door.getState() == Door.OPENING))

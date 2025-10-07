@@ -9,46 +9,171 @@ package engine;
 public interface KVEventListener
 {
 
+	/**
+	 * Codigo del evento: entrando al nivel
+	 */
 	int ENTERING_LEVEL = 0;
+	/**
+	 * Codigo del evento: entro al nivel
+	 */
+
 	int ENTER_LEVEL = 1;
+	/**
+	 * Codigo del evento: saliendo del nivel
+	 */
 	int EXITING_LEVEL = 2;
+	/**
+	 * Codigo del evento: salio al nivel
+	 */
+
 	int EXIT_LEVEL = 3;
 
+	/**
+	 * Codigo del evento: se arrojo una espada
+	 */
 	int THROW_DAGGER = 5;
-	int ENTER_GIRATORY = 6;
-	int EXIT_GIRATORY = 7;
-	int ACTIVATE_TRAP = 8;
-	int TRAP_END_DOWN = 9;
+	/**
+	 * Codigo del evento: entro a una giratoria
+	 */
 
+	int ENTER_GIRATORY = 6;
+	/**
+	 * Codigo del evento: salio de una giratoria
+	 */
+
+	int EXIT_GIRATORY = 7;
+	/**
+	 * Codigo del evento: se activo una trampa
+	 */
+	int ACTIVATE_TRAP = 8;
+	/**
+	 * Codigo del evento: la trampa llego al piso
+	 */
+	int TRAP_END_DOWN = 9;
+	/**
+	 * Codigo del evento: salto un caracter
+	 */
 	int CHARACTER_JUMP = 10;
+	/**
+	 * Codigo del evento: termino el salto de un caracter
+	 */
 	int CHARACTER_END_JUMP = 11;
+	/**
+	 * Codigo del evento: un caracter comenzo a caer
+	 */
 	int CHARACTER_BEGIN_FALL = 12;
+
+	/**
+	 * Codigo del evento: un caracter termino de caer
+	 */
+
 	int CHARACTER_END_FALL = 13;
+	/**
+	 * Codigo del evento: player murio
+	 */
 
 	int PLAYER_DIE = 14;
+	/**
+	 * Codigo del evento: player picando
+	 */
+
 	int PLAYER_PICKING = 15;
+	/**
+	 * Codigo del evento: player revivio
+	 */
+
 	int PLAYER_RESPAWN = 16;
+	/**
+	 * Codigo del evento: player salto
+	 */
+
 	int PLAYER_JUMP = 17;
 
+	/**
+	 * Codigo del evento: una momia aparecio
+	 */
 	int MUMMY_APPEAR = 20;
+	/**
+	 * Codigo del evento: una momia murio
+	 */
+
 	int MUMMY_DIE = 21;
+	/**
+	 * Codigo del evento: una momia murio por una espada
+	 */
 	int MUMMY_KILLED_BY_SWORD = 22;
+	/**
+	 * Codigo del evento: una momia salto
+	 */
 	int MUMMY_JUMP = 23;
 
+	/**
+	 * Codigo del evento: se agrego vida extra
+	 */
 	int ADD_EXTRA_LIFE = 40;
+	/**
+	 * Codigo del evento: se recolecto una gema
+	 */
 	int PICKUP_JEWEL = 51;
+	/**
+	 * Codigo del evento: se recolecto una espada
+	 */
+
 	int PICKUP_DAGGER = 52;
+	/**
+	 * Codigo del evento: se recolecto un pico
+	 */
+
 	int PICKUP_PICKER = 53;
+	/**
+	 * Codigo del evento: se recolecto la ultima gema
+	 */
+
 	int PICKUP_ALL_JEWEL = 54;
+	/**
+	 * Codigo del evento: abriendo puerta
+	 */
+	
 	int OPENING_DOOR = 60;
+	/**
+	 * Codigo del evento: cerrando puerta
+	 */
+
 	int CLOSING_DOOR = 61;
+	/**
+	 * Codigo del evento: Se clavo la espada en el piso
+	 */
+
 	int SWORD_STUCK = 70;
+	/**
+	 * Codigo del evento: La espada choco la pared
+	 */
+
 	int SWORD_CLASH = 71;
+	/**
+	 * Codigo del evento: La espada golpeo una momia
+	 */
+
 	int SWORD_CLASH_FLESH = 72;
+	/**
+	 * Codigo del evento: se entro o salio del modo pausado
+	 */
+
 	int PAUSED_IS_CHANGED = 80;
+	/**
+	 * Codigo del evento: Se terminaron todos los niveles
+	 */
 
 	int FINISH_ALL_LEVELS = 100;
+	/**
+	 * Codigo del evento: termino el juego
+	 */
+
 	int GAME_OVER = 200;
+	/**
+	 * Codigo del evento: El juego esta terminando
+	 */
+
 	int GAME_ENDING = 201;
 
 	/**

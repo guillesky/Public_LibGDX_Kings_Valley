@@ -343,12 +343,12 @@ public class Pyramid implements IGraphic
 	 * this.removeGraphicElement(new DrawableElement(Constantes.DRAWABLE_LEVEL_ITEM,
 	 * joya));
 	 * 
-	 * @param joya
+	 * @param jewel joya que debe eliminarse
 	 */
-	public void removeJewel(LevelObject joya)
+	public void removeJewel(LevelObject jewel)
 	{
-		this.jewels.remove(joya);
-		this.removeGraphicElement(new DrawableElement(Constants.DRAWABLE_LEVEL_ITEM, joya));
+		this.jewels.remove(jewel);
+		this.removeGraphicElement(new DrawableElement(Constants.DRAWABLE_LEVEL_ITEM, jewel));
 
 	}
 
@@ -473,6 +473,9 @@ public class Pyramid implements IGraphic
 		return this.interfaz.getTimeDying();
 	}
 
+	/**
+	 * @return todas las escaleras de la piramide
+	 */
 	public ArrayList<Stair> getAllStairs()
 	{
 		return allStairs;

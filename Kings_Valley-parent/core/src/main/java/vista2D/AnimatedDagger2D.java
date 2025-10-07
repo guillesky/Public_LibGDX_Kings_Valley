@@ -13,7 +13,13 @@ import engine.level.dagger.DaggerState;
  */
 public class AnimatedDagger2D extends AnimatedEntity2D
 {
+	/**
+	 * Animacion correspondiente a la daga cuando esta clavada en el piso
+	 */
 	protected Animation<TextureRegion> daggerAnimationStucked;
+	/**
+	 * Animacion correspondiente a la daga cuando esta volando
+	 */
 	protected Animation<TextureRegion> daggerAnimationFlying;
 	private int oldState;
 
@@ -66,8 +72,6 @@ public class AnimatedDagger2D extends AnimatedEntity2D
 			this.animation = this.daggerAnimationFlying;
 		this.sprite = new Sprite(animation.getKeyFrame(0));
 	}
-
-	
 
 	@Override
 	public void render(SpriteBatch batch)

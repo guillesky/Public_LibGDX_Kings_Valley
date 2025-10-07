@@ -31,7 +31,7 @@ public class GameCharacterStateWalking extends GameCharacterStateOnFloor
 	protected void moveFirstStep(Vector2 v, boolean b, float deltaTime)
 	{
 
-		this.gameCharacter.motionVector.x = v.x * this.gameCharacter.speedWalk;
+		this.gameCharacter.motionVector.x = v.x * this.gameCharacter.getSpeedWalk();
 		if (v.x != 0)
 			this.gameCharacter.lookRight = v.x > 0;
 

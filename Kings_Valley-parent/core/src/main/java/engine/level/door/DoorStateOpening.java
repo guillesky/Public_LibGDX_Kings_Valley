@@ -16,7 +16,7 @@ public class DoorStateOpening extends DoorState
 	 * Constructor de clase, llama a super(door, Door.OPENING); y dispara el evento
 	 * Game.getInstance().eventFired(KVEventListener.OPENING_DOOR, this.door);
 	 * 
-	 * @param door corresponde al sujeto del patron state
+	 * @param door Corresponde al sujeto del patron state
 	 */
 	public DoorStateOpening(Door door)
 	{

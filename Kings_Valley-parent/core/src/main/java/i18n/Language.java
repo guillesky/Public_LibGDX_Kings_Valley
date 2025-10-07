@@ -15,7 +15,7 @@ public class Language
 	 * 
 	 * @param fileCode representa el codigo de archivo (es = espanol; en= english;
 	 *                 etc.)
-	 * @param words    HashMap<String, String> con todos los valores de los mensajes
+	 * @param words    HashMap[String, String] con todos los valores de los mensajes
 	 *                 del idioma. Los mensajes se correponden al enumerate Messages
 	 */
 	public Language(String fileCode, HashMap<String, String> words)
@@ -34,7 +34,7 @@ public class Language
 	}
 
 	/**
-	 * @return HashMap<String, String> con todos los valores de los mensajes del
+	 * @return HashMap [String, String] con todos los valores de los mensajes del
 	 *         idioma. Los mensajes se correponden al enumerate Messages
 	 */
 	public HashMap<String, String> getWords()

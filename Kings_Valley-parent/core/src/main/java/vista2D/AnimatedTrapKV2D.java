@@ -11,8 +11,17 @@ import engine.level.TrapMechanism;
 public class AnimatedTrapKV2D implements IGraphicRenderer
 {
 
+	/**
+	 * Sprite que sera dibujado. Se crea a partir del tie de origen del muro trampa
+	 */
 	protected Sprite sprite;
+	/**
+	 * Mecanismo del muro trampa a ser dibujado
+	 */
 	protected TrapMechanism trapMech;
+	/**
+	 *SpriteBatch encargado del dibujado 
+	 */
 	private SpriteBatch spriteBatch;
 
 	/**
@@ -33,7 +42,7 @@ public class AnimatedTrapKV2D implements IGraphicRenderer
 	 * al mecanismo trampa y dibuja el sprite correspondiente a traves del atributo SpriteBatch. El objeto pasado por parametro es ignorado.
 	 */
 	@Override
-	public void updateElement(Object element)
+	public void updateElement()
 	{
 		this.sprite.setPosition(this.trapMech.getX(), this.trapMech.getY());
 		sprite.draw(spriteBatch);

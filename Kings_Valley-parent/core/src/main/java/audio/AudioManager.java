@@ -60,7 +60,7 @@ public class AudioManager implements KVEventListener
     }
 
     /**
-     * @param manager Objecto de tipo AssetManager para gestionar la carga de los
+     * @param assetManager Objecto de tipo AssetManager para gestionar la carga de los
      *                archivos de audio.
      */
     public AudioManager(AssetManager assetManager)

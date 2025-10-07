@@ -14,10 +14,10 @@ public class MummyData
 
 	/**
 	 * Constructor de clase, indica las coordenadas y tipo de momia<br>
-	 * <b>Pre: </b> 0 <= type <= 4
+	 * <b>Pre: </b> 0 &lt;= type &lt;= 4
 	 * @param x coordenada x de la momia
 	 * @param y coordenada y de la momia
-	 * @param type tipo de momia (0 <= type <= 4)
+	 * @param type tipo de momia (0 &lt;= type &lt;= 4)
 	 */
 	public MummyData(float x, float y, int type)
 	{

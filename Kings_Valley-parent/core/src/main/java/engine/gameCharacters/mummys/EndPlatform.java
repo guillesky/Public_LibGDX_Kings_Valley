@@ -23,7 +23,7 @@ public class EndPlatform
 	private int type;
 	private int count;
 	/**
-	 * Constructo de clase, indicara el tipo de final de plataforma, y a que distancia de la momia se encuentra el final.
+	 * Constructor de clase, indicara el tipo de final de plataforma, y a que distancia de la momia se encuentra el final.
 	 * @param type Indica el tipo de final de plataforma. Puede tomar unicamente los valores END_BLOCK; END_CLIFF; END_STEP 
 	 * @param count Indica la distancia en tiles desde la momia al fin de plataforma
 	 */

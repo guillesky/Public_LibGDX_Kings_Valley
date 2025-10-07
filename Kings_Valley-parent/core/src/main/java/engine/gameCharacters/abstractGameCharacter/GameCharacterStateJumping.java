@@ -31,7 +31,7 @@ public class GameCharacterStateJumping extends GameCharacterState
 	{
 		super(gameCharacter, GameCharacter.ST_JUMPING);
 		this.gameCharacter.resetAnimationDelta();
-		this.gameCharacter.motionVector.y = this.gameCharacter.speedJump;
+		this.gameCharacter.motionVector.y = this.gameCharacter.getSpeedJump();
 		this.gameCharacter.motionVector.x=Math.signum(this.gameCharacter.motionVector.x)*GameRules.getInstance().getCharacterHorizontalSpeedJump();
 		this.initialMotionX = this.gameCharacter.motionVector.x;
 		Game.getInstance().eventFired(KVEventListener.CHARACTER_JUMP, gameCharacter);
@@ -45,10 +45,10 @@ public class GameCharacterStateJumping extends GameCharacterState
 	{
 		if (this.hasBlocked() && this.gameCharacter.motionVector.y > 0)
 			this.tryUnblock();
-		this.gameCharacter.motionVector.y += this.gameCharacter.speedFall * deltaTime;
+		this.gameCharacter.motionVector.y += this.gameCharacter.getSpeedFall() * deltaTime;
 
-		if (this.gameCharacter.motionVector.y < this.gameCharacter.speedFall)
-			this.gameCharacter.motionVector.y = this.gameCharacter.speedFall;
+		if (this.gameCharacter.motionVector.y < this.gameCharacter.getSpeedFall())
+			this.gameCharacter.motionVector.y = this.gameCharacter.getSpeedFall();
 
 	}
 

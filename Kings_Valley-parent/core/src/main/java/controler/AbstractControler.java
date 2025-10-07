@@ -6,19 +6,59 @@ package controler;
  */
 public abstract class AbstractControler
 {
+    /**
+     * Vista que controlora la clase (patron MVC)
+     */
     protected IView view;
+    
+    /**
+     * Codigo para comando de salir
+     */
     public static final int EXIT = 0;
+    /**
+     * Codigo para comando de nuevo juego
+     */
     public static final int NEW_GAME = 1;
+    /**
+     * Codigo para comando de ir a opciones
+     */
     public static final int OPTIONS = 2;
 
+    /**
+     * Codigo para comando de ir a creditos
+     */
     public static final int CREDITS = 3;
+    /**
+     * Codigo para comando de nivel de dificultad
+     */
     public static final int DIFICULT_LEVEL = 10;
+    /**
+     * Codigo para comando de volumen general
+     */
     public static final int MASTER_VOLUME = 11;
+    /**
+     * Codigo para comando de volumen de sonido
+     */
     public static final int FX_VOLUME = 12;
+    /**
+     * Codigo para comando de volumen de musica
+     */
     public static final int MUSIC_VOLUME = 13;
+    /**
+     * Codigo para comando de reintentar el nivel
+     */
     public static final int RETRY = 20;
+    /**
+     * Codigo para comando de volver al menu principal
+     */
     public static final int MAIN_MENU = 21;
+    /**
+     * Codigo para comando de mostrar mapa
+     */
     public static final int SHOW_MAP = 30;
+    /**
+     * Codigo para comando de ocultar el mapa
+     */
     public static final int HIDE_MAP = 31;
 
     /**

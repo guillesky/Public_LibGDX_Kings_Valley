@@ -33,7 +33,7 @@ public class AllLanguages
 
     /**
      * Devuelve un Iterator con todos los nombres de idioma (LANGUAGE_NAME) registrados
-     * @return Iterator<String> con todos los nombres de idioma (LANGUAGE_NAME) registrados
+     * @return Iterator[String] con todos los nombres de idioma (LANGUAGE_NAME) registrados
      */
     public Iterator<String> getLanguagesName()
     {

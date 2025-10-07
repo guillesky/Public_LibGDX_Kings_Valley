@@ -84,7 +84,7 @@ public class RenderStateInGame extends RenderState
 		this.updateGame();
 		if (Game.getInstance().isPaused())
 		{
-			if (Facade.getInstance().showMap)
+			if (Facade.getInstance().isShowMap())
 			{
 				this.ui.renderMap();
 			}

@@ -13,11 +13,25 @@ public class DrawableElement
 	private int type;
 	private Object drawable;
 
+	/**
+	 * @return Indica el tipo de elemento grafico. Debe ser un tipo conocido por la
+	 *         interfaz grafica. Puede tomar los valores<br>
+	 *         Constantes.DRAWABLE_EXIT_DOOR = 2000;<br>
+	 *         Constantes.DRAWABLE_LEVEL_ITEM = 3000;<br>
+	 *         Constantes.DRAWABLE_TRAP = 3001;<br>
+	 *         Constantes.DRAWABLE_GYRATORY = 3002;<br>
+	 *         Constantes.DRAWABLE_PICKING_CELL = 4000;<br>
+	 *         Constantes.DRAWABLE_FLYING_DAGGER = 5000;<br>
+	 */
 	public int getType()
 	{
 		return type;
 	}
 
+	/**
+	 * @return Objeto que debe dibujarse. Debera castearse al tipo correspondiente
+	 *         especificado por type.
+	 */
 	public Object getDrawable()
 	{
 		return drawable;

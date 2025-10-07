@@ -11,11 +11,33 @@ import engine.gameCharacters.abstractGameCharacter.GameCharacter;
  */
 public class GameCharacterAnimated2D extends AnimatedEntity2D
 {
+	/**
+	 *Animacion corespondiente a estar quieto 
+	 */
 	protected Animation<TextureRegion> characterAnimationIddle;
+	/**
+	 * Animacion corespondiente a caminar
+	 */
 	protected Animation<TextureRegion> characterAnimationWalk;
+	/**
+	 * Animacion corespondiente a subir o bajer escaleras
+	 */
+
 	protected Animation<TextureRegion> characterAnimationStair;
+	/**
+	 * Animacion corespondiente a saltar
+	 */
+
 	protected Animation<TextureRegion> characterAnimationJump;
+	/**
+	 * Animacion corespondiente a caer
+	 */
+
 	protected Animation<TextureRegion> characterAnimationFall;
+	/**
+	 * Animacion corespondiente a morir
+	 */
+
 	protected Animation<TextureRegion> characterAnimationDeath;
 
 	/**

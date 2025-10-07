@@ -14,14 +14,18 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
  */
 public class AnimatedGiratory2D extends AnimatedEntity2D
 {
+	/**
+	 * Mecanismo giratorio asociado quedebera ser dibujado
+	 */
 	protected GiratoryMechanism giratoryMechanism;
 	private boolean spinning = false;
 
 	/**
-	 * Constructor de clase. LLama a super(giratoryMechanism.getLevelObject(), animation);
-		
+	 * Constructor de clase. LLama a super(giratoryMechanism.getLevelObject(),
+	 * animation);
+	 * 
 	 * @param giratoryMechanism Mecanismo giratorio asociado quedebera ser dibujado
-	 * @param animation Animacion correspondiente a un mecanismo giratorio
+	 * @param animation         Animacion correspondiente a un mecanismo giratorio
 	 */
 	public AnimatedGiratory2D(GiratoryMechanism giratoryMechanism, Animation<TextureRegion> animation)
 	{
@@ -32,7 +36,8 @@ public class AnimatedGiratory2D extends AnimatedEntity2D
 	}
 
 	/**
-	 * Llmado internamente para invertir la animacion de acuerdo a posicion del mecanismo giratorio
+	 * Llmado internamente para invertir la animacion de acuerdo a posicion del
+	 * mecanismo giratorio
 	 */
 	private void setAnimationPlayMode()
 	{

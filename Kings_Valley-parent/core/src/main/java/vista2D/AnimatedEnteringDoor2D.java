@@ -34,7 +34,7 @@ public class AnimatedEnteringDoor2D extends AbstractAnimatedDoor2D
 	}
 
 	@Override
-	public void updateElement(Object element)
+	public void updateElement()
 	{
 		float deltaTime = Game.getInstance().getDelta();
 

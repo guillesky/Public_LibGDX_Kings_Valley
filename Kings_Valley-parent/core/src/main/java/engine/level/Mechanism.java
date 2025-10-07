@@ -8,8 +8,17 @@ package engine.level;
  */
 public abstract class Mechanism
 {
+	/**
+	 * Tiempo transcurrido desde el inicio de activacion
+	 */
 	protected float time = 0;
+	/**
+	 * Tiempo para finalizar el ciclo del mecanismo
+	 */
 	protected float timeToEnd;
+	/**
+	 * true si esta activo el mecanismo, false en caso contrario
+	 */
 	protected boolean active = true;
 
 	/**

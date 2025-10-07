@@ -27,43 +27,61 @@ public abstract class GameCharacter extends LevelObject
 	/**
 	 * Quieto en el piso
 	 */
-	public static final int ST_IDDLE = 0; 
+	public static final int ST_IDDLE = 0;
 	/**
 	 * Caminando
 	 */
-	public static final int ST_WALKING = 11; 
+	public static final int ST_WALKING = 11;
 	/**
 	 * En escalera
 	 */
-	public static final int ST_ONSTAIRS = 2; 
+	public static final int ST_ONSTAIRS = 2;
 
 	/**
 	 * Saltando
 	 */
-	public static final int ST_JUMPING = 5; 
+	public static final int ST_JUMPING = 5;
 
 	/**
 	 * Cayendo
 	 */
-	public static final int ST_FALLING = 7; 
+	public static final int ST_FALLING = 7;
 
 	/**
 	 * Muriendo
 	 */
-	public static final int ST_DYING = 8; 
+	public static final int ST_DYING = 8;
 
+	/**
+	 * Codigo de estado
+	 */
 	protected int state = GameCharacter.ST_IDDLE;
 
+	/**
+	 * Indica la direccion pretendida
+	 */
 	protected Vector2 motionVector = new Vector2();
-	protected float speedFall;
-	protected float speedWalk;
-	protected float speedWalkStairs;
-	protected float speedJump;
-	protected float speedY = 0;
+
+	private float speedFall;
+	private float speedWalk;
+	private float speedWalkStairs;
+	private float speedJump;
+	/**
+	 * La piramide en la que esta el caracter
+	 */
 	protected Pyramid pyramid;
+	/**
+	 * true si mira a la derecha, false en caso contrario
+	 */
 	protected boolean lookRight = true;
+	/**
+	 * Tiempo que esta en la misma animacion
+	 */
 	protected float animationDelta = 0;
 	private Rectangle feet;
+	/**
+	 * Estado del caracter (patron state)
+	 */
 	protected GameCharacterState gameCharacterState;
 
 	/**
@@ -121,16 +139,16 @@ public abstract class GameCharacter extends LevelObject
 	protected abstract void doAction();
 
 	/**
-	 * Delega el metodo a this.gameCharacterState.doJump() 
-	 * Intenta saltar si el techo no lo bloquea. Si puede saltar el estado cambia a
+	 * Delega el metodo a this.gameCharacterState.doJump() Intenta saltar si el
+	 * techo no lo bloquea. Si puede saltar el estado cambia a
 	 * GameCharacterStateJumping
 	 * 
 	 * @return true si pudo saltar, false en caso contrario
 	 */
 	protected boolean doJump()
 	{
-		
-		return this.gameCharacterState.doJump(); 
+
+		return this.gameCharacterState.doJump();
 	}
 
 	/**
@@ -430,14 +448,46 @@ public abstract class GameCharacter extends LevelObject
 	}
 
 	/**
-	 * Delega el metodo a this.gameCharacterState.enterStair(stair);
-	 * Llamado cuando el caracter entra a una escalera pasada por parametro
+	 * Delega el metodo a this.gameCharacterState.enterStair(stair); Llamado cuando
+	 * el caracter entra a una escalera pasada por parametro
 	 * 
 	 * @param stair Escalera a la cual entro el caracter
 	 */
 	protected void enterStair(Stair stair)
 	{
 		this.gameCharacterState.enterStair(stair);
+	}
+
+	/**
+	 * @return La velocidad de caminata
+	 */
+	public float getSpeedWalk()
+	{
+		return speedWalk;
+	}
+
+	/**
+	 * @return La velocidad de caminata en escaleras
+	 */
+	public float getSpeedWalkStairs()
+	{
+		return speedWalkStairs;
+	}
+
+	/**
+	 * @return La velocidad maxima de caida
+	 */
+	public float getSpeedFall()
+	{
+		return speedFall;
+	}
+
+	/**
+	 * @return La velocidad de de empuje vertical en salto
+	 */
+	public float getSpeedJump()
+	{
+		return speedJump;
 	}
 
 }

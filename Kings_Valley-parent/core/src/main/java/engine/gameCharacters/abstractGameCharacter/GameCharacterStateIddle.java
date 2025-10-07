@@ -31,7 +31,7 @@ public class GameCharacterStateIddle extends GameCharacterStateOnFloor
 	if (b)
 	{
 	    if (v.x != 0)
-		this.gameCharacter.motionVector.x = v.x * this.gameCharacter.speedWalk;
+		this.gameCharacter.motionVector.x = v.x * this.gameCharacter.getSpeedWalk();
 	    this.gameCharacter.doAction();
 
 	} else if (v.x != 0)

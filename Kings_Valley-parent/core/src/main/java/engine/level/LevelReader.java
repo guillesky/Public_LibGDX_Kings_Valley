@@ -65,9 +65,9 @@ public class LevelReader
 	 *                      Si es cero las momias seran las que indique el archivo
 	 *                      sin ninguna modificacion<br>
 	 *                      Si es un numero positivo incrementara la dificultad de
-	 *                      la momia (if (dificultLevel>4) dificultLevel=4; )<br>
+	 *                      la momia (if (dificultLevel &gt; 4) dificultLevel=4; )<br>
 	 *                      Si es un numero negativo se decremnetara la dificultad
-	 *                      de la momia (if (dificultLevel<-4) dificultLevel=-4;
+	 *                      de la momia (if (dificultLevel &lt;-4) dificultLevel=-4;
 	 *                      )<br>
 	 * @param isCompleted   true si el nivel ya fue completado anteriomente (en caso
 	 *                      de haber vuelto de otro nivel), false en caso contrario.

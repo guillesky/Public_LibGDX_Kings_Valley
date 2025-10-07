@@ -46,10 +46,10 @@ public class GameCharacterStateFalling extends GameCharacterState
 	protected void moveFirstStep(Vector2 v, boolean b, float deltaTime)
 	{
 		Vector2 motionVector = this.gameCharacter.motionVector;
-		motionVector.y += this.gameCharacter.speedFall * deltaTime;
+		motionVector.y += this.gameCharacter.getSpeedFall() * deltaTime;
 
-		if (motionVector.y < this.gameCharacter.speedFall)
-			motionVector.y = this.gameCharacter.speedFall;
+		if (motionVector.y < this.gameCharacter.getSpeedFall())
+			motionVector.y = this.gameCharacter.getSpeedFall();
 
 		if (this.isFloorDown())
 		{

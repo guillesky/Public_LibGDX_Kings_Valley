@@ -48,41 +48,62 @@ private String extraLifeFile="sfx/extraLife.wav";
 
 private String trapMechanismActivate;
 
+/**
+ * @return nombre del archivo con la musica principal del juego
+ */
 public String getMainMusicFile()
 {
     return mainMusicFile;
 }
 
 
+/**
+ * @return nombre del archivo con el sonido de momia apareciendo
+ */
+
 public String getMummyAppearFile()
 {
     return mummyAppearFile;
 }
 
-
+/**
+ * @return nombre del archivo con el sonido de momia muriendo (opcion 1)
+ */
 public String getMummyDeath1File()
 {
     return mummyDeath1File;
 }
 
+/**
+ * @return nombre del archivo con el sonido de momia muriendo (opcion 2)
+ */
 
 public String getMummyDeath2File()
 {
     return mummyDeath2File;
 }
 
+/**
+ * @return nombre del archivo con el sonido de momia muriendo (opcion 3)
+ */
 
 public String getMummyDeath3File()
 {
     return mummyDeath3File;
 }
 
+/**
+ * @return nombre del archivo con el sonido de picar celdas
+ */
 
 public String getPickingFile()
 {
     return pickingFile;
 }
 
+/**
+ * @return nombre del archivo con el sonido de recolectar un pico
+ */
 
 public String getPickupPickerFile()
 {
@@ -90,126 +111,178 @@ public String getPickupPickerFile()
 }
 
 
+/**
+ * @return nombre del archivo con el sonido de recolectar una espada
+ */
 public String getPickupSwordFile()
 {
     return pickupSwordFile;
 }
 
-
+/**
+ * @return nombre del archivo con el sonido de recolectar una gema
+ */
 public String getPickupJewelFile()
 {
     return pickupJewelFile;
 }
 
-
+/**
+ * @return nombre del archivo con el sonido de lanzar una espada (Opcion 1)
+ */
 public String getSwordThrow1File()
 {
     return swordThrow1File;
 }
 
+/**
+ * @return nombre del archivo con el sonido de lanzar una espada (Opcion 2)
+ */
 
 public String getSwordThrow2File()
 {
     return swordThrow2File;
 }
 
+/**
+ * @return nombre del archivo con el sonido de lanzar una espada (Opcion 3)
+ */
 
 public String getSwordThrow3File()
 {
     return swordThrow3File;
 }
 
+/**
+ * @return nombre del archivo con el sonido de lanzar una espada (Opcion 4)
+ */
 
 public String getSwordThrow4File()
 {
     return swordThrow4File;
 }
 
+/**
+ * @return nombre del archivo con el sonido de lanzar una espada (Opcion 5)
+ */
 
 public String getSwordThrow5File()
 {
     return swordThrow5File;
 }
 
+/**
+ * @return nombre del archivo con el sonido de la espada clavandose al piso
+ */
 
 public String getSwordStuckFile()
 {
     return swordStuckFile;
 }
 
-
+/**
+ * @return nombre del archivo con el sonido de la espada golpeando la pared
+ */
 public String getSwordClashFile()
 {
     return swordClashFile;
 }
 
-
+/**
+ * @return nombre del archivo con el sonido de la espada gopeando una momia
+ */
 public String getSwordClashFleshFile()
 {
     return swordClashFleshFile;
 }
 
-
+/**
+ * @return nombre del archivo con el sonido del player muriendo (Opcion 1)
+ */
 public String getPlayerDeath1File()
 {
     return playerDeath1File;
 }
 
-
+/**
+ * @return nombre del archivo con el sonido del player muriendo (Opcion 2)
+ */
 public String getPlayerDeath2File()
 {
     return playerDeath2File;
 }
 
-
+/**
+ * @return nombre del archivo con el sonido del player muriendo (Opcion 3)
+ */
 public String getPlayerDeath3File()
 {
     return playerDeath3File;
 }
 
-
+/**
+ * @return nombre del archivo con el sonido del player muriendo (Opcion 4)
+ */
 public String getPlayerDeath4File()
 {
     return playerDeath4File;
 }
 
-
+/**
+ * @return nombre del archivo con el sonido del player muriendo (Opcion 5)
+ */
 public String getPlayerDeath5File()
 {
     return playerDeath5File;
 }
 
-
+/**
+ * @return nombre del archivo con el sonido del player saltando
+ */
 public String getPlayerJumpFile()
 {
     return playerJumpFile;
 }
 
-
+/**
+ * @return nombre del archivo con el sonido del player activando una giratoria
+ */
 public String getGiratoryFile()
 {
     return giratoryFile;
 }
 
 
-
+/**
+ * @return nombre del archivo con el sonido del player activando un muro trampa
+ */
 public String getTrapMechanismActivate()
 {
     return trapMechanismActivate;
 }
 
 
+/**
+ * @return nombre del archivo con el sonido de una puerta de entrada y salida abriendo o cerrandose (Opcion 1)
+ */
+
 protected String getDoorOpenClose1File()
 {
     return doorOpenClose1File;
 }
 
+/**
+ * @return nombre del archivo con el sonido de una puerta de entrada y salida abriendo o cerrandose (Opcion 2)
+ */
 
 protected String getDoorOpenClose2File()
 {
     return doorOpenClose2File;
 }
 
+/**
+ * @return nombre del archivo con el sonido de una puerta de entrada y salida abriendo o cerrandose (Opcion 3)
+ */
 
 protected String getDoorOpenClose3File()
 {
@@ -217,11 +290,17 @@ protected String getDoorOpenClose3File()
 }
 
 
+/**
+ * @return nombre del archivo con el sonido del player entrando al nivel
+ */
 protected String getDoorEnteringFile()
 {
     return doorEnteringFile;
 }
 
+/**
+ * @return nombre del archivo con el sonido de obtener una vide extra
+ */
 
 public String getExtraLifeFile()
 {

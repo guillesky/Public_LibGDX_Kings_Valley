@@ -12,6 +12,9 @@ import util.Constants;
  */
 public abstract class GameState
 {
+	/**
+	 * Sujeto del patron state
+	 */
 	protected Game game;
 
 	/**
@@ -65,14 +68,14 @@ public abstract class GameState
 		LevelReader levelReader = new LevelReader();
 		if (this.game.level != null)
 			this.game.level.dispose();
-		if (Constants.levelFileName.get(this.game.idCurrentLevel) == null)
+		if (Constants.levelFileName.get(this.game.getIdCurrentLevel()) == null)
 		{
 			this.game.eventFired(KVEventListener.FINISH_ALL_LEVELS, null);
 
 		}
-		this.game.level = levelReader.getLevel(this.game.idCurrentLevel,
-				Constants.levelFileName.get(this.game.idCurrentLevel), this.game.getDificultLevel(),
-				this.game.completedLevels.get(this.game.idCurrentLevel), door, fromDeath, this.game.getInterfaz());
+		this.game.level = levelReader.getLevel(this.game.getIdCurrentLevel(),
+				Constants.levelFileName.get(this.game.getIdCurrentLevel()), this.game.getDificultLevel(),
+				this.game.completedLevels.get(this.game.getIdCurrentLevel()), door, fromDeath, this.game.getInterfaz());
 		this.game.stateGame = new GameStateEntering();
 		this.game.getInterfaz().inicialize();
 

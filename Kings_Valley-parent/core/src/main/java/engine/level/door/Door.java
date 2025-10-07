@@ -6,21 +6,56 @@ import engine.level.Mechanism;
 import util.GameRules;
 import util.Constants;
 
+/**
+ * @author Guillermo Lazzurri
+ * 
+ * Representa una puerta de entrada y salida de la piramide
+ */
 public class Door extends Mechanism
 {
+	/**
+	 * Codigo de puerta oculta
+	 */
 	public static final int HIDE = 0;
+	/**
+	 * Codigo de puerta cerrada
+	 */
 	public static final int CLOSED = 1;
+	/**
+	 * Codigo de puerta abierta
+	 */
 	public static final int OPEN = 2;
+	/**
+	 * Codigo de puerta cerrandose
+	 */
 	public static final int CLOSING = 3;
+	/**
+	 * Codigo de puerta abriendose
+	 */
 	public static final int OPENING = 4;
 
+	/**
+	 * Codigo de puerta que conecta al nivel previo
+	 */
 	public static final int TO_PREVIUS = 0;
+	/**
+	 * Codigo de puerta que conecta al nivel siguiente
+	 */
 	public static final int TO_NEXT = -1;
+	/**
+	 * Codigo de puerta unica en el nivel
+	 */
 	public static final int UNIQUE = -2;
 
 	private LevelObject lever;
 	private LevelObject passage;
+	/**
+	 * estado de la puerta (patron state)
+	 */
 	protected DoorState doorState;
+	/**
+	 * codigo de estado
+	 */
 	protected int state;
 	private int idLevel;
 	private int levelConnected;
@@ -156,13 +191,11 @@ public class Door extends Mechanism
 	}
 
 	/**
-	 * @return el id del nivel actual de la puerta 
+	 * @return el id del nivel actual de la puerta
 	 */
 	public int getIdLevel()
 	{
 		return idLevel;
 	}
-
-
 
 }

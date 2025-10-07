@@ -15,11 +15,14 @@ import util.Constants;
  */
 public abstract class GameCharacterState
 {
+	/**
+	 * Corresponde al sujeto del patron state
+	 */
 	protected GameCharacter gameCharacter;
 
 	/**
 	 * Constructor de clase
-	 * @param gameCharacter Caracter al cual pertenece el estado (patron state)
+	 * @param gameCharacter Corresponde al sujeto del patron state
 	 * @param state valor entero que representa el estado
 	 */
 	public GameCharacterState(GameCharacter gameCharacter, int state)

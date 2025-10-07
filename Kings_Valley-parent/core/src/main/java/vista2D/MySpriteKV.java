@@ -40,7 +40,7 @@ public class MySpriteKV extends Sprite implements IGraphicRenderer
 	}
 
 	@Override
-	public void updateElement(Object element)
+	public void updateElement()
 	{
 		float x = this.levelObject.getX();
 		float y = this.levelObject.getY();

@@ -25,26 +25,60 @@ import util.GameConfig;
  */
 public class Game implements KVEventListener
 {
+	/**
+	 * Maximo tiempo admitivo entre frames
+	 */
+	public static final float maxDeltaTime = 0.015f;
+	/**
+	 * codigo del estado jugando
+	 */
 	public static final int ST_GAME_PLAYING = 0;
+	/**
+	 * codigo del estado entrando al nivel
+	 */
 	public static final int ST_GAME_ENTERING = 1;
+	/**
+	 * codigo del estado saliendo del nivel
+	 */
 	public static final int ST_GAME_EXITING = 2;
+	/**
+	 * codigo del estado muriendo
+	 */
 	public static final int ST_GAME_DYING = 3;
+	/**
+	 * codigo del estado no estando jugando (en menu principal)
+	 */
 	public static final int ST_NOT_IN_GAME = 100;
+	/**
+	 * codigo del estado terminando el juego
+	 */
 	public static final int ST_ENDING = 99;
 	private static Game instance = null;
 	private Controls controles = new Controls();
+	/**
+	 * niveles que ya han sido completados
+	 */
 	protected HashMap<Integer, Boolean> completedLevels = new HashMap<Integer, Boolean>();
 	private boolean paused = false;
+	/**
+	 * Nivel actual
+	 */
 	protected Level level = null;
-	protected int idCurrentLevel;
+	private int idCurrentLevel;
 	private int dificultLevel = 0;
 	private float delta = 0;
 	private IGraphic interfaz = null;
 	private ArrayList<KVEventListener> kvEventListeners = new ArrayList<KVEventListener>();
+	/**
+	 * Estado del juego (patron state)
+	 */
 	protected GameState stateGame;
+	/**
+	 * Codigo del estado del juego
+	 */
 	protected int state;
 	private int score = 0;
-	protected int lives;
+	private int lives;
 	private GameConfig gameConfig;
 	private boolean goingBack;
 	private int nextExtraLife = GameRules.getInstance().getScoreForFirstExtraLife();
@@ -53,7 +87,7 @@ public class Game implements KVEventListener
 	/**
 	 * Agrega un objeto de tipo KVEventListener a la lista.
 	 * 
-	 * @param kvEventListener
+	 * @param kvEventListener listener a aser agregado
 	 */
 	public void addKVEventListener(KVEventListener kvEventListener)
 	{
@@ -61,7 +95,7 @@ public class Game implements KVEventListener
 	}
 
 	/**
-	 * @return ArrayList<KVEventListener> con todos losobjetos registrados
+	 * @return ArrayList[KVEventListener] con todos losobjetos registrados
 	 */
 	public ArrayList<KVEventListener> getKvEventListeners()
 	{
@@ -182,15 +216,15 @@ public class Game implements KVEventListener
 	 * cantidad de segundos transcurridos desde la ultima actualizacion
 	 * 
 	 * @param deltaTime Tiempo medido en segundos desde la ultima actualizacion. Si
-	 *                  el valor es mayor a 0.015 segundos, se asigna el valor 0.015
-	 *                  para evitar errores de fisica en las colisiones. (aunque
-	 *                  esto ralentice el juego)
+	 *                  el valor es mayor a Game.maxDeltaTime segundos, se asigna el
+	 *                  valor Game.maxDeltaTime para evitar errores de fisica en las
+	 *                  colisiones. ( Game.maxDeltaTime=0.015f )
 	 */
 	public void updateframe(float deltaTime)
 	{
 
-		if (deltaTime > 0.015f)
-			deltaTime = 0.015f;
+		if (deltaTime > maxDeltaTime)
+			deltaTime = maxDeltaTime;
 
 		if (controles.getShot(Input.Keys.P) || controles.getShot(Input.Keys.ESCAPE))
 		{
@@ -309,7 +343,7 @@ public class Game implements KVEventListener
 	}
 
 	/**
-	 * @return HashMap<Integer, Boolean> que indica los niveles que han sido
+	 * @return HashMap[Integer, Boolean] que indica los niveles que han sido
 	 *         completados (util para usar representar el mapa)
 	 */
 	public HashMap<Integer, Boolean> getCompletedLevels()
@@ -492,6 +526,20 @@ public class Game implements KVEventListener
 
 	}
 
-	
+	/**
+	 * @return numero identificatorio del nivel actual
+	 */
+	public int getIdCurrentLevel()
+	{
+		return idCurrentLevel;
+	}
+
+	/**
+	 * Descuenta una vida
+	 */
+	protected void loseLive()
+	{
+		this.lives--;
+	}
 
 }
