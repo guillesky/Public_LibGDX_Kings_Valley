@@ -10,7 +10,9 @@ import util.GameRules;
 import util.Constants;
 
 /**
- * @author Guillermo Lazzurri Representa un muro trampa
+ * Representa un muro trampa
+ * 
+ * @author Guillermo Lazzurri
  */
 public class TrapMechanism extends Mechanism
 {

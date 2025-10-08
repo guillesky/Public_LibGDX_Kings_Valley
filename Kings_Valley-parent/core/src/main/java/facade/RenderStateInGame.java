@@ -10,7 +10,9 @@ import engine.game.Game;
 import vista2D.ui.UI2D;
 
 /**
- * @author Guillermo Lazzurri Clase que representa el estado durante el juego
+ * Clase que representa el estado durante el juego
+ * 
+ * @author Guillermo Lazzurri
  */
 public class RenderStateInGame extends RenderState
 {
@@ -94,10 +96,11 @@ public class RenderStateInGame extends RenderState
 	}
 
 	/**
-	 * Lee el teclado para controlar al jugador y realiza la llamada a Game.getInstance().updateframe(Gdx.graphics.getDeltaTime())
+	 * Lee el teclado para controlar al jugador y realiza la llamada a
+	 * Game.getInstance().updateframe(Gdx.graphics.getDeltaTime())
 	 *
 	 */
-	
+
 	private void updateGame()
 	{
 		Controls controles = Game.getInstance().getControles();
@@ -129,7 +132,7 @@ public class RenderStateInGame extends RenderState
 	}
 
 	/**
-	 *Se sobreescribe como metodo vacio (no hace nada)
+	 * Se sobreescribe como metodo vacio (no hace nada)
 	 */
 	@Override
 	public void newGame()

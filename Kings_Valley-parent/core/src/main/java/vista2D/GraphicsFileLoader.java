@@ -15,6 +15,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 
+import engine.game.Game;
 import engine.gameCharacters.mummys.MummyFactory;
 import engine.level.LevelObject;
 import util.GameRules;
@@ -50,7 +51,6 @@ public class GraphicsFileLoader
 	private Texture skyTexture;
 	private Animation<TextureRegion> animationDoorLever;
 	private boolean firstTime = true;
-	private static Random random = new Random();
 
 	/**
 	 * Guarda los datos de un objecto de tipo GraphicsFileConfig pasado como
@@ -683,7 +683,7 @@ public class GraphicsFileLoader
 	private float getRandomFrameDuration(float minFrameDuration, float maxFrameDuration)
 	{
 		float delta = maxFrameDuration - minFrameDuration;
-		return minFrameDuration + random.nextFloat() * delta;
+		return minFrameDuration + Game.random.nextFloat() * delta;
 	}
 
 	/**

@@ -7,9 +7,9 @@ import engine.gameCharacters.player.Player;
 import engine.level.Level;
 
 /**
- * @author Guillermo Lazzurri
+ * Clase que representa el estado de estar muriendo
  * 
- *         Clase que representa el estado de estar muriendo
+ * @author Guillermo Lazzurri
  */
 public class GameStateDying extends GameState
 {

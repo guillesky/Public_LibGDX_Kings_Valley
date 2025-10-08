@@ -17,7 +17,9 @@ import util.GameRules;
 import util.Constants;
 
 /**
- * @author Guillermo Lazzurri Representa al Player
+ * Representa al Player
+ * 
+ * @author Guillermo Lazzurri
  */
 @SuppressWarnings("serial")
 public class Player extends GameCharacter
@@ -49,7 +51,8 @@ public class Player extends GameCharacter
 	}
 
 	/**
-	 * Llamado para actualizar al player. Delega el metodo en this.playerState.update(v, b, deltaTime);
+	 * Llamado para actualizar al player. Delega el metodo en
+	 * this.playerState.update(v, b, deltaTime);
 	 * 
 	 * @param v         Indica la direccion pretendida.
 	 * @param b         true si intenta realizar una accion, false en caso contrario
@@ -143,8 +146,6 @@ public class Player extends GameCharacter
 	{
 		super.resetAnimationDelta();
 	}
-
-	
 
 	/**
 	 * Incrementa la coordenada x del caracter (admite valores positivos y

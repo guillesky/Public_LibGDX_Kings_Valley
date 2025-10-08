@@ -3,7 +3,9 @@ package i18n;
 import java.util.HashMap;
 
 /**
- * @author Guillermo Lazzurri Clase que representa un idioma durante el juego
+ * Clase que representa un idioma durante el juego
+ * 
+ * @author Guillermo Lazzurri
  */
 public class Language
 {

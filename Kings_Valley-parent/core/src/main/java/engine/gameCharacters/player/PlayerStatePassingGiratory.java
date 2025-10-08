@@ -8,9 +8,9 @@ import engine.gameCharacters.abstractGameCharacter.GameCharacter;
 import engine.level.GiratoryMechanism;
 
 /**
- * @author Guillermo Lazzurri
+ * Representa el estado "Pasando por puerta giratoria"
  * 
- *         Representa el estado "Pasando por puerta giratoria"
+ * @author Guillermo Lazzurri
  */
 public class PlayerStatePassingGiratory extends PlayerState
 {

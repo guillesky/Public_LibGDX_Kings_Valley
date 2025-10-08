@@ -1,10 +1,10 @@
 package engine;
 
 /**
- * @author Guillermo Lazzurri
+ * Interfaz que responde a los eventos generados durante el juego. Es invocada
+ * internamente
  * 
- *         Interfaz que responde a los eventos generados durante el juego. Es
- *         invocada internamente
+ * @author Guillermo Lazzurri
  */
 public interface KVEventListener
 {
@@ -133,7 +133,7 @@ public interface KVEventListener
 	/**
 	 * Codigo del evento: abriendo puerta
 	 */
-	
+
 	int OPENING_DOOR = 60;
 	/**
 	 * Codigo del evento: cerrando puerta

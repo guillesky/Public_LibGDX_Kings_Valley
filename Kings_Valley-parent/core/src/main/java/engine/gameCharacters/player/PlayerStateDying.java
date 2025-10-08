@@ -7,9 +7,9 @@ import engine.game.Game;
 import engine.level.GiratoryMechanism;
 
 /**
- * @author Guillermo Lazzurri
+ * Representa el estado del player "muriendo"
  * 
- *         Representa el estado del player "muriendo"
+ * @author Guillermo Lazzurri
  */
 public class PlayerStateDying extends PlayerState
 {

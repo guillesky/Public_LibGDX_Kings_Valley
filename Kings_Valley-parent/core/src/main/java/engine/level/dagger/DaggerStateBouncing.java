@@ -9,9 +9,9 @@ import engine.level.Pyramid;
 import util.GameRules;
 
 /**
- * @author Guillermo Lazzurri
+ * Representa el estado "Rebotando"
  * 
- *         Representa el estado "Rebotando"
+ * @author Guillermo Lazzurri
  */
 public class DaggerStateBouncing extends DaggerState
 {
@@ -19,8 +19,9 @@ public class DaggerStateBouncing extends DaggerState
 
 	/**
 	 * Constructor de clase. Llama a super(dagger, DaggerState.ST_BOUNCING);<br>
-	 * Dispara el evento Game.getInstance().eventFired(KVEventListener.SWORD_CLASH, dagger);
-	
+	 * Dispara el evento Game.getInstance().eventFired(KVEventListener.SWORD_CLASH,
+	 * dagger);
+	 * 
 	 * 
 	 * @param dagger Corresponde al sujeto del patron state
 	 */

@@ -1,10 +1,10 @@
 package engine.level;
 
 /**
- * @author Guillermo Lazzurri
+ * Representa un mecanismo en el nivel, es decir, un objeto que realiza alguna
+ * accion que requiere tiempo para tarminar
  * 
- *         Representa un mecanismo en el nivel, es decir, un objeto que realiza
- *         alguna accion que requiere tiempo para tarminar
+ * @author Guillermo Lazzurri
  */
 public abstract class Mechanism
 {

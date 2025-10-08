@@ -3,10 +3,10 @@ package engine.game;
 import engine.KVEventListener;
 
 /**
- * @author Guillermo Lazzurri
+ * Clase que representa el estado terminando el juego (util para mostrar un
+ * cartel de Game Over)
  * 
- *         Clase que representa el estado terminando el juego (util para mostrar
- *         un cartel de Game Over)
+ * @author Guillermo Lazzurri
  */
 public class GameStateEndingGame extends GameState
 {

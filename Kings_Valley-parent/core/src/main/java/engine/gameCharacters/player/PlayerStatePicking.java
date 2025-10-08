@@ -16,9 +16,9 @@ import util.GameRules;
 import util.Constants;
 
 /**
- * @author Guillermo Lazzurri
+ * Representa el esta "picando"
  * 
- *         Representa el esta "picando"
+ * @author Guillermo Lazzurri
  */
 public class PlayerStatePicking extends PlayerState
 {
@@ -80,7 +80,7 @@ public class PlayerStatePicking extends PlayerState
 				else
 					state = GameCharacter.ST_WALKING;
 				this.player.setPlayerState(new PlayerStateWalking(this.player, state));
-				
+
 			}
 			this.resetTimePicking();
 		}

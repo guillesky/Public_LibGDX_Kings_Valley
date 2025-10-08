@@ -3,9 +3,9 @@ package engine.level;
 import util.GameRules;
 
 /**
- * @author Guillermo Lazzurri
+ * Representa una puerta giratoria
  * 
- *         Representa una puerta giratoria
+ * @author Guillermo Lazzurri
  */
 public class GiratoryMechanism extends Mechanism
 {
@@ -51,7 +51,8 @@ public class GiratoryMechanism extends Mechanism
 	}
 
 	/**
-	 * Indica si la puerta esta activa, es decir, si se puede pasar por ella (para evitar una doble activacion)
+	 * Indica si la puerta esta activa, es decir, si se puede pasar por ella (para
+	 * evitar una doble activacion)
 	 */
 	public void activate()
 	{
@@ -67,7 +68,8 @@ public class GiratoryMechanism extends Mechanism
 	}
 
 	/**
-	 * @return true si la puerta es accesible por derecha, false si es accesible por izquierda
+	 * @return true si la puerta es accesible por derecha, false si es accesible por
+	 *         izquierda
 	 */
 	public boolean isRight()
 	{

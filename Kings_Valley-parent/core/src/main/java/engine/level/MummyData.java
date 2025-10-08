@@ -1,10 +1,11 @@
 package engine.level;
 
 /**
- * @author Guillermo Lazzurri Clae que representa los datos necesarios para
- *         crear una momia. Son leidos a partir de un archivo de tipo TMX. Solo
- *         usado internamente por la clase LevelReader (podria ser una inner
- *         class)
+ * Clase que representa los datos necesarios para crear una momia. Son leidos a
+ * partir de un archivo de tipo TMX. Solo usado internamente por la clase
+ * LevelReader 
+ * 
+ * @author Guillermo Lazzurri
  */
 public class MummyData
 {
@@ -15,8 +16,9 @@ public class MummyData
 	/**
 	 * Constructor de clase, indica las coordenadas y tipo de momia<br>
 	 * <b>Pre: </b> 0 &lt;= type &lt;= 4
-	 * @param x coordenada x de la momia
-	 * @param y coordenada y de la momia
+	 * 
+	 * @param x    coordenada x de la momia
+	 * @param y    coordenada y de la momia
 	 * @param type tipo de momia (0 &lt;= type &lt;= 4)
 	 */
 	public MummyData(float x, float y, int type)

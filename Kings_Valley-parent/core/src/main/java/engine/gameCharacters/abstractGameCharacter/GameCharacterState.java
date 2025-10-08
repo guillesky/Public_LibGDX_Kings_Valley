@@ -9,9 +9,8 @@ import util.GameRules;
 import util.Constants;
 
 /**
- * @author Guillermo Lazzurri
- * 
  * Clase que aplica el patron state. Representa el estado el caracter.
+ * @author Guillermo Lazzurri
  */
 public abstract class GameCharacterState
 {

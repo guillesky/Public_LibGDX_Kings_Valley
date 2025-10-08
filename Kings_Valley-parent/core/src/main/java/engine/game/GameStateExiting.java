@@ -6,10 +6,10 @@ import engine.level.door.Door;
 import util.Constants;
 
 /**
- * @author Guillermo Lazzurri
+ * Clase que representa el estado Saliendo del nivel (util para animaciones,
+ * musica de triunfo, etc.)
  * 
- *         Clase que representa el estado Saliendo del nivel (util para
- *         animaciones, musica de triunfo, etc.)
+ * @author Guillermo Lazzurri
  */
 public class GameStateExiting extends GameState
 {
@@ -49,7 +49,7 @@ public class GameStateExiting extends GameState
 		if (this.game.getDelta() >= this.game.getInterfaz().getTimeToExitLevel())
 		{
 			this.game.eventFired(KVEventListener.EXIT_LEVEL, this.game.getCurrentLevel());
-			
+
 			this.game.goToLevel(door);
 
 		}

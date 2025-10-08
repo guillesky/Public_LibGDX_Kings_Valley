@@ -5,9 +5,9 @@ import engine.game.Game;
 import engine.gameCharacters.player.Player;
 
 /**
- * @author Guillermo Lazzurri
+ * Representa el estado "abriendose"
  * 
- *         Representa el estado "abriendose"
+ * @author Guillermo Lazzurri
  */
 public class DoorStateOpening extends DoorState
 {

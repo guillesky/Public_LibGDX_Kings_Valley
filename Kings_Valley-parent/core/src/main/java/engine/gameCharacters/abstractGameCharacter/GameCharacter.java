@@ -13,12 +13,12 @@ import engine.level.Stair;
 import util.GameRules;
 
 /**
- * @author Guillermo Lazzurri
+ * Clase abstracta que representa un caracter del juego (puede ser player o
+ * momia) y se encarga de manejar la fisica de colisiones y movimientos
+ * generales.<br>
+ * Aplica el patron State
  * 
- *         Clase abstracta que representa un caracter del juego (puede ser
- *         player o momia) y se encarga de manejar la fisica de colisiones y
- *         movimientos generales.<br>
- *         Aplica el patron State
+ * @author Guillermo Lazzurri
  */
 @SuppressWarnings("serial")
 public abstract class GameCharacter extends LevelObject

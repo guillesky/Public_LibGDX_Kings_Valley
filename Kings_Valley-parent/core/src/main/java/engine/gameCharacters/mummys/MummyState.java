@@ -12,25 +12,53 @@ import engine.level.Stair;
 import util.GameRules;
 
 /**
- * @author Guillermo Lazzurri
+ * Clase abstracta que representa el estado de la momia (patron state)
  * 
- *         Clase abstracta que representa el estado de la momia (patron state)
+ * @author Guillermo Lazzurri
  */
 public abstract class MummyState
 
 {
 
+	/**
+	 * Codigo que indica que no hay decision de direccion
+	 */
 	protected static final int NONE = 0;
+	/**
+	 * Codigo que indica direccion derecha
+	 */
+
 	protected static final int RIGHT = 1;
+	/**
+	 * Codigo que indica direccion izquierda
+	 */
 	protected static final int LEFT = -1;
 
+	/**
+	 * Codigo que indica Player a la misma altura que la momia
+	 */
+
 	protected static final int PLAYER_IS_SOME_LEVEL = 0;
+	/**
+	 * Codigo que indica Player a esta arriba de la momia
+	 */
+
 	protected static final int PLAYER_IS_UP = 1;
+
+	/**
+	 * Codigo que indica Player a esta abajo de la momia
+	 */
 	protected static final int PLAYER_IS_DOWN = -1;
 	private static final int BLOCK_FREE = 0;
-	private static final int BLOCK_BRICK = 1;
+	protected static final int BLOCK_BRICK = 1;
 	private static final int BLOCK_GIRATORY = 2;
+	/**
+	 * Inica cuanto tiempo debe permanecer en este estado antes de cambiar
+	 */
 	protected float timeToChange;
+	/**
+	 * Corresponde al sujeto del patron state
+	 */
 	protected Mummy mummy;
 	private Rectangle mummyRectangleWithOffset;
 
@@ -424,11 +452,12 @@ public abstract class MummyState
 		return this.checkRectangleColision(this.mummy.getPyramid().getGiratories());
 	}
 
-	
-
 	/**
-	 * Llamado internamente por checkGiratory. Verifica si la momia choca contra alguna giratoria
-	 * @param levelObjects Coleccion de objetos de tipo levelObjects. Representara la totalidad de giratorias en la piramide 
+	 * Llamado internamente por checkGiratory. Verifica si la momia choca contra
+	 * alguna giratoria
+	 * 
+	 * @param levelObjects Coleccion de objetos de tipo levelObjects. Representara
+	 *                     la totalidad de giratorias en la piramide
 	 * @return true si hay colision, false en caso contrario.
 	 */
 	private boolean checkRectangleColision(Collection<LevelObject> levelObjects)

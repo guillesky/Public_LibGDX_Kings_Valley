@@ -9,10 +9,9 @@ import util.Constants;
 import vista2D.IGraphicRenderer;
 
 /**
- * @author Guillermo Lazzurri
+ * Clase que representa un objeto del nivel que tenga una posicion y un tamano.
  * 
- *         Clase que representa un objeto del nivel que tenga una posicion y un
- *         tamano.
+ * @author Guillermo Lazzurri
  */
 @SuppressWarnings("serial")
 
@@ -22,7 +21,6 @@ public class LevelObject extends Rectangle
 	private int id;
 	private int type;
 	private int p0;
-	
 
 	/**
 	 * Constructor de clase
@@ -118,7 +116,7 @@ public class LevelObject extends Rectangle
 	}
 
 	/**
-	 *Se sobreescribe utilizando un id autoincremental
+	 * Se sobreescribe utilizando un id autoincremental
 	 */
 	@Override
 	public int hashCode()
@@ -130,9 +128,9 @@ public class LevelObject extends Rectangle
 	}
 
 	/**
-	 *Se sobreescribe utilizando un id autoincremental
+	 * Se sobreescribe utilizando un id autoincremental
 	 */
-	
+
 	@Override
 	public boolean equals(Object obj)
 	{

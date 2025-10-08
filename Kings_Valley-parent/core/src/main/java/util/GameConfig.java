@@ -5,8 +5,9 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
 
 /**
- * @author Guillermo Lazzurri
  * Clase que representa configuraciones de usario del juego
+ * 
+ * @author Guillermo Lazzurri
  */
 public class GameConfig
 {
@@ -22,7 +23,9 @@ public class GameConfig
 	private static final Json json = new Json();
 
 	/**
-	 * Guarda un objeto de tipo GameConfig en un archivo "game_config.json" en formato json
+	 * Guarda un objeto de tipo GameConfig en un archivo "game_config.json" en
+	 * formato json
+	 * 
 	 * @param config Objeto a guardar
 	 */
 	public static void saveConfig(GameConfig config)
@@ -33,7 +36,9 @@ public class GameConfig
 	}
 
 	/**
-	 * Crea y retorna un objeto de tipo GameConfig a partir de los datos leidos desde el archivo "game_config.json" en formato json
+	 * Crea y retorna un objeto de tipo GameConfig a partir de los datos leidos
+	 * desde el archivo "game_config.json" en formato json
+	 * 
 	 * @return Objeto leido del archivo "game_config.json"
 	 */
 	public static GameConfig loadConfig()
@@ -49,7 +54,8 @@ public class GameConfig
 	}
 
 	/**
-	 * @return Codigo del idioma utilizado en el juego. Por ejemplo "es" para espanol o "en" para english 
+	 * @return Codigo del idioma utilizado en el juego. Por ejemplo "es" para
+	 *         espanol o "en" para english
 	 */
 	public String getLanguage()
 	{
@@ -57,7 +63,8 @@ public class GameConfig
 	}
 
 	/**
-	 * @param language Codigo del idioma utilizado en el juego. Por ejemplo "es" para espanol o "en" para english
+	 * @param language Codigo del idioma utilizado en el juego. Por ejemplo "es"
+	 *                 para espanol o "en" para english
 	 */
 	public void setLanguage(String language)
 	{
@@ -65,7 +72,7 @@ public class GameConfig
 	}
 
 	/**
-	 * @return Volumen general del juego. Toma valores float entre 0 y 1 
+	 * @return Volumen general del juego. Toma valores float entre 0 y 1
 	 */
 	public float getMasterVolume()
 	{
@@ -89,7 +96,8 @@ public class GameConfig
 	}
 
 	/**
-	 * @param musicVolume Volumen de la musica del juego. Toma valores float entre 0 y 1
+	 * @param musicVolume Volumen de la musica del juego. Toma valores float entre 0
+	 *                    y 1
 	 */
 	public void setMusicVolume(float musicVolume)
 	{
@@ -97,7 +105,8 @@ public class GameConfig
 	}
 
 	/**
-	 * @return Volumen de los efectos de sonido del juego. Toma valores float entre 0 y 1
+	 * @return Volumen de los efectos de sonido del juego. Toma valores float entre
+	 *         0 y 1
 	 */
 	public float getSoundsVolume()
 	{
@@ -105,7 +114,8 @@ public class GameConfig
 	}
 
 	/**
-	 * @param soundsVolume  Volumen de los efectos de sonido del juego. Toma valores float entre 0 y 1
+	 * @param soundsVolume Volumen de los efectos de sonido del juego. Toma valores
+	 *                     float entre 0 y 1
 	 */
 	public void setSoundsVolume(float soundsVolume)
 	{
@@ -113,7 +123,8 @@ public class GameConfig
 	}
 
 	/**
-	 * @return true si el jugador termino el juego al menos una vez, false en caso contrario. Sirve para habilitar las opciones de nivel de dificultad
+	 * @return true si el jugador termino el juego al menos una vez, false en caso
+	 *         contrario. Sirve para habilitar las opciones de nivel de dificultad
 	 */
 	public boolean isFinishedOneTime()
 	{
@@ -121,7 +132,9 @@ public class GameConfig
 	}
 
 	/**
-	 * @param finishedOneTime true si el jugador termino el juego al menos una vez, false en caso contrario. Sirve para habilitar las opciones de nivel de dificultad
+	 * @param finishedOneTime true si el jugador termino el juego al menos una vez,
+	 *                        false en caso contrario. Sirve para habilitar las
+	 *                        opciones de nivel de dificultad
 	 */
 	public void setFinishedOneTime(boolean finishedOneTime)
 	{
@@ -129,7 +142,8 @@ public class GameConfig
 	}
 
 	/**
-	 * @return Ancho en unidades del tile. Debe ser consistentes con cada uno de los niveles del juego.
+	 * @return Ancho en unidades del tile. Debe ser consistentes con cada uno de los
+	 *         niveles del juego.
 	 */
 	public float getTileWidth()
 	{
@@ -137,7 +151,8 @@ public class GameConfig
 	}
 
 	/**
-	 * @param tileWidth Ancho en unidades del tile. Debe ser consistentes con cada uno de los niveles del juego.
+	 * @param tileWidth Ancho en unidades del tile. Debe ser consistentes con cada
+	 *                  uno de los niveles del juego.
 	 */
 	public void setTileWidth(float tileWidth)
 	{
@@ -145,7 +160,8 @@ public class GameConfig
 	}
 
 	/**
-	 * @return Alto en unidades del tile. Debe ser consistentes con cada uno de los niveles del juego.
+	 * @return Alto en unidades del tile. Debe ser consistentes con cada uno de los
+	 *         niveles del juego.
 	 */
 	public float getTileHeight()
 	{
@@ -153,13 +169,12 @@ public class GameConfig
 	}
 
 	/**
-	 * @param tileHeight Alto en unidades del tile. Debe ser consistentes con cada uno de los niveles del juego.
+	 * @param tileHeight Alto en unidades del tile. Debe ser consistentes con cada
+	 *                   uno de los niveles del juego.
 	 */
 	public void setTileHeight(float tileHeight)
 	{
 		this.tileHeight = tileHeight;
 	}
 
-	
-	
 }

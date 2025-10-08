@@ -5,8 +5,9 @@ import com.badlogic.gdx.math.Vector2;
 import engine.level.Stair;
 
 /**
- * @author Guillermo Lazzurri Clase que representa del estado del caracter
- *         "caminando"
+ * Clase que representa del estado del caracter "caminando"
+ * 
+ * @author Guillermo Lazzurri
  */
 public class GameCharacterStateWalking extends GameCharacterStateOnFloor
 {
@@ -25,7 +26,7 @@ public class GameCharacterStateWalking extends GameCharacterStateOnFloor
 	}
 
 	/**
-	 *Verifica colisiones laterales
+	 * Verifica colisiones laterales
 	 */
 	@Override
 	protected void moveFirstStep(Vector2 v, boolean b, float deltaTime)
@@ -51,7 +52,9 @@ public class GameCharacterStateWalking extends GameCharacterStateOnFloor
 	}
 
 	/**
-	 * Verifica si el caracter esta entrando a una escalera. De ser asi, llama a this.gameCharacter.enterStair(stair); 
+	 * Verifica si el caracter esta entrando a una escalera. De ser asi, llama a
+	 * this.gameCharacter.enterStair(stair);
+	 * 
 	 * @param v Indica la direccion pretendida
 	 */
 	protected void checkEnterStair(Vector2 v)
@@ -85,7 +88,7 @@ public class GameCharacterStateWalking extends GameCharacterStateOnFloor
 	}
 
 	/**
-	 *llama a this.colisionForWalk(escalado);
+	 * llama a this.colisionForWalk(escalado);
 	 */
 	@Override
 	protected void moveSecondStep(Vector2 escalado)

@@ -1,9 +1,10 @@
 package i18n;
 
 /**
- * @author Guillermo Lazzurri Enumerado que representa los mensajes del juego en
- *         el idioma que este seleccionado. Internamente es llamado para mostrar
- *         todos los textos del juego
+ * Enumerado que representa los mensajes del juego en el idioma que este
+ * seleccionado. Internamente es llamado para mostrar todos los textos del juego
+ * 
+ * @author Guillermo Lazzurri
  */
 public enum Messages
 {

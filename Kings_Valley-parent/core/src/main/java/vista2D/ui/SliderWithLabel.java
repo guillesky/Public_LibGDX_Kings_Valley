@@ -8,78 +8,119 @@ import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
+/**
+ * Representa un objeto visualcombinado de slider con un label descriptivo
+ * 
+ * @author Guillermo Lazzurri
+ */
 public class SliderWithLabel extends Table
 {
-    protected final Label labelTitle;
-    protected final Slider slider;
-    protected final Label labelValue;
-    protected ChangeListener changeListener;
+	/**
+	 * Etiqueta con el titulo del conjunto
+	 */
+	protected final Label labelTitle;
+	/**
+	 * Slider correspondiente
+	 */
+	protected final Slider slider;
+	/**
+	 * Etiqueta con el valor del slider
+	 */
+	protected final Label labelValue;
+	/**
+	 * ChangeListener asociado
+	 */
+	protected ChangeListener changeListener;
 
-    public SliderWithLabel(String texto, float min, float max, float step, float valorInicial, Skin skin,
-	    int usserObject)
-    {
-
-	labelTitle = new Label(texto, skin);
-	slider = new Slider(min, max, step, false, skin);
-	this.slider.setUserObject(usserObject);
-	labelValue = new Label(String.valueOf((int) valorInicial), skin);
-	this.changeListener = new ChangeListener()
+	/**
+	 * Constructor de clase
+	 * 
+	 * @param texto          Texto del titulo del conjunto
+	 * @param min            Valor minimo del slider
+	 * @param max            Valor maximo del slider
+	 * @param step           Valor de cada paso del slider
+	 * @param valorInicial   Valor inicial del slider
+	 * @param skin           Skin utilizada por el conjunto
+	 * @param usserObject    userObject que se pasara por parametro al slider
+	 * @param changeListener ChangeListener que debe agregarse inicialmente
+	 */
+	public SliderWithLabel(String texto, float min, float max, float step, float valorInicial, Skin skin,
+			int usserObject, ChangeListener changeListener)
 	{
-	    @Override
-	    public void changed(ChangeEvent event, Actor actor)
-	    {
-		labelValue.setText(String.valueOf((int) slider.getValue()));
-	    }
-	};
-	slider.setValue(valorInicial);
+		labelTitle = new Label(texto, skin);
+		slider = new Slider(min, max, step, false, skin);
+		this.slider.setUserObject(usserObject);
+		labelValue = new Label(String.valueOf((int) valorInicial), skin);
+		this.changeListener = new ChangeListener()
+		{
+			@Override
+			public void changed(ChangeEvent event, Actor actor)
+			{
+				labelValue.setText(String.valueOf((int) slider.getValue()));
+			}
+		};
+		slider.setValue(valorInicial);
 
-	
-	slider.addListener(this.changeListener);
+		slider.addListener(this.changeListener);
 
-	this.add(labelTitle).width(350).left().padRight(10);
-	this.add(slider).width(300).padRight(10);
-	this.add(labelValue).width(40).right();
+		this.add(labelTitle).width(350).left().padRight(10);
+		this.add(slider).width(300).padRight(10);
+		this.add(labelValue).width(40).right();
+		this.addChangeListener(changeListener);
 
-    }
+	}
 
-    public SliderWithLabel(String texto, float min, float max, float step, float valorInicial, Skin skin,
-	    int usserObject, ChangeListener changeListener)
-    {
-	this(texto, min, max, step, valorInicial, skin, usserObject);
-	this.addChangeListener(changeListener);
+	/**
+	 * @return el valor del slider
+	 */
+	public int getValue()
+	{
+		return (int) slider.getValue();
+	}
 
-    }
+	/**
+	 * Setea el valor del slider
+	 * 
+	 * @param value Valor del slider
+	 */
+	public void setValue(float value)
+	{
+		slider.setValue(value);
+	}
 
-    public int getValue()
-    {
-	return (int) slider.getValue();
-    }
+	/**
+	 * Setea el texto de la etiqueta titulo
+	 * 
+	 * @param text Texto correspondiente a la etiqueta titulo
+	 */
+	public void setText(String text)
+	{
+		this.labelTitle.setText(text);
+	}
 
-    public void setValue(float value)
-    {
-	slider.setValue(value);
-    }
+	/**
+	 * Agrega un ChangeListener al slider
+	 * 
+	 * @param changeListener ChangeListener a agregar al slider
+	 */
+	public void addChangeListener(ChangeListener changeListener)
+	{
+		this.slider.addListener(changeListener);
+	}
 
-    public void setText(String text)
-    {
-	this.labelTitle.setText(text);
-    }
-
-    public void addChangeListener(ChangeListener changeListener)
-    {
-	this.slider.addListener(changeListener);
-    }
-
-    @Override
-    public void setTouchable(Touchable touchable)
-    {
-	super.setTouchable(touchable);
-	if (this.slider != null)
-	    this.slider.setTouchable(touchable);
-	if (this.labelValue != null)
-	    this.labelValue.setTouchable(touchable);
-	if (this.labelTitle != null)
-	    this.labelTitle.setTouchable(touchable);
-    }
+	/**
+	 * Propaga el objeto touchable a ca componente
+	 */
+	@Override
+	public void setTouchable(Touchable touchable)
+	{
+		super.setTouchable(touchable);
+		if (this.slider != null)
+			this.slider.setTouchable(touchable);
+		if (this.labelValue != null)
+			this.labelValue.setTouchable(touchable);
+		if (this.labelTitle != null)
+			this.labelTitle.setTouchable(touchable);
+	}
 
 }

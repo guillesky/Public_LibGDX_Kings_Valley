@@ -4,9 +4,9 @@ import engine.KVEventListener;
 import util.GameRules;
 
 /**
- * @author Guillermo Lazzurri
+ * Clase que representa el esta No Jugando
  * 
- *         Clase que representa el esta No Jugando
+ * @author Guillermo Lazzurri
  */
 public class GameStateNotInGame extends GameState
 {
@@ -36,7 +36,7 @@ public class GameStateNotInGame extends GameState
 	@Override
 	public void startNewGame()
 	{
-			
+
 		super.startNewLevel(null, false);
 
 	}

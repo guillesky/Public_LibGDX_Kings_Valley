@@ -7,8 +7,9 @@ import engine.level.Pyramid;
 import util.GameRules;
 
 /**
- * @author Guillermo Lazzurri Clase que representa los estados de la daga
- *         (patron state)
+ * Clase que representa los estados de la daga (patron state)
+ * 
+ * @author Guillermo Lazzurri
  */
 public abstract class DaggerState
 {

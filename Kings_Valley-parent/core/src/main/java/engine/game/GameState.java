@@ -6,9 +6,9 @@ import engine.level.door.Door;
 import util.Constants;
 
 /**
- * @author Guillermo Lazzurri
+ * Clase abstracta que representa un estado del juego (patron State)
  * 
- *         Clase abstracta que representa un estado del juego (patron State)
+ * @author Guillermo Lazzurri
  */
 public abstract class GameState
 {
@@ -29,7 +29,9 @@ public abstract class GameState
 	}
 
 	/**
-	 * Constructor de clase. Gestiona la doble referencia del patron state. Resetea el delta del juego. 
+	 * Constructor de clase. Gestiona la doble referencia del patron state. Resetea
+	 * el delta del juego.
+	 * 
 	 * @param state indica el codigo numerico del estado del juego.
 	 */
 	public GameState(int state)
@@ -56,7 +58,10 @@ public abstract class GameState
 	/**
 	 * Metodo llamado para iniciar un nivel
 	 * 
-	 * @param door      Indica la puerta de origen, es decir, la puerta por la que el player salio del nivel que termino. En caso de no venir de un nivel anterior o de morir, este paremtro podria ser null.
+	 * @param door      Indica la puerta de origen, es decir, la puerta por la que
+	 *                  el player salio del nivel que termino. En caso de no venir
+	 *                  de un nivel anterior o de morir, este paremtro podria ser
+	 *                  null.
 	 * @param fromDeath Indica true si el player acaba de morir y esta reiniciando
 	 *                  el nivel, false en caso contrario
 	 */

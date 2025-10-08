@@ -7,9 +7,9 @@ import engine.game.Game;
 import engine.level.Stair;
 
 /**
- * @author Guillermo Lazzurri
+ * Clase que representa del estado del caracter "cayendo"
  * 
- *         Clase que representa del estado del caracter "cayendo"
+ * @author Guillermo Lazzurri
  */
 public class GameCharacterStateFalling extends GameCharacterState
 {

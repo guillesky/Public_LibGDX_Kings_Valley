@@ -3,9 +3,9 @@ package engine.game;
 import engine.KVEventListener;
 
 /**
- * @author Guillermo Lazzurri
+ * Clase que representa el estado Entrando al Nivel
  * 
- *         Clase que representa el estado Entrando al Nivel
+ * @author Guillermo Lazzurri
  */
 public class GameStateEntering extends GameState
 {

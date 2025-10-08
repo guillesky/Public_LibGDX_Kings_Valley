@@ -5,9 +5,9 @@ import engine.level.Pyramid;
 import util.GameRules;
 
 /**
- * @author Guillermo Lazzurri
+ * Representa una momia azul
  * 
- *         Representa una momia azul
+ * @author Guillermo Lazzurri
  */
 @SuppressWarnings("serial")
 public class MummyBlue extends Mummy

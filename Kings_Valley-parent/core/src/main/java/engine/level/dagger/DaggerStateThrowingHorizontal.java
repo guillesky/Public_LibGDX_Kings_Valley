@@ -13,9 +13,9 @@ import engine.level.Pyramid;
 import util.GameRules;
 
 /**
- * @author Guillermo Lazzurri
+ * Representa el estado "Lanzada horizontalmente"
  * 
- *         representa el estado "Lanzada horizontalmente"
+ * @author Guillermo Lazzurri
  */
 public class DaggerStateThrowingHorizontal extends DaggerState
 {

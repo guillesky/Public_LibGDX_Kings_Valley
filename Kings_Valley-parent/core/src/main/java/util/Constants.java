@@ -5,8 +5,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 /**
- * @author Guillermo Lazzurri Clase que contiene valores constantes usados
- *         internamente por el juego.
+ * Clase que contiene valores constantes usados internamente por el juego.
+ * 
+ * @author Guillermo Lazzurri
  */
 public class Constants
 {

@@ -8,9 +8,10 @@ import engine.level.Pyramid;
 import util.Constants;
 
 /**
- * @author Guillermo Lazzurri
  * 
- *         Clase que representa una daga. Aplica el patron State
+ * Clase que representa una daga. Aplica el patron State
+ * 
+ * @author Guillermo Lazzurri
  */
 @SuppressWarnings("serial")
 public class Dagger extends LevelObject
@@ -63,8 +64,11 @@ public class Dagger extends LevelObject
 	}
 
 	/**
-	 * Llamado para lanzar la daga Horizontalmente. Delega en el atributo daggerState (patron state)
-	 * @param isRight true si la espada es lanzada hacia la derecha, false si es lanzada hacia la izquierda
+	 * Llamado para lanzar la daga Horizontalmente. Delega en el atributo
+	 * daggerState (patron state)
+	 * 
+	 * @param isRight true si la espada es lanzada hacia la derecha, false si es
+	 *                lanzada hacia la izquierda
 	 */
 	public void throwHorizontal(boolean isRight)
 	{
@@ -90,26 +94,33 @@ public class Dagger extends LevelObject
 
 	/**
 	 * Setea el estado de la daga (solo deberia usarse mediante patron state)
+	 * 
 	 * @param daggerState nuevo estado de la daga.
 	 */
 	protected void setDaggerState(DaggerState daggerState)
 	{
 		this.daggerState = daggerState;
 	}
+
 	/**
-	 * Llamado para recoger la daga. Delega en el atributo daggerState (patron state)
+	 * Llamado para recoger la daga. Delega en el atributo daggerState (patron
+	 * state)
 	 */
-	
+
 	public void hasPickuped()
 	{
 		this.daggerState.hasPickuped();
-	
+
 	}
+
 	/**
-	 * Llamado para lanzar la daga Verticalmente (hacia arriba). Delega en el atributo daggerState (patron state)
-	 * @param isRight true si la espada es lanzada hacia la derecha, false si es lanzada hacia la izquierda
+	 * Llamado para lanzar la daga Verticalmente (hacia arriba). Delega en el
+	 * atributo daggerState (patron state)
+	 * 
+	 * @param isRight true si la espada es lanzada hacia la derecha, false si es
+	 *                lanzada hacia la izquierda
 	 */
-	
+
 	public void throwVertical(boolean isRight)
 	{
 		this.isRight = isRight;

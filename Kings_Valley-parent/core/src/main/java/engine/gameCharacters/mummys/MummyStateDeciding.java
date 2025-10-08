@@ -6,9 +6,9 @@ import engine.KVEventListener;
 import engine.game.Game;
 
 /**
- * @author Guillermo Lazzurri
+ * Clase que representa del estado de la momia "Decidiendo"
  * 
- *         Clase que representa del estado de la momia "Decidiendo"
+ * @author Guillermo Lazzurri
  */
 public class MummyStateDeciding extends MummyState
 {
@@ -98,8 +98,11 @@ public class MummyStateDeciding extends MummyState
 	}
 
 	/**
-	 * Llamado internamente por changeStatus. Indica hacia donde debe ir la momia dependiendo del tipo de fin de plataforma.
-	 * @param typeEnd indica el tipo de fin de plataforma, tomara los valores: EndPlatform.END_CLIFF o EndPlatform.END_STEP 
+	 * Llamado internamente por changeStatus. Indica hacia donde debe ir la momia
+	 * dependiendo del tipo de fin de plataforma.
+	 * 
+	 * @param typeEnd indica el tipo de fin de plataforma, tomara los valores:
+	 *                EndPlatform.END_CLIFF o EndPlatform.END_STEP
 	 * @return valor numerico que tomara los valores NONE, LEFT o RIGHT
 	 */
 	private int searchEndPlatform(int typeEnd)
@@ -128,7 +131,9 @@ public class MummyStateDeciding extends MummyState
 	}
 
 	/**
-	 *Llamado cuando la momia muere. Cambia el estado a new MummyStateDying(this.mummy, mustTeleport); Ademas dispara el evento: Game.getInstance().eventFired(KVEventListener.MUMMY_DIE, this); 
+	 * Llamado cuando la momia muere. Cambia el estado a new
+	 * MummyStateDying(this.mummy, mustTeleport); Ademas dispara el evento:
+	 * Game.getInstance().eventFired(KVEventListener.MUMMY_DIE, this);
 	 */
 	@Override
 	protected void die(boolean mustTeleport)
@@ -143,7 +148,7 @@ public class MummyStateDeciding extends MummyState
 	@Override
 	protected void doInBorderCliff()
 	{
-		
+
 	}
 
 	/**

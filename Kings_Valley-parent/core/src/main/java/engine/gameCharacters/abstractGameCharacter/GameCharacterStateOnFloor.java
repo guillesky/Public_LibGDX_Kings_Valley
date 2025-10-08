@@ -3,9 +3,10 @@ package engine.gameCharacters.abstractGameCharacter;
 import engine.level.Stair;
 
 /**
- * @author Guillermo Lazzurri Clase abstracta que representa el estado de estar
- *         en el piso. Podra extenderse a GameCharacterStateIddle, o
- *         GameCharacterStateWalking
+ * Clase abstracta que representa el estado de estar en el piso. Podra
+ * extenderse a GameCharacterStateIddle, o GameCharacterStateWalking
+ * 
+ * @author Guillermo Lazzurri
  */
 public abstract class GameCharacterStateOnFloor extends GameCharacterState
 {

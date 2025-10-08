@@ -20,10 +20,11 @@ import util.GameRules;
 import util.Constants;
 
 /**
- * @author Guillermo Lazzurri Clase que representa una piramide. Tiene
- *         informacion sobre las celdas, escaleras, joyas, picos, espadas,
- *         puertas giratorias, puertas de salida y las trampas. No incluye
- *         informacion sobre el player o las o las momias
+ * Clase que representa una piramide. Tiene informacion sobre las celdas,
+ * escaleras, joyas, picos, espadas, puertas giratorias, puertas de salida y las
+ * trampas. No incluye informacion sobre el player o las o las momias
+ * 
+ * @author Guillermo Lazzurri
  */
 public class Pyramid implements IGraphic
 {
@@ -400,8 +401,6 @@ public class Pyramid implements IGraphic
 	{
 		return negativeStairs;
 	}
-
-	
 
 	/**
 	 * @return Las puertas de entrada y salida de la piramide

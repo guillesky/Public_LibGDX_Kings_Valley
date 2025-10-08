@@ -1,7 +1,9 @@
 package engine.level;
 
 /**
- * @author Guillermo Lazzurri Representa una escalera en la piramide
+ * Representa una escalera en la piramide
+ * 
+ * @author Guillermo Lazzurri
  */
 public class Stair
 {

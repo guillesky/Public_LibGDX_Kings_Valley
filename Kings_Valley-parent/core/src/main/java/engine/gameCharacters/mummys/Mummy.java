@@ -14,9 +14,9 @@ import engine.level.Stair;
 import util.GameRules;
 
 /**
- * @author Guillermo Lazzurri
+ * Clase abstracta que representa un momia
  * 
- *         Clase abstracta que representa un momia
+ * @author Guillermo Lazzurri
  */
 @SuppressWarnings("serial")
 public abstract class Mummy extends GameCharacter
@@ -35,11 +35,10 @@ public abstract class Mummy extends GameCharacter
 	 * Teletransportandose
 	 */
 	public static final int ST_TELEPORTING = 104;
-	protected static final int BLOCK_FREE = 0;
-	protected static final int BLOCK_BRICK = 1;
-	protected static final int BLOCK_GIRATORY = 2;
 
-	protected static final Random random = new Random();
+	/**
+	 * Objeto random para la toma interna de decisiones
+	 */
 
 	protected float decisionFactorForFall;
 	protected float decisionFactorForJump;
@@ -48,8 +47,14 @@ public abstract class Mummy extends GameCharacter
 	private float timeInState = 0;
 
 	private Vector2 direction = new Vector2();
+	/**
+	 * Estado de la momia (patron state)
+	 */
 	protected MummyState mummyState;
 	private float stressLevel = 0;
+	/**
+	 * Referencia al player a perseguir
+	 */
 	protected Player player;
 
 	/**
@@ -131,7 +136,7 @@ public abstract class Mummy extends GameCharacter
 	 */
 	protected boolean makeDecisionForJump()
 	{
-		return Mummy.random.nextDouble() <= this.decisionFactorForJump;
+		return Game.random.nextDouble() <= this.decisionFactorForJump;
 	}
 
 	/**
@@ -305,8 +310,8 @@ public abstract class Mummy extends GameCharacter
 		int j;
 		do
 		{
-			i = random.nextInt(this.pyramid.getMapHeightInTiles() - 2) + 1;
-			j = random.nextInt(this.pyramid.getMapWidthInTiles() - 2) + 1;
+			i = Game.random.nextInt(this.pyramid.getMapHeightInTiles() - 2) + 1;
+			j = Game.random.nextInt(this.pyramid.getMapWidthInTiles() - 2) + 1;
 
 		} while (this.pyramid.getCellInTiledCoord(j, i) != null || this.pyramid.getCellInTiledCoord(j, i + 1) != null);
 

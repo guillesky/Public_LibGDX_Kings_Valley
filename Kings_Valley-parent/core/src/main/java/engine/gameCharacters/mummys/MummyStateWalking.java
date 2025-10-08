@@ -3,13 +3,20 @@ package engine.gameCharacters.mummys;
 import engine.gameCharacters.abstractGameCharacter.GameCharacter;
 
 /**
- * @author Guillermo Lazzurri
+ * Clase que representa del estado de la momia "Caminando"
  * 
- *         Clase que representa del estado de la momia "Caminando"
+ * @author Guillermo Lazzurri
  */
 public class MummyStateWalking extends MummyState
 {
-	protected boolean doJump = false;
+	private boolean doJump = false;
+	/**
+	 * indica donde esta el player con respecto a la momia. Puede tomar los
+	 * valores:<br>
+	 * MummyState.PLAYER_IS_UP; <br>
+	 * MummyState.PLAYER_IS_DOWN;<br>
+	 * MummyState.PLAYER_IS_SOME_LEVEL
+	 */
 	protected int whereIsPlayer;
 
 	/**
@@ -50,7 +57,6 @@ public class MummyStateWalking extends MummyState
 
 	}
 
-	
 	@Override
 	public void update(float deltaTime)
 	{
@@ -85,7 +91,7 @@ public class MummyStateWalking extends MummyState
 	}
 
 	/**
-	 *Retorna true
+	 * Retorna true
 	 */
 	@Override
 	protected boolean isDanger()
@@ -94,7 +100,8 @@ public class MummyStateWalking extends MummyState
 	}
 
 	/**
-	 * Si pasa el tiempo correspondiente a this.timeToChange, entonces el estado cambia a new MummyStateDeciding(this.mummy) 
+	 * Si pasa el tiempo correspondiente a this.timeToChange, entonces el estado
+	 * cambia a new MummyStateDeciding(this.mummy)
 	 */
 	protected void checkChangeStatus()
 	{
@@ -112,11 +119,11 @@ public class MummyStateWalking extends MummyState
 	}
 
 	/**
-	 *Llamado en caso de chocar contra un muro o una giratoria
+	 * Llamado en caso de chocar contra un muro o una giratoria
 	 */
 	public void doInCrashToWallOrGiratory(int crashStatus, int type)
 	{
-		if (crashStatus == Mummy.BLOCK_BRICK)
+		if (crashStatus == BLOCK_BRICK)
 
 		{
 
@@ -133,7 +140,7 @@ public class MummyStateWalking extends MummyState
 	}
 
 	/**
-	 *Llamado en caso de llegar al borde de una cornisa
+	 * Llamado en caso de llegar al borde de una cornisa
 	 */
 	protected void doInBorderCliff()
 	{
@@ -146,7 +153,7 @@ public class MummyStateWalking extends MummyState
 	}
 
 	/**
-	 *Cambia el estado a new MummyStateDying(this.mummy, mustTeleport);
+	 * Cambia el estado a new MummyStateDying(this.mummy, mustTeleport);
 	 */
 	@Override
 	protected void die(boolean mustTeleport)

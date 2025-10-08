@@ -1,8 +1,10 @@
 package engine;
 
 /**
- * @author Guillermo Lazzurri Interfaz que debera ser implementada por la clase
- *         encargada de la representacion grafica del juego.
+ * Interfaz que debera ser implementada por la clase encargada de la
+ * representacion grafica del juego.
+ * 
+ * @author Guillermo Lazzurri
  */
 public interface IGraphic
 {

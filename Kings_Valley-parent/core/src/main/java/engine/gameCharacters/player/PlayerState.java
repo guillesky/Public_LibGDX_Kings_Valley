@@ -6,9 +6,10 @@ import engine.gameCharacters.abstractGameCharacter.GameCharacter;
 import engine.level.GiratoryMechanism;
 
 /**
- * @author Guillermo Lazzurri
  * 
- *         Clase que representa el estado del Player (patron state)
+ * Clase que representa el estado del Player (patron state)
+ * 
+ * @author Guillermo Lazzurri
  */
 public abstract class PlayerState
 {
@@ -45,6 +46,7 @@ public abstract class PlayerState
 
 	/**
 	 * Llamado al pasar por una puerta giratoria
+	 * 
 	 * @param giratoryMechanism Puerta giratoria por la que se esta pasando
 	 */
 	protected abstract void passGiratoryMechanism(GiratoryMechanism giratoryMechanism);

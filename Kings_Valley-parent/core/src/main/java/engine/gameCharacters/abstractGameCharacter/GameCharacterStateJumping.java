@@ -8,10 +8,10 @@ import engine.level.Stair;
 import util.GameRules;
 
 /**
- * @author Guillermo Lazzurri
+ * Clase que representa del estado del caracter "Saltando" (ya sea subiendo o
+ * bajando)
  * 
- *         Clase que representa del estado del caracter "Saltando" (ya sea
- *         subiendo o bajando)
+ * @author Guillermo Lazzurri
  */
 public class GameCharacterStateJumping extends GameCharacterState
 {
@@ -32,13 +32,16 @@ public class GameCharacterStateJumping extends GameCharacterState
 		super(gameCharacter, GameCharacter.ST_JUMPING);
 		this.gameCharacter.resetAnimationDelta();
 		this.gameCharacter.motionVector.y = this.gameCharacter.getSpeedJump();
-		this.gameCharacter.motionVector.x=Math.signum(this.gameCharacter.motionVector.x)*GameRules.getInstance().getCharacterHorizontalSpeedJump();
+		this.gameCharacter.motionVector.x = Math.signum(this.gameCharacter.motionVector.x)
+				* GameRules.getInstance().getCharacterHorizontalSpeedJump();
 		this.initialMotionX = this.gameCharacter.motionVector.x;
 		Game.getInstance().eventFired(KVEventListener.CHARACTER_JUMP, gameCharacter);
 	}
 
 	/**
-	 *Calcula las colisione durante el salto. En caso de que el player se desbloquee horizontalmente durante el salto podra desplazarse para el costado para salir de un pozo.
+	 * Calcula las colisione durante el salto. En caso de que el player se
+	 * desbloquee horizontalmente durante el salto podra desplazarse para el costado
+	 * para salir de un pozo.
 	 */
 	@Override
 	protected void moveFirstStep(Vector2 v, boolean b, float deltaTime)
@@ -53,7 +56,7 @@ public class GameCharacterStateJumping extends GameCharacterState
 	}
 
 	/**
-	 *Llama a checkLanding para verificar si llego al suelo
+	 * Llama a checkLanding para verificar si llego al suelo
 	 */
 	@Override
 	protected void moveSecondStep(Vector2 escalado)
@@ -77,6 +80,7 @@ public class GameCharacterStateJumping extends GameCharacterState
 
 	/**
 	 * Indica si el caracter esta bloqueado para desplazamiento horizontal
+	 * 
 	 * @return true si esta bloqueado horizontalemente, false en caso contrario
 	 */
 	private boolean hasBlocked()

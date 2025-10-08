@@ -5,8 +5,9 @@ import com.badlogic.gdx.ApplicationListener;
 import vista2D.ui.UI2D;
 
 /**
- * @author Guillermo Lazzurri Representa el estado durante la UI (no esta
- *         jugando)
+ * Representa el estado durante la UI (no esta jugando)
+ * 
+ * @author Guillermo Lazzurri
  */
 public class RenderStateInUI extends RenderState
 {
@@ -18,7 +19,7 @@ public class RenderStateInUI extends RenderState
 	}
 
 	/**
-	 *LLama al metodo create de su atributo ui
+	 * LLama al metodo create de su atributo ui
 	 */
 	@Override
 	public void create()
@@ -28,9 +29,9 @@ public class RenderStateInUI extends RenderState
 	}
 
 	/**
-	 *LLama al metodo resize de su atributo ui
+	 * LLama al metodo resize de su atributo ui
 	 */
-	
+
 	@Override
 	public void resize(int width, int height)
 	{
@@ -39,9 +40,9 @@ public class RenderStateInUI extends RenderState
 	}
 
 	/**
-	 *LLama al metodo pause de su atributo ui
+	 * LLama al metodo pause de su atributo ui
 	 */
-	
+
 	@Override
 	public void pause()
 	{
@@ -50,9 +51,9 @@ public class RenderStateInUI extends RenderState
 	}
 
 	/**
-	 *LLama al metodo resume de su atributo ui
+	 * LLama al metodo resume de su atributo ui
 	 */
-	
+
 	@Override
 	public void resume()
 	{
@@ -61,19 +62,20 @@ public class RenderStateInUI extends RenderState
 	}
 
 	/**
-	 *LLama al metodo dispose de su atributo ui
+	 * LLama al metodo dispose de su atributo ui
 	 */
-	
+
 	@Override
 	public void dispose()
 	{
 		this.ui.dispose();
 
 	}
+
 	/**
-	 *LLama al metodo render de su atributo ui
+	 * LLama al metodo render de su atributo ui
 	 */
-	
+
 	@Override
 	public void render()
 	{
@@ -81,7 +83,7 @@ public class RenderStateInUI extends RenderState
 	}
 
 	/**
-	 *Cambia el estado de facade a RenderStateStartingGame
+	 * Cambia el estado de facade a RenderStateStartingGame
 	 */
 	@Override
 	public void newGame()

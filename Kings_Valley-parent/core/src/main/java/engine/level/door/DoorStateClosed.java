@@ -5,9 +5,9 @@ import engine.game.Game;
 import engine.gameCharacters.player.Player;
 
 /**
- * @author Guillermo Lazzurri
+ * Representa el estado de la puerta "cerrada"
  * 
- *         Representa el estado de la puerta "cerrada"
+ * @author Guillermo Lazzurri
  */
 public class DoorStateClosed extends DoorState
 {
@@ -56,12 +56,12 @@ public class DoorStateClosed extends DoorState
 	}
 
 	/**
-	 *Retorna false (la puerta esta cerrada)
+	 * Retorna false (la puerta esta cerrada)
 	 */
 	@Override
 	public boolean checkEnterPassage(Player player)
 	{
-		
+
 		return false;
 	}
 

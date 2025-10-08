@@ -28,8 +28,9 @@ import vista2D.ui.UI2D;
 import vista2D.ui.UIConfig;
 
 /**
- * @author Guillermo Lazzurri Clase que implementa el patron Facade y el patron
- *         Singleton.
+ * Clase que implementa el patron Facade y el patron Singleton.
+ * 
+ * @author Guillermo Lazzurri
  */
 public class Facade implements ApplicationListener
 {
@@ -319,11 +320,10 @@ public class Facade implements ApplicationListener
 
 		this.readLanguageFiles();
 		this.readCredits();
-		this.generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/PAPYRUS.TTF"));
 		assetManager.load(uiConfig.getMusicUIName(), Music.class);
 		assetManager.load(uiConfig.getMusicIntroName(), Music.class);
 
-		this.ui = new UI2D(this.assetManager, generator, uiConfig);
+		this.ui = new UI2D(this.assetManager, uiConfig);
 
 		assetManager.finishLoading();// termina la primera carga
 
@@ -390,9 +390,9 @@ public class Facade implements ApplicationListener
 	public void dispose()
 	{
 
-		generator.dispose();
 		this.assetManager.dispose();
 		Facade.getInstance().saveGameOption();
+		this.ui.dispose();
 	}
 
 	/**
@@ -476,7 +476,5 @@ public class Facade implements ApplicationListener
 	{
 		return showMap;
 	}
-	
-	
 
 }

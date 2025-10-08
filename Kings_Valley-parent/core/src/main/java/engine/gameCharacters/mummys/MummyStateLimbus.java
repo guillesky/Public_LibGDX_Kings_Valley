@@ -3,9 +3,9 @@ package engine.gameCharacters.mummys;
 import util.GameRules;
 
 /**
- * @author Guillermo Lazzurri
+ * Clase que representa del estado de la momia "En el Limbo"
  * 
- *         Clase que representa del estado de la momia "En el Limbo"
+ * @author Guillermo Lazzurri
  */
 public class MummyStateLimbus extends MummyState
 {

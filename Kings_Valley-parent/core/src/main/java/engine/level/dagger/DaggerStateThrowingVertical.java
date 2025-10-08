@@ -9,9 +9,9 @@ import engine.level.Pyramid;
 import util.GameRules;
 
 /**
- * @author Guillermo Lazzurri
- * 
  * Representa el estado "Lanzada hacia arriba"
+ * 
+ * @author Guillermo Lazzurri
  */
 public class DaggerStateThrowingVertical extends DaggerState
 {
@@ -21,8 +21,8 @@ public class DaggerStateThrowingVertical extends DaggerState
 	private float y;
 
 	/**
-	 * Constructor de clase. Llama a 	super(dagger, DaggerState.ST_THROWING_UP);
-	
+	 * Constructor de clase. Llama a super(dagger, DaggerState.ST_THROWING_UP);
+	 * 
 	 * @param dagger Corresponde al sujeto del patron state
 	 */
 	public DaggerStateThrowingVertical(Dagger dagger)
@@ -41,8 +41,10 @@ public class DaggerStateThrowingVertical extends DaggerState
 	}
 
 	/**
-	 *Cuando llega a su destino cambia el estado a dagger.setDaggerState(new DaggerStateStucked(dagger)); y dispara el evento Game.getInstance().eventFired(KVEventListener.SWORD_STUCK, this.dagger);
-
+	 * Cuando llega a su destino cambia el estado a dagger.setDaggerState(new
+	 * DaggerStateStucked(dagger)); y dispara el evento
+	 * Game.getInstance().eventFired(KVEventListener.SWORD_STUCK, this.dagger);
+	 * 
 	 */
 	@Override
 	public void updateDagger(float deltaTime, Pyramid pyramid, ArrayList<Mummy> mummys)
@@ -50,7 +52,8 @@ public class DaggerStateThrowingVertical extends DaggerState
 		if (delta < 1)
 		{
 			this.updateX(-GameRules.getInstance().getFlyingDaggerSpeed() / 20 * deltaTime);
-			this.dagger.y = this.originalY + (delta - 1f) * (delta) * -GameRules.getInstance().getFlyingDaggerSpeed() / 3f;
+			this.dagger.y = this.originalY
+					+ (delta - 1f) * (delta) * -GameRules.getInstance().getFlyingDaggerSpeed() / 3f;
 			this.incDelta(deltaTime);
 		} else
 		{

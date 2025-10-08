@@ -9,9 +9,9 @@ import engine.level.Pyramid;
 import util.GameRules;
 
 /**
- * @author Guillermo Lazzurri
+ * Representa el estado "cayendo"
  * 
- *         Representa el estado "cayendo"
+ * @author Guillermo Lazzurri
  */
 public class DaggerStateFalling extends DaggerState
 {

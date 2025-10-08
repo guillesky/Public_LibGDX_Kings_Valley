@@ -3,9 +3,9 @@ package engine.level.door;
 import engine.gameCharacters.player.Player;
 
 /**
- * @author Guillermo Lazzurri
+ * Clase que representa el estado "Puerta oculta"
  * 
- *         Clase que representa el estado "Puerta oculta"
+ * @author Guillermo Lazzurri
  */
 public class DoorStateHide extends DoorState
 {

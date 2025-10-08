@@ -3,10 +3,10 @@ package engine.gameCharacters.mummys;
 import engine.level.Stair;
 
 /**
- * @author Guillermo Lazzurri
+ * Clase que representa el resultado de buscar la escalera mas cercana hacia una
+ * determinada direccion
  * 
- *         Clase que representa el resultado de buscar la escalera mas cercana
- *         hacia una determinada direccion
+ * @author Guillermo Lazzurri
  */
 public class NearStairResult
 {

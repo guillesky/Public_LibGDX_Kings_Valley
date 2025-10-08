@@ -5,11 +5,10 @@ import engine.game.Game;
 import engine.gameCharacters.abstractGameCharacter.GameCharacter;
 import util.GameRules;
 
-
 /**
- * @author Guillermo Lazzurri
+ * Clase que representa del estado de la momia "Muriendo"
  * 
- *         Clase que representa del estado de la momia "Muriendo"
+ * @author Guillermo Lazzurri
  */
 public class MummyStateDying extends MummyState
 {
@@ -33,7 +32,8 @@ public class MummyStateDying extends MummyState
 	}
 
 	/**
-	 *Al pasar el tiempo indicado en this.timeToChange, se cambiara al estado new MummyStateLimbus(this.mummy, this.mustTeleport);
+	 * Al pasar el tiempo indicado en this.timeToChange, se cambiara al estado new
+	 * MummyStateLimbus(this.mummy, this.mustTeleport);
 	 */
 	@Override
 	public void update(float deltaTime)

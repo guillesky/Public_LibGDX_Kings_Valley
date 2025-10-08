@@ -16,10 +16,10 @@ import util.GameRules;
 import util.Constants;
 
 /**
- * @author Guillermo Lazzurri
+ * Clase que representa un nivel, con informacion la piramide, las momias, el
+ * player, la puerta en la cual aparecio el player y un identificador numerico
  * 
- *         Clase que representa un nivel, con informacion la piramide, las
- *         momias, el player, la puerta en la cual aparecio el player y un identificador numerico
+ * @author Guillermo Lazzurri
  */
 public class Level
 {

@@ -5,9 +5,9 @@ import engine.game.Game;
 import util.GameRules;
 
 /**
- * @author Guillermo Lazzurri
+ * Clase que representa del estado de la momia "Apareciendo"
  * 
- *         Clase que representa del estado de la momia "Apareciendo"
+ * @author Guillermo Lazzurri
  */
 public class MummyStateAppearing extends MummyState
 {

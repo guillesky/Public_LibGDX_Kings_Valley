@@ -6,9 +6,9 @@ import engine.level.LevelObject;
 import engine.level.Stair;
 
 /**
- * @author Guillermo Lazzurri
+ * Clase que representa del estado del caracter "En escalera"
  * 
- *         Clase que representa del estado del caracter "En escalera"
+ * @author Guillermo Lazzurri
  */
 public class GameCharacterStateOnStair extends GameCharacterState
 {
@@ -131,13 +131,15 @@ public class GameCharacterStateOnStair extends GameCharacterState
 	}
 
 	/**
-	 *Retorna la escalera sobre la que esta el caracter. En este caso no puede ser null (si lo puede ser en otro tipo de estado)
+	 * Retorna la escalera sobre la que esta el caracter. En este caso no puede ser
+	 * null (si lo puede ser en otro tipo de estado)
 	 */
 	@Override
 	protected Stair getStair()
 	{
 		return this.stair;
 	}
+
 	/**
 	 * Se sobreescribe como metodo vacio (no hace nada)
 	 */
@@ -148,7 +150,7 @@ public class GameCharacterStateOnStair extends GameCharacterState
 	}
 
 	/**
-	 *Retorna false (no se puede saltar en la escalera)
+	 * Retorna false (no se puede saltar en la escalera)
 	 */
 	@Override
 	protected boolean doJump()

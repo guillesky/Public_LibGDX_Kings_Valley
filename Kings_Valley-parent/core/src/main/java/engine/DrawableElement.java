@@ -1,12 +1,11 @@
 package engine;
 
 /**
+ * Representa un elemento dibujable generico. Permite a la interfaz grafica
+ * discrimar el tipom de dibujable correspondiente para poder realizar el
+ * casting y las acciones pertinentes.
+ * 
  * @author Guillermo Lazzurri
- * 
- * 
- *         Representa un elemento dibujable generico. Permite a la interfaz
- *         grafica discrimar el tipom de dibujable correspondiente para poder
- *         realizar el casting y las acciones pertinentes.
  */
 public class DrawableElement
 {

@@ -9,7 +9,9 @@ import engine.level.GiratoryMechanism;
 import util.GameRules;
 
 /**
- * @author Guillermo Lazzurri Representa el estado "Lanzando daga"
+ * Representa el estado "Lanzando daga"
+ * 
+ * @author Guillermo Lazzurri
  */
 public class PlayerStateThrowingDagger extends PlayerState
 {
@@ -42,8 +44,9 @@ public class PlayerStateThrowingDagger extends PlayerState
 	public void update(Vector2 v, boolean b, float deltaTime)
 	{
 
-		if (this.player.getAnimationDelta() >= GameRules.getInstance().getTimeToEndThrowDagger()) // termino de LANZAR LA
-																								// DAGA
+		if (this.player.getAnimationDelta() >= GameRules.getInstance().getTimeToEndThrowDagger()) // termino de LANZAR
+																									// LA
+																									// DAGA
 		{
 			int state;
 			if (v.x == 0)

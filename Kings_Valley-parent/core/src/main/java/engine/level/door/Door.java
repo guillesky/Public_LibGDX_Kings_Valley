@@ -7,9 +7,9 @@ import util.GameRules;
 import util.Constants;
 
 /**
- * @author Guillermo Lazzurri
- * 
  * Representa una puerta de entrada y salida de la piramide
+ * 
+ * @author Guillermo Lazzurri
  */
 public class Door extends Mechanism
 {

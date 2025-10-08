@@ -15,16 +15,21 @@ import engine.level.dagger.Dagger;
 import util.GameRules;
 
 /**
+ * 
+ * Representa el estado "caminando" (tambien esta en este estado si el player
+ * esta en modo descanso)
+ * 
  * @author Guillermo Lazzurri
- * Representa el estado "caminando" (tambien esta en este estado si el player esta en modo descanso)
  */
 public class PlayerStateWalking extends PlayerState
 {
 
 	/**
 	 * Constructor de clase, llama a super(player, state);
+	 * 
 	 * @param player Corresponde al sujeto del patron state
-	 * @param state Indica el tipo de estado. En este caso puede tomar los valores GameCharacter.ST_IDDLE; o GameCharacter.ST_WALKING;
+	 * @param state  Indica el tipo de estado. En este caso puede tomar los valores
+	 *               GameCharacter.ST_IDDLE; o GameCharacter.ST_WALKING;
 	 */
 	public PlayerStateWalking(Player player, int state)
 	{
@@ -37,6 +42,7 @@ public class PlayerStateWalking extends PlayerState
 		this.player.move(v, b, deltaTime);
 
 	}
+
 	/**
 	 * Se realiza el cambio de estado mediante this.player.setPlayerState(new
 	 * PlayerStateDying(this.player));
@@ -64,7 +70,8 @@ public class PlayerStateWalking extends PlayerState
 	}
 
 	/**
-	 * Llamado al intentar picar, podria llamar al metodo privado picking donde se realizan los cambios de estado 
+	 * Llamado al intentar picar, podria llamar al metodo privado picking donde se
+	 * realizan los cambios de estado
 	 */
 	@Override
 	protected void doPicker()
@@ -157,7 +164,9 @@ public class PlayerStateWalking extends PlayerState
 	}
 
 	/**
-	 * Llamado al intentar lanzar la espada. Si se lanza, se realiza el cambio de estado mediante this.player.setPlayerState(new PlayerStateThrowingDagger(this.player));
+	 * Llamado al intentar lanzar la espada. Si se lanza, se realiza el cambio de
+	 * estado mediante this.player.setPlayerState(new
+	 * PlayerStateThrowingDagger(this.player));
 	 */
 	protected void throwDagger()
 	{
@@ -181,9 +190,8 @@ public class PlayerStateWalking extends PlayerState
 			dagger.x = this.player.x;
 			dagger.y = this.player.y + GameRules.getInstance().getLevelTileHeightUnits();
 			dagger.throwVertical(this.player.isLookRight());
-			
+
 			this.player.setPlayerState(new PlayerStateThrowingDagger(this.player));
-			
 
 		}
 

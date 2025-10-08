@@ -4,16 +4,33 @@ import engine.gameCharacters.player.Player;
 import engine.level.Pyramid;
 
 /**
- * @author Guillermo Lazzurri
+ * Clase que crea las momias a partir de su tipo Patron Factory
  * 
- *         Clase que crea las momias a partir de su tipo Patron Factory
+ * @author Guillermo Lazzurri
  */
 public class MummyFactory
 {
+	/**
+	 * Codigo de momia blanca
+	 */
 	public static final int WHITE_MUMMY = 0;
+	/**
+	 * Codigo de momia rosa
+	 */
+
 	public static final int PINK_MUMMY = 1;
+
+	/**
+	 * Codigo de momia amarilla
+	 */
 	public static final int YELLOW_MUMMY = 2;
+	/**
+	 * Codigo de momia azul
+	 */
 	public static final int BLUE_MUMMY = 3;
+	/**
+	 * Codigo de momia roja
+	 */
 	public static final int RED_MUMMY = 4;
 
 	/**

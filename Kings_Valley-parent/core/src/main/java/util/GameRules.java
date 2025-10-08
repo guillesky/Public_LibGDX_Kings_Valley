@@ -1,9 +1,11 @@
 package util;
 
 /**
- * @author Guillermo Lazzurri Clase que representa los parametros utilizados en
- *         las reglas internas del juego. Modificar los valores podria generar
- *         inconsistencias en el juego. Aplica el patron singleton
+ * Clase que representa los parametros utilizados en las reglas internas del
+ * juego. Modificar los valores podria generar inconsistencias en el juego.
+ * Aplica el patron singleton
+ * 
+ * @author Guillermo Lazzurri
  */
 public class GameRules
 {
@@ -99,7 +101,7 @@ public class GameRules
 		this.characterSpeedFall = (int) (this.levelTileHeightUnits * (-60));
 		this.characterVerticalSpeedJump = (int) (this.levelTileHeightUnits * (15.3));
 
-		this.characterHorizontalSpeedJump=(int) (6 * this.levelTileWidthUnits);
+		this.characterHorizontalSpeedJump = (int) (6 * this.levelTileWidthUnits);
 		this.playerSpeedWalk = (int) (6 * this.levelTileWidthUnits);
 		this.playerSpeedWalkStairs = (int) (6 * this.levelTileWidthUnits);
 		this.flyingDaggerSpeed = this.levelTileWidthUnits * 18;
@@ -406,32 +408,30 @@ public class GameRules
 	}
 
 	/**
-	 * @param characterVerticalSpeedJump Velocidad del salto de los caracteres (empuje
-	 *                           vertical)
+	 * @param characterVerticalSpeedJump Velocidad del salto de los caracteres
+	 *                                   (empuje vertical)
 	 */
 	public void setCharacterVerticalSpeedJump(float characterVerticalSpeedJump)
 	{
 		this.characterVerticalSpeedJump = characterVerticalSpeedJump;
 	}
-	
+
 	/**
 	 * @return Velocidad del salto de los caracteres (empuje horizontal)
 	 */
 	public int getCharacterHorizontalSpeedJump()
 	{
-	    return characterHorizontalSpeedJump;
+		return characterHorizontalSpeedJump;
 	}
 
 	/**
-	 * @param characterHorizontalSpeedJump Velocidad del salto de los caracteres (empuje
-	 *                           horizontal)
+	 * @param characterHorizontalSpeedJump Velocidad del salto de los caracteres
+	 *                                     (empuje horizontal)
 	 */
 	public void setCharacterHorizontalSpeedJump(int characterHorizontalSpeedJump)
 	{
-	    this.characterHorizontalSpeedJump = characterHorizontalSpeedJump;
+		this.characterHorizontalSpeedJump = characterHorizontalSpeedJump;
 	}
-	
-	
 
 	/**
 	 * @return Velocidad de la daga al ser lanzada horizontalmente (al ser lanzada
@@ -704,7 +704,5 @@ public class GameRules
 	{
 		this.scoreForExtraLife = scoreForExtraLife;
 	}
-
-	
 
 }

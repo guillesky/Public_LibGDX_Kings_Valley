@@ -6,9 +6,9 @@ import engine.gameCharacters.mummys.Mummy;
 import engine.level.Pyramid;
 
 /**
- * @author Guillermo Lazzurri
+ * Representa el estado "portada por el player"
  * 
- *         Representa el estado "portada por el player"
+ * @author Guillermo Lazzurri
  */
 public class DaggerStatePickuped extends DaggerState
 {

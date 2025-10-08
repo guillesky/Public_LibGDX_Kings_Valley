@@ -7,8 +7,9 @@ import engine.game.Game;
 import vista2D.ui.UI2D;
 
 /**
- * @author Guillermo Lazzurri Clase que representa el estado de estar entrando
- *         al juego.
+ * Clase que representa el estado de estar entrando al juego.
+ * 
+ * @author Guillermo Lazzurri
  */
 public class RenderStateStartingGame extends RenderState
 {
@@ -30,9 +31,12 @@ public class RenderStateStartingGame extends RenderState
 		this.introMusic = introMusic;
 
 	}
+
 	/**
-	 *LLama al metodo render del atributo ui
-	 *Si a la musica de intro le falta para terminar lo mismo que tarda la interfaz grafica en entrar al nivel, se dispara el juego (llama al metodo Facade.getInstance().fireGame()) y luego cambia el renderState del Facade a RenderStateInGame  
+	 * LLama al metodo render del atributo ui Si a la musica de intro le falta para
+	 * terminar lo mismo que tarda la interfaz grafica en entrar al nivel, se
+	 * dispara el juego (llama al metodo Facade.getInstance().fireGame()) y luego
+	 * cambia el renderState del Facade a RenderStateInGame
 	 */
 	@Override
 	public void render()
@@ -48,7 +52,7 @@ public class RenderStateStartingGame extends RenderState
 	}
 
 	/**
-	 *LLama al metodo create del atributo ui
+	 * LLama al metodo create del atributo ui
 	 */
 	@Override
 	public void create()
@@ -57,11 +61,10 @@ public class RenderStateStartingGame extends RenderState
 
 	}
 
-	
 	/**
-	 *LLama al metodo resize del atributo ui
+	 * LLama al metodo resize del atributo ui
 	 */
-	
+
 	@Override
 	public void resize(int width, int height)
 	{
@@ -70,37 +73,40 @@ public class RenderStateStartingGame extends RenderState
 	}
 
 	/**
-	 *LLama al metodo pause del atributo ui
+	 * LLama al metodo pause del atributo ui
 	 */
-	
+
 	@Override
 	public void pause()
 	{
 		this.ui.pause();
 
 	}
+
 	/**
-	 *LLama al metodo resume del atributo ui
+	 * LLama al metodo resume del atributo ui
 	 */
-	
+
 	@Override
 	public void resume()
 	{
 		this.ui.resume();
 
 	}
+
 	/**
-	 *LLama al metodo dispose del atributo ui
+	 * LLama al metodo dispose del atributo ui
 	 */
-	
+
 	@Override
 	public void dispose()
 	{
 		this.ui.dispose();
 
 	}
+
 	/**
-	 *Se sobreescribe como metodo vacio (no hace nada)
+	 * Se sobreescribe como metodo vacio (no hace nada)
 	 */
 	@Override
 	public void newGame()

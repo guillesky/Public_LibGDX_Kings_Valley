@@ -16,9 +16,9 @@ import engine.game.Game;
 import facade.Facade;
 
 /**
- * @author Guillermo Lazzurri
+ * Clase Controlador de la UI inicial del juego (patron MVC)
  * 
- *         clase Controlador de la UI inicial del juego (patron MVC)
+ * @author Guillermo Lazzurri
  */
 public class Controler2D extends AbstractControler implements KVEventListener
 {
@@ -62,12 +62,7 @@ public class Controler2D extends AbstractControler implements KVEventListener
 
 				}
 
-				case AbstractControler.CREDITS:
-				{
-					doCredits();
-					break;
-
-				}
+			
 				case AbstractControler.RETRY:
 					doRetry();
 
@@ -125,8 +120,7 @@ public class Controler2D extends AbstractControler implements KVEventListener
 	protected void changeSoundsVolume(float value)
 	{
 		Facade.getInstance().setSoundsVolume(value / 100f);
-		this.view.updateSoundsVolume();
-
+	
 	}
 
 	/**
@@ -137,8 +131,7 @@ public class Controler2D extends AbstractControler implements KVEventListener
 	protected void changeMusicVolume(float value)
 	{
 		Facade.getInstance().setMusicVolume(value / 100f);
-		this.view.updateMusicVolume();
-
+	
 	}
 
 	/**
@@ -149,8 +142,7 @@ public class Controler2D extends AbstractControler implements KVEventListener
 	protected void changeMasterVolume(float value)
 	{
 		Facade.getInstance().setMasterVolume(value / 100f);
-		this.view.updateMasterVolume();
-
+		
 	}
 
 	/**
@@ -186,13 +178,7 @@ public class Controler2D extends AbstractControler implements KVEventListener
 		Facade.getInstance().startNewGame(this.view.getDificultLevel());
 	}
 
-	/**
-	 * Llamado al pedir los creditos del juego
-	 */
-	private void doCredits()
-	{
-		this.view.updateCredits(null);
-	}
+	
 
 	/**
 	 * Llamado al cambiar el idioma

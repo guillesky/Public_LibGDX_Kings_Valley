@@ -4,6 +4,11 @@ import engine.gameCharacters.player.Player;
 import engine.level.Pyramid;
 import util.GameRules;
 
+/**
+ * Representa una momia amarilla
+ * 
+ * @author Guillermo Lazzurri
+ */
 @SuppressWarnings("serial")
 public class MummyYellow extends Mummy
 {

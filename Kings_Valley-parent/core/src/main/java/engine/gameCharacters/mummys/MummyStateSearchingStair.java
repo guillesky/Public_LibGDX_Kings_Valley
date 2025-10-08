@@ -4,8 +4,9 @@ import engine.level.LevelObject;
 import engine.level.Stair;
 
 /**
- * @author Guillermo Lazzurri Clase que representa del estado de la momia
- *         "Buscando escalera"
+ * Clase que representa del estado de la momia "Buscando escalera"
+ * 
+ * @author Guillermo Lazzurri
  */
 public class MummyStateSearchingStair extends MummyStateWalking
 {
@@ -13,11 +14,14 @@ public class MummyStateSearchingStair extends MummyStateWalking
 	private LevelObject footStair;
 
 	/**
-	 * Constructor de clase, llama a 	super(mummy, nearStairResult.getDirectionX(), whereIsPlayer);
-		
-	 * @param mummy Correspondiente al sujeto del patron state
+	 * Constructor de clase, llama a super(mummy, nearStairResult.getDirectionX(),
+	 * whereIsPlayer);
+	 * 
+	 * @param mummy           Correspondiente al sujeto del patron state
 	 * @param nearStairResult Indica el resultado de la escalera mas cercana
-	 * @param whereIsPlayer Indica donde esta el player. Puede tomar los valores: MummyState.PLAYER_IS_UP; PLAYER_IS_SOME_LEVEL; o PLAYER_IS_DOWN  
+	 * @param whereIsPlayer   Indica donde esta el player. Puede tomar los valores:
+	 *                        MummyState.PLAYER_IS_UP; PLAYER_IS_SOME_LEVEL; o
+	 *                        PLAYER_IS_DOWN
 	 */
 	public MummyStateSearchingStair(Mummy mummy, NearStairResult nearStairResult, int whereIsPlayer)
 	{
@@ -33,7 +37,8 @@ public class MummyStateSearchingStair extends MummyStateWalking
 	}
 
 	/**
-	 *llama a super.update(deltaTime); y luego decide la direccion de la momia de acuerdo al tipo de escalera y ubicacion del player
+	 * llama a super.update(deltaTime); y luego decide la direccion de la momia de
+	 * acuerdo al tipo de escalera y ubicacion del player
 	 */
 	@Override
 	public void update(float deltaTime)
@@ -57,7 +62,7 @@ public class MummyStateSearchingStair extends MummyStateWalking
 	}
 
 	/**
-	 *Retorna false
+	 * Retorna false
 	 */
 	@Override
 	protected boolean isDanger()

@@ -2,25 +2,24 @@ package engine.game;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.maps.MapProperties;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 
 import engine.IGraphic;
 import engine.KVEventListener;
 import engine.control.Controls;
 import engine.level.Level;
 import engine.level.door.Door;
-import util.GameRules;
 import util.Constants;
 import util.GameConfig;
+import util.GameRules;
 
 /**
- * @author Guillermo Lazzurri Clase que representa el Juego. Aplica el patron
- *         Singleton y el patron State. Internamente implementa KVEventListener
- *         para manejar eventos internos.
+ * Clase que representa el Juego. Aplica el patron Singleton y el patron State.
+ * Internamente implementa KVEventListener para manejar eventos internos.
+ * 
+ * @author Guillermo Lazzurri
  * 
  */
 public class Game implements KVEventListener
@@ -83,6 +82,10 @@ public class Game implements KVEventListener
 	private boolean goingBack;
 	private int nextExtraLife = GameRules.getInstance().getScoreForFirstExtraLife();
 	private int firstLevel = 4;
+	/**
+	 * Instancia de random para utilizar por todas las clases del juego
+	 */
+	public static final Random random = new Random();
 
 	/**
 	 * Agrega un objeto de tipo KVEventListener a la lista.

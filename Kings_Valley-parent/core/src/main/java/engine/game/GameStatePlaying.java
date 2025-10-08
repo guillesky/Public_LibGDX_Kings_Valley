@@ -9,9 +9,9 @@ import engine.level.Level;
 import engine.level.door.Door;
 
 /**
- * @author Guillermo Lazzurri
+ * Clase que representa el estado Jugando
  * 
- *         Clase que representa el estado Jugando
+ * @author Guillermo Lazzurri
  */
 public class GameStatePlaying extends GameState
 {
@@ -51,9 +51,8 @@ public class GameStatePlaying extends GameState
 			this.readyToExit = true;
 		}
 
-		
 		currentLevel.update(deltaTime);
-		
+
 		if (this.readyToExit && player.getState() != Player.ST_ONSTAIRS)
 		{
 			currentLevel.checkLevers();
@@ -80,6 +79,7 @@ public class GameStatePlaying extends GameState
 		 * if (controles.getShot(Input.Keys.S)) this.game.showPlayer();
 		 */
 	}
+
 	/**
 	 * Se sobreescribe como metodo vacio (no hace nada)
 	 */
@@ -90,7 +90,8 @@ public class GameStatePlaying extends GameState
 	}
 
 	/**
-	 *Se provcesa la muerte del player. Se cambia el estado del juego a GameStateDying
+	 * Se provcesa la muerte del player. Se cambia el estado del juego a
+	 * GameStateDying
 	 */
 	@Override
 	protected void dying()

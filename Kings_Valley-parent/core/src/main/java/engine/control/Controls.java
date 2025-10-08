@@ -6,9 +6,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 
 /**
- * @author Guillermo Lazzurri
+ * Clase que representa el estado de los controles del juego (teclado)
  * 
- *         Clase que representa el estado de los controles del juego (teclado)
+ * @author Guillermo Lazzurri
  */
 public class Controls
 {
@@ -29,7 +29,8 @@ public class Controls
 
 	/**
 	 * 
-	 * @return objeto de tipo Vector2 que indica la direccion pretendida para el player
+	 * @return objeto de tipo Vector2 que indica la direccion pretendida para el
+	 *         player
 	 */
 	public Vector2 getNuevoRumbo()
 	{
@@ -37,7 +38,8 @@ public class Controls
 	}
 
 	/**
-	 * @param nuevoRumbo objeto de tipo Vector2 que indica la direccion pretendida para el player
+	 * @param nuevoRumbo objeto de tipo Vector2 que indica la direccion pretendida
+	 *                   para el player
 	 */
 	public void setNuevoRumbo(Vector2 nuevoRumbo)
 	{
@@ -45,7 +47,9 @@ public class Controls
 	}
 
 	/**
-	 * Metodo llamado cuando se pulsa una tecla de accion (por ejemplo la barra espaciadora)
+	 * Metodo llamado cuando se pulsa una tecla de accion (por ejemplo la barra
+	 * espaciadora)
+	 * 
 	 * @param key codigo de la tecla de accion pulsada
 	 */
 	private void shot(int key)
@@ -62,6 +66,7 @@ public class Controls
 
 	/**
 	 * Indica si la tecla pasada por parametro ha sido pulsada
+	 * 
 	 * @param key codigo de la tecla de accion a analizar
 	 * @return true si key fue pulsada, false en caso contrario
 	 */
@@ -80,6 +85,7 @@ public class Controls
 
 	/**
 	 * Indica si la tecla pasada por parametro esta disponible para ser pulsada
+	 * 
 	 * @param key codigo de la tecla de accion a analizar
 	 * @return true si key esta habilitada, false en caso contrario
 	 */
@@ -96,6 +102,7 @@ public class Controls
 
 	/**
 	 * Habilita una tecla de accion para ser pulsada
+	 * 
 	 * @param key codigo de la tecla de accion a habilitar
 	 */
 	private void enableShotEnabled(int key)
@@ -110,7 +117,9 @@ public class Controls
 	}
 
 	/**
-	 * procesa la tecla pasada por parametro, actualizando sus atributos enabled y pushed
+	 * procesa la tecla pasada por parametro, actualizando sus atributos enabled y
+	 * pushed
+	 * 
 	 * @param key codigo de la tecla de accion a procesar
 	 */
 	public void processKey(int key)

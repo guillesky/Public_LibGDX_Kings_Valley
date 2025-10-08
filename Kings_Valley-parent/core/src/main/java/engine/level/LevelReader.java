@@ -26,8 +26,10 @@ import util.GameRules;
 import util.Constants;
 
 /**
- * @author Guillermo Lazzurri Contiene un metodo publico para obtener un nivel
- *         completo a partir de un archivo de tipo TMX del programa Tiled
+ * Contiene un metodo publico para obtener un nivel completo a partir de un
+ * archivo de tipo TMX del programa Tiled
+ * 
+ * @author Guillermo Lazzurri
  */
 public class LevelReader
 {
@@ -65,7 +67,8 @@ public class LevelReader
 	 *                      Si es cero las momias seran las que indique el archivo
 	 *                      sin ninguna modificacion<br>
 	 *                      Si es un numero positivo incrementara la dificultad de
-	 *                      la momia (if (dificultLevel &gt; 4) dificultLevel=4; )<br>
+	 *                      la momia (if (dificultLevel &gt; 4) dificultLevel=4;
+	 *                      )<br>
 	 *                      Si es un numero negativo se decremnetara la dificultad
 	 *                      de la momia (if (dificultLevel &lt;-4) dificultLevel=-4;
 	 *                      )<br>
@@ -98,8 +101,7 @@ public class LevelReader
 			this.hashGiratoryMechanisms.clear();
 		}
 		this.pyramid = new Pyramid(map, doors, jewels, positiveStairs, negativeStairs, pickers, stuckedDaggers,
-				 unpickableCells, hashTraps,
-				hashGiratoryMechanisms, interfaz);
+				unpickableCells, hashTraps, hashGiratoryMechanisms, interfaz);
 
 		if (isCompleted)
 			this.pyramid.prepareToExit();
@@ -118,8 +120,6 @@ public class LevelReader
 		return level;
 
 	}
-
-	
 
 	/**
 	 * Llamado internamente por getLevel<br>
