@@ -1,5 +1,7 @@
 package engine.gameCharacters.mummys;
 
+import com.badlogic.gdx.math.Rectangle;
+
 /**
  * Representa el final de una plataforma. Se usa para que la momia tome
  * decisiones al respecto
@@ -22,62 +24,59 @@ public class EndPlatform
 	public static final int END_STEP = 2;
 
 	private int type;
-	private int count;
+	private Rectangle rectangle;
 
 	/**
-	 * Constructor de clase, indicara el tipo de final de plataforma, y a que
-	 * distancia de la momia se encuentra el final.
+	 * Constructor de clase.
 	 * 
-	 * @param type  Indica el tipo de final de plataforma. Puede tomar unicamente
-	 *              los valores END_BLOCK; END_CLIFF; END_STEP
-	 * @param count Indica la distancia en tiles desde la momia al fin de plataforma
+	 * @param type      Codigo numerico para indicar el tipo de final de plataforma.
+	 *                  Puede tomar los valores:<br>
+	 *                  END_BLOCK = 0 (final de plataforma bloqueado (por pared o
+	 *                  giratoria)<br>
+	 *                  END_CLIFF = 1 (Representa una cornisa por la que se puede
+	 *                  caer)<br>
+	 *                  END_STEP = 2;(Representa un escalon que se podria
+	 *                  saltar)<br>
+	 * 
+	 * @param rectangle Rectangulo del final de plataforma. Necesario para calcular
+	 *                  colisiones.
 	 */
-	public EndPlatform(int type, int count)
+	public EndPlatform(int type, Rectangle rectangle)
 	{
 
 		this.type = type;
-		this.count = count;
+		this.rectangle = rectangle;
 	}
 
 	/**
-	 * @return tipo de plataforma
+	 * Retorna del tipo de final de plataforma. Puede tomar los valores:<br>
+	 * END_BLOCK = 0 (final de plataforma bloqueado (por pared o giratoria)<br>
+	 * END_CLIFF = 1 (Representa una cornisa por la que se puede caer)<br>
+	 * END_STEP = 2;(Representa un escalon que se podria saltar)<br>
+	 * 
+	 * @return tipo de plataforma Codigo numerico que indica el final de plataforma
 	 */
-	protected int getType()
+	public int getType()
 	{
 		return type;
 	}
 
 	/**
-	 * @return distancia en tiles
+	 * Retorna el rectangulo donde esta el final de plaforma. Necesario para
+	 * calcular colisiones
+	 * 
+	 * @return El rectangulo donde esta el final de plaforma. Necesario para
+	 *         calcular colisiones
 	 */
-	public int getCount()
+	public Rectangle getRectangle()
 	{
-		return count;
+		return rectangle;
 	}
 
-	/**
-	 * @param type tipo de plataforma
-	 */
-	public void setType(int type)
-	{
-		this.type = type;
-	}
-
-	/**
-	 * @param count distancia en tiles
-	 */
-	public void setCount(int count)
-	{
-		this.count = count;
-	}
-
-	/**
-	 * Representacion como String (para debug)
-	 */
 	@Override
 	public String toString()
 	{
-		return "EndPlatform [type=" + type + ", count=" + count + "]";
+		return "EndPlatform2 [type=" + type + ", rectangle=" + rectangle + "]";
 	}
 
 }

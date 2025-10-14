@@ -23,6 +23,8 @@ public class RectaglesRender
 	int mapHeightInTiles = map.getProperties().get("height", Integer.class);
 	this.rectangles = UtilNotUsed.generateRectangles(mapWidthInTiles,mapHeightInTiles, layer2);
     }
+    
+    
     public void render(Matrix4 combined) {
 	shapeRenderer.setProjectionMatrix(combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);

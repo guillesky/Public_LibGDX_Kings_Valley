@@ -127,7 +127,7 @@ public class MummyStateWalking extends MummyState
 
 		{
 
-			if (this.mummy.canJump() && type == EndPlatform.END_STEP && (this.whereIsPlayer == MummyState.PLAYER_IS_UP
+			if (this.mummy.canJump() && type == EndPlatformOLD.END_STEP && (this.whereIsPlayer == MummyState.PLAYER_IS_UP
 					|| this.whereIsPlayer == MummyState.PLAYER_IS_SOME_LEVEL || this.mummy.isLocked()))
 
 				this.doJump = true;

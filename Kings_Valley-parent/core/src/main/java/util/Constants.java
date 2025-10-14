@@ -159,6 +159,11 @@ public class Constants
 	 * Codigo indicando que el drawable es una espada volando
 	 */
 	public static final int DRAWABLE_FLYING_DAGGER = 5000;
+	/**
+	 * Codigo indicando que el drawable es un analisis de plataforma (solo usado
+	 * durante debug para visualizar resultados)
+	 */
+	public static final int DRAWABLE_PLATFORM_ANALYSIS_RESULT = 10000;
 
 	/**
 	 * convierte el codigo en String, solo usado en debug para los toString

@@ -233,7 +233,7 @@ public abstract class MummyState
 	 *                se lo busca por izquierda
 	 * @return Objeto de tipo EndPlatform que indica el tipo de final de plataforma
 	 */
-	protected EndPlatform endPlatform(boolean toRight)
+	protected EndPlatformOLD endPlatform(boolean toRight)
 	{
 		int inc;
 		int acum = 0;
@@ -263,7 +263,7 @@ public abstract class MummyState
 		if (acum < 0)
 			acum *= -1;
 		count = acum;
-		EndPlatform r = new EndPlatform(type, count);
+		EndPlatformOLD r = new EndPlatformOLD(type, count);
 		this.correctGiratoryEndPlatform(r, toRight);
 
 		return r;
@@ -280,7 +280,7 @@ public abstract class MummyState
 	 * @param toRight     true si el endPlatform esta a la derecha, false si esta a
 	 *                    la izquierda.
 	 */
-	private void correctGiratoryEndPlatform(EndPlatform endPlatform, boolean toRight)
+	private void correctGiratoryEndPlatform(EndPlatformOLD endPlatform, boolean toRight)
 	{
 		Iterator<LevelObject> it = mummy.getPyramid().getGiratories().iterator();
 		boolean condicion = false;
@@ -302,7 +302,7 @@ public abstract class MummyState
 				if (dist < endPlatform.getCount())
 				{
 					endPlatform.setCount(dist);
-					endPlatform.setType(EndPlatform.END_BLOCK);
+					endPlatform.setType(EndPlatformOLD.END_BLOCK);
 					condicion = true;
 				}
 			}
@@ -341,16 +341,16 @@ public abstract class MummyState
 		if (pyramid.getCell(positionX, mummy.y, iDeltaX, 0) == null
 				&& pyramid.getCell(positionX, mummy.y, iDeltaX, 1) == null
 				&& pyramid.getCell(positionX, mummy.y, iDeltaX, -1) == null)
-			type = EndPlatform.END_CLIFF;
+			type = EndPlatformOLD.END_CLIFF;
 		else if ((pyramid.getCell(positionX, mummy.y, iDeltaX, 1) != null
 				&& pyramid.getCell(positionX, mummy.y, iDeltaX, 2) == null
 				&& pyramid.getCell(positionX, mummy.y, iDeltaX, 3) == null)
 				|| (pyramid.getCell(positionX, mummy.y, iDeltaX, 0) != null
 						&& pyramid.getCell(positionX, mummy.y, iDeltaX, 1) == null
 						&& pyramid.getCell(positionX, mummy.y, iDeltaX, 2) == null))
-			type = EndPlatform.END_STEP;
+			type = EndPlatformOLD.END_STEP;
 		else
-			type = EndPlatform.END_BLOCK;
+			type = EndPlatformOLD.END_BLOCK;
 		return type;
 	}
 
@@ -370,7 +370,7 @@ public abstract class MummyState
 		} else
 		{
 
-			if (type == EndPlatform.END_CLIFF) // Si esta al borde del acantilado
+			if (type == EndPlatformOLD.END_CLIFF) // Si esta al borde del acantilado
 			{
 				this.doInBorderCliff();
 			}

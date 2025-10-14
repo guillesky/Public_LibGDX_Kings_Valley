@@ -37,9 +37,9 @@ public abstract class Mummy extends GameCharacter
 	public static final int ST_TELEPORTING = 104;
 
 	/**
-	 * Objeto random para la toma interna de decisiones
+	 * Analizador de plataformas para tomar decisiones
 	 */
-
+	protected static PlatformAnalyzer platformAnalyzer = new PlatformAnalyzer();
 	protected float decisionFactorForFall;
 	protected float decisionFactorForJump;
 	private float timeToDecide;
@@ -93,26 +93,7 @@ public abstract class Mummy extends GameCharacter
 
 	}
 
-	/**
-	 * Indica si la momia esta al borde de una cornisa
-	 * 
-	 * @return true si esta al borde de una cornisa, false en caso contrario
-	 */
-	protected boolean isInBorderCliff()
-	{
-		boolean condicion = false;
-
-		float probableX;
-		if (this.isLookRight())
-			probableX = x + width * .5f;
-		else
-			probableX = x;
-		condicion = this.pyramid.getCell(probableX, this.y - GameRules.getInstance().getLevelTileHeightUnits()) == null
-				&& this.pyramid.getCell(probableX, this.y) == null
-				&& this.pyramid.getCell(probableX, this.y + GameRules.getInstance().getLevelTileHeightUnits()) == null;
-		return condicion;
-
-	}
+	
 
 	/**
 	 * 
@@ -190,7 +171,7 @@ public abstract class Mummy extends GameCharacter
 	}
 
 	/**
-	 * Setea el atribotuo state (no confundir con el patron State)
+	 * Setea el atributo state (no confundir con el patron State)
 	 */
 	protected void setState(int state)
 	{
@@ -234,23 +215,6 @@ public abstract class Mummy extends GameCharacter
 	}
 
 	/**
-	 * Calcula la distancia al cuadrado del player a las coordenadas x e y pasadas
-	 * por parametro, usado para calcular posibles destinos de teletransporte
-	 * 
-	 * @param paramX coordenada x de destino
-	 * @param paramY coordenada y de destino
-	 * @return distancia al cuadrado
-	 */
-	private float distanceQuadToPlayer(float paramX, float paramY)
-	{
-		float deltaX = paramX - player.getX();
-		float deltaY = paramY - player.getY();
-
-		return deltaX * deltaX + deltaY * deltaY;
-
-	}
-
-	/**
 	 * llama a super.resetAnimationDelta(); (su unico objetivo es hacer visible el
 	 * metodo dentro del paquete)
 	 */
@@ -284,54 +248,7 @@ public abstract class Mummy extends GameCharacter
 		return this.mummyState.isDanger();
 	}
 
-	/**
-	 * Llamado para calcular un lugar de teletransportacion
-	 */
-	public void teleport()
-	{
-		float[] coords;
-		do
-		{
-			coords = this.getRandomCellInFloor();
-
-		} while (this.distanceQuadToPlayer(coords[0], coords[1]) < GameRules.getInstance()
-				.getMinMummySpawnDistanceToPlayer());
-		this.x = coords[0];
-		this.y = coords[1];
-
-	}
-
-	/**
-	 * @return retorna al azar una celda candidata para teletransporte
-	 */
-	private float[] getRandomCellInFloor()
-	{
-		int i;
-		int j;
-		do
-		{
-			i = Game.random.nextInt(this.pyramid.getMapHeightInTiles() - 2) + 1;
-			j = Game.random.nextInt(this.pyramid.getMapWidthInTiles() - 2) + 1;
-
-		} while (this.pyramid.getCellInTiledCoord(j, i) != null || this.pyramid.getCellInTiledCoord(j, i + 1) != null);
-
-		while (this.pyramid.getCellInTiledCoord(j, i - 1) == null)
-			i--;
-		float[] r =
-		{ j * GameRules.getInstance().getLevelTileWidthUnits(), i * GameRules.getInstance().getLevelTileHeightUnits() };
-		return r;
-	}
-
-	/**
-	 * Llama super.checkStairsFeetColision(positiveStairs, isUpping); (su unico
-	 * objetivo es hacer visible el metodo dentro del paquete)
-	 */
-	@Override
-	protected Stair checkStairsFeetColision(boolean positiveStairs, boolean isUpping)
-	{
-
-		return super.checkStairsFeetColision(positiveStairs, isUpping);
-	}
+	
 
 	/**
 	 * Llama super.enterStair(stair); (su unico objetivo es hacer visible el metodo

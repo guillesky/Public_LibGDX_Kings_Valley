@@ -1,5 +1,6 @@
 package engine.gameCharacters.mummys;
 
+import engine.game.Game;
 import util.GameRules;
 
 /**
@@ -54,12 +55,72 @@ public class MummyStateLimbus extends MummyState
 		if (this.mummy.getTimeInState() >= this.timeToChange)
 		{
 			if (this.mustTeleport)
-				this.mummy.teleport();
+				this.teleport();
 			this.mummy.mummyState = new MummyStateAppearing(this.mummy);
 			this.mummy = null;
 		}
 	}
 
+	
+	/**
+	 * Calcula la distancia al cuadrado del player a las coordenadas x e y pasadas
+	 * por parametro, usado para calcular posibles destinos de teletransporte
+	 * 
+	 * @param paramX coordenada x de destino
+	 * @param paramY coordenada y de destino
+	 * @return distancia al cuadrado
+	 */
+	private float distanceQuadToPlayer(float paramX, float paramY)
+	{
+		float deltaX = paramX - this.mummy.player.getX();
+		float deltaY = paramY - this.mummy.player.getY();
+
+		return deltaX * deltaX + deltaY * deltaY;
+
+	}
+	
+	/**
+	 * Llamado para calcular un lugar de teletransportacion
+	 */
+	private void teleport()
+	{
+		float[] coords;
+		do
+		{
+			coords = this.getRandomCellInFloor();
+
+		} while (this.distanceQuadToPlayer(coords[0], coords[1]) < GameRules.getInstance()
+				.getMinMummySpawnDistanceToPlayer());
+		this.mummy.x = coords[0];
+		this.mummy.y = coords[1];
+
+	}
+
+	/**
+	 * @return retorna al azar una celda candidata para teletransporte
+	 */
+	private float[] getRandomCellInFloor()
+	{
+		int i;
+		int j;
+		do
+		{
+			i = Game.random.nextInt(this.mummy.getPyramid().getMapHeightInTiles() - 2) + 1;
+			j = Game.random.nextInt(this.mummy.getPyramid().getMapWidthInTiles() - 2) + 1;
+
+		} while (this.mummy.getPyramid().getCellInTiledCoord(j, i) != null || this.mummy.getPyramid().getCellInTiledCoord(j, i + 1) != null);
+
+		while (this.mummy.getPyramid().getCellInTiledCoord(j, i - 1) == null)
+			i--;
+		float[] r =
+		{ j * GameRules.getInstance().getLevelTileWidthUnits(), i * GameRules.getInstance().getLevelTileHeightUnits() };
+		return r;
+	}
+	
+	
+	
+	
+	
 	/**
 	 * Retorna false
 	 */

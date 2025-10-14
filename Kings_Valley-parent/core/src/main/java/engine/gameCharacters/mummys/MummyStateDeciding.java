@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import engine.KVEventListener;
 import engine.game.Game;
+import engine.gameCharacters.abstractGameCharacter.GameCharacter;
 
 /**
  * Clase que representa del estado de la momia "Decidiendo"
@@ -34,7 +35,7 @@ public class MummyStateDeciding extends MummyState
 	@Override
 	public void update(float deltaTime)
 	{
-		if (this.mummy.getTimeInState() >= this.timeToChange)
+		if (this.mummy.getTimeInState() >= this.timeToChange && (this.mummy.getState()==GameCharacter.ST_WALKING ||this.mummy.getState()==GameCharacter.ST_IDDLE))
 		{
 			this.changeStatus();
 		}
@@ -58,9 +59,9 @@ public class MummyStateDeciding extends MummyState
 						MummyState.PLAYER_IS_UP);
 			} else
 			{
-				int directionX = this.searchEndPlatform(EndPlatform.END_STEP);
+				int directionX = this.searchEndPlatform(EndPlatformOLD.END_STEP);
 				if (directionX == NONE)
-					directionX = this.searchEndPlatform(EndPlatform.END_CLIFF);
+					directionX = this.searchEndPlatform(EndPlatformOLD.END_CLIFF);
 				this.mummy.mummyState = new MummyStateWalking(this.mummy, directionX, MummyState.PLAYER_IS_UP);
 			}
 
@@ -74,9 +75,9 @@ public class MummyStateDeciding extends MummyState
 
 			} else
 			{
-				int direccion = this.searchEndPlatform(EndPlatform.END_CLIFF);
+				int direccion = this.searchEndPlatform(EndPlatformOLD.END_CLIFF);
 				if (direccion == NONE)
-					direccion = this.searchEndPlatform(EndPlatform.END_STEP);
+					direccion = this.searchEndPlatform(EndPlatformOLD.END_STEP);
 				this.mummy.mummyState = new MummyStateWalking(this.mummy, direccion, MummyState.PLAYER_IS_DOWN);
 			}
 
@@ -108,8 +109,8 @@ public class MummyStateDeciding extends MummyState
 	private int searchEndPlatform(int typeEnd)
 	{
 		int r = NONE;
-		EndPlatform endToRight = this.endPlatform(true);
-		EndPlatform endToLeft = this.endPlatform(false);
+		EndPlatformOLD endToRight = this.endPlatform(true);
+		EndPlatformOLD endToLeft = this.endPlatform(false);
 		if (endToRight.getType() == typeEnd || endToLeft.getType() == typeEnd)
 		{
 			if (endToRight.getType() != typeEnd)

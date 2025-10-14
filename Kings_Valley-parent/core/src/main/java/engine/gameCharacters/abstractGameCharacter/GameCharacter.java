@@ -31,7 +31,7 @@ public abstract class GameCharacter extends LevelObject
 	/**
 	 * Caminando
 	 */
-	public static final int ST_WALKING = 11;
+	public static final int ST_WALKING = 1;
 	/**
 	 * En escalera
 	 */
@@ -154,7 +154,7 @@ public abstract class GameCharacter extends LevelObject
 	/**
 	 * @return un codigo de estado (no confundir con el patron state)<br>
 	 *         ST_IDDLE = 0; <br>
-	 *         ST_WALKING = 11;<br>
+	 *         ST_WALKING = 1;<br>
 	 *         ST_ONSTAIRS = 2; <br>
 	 *         ST_JUMPING = 5; <br>
 	 *         ST_FALLING = 7;<br>
