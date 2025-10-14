@@ -72,6 +72,8 @@ public class AnimatedEntity2D
     }
 
     /**
+     * Retorna la entidad del juego asociada
+     * 
      * @return La entidad del juego asociada
      */
     public LevelObject getLevelObject()
