@@ -16,15 +16,25 @@ import util.Constants;
  */
 public class PlayerAnimated2D extends GameCharacterAnimated2D
 {
+    /**
+     * Animaciones del Player portando el pico
+     */
     protected Animation<TextureRegion>[] animation_Picker;
+    /**
+     * Animaciones del Player portando el la espada
+     */
+
     protected Animation<TextureRegion>[] animation_Dagger;
+    /**
+     * Animaciones del Player sin portar objetos
+     */
     protected Animation<TextureRegion>[] animation_Nothing;
     private LevelObject item = null;
 
-    int specialWidth;
-    int specialHeight;
-    int normalWidth;
-    int normalHeight;
+    private int specialWidth;
+    private int specialHeight;
+    private int normalWidth;
+    private int normalHeight;
     private boolean specialSize = false;
 
     /**

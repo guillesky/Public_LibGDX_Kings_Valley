@@ -26,6 +26,7 @@ public class PairInt
 	}
 
 	/**
+	 * Retorna la coordenada matricial x
 	 * @return coordenada matricial x
 	 */
 	public int getX()
@@ -34,6 +35,7 @@ public class PairInt
 	}
 
 	/**
+	 * Retorna la coordenada matricial y
 	 * @return coordenada matricial y
 	 */
 	public int getY()

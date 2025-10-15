@@ -100,6 +100,7 @@ public class PlayerStatePicking extends PlayerState
 	}
 
 	/**
+	 * Retorna el tiempo transcurrido desde que comenzo a picar
 	 * @return el tiempo transcurrido desde que comenzo a picar
 	 */
 	protected float getTimePicking()

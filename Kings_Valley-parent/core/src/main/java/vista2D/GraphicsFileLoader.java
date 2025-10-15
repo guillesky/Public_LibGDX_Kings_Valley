@@ -463,7 +463,9 @@ public class GraphicsFileLoader
     }
 
     /**
-     * @return el array de animaciones del player sin portar objetos
+     * Retorna el array de animaciones del player sin portar objetos
+     * 
+     * @return El array de animaciones del player sin portar objetos
      */
     public Animation<TextureRegion>[] getAnimationPlayer_Nothing()
     {
@@ -471,6 +473,8 @@ public class GraphicsFileLoader
     }
 
     /**
+     * Retorna el array de animaciones del player portando una espada
+     * 
      * @return el array de animaciones del player portando una espada
      */
     public Animation<TextureRegion>[] getAnimationPlayer_Dagger()
@@ -479,6 +483,8 @@ public class GraphicsFileLoader
     }
 
     /**
+     * Retorna el array de animaciones del player portando un pico
+     * 
      * @return el array de animaciones del player portando un pico
      */
     public Animation<TextureRegion>[] getAnimationPlayer_Picker()
@@ -487,6 +493,8 @@ public class GraphicsFileLoader
     }
 
     /**
+     * Retorna el array de animaciones de la momia azul
+     * 
      * @return El array de animaciones de la momia azul
      */
     public Animation<TextureRegion>[] getAnimationMummyBlue()
@@ -495,6 +503,8 @@ public class GraphicsFileLoader
     }
 
     /**
+     * Retorna el array de animaciones de la momia rosa
+     * 
      * @return El array de animaciones de la momia rosa
      */
     public Animation<TextureRegion>[] getAnimationMummyPink()
@@ -503,6 +513,8 @@ public class GraphicsFileLoader
     }
 
     /**
+     * Retorna el array de animaciones de la momia roja
+     * 
      * @return El array de animaciones de la momia roja
      */
     public Animation<TextureRegion>[] getAnimationMummyRed()
@@ -511,6 +523,8 @@ public class GraphicsFileLoader
     }
 
     /**
+     * Retorna el array de animaciones de la momia blanca
+     * 
      * @return El array de animaciones de la momia blanca
      */
     public Animation<TextureRegion>[] getAnimationMummyWhite()
@@ -519,6 +533,8 @@ public class GraphicsFileLoader
     }
 
     /**
+     * Retorna el array de animaciones de la momia amarilla
+     * 
      * @return El array de animaciones de la momia amarilla
      */
     public Animation<TextureRegion>[] getAnimationMummyYellow()
@@ -527,6 +543,9 @@ public class GraphicsFileLoader
     }
 
     /**
+     * Retorna el HashMap con las animaciones de las joyas, picos y espadas clavadas
+     * en el piso
+     * 
      * @return HashMap con las animaciones de las joyas, picos y espadas clavadas en
      *         el piso
      */
@@ -536,6 +555,8 @@ public class GraphicsFileLoader
     }
 
     /**
+     * Retorna la animacion correspondiente a la celda siendo picada
+     * 
      * @return La animacion correspondiente a la celda siendo picada
      */
     public AnimatedPickedCell getAnimatedPickedCell()
@@ -632,6 +653,7 @@ public class GraphicsFileLoader
     }
 
     /**
+     * Retorna la textura de la hoja izquierda de las puertas de entrada / salida
      * @return Textura de la hoja izquierda de las puertas de entrada / salida
      */
     public Texture getDoorSingleLeft()
@@ -640,6 +662,7 @@ public class GraphicsFileLoader
     }
 
     /**
+     * Retorna la textura de la hoja derecha de las puertas de entrada / salida
      * @return Textura de la hoja derecha de las puertas de entrada / salida
      */
 
@@ -649,6 +672,7 @@ public class GraphicsFileLoader
     }
 
     /**
+     * Retorna la textura del pasage de las puertas de entrada / salida
      * @return Textura del pasage de las puertas de entrada / salida
      */
 
@@ -658,6 +682,7 @@ public class GraphicsFileLoader
     }
 
     /**
+     * Retorna la animacion de la palanca de las puertas de entrada / salida
      * @return Animacion de la palanca de las puertas de entrada / salida
      */
     public Animation<TextureRegion> getAnimationDoorLever()
@@ -666,6 +691,7 @@ public class GraphicsFileLoader
     }
 
     /**
+     * Retorna la textura del cielo de fondo
      * @return Textura del cielo de fondo
      */
     public Texture getSkyTexture()

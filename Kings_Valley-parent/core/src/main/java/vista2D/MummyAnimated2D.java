@@ -14,6 +14,9 @@ import engine.gameCharacters.mummys.Mummy;
  */
 public class MummyAnimated2D extends GameCharacterAnimated2D
 {
+    /**
+     * Animacion para la aparicion de la momia
+     */
     protected Animation<TextureRegion> mummyAnimationAppear;
 
     /**

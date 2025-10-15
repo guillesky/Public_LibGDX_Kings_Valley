@@ -29,6 +29,7 @@ public class MummyData
 	}
 
 	/**
+	 * Retorna la coordenada x de la momia
 	 * @return Coordenada x de la momia
 	 */
 	protected float getX()
@@ -37,6 +38,7 @@ public class MummyData
 	}
 
 	/**
+	 * Retorna la coordenada y de la momia
 	 * @return Coordenada y de la momia
 	 */
 	protected float getY()
@@ -45,6 +47,7 @@ public class MummyData
 	}
 
 	/**
+	 * Retorna el tipo de la momia
 	 * @return Tipo de la momia
 	 */
 	protected int getType()

@@ -52,6 +52,8 @@ public class GraphicsFileConfig
     private int doorLeverCount;
 
     /**
+     * Retorna el archivo con la textura del cielo de fondo
+     * 
      * @return Archivo con la textura del cielo de fondo
      */
     public String getArchiSky()
@@ -60,6 +62,9 @@ public class GraphicsFileConfig
     }
 
     /**
+     * Retorna el archivo con las textura de animacion del movimiento regular del
+     * player
+     * 
      * @return Archivo con las textura de animacion del movimiento regular del
      *         player
      */
@@ -69,6 +74,8 @@ public class GraphicsFileConfig
     }
 
     /**
+     * Retorna el archivo con las texturas de animaion de celda siendo picada
+     * 
      * @return Archivo con las texturas de animaion de celda siendo picada
      */
     public String getArchiPickingCell()
@@ -77,6 +84,9 @@ public class GraphicsFileConfig
     }
 
     /**
+     * Retorna el archivo con las animaciones de los items recolectables (joyas,
+     * picos, dagas)
+     * 
      * @return Archivo con las animaciones de los items recolectables (joyas, picos,
      *         dagas)
      */
@@ -86,6 +96,8 @@ public class GraphicsFileConfig
     }
 
     /**
+     * Retorna el Archivo con las texturas de las puertas giratorias (un solo tile)
+     * 
      * @return Archivo con las texturas de las puertas giratorias (un solo tile)
      */
     public String getArchiGiratory()
@@ -94,6 +106,8 @@ public class GraphicsFileConfig
     }
 
     /**
+     * Retorna el archivo con las texturas de las anumaciones de las momias
+     * 
      * @return Archivo con las texturas de las anumaciones de las momias
      */
     public String getArchiMummys()
@@ -102,6 +116,8 @@ public class GraphicsFileConfig
     }
 
     /**
+     * Retorna la cantidad de frames de la animacion iddle de las momias
+     * 
      * @return cantidad de frames de la animacion iddle de las momias
      */
     public int getMummyCountIddle()
@@ -110,6 +126,8 @@ public class GraphicsFileConfig
     }
 
     /**
+     * Retorna la cantidad de frames de la animacion de caida de las momias
+     * 
      * @return cantidad de frames de la animacion de caida de las momias
      */
     public int getMummyCountFall()
@@ -118,6 +136,8 @@ public class GraphicsFileConfig
     }
 
     /**
+     * Retorna la cantidad de frames de la animacion de caminata de las momias
+     * 
      * @return cantidad de frames de la animacion de caminata de las momias
      */
     public int getMummyCountWalk()
@@ -126,6 +146,8 @@ public class GraphicsFileConfig
     }
 
     /**
+     * Retorna la cantidad de frames de la puerta giratoria
+     * 
      * @return cantidad de frames de la puerta giratoria
      */
     public int getGiratoryCount()
@@ -134,6 +156,8 @@ public class GraphicsFileConfig
     }
 
     /**
+     * Retorna la cantidad de frames de la animacion iddle del player
+     * 
      * @return cantidad de frames de la animacion iddle del player
      */
     public int getPlayerCountIddle()
@@ -142,6 +166,8 @@ public class GraphicsFileConfig
     }
 
     /**
+     * Retorna la cantidad de frames de la animacion de caida del player
+     * 
      * @return cantidad de frames de la animacion de caida del player
      */
 
@@ -151,6 +177,8 @@ public class GraphicsFileConfig
     }
 
     /**
+     * Retorna la cantidad de frames de la animacion de caminata del player
+     * 
      * @return cantidad de frames de la animacion de caminata del player
      */
 
@@ -160,6 +188,8 @@ public class GraphicsFileConfig
     }
 
     /**
+     * Retorna la cantidad de frames de la animacion de muerte del player
+     * 
      * @return cantidad de frames de la animacion de muerte del player
      */
 
@@ -169,6 +199,8 @@ public class GraphicsFileConfig
     }
 
     /**
+     * Retorna la cantidad de frames de la animacion de cada Collectable
+     * 
      * @return cantidad de frames de la animacion de cada Collectable
      */
     public int getCollectableCount()
@@ -177,6 +209,8 @@ public class GraphicsFileConfig
     }
 
     /**
+     * Retorna la duracion de cada frame por defecto
+     * 
      * @return Duracion de cada frame por defecto
      */
     public float getFrameDuration()
@@ -185,6 +219,8 @@ public class GraphicsFileConfig
     }
 
     /**
+     * Retorna la cantidad de frames de la animacion de aparicion de las momias
+     * 
      * @return cantidad de frames de la animacion de aparicion de las momias
      */
     public int getMummyCountAppear()
@@ -193,6 +229,8 @@ public class GraphicsFileConfig
     }
 
     /**
+     * Retorna la cantidad de frames de la animacion de muerte de las momias
+     * 
      * @return cantidad de frames de la animacion de muerte de las momias
      */
     public int getMummyCountDeath()
@@ -201,6 +239,9 @@ public class GraphicsFileConfig
     }
 
     /**
+     * Retorna la cantidad de frames de la animacion iddle del player cuando porta
+     * un pico
+     * 
      * @return cantidad de frames de la animacion iddle del player cuando porta un
      *         pico
      */
@@ -210,6 +251,9 @@ public class GraphicsFileConfig
     }
 
     /**
+     * Retorna la cantidad de frames de la animacion de caida del player cuando
+     * porta un pico
+     * 
      * @return cantidad de frames de la animacion de caida del player cuando porta
      *         un pico
      */
@@ -219,6 +263,9 @@ public class GraphicsFileConfig
     }
 
     /**
+     * Retorna la cantidad de frames de la animacion de caminata del player cuando
+     * porta un pico
+     * 
      * @return cantidad de frames de la animacion de caminata del player cuando
      *         porta un pico
      */
@@ -228,6 +275,8 @@ public class GraphicsFileConfig
     }
 
     /**
+     * Retorna la cantidad de frames de la animacion de estar picando del player
+     * 
      * @return cantidad de frames de la animacion de estar picando del player
      */
     public int getPlayerPickerCountPicking()
@@ -236,6 +285,8 @@ public class GraphicsFileConfig
     }
 
     /**
+     * Retorna
+     * 
      * @return cantidad de frames de la animacion iddle del player cuando porta una
      *         espada
      */
@@ -245,6 +296,8 @@ public class GraphicsFileConfig
     }
 
     /**
+     * Retorna
+     * 
      * @return cantidad de frames de la animacion de caida del player cuando porta
      *         una espada
      */
@@ -254,6 +307,8 @@ public class GraphicsFileConfig
     }
 
     /**
+     * Retorna
+     * 
      * @return cantidad de frames de la animacion de caminata del player cuando
      *         porta una espada
      */
@@ -263,6 +318,8 @@ public class GraphicsFileConfig
     }
 
     /**
+     * Retorna la cantidad de frames de la animacion de lanzar una espada del player
+     * 
      * @return cantidad de frames de la animacion de lanzar una espada del player
      */
     public int getPlayerDaggerCountThrowing()
@@ -271,6 +328,8 @@ public class GraphicsFileConfig
     }
 
     /**
+     * Retorna el archivo con las texturas de la daga vola
+     * 
      * @return Archivo con las texturas de la daga volando
      */
     public String getArchiFlyingDagger()
@@ -279,6 +338,8 @@ public class GraphicsFileConfig
     }
 
     /**
+     * Retorna la cantidad de frames de la animacion de la daga volando
+     * 
      * @return cantidad de frames de la animacion de la daga volando
      */
     protected int getFlyingDaggerCount()
@@ -287,6 +348,8 @@ public class GraphicsFileConfig
     }
 
     /**
+     * Retorna la cantidad de frames de la animacion de la daga volando
+     * 
      * @return cantidad de frames de la animacion de la celda siendo picada
      */
     protected int getPickingCellCount()
@@ -295,6 +358,9 @@ public class GraphicsFileConfig
     }
 
     /**
+     * Retorna el archivo con la textura del pasage de las puertas de entrada /
+     * salida
+     * 
      * @return Archivo con la textura del pasage de las puertas de entrada / salida
      */
     public String getArchiDoorPassage()
@@ -303,6 +369,8 @@ public class GraphicsFileConfig
     }
 
     /**
+     * Retorna el archivo con la textura de la hoja izquierda de una puerta
+     * 
      * @return Archivo con la textura de la hoja izquierda de una puerta
      */
     public String getArchiDoorLeft()
@@ -311,6 +379,8 @@ public class GraphicsFileConfig
     }
 
     /**
+     * Retorna archivo con la textura de la hoja derecha de una puerta
+     * 
      * @return Archivo con la textura de la hoja derecha de una puerta
      */
 
@@ -320,6 +390,8 @@ public class GraphicsFileConfig
     }
 
     /**
+     * Retorna el archivo con la animacion de la palanca de una puerta
+     * 
      * @return Archivo con la animacion de la palanca de una puerta
      */
     public String getArchiDoorLever()
@@ -328,6 +400,8 @@ public class GraphicsFileConfig
     }
 
     /**
+     * Retorna la cantidad de frames de la animacion de la palanca de una puerta
+     * 
      * @return Cantidad de frames de la animacion de la palanca de una puerta
      */
     public int getDoorLeverCount()
@@ -336,6 +410,8 @@ public class GraphicsFileConfig
     }
 
     /**
+     * Retorna la cantidad de frames de la animacion de salto del player
+     * 
      * @return Cantidad de frames de la animacion de salto del player
      */
     protected int getPlayerCountJump()
@@ -344,6 +420,9 @@ public class GraphicsFileConfig
     }
 
     /**
+     * Retorna el archivo con las texturas de las animaciones especiales del player
+     * (picando y lanzando espadas)
+     * 
      * @return Archivo con las texturas de las animaciones especiales del player
      *         (picando y lanzando espadas)
      */
@@ -353,6 +432,8 @@ public class GraphicsFileConfig
     }
 
     /**
+     * Retorna la cantidad de frames de la animacion de salto de las momias
+     * 
      * @return Cantidad de frames de la animacion de salto de las momias
      */
     public int getMummyCountJump()

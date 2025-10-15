@@ -22,290 +22,300 @@ import util.GameRules;
 public abstract class Mummy extends GameCharacter
 {
 
-	/**
-	 * En el limbo
-	 */
-	public static final int ST_LIMBUS = 101;
+    /**
+     * En el limbo
+     */
+    public static final int ST_LIMBUS = 101;
 
-	/**
-	 * Apareciendo
-	 */
-	public static final int ST_APPEARING = 102;
-	/**
-	 * Teletransportandose
-	 */
-	public static final int ST_TELEPORTING = 104;
+    /**
+     * Apareciendo
+     */
+    public static final int ST_APPEARING = 102;
+    /**
+     * Teletransportandose
+     */
+    public static final int ST_TELEPORTING = 104;
 
-	/**
-	 * Analizador de plataformas para tomar decisiones
-	 */
-	protected static PlatformAnalyzer platformAnalyzer = new PlatformAnalyzer();
-	protected float decisionFactorForFall;
-	protected float decisionFactorForJump;
-	private float timeToDecide;
-	private float timeDeciding;
-	private float timeInState = 0;
+    /**
+     * Analizador de plataformas para tomar decisiones
+     */
+    protected static PlatformAnalyzer platformAnalyzer = new PlatformAnalyzer();
+    protected float decisionFactorForFall;
+    protected float decisionFactorForJump;
+    private float timeToDecide;
+    private float timeDeciding;
+    private float timeInState = 0;
 
-	private Vector2 direction = new Vector2();
-	/**
-	 * Estado de la momia (patron state)
-	 */
-	protected MummyState mummyState;
-	private float stressLevel = 0;
-	/**
-	 * Referencia al player a perseguir
-	 */
-	protected Player player;
+    private Vector2 direction = new Vector2();
+    /**
+     * Estado de la momia (patron state)
+     */
+    protected MummyState mummyState;
+    private float stressLevel = 0;
+    /**
+     * Referencia al player a perseguir
+     */
+    protected Player player;
 
-	/**
-	 * Constructor de clase
-	 * 
-	 * @param type       Indica el tipo de momia (solo deberia utilizarse para
-	 *                   elegir modelos de visualizacion)
-	 * @param x          Coordenada x
-	 * @param y          Coordenada y
-	 * @param parameters array de float que indica los parametros de la momia
-	 * @param pyramid    piramide en la que esta ubicada la momia
-	 * @param player     referencia al player que la momia persigue
-	 */
-	public Mummy(int type, float x, float y, float[] parameters, Pyramid pyramid, Player player)
+    /**
+     * Constructor de clase
+     * 
+     * @param type       Indica el tipo de momia (solo deberia utilizarse para
+     *                   elegir modelos de visualizacion)
+     * @param x          Coordenada x
+     * @param y          Coordenada y
+     * @param parameters array de float que indica los parametros de la momia
+     * @param pyramid    piramide en la que esta ubicada la momia
+     * @param player     referencia al player que la momia persigue
+     */
+    public Mummy(int type, float x, float y, float[] parameters, Pyramid pyramid, Player player)
+    {
+	super(type, x, y, parameters[GameRules.INDEX_SPEED_WALK], parameters[GameRules.INDEX_SPEED_STAIR], pyramid);
+	this.decisionFactorForFall = parameters[GameRules.INDEX_DECICION_FACTOR_FALL];
+	this.decisionFactorForJump = parameters[GameRules.INDEX_DECICION_FACTOR_JUMP];
+	this.timeToDecide = parameters[GameRules.INDEX_TIME_TO_DECIDE];
+	this.timeDeciding = parameters[GameRules.INDEX_TIME_DECIDING];
+
+	this.mummyState = new MummyStateLimbus(this, 1);
+	this.player = player;
+    }
+
+    /**
+     * Llama a this.doJump(); (las momias solo pueden saltar) y dispara el evento
+     * Game.getInstance().eventFired(KVEventListener.MUMMY_JUMP, this);
+     * 
+     */
+    @Override
+    protected void doAction()
+    {
+	this.doJump();
+	Game.getInstance().eventFired(KVEventListener.MUMMY_JUMP, this);
+
+    }
+
+    /**
+     * retorna el tiempo que tarda la momia en tomar la proxima decision
+     * 
+     * @return tiempo que tarda la momia en tomar la proxima decision
+     */
+    protected float getTimeToDecide()
+    {
+	return this.timeToDecide;
+    }
+
+    /**
+     * Retorna el tiempo que tarda la momia en dudar, para tomar la decision
+     * 
+     * @return tiempo que tarda la momia en dudar, para tomar la decision
+     */
+    protected float getTimeDeciding()
+    {
+	return this.timeDeciding;
+    }
+
+    /**
+     * Retorna true si la momia decide saltar, false en caso contrario
+     * 
+     * @return true si la momia decide saltar, false en caso contrario
+     */
+    protected boolean makeDecisionForJump()
+    {
+	return Game.random.nextDouble() <= this.decisionFactorForJump;
+    }
+
+    /**
+     * Siempre retorna false (las momias no pueden utilizar giratorias)
+     */
+    @Override
+    protected boolean canPassGiratoryMechanism(GiratoryMechanism giratoryMechanism)
+    {
+	return false;
+    }
+
+    /**
+     * Se sobreescribe como metodo vacio (no hace nada)
+     */
+    @Override
+    protected void passGiratoryMechanism(GiratoryMechanism giratoryMechanism)
+    {
+
+    }
+
+    /**
+     * Llamado para actualizar la momia
+     * 
+     * @param deltaTime tiempo desde la ultima llamada
+     */
+    public void update(float deltaTime)
+    {
+	this.incAnimationDelta(deltaTime);
+	this.incTimeInState(deltaTime);
+	this.mummyState.update(deltaTime);
+
+    }
+
+    /**
+     * llama a super.move(v, b, deltaTime);
+     * 
+     */
+    @Override
+    protected void move(Vector2 v, boolean b, float deltaTime)
+    {
+	super.move(v, b, deltaTime);
+
+    }
+
+    /**
+     * Retorna la direccion hacia la que se dirige la momia
+     * 
+     * @return La direccion hacia la que se dirige la momia
+     */
+    public Vector2 getDirection()
+    {
+	return direction;
+    }
+
+    /**
+     * Setea el atributo state (no confundir con el patron State)
+     *
+     */
+    protected void setState(int state)
+    {
+	this.state = state;
+
+    }
+
+    /**
+     * Incrementa el nivel de stress de la momia (si es muy alto la momia muere)
+     */
+    protected void stressing()
+    {
+	this.stressLevel++;
+    }
+
+    /**
+     * Calma el nivel de stress de la momia
+     * 
+     * @param cant cantidad de stress que debe restar
+     */
+    protected void calmStress(float cant)
+    {
+	this.stressLevel -= cant;
+    }
+
+    /**
+     * Retorna el nivel de stress de la momia
+     * 
+     * @return nivel de stress de la momia
+     */
+    protected float getStressLevel()
+    {
+	return stressLevel;
+    }
+
+    /**
+     * pone el nivel de stress en cero
+     */
+    protected void resetStress()
+    {
+	this.stressLevel = 0;
+
+    }
+
+    /**
+     * llama a super.resetAnimationDelta(); (su unico objetivo es hacer visible el
+     * metodo dentro del paquete)
+     */
+    @Override
+    protected void resetAnimationDelta()
+    {
+	super.resetAnimationDelta();
+    }
+
+    /**
+     * Delega en el metodo this.mummyState.die(mustTeleport); (patron state)
+     * 
+     * @param mustTeleport true si la momia debe teletransportarse al renacer, false
+     *                     en caso contrario.
+     */
+    public void die(boolean mustTeleport)
+    {
+
+	this.mummyState.die(mustTeleport);
+    }
+
+    /**
+     * Delega en el metodo this.mummyState.isDanger(); (patron state)
+     * 
+     * @return true si la momia es peligrosa, false en caso contrario (esta en el
+     *         limbo, apareciendo o muriendo)
+     * 
+     */
+    public boolean isDanger()
+    {
+	return this.mummyState.isDanger();
+    }
+
+    /**
+     * Llama super.enterStair(stair); (su unico objetivo es hacer visible el metodo
+     * dentro del paquete)
+     */
+    @Override
+    protected void enterStair(Stair stair)
+    {
+
+	super.enterStair(stair);
+    }
+
+    /**
+     * Retorna true si la momia puede saltar sin chocarse arriba, false en caso
+     * contrario
+     * 
+     * @return true si la momia puede saltar sin chocarse arriba, false en caso
+     *         contrario
+     */
+    protected boolean canJump()
+    {
+	float posX;
+	int offset;
+	if (this.lookRight)
 	{
-		super(type, x, y, parameters[GameRules.INDEX_SPEED_WALK], parameters[GameRules.INDEX_SPEED_STAIR], pyramid);
-		this.decisionFactorForFall = parameters[GameRules.INDEX_DECICION_FACTOR_FALL];
-		this.decisionFactorForJump = parameters[GameRules.INDEX_DECICION_FACTOR_JUMP];
-		this.timeToDecide = parameters[GameRules.INDEX_TIME_TO_DECIDE];
-		this.timeDeciding = parameters[GameRules.INDEX_TIME_DECIDING];
-
-		this.mummyState = new MummyStateLimbus(this, 1);
-		this.player = player;
-	}
-
-	/**
-	 * Llama a this.doJump(); (las momias solo pueden saltar) y dispara el evento
-	 * Game.getInstance().eventFired(KVEventListener.MUMMY_JUMP, this);
-	 * 
-	 */
-	@Override
-	protected void doAction()
+	    posX = this.x;
+	    offset = 1;
+	} else
 	{
-		this.doJump();
-		Game.getInstance().eventFired(KVEventListener.MUMMY_JUMP, this);
-
+	    posX = this.x + this.width;
+	    offset = -1;
 	}
+	return this.pyramid.getCell(posX, this.y, offset, 2) == null;
 
-	
+    }
 
-	/**
-	 * 
-	 * @return tiempo que tarda la momia en tomar la proxima decision
-	 */
-	protected float getTimeToDecide()
-	{
-		return this.timeToDecide;
-	}
+    /**
+     * Retorna el tiempo que permacio en el estado actual
+     * @return El tiempo que permacio en el estado actual
+     */
+    protected float getTimeInState()
+    {
+	return timeInState;
+    }
 
-	/**
-	 * @return tiempo que tarda la momia en dudar, para tomar la decision
-	 */
-	protected float getTimeDeciding()
-	{
-		return this.timeDeciding;
-	}
+    /**
+     * Pone en cero el tiempo en el estado actual
+     */
+    protected void resetTimeInState()
+    {
+	this.timeInState = 0;
+    }
 
-	/**
-	 * @return true si la momia decide saltar, false en caso contrario
-	 */
-	protected boolean makeDecisionForJump()
-	{
-		return Game.random.nextDouble() <= this.decisionFactorForJump;
-	}
-
-	/**
-	 * Siempre retorna false (las momias no pueden utilizar giratorias)
-	 */
-	@Override
-	protected boolean canPassGiratoryMechanism(GiratoryMechanism giratoryMechanism)
-	{
-		return false;
-	}
-
-	/**
-	 * Se sobreescribe como metodo vacio (no hace nada)
-	 */
-	@Override
-	protected void passGiratoryMechanism(GiratoryMechanism giratoryMechanism)
-	{
-
-	}
-
-	/**
-	 * Llamado para actualizar la momia
-	 * 
-	 * @param deltaTime tiempo desde la ultima llamada
-	 */
-	public void update(float deltaTime)
-	{
-		this.incAnimationDelta(deltaTime);
-		this.incTimeInState(deltaTime);
-		this.mummyState.update(deltaTime);
-
-	}
-
-	/**
-	 * llama a super.move(v, b, deltaTime);
-	 * 
-	 */
-	@Override
-	protected void move(Vector2 v, boolean b, float deltaTime)
-	{
-		super.move(v, b, deltaTime);
-
-	}
-
-	/**
-	 * @return la direccion hacia la que se dirige la momia
-	 */
-	public Vector2 getDirection()
-	{
-		return direction;
-	}
-
-	/**
-	 * Setea el atributo state (no confundir con el patron State)
-	 */
-	protected void setState(int state)
-	{
-		this.state = state;
-
-	}
-
-	/**
-	 * Incrementa el nivel de stress de la momia (si es muy alto la momia muere)
-	 */
-	protected void stressing()
-	{
-		this.stressLevel++;
-	}
-
-	/**
-	 * Calma el nivel de stress de la momia
-	 * 
-	 * @param cant cantidad de stress que debe restar
-	 */
-	protected void calmStress(float cant)
-	{
-		this.stressLevel -= cant;
-	}
-
-	/**
-	 * @return nivel de stress de la momia
-	 */
-	protected float getStressLevel()
-	{
-		return stressLevel;
-	}
-
-	/**
-	 * pone el nivel de stress en cero
-	 */
-	protected void resetStress()
-	{
-		this.stressLevel = 0;
-
-	}
-
-	/**
-	 * llama a super.resetAnimationDelta(); (su unico objetivo es hacer visible el
-	 * metodo dentro del paquete)
-	 */
-	@Override
-	protected void resetAnimationDelta()
-	{
-		super.resetAnimationDelta();
-	}
-
-	/**
-	 * Delega en el metodo this.mummyState.die(mustTeleport); (patron state)
-	 * 
-	 * @param mustTeleport true si la momia debe teletransportarse al renacer, false
-	 *                     en caso contrario.
-	 */
-	public void die(boolean mustTeleport)
-	{
-
-		this.mummyState.die(mustTeleport);
-	}
-
-	/**
-	 * Delega en el metodo this.mummyState.isDanger(); (patron state)
-	 * 
-	 * @return true si la momia es peligrosa, false en caso contrario (esta en el
-	 *         limbo, apareciendo o muriendo)
-	 * 
-	 */
-	public boolean isDanger()
-	{
-		return this.mummyState.isDanger();
-	}
-
-	
-
-	/**
-	 * Llama super.enterStair(stair); (su unico objetivo es hacer visible el metodo
-	 * dentro del paquete)
-	 */
-	@Override
-	protected void enterStair(Stair stair)
-	{
-
-		super.enterStair(stair);
-	}
-
-	/**
-	 * @return true si la momia puede saltar sin chocarse arriba, false en caso
-	 *         contrario
-	 */
-	protected boolean canJump()
-	{
-		float posX;
-		int offset;
-		if (this.lookRight)
-		{
-			posX = this.x;
-			offset = 1;
-		} else
-		{
-			posX = this.x + this.width;
-			offset = -1;
-		}
-		return this.pyramid.getCell(posX, this.y, offset, 2) == null;
-
-	}
-
-	/**
-	 * @return El tiempo que permacio en el estado actual
-	 */
-	protected float getTimeInState()
-	{
-		return timeInState;
-	}
-
-	/**
-	 * Pone en cero el tiempo en el estado actual
-	 */
-	protected void resetTimeInState()
-	{
-		this.timeInState = 0;
-	}
-
-	/**
-	 * Incrementa el tiempo en el estaco actual
-	 * 
-	 * @param delta tiempo de incremento
-	 */
-	protected void incTimeInState(float delta)
-	{
-		this.timeInState += delta;
-	}
+    /**
+     * Incrementa el tiempo en el estaco actual
+     * 
+     * @param delta tiempo de incremento
+     */
+    protected void incTimeInState(float delta)
+    {
+	this.timeInState += delta;
+    }
 
 }

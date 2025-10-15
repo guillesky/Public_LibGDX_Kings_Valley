@@ -24,10 +24,20 @@ import util.Constants;
 @SuppressWarnings("serial")
 public class Player extends GameCharacter
 {
+	/**
+	 * Codigo numerico para el estado de estar lanzando la espada
+	 */
 	public static final int ST_THROWING_DAGGER = 20;
 
+	/**
+	 * Codigo numerico para el estado de estar picando
+	 */
+	
 	public static final int ST_PICKING = 21;
 
+	/**
+	 * El item que el player porta (pico, espada, o null)
+	 */
 	protected LevelObject item = null;
 
 	private PlayerState playerState = null;

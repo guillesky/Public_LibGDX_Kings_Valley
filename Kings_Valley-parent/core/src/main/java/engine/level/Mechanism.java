@@ -40,6 +40,7 @@ public abstract class Mechanism
 	}
 
 	/**
+	 * Retorna true si esta activo, false en caso contrario
 	 * @return true si esta activo, false en caso contrario
 	 */
 	public boolean isActive()
@@ -48,6 +49,7 @@ public abstract class Mechanism
 	}
 
 	/**
+	 * Retorna el tiempo que lleva activo
 	 * @return el tiempo que lleva activo
 	 */
 	public float getTime()
@@ -56,7 +58,7 @@ public abstract class Mechanism
 	}
 
 	/**
-	 * incrementa el tiempo que esta activo el mecanismo
+	 * Incrementa el tiempo que esta activo el mecanismo
 	 * 
 	 * @param delta tiempo de incremento
 	 */
@@ -74,7 +76,8 @@ public abstract class Mechanism
 	}
 
 	/**
-	 * @return el tiempo que tarda en terminar el ciclo
+	 * Retorna el tiempo que tarda en terminar el ciclo
+	 * @return El tiempo que tarda en terminar el ciclo
 	 */
 	public float getTimeToEnd()
 	{

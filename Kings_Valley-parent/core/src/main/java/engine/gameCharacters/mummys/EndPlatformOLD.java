@@ -40,6 +40,7 @@ public class EndPlatformOLD
 	}
 
 	/**
+	 * Retorna el tipo de plataforma
 	 * @return tipo de plataforma
 	 */
 	protected int getType()
