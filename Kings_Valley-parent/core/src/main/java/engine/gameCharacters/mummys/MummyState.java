@@ -50,6 +50,9 @@ public abstract class MummyState
 	 */
 	protected static final int PLAYER_IS_DOWN = -1;
 	private static final int BLOCK_FREE = 0;
+	/**
+	 * Codigo indicando que hay un bloqueo por ladrillos
+	 */
 	protected static final int BLOCK_BRICK = 1;
 	private static final int BLOCK_GIRATORY = 2;
 	/**

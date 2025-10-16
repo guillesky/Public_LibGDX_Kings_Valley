@@ -150,6 +150,7 @@ public class Pyramid implements IGraphic
     }
 
     /**
+     * Retorna el ancho del mapa en unidades
      * @return Ancho del mapa en unidades
      */
     public int getMapWidthInUnits()

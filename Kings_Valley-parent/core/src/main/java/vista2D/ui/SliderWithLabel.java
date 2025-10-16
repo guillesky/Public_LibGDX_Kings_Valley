@@ -71,6 +71,7 @@ public class SliderWithLabel extends Table
 	}
 
 	/**
+	 * Retorna el valor del slider
 	 * @return el valor del slider
 	 */
 	public int getValue()

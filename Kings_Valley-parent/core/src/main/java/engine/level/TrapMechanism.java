@@ -78,6 +78,7 @@ public class TrapMechanism extends Mechanism
 	}
 
 	/**
+	 * Retorna el tile correspondiente a la celda de inicio del muro trampa
 	 * @return El tile correspondiente a la celda de inicio del muro trampa
 	 */
 	public TiledMapTile getTile()
@@ -86,6 +87,7 @@ public class TrapMechanism extends Mechanism
 	}
 
 	/**
+	 * Retorna la coordenada x del muro trampa
 	 * @return La coordenada x del muro trampa
 	 */
 	public float getX()
@@ -95,6 +97,7 @@ public class TrapMechanism extends Mechanism
 	}
 
 	/**
+	 * Retorna la coordenada y del muro trampa
 	 * @return La coordenada y del muro trampa
 	 */
 

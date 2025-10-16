@@ -86,6 +86,10 @@ public class Utils
 		return new Language(languageCode, words);
 	}
 
+	/**
+	 * Actualiza todos los mensajes a partir del idioma pasado por parametro
+	 * @param language Idioma que debe setearse en todos los mensajes
+	 */
 	public static void i18n(Language language)
 	{
 

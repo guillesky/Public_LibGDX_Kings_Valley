@@ -9,42 +9,184 @@ package i18n;
 public enum Messages
 {
 
-	GAME_PAUSED("Juego Pausado"), CURRENT_PYRAMID("Piramide Actual: "), SCORE("Score: "), LIVES("Lives: "),
-	LANGUAGE_NAME("English"), NEW_GAME("New Game"), OPTIONS("Options"), CREDITS("Credits"), EXIT("Exit"),
-	GO_BACK("Go Back"), MUSIC_VOLUME("Music Volume"), FX_VOLUME("Sounds Volume"), MASTER_VOLUME("Master Volume"),
-	DIFICULT_LEVEL("Dificult Level"), LOAD_PROGRESS("Load Progress"), LANGUAGE("Language"), EASY("Easy"),
-	NORMAL("Normal"), HARD("Hard"), MAIN_MENU("Main Menu"), RETRY("Retry"), MAP("Map"), GOING_BACK("Back to Pyramid "),
-	ENTERING("Entering Pyramid "), GAME_OVER("Game Over"),
-	DIALOG_RETRY_TEXT("Are you sure you want to retry the level? (You will lose a life)"),
-	DIALOG_RETRY_TITLE("Confirm Retry"), DIALOG_EXIT_TITLE("Confirm Exit"),
-	DIALOG_EXIT_TEXT("Are you sure you want to exit the game?"), YES("Yes"), NO("No"),
-	DIALOG_GO_MAIN_MENU_TITLE("Confirm Go Back to Main Menu"),
-	DIALOG_GO_MAIN_MENU_TEXT("Are you sure you want to return to the main menu? (You will lose all progress)");
+    /**
+     * Mensaje correspondiente a "Juego Pausado"
+     */
+    GAME_PAUSED("Juego Pausado"),
+    /**
+     * Mensaje correspondiente a "Piramide Actual"
+     */
+    CURRENT_PYRAMID("Piramide Actual: "),
+    /**
+     * Mensaje correspondiente a "Puntaje: "
+     */
+    SCORE("Score: "),
+    /**
+     * Mensaje correspondiente a "Vidas: "
+     */
 
-	private String value;
+    LIVES("Lives: "),
+    /**
+     * Mensaje correspondiente al nombre del idioma actual
+     */
 
-	/**
-	 * @param value Texto del mensaje
-	 */
-	private Messages(String value)
-	{
-		this.value = value;
-	}
+    LANGUAGE_NAME("English"),
+    /**
+     * Mensaje correspondiente a "Juego Nuevo"
+     */
 
-	/**
-	 * @return texto del mensaje
-	 */
-	public String getValue()
-	{
-		return value;
-	}
+    NEW_GAME("New Game"),
+    /**
+     * Mensaje correspondiente a "Opciones"
+     */
 
-	/**
-	 * @param valor texto del mensaje
-	 */
-	public void setValue(String valor)
-	{
-		this.value = valor;
-	}
+    OPTIONS("Options"),
+    /**
+     * Mensaje correspondiente a "Creditos"
+     */
+
+    CREDITS("Credits"),
+    /**
+     * Mensaje correspondiente a "Salir"
+     */
+    EXIT("Exit"),
+    /**
+     * Mensaje correspondiente a "Volver"
+     */
+    GO_BACK("Go Back"),
+    /**
+     * Mensaje correspondiente a "Volumen de musica"
+     */
+    MUSIC_VOLUME("Music Volume"),
+    /**
+     * Mensaje correspondiente a "Volumen de Sonidos"
+     */
+    FX_VOLUME("Sounds Volume"),
+    /**
+     * Mensaje correspondiente a "Volumen General"
+     */
+
+    MASTER_VOLUME("Master Volume"),
+    /**
+     * Mensaje correspondiente a "Nivel de Dificultad"
+     */
+    DIFICULT_LEVEL("Dificult Level"),
+    /**
+     * Mensaje correspondiente a "Progreso de Carga"
+     */
+    LOAD_PROGRESS("Load Progress"),
+    /**
+     * Mensaje correspondiente a "Idioma"
+     */
+
+    LANGUAGE("Language"),
+    /**
+     * Mensaje correspondiente a "Facil"
+     */
+
+    EASY("Easy"),
+    /**
+     * Mensaje correspondiente a "Normal"
+     */
+    NORMAL("Normal"),
+    /**
+     * Mensaje correspondiente a "Dificil"
+     */
+    HARD("Hard"),
+    /**
+     * Mensaje correspondiente a "Menu Principal"
+     */
+    MAIN_MENU("Main Menu"),
+    /**
+     * Mensaje correspondiente a "Reintentar"
+     */
+    RETRY("Retry"),
+    /**
+     * Mensaje correspondiente a "Mapa"
+     */
+    MAP("Map"),
+    /**
+     * Mensaje correspondiente a "Volviendo a la Piramide"
+     */
+    GOING_BACK("Back to Pyramid "),
+    /**
+     * Mensaje correspondiente a "Entrando a la Piramide "
+     */
+
+    ENTERING("Entering Pyramid "),
+    /**
+     * Mensaje correspondiente a "Juego Terminado"
+     */
+    GAME_OVER("Game Over"),
+    /**
+     * Mensaje correspondiente a "Seguro deseas reintentar el nivel? (Pierdes una
+     * vida)"
+     */
+
+    DIALOG_RETRY_TEXT("Are you sure you want to retry the level? (You will lose a life)"),
+    /**
+     * Mensaje correspondiente a "Confirmar Reintentar"
+     */
+
+    DIALOG_RETRY_TITLE("Confirm Retry"),
+    /**
+     * Mensaje correspondiente a "Confirmar Salir"
+     */
+    DIALOG_EXIT_TITLE("Confirm Exit"),
+    /**
+     * Mensaje correspondiente a "Seguro deseas salir del juego?"
+     */
+
+    DIALOG_EXIT_TEXT("Are you sure you want to exit the game?"),
+    /**
+     * Mensaje correspondiente a "Si"
+     */
+    YES("Yes"),
+    /**
+     * Mensaje correspondiente a "No"
+     */
+    NO("No"),
+
+    /**
+     * Mensaje correspondiente a "Confirmar volver al menu principal"
+     */
+
+    DIALOG_GO_MAIN_MENU_TITLE("Confirm Go Back to Main Menu"),
+    /**
+     * Mensaje correspondiente a "Seguro deseas volver al menu principal? (Perderas
+     * todo el progreso)"
+     */
+
+    DIALOG_GO_MAIN_MENU_TEXT("Are you sure you want to return to the main menu? (You will lose all progress)");
+
+    private String value;
+
+    /**
+     * Setea el texto del mensaje
+     * 
+     * @param value Texto del mensaje
+     */
+    private Messages(String value)
+    {
+	this.value = value;
+    }
+
+    /**
+     * Retorna el texto del mensaje
+     * 
+     * @return texto del mensaje
+     */
+    public String getValue()
+    {
+	return value;
+    }
+
+    /**
+     * @param valor texto del mensaje
+     */
+    public void setValue(String valor)
+    {
+	this.value = valor;
+    }
 
 }

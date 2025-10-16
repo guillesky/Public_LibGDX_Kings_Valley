@@ -12,85 +12,90 @@ import vista2D.ui.UI2D;
 public class RenderStateInUI extends RenderState
 {
 
-	public RenderStateInUI(UI2D ui, ApplicationListener gameInterfaz)
-	{
-		super(ui, gameInterfaz);
+    /**
+     * Constructor de clase, llama a super(ui, gameInterfaz);
+     * 
+     * @param ui            Objeto que representa la Interfaz de usuario (menues)
+     * @param gameInterface representa la interfaz grafica del juego. Facade la
+     */
+    public RenderStateInUI(UI2D ui, ApplicationListener gameInterface)
+    {
+	super(ui, gameInterface);
+    }
 
-	}
+    /**
+     * LLama al metodo create de su atributo ui
+     */
+    @Override
+    public void create()
+    {
+	this.ui.create();
 
-	/**
-	 * LLama al metodo create de su atributo ui
-	 */
-	@Override
-	public void create()
-	{
-		this.ui.create();
+    }
 
-	}
+    /**
+     * LLama al metodo resize de su atributo ui
+     */
 
-	/**
-	 * LLama al metodo resize de su atributo ui
-	 */
+    @Override
+    public void resize(int width, int height)
+    {
+	this.ui.resize(width, height);
 
-	@Override
-	public void resize(int width, int height)
-	{
-		this.ui.resize(width, height);
+    }
 
-	}
+    /**
+     * LLama al metodo pause de su atributo ui
+     */
 
-	/**
-	 * LLama al metodo pause de su atributo ui
-	 */
+    @Override
+    public void pause()
+    {
+	this.ui.render();
 
-	@Override
-	public void pause()
-	{
-		this.ui.render();
+    }
 
-	}
+    /**
+     * LLama al metodo resume de su atributo ui
+     */
 
-	/**
-	 * LLama al metodo resume de su atributo ui
-	 */
+    @Override
+    public void resume()
+    {
+	this.ui.resume();
 
-	@Override
-	public void resume()
-	{
-		this.ui.resume();
+    }
 
-	}
+    /**
+     * LLama al metodo dispose de su atributo ui
+     */
 
-	/**
-	 * LLama al metodo dispose de su atributo ui
-	 */
+    @Override
+    public void dispose()
+    {
+	this.ui.dispose();
 
-	@Override
-	public void dispose()
-	{
-		this.ui.dispose();
+    }
 
-	}
+    /**
+     * LLama al metodo render de su atributo ui
+     */
 
-	/**
-	 * LLama al metodo render de su atributo ui
-	 */
+    @Override
+    public void render()
+    {
+	this.ui.render();
+    }
 
-	@Override
-	public void render()
-	{
-		this.ui.render();
-	}
+    /**
+     * Cambia el estado de facade a RenderStateStartingGame
+     */
+    @Override
+    public void newGame()
+    {
+	Facade.getInstance().setRenderState(
+		new RenderStateStartingGame(this.ui, this.gameInterface, Facade.getInstance().getMusicIntro()));
 
-	/**
-	 * Cambia el estado de facade a RenderStateStartingGame
-	 */
-	@Override
-	public void newGame()
-	{
-		Facade.getInstance().setRenderState(
-				new RenderStateStartingGame(this.ui, this.gameInterface, Facade.getInstance().getMusicIntro()));
-
-	}
+    }
 
 }

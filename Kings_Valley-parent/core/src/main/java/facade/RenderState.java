@@ -11,7 +11,13 @@ import vista2D.ui.UI2D;
  */
 public abstract class RenderState implements ApplicationListener
 {
+	/**
+	 * Interfaz de usuario del menu prinicpal
+	 */
 	protected UI2D ui;
+	/**
+	 * Interfaz grafica del juego
+	 */
 	protected ApplicationListener gameInterface;
 
 	/**

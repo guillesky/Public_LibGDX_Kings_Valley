@@ -853,7 +853,8 @@ public class UI2D implements IView, ApplicationListener
 	}
 
 	/**
-	 * @return retorna el stage de la Ventana
+	 * Retorna el stage de la Ventana
+	 * @return El stage de la Ventana
 	 */
 	public Stage getStage()
 	{
