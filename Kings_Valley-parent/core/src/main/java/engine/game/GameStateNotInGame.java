@@ -1,7 +1,6 @@
 package engine.game;
 
 import engine.KVEventListener;
-import util.GameRules;
 
 /**
  * Clase que representa el esta No Jugando

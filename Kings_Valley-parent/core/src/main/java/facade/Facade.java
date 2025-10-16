@@ -7,21 +7,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.maps.MapProperties;
-import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.utils.Json;
 
 import audio.AudioManager;
-import engine.IGraphic;
 import engine.game.Game;
 import i18n.AllLanguages;
 import i18n.Language;
 import mainPackage.IMyApplicationListener;
-import util.GameRules;
 import util.GameConfig;
+import util.GameRules;
 import util.Utils;
-import vista2D.GraphicsFileLoader;
 import vista2D.TileMapGrafica2D;
 import vista2D.ui.Controler2D;
 import vista2D.ui.UI2D;
@@ -40,7 +35,6 @@ public class Facade implements ApplicationListener
     private static final Json json = new Json();
 
     private UI2D ui;
-    private FreeTypeFontGenerator generator;
     private Controler2D controler;
     private GameConfig gameConfig;
     private boolean changeConfig = false;

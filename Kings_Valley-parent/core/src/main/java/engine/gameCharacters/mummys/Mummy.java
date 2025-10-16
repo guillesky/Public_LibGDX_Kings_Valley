@@ -1,7 +1,5 @@
 package engine.gameCharacters.mummys;
 
-import java.util.Random;
-
 import com.badlogic.gdx.math.Vector2;
 
 import engine.KVEventListener;
@@ -42,15 +40,30 @@ public abstract class Mummy extends GameCharacter
     protected static PlatformAnalyzer platformAnalyzer = new PlatformAnalyzer();
     protected float decisionFactorForFall;
     protected float decisionFactorForJump;
+    /**
+     * Tiempo que tarda en tomar la proxima decicion
+     */
     private float timeToDecide;
+    /**
+     * Tiempo que tarda en decidir cuando esta en modo decidiendo
+     */
     private float timeDeciding;
+    /**
+     * Contador de tiempo en el presente estado
+     */
     private float timeInState = 0;
 
+    /**
+     * Indica la direccion pretendida de la momia
+     */
     private Vector2 direction = new Vector2();
     /**
      * Estado de la momia (patron state)
      */
     protected MummyState mummyState;
+    /**
+     * Nivel de stress de la momia (si es muy alto la momia muere)
+     */
     private float stressLevel = 0;
     /**
      * Referencia al player a perseguir
@@ -293,6 +306,7 @@ public abstract class Mummy extends GameCharacter
 
     /**
      * Retorna el tiempo que permacio en el estado actual
+     * 
      * @return El tiempo que permacio en el estado actual
      */
     protected float getTimeInState()

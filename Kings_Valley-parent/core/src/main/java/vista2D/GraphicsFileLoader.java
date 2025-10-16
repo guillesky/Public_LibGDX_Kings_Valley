@@ -1,7 +1,6 @@
 package vista2D;
 
 import java.util.HashMap;
-import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
@@ -18,8 +17,8 @@ import com.badlogic.gdx.utils.Json;
 import engine.game.Game;
 import engine.gameCharacters.mummys.MummyFactory;
 import engine.level.LevelObject;
-import util.GameRules;
 import util.Constants;
+import util.GameRules;
 
 /**
  * Clase encargada de cargar la configuracion de los elementos graicos del juego

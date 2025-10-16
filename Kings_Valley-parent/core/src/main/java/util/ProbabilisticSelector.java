@@ -3,8 +3,6 @@ package util;
 import java.util.Random;
 import java.util.TreeMap;
 
-import engine.game.Game;
-
 /**
  * Devuelve un resultado al azar a partir de un conjunto de posibles resultados
  * con su corespondiente factor de probabilidad relativo

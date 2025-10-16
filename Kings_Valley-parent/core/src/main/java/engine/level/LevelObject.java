@@ -4,9 +4,8 @@ import java.util.Objects;
 
 import com.badlogic.gdx.math.Rectangle;
 
-import util.GameRules;
 import util.Constants;
-import vista2D.IGraphicRenderer;
+import util.GameRules;
 
 /**
  * Clase que representa un objeto del nivel que tenga una posicion y un tamano.
@@ -17,15 +16,27 @@ import vista2D.IGraphicRenderer;
 
 public class LevelObject extends Rectangle
 {
+    /**
+     * Usado para identificar univocamente cada LevelObject con el siguiente entero
+     */
     private static int count = 0;
+    /**
+     * Identificador del objecto
+     */
     private int id;
+    /**
+     * Tipo de objeto de nivel (Daga, Pico, gema, momia, etc.) 
+     */
     private int type;
+    /**
+     * Parametro extra de ser necesario (Para guardar coherencia con el programa tiled)
+     */
     private int p0;
 
     /**
      * Constructor de clase
      * 
-     * @param type   entero que indica el tipo de objeto (util para renderizar)
+     * @param type   entero que indica el tipo de objeto 
      * @param x      (posicion x en el mapa)
      * @param y      (posicion y en el mapa)
      * @param p0     (parametro extra en caso de ser necesario)

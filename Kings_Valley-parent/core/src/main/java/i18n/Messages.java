@@ -182,6 +182,7 @@ public enum Messages
     }
 
     /**
+     * Setea el valor texto del mensaje
      * @param valor texto del mensaje
      */
     public void setValue(String valor)

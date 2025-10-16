@@ -40,6 +40,9 @@ public class Player extends GameCharacter
 	 */
 	protected LevelObject item = null;
 
+	/**
+	 * Estado del Player (Patron State)
+	 */
 	private PlayerState playerState = null;
 
 	/**

@@ -2,7 +2,6 @@ package engine.gameCharacters.player;
 
 import com.badlogic.gdx.math.Vector2;
 
-import engine.gameCharacters.abstractGameCharacter.GameCharacter;
 import engine.level.GiratoryMechanism;
 
 /**

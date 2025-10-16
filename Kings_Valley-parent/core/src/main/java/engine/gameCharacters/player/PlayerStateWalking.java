@@ -8,7 +8,6 @@ import com.badlogic.gdx.math.Vector2;
 
 import engine.KVEventListener;
 import engine.game.Game;
-import engine.gameCharacters.abstractGameCharacter.GameCharacter;
 import engine.level.GiratoryMechanism;
 import engine.level.PairInt;
 import engine.level.dagger.Dagger;

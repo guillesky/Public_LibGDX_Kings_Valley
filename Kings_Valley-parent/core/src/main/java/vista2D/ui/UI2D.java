@@ -28,7 +28,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.SelectBox.SelectBoxStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
@@ -37,10 +36,8 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import controler.AbstractControler;
 import controler.IView;
-import facade.Facade;
 import i18n.Messages;
 import util.Constants;
-import util.GameConfig;
 
 /**
  * Clase que representa la ventana inicial del juego

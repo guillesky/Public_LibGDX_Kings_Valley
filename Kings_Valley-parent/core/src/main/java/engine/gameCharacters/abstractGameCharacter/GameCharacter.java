@@ -62,9 +62,21 @@ public abstract class GameCharacter extends LevelObject
      */
     protected Vector2 motionVector = new Vector2();
 
+    /**
+     * Velocidad de caida
+     */
     private float speedFall;
+    /**
+     * Velocidad de caminata
+     */
     private float speedWalk;
+    /**
+     * Velocidad en las escaleras
+     */
     private float speedWalkStairs;
+    /**
+     * Velocidad de impulso vertical del salto
+     */
     private float speedJump;
     /**
      * La piramide en la que esta el caracter
@@ -78,6 +90,9 @@ public abstract class GameCharacter extends LevelObject
      * Tiempo que esta en la misma animacion
      */
     protected float animationDelta = 0;
+    /**
+     * Rectangulo que representa los pies del caracter. Para determinadas colisiones
+     */
     private Rectangle feet;
     /**
      * Estado del caracter (patron state)

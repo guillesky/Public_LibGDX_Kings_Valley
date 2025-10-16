@@ -1,7 +1,5 @@
 package engine.level.door;
 
-import engine.KVEventListener;
-import engine.game.Game;
 import engine.gameCharacters.player.Player;
 
 /**

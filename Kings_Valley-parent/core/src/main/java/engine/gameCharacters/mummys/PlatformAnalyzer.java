@@ -1,7 +1,6 @@
 package engine.gameCharacters.mummys;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 
 import com.badlogic.gdx.math.Rectangle;

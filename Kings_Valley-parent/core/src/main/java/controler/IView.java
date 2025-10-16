@@ -1,7 +1,5 @@
 package controler;
 
-import util.GameConfig;
-
 /**
  * Interfaz que declara los metodos que debera implementar la interfaz de
  * usuario

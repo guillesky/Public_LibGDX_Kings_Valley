@@ -17,8 +17,14 @@ import util.Constants;
 public class Dagger extends LevelObject
 {
 
+	/**
+	 * Estado de la daga (Patron State)
+	 */
 	private DaggerState daggerState = null;
 
+	/**
+	 * Indica hacia que se lanza la espada
+	 */
 	private boolean isRight;
 
 	/**
