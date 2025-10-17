@@ -177,10 +177,9 @@ public class PlayerStateWalking extends PlayerState
 			direccion = -1;
 		if (this.player.getPyramid().getCell(this.player.x, this.player.y, direccion, 1) == null)
 		{
-			dagger.x = this.player.x + direccion * GameRules.getInstance().getLevelTileHeightUnits() * 0.1f;
+			dagger.x = this.player.x + direccion * GameRules.getInstance().getLevelTileHeightUnits() * 0.2f;
 			dagger.y = this.player.y + GameRules.getInstance().getLevelTileHeightUnits();
-			// this.pyramid.addFlyingDagger(dagger);
-
+			
 			dagger.throwHorizontal(this.player.isLookRight());
 			this.player.setPlayerState(new PlayerStateThrowingDagger(this.player));
 		} else if (this.player.getPyramid().getCell(this.player.x, this.player.y, direccion, 2) == null

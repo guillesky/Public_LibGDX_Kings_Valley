@@ -60,20 +60,6 @@ public class MummyStateAppearing extends MummyState
 	{
 	}
 
-	/**
-	 * Se sobreescribe como metodo vacio (no hace nada)
-	 */
-	@Override
-	protected void doInBorderCliff()
-	{
-	}
-
-	/**
-	 * Se sobreescribe como metodo vacio (no hace nada)
-	 */
-	@Override
-	public void doInCrashToWallOrGiratory(int crashStatus, int type)
-	{
-	}
+	
 
 }

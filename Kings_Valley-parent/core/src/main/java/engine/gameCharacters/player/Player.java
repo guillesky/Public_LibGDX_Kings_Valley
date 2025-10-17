@@ -210,14 +210,6 @@ public class Player extends GameCharacter
 			}
 			if (this.item == null)
 			{
-				LevelObject picker = this.checkRectangleColision(this.pyramid.getPickers());
-				if (picker != null)
-				{
-					this.item = picker;
-					this.pyramid.removePicker(picker);
-					Game.getInstance().eventFired(KVEventListener.PICKUP_PICKER, picker);
-
-				}
 
 				Dagger dagger = (Dagger) this.checkRectangleColision(this.pyramid.getStuckedDaggers());
 				if (dagger != null && dagger.getState() == DaggerState.ST_STUCKED)
@@ -227,6 +219,19 @@ public class Player extends GameCharacter
 					Game.getInstance().eventFired(KVEventListener.PICKUP_DAGGER, dagger);
 
 				}
+			}
+			if (this.item == null)
+			{
+
+				LevelObject picker = this.checkRectangleColision(this.pyramid.getPickers());
+				if (picker != null)
+				{
+					this.item = picker;
+					this.pyramid.removePicker(picker);
+					Game.getInstance().eventFired(KVEventListener.PICKUP_PICKER, picker);
+
+				}
+
 			}
 		}
 	}

@@ -38,7 +38,7 @@ public abstract class Mummy extends GameCharacter
      * Analizador de plataformas para tomar decisiones
      */
     protected static PlatformAnalyzer platformAnalyzer = new PlatformAnalyzer();
-    protected float decisionFactorForFall;
+    private float decisionFactorForFall;
     protected float decisionFactorForJump;
     /**
      * Tiempo que tarda en tomar la proxima decicion

@@ -1,10 +1,16 @@
 package engine.gameCharacters.mummys;
 
+import java.util.Iterator;
+
 import com.badlogic.gdx.math.Vector2;
 
 import engine.KVEventListener;
 import engine.game.Game;
 import engine.gameCharacters.abstractGameCharacter.GameCharacter;
+import engine.level.LevelObject;
+import engine.level.Pyramid;
+import util.GameRules;
+import util.ProbabilisticSelector;
 
 /**
  * Clase que representa del estado de la momia "Decidiendo"
@@ -13,6 +19,17 @@ import engine.gameCharacters.abstractGameCharacter.GameCharacter;
  */
 public class MummyStateDeciding extends MummyState
 {
+	private static final int RIGHT = 1;
+	/**
+	 * Codigo que indica direccion izquierda
+	 */
+	private static final int LEFT = -1;
+
+	/**
+	 * Codigo que indica Player a la misma altura que la momia
+	 */
+	private static final int GO_UP_STAIR = 3;
+	private static final int GO_DOWN_STAIR = 4;
 
 	/**
 	 * Constructor de clase, llama a super(mummy, Mummy.ST_IDDLE);
@@ -35,7 +52,8 @@ public class MummyStateDeciding extends MummyState
 	@Override
 	public void update(float deltaTime)
 	{
-		if (this.mummy.getTimeInState() >= this.timeToChange && (this.mummy.getState()==GameCharacter.ST_WALKING ||this.mummy.getState()==GameCharacter.ST_IDDLE))
+		if (this.mummy.getTimeInState() >= this.timeToChange && (this.mummy.getState() == GameCharacter.ST_WALKING
+				|| this.mummy.getState() == GameCharacter.ST_IDDLE))
 		{
 			this.changeStatus();
 		}
@@ -49,14 +67,20 @@ public class MummyStateDeciding extends MummyState
 	 */
 	private void changeStatus()
 	{
+		PlatformAnalysisResult result = Mummy.platformAnalyzer.getPlatFormAnalisys(mummy);
+		ProbabilisticSelector selector = new ProbabilisticSelector(Game.random);
 		if (this.mummy.player.y > this.mummy.y)// player esta arriba
 		{
-			NearStairResult nearStairResult = this.getNearStair(true);
 
-			if (nearStairResult != null)
+			if (result.getNearestUpStair() != null)
 			{
-				this.mummy.mummyState = new MummyStateSearchingStair(this.mummy, nearStairResult,
-						MummyState.PLAYER_IS_UP);
+				if (this.mummy.player.y >= result.getNearestUpStair().getUpStair().y)
+					this.mummy.mummyState = new MummyStateSearchingStair(this.mummy, result.getNearestUpStair(),
+							MummyState.PLAYER_IS_UP);
+				else
+				{
+					selector.add(0.5, GO_UP_STAIR);
+				}
 			} else
 			{
 				int directionX = this.searchEndPlatform(EndPlatformOLD.END_STEP);
@@ -67,11 +91,16 @@ public class MummyStateDeciding extends MummyState
 
 		} else if (this.mummy.player.y < this.mummy.y)// player esta abajo
 		{
-			NearStairResult nearStairResult = this.getNearStair(false);
-			if (nearStairResult != null)
+
+			if (result.getNearestDownStair() != null)
 			{
-				this.mummy.mummyState = new MummyStateSearchingStair(this.mummy, nearStairResult,
-						MummyState.PLAYER_IS_DOWN);
+				if (this.mummy.player.y <= result.getNearestDownStair().getDownStair().y)
+					this.mummy.mummyState = new MummyStateSearchingStair(this.mummy, result.getNearestDownStair(),
+							MummyState.PLAYER_IS_DOWN);
+				else
+				{
+					selector.add(0.5, GO_DOWN_STAIR);
+				}
 
 			} else
 			{
@@ -144,20 +173,102 @@ public class MummyStateDeciding extends MummyState
 	}
 
 	/**
-	 * Se sobreescribe como metodo vacio (no hace nada)
+	 * Crea y retorna un objeto de tipo EndPlatform indicando el tipo de final de
+	 * plataforma buscado
+	 * 
+	 * @param toRight true si se busca el final de plataforma or derecha, false si
+	 *                se lo busca por izquierda
+	 * @return Objeto de tipo EndPlatform que indica el tipo de final de plataforma
 	 */
-	@Override
-	protected void doInBorderCliff()
+	protected EndPlatformOLD endPlatform(boolean toRight)
 	{
+		int inc;
+		int acum = 0;
+		int type;
+		int count;
+		float x;
+		Pyramid pyramid = mummy.getPyramid();
+		x = mummy.x;
+		if (toRight)
+		{
+			inc = 1;
+			x += mummy.width;
+		} else
+
+		{
+			inc = -1;
+
+		}
+
+		while (pyramid.getCell(x, mummy.y, acum, 0) == null && pyramid.getCell(x, mummy.y, acum, 1) == null
+				&& pyramid.getCell(x, mummy.y, acum, -1) != null && this.isColDesplaInMap(acum))
+		{
+			acum += inc;
+
+		}
+		type = this.typeEndPlatform(x, acum);
+		if (acum < 0)
+			acum *= -1;
+		count = acum;
+		EndPlatformOLD r = new EndPlatformOLD(type, count);
+		this.correctGiratoryEndPlatform(r, toRight);
+
+		return r;
 
 	}
 
 	/**
-	 * Se sobreescribe como metodo vacio (no hace nada)
+	 * Corrige los atributos del objeto endPlatform pasado como parametro en caso de
+	 * encontrar una puerta giratoria. En ese caso se considera que hay un bloqueo
+	 * insalvable para la momia. Este metodo es invocado por this.endPlatform
+	 * 
+	 * @param endPlatform objeto de tipo endPlatform que debe ser evaluado. Su
+	 *                    estado podria cambiar
+	 * @param toRight     true si el endPlatform esta a la derecha, false si esta a
+	 *                    la izquierda.
 	 */
-	@Override
-	public void doInCrashToWallOrGiratory(int crashStatus, int type)
+	private void correctGiratoryEndPlatform(EndPlatformOLD endPlatform, boolean toRight)
 	{
+		Iterator<LevelObject> it = mummy.getPyramid().getGiratories().iterator();
+		boolean condicion = false;
+		float posX = mummy.x;
+
+		if (toRight)
+			posX += mummy.width;
+
+		while (it.hasNext() && !condicion)
+		{
+			LevelObject giratoria = it.next();
+			if (giratoria.y == mummy.y && (toRight && giratoria.x >= posX || !toRight && giratoria.x <= posX))
+			{
+				float aux = posX - (giratoria.x + giratoria.width * 0.5f);
+				if (aux < 0)
+					aux *= -1;
+				int dist = (int) (aux / (float) GameRules.getInstance().getLevelTileWidthUnits());
+
+				if (dist < endPlatform.getCount())
+				{
+					endPlatform.setCount(dist);
+					endPlatform.setType(EndPlatformOLD.END_BLOCK);
+					condicion = true;
+				}
+			}
+		}
+
+	}
+
+	/**
+	 * Metodo llamado internadmente por this.endPlatform. Evita que durante los
+	 * calculos se busque fuera de la piramide
+	 * 
+	 * @param col cantidad de desplazamiento
+	 * @return true si se esta dentro del mapa, false en caso contrario.
+	 */
+	private boolean isColDesplaInMap(int col)
+	{
+
+		return mummy.getColPosition() + col > 1
+				&& mummy.getColPosition() + col < mummy.getPyramid().getMapWidthInTiles() - 1;
 	}
 
 }
