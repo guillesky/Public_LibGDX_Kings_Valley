@@ -97,7 +97,17 @@ public abstract class GameCharacter extends LevelObject
     /**
      * Estado del caracter (patron state)
      */
+       
     protected GameCharacterState gameCharacterState;
+
+    
+    
+    protected float lastFloorCoordinate;
+    
+    public float getLastFloorCoordinate()
+    {
+        return lastFloorCoordinate;
+    }
 
     /**
      * Llama a super(type, x, y, 0, Config.getInstance().getCharacterWidth(),

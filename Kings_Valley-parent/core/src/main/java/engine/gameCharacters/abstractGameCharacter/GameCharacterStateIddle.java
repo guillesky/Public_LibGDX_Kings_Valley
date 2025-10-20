@@ -20,7 +20,8 @@ public class GameCharacterStateIddle extends GameCharacterStateOnFloor
 	{
 		super(gameCharacter, GameCharacter.ST_IDDLE);
 		this.gameCharacter.resetAnimationDelta();
-		this.gameCharacter.motionVector.y = 0;
+		
+		
 	}
 
 	/**

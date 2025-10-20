@@ -1,6 +1,7 @@
 package engine.gameCharacters.abstractGameCharacter;
 
 import engine.level.Stair;
+import util.GameRules;
 
 /**
  * Clase abstracta que representa el estado de estar en el piso. Podra
@@ -20,7 +21,9 @@ public abstract class GameCharacterStateOnFloor extends GameCharacterState
 	public GameCharacterStateOnFloor(GameCharacter gameCharacter, int state)
 	{
 		super(gameCharacter, state);
-
+		this.gameCharacter.motionVector.y = 0;
+		this.gameCharacter.lastFloorCoordinate=this.gameCharacter.y;
+		System.out.println(this.gameCharacter.lastFloorCoordinate);
 	}
 
 	/**

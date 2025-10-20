@@ -98,7 +98,7 @@ public class PlatformAnalysisResult
 		beginOfStair = stair.getDownStair();
 	    else
 		beginOfStair = stair.getUpStair();
-	    if (beginOfStair.y == gameCharacter.y && this.endPlatformLeft.getRectangle().x < beginOfStair.x
+	    if (beginOfStair.y == gameCharacter.getLastFloorCoordinate() && this.endPlatformLeft.getRectangle().x < beginOfStair.x
 		    && endPlatformRight.getRectangle().x + endPlatformRight.getRectangle().width > beginOfStair.x)
 		candidatesStairs.add(stair);
 	}
@@ -200,9 +200,9 @@ public class PlatformAnalysisResult
 
 	}
 
-	while (pyramid.getCell(x, gameCharacter.y, acum, 0) == null
-		&& pyramid.getCell(x, gameCharacter.y, acum, 1) == null
-		&& pyramid.getCell(x, gameCharacter.y, acum, -1) != null && this.isColDesplaInMap(gameCharacter, acum))
+	while (pyramid.getCell(x, gameCharacter.getLastFloorCoordinate(), acum, 0) == null
+		&& pyramid.getCell(x, gameCharacter.getLastFloorCoordinate(), acum, 1) == null
+		&& pyramid.getCell(x, gameCharacter.getLastFloorCoordinate(), acum, -1) != null && this.isColDesplaInMap(gameCharacter, acum))
 	{
 	    acum += inc;
 
@@ -231,7 +231,7 @@ public class PlatformAnalysisResult
 		x = x - x % tileWidth + acum * tileWidth - 0.1f * GameRules.getInstance().getCharacterWidth();
 	    else
 		x = x - x % tileWidth + (acum + 1) * tileWidth - 0.9f * GameRules.getInstance().getCharacterWidth();
-	    epf2 = new EndPlatform(type, new Rectangle(x, gameCharacter.y, GameRules.getInstance().getCharacterWidth(),
+	    epf2 = new EndPlatform(type, new Rectangle(x, gameCharacter.getLastFloorCoordinate(), GameRules.getInstance().getCharacterWidth(),
 		    GameRules.getInstance().getCharacterFeetHeight()));
 	}
 
@@ -260,7 +260,7 @@ public class PlatformAnalysisResult
 	{
 	    giratory = it.next();
 	    boolean condicionDirection = (gameCharacter.x <= giratory.x) == toRight;
-	    if (giratory.y == gameCharacter.y && condicionDirection)
+	    if (giratory.y == gameCharacter.getLastFloorCoordinate() && condicionDirection)
 		giratoriesCandidates.add(giratory);
 	}
 
@@ -309,16 +309,16 @@ public class PlatformAnalysisResult
     {
 	int type = -1;
 	Pyramid pyramid = gameCharacter.getPyramid();
-	if (pyramid.getCell(positionX, gameCharacter.y, iDeltaX, 0) == null
-		&& pyramid.getCell(positionX, gameCharacter.y, iDeltaX, 1) == null
-		&& pyramid.getCell(positionX, gameCharacter.y, iDeltaX, -1) == null)
+	if (pyramid.getCell(positionX, gameCharacter.getLastFloorCoordinate(), iDeltaX, 0) == null
+		&& pyramid.getCell(positionX, gameCharacter.getLastFloorCoordinate(), iDeltaX, 1) == null
+		&& pyramid.getCell(positionX, gameCharacter.getLastFloorCoordinate(), iDeltaX, -1) == null)
 	    type = EndPlatformOLD.END_CLIFF;
-	else if ((pyramid.getCell(positionX, gameCharacter.y, iDeltaX, 1) != null
-		&& pyramid.getCell(positionX, gameCharacter.y, iDeltaX, 2) == null
-		&& pyramid.getCell(positionX, gameCharacter.y, iDeltaX, 3) == null)
-		|| (pyramid.getCell(positionX, gameCharacter.y, iDeltaX, 0) != null
-			&& pyramid.getCell(positionX, gameCharacter.y, iDeltaX, 1) == null
-			&& pyramid.getCell(positionX, gameCharacter.y, iDeltaX, 2) == null))
+	else if ((pyramid.getCell(positionX, gameCharacter.getLastFloorCoordinate(), iDeltaX, 1) != null
+		&& pyramid.getCell(positionX, gameCharacter.getLastFloorCoordinate(), iDeltaX, 2) == null
+		&& pyramid.getCell(positionX, gameCharacter.getLastFloorCoordinate(), iDeltaX, 3) == null)
+		|| (pyramid.getCell(positionX, gameCharacter.getLastFloorCoordinate(), iDeltaX, 0) != null
+			&& pyramid.getCell(positionX, gameCharacter.getLastFloorCoordinate(), iDeltaX, 1) == null
+			&& pyramid.getCell(positionX, gameCharacter.getLastFloorCoordinate(), iDeltaX, 2) == null))
 	    type = EndPlatformOLD.END_STEP;
 	else
 	    type = EndPlatformOLD.END_BLOCK;

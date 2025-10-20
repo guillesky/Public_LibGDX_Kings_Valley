@@ -51,14 +51,14 @@ public class GameCharacterStateFalling extends GameCharacterState
 		if (motionVector.y < this.gameCharacter.getSpeedFall())
 			motionVector.y = this.gameCharacter.getSpeedFall();
 
-		if (this.isFloorDown())
+	/*	if (this.isFloorDown())
 		{
 			if (v.x == 0)
 				this.gameCharacter.gameCharacterState = new GameCharacterStateIddle(this.gameCharacter);
 			else
 				this.gameCharacter.gameCharacterState = new GameCharacterStateWalking(this.gameCharacter);
 			Game.getInstance().eventFired(KVEventListener.CHARACTER_END_FALL, this.gameCharacter);
-		}
+		}*/
 	}
 
 	/**
