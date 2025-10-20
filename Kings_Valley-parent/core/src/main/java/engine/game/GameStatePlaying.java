@@ -5,7 +5,7 @@ import com.badlogic.gdx.Input;
 import engine.DrawableElement;
 import engine.KVEventListener;
 import engine.control.Controls;
-import engine.gameCharacters.mummys.PlatformAnalyzer;
+import engine.gameCharacters.mummys.PlatformAnalysisResult;
 import engine.gameCharacters.player.Player;
 import engine.level.Level;
 import engine.level.door.Door;
@@ -82,8 +82,8 @@ public class GameStatePlaying extends GameState
 		 * if (controles.getShot(Input.Keys.S)) this.game.showPlayer();
 		 */
 		if (controles.getShot(Input.Keys.S))
-		{PlatformAnalyzer p= new PlatformAnalyzer();
-			this.game.getInterfaz().addGraphicElement(new DrawableElement(Constants.DRAWABLE_PLATFORM_ANALYSIS_RESULT, p.getPlatFormAnalisys(player)));
+		{
+			this.game.getInterfaz().addGraphicElement(new DrawableElement(Constants.DRAWABLE_PLATFORM_ANALYSIS_RESULT,new PlatformAnalysisResult(player)));
 		}
 
 	}

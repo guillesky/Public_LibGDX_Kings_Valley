@@ -36,78 +36,106 @@ import engine.level.Stair;
 public class PlatformAnalysisResultRender
 {
 
-	private ShapeRenderer shapeRenderer = new ShapeRenderer();
-	private Stair nearestUpStair;
-	private Stair nearestDownStair;
+    private ShapeRenderer shapeRenderer = new ShapeRenderer();
+    private Stair nearestUpStair;
+    private Stair nearestDownStair;
+    private ArrayList<Stair> upStairsInPlatform;
+    private ArrayList<Stair> downStairsInPlatform;
 
-	private ArrayList<EndPlatform> endPlatforms = new ArrayList<EndPlatform>();
+    private ArrayList<EndPlatform> endPlatforms = new ArrayList<EndPlatform>();
 
-	/**
-	 * Constructor de clase
-	 * @param platformAnalysisResult Resultado del analisis que debe renderizarse
-	 */
-	public PlatformAnalysisResultRender(PlatformAnalysisResult platformAnalysisResult)
+    /**
+     * Constructor de clase
+     * 
+     * @param platformAnalysisResult Resultado del analisis que debe renderizarse
+     */
+    public PlatformAnalysisResultRender(PlatformAnalysisResult platformAnalysisResult)
+    {
+	this.endPlatforms.add(platformAnalysisResult.getEndPlatformLeft());
+	this.endPlatforms.add(platformAnalysisResult.getEndPlatformRight());
+	this.nearestUpStair = platformAnalysisResult.getNearestUpStair();
+	this.nearestDownStair = platformAnalysisResult.getNearestDownStair();
+	this.downStairsInPlatform = platformAnalysisResult.getDownStairsInPlatform();
+	this.upStairsInPlatform = platformAnalysisResult.getUpStairsInPlatform();
+    }
+
+    /**
+     * Llamado al momento de renderizar
+     * 
+     * @param combined Matriz de proyeccion, Usualmente camera.combined
+     */
+    public void render(Matrix4 combined)
+    {
+	shapeRenderer.setProjectionMatrix(combined);
+	shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+	shapeRenderer.setColor(Color.RED);
+	for (EndPlatform e : endPlatforms)
 	{
-		this.endPlatforms.add(platformAnalysisResult.getEndEndPlatformLeft());
-		this.endPlatforms.add(platformAnalysisResult.getEndEndPlatformRight());
-		this.nearestUpStair = platformAnalysisResult.getNearestUpStair();
-		this.nearestDownStair = platformAnalysisResult.getNearestDownStair();
+
+	    Color color = Color.WHITE;
+	    switch (e.getType())
+	    {
+	    case EndPlatform.END_BLOCK:
+		color = Color.RED;
+		break;
+	    case EndPlatform.END_CLIFF:
+		color = Color.YELLOW;
+		break;
+	    case EndPlatform.END_STEP:
+		color = Color.GREEN;
+		break;
+
+	    }
+	    Rectangle rect = e.getRectangle();
+	    shapeRenderer.setColor(color);
+	    shapeRenderer.rect(rect.x, rect.y, rect.width, rect.height);
+
+	}
+	for(Stair stair: this.downStairsInPlatform)
+	    this.drawBeginStair(stair, false, false);
+	for(Stair stair: this.upStairsInPlatform)
+	    this.drawBeginStair(stair, true, false);
+	if (this.nearestUpStair != null)
+	{
+	    this.drawBeginStair(nearestUpStair, true, true);
 	}
 
-	/**
-	 * Llamado al momento de renderizar
-	 * @param combined Matriz de proyeccion, Usualmente camera.combined
-	 */
-	public void render(Matrix4 combined)
+	if (this.nearestDownStair != null)
 	{
-		shapeRenderer.setProjectionMatrix(combined);
-		shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-		shapeRenderer.setColor(Color.RED);
-		for (EndPlatform e : endPlatforms)
-		{
-
-			Color color = Color.WHITE;
-			switch (e.getType())
-			{
-			case EndPlatform.END_BLOCK:
-				color = Color.RED;
-				break;
-			case EndPlatform.END_CLIFF:
-				color = Color.YELLOW;
-				break;
-			case EndPlatform.END_STEP:
-				color = Color.GREEN;
-				break;
-
-			}
-			Rectangle rect = e.getRectangle();
-			shapeRenderer.setColor(color);
-			shapeRenderer.rect(rect.x, rect.y, rect.width, rect.height);
-
-		}
-		if (this.nearestUpStair != null)
-		{
-			shapeRenderer.setColor(Color.MAGENTA);
-			shapeRenderer.rect(this.nearestUpStair.getDownStair().x, this.nearestUpStair.getDownStair().y,
-					this.nearestUpStair.getDownStair().width, this.nearestUpStair.getDownStair().height);
-		}
-
-		if (this.nearestDownStair != null)
-		{
-			shapeRenderer.setColor(Color.CYAN);
-			shapeRenderer.rect(this.nearestDownStair.getUpStair().x, this.nearestDownStair.getUpStair().y,
-					this.nearestDownStair.getUpStair().width, this.nearestDownStair.getUpStair().height);
-		}
-
-		shapeRenderer.end();
+	    this.drawBeginStair(nearestDownStair, false, true);
 	}
 
-	/**
-	 * libera los recursos
-	 */
-	public void dispose()
+	shapeRenderer.end();
+    }
+
+    /**
+     * libera los recursos
+     */
+    public void dispose()
+    {
+	shapeRenderer.dispose();
+    }
+
+    private void drawBeginStair(Stair stair, boolean isUpStair, boolean isNearStair)
+    {
+	Color color;
+	Rectangle r;
+	if (isUpStair)
 	{
-		shapeRenderer.dispose();
+	    color = Color.MAGENTA;
+	    r = stair.getDownStair();
+	} else
+	{
+	    color = Color.CYAN;
+	    r = stair.getUpStair();
 	}
 
+	shapeRenderer.setColor(color);
+	shapeRenderer.rect(r.x, r.y, r.width, r.height);
+	if (isNearStair)
+	{
+	    shapeRenderer.line(r.x, r.y, r.x+r.width, r.y+r.height);
+	    shapeRenderer.line(r.x+r.width, r.y, r.x, r.y+r.height);
+	}
+    }
 }

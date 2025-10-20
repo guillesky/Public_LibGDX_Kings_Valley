@@ -34,10 +34,7 @@ public abstract class Mummy extends GameCharacter
      */
     public static final int ST_TELEPORTING = 104;
 
-    /**
-     * Analizador de plataformas para tomar decisiones
-     */
-    protected static PlatformAnalyzer platformAnalyzer = new PlatformAnalyzer();
+    
     private float decisionFactorForFall;
     protected float decisionFactorForJump;
     /**

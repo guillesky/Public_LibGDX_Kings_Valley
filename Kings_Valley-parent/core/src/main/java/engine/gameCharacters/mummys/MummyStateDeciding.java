@@ -67,7 +67,7 @@ public class MummyStateDeciding extends MummyState
 	 */
 	private void changeStatus()
 	{
-		PlatformAnalysisResult result = Mummy.platformAnalyzer.getPlatFormAnalisys(mummy);
+		PlatformAnalysisResult result = new PlatformAnalysisResult(mummy);
 		ProbabilisticSelector selector = new ProbabilisticSelector(Game.random);
 		if (this.mummy.player.y > this.mummy.y)// player esta arriba
 		{
