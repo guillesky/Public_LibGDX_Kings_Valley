@@ -15,12 +15,12 @@ import util.GameRules;
 
 /**
  * 
- * Representa el estado "caminando" (tambien esta en este estado si el player
+ * Representa el estado "moviendose" (tambien esta en este estado si el player
  * esta en modo descanso)
  * 
  * @author Guillermo Lazzurri
  */
-public class PlayerStateWalking extends PlayerState
+public class PlayerStateMoving extends PlayerState
 {
 
 	/**
@@ -30,7 +30,7 @@ public class PlayerStateWalking extends PlayerState
 	 * @param state  Indica el tipo de estado. En este caso puede tomar los valores
 	 *               GameCharacter.ST_IDDLE; o GameCharacter.ST_WALKING;
 	 */
-	public PlayerStateWalking(Player player, int state)
+	public PlayerStateMoving(Player player, int state)
 	{
 		super(player, state);
 	}

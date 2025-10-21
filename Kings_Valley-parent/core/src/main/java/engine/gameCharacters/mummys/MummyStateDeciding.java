@@ -201,7 +201,7 @@ public class MummyStateDeciding extends MummyState
 
 						break;
 					}
-					System.out.println(this.mummy + " " + selector);
+					System.out.println( selector);
 				} else // estoy encerrado con el player fuera de mi alcance, la momia muere y se
 						// teletransporta
 				{

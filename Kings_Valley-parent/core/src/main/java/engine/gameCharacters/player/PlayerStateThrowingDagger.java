@@ -36,7 +36,7 @@ public class PlayerStateThrowingDagger extends PlayerState
 	/**
 	 * Si pasa el tiempo correspondiente a
 	 * Config.getInstance().getTimeToEndThrowDagger() se realiza el cambio de estado
-	 * mediante this.player.setPlayerState(new PlayerStateWalking(this.player,
+	 * mediante this.player.setPlayerState(new PlayerStateMoving(this.player,
 	 * state));
 	 * 
 	 */
@@ -53,7 +53,7 @@ public class PlayerStateThrowingDagger extends PlayerState
 				state = GameCharacter.ST_IDDLE;
 			else
 				state = GameCharacter.ST_WALKING;
-			this.player.setPlayerState(new PlayerStateWalking(this.player, state));
+			this.player.setPlayerState(new PlayerStateMoving(this.player, state));
 		}
 	}
 

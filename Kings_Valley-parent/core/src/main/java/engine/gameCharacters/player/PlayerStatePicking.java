@@ -49,7 +49,7 @@ public class PlayerStatePicking extends PlayerState
 	 * .removeGraphicElement(new DrawableElement(Constantes.DRAWABLE_PICKING_CELL,
 	 * pairInt));<br>
 	 * Si ya no hay que picar mas se realiza el cambio de estado mediante
-	 * this.player.setPlayerState(new PlayerStateWalking(this.player, state));
+	 * this.player.setPlayerState(new PlayerStateMoving(this.player, state));
 	 * 
 	 */
 	@Override
@@ -79,7 +79,7 @@ public class PlayerStatePicking extends PlayerState
 					state = GameCharacter.ST_IDDLE;
 				else
 					state = GameCharacter.ST_WALKING;
-				this.player.setPlayerState(new PlayerStateWalking(this.player, state));
+				this.player.setPlayerState(new PlayerStateMoving(this.player, state));
 
 			}
 			this.resetTimePicking();

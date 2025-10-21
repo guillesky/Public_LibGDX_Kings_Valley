@@ -59,7 +59,7 @@ public class Player extends GameCharacter
 	{
 		super(Constants.PLAYER, x, y, GameRules.getInstance().getPlayerSpeedWalk(),
 				GameRules.getInstance().getPlayerSpeedWalkStairs(), pyramid);
-		this.playerState = new PlayerStateWalking(this, GameCharacter.ST_IDDLE);
+		this.playerState = new PlayerStateMoving(this, GameCharacter.ST_IDDLE);
 		Game.getInstance().eventFired(KVEventListener.PLAYER_RESPAWN, this);
 	}
 

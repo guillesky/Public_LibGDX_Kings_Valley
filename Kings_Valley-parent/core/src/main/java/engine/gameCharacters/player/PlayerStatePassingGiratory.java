@@ -30,7 +30,7 @@ public class PlayerStatePassingGiratory extends PlayerState
 
 	/**
 	 * Al terminar de pasar por la girtoria se realiza el cambio de estado mediante
-	 * this.player.setPlayerState(new PlayerStateWalking(this.player,state));
+	 * this.player.setPlayerState(new PlayerStateMoving(this.player,state));
 	 * 
 	 */
 	@Override
@@ -53,7 +53,7 @@ public class PlayerStatePassingGiratory extends PlayerState
 				state = GameCharacter.ST_WALKING;
 			Game.getInstance().eventFired(KVEventListener.EXIT_GIRATORY, this.passingGiratory);
 
-			this.player.setPlayerState(new PlayerStateWalking(this.player, state));
+			this.player.setPlayerState(new PlayerStateMoving(this.player, state));
 		}
 
 	}
