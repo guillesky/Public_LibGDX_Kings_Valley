@@ -1,5 +1,6 @@
 package util;
 
+import java.util.Map;
 import java.util.Random;
 import java.util.TreeMap;
 
@@ -52,8 +53,7 @@ public class ProbabilisticSelector
 
 	/**
 	 * Retorna un objeto del conjunto al azar de acuerdo a su correspondiente
-	 * probabilidad relativa
-	 * Si el mapa esta vacion retorna null
+	 * probabilidad relativa Si el mapa esta vacio retorna null
 	 * 
 	 * @return El obejto del conjunto seleccionado
 	 */
@@ -64,10 +64,15 @@ public class ProbabilisticSelector
 		if (map.isEmpty())
 			r = null;
 		else
-			r = map.higherEntry(value).getValue();
+		{
+			Map.Entry<Double, Object> entry = map.higherEntry(value);
+
+			if (entry == null) // puede pasar si value >= último key
+				entry = map.lastEntry();
+			r = entry.getValue();
+		}
 		return r;
 	}
-
 
 	@Override
 	public String toString()
