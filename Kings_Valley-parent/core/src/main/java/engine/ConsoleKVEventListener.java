@@ -5,7 +5,7 @@ import java.util.HashMap;
 /**
  * @author Guillermo Lazzurri
  * 
- *         Clase usasa solo para debug. Muestra por consola los eventos
+ *         Clase usada solo para debug. Muestra por consola los eventos
  *         disparados en el juego
  */
 public class ConsoleKVEventListener implements KVEventListener

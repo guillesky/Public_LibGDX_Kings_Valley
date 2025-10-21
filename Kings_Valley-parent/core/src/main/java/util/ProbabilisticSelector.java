@@ -67,7 +67,7 @@ public class ProbabilisticSelector
 		{
 			Map.Entry<Double, Object> entry = map.higherEntry(value);
 
-			if (entry == null) // puede pasar si value >= último key
+			if (entry == null) // puede pasar si value es mayor o igual ultimo key
 				entry = map.lastEntry();
 			r = entry.getValue();
 		}
