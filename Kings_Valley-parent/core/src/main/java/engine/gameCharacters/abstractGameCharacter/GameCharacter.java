@@ -24,31 +24,37 @@ import util.GameRules;
 public abstract class GameCharacter extends LevelObject
 {
 
-    /**
-     * Quieto en el piso
+    
+	/**
+     * Codigo de estado sin cambios
+     */
+    public static final int ST_NO_CHANGE = -1;
+    
+	/**
+     * Codigo de estado quieto en el piso
      */
     public static final int ST_IDDLE = 0;
     /**
-     * Caminando
+     * Codigo de estado caminando
      */
     public static final int ST_WALKING = 1;
     /**
-     * En escalera
+     * Codigo de estado en escalera
      */
     public static final int ST_ONSTAIRS = 2;
 
     /**
-     * Saltando
+     * Codigo de estado saltando
      */
     public static final int ST_JUMPING = 5;
 
     /**
-     * Cayendo
+     * Codigo de estado cayendo
      */
     public static final int ST_FALLING = 7;
 
     /**
-     * Muriendo
+     * Codigo de estado muriendo
      */
     public static final int ST_DYING = 8;
 

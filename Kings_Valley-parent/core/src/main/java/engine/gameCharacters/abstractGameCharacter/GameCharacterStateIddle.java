@@ -20,12 +20,11 @@ public class GameCharacterStateIddle extends GameCharacterStateOnFloor
 	{
 		super(gameCharacter, GameCharacter.ST_IDDLE);
 		this.gameCharacter.resetAnimationDelta();
-		
-		
+
 	}
 
 	/**
-	 * Realiza los calculos y eventualemente realiza cambios de estado.
+	 * Realiza los calculos y eventualemente maraca el siguiente cambio de estado.
 	 */
 	@Override
 	protected void moveFirstStep(Vector2 v, boolean b, float deltaTime)
@@ -38,7 +37,7 @@ public class GameCharacterStateIddle extends GameCharacterStateOnFloor
 			this.gameCharacter.doAction();
 
 		} else if (v.x != 0)
-			this.gameCharacter.gameCharacterState = new GameCharacterStateWalking(this.gameCharacter);
+			this.nextState = GameCharacter.ST_WALKING;
 	}
 
 	/**
@@ -49,5 +48,7 @@ public class GameCharacterStateIddle extends GameCharacterStateOnFloor
 	{
 
 	}
+
+	
 
 }

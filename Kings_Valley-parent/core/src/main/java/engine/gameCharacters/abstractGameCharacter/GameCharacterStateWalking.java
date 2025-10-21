@@ -26,7 +26,7 @@ public class GameCharacterStateWalking extends GameCharacterStateOnFloor
 	}
 
 	/**
-	 * Verifica colisiones laterales
+	 * Verifica colisiones laterales y puede marcar los siguientes cambios de estado
 	 */
 	@Override
 	protected void moveFirstStep(Vector2 v, boolean b, float deltaTime)
@@ -42,12 +42,12 @@ public class GameCharacterStateWalking extends GameCharacterStateOnFloor
 		{
 
 			if (v.x == 0)
-				this.gameCharacter.gameCharacterState = new GameCharacterStateIddle(this.gameCharacter);
-			// }
+				this.nextState = GameCharacter.ST_IDDLE;
+			
 			if (v.y != 0 && v.x != 0)
 				this.checkEnterStair(v);
 			if (!this.isFloorDown())
-				this.gameCharacter.gameCharacterState = new GameCharacterStateFalling(this.gameCharacter);
+				this.nextState = GameCharacter.ST_FALLING;
 		}
 	}
 
@@ -95,5 +95,7 @@ public class GameCharacterStateWalking extends GameCharacterStateOnFloor
 	{
 		this.colisionForWalk(escalado);
 	}
+
+	
 
 }

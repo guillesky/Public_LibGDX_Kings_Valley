@@ -9,6 +9,7 @@ import engine.game.Game;
 import engine.gameCharacters.abstractGameCharacter.GameCharacter;
 import engine.level.LevelObject;
 import engine.level.Pyramid;
+import engine.level.Stair;
 import util.GameRules;
 import util.ProbabilisticSelector;
 
@@ -19,6 +20,10 @@ import util.ProbabilisticSelector;
  */
 public class MummyStateDeciding extends MummyState
 {
+	/**
+	 * Codigo que indica direccion derecha
+	 */
+
 	private static final int RIGHT = 1;
 	/**
 	 * Codigo que indica direccion izquierda
@@ -26,9 +31,13 @@ public class MummyStateDeciding extends MummyState
 	private static final int LEFT = -1;
 
 	/**
-	 * Codigo que indica Player a la misma altura que la momia
+	 * Codigo que indica subir escalera
 	 */
 	private static final int GO_UP_STAIR = 3;
+	/**
+	 * Codigo que indica bajar escalera
+	 */
+
 	private static final int GO_DOWN_STAIR = 4;
 
 	/**
@@ -68,53 +77,140 @@ public class MummyStateDeciding extends MummyState
 	private void changeStatus()
 	{
 		PlatformAnalysisResult result = new PlatformAnalysisResult(mummy);
-		ProbabilisticSelector selector = new ProbabilisticSelector(Game.random);
-		if (this.mummy.player.y > this.mummy.y)// player esta arriba
+		Stair playerStair = this.mummy.player.getStair();
+		boolean takedDecision = false;
+		// Si el player esta en una escalera a la que puede acceder la momia desde esta
+		// plataforma, va hacia la escalera
+		if (result.getDownStairsInPlatform().contains(playerStair)
+				|| result.getUpStairsInPlatform().contains(playerStair))
+		{
+			this.mummy.mummyState = new MummyStateSearchingStair(this.mummy, playerStair);
+			takedDecision = true;
+		} else // El player no esta en una escalera accesible desde la plataforma
 		{
 
-			if (result.getNearestUpStair() != null)
+			ProbabilisticSelector selector = new ProbabilisticSelector(Game.random);
+			int whereIsPlayer;
+			if (this.mummy.player.getLastFloorCoordinate() > this.mummy.getLastFloorCoordinate())// player esta arriba
 			{
-				if (this.mummy.player.y >= result.getNearestUpStair().getUpStair().y)
-					this.mummy.mummyState = new MummyStateSearchingStair(this.mummy, result.getNearestUpStair(),
-							MummyState.PLAYER_IS_UP);
-				else
-				{
-					selector.add(0.5, GO_UP_STAIR);
-				}
+				whereIsPlayer = MummyState.PLAYER_IS_UP;
+
+			} else if (this.mummy.player.getLastFloorCoordinate() < this.mummy.getLastFloorCoordinate())// player esta
+			// abajo
+			{
+				whereIsPlayer = MummyState.PLAYER_IS_DOWN;
 			} else
 			{
-				int directionX = this.searchEndPlatform(EndPlatformOLD.END_STEP);
-				if (directionX == NONE)
-					directionX = this.searchEndPlatform(EndPlatformOLD.END_CLIFF);
-				this.mummy.mummyState = new MummyStateWalking(this.mummy, directionX, MummyState.PLAYER_IS_UP);
+				whereIsPlayer = MummyState.PLAYER_IS_SOME_LEVEL; // Player esta a la misma altura.
+				if (this.mummy.x > this.mummy.player.x && this.mummy.player.x
+						+ this.mummy.player.width >= result.getEndPlatformLeft().getRectangle().x) // Si el player es
+				// alcanzable hacia la
+				// izquierda en la
+				// plataforma voy a el
+				{
+					this.mummy.mummyState = new MummyStateWalking(this.mummy, LEFT, MummyState.PLAYER_IS_SOME_LEVEL);
+					takedDecision = true;
+				} else if (this.mummy.x < this.mummy.player.x
+						&& this.mummy.player.x <= result.getEndPlatformRight().getRectangle().x
+								+ result.getEndPlatformRight().getRectangle().width)// Si el player es
+				// alcanzable hacia la derecha en la
+				// plataforma voy a el
+
+				{
+					this.mummy.mummyState = new MummyStateWalking(this.mummy, RIGHT, MummyState.PLAYER_IS_SOME_LEVEL);
+					takedDecision = true;
+				}
 			}
 
-		} else if (this.mummy.player.y < this.mummy.y)// player esta abajo
-		{
+			this.addLeftAndRightProbablility(result, selector, whereIsPlayer);
 
-			if (result.getNearestDownStair() != null)
+			if (result.getNearestUpStair() != null) // Si hay una escalera cercana que suba
+
 			{
-				if (this.mummy.player.y <= result.getNearestDownStair().getDownStair().y)
-					this.mummy.mummyState = new MummyStateSearchingStair(this.mummy, result.getNearestDownStair(),
-							MummyState.PLAYER_IS_DOWN);
-				else
+				switch (whereIsPlayer)
 				{
-					selector.add(0.5, GO_DOWN_STAIR);
+				case PLAYER_IS_UP:
+					if (this.mummy.player.getLastFloorCoordinate() >= result.getNearestUpStair().getUpStair().y)
+					{
+						// Si el player esta mas arriba o a la misma altura que la parte superior de la
+						// escalera, busco la escalera.
+						this.mummy.mummyState = new MummyStateSearchingStair(this.mummy, result.getNearestUpStair());
+						takedDecision = true;
+					} else // Si no, entonces considero la posibilidad de tomar la escalera
+					{
+						selector.add(0.5, GO_UP_STAIR);
+					}
+					break;
+				case PLAYER_IS_DOWN:
+					selector.add(0.15, GO_UP_STAIR);
+					break;
+				case PLAYER_IS_SOME_LEVEL:
+					selector.add(0.25, GO_UP_STAIR);
+					break;
+				}
+			}
+
+			if (result.getNearestDownStair() != null) // Si hay una escalera cercana que baje
+
+			{
+				switch (whereIsPlayer)
+				{
+				case PLAYER_IS_DOWN:
+					if (this.mummy.player.getLastFloorCoordinate() <= result.getNearestDownStair().getDownStair().y)
+					{
+						// Si el player esta mas abajo o a la misma altura que la parte superior de la
+						// escalera, busco la escalera.
+						this.mummy.mummyState = new MummyStateSearchingStair(this.mummy, result.getNearestDownStair());
+						takedDecision = true;
+					} else // Si no, entonces considero la posibilidad de tomar la escalera
+					{
+						selector.add(0.5, GO_DOWN_STAIR);
+					}
+					break;
+				case PLAYER_IS_UP:
+					selector.add(0.15, GO_DOWN_STAIR);
+					break;
+				case PLAYER_IS_SOME_LEVEL:
+					selector.add(0.25, GO_DOWN_STAIR);
+					break;
+				}
+			}
+			if (!takedDecision) // Si no pude tomar una decision con seguridad voy a elegir una opcion al azar
+			// de entre las posibles
+			{
+				Integer decision = (Integer) selector.getValue();
+				if (decision != null) // Si hay alguna opcion, es decir, no estoy encerrado con el player fuera de mi
+										// alcance
+				{
+					switch (decision)
+					{
+					case GO_UP_STAIR:
+						this.mummy.mummyState = new MummyStateSearchingStair(this.mummy, result.getNearestUpStair());
+						break;
+					case GO_DOWN_STAIR:
+						this.mummy.mummyState = new MummyStateSearchingStair(this.mummy, result.getNearestDownStair());
+						break;
+					case LEFT:
+						this.mummy.mummyState = new MummyStateWalking(this.mummy, LEFT,
+								MummyState.PLAYER_IS_SOME_LEVEL);
+
+						break;
+					case RIGHT:
+						this.mummy.mummyState = new MummyStateWalking(this.mummy, RIGHT,
+								MummyState.PLAYER_IS_SOME_LEVEL);
+
+						break;
+					}
+					System.out.println(this.mummy + " " + selector);
+				} else // estoy encerrado con el player fuera de mi alcance, la momia muere y se
+						// teletransporta
+				{
+					this.mummy.die(true);
 				}
 
-			} else
-			{
-				int direccion = this.searchEndPlatform(EndPlatformOLD.END_CLIFF);
-				if (direccion == NONE)
-					direccion = this.searchEndPlatform(EndPlatformOLD.END_STEP);
-				this.mummy.mummyState = new MummyStateWalking(this.mummy, direccion, MummyState.PLAYER_IS_DOWN);
 			}
 
-		} else
-		{
-			this.mummy.mummyState = new MummyStateWalking(this.mummy, MummyState.NONE, MummyState.PLAYER_IS_SOME_LEVEL);
-
-		} // player esta al mismo nivel
+		}
 
 	}
 
@@ -125,39 +221,6 @@ public class MummyStateDeciding extends MummyState
 	protected boolean isDanger()
 	{
 		return true;
-	}
-
-	/**
-	 * Llamado internamente por changeStatus. Indica hacia donde debe ir la momia
-	 * dependiendo del tipo de fin de plataforma.
-	 * 
-	 * @param typeEnd indica el tipo de fin de plataforma, tomara los valores:
-	 *                EndPlatform.END_CLIFF o EndPlatform.END_STEP
-	 * @return valor numerico que tomara los valores NONE, LEFT o RIGHT
-	 */
-	private int searchEndPlatform(int typeEnd)
-	{
-		int r = NONE;
-		EndPlatformOLD endToRight = this.endPlatform(true);
-		EndPlatformOLD endToLeft = this.endPlatform(false);
-		if (endToRight.getType() == typeEnd || endToLeft.getType() == typeEnd)
-		{
-			if (endToRight.getType() != typeEnd)
-				r = LEFT;
-			else if (endToLeft.getType() != typeEnd)
-				r = RIGHT;
-			else
-			{
-
-				if (this.mummy.x < this.mummy.player.x)
-
-					r = RIGHT;
-				else
-					r = LEFT;
-			}
-		}
-
-		return r;
 	}
 
 	/**
@@ -172,103 +235,67 @@ public class MummyStateDeciding extends MummyState
 		Game.getInstance().eventFired(KVEventListener.MUMMY_DIE, this);
 	}
 
-	/**
-	 * Crea y retorna un objeto de tipo EndPlatform indicando el tipo de final de
-	 * plataforma buscado
-	 * 
-	 * @param toRight true si se busca el final de plataforma or derecha, false si
-	 *                se lo busca por izquierda
-	 * @return Objeto de tipo EndPlatform que indica el tipo de final de plataforma
-	 */
-	protected EndPlatformOLD endPlatform(boolean toRight)
+	private double getProbabilityOfEndPlatform(EndPlatform endPlatform, int whereIsPlayer)
 	{
-		int inc;
-		int acum = 0;
-		int type;
-		int count;
-		float x;
-		Pyramid pyramid = mummy.getPyramid();
-		x = mummy.x;
-		if (toRight)
+		double r = 0;
+		switch (whereIsPlayer)
 		{
-			inc = 1;
-			x += mummy.width;
-		} else
-
-		{
-			inc = -1;
-
-		}
-
-		while (pyramid.getCell(x, mummy.y, acum, 0) == null && pyramid.getCell(x, mummy.y, acum, 1) == null
-				&& pyramid.getCell(x, mummy.y, acum, -1) != null && this.isColDesplaInMap(acum))
-		{
-			acum += inc;
-
-		}
-		type = this.typeEndPlatform(x, acum);
-		if (acum < 0)
-			acum *= -1;
-		count = acum;
-		EndPlatformOLD r = new EndPlatformOLD(type, count);
-		this.correctGiratoryEndPlatform(r, toRight);
-
-		return r;
-
-	}
-
-	/**
-	 * Corrige los atributos del objeto endPlatform pasado como parametro en caso de
-	 * encontrar una puerta giratoria. En ese caso se considera que hay un bloqueo
-	 * insalvable para la momia. Este metodo es invocado por this.endPlatform
-	 * 
-	 * @param endPlatform objeto de tipo endPlatform que debe ser evaluado. Su
-	 *                    estado podria cambiar
-	 * @param toRight     true si el endPlatform esta a la derecha, false si esta a
-	 *                    la izquierda.
-	 */
-	private void correctGiratoryEndPlatform(EndPlatformOLD endPlatform, boolean toRight)
-	{
-		Iterator<LevelObject> it = mummy.getPyramid().getGiratories().iterator();
-		boolean condicion = false;
-		float posX = mummy.x;
-
-		if (toRight)
-			posX += mummy.width;
-
-		while (it.hasNext() && !condicion)
-		{
-			LevelObject giratoria = it.next();
-			if (giratoria.y == mummy.y && (toRight && giratoria.x >= posX || !toRight && giratoria.x <= posX))
+		case MummyState.PLAYER_IS_UP:
+			switch (endPlatform.getType())
 			{
-				float aux = posX - (giratoria.x + giratoria.width * 0.5f);
-				if (aux < 0)
-					aux *= -1;
-				int dist = (int) (aux / (float) GameRules.getInstance().getLevelTileWidthUnits());
-
-				if (dist < endPlatform.getCount())
-				{
-					endPlatform.setCount(dist);
-					endPlatform.setType(EndPlatformOLD.END_BLOCK);
-					condicion = true;
-				}
+			case EndPlatform.END_STEP:
+				r = 0.5;
+				break;
+			case EndPlatform.END_CLIFF:
+				r = 0.25;
+				break;
 			}
+			break;
+
+		case MummyState.PLAYER_IS_DOWN:
+			switch (endPlatform.getType())
+			{
+			case EndPlatform.END_STEP:
+				r = 0.25;
+				break;
+			case EndPlatform.END_CLIFF:
+				r = 0.50;
+				break;
+			}
+			break;
+
+		case MummyState.PLAYER_IS_SOME_LEVEL:
+			switch (endPlatform.getType())
+			{
+			case EndPlatform.END_STEP:
+				r = 0.50;
+				break;
+			case EndPlatform.END_CLIFF:
+				r = 0.50;
+				break;
+			}
+			break;
+
 		}
-
+		return r;
 	}
 
-	/**
-	 * Metodo llamado internadmente por this.endPlatform. Evita que durante los
-	 * calculos se busque fuera de la piramide
-	 * 
-	 * @param col cantidad de desplazamiento
-	 * @return true si se esta dentro del mapa, false en caso contrario.
-	 */
-	private boolean isColDesplaInMap(int col)
+	private void addLeftAndRightProbablility(PlatformAnalysisResult result, ProbabilisticSelector selector,
+			int whereIsPLayer)
 	{
+		double leftProbability = this.getProbabilityOfEndPlatform(result.getEndPlatformLeft(), whereIsPLayer);
+		double rightProbability = this.getProbabilityOfEndPlatform(result.getEndPlatformRight(), whereIsPLayer);
+		if (leftProbability == rightProbability)
+		{
+			if (mummy.x > mummy.player.x)
+				leftProbability *= 2;
+			else
+				rightProbability *= 2;
+		}
+		if (leftProbability > 0)
+			selector.add(leftProbability, LEFT);
+		if (rightProbability > 0)
+			selector.add(rightProbability, RIGHT);
 
-		return mummy.getColPosition() + col > 1
-				&& mummy.getColPosition() + col < mummy.getPyramid().getMapWidthInTiles() - 1;
 	}
-
 }

@@ -10,6 +10,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
 
 import audio.AudioManager;
+import engine.ConsoleKVEventListener;
 import engine.game.Game;
 import i18n.AllLanguages;
 import i18n.Language;
@@ -331,6 +332,10 @@ public class Facade implements ApplicationListener
 	gameAppListener = new TileMapGrafica2D(assetManager, .5f);
 	Game.getInstance().setInterfaz(gameAppListener);
 	Game.getInstance().addKVEventListener(audioManager);
+	
+	//solo para debug
+	//Game.getInstance().addKVEventListener(new ConsoleKVEventListener());
+	
 	this.mainMenu();
 
     }

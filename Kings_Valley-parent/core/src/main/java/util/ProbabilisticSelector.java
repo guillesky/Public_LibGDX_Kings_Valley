@@ -51,14 +51,23 @@ public class ProbabilisticSelector
 	}
 
 	/**
-	 * Retorna un objeto del conjunto al azar de acuerdo a su correspondiente probabilidad relativa
+	 * Retorna un objeto del conjunto al azar de acuerdo a su correspondiente
+	 * probabilidad relativa
+	 * Si el mapa esta vacion retorna null
+	 * 
 	 * @return El obejto del conjunto seleccionado
 	 */
 	public Object getValue()
 	{
+		Object r;
 		double value = this.random.nextDouble() * total;
-		return map.higherEntry(value).getValue();
+		if (map.isEmpty())
+			r = null;
+		else
+			r = map.higherEntry(value).getValue();
+		return r;
 	}
+
 
 	@Override
 	public String toString()

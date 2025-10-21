@@ -11,14 +11,14 @@ import engine.level.Stair;
  * 
  * @author Guillermo Lazzurri
  */
-public class GameCharacterStateFalling extends GameCharacterState
+public class GameCharacterStateFalling extends GameCharacterStateOnAir
 {
 
 	/**
 	 * Constructor encadenado. Llama a <br>
 	 * super(gameCharacter, GameCharacter.ST_FALLING); <br>
 	 * this.gameCharacter.motionVector.x=0;<br>
-	 * this.gameCharacter.resetAnimationDelta();<br>
+	 * 
 	 * Dispara el evento:
 	 * Game.getInstance().eventFired(KVEventListener.CHARACTER_BEGIN_FALL,
 	 * this.gameCharacter);
@@ -29,64 +29,24 @@ public class GameCharacterStateFalling extends GameCharacterState
 	{
 		super(gameCharacter, GameCharacter.ST_FALLING);
 		this.gameCharacter.motionVector.x = 0;
-		this.gameCharacter.resetAnimationDelta();
 		Game.getInstance().eventFired(KVEventListener.CHARACTER_BEGIN_FALL, this.gameCharacter);
 
 	}
 
 	/**
-	 * Sobrescribe el metodo de la superclase haciendo caer al caracter, en caso de
-	 * tocar el suelo pasara a estado GameCharacterStateIddle, o
-	 * GameCharacterStateWalking y dispara el evento
-	 * Game.getInstance().eventFired(KVEventListener.CHARACTER_LANDING,
-	 * this.gameCharacter);
+	 * Si hay un cambio de estado, Dispara el evento:
+	 * Game.getInstance().eventFired(KVEventListener.CHARACTER_END_FALL,
+	 * this.gameCharacter); <br>
+	 * Llama a super.checkChangeStatus();
 	 * 
 	 */
 	@Override
-	protected void moveFirstStep(Vector2 v, boolean b, float deltaTime)
+	protected void checkChangeStatus()
 	{
-		Vector2 motionVector = this.gameCharacter.motionVector;
-		motionVector.y += this.gameCharacter.getSpeedFall() * deltaTime;
-
-		if (motionVector.y < this.gameCharacter.getSpeedFall())
-			motionVector.y = this.gameCharacter.getSpeedFall();
-
-	/*	if (this.isFloorDown())
-		{
-			if (v.x == 0)
-				this.gameCharacter.gameCharacterState = new GameCharacterStateIddle(this.gameCharacter);
-			else
-				this.gameCharacter.gameCharacterState = new GameCharacterStateWalking(this.gameCharacter);
+		if (this.nextState != GameCharacter.ST_NO_CHANGE)
 			Game.getInstance().eventFired(KVEventListener.CHARACTER_END_FALL, this.gameCharacter);
-		}*/
-	}
 
-	/**
-	 * llama a this.checkLanding(escalado);
-	 */
-	@Override
-	protected void moveSecondStep(Vector2 escalado)
-	{
-		this.checkLanding(escalado);
-
-	}
-
-	/**
-	 * Se sobreescribe como metodo vacio (no hace nada)
-	 */
-	@Override
-	protected void enterStair(Stair stair)
-	{
-
-	}
-
-	/**
-	 * Se sobreescribe como metodo vacio (no hace nada) y retorna false
-	 */
-	@Override
-	protected boolean doJump()
-	{
-		return false;
+		super.checkChangeStatus();
 	}
 
 }

@@ -2,6 +2,8 @@ package engine.gameCharacters.abstractGameCharacter;
 
 import com.badlogic.gdx.math.Vector2;
 
+import engine.KVEventListener;
+import engine.game.Game;
 import engine.level.LevelObject;
 import engine.level.Stair;
 
@@ -12,11 +14,17 @@ import engine.level.Stair;
  */
 public class GameCharacterStateOnStair extends GameCharacterState
 {
+	/**
+	 * Indica la escalera en la que esta el caracter
+	 */
 	private Stair stair;
 
 	/**
 	 * Llama a super(gameCharacter, GameCharacter.ST_WALKING);<br>
-	 * this.stair = stair;
+	 * this.stair = stair;<br>
+	 * Game.getInstance().eventFired(KVEventListener.CHARACTER_ENTER_STAIR,
+	 * this.gameCharacter);
+	 * 
 	 * 
 	 * @param gameCharacter correspondiente al sujeto del patron state.
 	 * @param stair         indica la escalera en la que esta el caracter (debe ser
@@ -26,6 +34,8 @@ public class GameCharacterStateOnStair extends GameCharacterState
 	{
 		super(gameCharacter, GameCharacter.ST_WALKING);
 		this.stair = stair;
+		Game.getInstance().eventFired(KVEventListener.CHARACTER_ENTER_STAIR, this.gameCharacter);
+
 	}
 
 	/**
@@ -103,9 +113,8 @@ public class GameCharacterStateOnStair extends GameCharacterState
 	}
 
 	/**
-	 * Llamado al salir de la escalera y realiza el cambio de estado mediante
-	 * this.gameCharacter.gameCharacterState = new
-	 * GameCharacterStateWalking(this.gameCharacter);
+	 * Llamado al salir de la escalera. Marca el siguiente cambio de estado mediante
+	 * this.nextState = GameCharacter.ST_WALKING;
 	 * 
 	 * @param endStair indica el pie o cabecera de la escalera por la que el
 	 *                 caracter sale de la misma. Sirve para setear la posicion y
@@ -115,9 +124,8 @@ public class GameCharacterStateOnStair extends GameCharacterState
 	{
 		this.gameCharacter.y = endStair.y;
 		this.gameCharacter.motionVector.y = 0;
-		this.gameCharacter.gameCharacterState = new GameCharacterStateWalking(this.gameCharacter);
+		this.nextState = GameCharacter.ST_WALKING;
 		this.stair = null;
-
 	}
 
 	/**
@@ -156,6 +164,27 @@ public class GameCharacterStateOnStair extends GameCharacterState
 	protected boolean doJump()
 	{
 		return false;
+	}
+
+	/**
+	 * Si hay un cambio de estado, Dispara el evento:
+	 * Game.getInstance().eventFired(KVEventListener.CHARACTER_EXIT_STAIR,
+	 * this.gameCharacter); <br>
+	 * Llama a this.gameCharacter.gameCharacterState = new
+	 * GameCharacterStateWalking(this.gameCharacter); (AL salir de una escalera solo
+	 * se puede pasar a modo caminata)
+	 * 
+	 */
+	@Override
+	protected void checkChangeStatus()
+	{
+		if (this.nextState == GameCharacter.ST_WALKING)
+		{
+			Game.getInstance().eventFired(KVEventListener.CHARACTER_EXIT_STAIR, this.gameCharacter);
+			this.gameCharacter.gameCharacterState = new GameCharacterStateWalking(this.gameCharacter);
+
+		}
+
 	}
 
 }

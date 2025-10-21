@@ -11,7 +11,7 @@ import engine.level.Stair;
 public class MummyStateSearchingStair extends MummyStateWalking
 {
 	private Stair stair;
-	private LevelObject footStair;
+	private LevelObject beginStair;
 
 	/**
 	 * Constructor de clase, llama a super(mummy, nearStairResult.getDirectionX(),
@@ -23,24 +23,23 @@ public class MummyStateSearchingStair extends MummyStateWalking
 	 *                      MummyState.PLAYER_IS_UP; PLAYER_IS_SOME_LEVEL; o
 	 *                      PLAYER_IS_DOWN
 	 */
-	public MummyStateSearchingStair(Mummy mummy,  Stair stair, int whereIsPlayer)
+	public MummyStateSearchingStair(Mummy mummy,  Stair stair)
 	{
 
-		super(mummy, decideDirection(mummy, stair), whereIsPlayer);
-		this.whereIsPlayer = whereIsPlayer;
+		super(mummy, decideDirection(mummy, stair), -1);
 		this.stair = stair;
 
-		if (whereIsPlayer == MummyState.PLAYER_IS_UP)
-			this.footStair = stair.getDownStair();
+		if (stair.getDownStair().y == this.mummy.getLastFloorCoordinate())
+			this.beginStair = stair.getDownStair();
 		else
-			this.footStair = stair.getUpStair();
+			this.beginStair = stair.getUpStair();
 
 	}
 
 	private static int decideDirection(Mummy mummy, Stair stair)
 	{
 		LevelObject beginStair;
-		if (stair.getDownStair().y == mummy.y)
+		if (stair.getDownStair().y == mummy.getLastFloorCoordinate())
 			beginStair = stair.getDownStair();
 		else
 			beginStair = stair.getUpStair();
@@ -61,10 +60,10 @@ public class MummyStateSearchingStair extends MummyStateWalking
 		if (!this.mummy.isInStair())
 		{
 
-			if (this.mummy.isFeetColision(this.footStair))
+			if (this.mummy.isFeetColision(this.beginStair))
 			{
 				this.mummy.enterStair(stair);
-				if (this.whereIsPlayer == MummyState.PLAYER_IS_UP)
+				if (this.beginStair==this.stair.getDownStair())
 					this.mummy.getDirection().x = this.stair.directionUp();
 				else
 					this.mummy.getDirection().x = this.stair.directionDown();

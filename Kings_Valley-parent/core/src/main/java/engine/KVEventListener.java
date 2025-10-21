@@ -69,25 +69,37 @@ public interface KVEventListener
 
 	int CHARACTER_END_FALL = 13;
 	/**
+	 * Codigo del evento: un caracter entro a una escalera
+	 */
+
+	int CHARACTER_ENTER_STAIR = 14;
+
+	/**
+	 * Codigo del evento: un caracter salio de una escalera
+	 */
+
+	int CHARACTER_EXIT_STAIR = 15;
+
+	/**
 	 * Codigo del evento: player murio
 	 */
 
-	int PLAYER_DIE = 14;
+	int PLAYER_DIE = 16;
 	/**
 	 * Codigo del evento: player picando
 	 */
 
-	int PLAYER_PICKING = 15;
+	int PLAYER_PICKING = 17;
 	/**
 	 * Codigo del evento: player revivio
 	 */
 
-	int PLAYER_RESPAWN = 16;
+	int PLAYER_RESPAWN = 18;
 	/**
 	 * Codigo del evento: player salto
 	 */
 
-	int PLAYER_JUMP = 17;
+	int PLAYER_JUMP = 19;
 
 	/**
 	 * Codigo del evento: una momia aparecio
@@ -196,11 +208,12 @@ public interface KVEventListener
 	 *                  int CHARACTER_END_JUMP=11;<br>
 	 *                  int CHARACTER_BEGIN_FALL = 12;<br>
 	 *                  int CHARACTER_END_FALL = 13;<br>
-	 * 
-	 *                  int PLAYER_DIE = 14;<br>
-	 *                  int PLAYER_PICKING = 15;<br>
-	 *                  int PLAYER_RESPAWN = 16;<br>
-	 *                  int PLAYER_JUMP = 17;<br>
+	 *                  int CHARACTER_ENTER_STAIR=14;<br>
+	 *                  int CHARACTER_EXIT_STAIR=15;<br>
+	 *                  int PLAYER_DIE = 16;<br>
+	 *                  int PLAYER_PICKING = 17;<br>
+	 *                  int PLAYER_RESPAWN = 18;<br>
+	 *                  int PLAYER_JUMP = 19;<br>
 	 * 
 	 * 
 	 *                  int MUMMY_APPEAR = 20;<br>

@@ -13,29 +13,32 @@ import util.GameRules;
  * 
  * @author Guillermo Lazzurri
  */
-public class GameCharacterStateJumping extends GameCharacterState
+public class GameCharacterStateJumping extends GameCharacterStateOnAir
 {
 	private float initialMotionX;
 
 	/**
 	 * Constructor encadenado. Llama a <br>
 	 * super(gameCharacter, GameCharacter.ST_JUMPING);<br>
-	 * this.gameCharacter.resetAnimationDelta();<br>
 	 * this.gameCharacter.motionVector.y = this.gameCharacter.speedJump;<br>
 	 * this.initialMotionX = this.gameCharacter.motionVector.x;<br>
+	 * * Dispara el
+	 * evento:Game.getInstance().eventFired(KVEventListener.CHARACTER_JUMP,
+	 * gameCharacter);
 	 * 
-	 * 
-	 * @param gameCharacter correspondiente al sujeto del patron state.
+	 * @param gameCharacter  correspondiente al sujeto del patron state.
+	 * @param initialMotionX indica la direccion de movimiento horizontal pretendida
+	 *                       (Si salta hacia el costado estando bloqueado)
 	 */
-	public GameCharacterStateJumping(GameCharacter gameCharacter)
+	public GameCharacterStateJumping(GameCharacter gameCharacter, float initialMotionX)
 	{
 		super(gameCharacter, GameCharacter.ST_JUMPING);
-		this.gameCharacter.resetAnimationDelta();
 		this.gameCharacter.motionVector.y = this.gameCharacter.getSpeedJump();
-		this.gameCharacter.motionVector.x = Math.signum(this.gameCharacter.motionVector.x)
+		this.gameCharacter.motionVector.x = Math.signum(initialMotionX)
 				* GameRules.getInstance().getCharacterHorizontalSpeedJump();
 		this.initialMotionX = this.gameCharacter.motionVector.x;
 		Game.getInstance().eventFired(KVEventListener.CHARACTER_JUMP, gameCharacter);
+		
 	}
 
 	/**
@@ -48,22 +51,19 @@ public class GameCharacterStateJumping extends GameCharacterState
 	{
 		if (this.hasBlocked() && this.gameCharacter.motionVector.y > 0)
 			this.tryUnblock();
-		this.gameCharacter.motionVector.y += this.gameCharacter.getSpeedFall() * deltaTime;
-
-		if (this.gameCharacter.motionVector.y < this.gameCharacter.getSpeedFall())
-			this.gameCharacter.motionVector.y = this.gameCharacter.getSpeedFall();
+		super.moveFirstStep(v, b, deltaTime);
 
 	}
 
 	/**
-	 * Llama a checkLanding para verificar si llego al suelo
+	 * Llama a super para verificar si llego al suelo y ademas calcula posibles
+	 * colisiones laterales
 	 */
 	@Override
 	protected void moveSecondStep(Vector2 escalado)
 	{
-		this.checkLanding(escalado);
+		super.moveSecondStep(escalado);
 		this.colision(escalado);
-
 	}
 
 	/**
@@ -89,22 +89,19 @@ public class GameCharacterStateJumping extends GameCharacterState
 	}
 
 	/**
-	 *
-	 * Se sobreescribe como metodo vacio (no hace nada)
-	 */
-
-	@Override
-	protected void enterStair(Stair stair)
-	{
-
-	}
-
-	/**
-	 * Siempre retorna false (ya esta saltado)
+	 * Si hay un cambio de estado, Dispara el evento:
+	 * Game.getInstance().eventFired(KVEventListener.CHARACTER_END_JUMP,
+	 * this.gameCharacter); <br>
+	 * Llama a super.checkChangeStatus();
+	 * 
 	 */
 	@Override
-	protected boolean doJump()
+	protected void checkChangeStatus()
 	{
-		return false;
+		if (this.nextState != GameCharacter.ST_NO_CHANGE)
+			Game.getInstance().eventFired(KVEventListener.CHARACTER_END_JUMP, this.gameCharacter);
+
+		super.checkChangeStatus();
 	}
+
 }
