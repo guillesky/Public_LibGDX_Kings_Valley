@@ -46,7 +46,6 @@ public class PlatformAnalysisResult
      */
     private Stair nearestDownStair;
 
-
     /**
      * Constructor de clase a partir del analisis de la plataforma desde la
      * perspectiva del GameCharacter pasado por parametro
@@ -98,7 +97,8 @@ public class PlatformAnalysisResult
 		beginOfStair = stair.getDownStair();
 	    else
 		beginOfStair = stair.getUpStair();
-	    if (beginOfStair.y == gameCharacter.getLastFloorCoordinate() && this.endPlatformLeft.getRectangle().x < beginOfStair.x
+	    if (beginOfStair.y == gameCharacter.getLastFloorCoordinate()
+		    && this.endPlatformLeft.getRectangle().x < beginOfStair.x
 		    && endPlatformRight.getRectangle().x + endPlatformRight.getRectangle().width > beginOfStair.x)
 		candidatesStairs.add(stair);
 	}
@@ -202,7 +202,8 @@ public class PlatformAnalysisResult
 
 	while (pyramid.getCell(x, gameCharacter.getLastFloorCoordinate(), acum, 0) == null
 		&& pyramid.getCell(x, gameCharacter.getLastFloorCoordinate(), acum, 1) == null
-		&& pyramid.getCell(x, gameCharacter.getLastFloorCoordinate(), acum, -1) != null && this.isColDesplaInMap(gameCharacter, acum))
+		&& pyramid.getCell(x, gameCharacter.getLastFloorCoordinate(), acum, -1) != null
+		&& this.isColDesplaInMap(gameCharacter, acum))
 	{
 	    acum += inc;
 
@@ -231,8 +232,8 @@ public class PlatformAnalysisResult
 		x = x - x % tileWidth + acum * tileWidth - 0.1f * GameRules.getInstance().getCharacterWidth();
 	    else
 		x = x - x % tileWidth + (acum + 1) * tileWidth - 0.9f * GameRules.getInstance().getCharacterWidth();
-	    epf2 = new EndPlatform(type, new Rectangle(x, gameCharacter.getLastFloorCoordinate(), GameRules.getInstance().getCharacterWidth(),
-		    GameRules.getInstance().getCharacterFeetHeight()));
+	    epf2 = new EndPlatform(type, new Rectangle(x, gameCharacter.getLastFloorCoordinate(),
+		    GameRules.getInstance().getCharacterWidth(), GameRules.getInstance().getCharacterFeetHeight()));
 	}
 
 	return epf2;
@@ -396,6 +397,12 @@ public class PlatformAnalysisResult
     {
 	return "PlatFormAnalisys [endEndPlatformLeft=" + endPlatformLeft + ", endEndPlatformRight=" + endPlatformRight
 		+ ", nearestUpStair=" + nearestUpStair + ", nearestDownStair=" + nearestDownStair + "]";
+    }
+
+    public boolean isCharacterReachable(GameCharacter character)
+    {
+	return this.endPlatformLeft.getRectangle().x <= character.x
+		&& character.x <= this.endPlatformRight.getRectangle().x + this.endPlatformRight.getRectangle().width;
     }
 
 }

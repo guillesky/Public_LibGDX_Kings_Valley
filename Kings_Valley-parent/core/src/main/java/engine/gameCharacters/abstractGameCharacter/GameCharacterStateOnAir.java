@@ -50,14 +50,17 @@ public abstract class GameCharacterStateOnAir extends GameCharacterState
 	@Override
 	protected void moveFirstStep(Vector2 v, boolean b, float deltaTime)
 	{
-		Vector2 motionVector = this.gameCharacter.motionVector;
-		motionVector.y += this.gameCharacter.getSpeedFall() * deltaTime;
+			
+		this.gameCharacter.motionVector.y += this.gameCharacter.getSpeedFall() * deltaTime;
 
-		if (motionVector.y < this.gameCharacter.getSpeedFall())
-			motionVector.y = this.gameCharacter.getSpeedFall();
-
+		if (this.gameCharacter.motionVector.y < this.gameCharacter.getSpeedFall())
+			this.gameCharacter.motionVector.y = this.gameCharacter.getSpeedFall();
+	
+	
+	
 	}
-
+	
+	
 	/**
 	 * llama a this.checkLanding(escalado);
 	 */

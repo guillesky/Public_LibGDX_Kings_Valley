@@ -103,7 +103,7 @@ public class GameRules
 	this.levelTileHeightUnits = levelTileHeightUnits;
 
 	this.characterSpeedFall = (int) (this.levelTileHeightUnits * (-60));
-	this.characterVerticalSpeedJump = (int) (this.levelTileHeightUnits * (15.3));
+	this.characterVerticalSpeedJump = (int) (this.levelTileHeightUnits * (16)); 
 
 	this.characterHorizontalSpeedJump = (int) (6 * this.levelTileWidthUnits);
 	this.playerSpeedWalk = (int) (6 * this.levelTileWidthUnits);

@@ -35,6 +35,7 @@ public class GameCharacterStateOnStair extends GameCharacterState
 		super(gameCharacter, GameCharacter.ST_WALKING);
 		this.stair = stair;
 		Game.getInstance().eventFired(KVEventListener.CHARACTER_ENTER_STAIR, this.gameCharacter);
+		
 
 	}
 

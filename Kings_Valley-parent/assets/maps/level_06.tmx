@@ -205,7 +205,7 @@
     <property name="p0" value="1"/>
    </properties>
   </object>
-  <object id="60" type="Mummy" gid="125" x="2560" y="576" width="64" height="64">
+  <object id="60" type="Mummy" gid="125" x="128" y="512" width="64" height="64">
    <properties>
     <property name="p0" value="3"/>
    </properties>

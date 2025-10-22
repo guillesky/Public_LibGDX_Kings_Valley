@@ -255,21 +255,42 @@ public abstract class GameCharacterState
 	 * @param vectMove Objeto de tipo Vector2 que representa la trayectoria
 	 *                 pretendida.
 	 */
+	
+	
 	private void correctDown(Vector2 vectMove)
 	{
 		float aux = (int) ((this.gameCharacter.y + vectMove.y) / GameRules.getInstance().getLevelTileHeightUnits());
-		this.gameCharacter.y = (aux + 1) * GameRules.getInstance().getLevelTileHeightUnits();
-		vectMove.y = 0;
+		vectMove.y = (aux + 1) * GameRules.getInstance().getLevelTileHeightUnits() - this.gameCharacter.y;
 		if (vectMove.x == 0)
-			this.nextState = GameCharacter.ST_IDDLE;
+		    this.nextState = GameCharacter.ST_IDDLE;
 		else
 		{
 			this.gameCharacter.lookRight = vectMove.x >= 0;
 			this.nextState = GameCharacter.ST_WALKING;
 		}
 		this.gameCharacter.motionVector.y = 0;
-
+		Game.getInstance().eventFired(KVEventListener.CHARACTER_END_JUMP, this.gameCharacter);
 	}
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	/**
 	 * Metodo que decide si la colision fue lateral o por debajo, en caso de que la
@@ -452,6 +473,7 @@ public abstract class GameCharacterState
 		this.moveFirstStep(v, b, deltaTime);
 		Vector2 escalado = this.gameCharacter.motionVector.cpy().scl(deltaTime);
 		this.moveSecondStep(escalado);
+		
 		this.gameCharacter.x += escalado.x;
 		this.gameCharacter.y += escalado.y;
 		this.checkOutLevel();
