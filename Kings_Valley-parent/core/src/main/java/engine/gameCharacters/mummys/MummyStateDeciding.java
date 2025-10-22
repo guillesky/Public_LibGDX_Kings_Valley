@@ -50,8 +50,7 @@ public class MummyStateDeciding extends MummyState
 	super(mummy, Mummy.ST_IDDLE);
 	this.timeToChange = this.mummy.getTimeDeciding();
 
-	this.update(0);
-
+	
     }
 
     /**
@@ -84,7 +83,7 @@ public class MummyStateDeciding extends MummyState
 	// plataforma, va hacia la escalera
 	if (result.getDownStairsInPlatform().contains(playerStair)
 		|| result.getUpStairsInPlatform().contains(playerStair))
-	{
+	{System.out.println("CASO 1");
 	    this.mummy.mummyState = new MummyStateSearchingStair(this.mummy, playerStair);
 	    takedDecision = true;
 	} else // El player no esta en una escalera accesible desde la plataforma
@@ -130,6 +129,7 @@ public class MummyStateDeciding extends MummyState
 		    {
 			// Si el player esta mas arriba o a la misma altura que la parte superior de la
 			// escalera, busco la escalera.
+			System.out.println("CASO 2");
 			this.mummy.mummyState = new MummyStateSearchingStair(this.mummy, result.getNearestUpStair());
 			takedDecision = true;
 		    } else // Si no, entonces considero la posibilidad de tomar la escalera
@@ -156,6 +156,7 @@ public class MummyStateDeciding extends MummyState
 		    {
 			// Si el player esta mas abajo o a la misma altura que la parte superior de la
 			// escalera, busco la escalera.
+			System.out.println("CASO 3");
 			this.mummy.mummyState = new MummyStateSearchingStair(this.mummy, result.getNearestDownStair());
 			takedDecision = true;
 		    } else // Si no, entonces considero la posibilidad de tomar la escalera
@@ -181,9 +182,12 @@ public class MummyStateDeciding extends MummyState
 		    switch (decision)
 		    {
 		    case GO_UP_STAIR:
+			System.out.println("CASO 4");
 			this.mummy.mummyState = new MummyStateSearchingStair(this.mummy, result.getNearestUpStair());
+			
 			break;
 		    case GO_DOWN_STAIR:
+			System.out.println("CASO 5");
 			this.mummy.mummyState = new MummyStateSearchingStair(this.mummy, result.getNearestDownStair());
 			break;
 		    case LEFT:

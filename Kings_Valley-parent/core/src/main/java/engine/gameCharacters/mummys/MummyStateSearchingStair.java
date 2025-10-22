@@ -61,12 +61,13 @@ public class MummyStateSearchingStair extends MummyStateWalking
 	{
 
 	    if (this.mummy.isFeetColision(this.beginStair))
-	    {
+	    {System.out.println("MMMUY FEET COLISISION");
 		this.mummy.enterStair(stair);
 		if (this.beginStair == this.stair.getDownStair())
 		    this.mummy.getDirection().x = this.stair.directionUp();
 		else
 		    this.mummy.getDirection().x = this.stair.directionDown();
+		
 	    }
 
 	}

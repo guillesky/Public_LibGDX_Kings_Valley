@@ -213,7 +213,7 @@ public abstract class GameCharacter extends LevelObject
      */
     public boolean isFeetColision(Rectangle another)
     {
-	this.feet.x = this.x + (this.width - GameRules.getInstance().getCharacterFeetHeight()) / 2;
+	this.feet.x = this.x + (this.width - GameRules.getInstance().getCharacterFeetWidth()) / 2;
 	this.feet.y = this.y;
 	return LevelObject.rectangleColision(this.feet, another);
     }
