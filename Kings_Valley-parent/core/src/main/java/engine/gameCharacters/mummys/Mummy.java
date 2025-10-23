@@ -49,6 +49,7 @@ public abstract class Mummy extends GameCharacter
      */
     public static final int ST_TELEPORTING = 104;
 
+  
     private float decisionFactorForFall;
     protected float decisionFactorForJump;
     /**
@@ -311,7 +312,7 @@ public abstract class Mummy extends GameCharacter
 	    posX = this.x + this.width;
 	    offset = -1;
 	}
-	return this.pyramid.getCell(posX, this.y, offset, 2) == null;
+	return (this.pyramid.getCell(posX, this.y, offset, 2) == null && this.isFreeUp());
 
     }
 

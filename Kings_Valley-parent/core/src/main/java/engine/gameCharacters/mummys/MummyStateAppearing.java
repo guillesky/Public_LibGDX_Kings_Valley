@@ -21,6 +21,7 @@ public class MummyStateAppearing extends MummyState
 	public MummyStateAppearing(Mummy mummy)
 	{
 		super(mummy, Mummy.ST_APPEARING);
+		mummy.resetTimeInState();
 		this.timeToChange = GameRules.getInstance().getMummyTimeAppearing();
 		Game.getInstance().eventFired(KVEventListener.MUMMY_APPEAR, this.mummy);
 

@@ -23,6 +23,7 @@ public class MummyStateLimbus extends MummyState
 	public MummyStateLimbus(Mummy mummy, boolean mustTeleport)
 	{
 		this(mummy, GameRules.getInstance().getMummyTimeInLimbus());
+		mummy.resetTimeInState();
 		this.mustTeleport = mustTeleport;
 		this.mummy.resetStress();
 	}

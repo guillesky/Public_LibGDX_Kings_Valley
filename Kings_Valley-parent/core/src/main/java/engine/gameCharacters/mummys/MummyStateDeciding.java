@@ -20,16 +20,7 @@ import util.ProbabilisticSelector;
  */
 public class MummyStateDeciding extends MummyState
 {
-    /**
-     * Codigo que indica direccion derecha
-     */
-
-    private static final int RIGHT = 1;
-    /**
-     * Codigo que indica direccion izquierda
-     */
-    private static final int LEFT = -1;
-
+   
     /**
      * Codigo que indica subir escalera
      */
@@ -48,6 +39,7 @@ public class MummyStateDeciding extends MummyState
     public MummyStateDeciding(Mummy mummy)
     {
 	super(mummy, Mummy.ST_IDDLE);
+	mummy.resetTimeInState();
 	this.timeToChange = this.mummy.getTimeDeciding();
 
     }

@@ -43,7 +43,7 @@ public class GameCharacterStateWalking extends GameCharacterStateOnFloor
 
 			if (v.x == 0)
 				this.nextState = GameCharacter.ST_IDDLE;
-			
+
 			if (v.y != 0 && v.x != 0)
 				this.checkEnterStair(v);
 			if (!this.isFloorDown())
@@ -95,7 +95,5 @@ public class GameCharacterStateWalking extends GameCharacterStateOnFloor
 	{
 		this.colisionForWalk(escalado);
 	}
-
-	
 
 }

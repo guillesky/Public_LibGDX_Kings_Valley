@@ -14,12 +14,17 @@ import util.GameRules;
 public abstract class MummyState
 
 {
-    /**
-     * Indica el estado al que debe pasar
-     */
-    protected int nextState;
-
     
+    
+    /**
+     * Codigo que indica direccion derecha
+     */
+
+    protected static final int RIGHT = 1;
+    /**
+     * Codigo que indica direccion izquierda
+     */
+    protected static final int LEFT = -1;
 
   
 
@@ -45,10 +50,9 @@ public abstract class MummyState
     public MummyState(Mummy mummy, int state)
     {
 	this.mummy = mummy;
-	this.nextState=Mummy.ST_NO_CHANGE;
 	mummy.setState(state);
 	mummy.resetAnimationDelta();
-	mummy.resetTimeInState();
+	
 
     }
 
