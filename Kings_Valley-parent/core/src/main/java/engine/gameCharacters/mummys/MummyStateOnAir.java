@@ -1,17 +1,22 @@
 package engine.gameCharacters.mummys;
 
+import engine.gameCharacters.abstractGameCharacter.GameCharacter;
+
 public class MummyStateOnAir extends MummyState
 {
 
 	public MummyStateOnAir(Mummy mummy)
 	{
-		super(mummy, mummy.getState());
+		super(mummy);
 	}
 
 	@Override
 	public void update(float deltaTime)
 	{
-	
+		this.mummy.move(this.mummy.getDirection(), false, deltaTime);
+		if (this.mummy.getState() == GameCharacter.ST_WALKING
+				|| this.mummy.getState() == GameCharacter.ST_IDDLE)
+			this.mummy.mummyState=new MummyStateWalking(this.mummy);
 	}
 
 	@Override

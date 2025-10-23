@@ -66,6 +66,20 @@ public class MummyStateWalking extends MummyState
 		this.nextState = Mummy.ST_NO_CHANGE;
 
 	}
+	
+	public MummyStateWalking(Mummy mummy)
+	{
+		super(mummy, GameCharacter.ST_WALKING);
+		this.whereIsPlayer=this.mummy.whereIsPlayer();
+		this.platformAnalysisResult = new PlatformAnalysisResult(this.mummy);
+		this.timeToChange = this.mummy.getTimeToDecide();
+		this.nextState = Mummy.ST_NO_CHANGE;
+		
+	}
+	
+	
+
+	
 
 	/**
 	 * Dedice la direccion de la momia de acuerdo a la posicion relativa del player
@@ -152,33 +166,7 @@ public class MummyStateWalking extends MummyState
 		this.mummy.stressing();
 	}
 
-	/**
-	 * Indica que debe hacer la momia si choca contra una pared o una giratoria
-	 * 
-	 * @param crashStatus valor entero que determina si el choque es contra un muro
-	 *                    o una giratoria, los valores respectivamente son
-	 *                    BLOCK_BRICK y BLOCK_GIRATORY
-	 * @param type        indica el tipo de final de plataforma al que se esta
-	 *                    acercando la momia.
-	 */
-	public void doInCrashToWallOrGiratory(int crashStatus, int type)
-	{
-		if (crashStatus == BLOCK_BRICK)
-
-		{
-
-			if (this.mummy.canJump() && type == EndPlatformOLD.END_STEP && (this.whereIsPlayer == Mummy.PLAYER_IS_UP
-					|| this.whereIsPlayer == Mummy.PLAYER_IS_SOME_LEVEL || this.mummy.isLocked()))
-
-				this.doJump = true;
-			else
-				this.bounces();
-		} else // rebota pues choco contra giratoria
-		{
-			this.bounces();
-		}
-	}
-
+	
 	/**
 	 * Cambia el estado a new MummyStateDying(this.mummy, mustTeleport);
 	 */
