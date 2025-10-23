@@ -43,7 +43,7 @@ public class GameCharacterStateOnStair extends GameCharacterState
 	 * Movera el caracter por la escalera dependiendo de su direccion horizontal
 	 */
 	@Override
-	protected void moveFirstStep(Vector2 v, boolean b, float deltaTime)
+	protected void beforeScaling(Vector2 v, boolean b, float deltaTime)
 	{
 		this.gameCharacter.motionVector.x = v.x * this.gameCharacter.getSpeedWalkStairs();
 		int sign;
@@ -134,7 +134,7 @@ public class GameCharacterStateOnStair extends GameCharacterState
 	 */
 
 	@Override
-	protected void moveSecondStep(Vector2 escalado)
+	protected void afterScaling(Vector2 escalado)
 	{
 
 	}

@@ -29,7 +29,7 @@ public class GameCharacterStateWalking extends GameCharacterStateOnFloor
 	 * Verifica colisiones laterales y puede marcar los siguientes cambios de estado
 	 */
 	@Override
-	protected void moveFirstStep(Vector2 v, boolean b, float deltaTime)
+	protected void beforeScaling(Vector2 v, boolean b, float deltaTime)
 	{
 
 		this.gameCharacter.motionVector.x = v.x * this.gameCharacter.getSpeedWalk();
@@ -91,7 +91,7 @@ public class GameCharacterStateWalking extends GameCharacterStateOnFloor
 	 * llama a this.colisionForWalk(escalado);
 	 */
 	@Override
-	protected void moveSecondStep(Vector2 escalado)
+	protected void afterScaling(Vector2 escalado)
 	{
 		this.colisionForWalk(escalado);
 	}

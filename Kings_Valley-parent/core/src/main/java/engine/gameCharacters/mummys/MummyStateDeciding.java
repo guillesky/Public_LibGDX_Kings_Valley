@@ -50,7 +50,6 @@ public class MummyStateDeciding extends MummyState
 	super(mummy, Mummy.ST_IDDLE);
 	this.timeToChange = this.mummy.getTimeDeciding();
 
-	
     }
 
     /**
@@ -81,135 +80,124 @@ public class MummyStateDeciding extends MummyState
 	boolean takedDecision = false;
 	// Si el player esta en una escalera a la que puede acceder la momia desde esta
 	// plataforma, va hacia la escalera
-	if (result.getDownStairsInPlatform().contains(playerStair)
-		|| result.getUpStairsInPlatform().contains(playerStair))
-	{System.out.println("CASO 1");
-	    this.mummy.mummyState = new MummyStateSearchingStair(this.mummy, playerStair);
+	if (playerStair != null && (result.getDownStairsInPlatform().contains(playerStair)
+		|| result.getUpStairsInPlatform().contains(playerStair)))
+	{
+	    this.mummy.mummyState = new MummyStateSearchingStair(this.mummy, result, playerStair);
 	    takedDecision = true;
 	} else // El player no esta en una escalera accesible desde la plataforma
 	{
 
 	    ProbabilisticSelector selector = new ProbabilisticSelector(Game.random);
-	    int whereIsPlayer;
-	    if (this.mummy.player.getLastFloorCoordinate() > this.mummy.getLastFloorCoordinate())// player esta arriba
+	    int whereIsPlayer = this.mummy.whereIsPlayer();
+	    if (whereIsPlayer == Mummy.PLAYER_IS_SOME_LEVEL && result.isCharacterReachable(mummy.player))
+	    // Si el player es alcanzable en la plataforma seguro tomare una decision
+	    // deterministica
 	    {
-		whereIsPlayer = MummyState.PLAYER_IS_UP;
-
-	    } else if (this.mummy.player.getLastFloorCoordinate() < this.mummy.getLastFloorCoordinate())// player esta
-	    // abajo
-	    {
-		whereIsPlayer = MummyState.PLAYER_IS_DOWN;
-	    } else
-	    {
-		whereIsPlayer = MummyState.PLAYER_IS_SOME_LEVEL; // Player esta a la misma altura.
-		if (result.isCharacterReachable(mummy.player)) // Si el player es alcanzable en la plataforma seguro
-							       // tomare una decision deterministica
-		{
-		    takedDecision = true;
-		    if (this.mummy.x > this.mummy.player.x) // Si el player esta a la izquierda voy hacia alli
-			this.mummy.mummyState = new MummyStateWalking(this.mummy, LEFT,
-				MummyState.PLAYER_IS_SOME_LEVEL);
-		    else // Sino voy hacia la derecha
-			this.mummy.mummyState = new MummyStateWalking(this.mummy, RIGHT,
-				MummyState.PLAYER_IS_SOME_LEVEL);
-
-		}
+		takedDecision = true;
+		if (this.mummy.x > this.mummy.player.x) // Si el player esta a la izquierda voy hacia alli
+		    this.mummy.mummyState = new MummyStateWalking(this.mummy, result, LEFT, whereIsPlayer);
+		else // Sino voy hacia la derecha
+		    this.mummy.mummyState = new MummyStateWalking(this.mummy, result, RIGHT, whereIsPlayer);
 
 	    }
 
-	    this.addLeftAndRightProbability(result, selector, whereIsPlayer);
-
-	    if (result.getNearestUpStair() != null) // Si hay una escalera cercana que suba
-
+	    else
 	    {
-		switch (whereIsPlayer)
+
+		this.addLeftAndRightProbability(result, selector, whereIsPlayer);
+
+		if (result.getNearestUpStair() != null) // Si hay una escalera cercana que suba
+
 		{
-		case PLAYER_IS_UP:
-		    if (this.mummy.player.getLastFloorCoordinate() >= result.getNearestUpStair().getUpStair().y)
+		    switch (whereIsPlayer)
 		    {
-			// Si el player esta mas arriba o a la misma altura que la parte superior de la
-			// escalera, busco la escalera.
-			System.out.println("CASO 2");
-			this.mummy.mummyState = new MummyStateSearchingStair(this.mummy, result.getNearestUpStair());
-			takedDecision = true;
-		    } else // Si no, entonces considero la posibilidad de tomar la escalera
-		    {
-			selector.add(0.5, GO_UP_STAIR);
-		    }
-		    break;
-		case PLAYER_IS_DOWN:
-		    selector.add(0.15, GO_UP_STAIR);
-		    break;
-		case PLAYER_IS_SOME_LEVEL:
-		    selector.add(0.25, GO_UP_STAIR);
-		    break;
-		}
-	    }
-
-	    if (result.getNearestDownStair() != null) // Si hay una escalera cercana que baje
-
-	    {
-		switch (whereIsPlayer)
-		{
-		case PLAYER_IS_DOWN:
-		    if (this.mummy.player.getLastFloorCoordinate() <= result.getNearestDownStair().getDownStair().y)
-		    {
-			// Si el player esta mas abajo o a la misma altura que la parte superior de la
-			// escalera, busco la escalera.
-			System.out.println("CASO 3");
-			this.mummy.mummyState = new MummyStateSearchingStair(this.mummy, result.getNearestDownStair());
-			takedDecision = true;
-		    } else // Si no, entonces considero la posibilidad de tomar la escalera
-		    {
-			selector.add(0.5, GO_DOWN_STAIR);
-		    }
-		    break;
-		case PLAYER_IS_UP:
-		    selector.add(0.15, GO_DOWN_STAIR);
-		    break;
-		case PLAYER_IS_SOME_LEVEL:
-		    selector.add(0.25, GO_DOWN_STAIR);
-		    break;
-		}
-	    }
-	    if (!takedDecision) // Si no pude tomar una decision con seguridad voy a elegir una opcion al azar
-	    // de entre las posibles
-	    {
-		Integer decision = (Integer) selector.getValue();
-		if (decision != null) // Si hay alguna opcion, es decir, no estoy encerrado con el player fuera de mi
-				      // alcance
-		{
-		    switch (decision)
-		    {
-		    case GO_UP_STAIR:
-			System.out.println("CASO 4");
-			this.mummy.mummyState = new MummyStateSearchingStair(this.mummy, result.getNearestUpStair());
-			
+		    case Mummy.PLAYER_IS_UP:
+			if (this.mummy.player.getLastFloorCoordinate() >= result.getNearestUpStair().getUpStair().y)
+			{
+			    // Si el player esta mas arriba o a la misma altura que la parte superior de la
+			    // escalera, busco la escalera.
+			    this.mummy.mummyState = new MummyStateSearchingStair(this.mummy, result,
+				    result.getNearestUpStair());
+			    takedDecision = true;
+			} else // Si no, entonces considero la posibilidad de tomar la escalera
+			{
+			    selector.add(0.5, GO_UP_STAIR);
+			}
 			break;
-		    case GO_DOWN_STAIR:
-			System.out.println("CASO 5");
-			this.mummy.mummyState = new MummyStateSearchingStair(this.mummy, result.getNearestDownStair());
+		    case Mummy.PLAYER_IS_DOWN:
+			selector.add(0.15, GO_UP_STAIR);
 			break;
-		    case LEFT:
-			this.mummy.mummyState = new MummyStateWalking(this.mummy, LEFT,
-				MummyState.PLAYER_IS_SOME_LEVEL);
-
-			break;
-		    case RIGHT:
-			this.mummy.mummyState = new MummyStateWalking(this.mummy, RIGHT,
-				MummyState.PLAYER_IS_SOME_LEVEL);
-
+		    case Mummy.PLAYER_IS_SOME_LEVEL:
+			selector.add(0.25, GO_UP_STAIR);
 			break;
 		    }
-		 
-		} else // estoy encerrado con el player fuera de mi alcance, la momia muere y se
-		       // teletransporta
+		}
+
+		if (result.getNearestDownStair() != null) // Si hay una escalera cercana que baje
+
 		{
-		    this.mummy.die(true);
+		    switch (whereIsPlayer)
+		    {
+		    case Mummy.PLAYER_IS_DOWN:
+			if (this.mummy.player.getLastFloorCoordinate() <= result.getNearestDownStair().getDownStair().y)
+			{
+			    // Si el player esta mas abajo o a la misma altura que la parte superior de la
+			    // escalera, busco la escalera.
+			    this.mummy.mummyState = new MummyStateSearchingStair(this.mummy, result,
+				    result.getNearestDownStair());
+			    takedDecision = true;
+			} else // Si no, entonces considero la posibilidad de tomar la escalera
+			{
+			    selector.add(0.5, GO_DOWN_STAIR);
+			}
+			break;
+		    case Mummy.PLAYER_IS_UP:
+			selector.add(0.15, GO_DOWN_STAIR);
+			break;
+		    case Mummy.PLAYER_IS_SOME_LEVEL:
+			selector.add(0.25, GO_DOWN_STAIR);
+			break;
+		    }
+		}
+		if (!takedDecision) // Si no pude tomar una decision con seguridad voy a elegir una opcion al azar
+		// de entre las posibles
+		{
+		    Integer decision = (Integer) selector.getValue();
+		    if (decision != null) // Si hay alguna opcion, es decir, no estoy encerrado con el player fuera de
+					  // mi
+					  // alcance
+		    {
+			switch (decision)
+			{
+			case GO_UP_STAIR:
+			    this.mummy.mummyState = new MummyStateSearchingStair(this.mummy, result,
+				    result.getNearestUpStair());
+
+			    break;
+			case GO_DOWN_STAIR:
+			    this.mummy.mummyState = new MummyStateSearchingStair(this.mummy, result,
+				    result.getNearestDownStair());
+			    break;
+			case LEFT:
+			    this.mummy.mummyState = new MummyStateWalking(this.mummy, result, LEFT, whereIsPlayer);
+
+			    break;
+			case RIGHT:
+			    this.mummy.mummyState = new MummyStateWalking(this.mummy, result, RIGHT, whereIsPlayer);
+
+			    break;
+			}
+
+		    } else // estoy encerrado con el player fuera de mi alcance, la momia muere y se
+			   // teletransporta
+		    {
+			this.mummy.die(true);
+		    }
+
 		}
 
 	    }
-
 	}
 
     }
@@ -240,7 +228,7 @@ public class MummyStateDeciding extends MummyState
 	double r = 0;
 	switch (whereIsPlayer)
 	{
-	case MummyState.PLAYER_IS_UP:
+	case Mummy.PLAYER_IS_UP:
 	    switch (endPlatform.getType())
 	    {
 	    case EndPlatform.END_STEP:
@@ -252,7 +240,7 @@ public class MummyStateDeciding extends MummyState
 	    }
 	    break;
 
-	case MummyState.PLAYER_IS_DOWN:
+	case Mummy.PLAYER_IS_DOWN:
 	    switch (endPlatform.getType())
 	    {
 	    case EndPlatform.END_STEP:
@@ -264,7 +252,7 @@ public class MummyStateDeciding extends MummyState
 	    }
 	    break;
 
-	case MummyState.PLAYER_IS_SOME_LEVEL:
+	case Mummy.PLAYER_IS_SOME_LEVEL:
 	    switch (endPlatform.getType())
 	    {
 	    case EndPlatform.END_STEP:

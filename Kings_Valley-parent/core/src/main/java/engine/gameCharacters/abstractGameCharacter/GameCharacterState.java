@@ -48,7 +48,7 @@ public abstract class GameCharacterState
 	 *                  contrario
 	 * @param deltaTime tiempo en segundos desde la ultima actualizacion
 	 */
-	protected abstract void moveFirstStep(Vector2 v, boolean b, float deltaTime);
+	protected abstract void beforeScaling(Vector2 v, boolean b, float deltaTime);
 
 	/**
 	 * Metodo llamado durante los calculos de movimiento despues de realizar el
@@ -57,7 +57,7 @@ public abstract class GameCharacterState
 	 * @param escalado Objeto de tipo Vector2 que representa la trayectoria
 	 *                 pretendida.
 	 */
-	protected abstract void moveSecondStep(Vector2 escalado);
+	protected abstract void afterScaling(Vector2 escalado);
 
 	/**
 	 * Metodo llamado para calcular las colisiones al intentar moverse de acuerdo a
@@ -470,9 +470,9 @@ public abstract class GameCharacterState
 	 */
 	public void move(Vector2 v, boolean b, float deltaTime)
 	{
-		this.moveFirstStep(v, b, deltaTime);
+		this.beforeScaling(v, b, deltaTime);
 		Vector2 escalado = this.gameCharacter.motionVector.cpy().scl(deltaTime);
-		this.moveSecondStep(escalado);
+		this.afterScaling(escalado);
 		
 		this.gameCharacter.x += escalado.x;
 		this.gameCharacter.y += escalado.y;

@@ -24,13 +24,12 @@ import util.GameRules;
 public abstract class GameCharacter extends LevelObject
 {
 
-    
-	/**
+    /**
      * Codigo de estado sin cambios
      */
     public static final int ST_NO_CHANGE = -1;
-    
-	/**
+
+    /**
      * Codigo de estado quieto en el piso
      */
     public static final int ST_IDDLE = 0;
@@ -103,16 +102,14 @@ public abstract class GameCharacter extends LevelObject
     /**
      * Estado del caracter (patron state)
      */
-       
+
     protected GameCharacterState gameCharacterState;
 
-    
-    
     protected float lastFloorCoordinate;
-    
+
     public float getLastFloorCoordinate()
     {
-        return lastFloorCoordinate;
+	return lastFloorCoordinate;
     }
 
     /**

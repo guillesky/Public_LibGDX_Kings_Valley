@@ -21,20 +21,34 @@ public abstract class Mummy extends GameCharacter
 {
 
     /**
-     * En el limbo
+     * Codigo que indica Player al mismo nivel que la momia
+     */
+    protected static final int PLAYER_IS_SOME_LEVEL = 0;
+    /**
+     * Codigo que indica Player a esta arriba de la momia
+     */
+
+    protected static final int PLAYER_IS_UP = 1;
+
+    /**
+     * Codigo que indica Player a esta abajo de la momia
+     */
+    protected static final int PLAYER_IS_DOWN = -1;
+
+    /**
+     * Codigo de estado En el limbo
      */
     public static final int ST_LIMBUS = 101;
 
     /**
-     * Apareciendo
+     * Codigo de estado Apareciendo
      */
     public static final int ST_APPEARING = 102;
     /**
-     * Teletransportandose
+     * Codigo de estado Teletransportandose
      */
     public static final int ST_TELEPORTING = 104;
 
-    
     private float decisionFactorForFall;
     protected float decisionFactorForJump;
     /**
@@ -327,6 +341,23 @@ public abstract class Mummy extends GameCharacter
     protected void incTimeInState(float delta)
     {
 	this.timeInState += delta;
+    }
+
+    protected int whereIsPlayer()
+    {
+	int whereIsPlayer;
+	if (this.player.getLastFloorCoordinate() > this.getLastFloorCoordinate())// player esta arriba
+	{
+	    whereIsPlayer = Mummy.PLAYER_IS_UP;
+
+	} else if (this.player.getLastFloorCoordinate() < this.getLastFloorCoordinate())// player esta
+	// abajo
+	{
+	    whereIsPlayer = Mummy.PLAYER_IS_DOWN;
+	} else
+
+	    whereIsPlayer = Mummy.PLAYER_IS_SOME_LEVEL; // Player esta a la misma altura.
+	return whereIsPlayer;
     }
 
 }

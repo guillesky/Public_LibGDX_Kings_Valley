@@ -60,11 +60,11 @@ public class GameCharacterStateJumping2 extends GameCharacterStateOnAir
 	 * para salir de un pozo.
 	 */
 	@Override
-	protected void moveFirstStep(Vector2 v, boolean b, float deltaTime)
+	protected void beforeScaling(Vector2 v, boolean b, float deltaTime)
 	{
 		if (this.hasBlocked() && this.gameCharacter.motionVector.y > 0)
 			this.tryUnblock();
-		super.moveFirstStep(v, b, deltaTime);
+		super.beforeScaling(v, b, deltaTime);
 
 	}
 	
@@ -80,9 +80,9 @@ public class GameCharacterStateJumping2 extends GameCharacterStateOnAir
 	 * colisiones laterales
 	 */
 	@Override
-	protected void moveSecondStep(Vector2 escalado)
+	protected void afterScaling(Vector2 escalado)
 	{
-		super.moveSecondStep(escalado);
+		super.afterScaling(escalado);
 		this.colision(escalado);
 	}
 

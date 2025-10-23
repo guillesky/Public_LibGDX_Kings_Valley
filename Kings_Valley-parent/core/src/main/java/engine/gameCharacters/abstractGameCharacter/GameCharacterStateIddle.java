@@ -27,7 +27,7 @@ public class GameCharacterStateIddle extends GameCharacterStateOnFloor
 	 * Realiza los calculos y eventualemente maraca el siguiente cambio de estado.
 	 */
 	@Override
-	protected void moveFirstStep(Vector2 v, boolean b, float deltaTime)
+	protected void beforeScaling(Vector2 v, boolean b, float deltaTime)
 	{
 
 		if (b)
@@ -44,7 +44,7 @@ public class GameCharacterStateIddle extends GameCharacterStateOnFloor
 	 * Se sobreescribe como metodo vacio (no hace nada)
 	 */
 	@Override
-	protected void moveSecondStep(Vector2 escalado)
+	protected void afterScaling(Vector2 escalado)
 	{
 
 	}

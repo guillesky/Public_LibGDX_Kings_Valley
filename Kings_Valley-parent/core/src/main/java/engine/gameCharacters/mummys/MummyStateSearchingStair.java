@@ -23,10 +23,10 @@ public class MummyStateSearchingStair extends MummyStateWalking
      *                      MummyState.PLAYER_IS_UP; PLAYER_IS_SOME_LEVEL; o
      *                      PLAYER_IS_DOWN
      */
-    public MummyStateSearchingStair(Mummy mummy, Stair stair)
+    public MummyStateSearchingStair(Mummy mummy,PlatformAnalysisResult platformAnalysisResult, Stair stair)
     {
 
-	super(mummy, decideDirection(mummy, stair), -1);
+	super(mummy, platformAnalysisResult,decideDirection(mummy, stair), -1);
 	this.stair = stair;
 
 	if (stair.getDownStair().y == this.mummy.getLastFloorCoordinate())

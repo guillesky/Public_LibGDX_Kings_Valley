@@ -48,7 +48,7 @@ public abstract class GameCharacterStateOnAir extends GameCharacterState
 	 * 
 	 */
 	@Override
-	protected void moveFirstStep(Vector2 v, boolean b, float deltaTime)
+	protected void beforeScaling(Vector2 v, boolean b, float deltaTime)
 	{
 			
 		this.gameCharacter.motionVector.y += this.gameCharacter.getSpeedFall() * deltaTime;
@@ -65,7 +65,7 @@ public abstract class GameCharacterStateOnAir extends GameCharacterState
 	 * llama a this.checkLanding(escalado);
 	 */
 	@Override
-	protected void moveSecondStep(Vector2 escalado)
+	protected void afterScaling(Vector2 escalado)
 	{
 		this.checkLanding(escalado);
 

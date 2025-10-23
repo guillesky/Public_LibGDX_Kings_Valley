@@ -15,9 +15,11 @@ import util.GameRules;
  * 
  * @author Guillermo Lazzurri
  */
-public class MummyStateWalking extends MummyState
+public class MummyStateWalkingOLD extends MummyState
 {
-  
+    private static final int BLOCK_FREE = 0;
+    private static final int BLOCK_GIRATORY = 2;
+
     protected PlatformAnalysisResult platformAnalysisResult;
     private boolean doJump = false;
     /**
@@ -28,7 +30,7 @@ public class MummyStateWalking extends MummyState
      * MummyState.PLAYER_IS_SOME_LEVEL
      */
     protected int whereIsPlayer;
-    
+    private Rectangle mummyRectangleWithOffset;
 
     /**
      * Constructor de clase. LLama a super(mummy, GameCharacter.ST_WALKING);
@@ -42,20 +44,21 @@ public class MummyStateWalking extends MummyState
      *                      MummyState.PLAYER_IS_DOWN;
      *                      MummyState.PLAYER_IS_SOME_LEVEL
      */
-    public MummyStateWalking(Mummy mummy, PlatformAnalysisResult platformAnalysisResult, int directionX,
+    public MummyStateWalkingOLD(Mummy mummy, PlatformAnalysisResult platformAnalysisResult, int directionX,
 	    int whereIsPlayer)
     {
 	super(mummy, GameCharacter.ST_WALKING);
 	this.whereIsPlayer = whereIsPlayer;
 	this.platformAnalysisResult = platformAnalysisResult;
-	this.mummy.getDirection().x = directionX;
+	if (directionX == 0)
+	    this.setDirection();
+	else
+	    this.mummy.getDirection().x = directionX;
+
 	this.timeToChange = this.mummy.getTimeToDecide();
+	this.mummyRectangleWithOffset = new Rectangle(this.mummy.x, this.mummy.y, this.mummy.width, this.mummy.height);
+
     }
-    
-    
-    
-    
-    
 
     /**
      * Dedice la direccion de la momia de acuerdo a la posicion relativa del player
@@ -158,7 +161,19 @@ public class MummyStateWalking extends MummyState
 	}
     }
 
-   
+    /**
+     * Llamado en caso de llegar al borde de una cornisa
+     */
+    protected void doInBorderCliff()
+    {
+	if (this.whereIsPlayer == Mummy.PLAYER_IS_UP || this.whereIsPlayer == Mummy.PLAYER_IS_SOME_LEVEL)
+	    if (this.mummy.canJump() && this.mummy.makeDecisionForJump())
+		this.doJump = true;
+	    else
+		this.bounces();
+
+    }
+
     /**
      * Cambia el estado a new MummyStateDying(this.mummy, mustTeleport);
      */
@@ -178,8 +193,8 @@ public class MummyStateWalking extends MummyState
      */
     public void checkEndOfPlataform(int type)
     {
-	int crashStatus = 0;
-	if (crashStatus != 0) // si choca contra un ladrillo o una giratoria
+	int crashStatus = this.crashWallOrGiratory();
+	if (crashStatus != BLOCK_FREE) // si choca contra un ladrillo o una giratoria
 	{
 	    this.doInCrashToWallOrGiratory(crashStatus, type);
 	} else
@@ -187,11 +202,91 @@ public class MummyStateWalking extends MummyState
 
 	    if (type == EndPlatformOLD.END_CLIFF) // Si esta al borde del acantilado
 	    {
-		
+		this.doInBorderCliff();
 	    }
 
 	}
     }
 
-  
+    /**
+     * Llamado internamente por checkEndOfPlatform. Indica si la momia choca contra
+     * un muro o contra una giratoria
+     * 
+     * @return indica si la momia no esta bloqueada, si choca contra un muro o
+     *         contra una giratoria. Puede tomar respectivamente los valores
+     *         BLOCK_FREE; BLOCK_BRICK; BLOCK_GIRATORY
+     */
+    private int crashWallOrGiratory()
+    {
+	boolean condicion = false;
+	Pyramid pyramid = this.mummy.getPyramid();
+	int respuesta = BLOCK_FREE;
+	float epsilon = GameRules.getInstance().getLevelTileWidthUnits() * 0.1f;
+	if (mummy.isLookRight())
+	{
+	    condicion = mummy.getColPosition() >= pyramid.getMapWidthInTiles() - 2
+		    || pyramid.getCell(mummy.x + GameRules.getInstance().getLevelTileWidthUnits(),
+			    mummy.y + GameRules.getInstance().getLevelTileHeightUnits()) != null
+		    ||
+
+		    pyramid.getCell(mummy.x + GameRules.getInstance().getLevelTileWidthUnits(), mummy.y) != null;
+
+	} else
+	{
+
+	    condicion = mummy.getColPosition() <= 1 || pyramid.getCell(mummy.x - epsilon,
+		    mummy.y + GameRules.getInstance().getLevelTileHeightUnits()) != null ||
+
+		    pyramid.getCell(mummy.x - epsilon, mummy.y) != null;
+
+	}
+	if (condicion)
+	    respuesta = BLOCK_BRICK;
+	else if (this.checkGiratory())
+	    respuesta = BLOCK_GIRATORY;
+
+	return respuesta;
+    }
+
+    /**
+     * Llamado internamente por this.crashWallOrGiratory. Indica si la momia choco
+     * contra una giratoria
+     * 
+     * @return true si choco contra una giratoria, false en caso contrario.
+     */
+    private boolean checkGiratory()
+    {
+	float epsilon = GameRules.getInstance().getLevelTileWidthUnits() * 0.1f;
+	if (this.mummy.isLookRight())
+	    this.mummyRectangleWithOffset.x = this.mummy.x + epsilon;
+	else
+	    this.mummyRectangleWithOffset.x = this.mummy.x - epsilon;
+	this.mummyRectangleWithOffset.y = this.mummy.y;
+
+	return this.checkRectangleColision(this.mummy.getPyramid().getGiratories());
+    }
+
+    /**
+     * Llamado internamente por checkGiratory. Verifica si la momia choca contra
+     * alguna giratoria
+     * 
+     * @param levelObjects Coleccion de objetos de tipo levelObjects. Representara
+     *                     la totalidad de giratorias en la piramide
+     * @return true si hay colision, false en caso contrario.
+     */
+    private boolean checkRectangleColision(Collection<LevelObject> levelObjects)
+    {
+
+	Iterator<LevelObject> it = levelObjects.iterator();
+	LevelObject item = null;
+	if (it.hasNext())
+	    do
+	    {
+		item = it.next();
+	    } while (it.hasNext() && !LevelObject.rectangleColision(mummyRectangleWithOffset, item));
+
+	return (LevelObject.rectangleColision(mummyRectangleWithOffset, item));
+
+    }
+
 }
