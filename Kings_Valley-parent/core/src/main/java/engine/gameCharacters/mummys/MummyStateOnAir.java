@@ -22,7 +22,7 @@ public class MummyStateOnAir extends MummyState
     }
 
     /**
-     * Si la momima toca el suelo pasa a estado Walking
+     * Si la momia toca el suelo pasa a estado Walking
      */
     @Override
     public void update(float deltaTime)
