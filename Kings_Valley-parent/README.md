@@ -1,33 +1,46 @@
-# Kings_Valley
+# King’s Valley Remake
 
-A [libGDX](https://libgdx.com/) project generated with [gdx-liftoff](https://github.com/libgdx/gdx-liftoff).
+A [libGDX](https://libgdx.com/) project inspired by *King’s Valley* (Konami, 1985).  
+Developed as a non-commercial educational remake that recreates the classic gameplay using modern Java and LibGDX architecture.
 
-This project was generated with a template including simple application launchers and an `ApplicationAdapter` extension that draws libGDX logo.
+---
 
-## Platforms
+## 🕹️ About the Project
 
-- `core`: Main module with the application logic shared by all platforms.
-- `lwjgl3`: Primary desktop platform using LWJGL3; was called 'desktop' in older docs.
+This remake aims to preserve and study the original design and mechanics of *King’s Valley* while implementing them in a clean, modular codebase.  
+It serves as both a technical exercise and a homage to one of the great puzzle-platform games of the 8-bit era.
 
-## Gradle
+---
 
-This project uses [Gradle](https://gradle.org/) to manage dependencies.
-The Gradle wrapper was included, so you can run Gradle tasks using `gradlew.bat` or `./gradlew` commands.
+## 🧩 Platforms
+
+- `core`: Main module with the shared game logic.  
+- `lwjgl3`: Desktop platform using LWJGL3 (previously known as “desktop” in older LibGDX docs).
+
+---
+
+## ⚙️ Gradle
+
+This project uses [Gradle](https://gradle.org/) for dependency management and builds.
+
 Useful Gradle tasks and flags:
 
-- `--continue`: when using this flag, errors will not stop the tasks from running.
-- `--daemon`: thanks to this flag, Gradle daemon will be used to run chosen tasks.
-- `--offline`: when using this flag, cached dependency archives will be used.
-- `--refresh-dependencies`: this flag forces validation of all dependencies. Useful for snapshot versions.
-- `build`: builds sources and archives of every project.
-- `cleanEclipse`: removes Eclipse project data.
-- `cleanIdea`: removes IntelliJ project data.
-- `clean`: removes `build` folders, which store compiled classes and built archives.
-- `eclipse`: generates Eclipse project data.
-- `idea`: generates IntelliJ project data.
-- `lwjgl3:jar`: builds application's runnable jar, which can be found at `lwjgl3/build/libs`.
-- `lwjgl3:run`: starts the application.
-- `test`: runs unit tests (if any).
+- `build`: builds sources and archives of every project.  
+- `clean`: removes `build` folders.  
+- `lwjgl3:jar`: builds the runnable JAR (`lwjgl3/build/libs`).  
+- `lwjgl3:run`: runs the game directly.  
+- `test`: runs unit tests (if any).  
 
-Note that most tasks that are not specific to a single project can be run with `name:` prefix, where the `name` should be replaced with the ID of a specific project.
-For example, `core:clean` removes `build` folder only from the `core` project.
+You can also use:
+- `--continue` → don’t stop on errors  
+- `--daemon` → use Gradle daemon for faster builds  
+- `--offline` → use cached dependencies  
+- `--refresh-dependencies` → revalidate dependencies  
+
+---
+
+## 📜 License
+
+This project is a non-commercial remake of *King’s Valley* (Konami, 1985).  
+It is distributed under the **Creative Commons Attribution–NonCommercial 4.0 International (CC BY-NC 4.0)** license.  
+See [LICENSE](./LICENSE) for details.
