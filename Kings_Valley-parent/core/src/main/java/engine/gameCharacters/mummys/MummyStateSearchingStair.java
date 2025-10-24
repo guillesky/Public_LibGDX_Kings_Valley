@@ -12,6 +12,7 @@ public class MummyStateSearchingStair extends MummyStateWalking
 {
     private Stair stair;
     private LevelObject beginStair;
+    boolean enterToStair = false;
 
     /**
      * Constructor de clase, llama a super(mummy, nearStairResult.getDirectionX(),
@@ -23,10 +24,10 @@ public class MummyStateSearchingStair extends MummyStateWalking
      *                      MummyState.PLAYER_IS_UP; PLAYER_IS_SOME_LEVEL; o
      *                      PLAYER_IS_DOWN
      */
-    public MummyStateSearchingStair(Mummy mummy,PlatformAnalysisResult platformAnalysisResult, Stair stair)
+    public MummyStateSearchingStair(Mummy mummy, PlatformAnalysisResult platformAnalysisResult, Stair stair)
     {
 
-	super(mummy, platformAnalysisResult,decideDirection(mummy, stair), -1);
+	super(mummy, platformAnalysisResult, decideDirection(mummy, stair), -1);
 	this.stair = stair;
 
 	if (stair.getDownStair().y == this.mummy.getLastFloorCoordinate())
@@ -45,7 +46,7 @@ public class MummyStateSearchingStair extends MummyStateWalking
 	    beginStair = stair.getUpStair();
 
 	int direccion = (int) Math.signum(beginStair.x - mummy.x);
-
+	if (direccion == 0) direccion = 1;
 	return direccion;
     }
 
@@ -59,16 +60,21 @@ public class MummyStateSearchingStair extends MummyStateWalking
 
 	if (!this.mummy.isInStair())
 	{
-
-	    if (this.mummy.isFeetColision(this.beginStair))
-	    {System.out.println("MMMUY FEET COLISISION");
-		this.mummy.enterStair(stair);
-		if (this.beginStair == this.stair.getDownStair())
-		    this.mummy.getDirection().x = this.stair.directionUp();
-		else
-		    this.mummy.getDirection().x = this.stair.directionDown();
-		
+	    if (this.enterToStair) 
+	    {
+		this.enterToStair = false;
+		this.platformAnalysisResult=new PlatformAnalysisResult(this.mummy);
 	    }
+		if (this.mummy.isFeetColision(this.beginStair))
+		{
+		    this.enterToStair = true;
+		    this.mummy.enterStair(stair);
+		    if (this.beginStair == this.stair.getDownStair())
+			this.mummy.getDirection().x = this.stair.directionUp();
+		    else
+			this.mummy.getDirection().x = this.stair.directionDown();
+
+		}
 
 	}
 	super.update(deltaTime);

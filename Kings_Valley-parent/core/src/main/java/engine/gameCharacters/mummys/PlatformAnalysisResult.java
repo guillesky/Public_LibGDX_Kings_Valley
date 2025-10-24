@@ -214,11 +214,11 @@ public class PlatformAnalysisResult
 	{
 	    Rectangle r = null;
 	    if (toRight)
-		r = new Rectangle(nearestGiratory.x, nearestGiratory.y, GameRules.getInstance().getCharacterWidth(),
-			GameRules.getInstance().getCharacterFeetHeight());
+		r = new Rectangle(nearestGiratory.x - gameCharacter.width * .2f, nearestGiratory.y,
+			GameRules.getInstance().getCharacterWidth(), GameRules.getInstance().getCharacterFeetHeight());
 	    else
 		r = new Rectangle(
-			nearestGiratory.x + nearestGiratory.width - GameRules.getInstance().getCharacterWidth(),
+			nearestGiratory.x + nearestGiratory.width * 1.2f - GameRules.getInstance().getCharacterWidth(),
 			nearestGiratory.y, GameRules.getInstance().getCharacterWidth(),
 			GameRules.getInstance().getCharacterFeetHeight());
 	    epf2 = new EndPlatform(EndPlatform.END_BLOCK, r);
@@ -227,15 +227,27 @@ public class PlatformAnalysisResult
 
 	{
 	    type = this.typeEndPlatform(gameCharacter, x, acum);
+	    if (type == EndPlatform.END_CLIFF)
+	    {
+		if (toRight)
+		    x = x - x % tileWidth + acum * tileWidth - 0.1f * GameRules.getInstance().getCharacterWidth();
+		else
+		    x = x - x % tileWidth + (acum + 1) * tileWidth - 0.9f * GameRules.getInstance().getCharacterWidth();
 
-	    if (toRight)
-		x = x - x % tileWidth + acum * tileWidth - 0.1f * GameRules.getInstance().getCharacterWidth();
-	    else
-		x = x - x % tileWidth + (acum + 1) * tileWidth - 0.9f * GameRules.getInstance().getCharacterWidth();
-	    epf2 = new EndPlatform(type, new Rectangle(x, gameCharacter.getLastFloorCoordinate(),
-		    GameRules.getInstance().getCharacterWidth(), GameRules.getInstance().getCharacterFeetHeight()));
+		epf2 = new EndPlatform(type, new Rectangle(x, gameCharacter.getLastFloorCoordinate(),
+			GameRules.getInstance().getCharacterWidth(), GameRules.getInstance().getCharacterFeetHeight()));
+		
+	    } else
+	    {
+		if (toRight)
+		    x = x - x % tileWidth + acum * tileWidth - 0.5f * GameRules.getInstance().getCharacterWidth();
+		else
+		    x = x - x % tileWidth + (acum + 1) * tileWidth - 0.5f * GameRules.getInstance().getCharacterWidth();
+
+		epf2 = new EndPlatform(type, new Rectangle(x, gameCharacter.getLastFloorCoordinate(),
+			GameRules.getInstance().getCharacterWidth(), GameRules.getInstance().getCharacterFeetHeight()));
+	    }
 	}
-
 	return epf2;
 
     }
