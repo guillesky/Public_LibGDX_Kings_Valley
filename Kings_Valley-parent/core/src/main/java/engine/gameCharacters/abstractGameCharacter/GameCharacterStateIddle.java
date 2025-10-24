@@ -14,7 +14,7 @@ public class GameCharacterStateIddle extends GameCharacterStateOnFloor
 	 * Constructor de clase que llama a super(gameCharacter,
 	 * GameCharacter.ST_IDDLE);
 	 * 
-	 * @param gameCharacter Caracter al cual pertenece el estado
+	 * @param gameCharacter Contexto del patron state
 	 */
 	public GameCharacterStateIddle(GameCharacter gameCharacter)
 	{

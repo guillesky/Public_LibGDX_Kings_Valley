@@ -16,7 +16,7 @@ public class DaggerStatePickuped extends DaggerState
 	/**
 	 * Constructor de clase. Llama a super(dagger, DaggerState.ST_PICKUPED);
 	 * 
-	 * @param dagger Corresponde al sujeto del patron state
+	 * @param dagger Contexto del patron state
 	 * 
 	 */
 	public DaggerStatePickuped(Dagger dagger)

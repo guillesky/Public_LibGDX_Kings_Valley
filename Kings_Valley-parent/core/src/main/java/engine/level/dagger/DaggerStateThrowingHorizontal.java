@@ -24,7 +24,7 @@ public class DaggerStateThrowingHorizontal extends DaggerState
 	 * Constructor de clase. Llama a super(dagger,
 	 * DaggerState.ST_THROWING_HORIZONTAL);
 	 * 
-	 * @param dagger Corresponde al sujeto del patron state
+	 * @param dagger Contexto del patron state
 	 */
 	public DaggerStateThrowingHorizontal(Dagger dagger)
 	{

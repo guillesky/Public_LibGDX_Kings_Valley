@@ -55,7 +55,7 @@ public abstract class DaggerState
     /**
      * Constructor de clase.
      * 
-     * @param dagger Corresponde al sujeto del patron state
+     * @param dagger Contexto del patron state
      * @param state  codigo numerico que indica el estado. Puede tomar los valores:
      *               ST_STUCKED; ST_THROWING_HORIZONTAL; ST_FALLING; ST_THROWING_UP;
      *               ST_BOUNCING; ST_PICKUPED

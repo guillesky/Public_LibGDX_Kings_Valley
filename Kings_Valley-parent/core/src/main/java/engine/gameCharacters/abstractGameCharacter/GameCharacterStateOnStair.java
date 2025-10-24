@@ -26,7 +26,7 @@ public class GameCharacterStateOnStair extends GameCharacterState
 	 * this.gameCharacter);
 	 * 
 	 * 
-	 * @param gameCharacter correspondiente al sujeto del patron state.
+	 * @param gameCharacter Contexto del patron state
 	 * @param stair         indica la escalera en la que esta el caracter (debe ser
 	 *                      distinto de null)
 	 */

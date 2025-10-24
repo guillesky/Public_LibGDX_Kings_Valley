@@ -19,7 +19,7 @@ import util.Constants;
 public class GameStatePlaying extends GameState
 {
 	private boolean readyToExit = false;
-	private boolean godMode = true;
+	private boolean godMode = false;
 
 	/**
 	 * Se llama a super(Game.ST_GAME_PLAYING);<br>
@@ -80,11 +80,11 @@ public class GameStatePlaying extends GameState
 		 * if (controles.getShot(Input.Keys.O)) this.game.dying();
 		 * 
 		 * if (controles.getShot(Input.Keys.S)) this.game.showPlayer();
-		 */
+		 
 		if (controles.getShot(Input.Keys.S))
 		{
 			this.game.getInterfaz().addGraphicElement(new DrawableElement(Constants.DRAWABLE_PLATFORM_ANALYSIS_RESULT,new PlatformAnalysisResult(player)));
-		}
+		}*/
 
 	}
 

@@ -21,14 +21,14 @@ public abstract class GameCharacterState
 	 */
 	protected int nextState;
 	/**
-	 * Corresponde al sujeto del patron state
+	 * Corresponde al contexto del patron state
 	 */
 	protected GameCharacter gameCharacter;
 
 	/**
 	 * Constructor de clase
 	 * 
-	 * @param gameCharacter Corresponde al sujeto del patron state
+	 * @param gameCharacter Corresponde al contexto del patron state
 	 * @param state         valor entero que representa el estado
 	 */
 	public GameCharacterState(GameCharacter gameCharacter, int state)

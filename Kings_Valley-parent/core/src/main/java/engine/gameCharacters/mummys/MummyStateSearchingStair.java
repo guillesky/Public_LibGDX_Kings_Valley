@@ -18,16 +18,15 @@ public class MummyStateSearchingStair extends MummyStateWalking
      * Constructor de clase, llama a super(mummy, nearStairResult.getDirectionX(),
      * whereIsPlayer);
      * 
-     * @param mummy         Correspondiente al sujeto del patron state
-     * @param stair2        Indica el resultado de la escalera mas cercana
-     * @param whereIsPlayer Indica donde esta el player. Puede tomar los valores:
-     *                      MummyState.PLAYER_IS_UP; PLAYER_IS_SOME_LEVEL; o
-     *                      PLAYER_IS_DOWN
+     * @param mummy                  Contexto del patron state
+     * @param platformAnalysisResult Analisis de la plataforma donde estan los
+     *                               limites de la misma
+     * @param stair                  Indica la escalera mas cercana
      */
     public MummyStateSearchingStair(Mummy mummy, PlatformAnalysisResult platformAnalysisResult, Stair stair)
     {
 
-	super(mummy, platformAnalysisResult, decideDirection(mummy, stair), -1);
+	super(mummy, platformAnalysisResult, decideDirection(mummy, stair));
 	this.stair = stair;
 
 	if (stair.getDownStair().y == this.mummy.getLastFloorCoordinate())
@@ -37,6 +36,14 @@ public class MummyStateSearchingStair extends MummyStateWalking
 
     }
 
+    /**
+     * Decide la direccion a la cual debe dirigirse la momia de acuerdo a su
+     * posicion y a la escalera (si sube o baja)
+     * 
+     * @param mummy Momia que busca al escalera
+     * @param stair Escalera buscada
+     * @return la direccion de la direccion a la que se dirigue la momia: RIGHT=1 o LEFT=-1
+     */
     private static int decideDirection(Mummy mummy, Stair stair)
     {
 	LevelObject beginStair;
@@ -46,7 +53,8 @@ public class MummyStateSearchingStair extends MummyStateWalking
 	    beginStair = stair.getUpStair();
 
 	int direccion = (int) Math.signum(beginStair.x - mummy.x);
-	if (direccion == 0) direccion = 1;
+	if (direccion == 0)
+	    direccion = RIGHT;
 	return direccion;
     }
 
@@ -60,21 +68,21 @@ public class MummyStateSearchingStair extends MummyStateWalking
 
 	if (!this.mummy.isInStair())
 	{
-	    if (this.enterToStair) 
+	    if (this.enterToStair)
 	    {
 		this.enterToStair = false;
-		this.platformAnalysisResult=new PlatformAnalysisResult(this.mummy);
+		this.platformAnalysisResult = new PlatformAnalysisResult(this.mummy);
 	    }
-		if (this.mummy.isFeetColision(this.beginStair))
-		{
-		    this.enterToStair = true;
-		    this.mummy.enterStair(stair);
-		    if (this.beginStair == this.stair.getDownStair())
-			this.mummy.getDirection().x = this.stair.directionUp();
-		    else
-			this.mummy.getDirection().x = this.stair.directionDown();
+	    if (this.mummy.isFeetColision(this.beginStair))
+	    {
+		this.enterToStair = true;
+		this.mummy.enterStair(stair);
+		if (this.beginStair == this.stair.getDownStair())
+		    this.mummy.getDirection().x = this.stair.directionUp();
+		else
+		    this.mummy.getDirection().x = this.stair.directionDown();
 
-		}
+	    }
 
 	}
 	super.update(deltaTime);

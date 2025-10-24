@@ -105,8 +105,15 @@ public abstract class GameCharacter extends LevelObject
 
     protected GameCharacterState gameCharacterState;
 
+    /**
+     * Ultima coordena conocida de la plataforma que pisa el caracter
+     */
     protected float lastFloorCoordinate;
 
+    /**
+     * Retorna la ultima coordena conocida de la plataforma que pisa el caracter
+     * @return Ultima coordena conocida de la plataforma que pisa el caracter
+     */
     public float getLastFloorCoordinate()
     {
 	return lastFloorCoordinate;

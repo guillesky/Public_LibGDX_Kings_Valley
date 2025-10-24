@@ -16,7 +16,7 @@ public abstract class GameCharacterStateOnAir extends GameCharacterState
 	/**
 	 * Constructor de clase que llama a super(gameCharacter, state);
 	 * 
-	 * @param gameCharacter Caracter al cual pertenece el estado
+	 * @param gameCharacter Contexto del patron state
 	 * @param state         valor entero que representa el estado
 	 */
 	public GameCharacterStateOnAir(GameCharacter gameCharacter, int state)

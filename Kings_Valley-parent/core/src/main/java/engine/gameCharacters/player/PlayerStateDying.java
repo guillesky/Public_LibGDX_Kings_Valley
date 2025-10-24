@@ -19,7 +19,7 @@ public class PlayerStateDying extends PlayerState
 	 * Dispara el evento Game.getInstance().eventFired(KVEventListener.PLAYER_DIE,
 	 * this.player);
 	 * 
-	 * @param player Corresponde al sujeto del patron state
+	 * @param player Contexto del patron state
 	 */
 	public PlayerStateDying(Player player)
 	{

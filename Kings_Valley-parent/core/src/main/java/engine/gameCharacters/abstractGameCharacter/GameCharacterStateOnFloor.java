@@ -24,7 +24,7 @@ public abstract class GameCharacterStateOnFloor extends GameCharacterState
      * this.gameCharacter.lastFloorCoordinate = this.gameCharacter.y; Este estado
      * actualiza el atributo this.gameCharacter.lastFloorCoordinate
      * 
-     * @param gameCharacter Caracter al cual pertenece el estado
+     * @param gameCharacter Contexto del patron state
      * @param state         valor entero que representa el estado
      */
     public GameCharacterStateOnFloor(GameCharacter gameCharacter, int state)

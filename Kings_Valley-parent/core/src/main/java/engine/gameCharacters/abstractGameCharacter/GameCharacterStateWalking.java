@@ -17,7 +17,7 @@ public class GameCharacterStateWalking extends GameCharacterStateOnFloor
 	 * super(gameCharacter, GameCharacter.ST_WALKING); <br>
 	 * this.gameCharacter.resetAnimationDelta(); <br>
 	 * 
-	 * @param gameCharacter correspondiente al sujeto del patron state.
+	 * @param gameCharacter Contexto del patron state
 	 */
 	public GameCharacterStateWalking(GameCharacter gameCharacter)
 	{

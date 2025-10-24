@@ -20,7 +20,7 @@ import util.ProbabilisticSelector;
  */
 public class MummyStateDeciding extends MummyState
 {
-   
+
     /**
      * Codigo que indica subir escalera
      */
@@ -34,7 +34,7 @@ public class MummyStateDeciding extends MummyState
     /**
      * Constructor de clase, llama a super(mummy, Mummy.ST_IDDLE);
      * 
-     * @param mummy Correspondiente al sujeto del patron state
+     * @param mummy Contexto del patron state
      */
     public MummyStateDeciding(Mummy mummy)
     {
@@ -62,7 +62,7 @@ public class MummyStateDeciding extends MummyState
     }
 
     /**
-     * De acuerdo a la posicion del player puede pasar a los estados
+     * De acuerdo a la posicion del player marca el flag nextStatus para pasar a los estados
      * MummyStateSearchingStair o MummyStateWalking
      */
     private void changeStatus()
@@ -88,9 +88,9 @@ public class MummyStateDeciding extends MummyState
 	    {
 		takedDecision = true;
 		if (this.mummy.x > this.mummy.player.x) // Si el player esta a la izquierda voy hacia alli
-		    this.mummy.mummyState = new MummyStateWalking(this.mummy, result, LEFT, whereIsPlayer);
+		    this.mummy.mummyState = new MummyStateWalking(this.mummy, result, LEFT);
 		else // Sino voy hacia la derecha
-		    this.mummy.mummyState = new MummyStateWalking(this.mummy, result, RIGHT, whereIsPlayer);
+		    this.mummy.mummyState = new MummyStateWalking(this.mummy, result, RIGHT);
 
 	    }
 
@@ -172,11 +172,11 @@ public class MummyStateDeciding extends MummyState
 				    result.getNearestDownStair());
 			    break;
 			case LEFT:
-			    this.mummy.mummyState = new MummyStateWalking(this.mummy, result, LEFT, whereIsPlayer);
+			    this.mummy.mummyState = new MummyStateWalking(this.mummy, result, LEFT);
 
 			    break;
 			case RIGHT:
-			    this.mummy.mummyState = new MummyStateWalking(this.mummy, result, RIGHT, whereIsPlayer);
+			    this.mummy.mummyState = new MummyStateWalking(this.mummy, result, RIGHT);
 
 			    break;
 			}

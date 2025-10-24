@@ -17,7 +17,7 @@ public abstract class DoorState
 	/**
 	 * Constructor de clase
 	 * 
-	 * @param door  Corresponde al sujeto del patron state
+	 * @param door  Contexto del patron state
 	 * @param state codigo numerico para representar el estado
 	 */
 	public DoorState(Door door, int state)

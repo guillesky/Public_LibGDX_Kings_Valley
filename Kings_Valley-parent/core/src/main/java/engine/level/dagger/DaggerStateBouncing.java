@@ -23,7 +23,7 @@ public class DaggerStateBouncing extends DaggerState
 	 * dagger);
 	 * 
 	 * 
-	 * @param dagger Corresponde al sujeto del patron state
+	 * @param dagger Contexto del patron state
 	 */
 	public DaggerStateBouncing(Dagger dagger)
 	{

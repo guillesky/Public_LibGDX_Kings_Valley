@@ -26,7 +26,7 @@ public class PlayerStateMoving extends PlayerState
 	/**
 	 * Constructor de clase, llama a super(player, state);
 	 * 
-	 * @param player Corresponde al sujeto del patron state
+	 * @param player Contexto del patron state
 	 * @param state  Indica el tipo de estado. En este caso puede tomar los valores
 	 *               GameCharacter.ST_IDDLE; o GameCharacter.ST_WALKING;
 	 */

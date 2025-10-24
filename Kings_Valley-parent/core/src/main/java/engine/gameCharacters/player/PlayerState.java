@@ -20,7 +20,7 @@ public abstract class PlayerState
 	/**
 	 * Constructor de clase
 	 * 
-	 * @param player Correspondiente al sujeto del platron state
+	 * @param player Contexto del patron state
 	 * @param state  indica el tipo de estado. Puede tomar los valores:
 	 *               Player.ST_DYING; Player.ST_WALKING; Player.ST_PICKING;
 	 *               Player.ST_THROWING_DAGGER; GameCharacter.ST_IDDLE

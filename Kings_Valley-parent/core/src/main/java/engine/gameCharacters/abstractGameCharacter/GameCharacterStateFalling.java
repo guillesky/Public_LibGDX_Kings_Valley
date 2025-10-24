@@ -23,7 +23,7 @@ public class GameCharacterStateFalling extends GameCharacterStateOnAir
 	 * Game.getInstance().eventFired(KVEventListener.CHARACTER_BEGIN_FALL,
 	 * this.gameCharacter);
 	 * 
-	 * @param gameCharacter correspondiente al sujeto del patron state.
+	 * @param gameCharacter correspondiente al contexto del patron state.
 	 */
 	public GameCharacterStateFalling(GameCharacter gameCharacter)
 	{

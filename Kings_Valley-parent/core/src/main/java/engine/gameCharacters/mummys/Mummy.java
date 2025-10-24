@@ -49,9 +49,6 @@ public abstract class Mummy extends GameCharacter
      */
     public static final int ST_TELEPORTING = 104;
 
-  
-    private float decisionFactorForFall;
-    protected float decisionFactorForJump;
     /**
      * Tiempo que tarda en tomar la proxima decicion
      */
@@ -96,8 +93,6 @@ public abstract class Mummy extends GameCharacter
     public Mummy(int type, float x, float y, float[] parameters, Pyramid pyramid, Player player)
     {
 	super(type, x, y, parameters[GameRules.INDEX_SPEED_WALK], parameters[GameRules.INDEX_SPEED_STAIR], pyramid);
-	this.decisionFactorForFall = parameters[GameRules.INDEX_DECICION_FACTOR_FALL];
-	this.decisionFactorForJump = parameters[GameRules.INDEX_DECICION_FACTOR_JUMP];
 	this.timeToDecide = parameters[GameRules.INDEX_TIME_TO_DECIDE];
 	this.timeDeciding = parameters[GameRules.INDEX_TIME_DECIDING];
 
@@ -136,16 +131,6 @@ public abstract class Mummy extends GameCharacter
     protected float getTimeDeciding()
     {
 	return this.timeDeciding;
-    }
-
-    /**
-     * Retorna true si la momia decide saltar, false en caso contrario
-     * 
-     * @return true si la momia decide saltar, false en caso contrario
-     */
-    protected boolean makeDecisionForJump()
-    {
-	return Game.random.nextDouble() <= this.decisionFactorForJump;
     }
 
     /**
@@ -344,6 +329,15 @@ public abstract class Mummy extends GameCharacter
 	this.timeInState += delta;
     }
 
+    /**
+     * Retorna la posicion relativa del player a la momia actual
+     * 
+     * @return codigo numerico indicando la posicion relativa del player a la momia.
+     *         Puede tomar los valores: <br>
+     *         Mummy.PLAYER_IS_UP;<br>
+     *         Mummy.PLAYER_IS_DOWN;<br>
+     *         Mummy.PLAYER_IS_SOME_LEVEL;<br>
+     */
     protected int whereIsPlayer()
     {
 	int whereIsPlayer;

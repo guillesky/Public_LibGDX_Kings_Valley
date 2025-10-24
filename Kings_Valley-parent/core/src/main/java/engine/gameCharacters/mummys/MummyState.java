@@ -54,7 +54,7 @@ public abstract class MummyState
 	/**
 	 * Contructor de clase
 	 * 
-	 * @param mummy Momia a la que pertences el estado (patron state)
+	 * @param mummy Contexto del patron state
 	 */
 	public MummyState(Mummy mummy)
 	{
@@ -84,34 +84,5 @@ public abstract class MummyState
 	 */
 	protected abstract void die(boolean mustTeleport);
 
-	/**
-	 * Indica el tipo de fin de plataforma que existe de acuerdo a la posicionX y al
-	 * desplazamiento en x pasado por parametro
-	 * 
-	 * @param positionX coordenada X pretendida
-	 * @param iDeltaX   Desplazamiento en x
-	 * @return valor entero que representa el tipo de final de plataforma. Puede
-	 *         tomar los valores: EndPlatform.END_CLIFF; EndPlatform.END_STEP;
-	 *         EndPlatform.END_BLOCK
-	 */
-	protected int typeEndPlatform(float positionX, int iDeltaX)
-	{
-		int type = -1;
-		Pyramid pyramid = mummy.getPyramid();
-		if (pyramid.getCell(positionX, mummy.y, iDeltaX, 0) == null
-				&& pyramid.getCell(positionX, mummy.y, iDeltaX, 1) == null
-				&& pyramid.getCell(positionX, mummy.y, iDeltaX, -1) == null)
-			type = EndPlatformOLD.END_CLIFF;
-		else if ((pyramid.getCell(positionX, mummy.y, iDeltaX, 1) != null
-				&& pyramid.getCell(positionX, mummy.y, iDeltaX, 2) == null
-				&& pyramid.getCell(positionX, mummy.y, iDeltaX, 3) == null)
-				|| (pyramid.getCell(positionX, mummy.y, iDeltaX, 0) != null
-						&& pyramid.getCell(positionX, mummy.y, iDeltaX, 1) == null
-						&& pyramid.getCell(positionX, mummy.y, iDeltaX, 2) == null))
-			type = EndPlatformOLD.END_STEP;
-		else
-			type = EndPlatformOLD.END_BLOCK;
-		return type;
-	}
-
+	
 }

@@ -28,7 +28,7 @@ public class PlayerStatePicking extends PlayerState
 	/**
 	 * Constructor de clase, llama a super(player, Player.ST_PICKING);
 	 * 
-	 * @param player      Corresponde al sujeto del patron state
+	 * @param player      Contexto del patron state
 	 * @param coordToPick Contiene las coordenadas que deben picarse
 	 */
 	public PlayerStatePicking(Player player, ArrayList<PairInt> coordToPick)

@@ -18,7 +18,7 @@ public class MummyStateDying extends MummyState
 	 * Constructor de clase. Llama a super(mummy, GameCharacter.ST_DYING); y dispara
 	 * el evento Game.getInstance().eventFired(KVEventListener.MUMMY_DIE, this);
 	 * 
-	 * @param mummy        Correspondiente al sujeto del patron state
+	 * @param mummy        Contexto del patron state
 	 * @param mustTeleport true si la momia debera teletransoportarse al reaparecer,
 	 *                     false en caso contrario
 	 */

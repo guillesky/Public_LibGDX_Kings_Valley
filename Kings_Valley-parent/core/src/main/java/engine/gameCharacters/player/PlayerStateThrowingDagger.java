@@ -22,7 +22,7 @@ public class PlayerStateThrowingDagger extends PlayerState
 	 * this.player.item);
 	 * 
 	 * 
-	 * @param player Corresponde al sujeto del patron state
+	 * @param player Contexto del patron state
 	 */
 	public PlayerStateThrowingDagger(Player player)
 	{

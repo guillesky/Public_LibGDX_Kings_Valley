@@ -16,7 +16,7 @@ public class DaggerStateStucked extends DaggerState
 	/**
 	 * COnstructor de clase. Llama a super(dagger,DaggerState.ST_STUCKED);
 	 * 
-	 * @param dagger Coresponde al sujeto del patron state
+	 * @param dagger Contexto del patron state
 	 */
 	public DaggerStateStucked(Dagger dagger)
 	{

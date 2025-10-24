@@ -52,8 +52,6 @@ public class PlatformAnalysisResult
      * 
      * @param gameCharacter GameCharacter desde el cual debe realizarse el analisis
      *                      de la plataforma
-     * @return el resultado del analisis de la plataforma desde la perspectiva del
-     *         GameCharacter pasado por parametro
      */
     public PlatformAnalysisResult(GameCharacter gameCharacter)
     {
@@ -61,10 +59,6 @@ public class PlatformAnalysisResult
 	this.endPlatformRight = this.endPlatform(gameCharacter, true);
 	this.upStairsInPlatform = this.getStairs(gameCharacter, true);
 	this.downStairsInPlatform = this.getStairs(gameCharacter, false);
-
-//	Stair upStair = this.getNearStair(gameCharacter, endPlatFormLeft, endPlatFormRight, true);
-	// Stair downStair = this.getNearStair(gameCharacter, endPlatFormLeft,
-	// endPlatFormRight, false);
 	this.nearestUpStair = this.getNearStair(gameCharacter, true);
 	this.nearestDownStair = this.getNearStair(gameCharacter, false);
 
@@ -325,16 +319,16 @@ public class PlatformAnalysisResult
 	if (pyramid.getCell(positionX, gameCharacter.getLastFloorCoordinate(), iDeltaX, 0) == null
 		&& pyramid.getCell(positionX, gameCharacter.getLastFloorCoordinate(), iDeltaX, 1) == null
 		&& pyramid.getCell(positionX, gameCharacter.getLastFloorCoordinate(), iDeltaX, -1) == null)
-	    type = EndPlatformOLD.END_CLIFF;
+	    type = EndPlatform.END_CLIFF;
 	else if ((pyramid.getCell(positionX, gameCharacter.getLastFloorCoordinate(), iDeltaX, 1) != null
 		&& pyramid.getCell(positionX, gameCharacter.getLastFloorCoordinate(), iDeltaX, 2) == null
 		&& pyramid.getCell(positionX, gameCharacter.getLastFloorCoordinate(), iDeltaX, 3) == null)
 		|| (pyramid.getCell(positionX, gameCharacter.getLastFloorCoordinate(), iDeltaX, 0) != null
 			&& pyramid.getCell(positionX, gameCharacter.getLastFloorCoordinate(), iDeltaX, 1) == null
 			&& pyramid.getCell(positionX, gameCharacter.getLastFloorCoordinate(), iDeltaX, 2) == null))
-	    type = EndPlatformOLD.END_STEP;
+	    type = EndPlatform.END_STEP;
 	else
-	    type = EndPlatformOLD.END_BLOCK;
+	    type = EndPlatform.END_BLOCK;
 	return type;
     }
 
@@ -411,6 +405,11 @@ public class PlatformAnalysisResult
 		+ ", nearestUpStair=" + nearestUpStair + ", nearestDownStair=" + nearestDownStair + "]";
     }
 
+    /**
+     * Indica si el caracter esta rentro de los limites de la plataforma
+     * @param character Caracter a analizar
+     * @return true si el player esta dentro de los limites de la plataforma, false en caso contrario
+     */
     public boolean isCharacterReachable(GameCharacter character)
     {
 	return this.endPlatformLeft.getRectangle().x <= character.x

@@ -10,12 +10,29 @@ package util;
 public class GameRules
 {
 
+    /**
+     * Indice del array de parametros para las momia que indica la velocidad de
+     * caminata
+     */
     public static final int INDEX_SPEED_WALK = 0;
+    /**
+     * Indice del array de parametros para las momia que indica la velocidad en
+     * escaleras
+     */
+
     public static final int INDEX_SPEED_STAIR = 1;
+    /**
+     * Indice del array de parametros para las momia que indica el tiempo que
+     * transcurre hasta que toma la siguiente decision
+     */
+
     public static final int INDEX_TIME_TO_DECIDE = 2;
+    /**
+     * Indice del array de parametros para las momia que indica el tiempo que la
+     * momia esta dudando hasta tomar una decision
+     */
+
     public static final int INDEX_TIME_DECIDING = 3;
-    public static final int INDEX_DECICION_FACTOR_FALL = 4;
-    public static final int INDEX_DECICION_FACTOR_JUMP = 5;
 
     private float characterSpeedFall;
     private float characterVerticalSpeedJump;
@@ -103,7 +120,7 @@ public class GameRules
 	this.levelTileHeightUnits = levelTileHeightUnits;
 
 	this.characterSpeedFall = (int) (this.levelTileHeightUnits * (-60));
-	this.characterVerticalSpeedJump = (int) (this.levelTileHeightUnits * (16)); 
+	this.characterVerticalSpeedJump = (int) (this.levelTileHeightUnits * (16));
 
 	this.characterHorizontalSpeedJump = (int) (6 * this.levelTileWidthUnits);
 	this.playerSpeedWalk = (int) (6 * this.levelTileWidthUnits);
@@ -136,11 +153,11 @@ public class GameRules
     private void setMummyParameters(float levelTileWidthUnits)
     {
 
-	this.mummyWhiteParameters = new float[10];
-	this.mummyBlueParameters = new float[10];
-	this.mummyYellowParameters = new float[10];
-	this.mummyPinkParameters = new float[10];
-	this.mummyRedParameters = new float[10];
+	this.mummyWhiteParameters = new float[4];
+	this.mummyBlueParameters = new float[4];
+	this.mummyYellowParameters = new float[4];
+	this.mummyPinkParameters = new float[4];
+	this.mummyRedParameters = new float[4];
 
 	this.minMummySpawnDistanceToPlayer = 64;
 	this.mummyTimeAppearing = 2;
@@ -150,36 +167,26 @@ public class GameRules
 	this.mummyWhiteParameters[GameRules.INDEX_SPEED_STAIR] = this.playerSpeedWalkStairs * 0.5f;
 	this.mummyWhiteParameters[GameRules.INDEX_TIME_TO_DECIDE] = 1.5f;
 	this.mummyWhiteParameters[GameRules.INDEX_TIME_DECIDING] = 1f;
-	this.mummyWhiteParameters[GameRules.INDEX_DECICION_FACTOR_FALL] = 0.5f;
-	this.mummyWhiteParameters[GameRules.INDEX_DECICION_FACTOR_JUMP] = 0.5f;
 
 	this.mummyPinkParameters[GameRules.INDEX_SPEED_WALK] = this.playerSpeedWalk * 0.5f;
 	this.mummyPinkParameters[GameRules.INDEX_SPEED_STAIR] = this.playerSpeedWalkStairs * 2f;
 	this.mummyPinkParameters[GameRules.INDEX_TIME_TO_DECIDE] = 1.5f;
 	this.mummyPinkParameters[GameRules.INDEX_TIME_DECIDING] = 1f;
-	this.mummyPinkParameters[GameRules.INDEX_DECICION_FACTOR_FALL] = 0.5f;
-	this.mummyPinkParameters[GameRules.INDEX_DECICION_FACTOR_JUMP] = 0.5f;
 
 	this.mummyYellowParameters[GameRules.INDEX_SPEED_WALK] = this.playerSpeedWalk;
 	this.mummyYellowParameters[GameRules.INDEX_SPEED_STAIR] = this.playerSpeedWalkStairs * 0.5f;
 	this.mummyYellowParameters[GameRules.INDEX_TIME_TO_DECIDE] = 1.5f;
 	this.mummyYellowParameters[GameRules.INDEX_TIME_DECIDING] = 1f;
-	this.mummyYellowParameters[GameRules.INDEX_DECICION_FACTOR_FALL] = 0.5f;
-	this.mummyYellowParameters[GameRules.INDEX_DECICION_FACTOR_JUMP] = 0.5f;
 
 	this.mummyBlueParameters[GameRules.INDEX_SPEED_WALK] = this.playerSpeedWalk;
 	this.mummyBlueParameters[GameRules.INDEX_SPEED_STAIR] = this.playerSpeedWalkStairs;
 	this.mummyBlueParameters[GameRules.INDEX_TIME_TO_DECIDE] = 1.5f;
 	this.mummyBlueParameters[GameRules.INDEX_TIME_DECIDING] = 0f;
-	this.mummyBlueParameters[GameRules.INDEX_DECICION_FACTOR_FALL] = 0.5f;
-	this.mummyBlueParameters[GameRules.INDEX_DECICION_FACTOR_JUMP] = 0.5f;
 
 	this.mummyRedParameters[GameRules.INDEX_SPEED_WALK] = this.playerSpeedWalk;
 	this.mummyRedParameters[GameRules.INDEX_SPEED_STAIR] = this.playerSpeedWalkStairs * 2f;
 	this.mummyRedParameters[GameRules.INDEX_TIME_TO_DECIDE] = 1.5f;
 	this.mummyRedParameters[GameRules.INDEX_TIME_DECIDING] = 0f;
-	this.mummyRedParameters[GameRules.INDEX_DECICION_FACTOR_FALL] = 0.5f;
-	this.mummyRedParameters[GameRules.INDEX_DECICION_FACTOR_JUMP] = 0.5f;
 
     }
 
@@ -245,6 +252,7 @@ public class GameRules
 
     /**
      * Retorna el ancho de los caracteres
+     * 
      * @return Ancho de los caracteres
      */
     public float getCharacterWidth()
@@ -386,6 +394,7 @@ public class GameRules
 
     /**
      * Retorna la unica instancia de la clase (patron singleton)
+     * 
      * @return La unica instancia de la clase (patron singleton)
      */
     public static GameRules getInstance()

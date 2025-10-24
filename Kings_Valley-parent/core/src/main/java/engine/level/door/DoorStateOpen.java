@@ -13,7 +13,7 @@ public class DoorStateOpen extends DoorState
 	/**
 	 * Constructor de clase, llama a super(door, Door.OPEN);
 	 * 
-	 * @param door Corresponde al sujeto del patron state
+	 * @param door Contexto del patron state
 	 */
 	public DoorStateOpen(Door door)
 	{

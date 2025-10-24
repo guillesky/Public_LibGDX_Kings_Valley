@@ -185,6 +185,16 @@
     <property name="p0" value="0"/>
    </properties>
   </object>
+  <object id="55" type="Mummy" gid="123" x="384" y="1088" width="64" height="64">
+   <properties>
+    <property name="p0" value="1"/>
+   </properties>
+  </object>
+  <object id="56" type="Mummy" gid="122" x="2560" y="576" width="64" height="64">
+   <properties>
+    <property name="p0" value="0"/>
+   </properties>
+  </object>
   <object id="57" type="Wall" gid="128" x="192" y="1152" width="64" height="64">
    <properties>
     <property name="p0" value="0"/>
@@ -205,7 +215,7 @@
     <property name="p0" value="1"/>
    </properties>
   </object>
-  <object id="60" type="Mummy" gid="125" x="128" y="512" width="64" height="64">
+  <object id="60" type="Mummy" gid="125" x="1088" y="448" width="64" height="64">
    <properties>
     <property name="p0" value="3"/>
    </properties>

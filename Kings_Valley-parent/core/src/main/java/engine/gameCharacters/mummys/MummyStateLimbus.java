@@ -16,7 +16,7 @@ public class MummyStateLimbus extends MummyState
 	 * Contructor de clase llamado cada vez que la momia muere durante los cambios
 	 * de estado, llama a this(mummy, Config.getInstance().getMummyTimeInLimbus());
 	 * 
-	 * @param mummy        Correspondiente al sujeto del patron state
+	 * @param mummy        Contexto del patron state
 	 * @param mustTeleport true si la momia se debera teletransoportar, flase en
 	 *                     caso contrario
 	 */

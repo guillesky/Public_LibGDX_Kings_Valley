@@ -211,7 +211,7 @@ public class Constants
 	/**
 	 * Indica el numero actual de version de juego y fecha de release
 	 */
-	public static final String VERSION = "v 1.0.0 r 2025-07-12";
+	public static final String VERSION = "v 1.0.1 r 2025-10-24";
 
 	static
 	{

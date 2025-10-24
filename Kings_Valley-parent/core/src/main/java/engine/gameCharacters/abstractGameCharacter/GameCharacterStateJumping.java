@@ -26,7 +26,7 @@ public class GameCharacterStateJumping extends GameCharacterStateOnAir
      * evento:Game.getInstance().eventFired(KVEventListener.CHARACTER_JUMP,
      * gameCharacter);
      * 
-     * @param gameCharacter  correspondiente al sujeto del patron state.
+     * @param gameCharacter  correspondiente al contexto del patron state.
      * @param initialMotionX indica la direccion de movimiento horizontal pretendida
      *                       (Si salta hacia el costado estando bloqueado)
      */

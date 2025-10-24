@@ -24,6 +24,9 @@ public class MummyStateWalking extends MummyState
      */
     protected int nextState;
 
+    /**
+     * Analisis de la plataforma actual
+     */
     protected PlatformAnalysisResult platformAnalysisResult;
     private boolean doJump = false;
     private boolean mustDecide = true;
@@ -45,43 +48,52 @@ public class MummyStateWalking extends MummyState
     /**
      * Constructor de clase. LLama a super(mummy, GameCharacter.ST_WALKING);
      * 
-     * @param mummy         Correspondiente al sujeto del patron state
-     * @param directionX    indica la direccion hacia donde debe caminar la momia.
-     *                      Puede tomar los valores: MummyState.NONE;
-     *                      MummyState.RIGHT o MummyState.LEFT
-     * @param whereIsPlayer indica donde esta el player con respecto a la momia.
-     *                      Puede tomar los valores: MummyState.PLAYER_IS_UP;
-     *                      MummyState.PLAYER_IS_DOWN;
-     *                      MummyState.PLAYER_IS_SOME_LEVEL
+     * @param mummy                  Contexto del patron state
+     * @param platformAnalysisResult Analisis de la plataforma actual
+     * @param directionX             indica la direccion hacia donde debe caminar la
+     *                               momia. Puede tomar los valores:<br>
+     *                               MummyState.RIGHT <br>
+     *                               MummyState.LEFT
      */
-    public MummyStateWalking(Mummy mummy, PlatformAnalysisResult platformAnalysisResult, int directionX,
-	    int whereIsPlayer)
+    public MummyStateWalking(Mummy mummy, PlatformAnalysisResult platformAnalysisResult, int directionX)
     {
 	super(mummy, GameCharacter.ST_WALKING);
+
+	this.initValuesFromMummy(mummy);
+
 	mummy.resetTimeInState();
-	this.whereIsPlayer = whereIsPlayer;
 	this.platformAnalysisResult = platformAnalysisResult;
 	this.mummy.getDirection().x = directionX;
-	this.timeToChange = this.mummy.getTimeToDecide();
-	this.nextState = Mummy.ST_NO_CHANGE;
 
     }
 
     /**
-     * Constructor de clase. Es Llamado cuando la momia pasa a estado caminata luego
+     * Constructor de clase. Es Llamado cuando la momia pasa a estado caminata
+     * luego. Llama a super(mummy, GameCharacter.ST_WALKING);
+     * 
      * de haber saltado o caido, debe recalcular el platformAnalysisResult y no debe
      * resetear el tiempo en el estado actual
      * 
-     * @param mummy Correspondiente al sujeto del patron state
+     * @param mummy Contexto del patron state
      */
     public MummyStateWalking(Mummy mummy)
     {
 	super(mummy, GameCharacter.ST_WALKING);
-	this.whereIsPlayer = this.mummy.whereIsPlayer();
+	this.initValuesFromMummy(mummy);
 	this.platformAnalysisResult = new PlatformAnalysisResult(this.mummy);
+
+    }
+
+    /**
+     * Inicializa atributos a partir de la momia pasada por parametro
+     * 
+     * @param mummy Momia a partir de la cual se obtienen los valores.
+     */
+    private void initValuesFromMummy(Mummy mummy)
+    {
+	this.whereIsPlayer = this.mummy.whereIsPlayer();
 	this.timeToChange = this.mummy.getTimeToDecide();
 	this.nextState = Mummy.ST_NO_CHANGE;
-
     }
 
     /**
@@ -119,7 +131,7 @@ public class MummyStateWalking extends MummyState
 		    this.mummy.calmStress(deltaTime / 6);
 	    }
 	    this.mummy.move(this.mummy.getDirection(), doJump, deltaTime);
-	    this.doJump = false; //Si esta vez decidio saltar, no deberia volver a saltar el proximo ciclo
+	    this.doJump = false; // Si esta vez decidio saltar, no deberia volver a saltar el proximo ciclo
 
 	} else
 	{
@@ -161,7 +173,8 @@ public class MummyStateWalking extends MummyState
     }
 
     /**
-     * Llamado para que la momia rebote contra la pared e incrememnte su nivel de stress (si es mu alto la momia muere)
+     * Llamado para que la momia rebote contra la pared e incrememnte su nivel de
+     * stress (si es mu alto la momia muere)
      */
     private void bounces()
     {
@@ -195,6 +208,11 @@ public class MummyStateWalking extends MummyState
 
     }
 
+    /**
+     * Analiza los limites de la plataforma y decide en consecuencia.
+     * 
+     * @param endPlatform
+     */
     private void analizeEndPlatform(EndPlatform endPlatform)
     {
 
