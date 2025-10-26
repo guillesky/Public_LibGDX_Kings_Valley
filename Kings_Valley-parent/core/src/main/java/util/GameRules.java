@@ -1,5 +1,9 @@
 package util;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.utils.Json;
+
 /**
  * Clase que representa los parametros utilizados en las reglas internas del
  * juego. Modificar los valores podria generar inconsistencias en el juego.
@@ -34,40 +38,25 @@ public class GameRules
 
     public static final int INDEX_TIME_DECIDING = 3;
 
-    private float characterSpeedFall;
-    private float characterVerticalSpeedJump;
+    private boolean godMode = false;
 
-    private float playerSpeedWalk;
-    private float playerSpeedWalkStairs;
+    private int initialNumberOfLives = 3;
+    private int firstLevel = 1;
 
     private float minMummySpawnDistanceToPlayer;
     private float mummyTimeInLimbus;
     private float mummyTimeDying;
     private float mummyTimeAppearing;
 
-    private float[] mummyWhiteParameters;
-    private float[] mummyBlueParameters;
-    private float[] mummyYellowParameters;
-    private float[] mummyPinkParameters;
-    private float[] mummyRedParameters;
-
-    private float characterWidth;
-    private float characterHeight;
-    private float characterFeetWidth;
-    private float characterFeetHeight;
-
-    private float levelObjectWidth;
-    private float levelObjectHeight;
-
-    private float stairWidth;
-    private float stairHeight;
-
-    private float giratoryWidth;
+    private float[] mummyWhiteParameters = null;
+    private float[] mummyBlueParameters = null;
+    private float[] mummyYellowParameters = null;
+    private float[] mummyPinkParameters = null;
+    private float[] mummyRedParameters = null;
 
     private float levelTileWidthUnits;
     private float levelTileHeightUnits;
-    private float flyingDaggerSpeed;
-    private float flyingDaggerSpeedFall;
+
     private float timeToEndGiratory = 1f;
     private float timeToEndTrapMechanism = 1f;
     private float timeToOpenCloseDoor = 1f;
@@ -75,9 +64,72 @@ public class GameRules
     private float timeToEndThrowDagger = 0.2f;
     private int scoreForFirstExtraLife = 10000;
     private int scoreForExtraLife = 20000;
-    private int characterHorizontalSpeedJump;
 
-    private static final GameRules instance = new GameRules();
+    private float characterSpeedFallFactor;
+    private float characterVerticalSpeedJumpFactor;
+    private float characterHorizontalSpeedJumpFactor;
+    private float playerSpeedWalkFactor;
+    private float playerSpeedWalkStairsFactor;
+    private float flyingDaggerSpeedFactor;
+    private float flyingDaggerSpeedFallFactor;
+    private float characterWidthFactor;
+    private float playerHeightFactor;
+    private float mummyHeightFactor;
+    private float characterFeetHeightFactor;
+    private float characterFeetWidthFactor;
+    private float stairWidthFactor;
+    private float stairHeightFactor;
+    private float giratoryWidthFactor;
+    private float mummyWhiteSpeedWalkFactor;
+    private float mummyWhiteSpeedStairFactor;
+    private float mummyWhiteTimeToDecide;
+    private float mummyWhiteTimeDeciding;
+    private float mummyPinkSpeedWalkFactor;
+    private float mummyPinkSpeedStairFactor;
+    private float mummyPinkTimeToDecide;
+    private float mummyPinkTimeDeciding;
+    private float mummyYellowSpeedWalkFactor;
+    private float mummyYellowSpeedStairFactor;
+    private float mummyYellowTimeToDecide;
+    private float mummyYellowTimeDeciding;
+    private float mummyBlueSpeedWalkFactor;
+    private float mummyBlueSpeedStairFactor;
+    private float mummyBlueTimeToDecide;
+    private float mummyBlueTimeDeciding;
+    private float mummyRedSpeedWalkFactor;
+    private float mummyRedSpeedStairFactor;
+    private float mummyRedTimeToDecide;
+    private float mummyRedTimeDeciding;
+
+    private static GameRules instance = null;
+    private static final String GAMES_RULES_CONFIG_FILE = "games_rules_config.json";
+    private static final Json json = new Json();
+
+    /**
+     * (Usado solo en etapa de desarrollo) Graba el archivo de configuracion con el
+     * objeto pasado por parametro
+     * 
+     * @param config Objeto que debe grabarse
+     */
+    private static void saveConfig(GameRules gameRules)
+    {
+	FileHandle file = Gdx.files.local(GAMES_RULES_CONFIG_FILE);
+	json.setUsePrototypes(false);
+	file.writeString(json.prettyPrint(gameRules), false);
+    }
+
+    /**
+     * Retorna el objecto de GameRules a partir del archivo de de configuracion
+     * 
+     * @return el objecto de GameRules a partir del archivo de de configuracion
+     */
+    private static GameRules loadConfig()
+    {
+	FileHandle file = Gdx.files.local(GAMES_RULES_CONFIG_FILE);
+
+	return json.fromJson(GameRules.class, file);
+
+    }
 
     /**
      * Retorna el tiempo que lleva picar una celda
@@ -104,53 +156,16 @@ public class GameRules
      */
     private GameRules()
     {
-	// this.defaultValues(64, 64);
-    }
-
-    /**
-     * Inicializa todos los parametros del juego de acuerdo a los valores de ancho y
-     * alto de los tiles (usualmente los tiles son cuadrados)
-     * 
-     * @param levelTileWidthUnits  ancho del tile
-     * @param levelTileHeightUnits alto del tile
-     */
-    public void defaultValues(float levelTileWidthUnits, float levelTileHeightUnits)
-    {
-	this.levelTileWidthUnits = levelTileWidthUnits;
-	this.levelTileHeightUnits = levelTileHeightUnits;
-
-	this.characterSpeedFall = (int) (this.levelTileHeightUnits * (-60));
-	this.characterVerticalSpeedJump = (int) (this.levelTileHeightUnits * (16));
-
-	this.characterHorizontalSpeedJump = (int) (6 * this.levelTileWidthUnits);
-	this.playerSpeedWalk = (int) (6 * this.levelTileWidthUnits);
-	this.playerSpeedWalkStairs = (int) (6 * this.levelTileWidthUnits);
-	this.flyingDaggerSpeed = this.levelTileWidthUnits * 18;
-	this.flyingDaggerSpeedFall = -this.flyingDaggerSpeed * 0.5f;
-
-	this.setMummyParameters(levelTileWidthUnits);
-
-	this.characterWidth = this.levelTileWidthUnits * 0.6f;
-	this.characterHeight = this.levelTileHeightUnits * 1.6f;
-	this.characterFeetHeight = this.levelTileHeightUnits * 0.1f;
-	this.characterFeetWidth = this.levelTileWidthUnits * 0.2f;
-
-	this.levelObjectWidth = this.levelTileWidthUnits;
-	this.levelObjectHeight = this.levelTileHeightUnits;
-
-	this.stairWidth = this.levelTileWidthUnits * 0.1f;
-	this.stairHeight = this.levelTileHeightUnits * .1f;
-
-	this.giratoryWidth = this.levelTileWidthUnits * 1.3f;
 
     }
+
 
     /**
      * Inicializa los paramtros de las momias de acuerdo al ancho del tile
      * 
      * @param levelTileWidthUnits Ancho del tile
      */
-    private void setMummyParameters(float levelTileWidthUnits)
+    private void setMummyParameters()
     {
 
 	this.mummyWhiteParameters = new float[4];
@@ -158,36 +173,42 @@ public class GameRules
 	this.mummyYellowParameters = new float[4];
 	this.mummyPinkParameters = new float[4];
 	this.mummyRedParameters = new float[4];
+	
 
-	this.minMummySpawnDistanceToPlayer = 64;
-	this.mummyTimeAppearing = 2;
-	this.mummyTimeDying = 1;
-	this.mummyTimeInLimbus = 5;
-	this.mummyWhiteParameters[GameRules.INDEX_SPEED_WALK] = this.playerSpeedWalk * 0.5f;
-	this.mummyWhiteParameters[GameRules.INDEX_SPEED_STAIR] = this.playerSpeedWalkStairs * 0.5f;
-	this.mummyWhiteParameters[GameRules.INDEX_TIME_TO_DECIDE] = 1.5f;
-	this.mummyWhiteParameters[GameRules.INDEX_TIME_DECIDING] = 1f;
+	this.mummyWhiteParameters[GameRules.INDEX_SPEED_WALK] = this.getPlayerSpeedWalk()
+		* this.mummyWhiteSpeedWalkFactor;
+	this.mummyWhiteParameters[GameRules.INDEX_SPEED_STAIR] = this.getPlayerSpeedWalkStairs()
+		* this.mummyWhiteSpeedStairFactor;
+	this.mummyWhiteParameters[GameRules.INDEX_TIME_TO_DECIDE] = this.mummyWhiteTimeToDecide;
+	this.mummyWhiteParameters[GameRules.INDEX_TIME_DECIDING] = this.mummyWhiteTimeDeciding;
 
-	this.mummyPinkParameters[GameRules.INDEX_SPEED_WALK] = this.playerSpeedWalk * 0.5f;
-	this.mummyPinkParameters[GameRules.INDEX_SPEED_STAIR] = this.playerSpeedWalkStairs * 2f;
-	this.mummyPinkParameters[GameRules.INDEX_TIME_TO_DECIDE] = 1.5f;
-	this.mummyPinkParameters[GameRules.INDEX_TIME_DECIDING] = 1f;
+	this.mummyPinkParameters[GameRules.INDEX_SPEED_WALK] = this.getPlayerSpeedWalk()
+		* this.mummyPinkSpeedWalkFactor;
+	this.mummyPinkParameters[GameRules.INDEX_SPEED_STAIR] = this.getPlayerSpeedWalkStairs()
+		* this.mummyPinkSpeedStairFactor;
+	this.mummyPinkParameters[GameRules.INDEX_TIME_TO_DECIDE] = this.mummyPinkTimeToDecide;
+	this.mummyPinkParameters[GameRules.INDEX_TIME_DECIDING] = this.mummyPinkTimeDeciding;
 
-	this.mummyYellowParameters[GameRules.INDEX_SPEED_WALK] = this.playerSpeedWalk;
-	this.mummyYellowParameters[GameRules.INDEX_SPEED_STAIR] = this.playerSpeedWalkStairs * 0.5f;
-	this.mummyYellowParameters[GameRules.INDEX_TIME_TO_DECIDE] = 1.5f;
-	this.mummyYellowParameters[GameRules.INDEX_TIME_DECIDING] = 1f;
+	this.mummyYellowParameters[GameRules.INDEX_SPEED_WALK] = this.getPlayerSpeedWalk()
+		* this.mummyYellowSpeedWalkFactor;
+	this.mummyYellowParameters[GameRules.INDEX_SPEED_STAIR] = this.getPlayerSpeedWalkStairs()
+		* this.mummyYellowSpeedStairFactor;
+	this.mummyYellowParameters[GameRules.INDEX_TIME_TO_DECIDE] = this.mummyYellowTimeToDecide;
+	this.mummyYellowParameters[GameRules.INDEX_TIME_DECIDING] = this.mummyYellowTimeDeciding;
 
-	this.mummyBlueParameters[GameRules.INDEX_SPEED_WALK] = this.playerSpeedWalk;
-	this.mummyBlueParameters[GameRules.INDEX_SPEED_STAIR] = this.playerSpeedWalkStairs;
-	this.mummyBlueParameters[GameRules.INDEX_TIME_TO_DECIDE] = 1.5f;
-	this.mummyBlueParameters[GameRules.INDEX_TIME_DECIDING] = 0f;
+	this.mummyBlueParameters[GameRules.INDEX_SPEED_WALK] = this.getPlayerSpeedWalk()
+		* this.mummyBlueSpeedWalkFactor;
+	this.mummyBlueParameters[GameRules.INDEX_SPEED_STAIR] = this.getPlayerSpeedWalkStairs()
+		* this.mummyBlueSpeedStairFactor;
+	this.mummyBlueParameters[GameRules.INDEX_TIME_TO_DECIDE] = this.mummyBlueTimeToDecide;
+	this.mummyBlueParameters[GameRules.INDEX_TIME_DECIDING] = this.mummyBlueTimeDeciding;
 
-	this.mummyRedParameters[GameRules.INDEX_SPEED_WALK] = this.playerSpeedWalk;
-	this.mummyRedParameters[GameRules.INDEX_SPEED_STAIR] = this.playerSpeedWalkStairs * 2f;
-	this.mummyRedParameters[GameRules.INDEX_TIME_TO_DECIDE] = 1.5f;
-	this.mummyRedParameters[GameRules.INDEX_TIME_DECIDING] = 0f;
-
+	this.mummyRedParameters[GameRules.INDEX_SPEED_WALK] = this.getPlayerSpeedWalk() * this.mummyRedSpeedWalkFactor;
+	this.mummyRedParameters[GameRules.INDEX_SPEED_STAIR] = this.getPlayerSpeedWalkStairs()
+		* this.mummyRedSpeedStairFactor;
+	this.mummyRedParameters[GameRules.INDEX_TIME_TO_DECIDE] = this.mummyRedTimeToDecide;
+	this.mummyRedParameters[GameRules.INDEX_TIME_DECIDING] = this.mummyRedTimeDeciding;
+	// saveConfig(this);
     }
 
     /**
@@ -197,17 +218,7 @@ public class GameRules
      */
     public float getCharacterSpeedFall()
     {
-	return characterSpeedFall;
-    }
-
-    /**
-     * Setea la velocidad de caida de los caracteres
-     * 
-     * @param characterSpeedFall Velocidad de caida de los caracteres
-     */
-    public void setCharacterSpeedFall(float characterSpeedFall)
-    {
-	this.characterSpeedFall = characterSpeedFall;
+	return characterSpeedFallFactor * this.levelTileHeightUnits;
     }
 
     /**
@@ -217,17 +228,7 @@ public class GameRules
      */
     public float getPlayerSpeedWalk()
     {
-	return playerSpeedWalk;
-    }
-
-    /**
-     * Setea la velocidad de caminata del player
-     * 
-     * @param playerSpeedWalk Velocidad de caminata del player
-     */
-    public void setPlayerSpeedWalk(float playerSpeedWalk)
-    {
-	this.playerSpeedWalk = playerSpeedWalk;
+	return playerSpeedWalkFactor * this.levelTileWidthUnits;
     }
 
     /**
@@ -237,17 +238,7 @@ public class GameRules
      */
     public float getPlayerSpeedWalkStairs()
     {
-	return playerSpeedWalkStairs;
-    }
-
-    /**
-     * Setea la Velocidad en la escalera del player
-     * 
-     * @param playerSpeedWalkStairs Velocidad en la escalera del player
-     */
-    public void setPlayerSpeedWalkStairs(float playerSpeedWalkStairs)
-    {
-	this.playerSpeedWalkStairs = playerSpeedWalkStairs;
+	return playerSpeedWalkStairsFactor * this.levelTileWidthUnits;
     }
 
     /**
@@ -257,37 +248,28 @@ public class GameRules
      */
     public float getCharacterWidth()
     {
-	return characterWidth;
+	return characterWidthFactor * this.levelTileHeightUnits;
     }
 
     /**
-     * Setea el ancho de los caracteres
+     * Retorna el alto del player
      * 
-     * @param characterWidth Ancho de los caracteres
+     * @return Alto del player
      */
-    public void setCharacterWidth(float characterWidth)
+    public float getPlayerHeight()
     {
-	this.characterWidth = characterWidth;
+	return playerHeightFactor * this.levelTileHeightUnits;
     }
 
     /**
-     * Retorna el alto de los caracteres
+     * Retorna el alto de las momias
      * 
-     * @return Alto de los caracteres
+     * @return Alto de las momias
      */
-    public float getCharacterHeight()
-    {
-	return characterHeight;
-    }
 
-    /**
-     * Setea el alto de los caracteres
-     * 
-     * @param characterHeight Alto de los caracteres
-     */
-    public void setCharacterHeight(float characterHeight)
+    public float getMummyHeight()
     {
-	this.characterHeight = characterHeight;
+	return mummyHeightFactor * this.levelTileHeightUnits;
     }
 
     /**
@@ -297,18 +279,7 @@ public class GameRules
      */
     public float getLevelObjectWidth()
     {
-	return levelObjectWidth;
-    }
-
-    /**
-     * Setea el ancho de los objetos del nivel (picos, espadas, gemas)
-     * 
-     * @param levelObjectWidth Ancho de los objetos del nivel (picos, espadas,
-     *                         gemas)
-     */
-    public void setLevelObjectWidth(float levelObjectWidth)
-    {
-	this.levelObjectWidth = levelObjectWidth;
+	return levelTileWidthUnits;
     }
 
     /**
@@ -318,18 +289,7 @@ public class GameRules
      */
     public float getLevelObjectHeight()
     {
-	return levelObjectHeight;
-    }
-
-    /**
-     * Setea el alto de los objetos del nivel (picos, espadas, gemas)
-     * 
-     * @param levelObjectHeight Alto de los objetos del nivel (picos, espadas,
-     *                          gemas)
-     */
-    public void setLevelObjectHeight(float levelObjectHeight)
-    {
-	this.levelObjectHeight = levelObjectHeight;
+	return this.levelTileHeightUnits;
     }
 
     /**
@@ -339,17 +299,7 @@ public class GameRules
      */
     public float getStairWidth()
     {
-	return stairWidth;
-    }
-
-    /**
-     * Setea el ancho de los inicios y fin de escalera (pies y cabecesras)
-     * 
-     * @param stairWidth Ancho de los inicios y fin de escalera (pies y cabecesras)
-     */
-    public void setStairWidth(float stairWidth)
-    {
-	this.stairWidth = stairWidth;
+	return stairWidthFactor * levelTileWidthUnits;
     }
 
     /**
@@ -359,17 +309,7 @@ public class GameRules
      */
     public float getStairHeight()
     {
-	return stairHeight;
-    }
-
-    /**
-     * Setea el alto de los inicios y fin de escalera (pies y cabeceras)
-     * 
-     * @param stairHeight Alto de los inicios y fin de escalera (pies y cabecesras)
-     */
-    public void setStairHeight(float stairHeight)
-    {
-	this.stairHeight = stairHeight;
+	return stairHeightFactor * this.levelTileHeightUnits;
     }
 
     /**
@@ -399,6 +339,11 @@ public class GameRules
      */
     public static GameRules getInstance()
     {
+	if (instance == null)
+	{
+	    instance = loadConfig();
+
+	}
 	return instance;
     }
 
@@ -409,18 +354,7 @@ public class GameRules
      */
     public float getCharacterFeetWidth()
     {
-	return characterFeetWidth;
-    }
-
-    /**
-     * Setea el ancho de los pies de los caracteres (para colisiones)
-     * 
-     * @param characterFeetWidth Ancho de los pies de los caracteres (para
-     *                           colisiones)
-     */
-    public void setCharacterFeetWidth(float characterFeetWidth)
-    {
-	this.characterFeetWidth = characterFeetWidth;
+	return characterFeetWidthFactor * levelTileWidthUnits;
     }
 
     /**
@@ -430,7 +364,7 @@ public class GameRules
      */
     public float getCharacterFeetHeight()
     {
-	return characterFeetHeight;
+	return characterFeetHeightFactor * this.levelTileHeightUnits;
     }
 
     /**
@@ -439,10 +373,6 @@ public class GameRules
      * @param characterFeetHeight Alto de los pies de los caracteres (para
      *                            colisiones)
      */
-    public void setCharacterFeetHeight(float characterFeetHeight)
-    {
-	this.characterFeetHeight = characterFeetHeight;
-    }
 
     /**
      * Retorna el ancho de las puertas giratorias
@@ -451,17 +381,7 @@ public class GameRules
      */
     public float getGiratoryWidth()
     {
-	return giratoryWidth;
-    }
-
-    /**
-     * Setea el ancho de las puertas giratorias
-     * 
-     * @param giratoryWidth Ancho de las puertas giratorias
-     */
-    public void setGiratoryWidth(float giratoryWidth)
-    {
-	this.giratoryWidth = giratoryWidth;
+	return giratoryWidthFactor * levelTileWidthUnits;
     }
 
     /**
@@ -471,18 +391,7 @@ public class GameRules
      */
     public float getCharacterVerticalSpeedJump()
     {
-	return characterVerticalSpeedJump;
-    }
-
-    /**
-     * Setea la velocidad del salto de los caracteres (empuje vertical)
-     * 
-     * @param characterVerticalSpeedJump Velocidad del salto de los caracteres
-     *                                   (empuje vertical)
-     */
-    public void setCharacterVerticalSpeedJump(float characterVerticalSpeedJump)
-    {
-	this.characterVerticalSpeedJump = characterVerticalSpeedJump;
+	return characterVerticalSpeedJumpFactor * this.levelTileHeightUnits;
     }
 
     /**
@@ -490,20 +399,9 @@ public class GameRules
      * 
      * @return Velocidad del salto de los caracteres (empuje horizontal)
      */
-    public int getCharacterHorizontalSpeedJump()
+    public float getCharacterHorizontalSpeedJump()
     {
-	return characterHorizontalSpeedJump;
-    }
-
-    /**
-     * Setea la velocidad del salto de los caracteres (empuje horizontal)
-     * 
-     * @param characterHorizontalSpeedJump Velocidad del salto de los caracteres
-     *                                     (empuje horizontal)
-     */
-    public void setCharacterHorizontalSpeedJump(int characterHorizontalSpeedJump)
-    {
-	this.characterHorizontalSpeedJump = characterHorizontalSpeedJump;
+	return characterHorizontalSpeedJumpFactor * levelTileWidthUnits;
     }
 
     /**
@@ -515,20 +413,7 @@ public class GameRules
      */
     public float getFlyingDaggerSpeed()
     {
-	return flyingDaggerSpeed;
-    }
-
-    /**
-     * Setea la velocidad de la daga al ser lanzada horizontalmente (al ser lanzada
-     * verticalemente se calculan otros valores proporcionales a este)
-     * 
-     * @param flyingDaggerSpeed Velocidad de la daga al ser lanzada horizontalmente
-     *                          (al ser lanzada verticalemente se calculan otros
-     *                          valores proporcionales a este)
-     */
-    public void setFlyingDaggerSpeed(float flyingDaggerSpeed)
-    {
-	this.flyingDaggerSpeed = flyingDaggerSpeed;
+	return flyingDaggerSpeedFactor * levelTileWidthUnits;
     }
 
     /**
@@ -538,17 +423,7 @@ public class GameRules
      */
     public float getFlyingDaggerSpeedFall()
     {
-	return flyingDaggerSpeedFall;
-    }
-
-    /**
-     * Setea la velocidad de caida de la daga
-     * 
-     * @param flyingDaggerSpeedFall Velocidad de caida de la daga
-     */
-    public void setFlyingDaggerSpeedFall(float flyingDaggerSpeedFall)
-    {
-	this.flyingDaggerSpeedFall = flyingDaggerSpeedFall;
+	return flyingDaggerSpeedFallFactor * this.levelTileHeightUnits;
     }
 
     /**
@@ -558,7 +433,8 @@ public class GameRules
      */
     public float[] getMummyBlueParameters()
     {
-
+	if (this.mummyBlueParameters == null)
+	    this.setMummyParameters();
 	return this.mummyBlueParameters;
     }
 
@@ -569,6 +445,8 @@ public class GameRules
      */
     public float[] getMummyWhiteParameters()
     {
+	if (this.mummyWhiteParameters == null)
+	    this.setMummyParameters();
 
 	return this.mummyWhiteParameters;
     }
@@ -580,6 +458,8 @@ public class GameRules
      */
     public float[] getMummyYellowParameters()
     {
+	if (this.mummyYellowParameters == null)
+	    this.setMummyParameters();
 
 	return this.mummyYellowParameters;
     }
@@ -591,6 +471,8 @@ public class GameRules
      */
     public float[] getMummyPinkParameters()
     {
+	if (this.mummyPinkParameters == null)
+	    this.setMummyParameters();
 
 	return this.mummyPinkParameters;
     }
@@ -602,6 +484,8 @@ public class GameRules
      */
     public float[] getMummyRedParameters()
     {
+	if (this.mummyRedParameters == null)
+	    this.setMummyParameters();
 
 	return this.mummyRedParameters;
     }
@@ -619,69 +503,6 @@ public class GameRules
     }
 
     /**
-     * Setea la distancia minima a la que puede estar el player cuando la momia se
-     * teletransporta
-     * 
-     * @param minMummySpawnDistanceToPlayer Distancia minima a la que puede estar el
-     *                                      player cuando la momia se teletransporta
-     */
-    public void setMinMummySpawnDistanceToPlayer(float minMummySpawnDistanceToPlayer)
-    {
-	this.minMummySpawnDistanceToPlayer = minMummySpawnDistanceToPlayer;
-    }
-
-    /**
-     * Setea el array con los parametros de la momia blanca
-     * 
-     * @param mummyWhiteParameters Un array con los parametros de la momia blanca
-     */
-    public void setMummyWhiteParameters(float[] mummyWhiteParameters)
-    {
-	this.mummyWhiteParameters = mummyWhiteParameters;
-    }
-
-    /**
-     * Setea el array con los parametros de la momia azul
-     * 
-     * @param mummyBlueParameters Un array con los parametros de la momia azul
-     */
-    public void setMummyBlueParameters(float[] mummyBlueParameters)
-    {
-	this.mummyBlueParameters = mummyBlueParameters;
-    }
-
-    /**
-     * Setea el array con los parametros de la momia amarilla
-     * 
-     * @param mummyYellowParameters Un array con los parametros de la momia amarilla
-     */
-    public void setMummyYellowParameters(float[] mummyYellowParameters)
-    {
-	this.mummyYellowParameters = mummyYellowParameters;
-    }
-
-    /**
-     * Setea el array con los parametros de la momia rosa
-     * 
-     * @param mummyPinkParameters Un array con los parametros de la momia rosa
-     */
-    public void setMummyPinkParameters(float[] mummyPinkParameters)
-    {
-	this.mummyPinkParameters = mummyPinkParameters;
-    }
-
-    /**
-     * 
-     * Setea el array con los parametros de la momia roja
-     * 
-     * @param mummyRedParameters Un array con los parametros de la momia roja
-     */
-    public void setMummyRedParameters(float[] mummyRedParameters)
-    {
-	this.mummyRedParameters = mummyRedParameters;
-    }
-
-    /**
      * Retorna el tiempo que la momia permanece en el limbo
      * 
      * @return Tiempo que la momia permanece en el limbo
@@ -689,16 +510,6 @@ public class GameRules
     public float getMummyTimeInLimbus()
     {
 	return mummyTimeInLimbus;
-    }
-
-    /**
-     * Setea el tiempo que la momia permanece en el limbo
-     * 
-     * @param mummyTimeInLimbus Tiempo que la momia permanece en el limbo
-     */
-    public void setMummyTimeInLimbus(float mummyTimeInLimbus)
-    {
-	this.mummyTimeInLimbus = mummyTimeInLimbus;
     }
 
     /**
@@ -712,16 +523,6 @@ public class GameRules
     }
 
     /**
-     * Setea el tiempo que la momia tarda en morir
-     * 
-     * @param mummyTimeDying Tiempo que la momia tarda en morir
-     */
-    public void setMummyTimeDying(float mummyTimeDying)
-    {
-	this.mummyTimeDying = mummyTimeDying;
-    }
-
-    /**
      * Retorna el tiempo que la momia tarda en aparecer
      * 
      * @return Tiempo que la momia tarda en aparecer
@@ -729,16 +530,6 @@ public class GameRules
     public float getMummyTimeAppearing()
     {
 	return mummyTimeAppearing;
-    }
-
-    /**
-     * Setea el tiempo que la momia tarda en aparecer
-     * 
-     * @param mummyTimeAppearing Tiempo que la momia tarda en aparecer
-     */
-    public void setMummyTimeAppearing(float mummyTimeAppearing)
-    {
-	this.mummyTimeAppearing = mummyTimeAppearing;
     }
 
     /**
@@ -752,17 +543,6 @@ public class GameRules
     }
 
     /**
-     * Setea el tiempo que tarda el player en pasar por una giratoria
-     * 
-     * @param timeToEndGiratory Tiempo que tarda el player en pasar por una
-     *                          giratoria
-     */
-    public void setTimeToEndGiratory(float timeToEndGiratory)
-    {
-	this.timeToEndGiratory = timeToEndGiratory;
-    }
-
-    /**
      * Retorna el tiempo que tarda un muro trampa en bajar un tile
      * 
      * @return Tiempo que tarda un muro trampa en bajar un tile
@@ -770,17 +550,6 @@ public class GameRules
     public float getTimeToEndTrapMechanism()
     {
 	return timeToEndTrapMechanism;
-    }
-
-    /**
-     * Setea el tiempo que tarda un muro trampa en bajar un tile
-     * 
-     * @param timeToEndTrapMechanism Tiempo que tarda un muro trampa en bajar un
-     *                               tile
-     */
-    public void setTimeToEndTrapMechanism(float timeToEndTrapMechanism)
-    {
-	this.timeToEndTrapMechanism = timeToEndTrapMechanism;
     }
 
     /**
@@ -795,18 +564,6 @@ public class GameRules
     }
 
     /**
-     * Setea el tiempo que tarda una puerta de entrada y salida en abrirse o
-     * cerrarse
-     * 
-     * @param timeToOpenCloseDoor Tiempo que tarda una puerta de entrada y salida en
-     *                            abrirse o cerrarse
-     */
-    public void setTimeToOpenCloseDoor(float timeToOpenCloseDoor)
-    {
-	this.timeToOpenCloseDoor = timeToOpenCloseDoor;
-    }
-
-    /**
      * Retorna el puntaje necesario para obtener la primera vida extra
      * 
      * @return Puntaje necesario para obtener la primera vida extra
@@ -814,17 +571,6 @@ public class GameRules
     public int getScoreForFirstExtraLife()
     {
 	return scoreForFirstExtraLife;
-    }
-
-    /**
-     * Setea el puntaje necesario para obtener la primera vida extra
-     * 
-     * @param scoreForFirstExtraLife Puntaje necesario para obtener la primera vida
-     *                               extra
-     */
-    public void setScoreForFirstExtraLife(int scoreForFirstExtraLife)
-    {
-	this.scoreForFirstExtraLife = scoreForFirstExtraLife;
     }
 
     /**
@@ -840,15 +586,86 @@ public class GameRules
     }
 
     /**
-     * Setea el puntaje necesario para obtener la proxima vida extra (despues de la
-     * primera)
+     * retorna el identificador del primer nivel del juego (usualmente, 1)
      * 
-     * @param scoreForExtraLife Puntaje necesario para obtener la proxima vida extra
-     *                          (despues de la primera)
+     * @return El identificador del primer nivel del juego (usualmente, 1)
      */
-    public void setScoreForExtraLife(int scoreForExtraLife)
+    public int getFirstLevel()
     {
-	this.scoreForExtraLife = scoreForExtraLife;
+	return firstLevel;
+    }
+
+    /**
+     * Indica si el juego esta en modo Dios (Si es asi, las momias no mataran al
+     * Player)
+     * 
+     * @return true si esta en modo Dios, false en caso contrario.
+     */
+    public boolean isGodMode()
+    {
+	return godMode;
+    }
+
+    // Usado en etapa de desarrollo para generar ewl archivo json
+    private void setFactors(float levelTileWidthUnits, float levelTileHeightUnits)
+    {
+	this.levelTileWidthUnits = levelTileWidthUnits;
+	this.levelTileHeightUnits = levelTileHeightUnits;
+
+	this.characterSpeedFallFactor = -60f;
+	this.characterVerticalSpeedJumpFactor = 16f;
+
+	this.characterHorizontalSpeedJumpFactor = 6f;
+	this.playerSpeedWalkFactor = 6f;
+	this.playerSpeedWalkStairsFactor = 6f;
+	this.flyingDaggerSpeedFactor = 18f;
+	this.flyingDaggerSpeedFallFactor = -9f;
+
+	this.characterWidthFactor = 0.6f;
+	this.playerHeightFactor = 1.6f;
+	this.mummyHeightFactor = 1.4f;
+	this.characterFeetHeightFactor = 0.1f;
+	this.characterFeetWidthFactor = 0.2f;
+
+	this.stairWidthFactor = 0.1f;
+	this.stairHeightFactor = .1f;
+
+	this.giratoryWidthFactor = 1.3f;
+
+	this.mummyWhiteSpeedWalkFactor = 0.5f;
+	this.mummyWhiteSpeedStairFactor = 0.5f;
+	this.mummyWhiteTimeToDecide = 1.5f;
+	this.mummyWhiteTimeDeciding = 1f;
+
+	this.mummyPinkSpeedWalkFactor = 0.5f;
+	this.mummyPinkSpeedStairFactor = 2f;
+	this.mummyPinkTimeToDecide = 1.5f;
+	this.mummyPinkTimeDeciding = 1f;
+
+	this.mummyYellowSpeedWalkFactor = 1f;
+	this.mummyYellowSpeedStairFactor = 0.5f;
+	this.mummyYellowTimeToDecide = 1.5f;
+	this.mummyYellowTimeDeciding = 1f;
+
+	this.mummyBlueSpeedWalkFactor = 1f;
+	this.mummyBlueSpeedStairFactor = 1f;
+	this.mummyBlueTimeToDecide = 1.5f;
+	this.mummyBlueTimeDeciding = 0f;
+
+	this.mummyRedSpeedWalkFactor = 1f;
+	this.mummyRedSpeedStairFactor = 2f;
+	this.mummyRedTimeToDecide = 1.5f;
+	this.mummyRedTimeDeciding = 0f;
+
+    }
+
+    /**
+     * Retorna el numero inicial de vidas
+     * @return numero inicial de vidas
+     */
+    public int getInitialNumberOfLives()
+    {
+	return initialNumberOfLives;
     }
 
 }

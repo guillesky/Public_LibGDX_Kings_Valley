@@ -81,7 +81,7 @@ public class Game implements KVEventListener
     private GameConfig gameConfig;
     private boolean goingBack;
     private int nextExtraLife = GameRules.getInstance().getScoreForFirstExtraLife();
-    private int firstLevel = 1;
+
     /**
      * Instancia de random para utilizar por todas las clases del juego
      */
@@ -195,15 +195,18 @@ public class Game implements KVEventListener
 
     /**
      * Inicializa los valores del juego para poder iniciar una nueva partida
-     * this.idCurrentLevel = 1; this.score = 0; this.resetCompletedLevels();
-     * this.lives = 3;(score=0;
+     * this.idCurrentLevel = 1;<br>
+     * this.score = 0; <br>
+     * this.resetCompletedLevels();<br>
+     * this.score = 0;<br>
+     * this.lives = GameRules.getInstance().getInitialNumberOfLives();
      */
     protected void initNewGame()
     {
-	this.idCurrentLevel = this.firstLevel;
+	this.idCurrentLevel = GameRules.getInstance().getFirstLevel();
 	this.score = 0;
 	this.resetCompletedLevels();
-	this.lives = 3;
+	this.lives = GameRules.getInstance().getInitialNumberOfLives();
     }
 
     /**
@@ -515,9 +518,9 @@ public class Game implements KVEventListener
      */
     public void endGame()
     {
-
+	this.lives = 0;
 	this.stateGame.endGame();
-	this.initNewGame();
+
     }
 
     /**

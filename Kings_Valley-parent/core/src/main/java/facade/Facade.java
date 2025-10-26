@@ -301,7 +301,7 @@ public class Facade implements ApplicationListener
 	UIConfig uiConfig = Facade.loadConfig();
 
 	this.gameConfig = GameConfig.loadConfig();
-	GameRules.getInstance().defaultValues(this.gameConfig.getTileWidth(), this.gameConfig.getTileHeight());
+	
 	try
 	{
 	    Utils.checkLevelIntegrity();

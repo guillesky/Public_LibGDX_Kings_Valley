@@ -11,8 +11,7 @@ import com.badlogic.gdx.utils.Json;
  */
 public class GameConfig
 {
-    private float tileWidth = 64;
-    private float tileHeight = 64;
+   
     private String language;
     private float masterVolume;
     private float musicVolume;
@@ -166,52 +165,6 @@ public class GameConfig
 	this.finishedOneTime = finishedOneTime;
     }
 
-    /**
-     * Retorna el ancho en unidades del tile. Debe ser consistentes con cada uno de
-     * los niveles del juego.
-     * 
-     * @return Ancho en unidades del tile. Debe ser consistentes con cada uno de los
-     *         niveles del juego.
-     */
-    public float getTileWidth()
-    {
-	return tileWidth;
-    }
-
-    /**
-     * Setea el ancho en unidades del tile. Debe ser consistentes con cada uno de
-     * los niveles del juego.
-     * 
-     * @param tileWidth Ancho en unidades del tile. Debe ser consistentes con cada
-     *                  uno de los niveles del juego.
-     */
-    public void setTileWidth(float tileWidth)
-    {
-	this.tileWidth = tileWidth;
-    }
-
-    /**
-     * Retorna el alto en unidades del tile. Debe ser consistentes con cada uno de
-     * los niveles del juego.
-     * 
-     * @return Alto en unidades del tile. Debe ser consistentes con cada uno de los
-     *         niveles del juego.
-     */
-    public float getTileHeight()
-    {
-	return tileHeight;
-    }
-
-    /**
-     * Setea el alto en unidades del tile. Debe ser consistentes con cada uno de los
-     * niveles del juego.
-     * 
-     * @param tileHeight Alto en unidades del tile. Debe ser consistentes con cada
-     *                   uno de los niveles del juego.
-     */
-    public void setTileHeight(float tileHeight)
-    {
-	this.tileHeight = tileHeight;
-    }
+   
 
 }

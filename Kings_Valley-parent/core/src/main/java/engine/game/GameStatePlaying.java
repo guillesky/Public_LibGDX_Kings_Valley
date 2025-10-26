@@ -2,14 +2,12 @@ package engine.game;
 
 import com.badlogic.gdx.Input;
 
-import engine.DrawableElement;
 import engine.KVEventListener;
 import engine.control.Controls;
-import engine.gameCharacters.mummys.PlatformAnalysisResult;
 import engine.gameCharacters.player.Player;
 import engine.level.Level;
 import engine.level.door.Door;
-import util.Constants;
+import util.GameRules;
 
 /**
  * Clase que representa el estado Jugando
@@ -19,7 +17,7 @@ import util.Constants;
 public class GameStatePlaying extends GameState
 {
 	private boolean readyToExit = false;
-	private boolean godMode = false;
+	
 
 	/**
 	 * Se llama a super(Game.ST_GAME_PLAYING);<br>
@@ -66,7 +64,7 @@ public class GameStatePlaying extends GameState
 			}
 		}
 
-		if (!this.godMode && currentLevel.checkPlayerDieByMummy())
+		if (!GameRules.getInstance().isGodMode() && currentLevel.checkPlayerDieByMummy())
 		{
 			this.game.dying();
 		}

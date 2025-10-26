@@ -112,6 +112,7 @@ public abstract class GameCharacter extends LevelObject
 
     /**
      * Retorna la ultima coordena conocida de la plataforma que pisa el caracter
+     * 
      * @return Ultima coordena conocida de la plataforma que pisa el caracter
      */
     public float getLastFloorCoordinate()
@@ -120,20 +121,24 @@ public abstract class GameCharacter extends LevelObject
     }
 
     /**
-     * Llama a super(type, x, y, 0, Config.getInstance().getCharacterWidth(),
-     * Config.getInstance().getCharacterHeight());
+     * Constructor de clase.<br>
+     * Llama a super(type, x, y, 0, width, height);
      * 
      * @param type            entero que indica el tipo de objeto (util para
      *                        renderizar)
      * @param x               (posicion x en el mapa)
      * @param y               (posicion y en el mapa)
+     * @param width           Ancho del caracter
+     * @param height          Alto del caracter
+     * 
      * @param speedWalk       velocidad de caminata
      * @param speedWalkStairs velocidad de subir o bajar escaleras
      * @param pyramid         objeto de tipo Pyramid a la cual pertenece
      */
-    public GameCharacter(int type, float x, float y, float speedWalk, float speedWalkStairs, Pyramid pyramid)
+    public GameCharacter(int type, float x, float y, float width, float height, float speedWalk, float speedWalkStairs,
+	    Pyramid pyramid)
     {
-	super(type, x, y, 0, GameRules.getInstance().getCharacterWidth(), GameRules.getInstance().getCharacterHeight());
+	super(type, x, y, 0, width, height);
 	float feetWidth;
 	float feetHeight;
 
@@ -165,7 +170,8 @@ public abstract class GameCharacter extends LevelObject
     protected void move(Vector2 v, boolean b, float deltaTime)
     {
 	this.gameCharacterState.move(v, b, deltaTime);
-
+	if (!this.isInStair())
+	    this.checkGiratory();
     }
 
     /**

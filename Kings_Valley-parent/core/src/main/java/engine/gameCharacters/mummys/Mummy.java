@@ -80,7 +80,12 @@ public abstract class Mummy extends GameCharacter
     protected Player player;
 
     /**
-     * Constructor de clase
+     * Constructor de clase, llama a <br>
+     * super(type, x,
+     * y,GameRules.getInstance().getCharacterWidth(),GameRules.getInstance().getMummyHeight(),
+     * parameters[GameRules.INDEX_SPEED_WALK],
+     * parameters[GameRules.INDEX_SPEED_STAIR], pyramid);
+     * 
      * 
      * @param type       Indica el tipo de momia (solo deberia utilizarse para
      *                   elegir modelos de visualizacion)
@@ -92,7 +97,8 @@ public abstract class Mummy extends GameCharacter
      */
     public Mummy(int type, float x, float y, float[] parameters, Pyramid pyramid, Player player)
     {
-	super(type, x, y, parameters[GameRules.INDEX_SPEED_WALK], parameters[GameRules.INDEX_SPEED_STAIR], pyramid);
+	super(type, x, y, GameRules.getInstance().getCharacterWidth(), GameRules.getInstance().getMummyHeight(),
+		parameters[GameRules.INDEX_SPEED_WALK], parameters[GameRules.INDEX_SPEED_STAIR], pyramid);
 	this.timeToDecide = parameters[GameRules.INDEX_TIME_TO_DECIDE];
 	this.timeDeciding = parameters[GameRules.INDEX_TIME_DECIDING];
 
