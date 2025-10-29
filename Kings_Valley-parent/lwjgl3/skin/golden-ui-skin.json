@@ -223,7 +223,7 @@ com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle: {
 		font: font
 		fontColor: yellow
 		focusedFontColor: orange
-		background: textfield
+		background: black-transparent
 		cursor: cursor-primed
 		selection: red
 	}

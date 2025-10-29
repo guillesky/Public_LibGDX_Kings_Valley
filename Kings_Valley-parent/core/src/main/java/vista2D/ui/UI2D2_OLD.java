@@ -18,7 +18,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -29,11 +28,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.SelectBox.SelectBoxStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextTooltip;
-import com.badlogic.gdx.scenes.scene2d.ui.TooltipManager;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -48,7 +44,7 @@ import util.Constants;
  * 
  * @author Guillermo Lazzurri
  */
-public class UI2D implements IView, ApplicationListener
+public class UI2D2_OLD implements IView, ApplicationListener
 {
 
 	private Texture backgroundText;
@@ -73,8 +69,6 @@ public class UI2D implements IView, ApplicationListener
 	private TextButton buttonBackFromOptions;
 	private TextButton buttonBackFromCredits;
 	private TextButton buttonBackFromMap;
-	private CheckBox gameClasic; 
-	private CheckBox gameExtended;
 	private Label labelTitleMain;
 	private Label labelTitleOption;
 	private Label labelTitleCredits;
@@ -99,9 +93,7 @@ public class UI2D implements IView, ApplicationListener
 	private ChangeListener changeListenerSounds;
 	private ScrollPane scrollPane;
 	private boolean inCredits = false;
-	private SelectBox<String> selectBoxLanguage;
-	private SelectBox<String> selectBoxGameType;
-	private SelectBox<String> selectBoxEpisode;
+	private SelectBox<String> selectBox;
 	private UIConfig uiConfig;
 	private Cursor cursor;
 	private Table tableMap;
@@ -111,7 +103,6 @@ public class UI2D implements IView, ApplicationListener
 	private Dialog confirmRetryDialog;
 	private Dialog confirmExitDialog;
 	private Dialog confirmGoMainMenuDialog;
-	private Drawable backgroundBlackTransparent;
 
 	/**
 	 * Constructor de clase
@@ -119,7 +110,7 @@ public class UI2D implements IView, ApplicationListener
 	 * @param manager  manager de carga
 	 * @param uiConfig Objeto UIConfig con la configuracion de la ventana
 	 */
-	public UI2D(AssetManager manager, UIConfig uiConfig)
+	public UI2D2_OLD(AssetManager manager, UIConfig uiConfig)
 	{
 		this.uiConfig = uiConfig;
 
@@ -194,14 +185,12 @@ public class UI2D implements IView, ApplicationListener
 
 		Label.LabelStyle labelStyleLarge = new Label.LabelStyle();
 		labelStyleLarge.font = skin.getFont(this.fontLargeName);
-		this.backgroundBlackTransparent=skin.newDrawable("black-transparent");
-		
+
 		this.skin.add("myLabelStyleLarge", labelStyleLarge);
 		Label.LabelStyle labelStyleSmall = skin.get("default", Label.LabelStyle.class);
 		labelStyleSmall.font = skin.getFont(this.fontSmallName);
 		stage = new Stage(new ScreenViewport());
 		Gdx.input.setInputProcessor(stage);
-		
 		this.createDialogs();
 		this.createMainTable();
 		this.createOptionTable();
@@ -263,8 +252,8 @@ public class UI2D implements IView, ApplicationListener
 		this.slFXVolume.addChangeListener(changeListenerSounds);
 		this.slMusicVolume.addChangeListener(changeListenerSounds);
 
-		this.selectBoxLanguage.addListener(inputListenerSounds);
-		this.selectBoxLanguage.addListener(changeListenerSounds);
+		this.selectBox.addListener(inputListenerSounds);
+		this.selectBox.addListener(changeListenerSounds);
 
 		this.buttonBackFromOptions.addListener(inputListenerSounds);
 		buttonBackFromOptions.getLabel().setTouchable(Touchable.disabled);
@@ -573,10 +562,10 @@ public class UI2D implements IView, ApplicationListener
 			@Override
 			public void clicked(InputEvent event, float x, float y)
 			{
-				if (!selectBoxLanguage.getSelected().equals(Messages.LANGUAGE_NAME.getValue()))
-					controler.changeLanguage(selectBoxLanguage.getSelected());
+				if (!selectBox.getSelected().equals(Messages.LANGUAGE_NAME.getValue()))
+					controler.changeLanguage(selectBox.getSelected());
 
-				if (UI2D.this.fromInGameTable)
+				if (UI2D2_OLD.this.fromInGameTable)
 					doUiInGame();
 				else
 					doMainMenu();
@@ -585,15 +574,14 @@ public class UI2D implements IView, ApplicationListener
 
 		this.labelLanguage = new Label(Messages.LANGUAGE.getValue(), skin);
 
-	
+		this.selectBox = new SelectBox<String>(skin);
 		Array<String> array = new Array<String>();
 		Iterator<String> it = this.controler.getLanguagesName();
 		while (it.hasNext())
 			array.add(it.next());
-		
-		this.selectBoxLanguage = new SelectBox<String>(skin);
-		selectBoxLanguage.setItems(array);
-		selectBoxLanguage.setSelected(Messages.LANGUAGE_NAME.getValue());
+
+		selectBox.setItems(array);
+		selectBox.setSelected(Messages.LANGUAGE_NAME.getValue());
 
 		labelTitleOption.setAlignment(Align.center);
 
@@ -602,7 +590,7 @@ public class UI2D implements IView, ApplicationListener
 		tableOption.row();
 		Table t = new Table();
 		t.add(labelLanguage).width(350).left().padRight(10);
-		t.add(selectBoxLanguage).width(300).padRight(10);
+		t.add(selectBox).width(300).padRight(10);
 
 		this.addExpandableRow(tableOption, slMusicVolume);
 		this.addExpandableRow(tableOption, slFXVolume);
@@ -617,24 +605,6 @@ public class UI2D implements IView, ApplicationListener
 	 */
 	private void createMainTable()
 	{
-		TooltipManager manager = TooltipManager.getInstance();
-
-		// Configurar los tiempos
-		manager.initialTime = 0.5f; 
-		TextTooltip.TextTooltipStyle tooltipStyle = new TextTooltip.TextTooltipStyle();
-		tooltipStyle.label = skin.get("default", Label.LabelStyle.class);
-	
-		tooltipStyle.label.font = skin.getFont(this.fontSmallName);
-		tooltipStyle.background=this.backgroundBlackTransparent;
-		
-		TextTooltip tooltip = new TextTooltip("Este es un botón importante", tooltipStyle);
-		 
-		
-		
-		
-		
-		
-		
 		this.tableMainInUi = new Table();
 		this.tableMainInUi.setFillParent(true);
 		this.tableMainInUi.top();
@@ -657,7 +627,7 @@ public class UI2D implements IView, ApplicationListener
 			{
 
 				doOptions();
-				UI2D.this.fromInGameTable = false;
+				UI2D2_OLD.this.fromInGameTable = false;
 			}
 		});
 
@@ -667,7 +637,7 @@ public class UI2D implements IView, ApplicationListener
 			@Override
 			public void clicked(InputEvent event, float x, float y)
 			{
-				UI2D.this.doCredits();
+				UI2D2_OLD.this.doCredits();
 			}
 		});
 
@@ -677,38 +647,17 @@ public class UI2D implements IView, ApplicationListener
 			@Override
 			public void clicked(InputEvent event, float x, float y)
 			{
-				UI2D.this.confirmExitDialog.show(stage);
+				UI2D2_OLD.this.confirmExitDialog.show(stage);
 			}
 		});
 
-		
-		Array<String> array = new Array<String>();
-		
-			array.add("Version Clasica");
-			array.add("Version Extendida");
-		
-		this.selectBoxGameType = new SelectBox<String>(skin);
-		
-		//this.selectBoxGameType.getStyle().background=tooltipStyle.background;
-		selectBoxGameType.setItems(array);
-		selectBoxGameType.setSelected("Version Clasica");
-		
-		Table t = new Table();
-		t.add(buttonNewGame).width(350).left().padRight(10);
-		t.add(selectBoxGameType).width(300).padRight(10);
-
-		
-		
-		buttonNewGame.addListener(tooltip);
-		selectBoxGameType.addListener(tooltip);
 		labelTitleMain.setAlignment(Align.center);
 
 		tableMainInUi.add(labelTitleMain).colspan(3).expandX().fillX().row();
 
 		tableMainInUi.row();
-		this.addExpandableRow(tableMainInUi, t);
-		
-		
+
+		this.addExpandableRow(tableMainInUi, this.buttonNewGame);
 		this.addExpandableRow(tableMainInUi, this.buttonOptions);
 		this.addExpandableRow(tableMainInUi, this.buttonCredits);
 		this.addExpandableRow(tableMainInUi, this.slDificultLevel);
@@ -761,7 +710,7 @@ public class UI2D implements IView, ApplicationListener
 				doMainMenu();
 			}
 		});
-		contenedorTexto.background(backgroundBlackTransparent);
+
 		tableCredits.add(labelTitleCredits).colspan(3).expandX().fillX().row();
 
 		tableCredits.row();
@@ -791,7 +740,7 @@ public class UI2D implements IView, ApplicationListener
 			@Override
 			public void clicked(InputEvent event, float x, float y)
 			{
-				UI2D.this.confirmRetryDialog.show(stage);
+				UI2D2_OLD.this.confirmRetryDialog.show(stage);
 			}
 		});
 
@@ -803,7 +752,7 @@ public class UI2D implements IView, ApplicationListener
 			{
 
 				doOptions();
-				UI2D.this.fromInGameTable = true;
+				UI2D2_OLD.this.fromInGameTable = true;
 				// UI2D.this.confirmRetryDialog.show(stage);
 			}
 		});
@@ -814,7 +763,7 @@ public class UI2D implements IView, ApplicationListener
 			@Override
 			public void clicked(InputEvent event, float x, float y)
 			{
-				UI2D.this.confirmGoMainMenuDialog.show(stage);
+				UI2D2_OLD.this.confirmGoMainMenuDialog.show(stage);
 			}
 		});
 		this.buttonMap = new TextButton(Messages.MAP.getValue(), skin);
@@ -834,7 +783,7 @@ public class UI2D implements IView, ApplicationListener
 			@Override
 			public void clicked(InputEvent event, float x, float y)
 			{
-				UI2D.this.confirmExitDialog.show(stage);
+				UI2D2_OLD.this.confirmExitDialog.show(stage);
 			}
 		});
 

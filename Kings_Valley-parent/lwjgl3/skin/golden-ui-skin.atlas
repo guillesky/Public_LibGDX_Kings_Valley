@@ -384,3 +384,10 @@ window
   orig: 414, 581
   offset: 0, 0
   index: -1
+black-transparent
+  rotate: false
+  xy: 510, 300
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
