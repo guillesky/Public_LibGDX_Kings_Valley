@@ -31,7 +31,9 @@
 "YES":"Si", 
 "NO":"No",
 "DIALOG_GO_MAIN_MENU_TITLE":"Confirmar volver al menu principal",
-"DIALOG_GO_MAIN_MENU_TEXT":"Seguro deseas volver al menu principal? (Perderas todo el progreso)"
-
-
+"DIALOG_GO_MAIN_MENU_TEXT":"Seguro deseas volver al menu principal? (Perderas todo el progreso)",
+"CLASSIC_VERSION":"Version Clasica",
+"EXTENDED_VERSION":"Version Extendida",
+"EPISODE": "Episodio ",
+"ENABLED_EPISODE_MESSAGE":"Completa un episodio para desbloquear el siguiente"
 }

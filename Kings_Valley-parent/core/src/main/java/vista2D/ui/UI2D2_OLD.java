@@ -992,4 +992,18 @@ public class UI2D2_OLD implements IView, ApplicationListener
 		this.controler.doBackToMainMenu();
 
 	}
+
+	@Override
+	public boolean isExtendedVersion()
+	{
+	    // TODO Auto-generated method stub
+	    return false;
+	}
+
+	@Override
+	public int getEpisode()
+	{
+	    // TODO Auto-generated method stub
+	    return 0;
+	}
 }

@@ -31,6 +31,10 @@
 "YES":"Yes", 
 "NO":"No",
 "DIALOG_GO_MAIN_MENU_TITLE":"Confirm Go Back to Main Menu",
-"DIALOG_GO_MAIN_MENU_TEXT":"Are you sure you want to return to the main menu? (You will lose all progress)"
+"DIALOG_GO_MAIN_MENU_TEXT":"Are you sure you want to return to the main menu? (You will lose all progress)",
+"CLASSIC_VERSION":"Classic Version",
+"EXTENDED_VERSION":"Extended Version",
+"EPISODE":"Episode ",
+"ENABLED_EPISODE_MESSAGE":"Finish an episode to unlock the next"
 
 }

@@ -52,5 +52,17 @@ public interface IView
      * Se debe llamar para actualizar los textos luego de cambiar el idioma
      */
     void updateLanguage();
+    
+    /**
+     * Indica si el nuevo juego sera version extendida o version clasica
+     * @return true si es version extendida, false si es version clasica
+     */
+    boolean isExtendedVersion();
+    
+    /**
+     * En caso de jugar a la version extendida, indica el numero de episodio desde el que se inicia. Sera un numero del 1 al 4
+     * @return El numero de episodio de inicio del juego
+     */
+    int getEpisode();
 
 }

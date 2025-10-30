@@ -157,7 +157,28 @@ public enum Messages
      * todo el progreso)"
      */
 
-    DIALOG_GO_MAIN_MENU_TEXT("Are you sure you want to return to the main menu? (You will lose all progress)");
+    DIALOG_GO_MAIN_MENU_TEXT("Are you sure you want to return to the main menu? (You will lose all progress)"),
+    /**
+     * Mensaje correspondiente a "Version Clasica"
+     */
+
+    CLASSIC_VERSION("Classic Version"),
+    /**
+     * Mensaje correspondiente a "Version Extendida"
+     */
+
+    EXTENDED_VERSION("Extended Version"),
+    /**
+     * Mensaje correspondiente a "Episodio"
+     */
+
+    EPISODE("Episode "),
+    /**
+     * Mensaje correspondiente a "Completa un episodio para desbloquear el siguiente"
+     */
+    ENABLED_EPISODE_MESSAGE("Finish an episode to unlock the next");
+    
+    
 
     private String value;
 
