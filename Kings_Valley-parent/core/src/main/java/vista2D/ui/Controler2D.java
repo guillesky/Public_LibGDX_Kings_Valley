@@ -180,7 +180,8 @@ public class Controler2D extends AbstractControler implements KVEventListener
 	{
 		//System.out.println("Extendido: " + this.view.isExtendedVersion() + " Episodio: " + this.view.getEpisode());
 		
-		Facade.getInstance().startNewGame(this.view.getDificultLevel());
+		Facade.getInstance().startNewGame(this.view.isExtendedVersion(),this.view.getDificultLevel(), this.view.getEpisode());
+		
 	}
 
 	/**

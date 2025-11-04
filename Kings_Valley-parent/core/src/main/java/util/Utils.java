@@ -88,6 +88,7 @@ public class Utils
 
 	/**
 	 * Actualiza todos los mensajes a partir del idioma pasado por parametro
+	 * 
 	 * @param language Idioma que debe setearse en todos los mensajes
 	 */
 	public static void i18n(Language language)
@@ -110,18 +111,20 @@ public class Utils
 	 * <b>PRE: </b> Los archivos de configuracion ya han sido leidos<br>
 	 * Verifica que los niveles sean consistentes (De momento solamente verifica que
 	 * tileWidth y tileHeight, coincidan con lo indicado en el archivo
-	 * game_config.json). Caso contario lanza una excepcion
+	 * games_rules_config.json). Caso contario lanza una excepcion
 	 * 
 	 * @throws Exception Lanzada si se detecta inconsistencia en los niveles.
 	 *                   Contiene el mensaje de error correspondiente.
 	 */
 	public static void checkLevelIntegrity() throws Exception
 	{
-		int i = 1;
+
 		TmxMapLoader mapLoader = new TmxMapLoader();
-		while (Constants.levelFileName.get(i) != null)
+		int i = 1;
+		while (Constants.classicLevelFileName.get(i) != null)
 		{
-			TiledMap map = mapLoader.load(Constants.levelFileName.get(i));
+			TiledMap map = mapLoader.load(Constants.classicLevelFileName.get(i));
+		
 			MapProperties properties = map.getProperties();
 			int tileWidth = properties.get("tilewidth", Integer.class);
 			int tileHeight = properties.get("tileheight", Integer.class);
@@ -136,7 +139,32 @@ public class Utils
 			}
 			i++;
 		}
+/*
+		i = 1;
+		while (Constants.extendedLevelFileName.get(i) != null)
+		{
+			String fn = Constants.extendedLevelFileName.get(i);
+			System.out.println(fn);
 
+			TiledMap map = mapLoader.load(fn);
+			System.out.println("Cargado: " + fn);
+			MapProperties properties = map.getProperties();
+			int tileWidth = properties.get("tilewidth", Integer.class);
+			int tileHeight = properties.get("tileheight", Integer.class);
+
+			if (tileWidth != GameRules.getInstance().getLevelTileWidthUnits()
+					|| tileHeight != GameRules.getInstance().getLevelTileHeightUnits())
+			{
+				String errorMsg = ("Invalid tileWidth or tileHeight size. Size of tile may be "
+						+ GameRules.getInstance().getLevelTileWidthUnits() + " * "
+						+ GameRules.getInstance().getLevelTileHeightUnits());
+				throw new Exception(errorMsg);
+
+			}
+			System.out.println("llegue a i++");
+			i++;
+		}
+*/
 	}
 
 }

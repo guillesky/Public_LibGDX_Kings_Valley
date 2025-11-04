@@ -176,9 +176,16 @@ public class Constants
 
 	public static final HashMap<String, Integer> stringToInteger = new HashMap<String, Integer>();
 	/**
-	 * Contine los nombres de los archivos de cada nivel del juego
+	 * Contine los nombres de los archivos de cada nivel del juego (version clasica)
 	 */
-	public static final HashMap<Integer, String> levelFileName = new HashMap<Integer, String>();
+	public static final HashMap<Integer, String> classicLevelFileName = new HashMap<Integer, String>();
+
+	/**
+	 * Contine los nombres de los archivos de cada nivel del juego (version
+	 * extendida)
+	 */
+	public static final HashMap<Integer, String> extendedLevelFileName = new HashMap<Integer, String>();
+
 	/**
 	 * Puntaje correspondiente a matar una momia con la espada
 	 */
@@ -212,7 +219,7 @@ public class Constants
 	 * Indica el numero actual de version de juego y fecha de release
 	 */
 	public static final String VERSION = "v 1.0.2 r 2025-10-25";
-	
+
 	static
 	{
 
@@ -240,12 +247,30 @@ public class Constants
 		{
 			if (i < 10)
 			{
-				levelFileName.put(i, "maps/level_0" + i + ".tmx");
+				classicLevelFileName.put(i, "maps/classic_level_0" + i + ".tmx");
 			} else
-				levelFileName.put(i, "maps/level_" + i + ".tmx");
-
+			{
+				classicLevelFileName.put(i, "maps/classic_level_" + i + ".tmx");
+			}
 		}
-		levelFileName.put(16, "maps/goal.tmx");
+		
+		
+		for (int i = 1; i <= 20; i++)
+		{
+			if (i < 10)
+			{
+				extendedLevelFileName.put(i, "maps/extended_level_0" + i + ".tmx");
+			} else
+			{
+				extendedLevelFileName.put(i, "maps/extended_level_" + i + ".tmx");
+			}
+		}
+
+		
+		
+		
+		
+		classicLevelFileName.put(16, "maps/goal.tmx");
 		Integer[] valuesPreviusToStair =
 		{ 19, 24, 27, 32, 37, 42, 45, 50 };
 		Integer[] valuesPositiveStair =

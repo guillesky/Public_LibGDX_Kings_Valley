@@ -160,6 +160,7 @@ public class TileMapGrafica2D implements IMyApplicationListener
 	} else if (element.getType() == Constants.DRAWABLE_TRAP)
 	{
 	    TrapMechanism trapMech = (TrapMechanism) element.getDrawable();
+	    
 	    AnimatedTrapKV2D atrapKV = new AnimatedTrapKV2D(trapMech, this.spriteBatch);
 	    this.hashMapTrapAnimation.put(trapMech, atrapKV);
 	    this.animatedTraps.add(atrapKV);

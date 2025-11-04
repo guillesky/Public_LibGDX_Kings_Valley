@@ -36,6 +36,7 @@ public class AnimatedTrapKV2D implements IGraphicRenderer
     {
 	this.trapMech = trapMech;
 	this.sprite = new Sprite(trapMech.getTile().getTextureRegion());
+	
 	this.spriteBatch = spriteBatch;
     }
 
