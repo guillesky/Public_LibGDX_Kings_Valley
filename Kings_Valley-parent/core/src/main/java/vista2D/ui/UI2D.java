@@ -111,7 +111,6 @@ public class UI2D implements IView, ApplicationListener
     private Drawable backgroundBlackTransparent;
     private Array<String> arrayGameTypeMessage = new Array<String>();
     private Array<String> arrayEpisodesMessages = new Array<String>();
-    private String toolTipMessage;
     private TextTooltip tooltip;
 
     /**
@@ -237,9 +236,6 @@ public class UI2D implements IView, ApplicationListener
 	manager.finishLoading();
 
 	this.backgroundText = manager.get(this.uiConfig.getBackgroundFile(), Texture.class);
-	this.uiMap = new UIMap(manager.get(this.uiConfig.getMapFile(), Texture.class),
-		manager.get(this.uiConfig.getPyramidActualFile(), Texture.class),
-		manager.get(this.uiConfig.getPyramidCompletedFile(), Texture.class));
 
 	this.clickSound = manager.get(this.uiConfig.getSfxClickFile(), Sound.class);
 	this.focusSound = manager.get(this.uiConfig.getSfxFocusFile(), Sound.class);
@@ -435,7 +431,8 @@ public class UI2D implements IView, ApplicationListener
     public void dispose()
     {
 	this.cursor.dispose();
-	this.uiMap.dispose();
+	if (this.uiMap != null)
+	    this.uiMap.dispose();
 	this.fontGenerator.dispose();
 
     }
@@ -466,7 +463,8 @@ public class UI2D implements IView, ApplicationListener
     {
 	stage.getViewport().update(width, height, true);
 	this.calulateBackground(backgroundImage, width, height);
-	this.uiMap.resize(width, height);
+	if (this.uiMap != null)
+	    this.uiMap.resize(width, height);
 
     }
 
@@ -561,8 +559,6 @@ public class UI2D implements IView, ApplicationListener
 	tooltipStyle.label.font = skin.getFont(this.fontSmallName);
 	tooltipStyle.background = this.backgroundBlackTransparent;
 
-	
-
 	this.arrayEpisodesMessages.clear();
 	for (int i = 1; i <= 4; i++)
 	    this.arrayEpisodesMessages.add(Messages.EPISODE.getValue() + i);
@@ -579,7 +575,7 @@ public class UI2D implements IView, ApplicationListener
 	    this.selectBoxEpisode.setItems(arrayEpisodesMessages);
 	    this.selectBoxEpisode.setSelected(arrayEpisodesMessages.first());
 	    this.selectBoxEpisode.setVisible(false);
-	    if(this.tooltip!=null)
+	    if (this.tooltip != null)
 		this.selectBoxEpisode.removeListener(this.tooltip);
 	    this.tooltip = new TextTooltip(Messages.ENABLED_EPISODE_MESSAGE.getValue(), tooltipStyle);
 	    this.selectBoxEpisode.addListener(tooltip);
@@ -663,7 +659,7 @@ public class UI2D implements IView, ApplicationListener
 
 	// Configurar los tiempos
 	manager.initialTime = 0.5f;
-	
+
 	this.tableMainInUi = new Table();
 	this.tableMainInUi.setFillParent(true);
 	this.tableMainInUi.top();
@@ -724,7 +720,7 @@ public class UI2D implements IView, ApplicationListener
 	    }
 	});
 	this.setTextOfSelectBox();
-	
+
 	Table t = new Table();
 	t.add(buttonNewGame).width(350).left().padRight(10);
 	t.add(selectBoxGameType).width(400).padRight(10);
@@ -1081,6 +1077,14 @@ public class UI2D implements IView, ApplicationListener
     @Override
     public int getEpisode()
     {
-	return this.arrayEpisodesMessages.indexOf(this.selectBoxEpisode.getSelected(), false)+1;
+	return this.arrayEpisodesMessages.indexOf(this.selectBoxEpisode.getSelected(), false) + 1;
+    }
+
+    public void createMap()
+    {
+	this.uiMap = new UIMap(manager.get(this.uiConfig.getMapFile(), Texture.class),
+		manager.get(this.uiConfig.getPyramidActualFile(), Texture.class),
+		manager.get(this.uiConfig.getPyramidCompletedFile(), Texture.class));
+
     }
 }
