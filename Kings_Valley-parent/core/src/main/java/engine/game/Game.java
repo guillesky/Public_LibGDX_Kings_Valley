@@ -221,7 +221,7 @@ public class Game implements KVEventListener
 	 */
 	private void resetCompletedLevels()
 	{
-		for (int i = 1; i <= 16; i++)
+		for (int i = 1; i <= 60; i++)
 		{
 			this.completedLevels.put(i, false);
 		}
@@ -598,5 +598,16 @@ public class Game implements KVEventListener
 	{
 		this.lives--;
 	}
+
+	
+	/**
+	 * Indica si se esta jugando en modo extendido o clasico
+	 * @return true si se esta jugando en modo extendido, false si se esta jugando en modo clasico
+	 */
+	public boolean isExtendedVersion()
+	{
+	    return isExtendedVersion;
+	}
+	
 
 }

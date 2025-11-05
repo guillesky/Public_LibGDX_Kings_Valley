@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="96" height="22" tilewidth="64" tileheight="64" infinite="0" nextlayerid="4" nextobjectid="43">
  <tileset firstgid="1" source="tiles_new.tsx"/>
- <tileset firstgid="145" source="../../../../LibGDX_Kings_Valley/Kings_Valley-parent/assets/maps/tiles_new.tsx"/>
  <layer id="1" name="back" width="96" height="22">
   <data encoding="csv">
 55,56,57,58,55,56,57,58,55,56,57,58,55,56,57,58,55,56,57,58,55,56,57,58,55,56,57,58,55,56,57,58,55,56,57,58,55,56,57,58,55,56,57,58,55,56,57,58,55,56,57,58,55,56,57,58,55,56,57,58,55,56,57,58,55,56,57,58,55,56,57,58,55,56,57,58,55,56,57,58,55,56,57,58,55,56,57,58,55,56,57,58,55,56,55,56,
@@ -77,7 +76,7 @@
 4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,
 4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,
 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,
-248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248,248
+104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104,104
 </data>
  </layer>
  <objectgroup id="3" name="items">
@@ -176,122 +175,122 @@
     <property name="p0" value="131"/>
    </properties>
   </object>
-  <object id="19" type="Giratory" gid="107" x="2816" y="704" width="64" height="64">
+  <object id="20" type="Giratory" gid="107" x="2816" y="704" width="64" height="64">
    <properties>
     <property name="p0" value="0"/>
    </properties>
   </object>
-  <object id="20" type="Giratory" gid="252" x="3264" y="704" width="64" height="64">
+  <object id="21" type="Giratory" gid="108" x="3264" y="704" width="64" height="64">
    <properties>
     <property name="p0" value="1"/>
    </properties>
   </object>
-  <object id="21" type="Door" gid="127" x="5120" y="1152" width="64" height="64">
+  <object id="22" type="Door" gid="127" x="5120" y="1152" width="64" height="64">
    <properties>
     <property name="p0" value="0"/>
    </properties>
   </object>
-  <object id="22" type="Mummy" gid="123" x="704" y="512" width="64" height="64">
+  <object id="23" type="Mummy" gid="123" x="704" y="512" width="64" height="64">
    <properties>
     <property name="p0" value="1"/>
    </properties>
   </object>
-  <object id="23" type="Mummy" gid="270" x="1216" y="960" width="64" height="64">
+  <object id="24" type="Mummy" gid="126" x="1216" y="960" width="64" height="64">
    <properties>
     <property name="p0" value="4"/>
    </properties>
   </object>
-  <object id="24" type="Mummy" gid="269" x="3008" y="448" width="64" height="64">
+  <object id="25" type="Mummy" gid="125" x="3008" y="448" width="64" height="64">
    <properties>
     <property name="p0" value="3"/>
    </properties>
   </object>
-  <object id="25" type="Wall" gid="128" x="5248" y="256" width="64" height="64">
+  <object id="26" type="Wall" gid="128" x="5248" y="256" width="64" height="64">
    <properties>
     <property name="p0" value="0"/>
    </properties>
   </object>
-  <object id="26" type="Activator" gid="129" x="5248" y="704" width="64" height="64">
+  <object id="27" type="Activator" gid="129" x="5248" y="704" width="64" height="64">
    <properties>
     <property name="p0" value="0"/>
    </properties>
   </object>
-  <object id="27" type="Wall" gid="128" x="4928" y="256" width="64" height="64">
+  <object id="28" type="Wall" gid="128" x="4928" y="256" width="64" height="64">
    <properties>
     <property name="p0" value="1"/>
    </properties>
   </object>
-  <object id="28" type="Activator" gid="129" x="4928" y="704" width="64" height="64">
+  <object id="29" type="Activator" gid="129" x="4928" y="704" width="64" height="64">
    <properties>
     <property name="p0" value="1"/>
    </properties>
   </object>
-  <object id="29" type="Wall" gid="128" x="4864" y="768" width="64" height="64">
+  <object id="30" type="Wall" gid="128" x="4864" y="768" width="64" height="64">
    <properties>
     <property name="p0" value="2"/>
    </properties>
   </object>
-  <object id="30" type="Activator" gid="129" x="4864" y="960" width="64" height="64">
+  <object id="31" type="Activator" gid="129" x="4864" y="960" width="64" height="64">
    <properties>
     <property name="p0" value="2"/>
    </properties>
   </object>
-  <object id="31" type="Wall" gid="128" x="5312" y="768" width="64" height="64">
+  <object id="32" type="Wall" gid="128" x="5312" y="768" width="64" height="64">
    <properties>
     <property name="p0" value="3"/>
    </properties>
   </object>
-  <object id="32" type="Activator" gid="129" x="5312" y="960" width="64" height="64">
+  <object id="33" type="Activator" gid="129" x="5312" y="960" width="64" height="64">
    <properties>
     <property name="p0" value="3"/>
    </properties>
   </object>
-  <object id="33" type="Wall" gid="128" x="832" y="768" width="64" height="64">
+  <object id="34" type="Wall" gid="128" x="832" y="768" width="64" height="64">
    <properties>
     <property name="p0" value="6"/>
    </properties>
   </object>
-  <object id="34" type="Activator" gid="129" x="832" y="960" width="64" height="64">
+  <object id="35" type="Activator" gid="129" x="832" y="960" width="64" height="64">
    <properties>
     <property name="p0" value="6"/>
    </properties>
   </object>
-  <object id="35" type="Wall" gid="128" x="1152" y="768" width="64" height="64">
+  <object id="36" type="Wall" gid="128" x="1152" y="768" width="64" height="64">
    <properties>
     <property name="p0" value="5"/>
    </properties>
   </object>
-  <object id="36" type="Activator" gid="129" x="1152" y="960" width="64" height="64">
+  <object id="37" type="Activator" gid="129" x="1152" y="960" width="64" height="64">
    <properties>
     <property name="p0" value="5"/>
    </properties>
   </object>
-  <object id="37" type="Wall" gid="128" x="1216" y="1024" width="64" height="64">
+  <object id="38" type="Wall" gid="128" x="1216" y="1024" width="64" height="64">
    <properties>
     <property name="p0" value="4"/>
    </properties>
   </object>
-  <object id="38" type="Activator" gid="129" x="1216" y="1280" width="64" height="64">
+  <object id="39" type="Activator" gid="129" x="1216" y="1280" width="64" height="64">
    <properties>
     <property name="p0" value="4"/>
    </properties>
   </object>
-  <object id="39" type="Wall" gid="128" x="768" y="1024" width="64" height="64">
+  <object id="40" type="Wall" gid="128" x="768" y="1024" width="64" height="64">
    <properties>
     <property name="p0" value="7"/>
    </properties>
   </object>
-  <object id="40" type="Activator" gid="129" x="768" y="1280" width="64" height="64">
+  <object id="41" type="Activator" gid="129" x="768" y="1280" width="64" height="64">
    <properties>
     <property name="p0" value="7"/>
    </properties>
   </object>
-  <object id="41" type="Door" gid="127" x="64" y="832" width="64" height="64">
+  <object id="42" type="Door" gid="127" x="64" y="832" width="64" height="64">
    <properties>
     <property name="p0" value="1"/>
    </properties>
   </object>
-  <object id="42" type="Door" gid="127" x="2880" y="1152" width="64" height="64">
+  <object id="43" type="Door" gid="127" x="2880" y="1152" width="64" height="64">
    <properties>
     <property name="p0" value="-10"/>
    </properties>

@@ -110,12 +110,12 @@
     <property name="p0" value="2"/>
    </properties>
   </object>
-  <object id="23" type="Mummy" gid="122" x="576" y="640" width="64" height="64">
+  <object id="7" type="Mummy" gid="122" x="576" y="640" width="64" height="64">
    <properties>
     <property name="p0" value="0"/>
    </properties>
   </object>
-  <object id="24" type="Mummy" gid="123" x="1408" y="640" width="64" height="64">
+  <object id="8" type="Mummy" gid="123" x="1408" y="640" width="64" height="64">
    <properties>
     <property name="p0" value="1"/>
    </properties>

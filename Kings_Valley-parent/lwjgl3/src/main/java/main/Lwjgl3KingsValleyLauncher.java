@@ -20,7 +20,7 @@ public class Lwjgl3KingsValleyLauncher
 	return new Lwjgl3Application(Facade.getInstance(), getDefaultConfiguration());
 	 //return new Lwjgl3Application(new PNGMerger(), getDefaultConfiguration());
 	
-//	return new Lwjgl3Application(new LevelChecker(), getDefaultConfiguration());
+	//return new Lwjgl3Application(new LevelChecker(), getDefaultConfiguration());
     }
 
     private static Lwjgl3ApplicationConfiguration getDefaultConfiguration()
