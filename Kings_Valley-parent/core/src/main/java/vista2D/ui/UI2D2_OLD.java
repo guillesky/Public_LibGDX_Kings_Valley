@@ -98,7 +98,7 @@ public class UI2D2_OLD implements IView, ApplicationListener
 	private Cursor cursor;
 	private Table tableMap;
 	private Label labelTitleMap;
-	private UIMap uiMap;
+	private UIAbstractMap uiMap;
 	private boolean fromInGameTable;
 	private Dialog confirmRetryDialog;
 	private Dialog confirmExitDialog;
@@ -119,7 +119,7 @@ public class UI2D2_OLD implements IView, ApplicationListener
 		this.manager = manager;
 
 		manager.load(this.uiConfig.getBackgroundFile(), Texture.class);
-		manager.load(this.uiConfig.getMapFile(), Texture.class);
+		manager.load(this.uiConfig.getClassicMapFile(), Texture.class);
 		manager.load(this.uiConfig.getPyramidActualFile(), Texture.class);
 		manager.load(this.uiConfig.getPyramidCompletedFile(), Texture.class);
 
@@ -225,9 +225,9 @@ public class UI2D2_OLD implements IView, ApplicationListener
 		manager.finishLoading();
 
 		this.backgroundText = manager.get(this.uiConfig.getBackgroundFile(), Texture.class);
-		this.uiMap = new UIMap(manager.get(this.uiConfig.getMapFile(), Texture.class),
+		this.uiMap = new UIClassicMap(manager.get(this.uiConfig.getClassicMapFile(), Texture.class),
 				manager.get(this.uiConfig.getPyramidActualFile(), Texture.class),
-				manager.get(this.uiConfig.getPyramidCompletedFile(), Texture.class));
+				manager.get(this.uiConfig.getPyramidCompletedFile(), Texture.class),6);
 
 		this.clickSound = manager.get(this.uiConfig.getSfxClickFile(), Sound.class);
 		this.focusSound = manager.get(this.uiConfig.getSfxFocusFile(), Sound.class);

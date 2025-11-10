@@ -1,6 +1,7 @@
 {
 backgroundFile: ui/background.jpg
-mapFile: ui/baseMap.png
+classicMapFile: ui/classicBaseMap.png
+extendedMapFile: ui/extendedBaseMap.png
 pyramidActualFile: ui/actualPyramid.png
 pyramidCompletedFile: ui/completedPyramid.png
 cursorFile: ui/cursor.png

@@ -16,7 +16,7 @@ import engine.game.Game;
  * 
  * @author Guillermo Lazzurri
  */
-public class UIMap
+public abstract class UIAbstractMap
 {
     private Texture mapTexture;
     private Texture currentPyramidTexture;
@@ -24,13 +24,15 @@ public class UIMap
     private Sprite mapSprite;
     private SpriteBatch batch;
     private OrthographicCamera cameraMap;
-    private HashMap<Integer, CellInMap> pyramidsInMap = new HashMap<Integer, CellInMap>();
+    private int matrixDimension;
+
+    protected HashMap<Integer, CellInMap> pyramidsInMap = new HashMap<Integer, CellInMap>();
 
     private SpriteWithId currentPyramidSprite;
 
     private ArrayList<SpriteWithId> completedPyramidSprites = new ArrayList<SpriteWithId>();
 
-    private class CellInMap
+    protected class CellInMap
     {
 	int col;
 	int row;
@@ -78,8 +80,10 @@ public class UIMap
      * @param mapTexture              Texture del mapa en blanco
      * @param currentPyramidTexture   Textura del resalatado para piramide actual
      * @param completedPyramidTexture Textura para marcar las piramides completadas
+     * @param matrixDimension
      */
-    public UIMap(Texture mapTexture, Texture currentPyramidTexture, Texture completedPyramidTexture)
+    public UIAbstractMap(Texture mapTexture, Texture currentPyramidTexture, Texture completedPyramidTexture,
+	    int matrixDimension)
     {
 	super();
 	this.mapTexture = mapTexture;
@@ -89,6 +93,7 @@ public class UIMap
 	this.cameraMap = new OrthographicCamera();
 	this.cameraMap.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	this.mapSprite = new Sprite(mapTexture);
+	this.matrixDimension = matrixDimension;
 	this.generatePyramidsCellsInMaps();
     }
 
@@ -132,11 +137,11 @@ public class UIMap
 	if (imageRatio > stageRatio)
 	{
 	    this.mapSprite.setSize(width, width / imageRatio);
-	    cellSize = width / 6;
+	    cellSize = width / this.matrixDimension;
 	} else
 	{
 	    this.mapSprite.setSize(height * imageRatio, height);
-	    cellSize = height / 6;
+	    cellSize = height / this.matrixDimension;
 	}
 
 	offsetX = (width - this.mapSprite.getWidth()) / 2f;
@@ -161,7 +166,8 @@ public class UIMap
      */
     private void recalculateSpriteWithId(SpriteWithId spriteWithId, float cellSize, float offsetX, float offsetY)
     {
-
+	System.out.println(spriteWithId.id);
+	System.out.println(this.pyramidsInMap.get(spriteWithId.id));
 	spriteWithId.setSize(cellSize, cellSize);
 	float cellOffsetX = this.pyramidsInMap.get(spriteWithId.id).getCol() * cellSize + offsetX;
 	float cellOffsetY = this.pyramidsInMap.get(spriteWithId.id).getRow() * cellSize + offsetY;
@@ -171,26 +177,7 @@ public class UIMap
     /**
      * Genera las celdas dondes estan las piramides
      */
-    private void generatePyramidsCellsInMaps()
-    {
-	int p = 1;
-	int w = 1;
-	int h = 1;
-	int direction = 1;
-
-	while (p <= 16)
-	{
-	    this.pyramidsInMap.put(p, new CellInMap(w, 5 - h));
-	    p++;
-	    w += direction;
-	    if (w == 0 || w == 5)
-	    {
-		h++;
-		direction *= -1;
-		w += direction;
-	    }
-	}
-    }
+    protected abstract void generatePyramidsCellsInMaps();
 
     /**
      * Dibuja todo el conjunto del mapa
@@ -232,6 +219,11 @@ public class UIMap
 	}
 	this.calulateMapSprites(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
+    }
+
+    protected int getMatrixDimension()
+    {
+	return matrixDimension;
     }
 
 }

@@ -9,7 +9,8 @@ package vista2D.ui;
 public class UIConfig
 {
 	private String backgroundFile;
-	private String mapFile;
+	private String classicMapFile;
+	private String extendedMapFile;
 	private String pyramidActualFile;
 	private String pyramidCompletedFile;
 
@@ -94,12 +95,25 @@ public class UIConfig
 	}
 
 	/**
-	 * Retorna el nombre del archivo de la imagen de fondo del mapa (mapa vacio)
-	 * @return Nombre del archivo de la imagen de fondo del mapa (mapa vacio)
+	 * Retorna el nombre del archivo de la imagen de fondo del mapa base para la version clasica de 15 niveles (piramides y flechas conectoras)
+	 * @return Nombre del archivo de la imagen de fondo del mapa base para la version clasica de 15 niveles (piramides y flechas conectoras)
 	 */
-	public String getMapFile()
+	public String getClassicMapFile()
 	{
-		return mapFile;
+		return classicMapFile;
+	}
+	
+	
+	
+	
+	/**
+	 * Retorna el nombre del archivo de la imagen de fondo del mapa base para la version extendida de 60 niveles (piramides y flechas conectoras)
+	 * @return Nombre del archivo de la imagen de fondo del mapa base para la version extendida de 60 niveles (piramides y flechas conectoras)
+	 */
+	
+	public String getExtendedMapFile()
+	{
+	    return extendedMapFile;
 	}
 
 	/**
