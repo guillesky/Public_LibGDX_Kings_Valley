@@ -212,7 +212,7 @@ public class Pyramid implements IGraphic
     {
 	this.activators.remove(activator);
 	LevelObject wall = this.hashTraps.get(activator);
-	TrapMechanism trap = new TrapMechanism(this, wall, GameRules.getInstance().getTimeToEndTrapMechanism());
+	TrapMechanism trap = new TrapMechanism(this, wall, GameRules.getInstance().getTimeToEndTrapMechanism(),2);
 	this.trapMechanisms.add(trap);
     }
 

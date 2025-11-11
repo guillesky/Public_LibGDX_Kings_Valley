@@ -62,14 +62,7 @@ public abstract class UIAbstractMap
 	public SpriteWithId(Texture texture, int id)
 	{
 	    super(texture);
-	    if (Game.getInstance().isExtendedVersion())
-	    {
-		if (id < 60)
-		    id = id % 15;
-		else
-		    id = 16;
-
-	    }
+	 
 	    this.id = id;
 	}
     }
@@ -166,8 +159,6 @@ public abstract class UIAbstractMap
      */
     private void recalculateSpriteWithId(SpriteWithId spriteWithId, float cellSize, float offsetX, float offsetY)
     {
-	System.out.println(spriteWithId.id);
-	System.out.println(this.pyramidsInMap.get(spriteWithId.id));
 	spriteWithId.setSize(cellSize, cellSize);
 	float cellOffsetX = this.pyramidsInMap.get(spriteWithId.id).getCol() * cellSize + offsetX;
 	float cellOffsetY = this.pyramidsInMap.get(spriteWithId.id).getRow() * cellSize + offsetY;
@@ -205,7 +196,6 @@ public abstract class UIAbstractMap
 
 	this.currentPyramidSprite = new SpriteWithId(currentPyramidTexture,
 		Game.getInstance().getCurrentLevel().getId());
-
 	for (Integer p : completedLevels.keySet())
 	{
 	    if (completedLevels.get(p))
