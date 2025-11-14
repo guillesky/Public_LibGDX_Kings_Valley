@@ -266,7 +266,7 @@ public class Facade implements ApplicationListener
 	 */
 	public void finishAllLevels()
 	{
-		this.gameConfig.setFinishedOneTime(true);
+		this.gameConfig.setEnabledSelectDificultLevel(true);
 		this.changeConfig = true;
 		this.saveGameOption();
 

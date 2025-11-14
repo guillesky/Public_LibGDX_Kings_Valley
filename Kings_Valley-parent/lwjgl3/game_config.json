@@ -3,5 +3,6 @@ language: es
 masterVolume: 1
 musicVolume: 1
 soundsVolume: 1
-finishedOneTime: false
+enabledSelectDificultLevel: false
+bestExtendedEpisodeFinished: 0
 }

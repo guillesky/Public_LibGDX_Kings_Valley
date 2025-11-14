@@ -315,7 +315,7 @@ public class Controler2D extends AbstractControler implements KVEventListener
 	public boolean isFinishedOneTime()
 	{
 
-		return Facade.getInstance().getGameConfig().isFinishedOneTime();
+		return Facade.getInstance().getGameConfig().isEnabledSelectDificultLevel();
 	}
 
 	/**
