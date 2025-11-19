@@ -1,7 +1,7 @@
 {
 godMode: true
 initialNumberOfLives: 3
-firstLevel: 3
+firstLevel: 21
 minMummySpawnDistanceToPlayer: 64
 mummyTimeInLimbus: 5
 mummyTimeDying: 1
