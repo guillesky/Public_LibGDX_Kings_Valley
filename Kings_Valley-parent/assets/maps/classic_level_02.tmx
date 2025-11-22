@@ -165,12 +165,12 @@
     <property name="p0" value="1"/>
    </properties>
   </object>
-  <object id="18" type="Giratory" gid="107" x="2560" y="448" width="64" height="64">
+  <object id="18" type="Giratory" gid="107" x="2592" y="448" width="64" height="64">
    <properties>
     <property name="p0" value="0"/>
    </properties>
   </object>
-  <object id="19" type="Giratory" gid="107" x="2944" y="384" width="64" height="64">
+  <object id="19" type="Giratory" gid="107" x="2976" y="384" width="64" height="64">
    <properties>
     <property name="p0" value="0"/>
    </properties>

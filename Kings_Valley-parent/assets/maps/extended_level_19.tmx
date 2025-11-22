@@ -140,12 +140,12 @@
     <property name="p0" value="0"/>
    </properties>
   </object>
-  <object id="13" type="Giratory" gid="107" x="768" y="1088" width="64" height="64">
+  <object id="13" type="Giratory" gid="107" x="800" y="1088" width="64" height="64">
    <properties>
     <property name="p0" value="0"/>
    </properties>
   </object>
-  <object id="14" type="Giratory" gid="107" x="1216" y="1088" width="64" height="64">
+  <object id="14" type="Giratory" gid="107" x="1248" y="1088" width="64" height="64">
    <properties>
     <property name="p0" value="0"/>
    </properties>

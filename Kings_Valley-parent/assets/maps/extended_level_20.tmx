@@ -180,7 +180,7 @@
     <property name="p0" value="0"/>
    </properties>
   </object>
-  <object id="21" type="Giratory" gid="107" x="3008" y="832" width="64" height="64">
+  <object id="21" type="Giratory" gid="107" x="3040" y="832" width="64" height="64">
    <properties>
     <property name="p0" value="0"/>
    </properties>
