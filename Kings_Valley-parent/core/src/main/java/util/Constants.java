@@ -219,6 +219,8 @@ public class Constants
 	 * Indica el numero actual de version de juego y fecha de release
 	 */
 	public static final String VERSION = "v 1.0.2 r 2025-10-25";
+	private static final int LAST_EXTENDED_LEVEL = 22;
+	private static final int LAST_CLASSIC_LEVEL = 15;
 
 	static
 	{
@@ -243,7 +245,7 @@ public class Constants
 		stringToInteger.put("Giratory", IT_GIRATORY);
 		stringToInteger.put("Activator", IT_TRAP_ACTIVATOR);
 
-		for (int i = 1; i <= 15; i++)
+		for (int i = 1; i <= LAST_CLASSIC_LEVEL; i++)
 		{
 			if (i < 10)
 			{
@@ -255,7 +257,7 @@ public class Constants
 		}
 		
 		
-		for (int i = 1; i <= 21; i++)
+		for (int i = 1; i <= LAST_EXTENDED_LEVEL; i++)
 		{
 			if (i < 10)
 			{

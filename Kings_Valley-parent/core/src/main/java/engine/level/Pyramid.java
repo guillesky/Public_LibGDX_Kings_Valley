@@ -3,6 +3,7 @@ package engine.level;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 
 import com.badlogic.gdx.maps.MapProperties;
@@ -16,8 +17,8 @@ import engine.KVEventListener;
 import engine.game.Game;
 import engine.level.dagger.Dagger;
 import engine.level.door.Door;
-import util.GameRules;
 import util.Constants;
+import util.GameRules;
 
 /**
  * Clase que representa una piramide. Tiene informacion sobre las celdas,
@@ -43,7 +44,7 @@ public class Pyramid implements IGraphic
 
     private ArrayList<LevelObject> activators = new ArrayList<LevelObject>();
     private ArrayList<TrapMechanism> trapMechanisms = new ArrayList<TrapMechanism>();
-    private ArrayList<Cell> unpickableCells = new ArrayList<Cell>();
+    private HashSet<Cell> unpickableCells = new HashSet<Cell>();
     private ArrayList<Dagger> stuckedDaggers = new ArrayList<Dagger>();
 
     private HashMap<LevelObject, LevelObject> hashTraps = new HashMap<LevelObject, LevelObject>();
@@ -71,7 +72,7 @@ public class Pyramid implements IGraphic
      */
     public Pyramid(TiledMap map, ArrayList<Door> doors, ArrayList<LevelObject> jewels, ArrayList<Stair> positiveStairs,
 	    ArrayList<Stair> negativeStairs, ArrayList<LevelObject> pickers, ArrayList<Dagger> stuckedDaggers,
-	    ArrayList<Cell> unpickableCells, HashMap<LevelObject, LevelObject> hashTraps,
+	    HashSet<Cell> unpickableCells, HashMap<LevelObject, LevelObject> hashTraps,
 	    HashMap<LevelObject, GiratoryMechanism> hashGiratoryMechanisms, IGraphic interfaz)
     {
 
