@@ -35,9 +35,9 @@ public class DaggerStateThrowingVertical extends DaggerState
 	this.x = dagger.x;
 	this.y += GameRules.getInstance().getLevelTileHeightUnits();
 	if (dagger.isRight())
-	    this.x -= GameRules.getInstance().getLevelTileWidthUnits();
-	else
 	    this.x += GameRules.getInstance().getLevelTileWidthUnits();
+	else
+	    this.x -= GameRules.getInstance().getLevelTileWidthUnits();
 
     }
 
@@ -52,7 +52,7 @@ public class DaggerStateThrowingVertical extends DaggerState
     {
 	if (delta < 1)
 	{
-	    this.updateX(-GameRules.getInstance().getFlyingDaggerSpeed() / 20 * deltaTime);
+	    this.updateX(GameRules.getInstance().getFlyingDaggerSpeed() / 20 * deltaTime);
 	    this.dagger.y = this.originalY
 		    + (delta - 1f) * (delta) * -GameRules.getInstance().getFlyingDaggerSpeed() / 3f;
 	    this.incDelta(deltaTime);

@@ -182,9 +182,7 @@ public class PlayerStateMoving extends PlayerState
 
 	    dagger.throwHorizontal(this.player.isLookRight());
 	    this.player.setPlayerState(new PlayerStateThrowingDagger(this.player));
-	} else if (this.player.getPyramid().getCell(this.player.x, this.player.y, -direccion, 1) != null
-		&& this.player.getPyramid().getCell(this.player.x, this.player.y, -direccion, 2) == null
-		&& this.player.getPyramid().getCell(this.player.x, this.player.y, 0, 2) == null)
+	} else if (this.player.getPyramid().getCell(this.player.x, this.player.y, direccion, 2) == null)
 	{
 	    dagger.x = this.player.x;
 	    dagger.y = this.player.y + GameRules.getInstance().getLevelTileHeightUnits();
