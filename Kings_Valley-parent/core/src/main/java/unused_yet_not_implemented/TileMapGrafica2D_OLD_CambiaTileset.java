@@ -612,12 +612,12 @@ public class TileMapGrafica2D_OLD_CambiaTileset implements IMyApplicationListene
 
 		font24.draw(spriteBatch, layout, x, y);
 
-		if (Game.getInstance().getState() == Game.ST_GAME_ENTERING || Game.getInstance().getState() == Game.ST_ENDING)
+		if (Game.getInstance().getRenderMode() == Game.ST_GAME_ENTERING || Game.getInstance().getRenderMode() == Game.ST_ENDING)
 		{
 			font24.setColor(1, 1, 0, 1);
 			String textToShow;
 
-			if (Game.getInstance().getState() == Game.ST_GAME_ENTERING)
+			if (Game.getInstance().getRenderMode() == Game.ST_GAME_ENTERING)
 			{
 				if (Game.getInstance().isGoingBack())
 					textToShow = Messages.GOING_BACK.getValue();

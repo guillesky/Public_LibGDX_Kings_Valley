@@ -80,7 +80,7 @@ public class PlayerAnimated2D extends GameCharacterAnimated2D
 	    this.changeAnimations();
 
 	}
-	if (player.getState() == Player.ST_PICKING)
+	if (player.getRenderMode() == Player.ST_PICKING)
 
 	{
 	    this.animation = this.animation_Picker[TileMapGrafica2D.PICKING];
@@ -89,7 +89,7 @@ public class PlayerAnimated2D extends GameCharacterAnimated2D
 
 	}
 
-	if (player.getState() == Player.ST_THROWING_DAGGER)
+	if (player.getRenderMode() == Player.ST_THROWING_DAGGER)
 	{
 	    this.animation = this.animation_Dagger[TileMapGrafica2D.THROW_DAGGER];
 	    this.sprite.setSize(this.specialWidth, this.specialHeight);
@@ -98,7 +98,7 @@ public class PlayerAnimated2D extends GameCharacterAnimated2D
 	}
 
 	if (this.specialSize
-		&& (player.getState() != Player.ST_THROWING_DAGGER && player.getState() != Player.ST_PICKING))
+		&& (player.getRenderMode() != Player.ST_THROWING_DAGGER && player.getRenderMode() != Player.ST_PICKING))
 	{
 	    this.sprite.setSize(this.normalWidth, this.normalHeight);
 	    this.specialSize = false;

@@ -38,11 +38,11 @@ public class AnimatedEnteringDoor2D extends AbstractAnimatedDoor2D
     {
 	float deltaTime = Game.getInstance().getDelta();
 
-	if (Game.getInstance().getState() == Game.ST_GAME_ENTERING
+	if (Game.getInstance().getRenderMode() == Game.ST_GAME_ENTERING
 		&& deltaTime > Game.getInstance().getInterfaz().getTimeToEnterLevel() / 2)
 	{
 	    deltaTime = Game.getInstance().getInterfaz().getTimeToEnterLevel() - deltaTime;
-	} else if (Game.getInstance().getState() == Game.ST_GAME_EXITING)
+	} else if (Game.getInstance().getRenderMode() == Game.ST_GAME_EXITING)
 	    deltaTime = Game.getInstance().getInterfaz().getTimeToExitLevel() - deltaTime;
 
 	this.animateElements(deltaTime);

@@ -48,7 +48,7 @@ public class AnimatedDagger2D extends AnimatedEntity2D
     {
 
 	Dagger dagger = (Dagger) this.levelObject;
-	if (dagger.getState() != this.oldState)
+	if (dagger.getRenderMode() != this.oldState)
 	    this.changeAnimation();
 
 	super.updateElement(deltaTime);
@@ -66,8 +66,8 @@ public class AnimatedDagger2D extends AnimatedEntity2D
     private void changeAnimation()
     {
 	Dagger dagger = (Dagger) this.levelObject;
-	this.oldState = dagger.getState();
-	if (dagger.getState() == DaggerState.ST_STUCKED)
+	this.oldState = dagger.getRenderMode();
+	if (dagger.getRenderMode() == DaggerState.ST_STUCKED)
 	    this.animation = this.daggerAnimationStucked;
 
 	else
@@ -80,7 +80,7 @@ public class AnimatedDagger2D extends AnimatedEntity2D
     {
 
 	Dagger dagger = (Dagger) this.getLevelObject();
-	if (dagger.getState() != DaggerState.ST_PICKUPED)
+	if (dagger.getRenderMode() != DaggerState.ST_PICKUPED)
 	    super.render(batch);
 
     }

@@ -42,7 +42,7 @@ public class MummyAnimated2D extends GameCharacterAnimated2D
     {
 	Mummy mummy = (Mummy) this.getLevelObject();
 
-	int state = mummy.getState();
+	int state = mummy.getRenderMode();
 	if (state == Mummy.ST_APPEARING)
 	    this.animation = this.mummyAnimationAppear;
 	super.updateElement(deltaTime);
@@ -57,7 +57,7 @@ public class MummyAnimated2D extends GameCharacterAnimated2D
     public void render(SpriteBatch batch)
     {
 	Mummy mummy = (Mummy) this.getLevelObject();
-	if (mummy.getState() != Mummy.ST_LIMBUS)
+	if (mummy.getRenderMode() != Mummy.ST_LIMBUS)
 	    super.render(batch);
 
     }

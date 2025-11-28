@@ -17,13 +17,13 @@ public class DaggerStateFalling extends DaggerState
 {
 
 	/**
-	 * Constructor de clase. Llama a super(dagger, DaggerState.ST_FALLING);
+	 * Constructor de clase. Llama a super(dagger);
 	 * 
 	 * @param dagger Contexto del patron state
 	 */
 	public DaggerStateFalling(Dagger dagger)
 	{
-		super(dagger, DaggerState.ST_FALLING);
+		super(dagger);
 
 	}
 
@@ -72,6 +72,13 @@ public class DaggerStateFalling extends DaggerState
 	protected void throwVertical()
 	{
 
+	}
+	
+	@Override
+	public int getRenderMode()
+	{
+		
+		return  DaggerState.ST_FALLING;
 	}
 
 }

@@ -127,8 +127,8 @@ public class Player extends GameCharacter
     protected boolean canPassGiratoryMechanism(GiratoryMechanism giratoryMechanism)
     {
 
-	return (this.state == GameCharacter.ST_WALKING && this.isLookRight() && giratoryMechanism.isRight())
-		|| (this.state == GameCharacter.ST_WALKING && !this.isLookRight() && !giratoryMechanism.isRight());
+	return (this.renderMode == GameCharacter.ST_WALKING && this.isLookRight() && giratoryMechanism.isRight())
+		|| (this.renderMode == GameCharacter.ST_WALKING && !this.isLookRight() && !giratoryMechanism.isRight());
     }
 
     /**
@@ -143,9 +143,9 @@ public class Player extends GameCharacter
     }
 
     @Override
-    protected void setState(int state)
+    protected void setRenderMode(int renderMode)
     {
-	super.setState(state);
+	super.setRenderMode(renderMode);
     }
 
     /**
@@ -215,7 +215,7 @@ public class Player extends GameCharacter
 	    {
 
 		Dagger dagger = (Dagger) this.checkRectangleColision(this.pyramid.getStuckedDaggers());
-		if (dagger != null && dagger.getState() == DaggerState.ST_STUCKED)
+		if (dagger != null && dagger.getRenderMode() == DaggerState.ST_STUCKED)
 		{
 		    this.item = dagger;
 		    dagger.hasPickuped();

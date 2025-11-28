@@ -53,8 +53,8 @@ public class MummyStateDeciding extends MummyState
     {
 	this.mummy.move(new Vector2(), false, deltaTime);
 
-	if (this.mummy.getTimeInState() >= this.timeToChange && (this.mummy.getState() == GameCharacter.ST_WALKING
-		|| this.mummy.getState() == GameCharacter.ST_IDDLE))
+	if (this.mummy.getTimeInState() >= this.timeToChange && (this.mummy.getRenderMode() == GameCharacter.ST_WALKING
+		|| this.mummy.getRenderMode() == GameCharacter.ST_IDDLE))
 	{
 	    this.changeStatus();
 	}

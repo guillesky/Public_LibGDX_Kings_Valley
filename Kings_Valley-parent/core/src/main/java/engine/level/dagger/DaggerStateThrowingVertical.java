@@ -21,13 +21,13 @@ public class DaggerStateThrowingVertical extends DaggerState
     private float y;
 
     /**
-     * Constructor de clase. Llama a super(dagger, DaggerState.ST_THROWING_UP);
+     * Constructor de clase. Llama a super(dagger);
      * 
      * @param dagger Contexto del patron state
      */
     public DaggerStateThrowingVertical(Dagger dagger)
     {
-	super(dagger, DaggerState.ST_THROWING_UP);
+	super(dagger);
 	this.originalY = dagger.y;
 	this.roundX();
 	this.roundY();
@@ -94,4 +94,11 @@ public class DaggerStateThrowingVertical extends DaggerState
 
     }
 
+    
+    @Override
+	public int getRenderMode()
+	{
+		
+		return  DaggerState.ST_THROWING_UP;
+	}
 }

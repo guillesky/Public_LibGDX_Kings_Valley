@@ -37,10 +37,10 @@ public class AnimatedDoor2D extends AbstractAnimatedDoor2D
     public void updateElement()
     {
 
-	if (this.door.isVisible() && (this.door.getState() == Door.CLOSING || this.door.getState() == Door.OPENING))
+	if (this.door.isVisible() && (this.door.getRenderMode() == Door.CLOSING || this.door.getRenderMode() == Door.OPENING))
 	{
 	    float deltaTime = this.door.getTime();
-	    if (this.door.getState() == Door.CLOSING)
+	    if (this.door.getRenderMode() == Door.CLOSING)
 	    {
 		deltaTime = 1 - deltaTime;
 	    }

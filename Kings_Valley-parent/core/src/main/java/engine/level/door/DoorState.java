@@ -18,13 +18,11 @@ public abstract class DoorState
 	 * Constructor de clase
 	 * 
 	 * @param door  Contexto del patron state
-	 * @param state codigo numerico para representar el estado
-	 */
-	public DoorState(Door door, int state)
+	  */
+	public DoorState(Door door)
 	{
 
 		this.door = door;
-		this.door.state = state;
 		this.door.resetTime();
 
 	}
@@ -55,5 +53,20 @@ public abstract class DoorState
 	 * Llamado para poner visible la puerta
 	 */
 	protected abstract void setVisible();
-
+	
+	/**
+	 * Retorna un codigo numerico que indica como sera la renderizacion de acuerdo
+	 * al estado de la puerta.<br>
+	 * 
+	 * Puede tomar los valores:<br>
+	 * HIDE = 0;<br>
+	 * CLOSED = 1<br>
+	 * OPEN = 2<br>
+	 * CLOSING = 3<br>
+	 * OPENING = 4<br>
+	 * 
+	 * @return un codigo numerico que indica como sera la renderizacion de acuerdo
+	 *         al estado de la puerta.
+	 */
+	public abstract int getRenderMode();
 }

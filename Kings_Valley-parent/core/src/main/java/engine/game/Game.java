@@ -72,10 +72,7 @@ public class Game implements KVEventListener
 	 * Estado del juego (patron state)
 	 */
 	protected GameState stateGame;
-	/**
-	 * Codigo del estado del juego
-	 */
-	protected int state;
+	
 
 	/**
 	 * Nombres de los archivos correspondientes a los niveles del juego
@@ -417,17 +414,18 @@ public class Game implements KVEventListener
 	}
 
 	/**
-	 * Retorna un codigo numerico del estado del juego (no confundir con el patron
-	 * state) <br>
-	 * ST_GAME_PLAYING = 0 <br>
+	 * Retorna un codigo numerico que indica como sera la renderizacion de acuerdo
+	 * al estado del juego. <br>
+	 * Lo delega a su estado mediante:<br>
+	 * return this.stateGame.getRenderMode() ST_GAME_PLAYING = 0 <br>
 	 * ST_GAME_ENTERING = 1<br>
 	 * ST_GAME_EXITING = 2<br>
 	 * ST_GAME_DYING = 3<br>
 	 * ST_NOT_IN_GAME = 100<br>
 	 * ST_ENDING = 99<br>
 	 * 
-	 * @return codigo numerico del estado del juego (no confundir con el patron
-	 *         state) <br>
+	 * @return codigo numerico que indica como sera la renderizacion de acuerdo al
+	 *         estado del juego<br>
 	 *         ST_GAME_PLAYING = 0 <br>
 	 *         ST_GAME_ENTERING = 1<br>
 	 *         ST_GAME_EXITING = 2<br>
@@ -435,9 +433,9 @@ public class Game implements KVEventListener
 	 *         ST_NOT_IN_GAME = 100<br>
 	 *         ST_ENDING = 99<br>
 	 */
-	public int getState()
+	public int getRenderMode()
 	{
-		return state;
+		return this.stateGame.getRenderMode();
 	}
 
 	/**
@@ -529,7 +527,7 @@ public class Game implements KVEventListener
 		this.isExtendedVersion = isExtendedVersion;
 		if (this.isExtendedVersion)
 			this.levelFileName = Constants.extendedLevelFileName;
-		else 
+		else
 			this.levelFileName = Constants.classicLevelFileName;
 		this.stateGame.startNewGame();
 
@@ -599,15 +597,15 @@ public class Game implements KVEventListener
 		this.lives--;
 	}
 
-	
 	/**
 	 * Indica si se esta jugando en modo extendido o clasico
-	 * @return true si se esta jugando en modo extendido, false si se esta jugando en modo clasico
+	 * 
+	 * @return true si se esta jugando en modo extendido, false si se esta jugando
+	 *         en modo clasico
 	 */
 	public boolean isExtendedVersion()
 	{
-	    return isExtendedVersion;
+		return isExtendedVersion;
 	}
-	
 
 }

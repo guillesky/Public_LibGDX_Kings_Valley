@@ -14,13 +14,13 @@ public class DaggerStateStucked extends DaggerState
 {
 
 	/**
-	 * COnstructor de clase. Llama a super(dagger,DaggerState.ST_STUCKED);
+	 * COnstructor de clase. Llama a super(dagger);
 	 * 
 	 * @param dagger Contexto del patron state
 	 */
 	public DaggerStateStucked(Dagger dagger)
 	{
-		super(dagger, DaggerState.ST_STUCKED);
+		super(dagger);
 	}
 
 	/**
@@ -58,5 +58,12 @@ public class DaggerStateStucked extends DaggerState
 	protected void throwVertical()
 	{
 
+	}
+	
+	@Override
+	public int getRenderMode()
+	{
+		
+		return  DaggerState.ST_STUCKED;
 	}
 }

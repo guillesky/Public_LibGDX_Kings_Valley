@@ -71,15 +71,15 @@ public class GameCharacterAnimated2D extends AnimatedEntity2D
     public void updateElement(float deltaTime)
     {
 	GameCharacter character = (GameCharacter) this.levelObject;
-	if (character.getState() == GameCharacter.ST_WALKING)
+	if (character.getRenderMode() == GameCharacter.ST_WALKING)
 	    this.animation = this.characterAnimationWalk;
-	else if (character.getState() == GameCharacter.ST_JUMPING)
+	else if (character.getRenderMode() == GameCharacter.ST_JUMPING)
 	    this.animation = this.characterAnimationJump;
-	else if (character.getState() == GameCharacter.ST_FALLING)
+	else if (character.getRenderMode() == GameCharacter.ST_FALLING)
 	    this.animation = this.characterAnimationFall;
-	else if (character.getState() == GameCharacter.ST_IDDLE)
+	else if (character.getRenderMode() == GameCharacter.ST_IDDLE)
 	    this.animation = this.characterAnimationIddle;
-	else if (character.getState() == GameCharacter.ST_DYING)
+	else if (character.getRenderMode() == GameCharacter.ST_DYING)
 	    this.animation = this.characterAnimationDeath;
 	super.updateElement(character.getAnimationDelta());
 	this.sprite.setFlip(!character.isLookRight(), false);

@@ -11,12 +11,12 @@ public class GameStateNotInGame extends GameState
 {
 
 	/**
-	 * Se llama a super(Game.ST_NOT_IN_GAME);<br>
+	 * Se llama a super();<br>
 	 * Se dispara el evento this.game.eventFired(KVEventListener.GAME_OVER, null);
 	 */
 	public GameStateNotInGame()
 	{
-		super(Game.ST_NOT_IN_GAME);
+		super();
 		this.game.eventFired(KVEventListener.GAME_OVER, null);
 	}
 
@@ -46,6 +46,13 @@ public class GameStateNotInGame extends GameState
 	@Override
 	protected void dying()
 	{
+	}
+
+	@Override
+	public int getRenderMode()
+	{
+		
+		return Game.ST_NOT_IN_GAME;
 	}
 
 }

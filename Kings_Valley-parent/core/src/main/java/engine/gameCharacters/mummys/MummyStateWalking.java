@@ -112,7 +112,7 @@ public class MummyStateWalking extends MummyState
     public void update(float deltaTime)
     {
 
-	if (this.mummy.getState() == GameCharacter.ST_WALKING || this.mummy.getState() == GameCharacter.ST_IDDLE)
+	if (this.mummy.getRenderMode() == GameCharacter.ST_WALKING || this.mummy.getRenderMode() == GameCharacter.ST_IDDLE)
 
 	{
 	    if (!this.mummy.isInStair())

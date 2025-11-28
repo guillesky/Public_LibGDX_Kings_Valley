@@ -28,7 +28,7 @@ public class MummyStateOnAir extends MummyState
     public void update(float deltaTime)
     {
 	this.mummy.move(this.mummy.getDirection(), false, deltaTime);
-	if (this.mummy.getState() == GameCharacter.ST_WALKING || this.mummy.getState() == GameCharacter.ST_IDDLE)
+	if (this.mummy.getRenderMode() == GameCharacter.ST_WALKING || this.mummy.getRenderMode() == GameCharacter.ST_IDDLE)
 	    this.mummy.mummyState = new MummyStateWalking(this.mummy);
     }
 

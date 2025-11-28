@@ -16,7 +16,7 @@ public class GameStateExiting extends GameState
 	private Door door;
 
 	/**
-	 * Llama a super(Game.ST_GAME_EXITING);<br>
+	 * Llama a super();<br>
 	 * setea el atributo door.<br>
 	 * Agrega a la interfaz el objeto drawable que representa la puerta de salida
 	 * (this.game.getInterfaz().addGraphicElement(new
@@ -29,7 +29,7 @@ public class GameStateExiting extends GameState
 	 */
 	public GameStateExiting(Door door)
 	{
-		super(Game.ST_GAME_EXITING);
+		super();
 		this.door = door;
 		this.game.getInterfaz().addGraphicElement(new DrawableElement(Constants.DRAWABLE_EXIT_DOOR, door));
 		this.game.eventFired(KVEventListener.EXITING_LEVEL, this.game.getCurrentLevel());
@@ -71,6 +71,13 @@ public class GameStateExiting extends GameState
 	protected void dying()
 	{
 
+	}
+
+	@Override
+	public int getRenderMode()
+	{
+		
+		return Game.ST_GAME_EXITING;
 	}
 
 }

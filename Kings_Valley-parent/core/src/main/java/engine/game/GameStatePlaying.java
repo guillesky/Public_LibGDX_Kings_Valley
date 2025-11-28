@@ -20,13 +20,13 @@ public class GameStatePlaying extends GameState
 	
 
 	/**
-	 * Se llama a super(Game.ST_GAME_PLAYING);<br>
+	 * Se llama a super();<br>
 	 * Se dispara el evento this.game.eventFired(KVEventListener.ENTER_LEVEL, null);
 	 * 
 	 */
 	public GameStatePlaying()
 	{
-		super(Game.ST_GAME_PLAYING);
+		super();
 		this.game.eventFired(KVEventListener.ENTER_LEVEL, this.game.getCurrentLevel());
 
 	}
@@ -54,7 +54,7 @@ public class GameStatePlaying extends GameState
 
 		currentLevel.update(deltaTime);
 
-		if (this.readyToExit && player.getState() != Player.ST_ONSTAIRS)
+		if (this.readyToExit && !player.isInStair())
 		{
 			currentLevel.checkLevers();
 			Door door = currentLevel.checkPassages();
@@ -104,6 +104,13 @@ public class GameStatePlaying extends GameState
 	{
 		this.game.level.getPlayer().die();
 		this.game.stateGame = new GameStateDying();
+	}
+
+	@Override
+	public int getRenderMode()
+	{
+		
+		return Game.ST_GAME_PLAYING;
 	}
 
 }

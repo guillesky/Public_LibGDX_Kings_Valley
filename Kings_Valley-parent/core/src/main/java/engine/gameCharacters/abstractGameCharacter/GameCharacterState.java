@@ -35,7 +35,7 @@ public abstract class GameCharacterState
 	{
 		this.nextState = GameCharacter.ST_NO_CHANGE;
 		this.gameCharacter = gameCharacter;
-		this.gameCharacter.setState(state);
+		this.gameCharacter.setRenderMode(state);
 	}
 
 	/**

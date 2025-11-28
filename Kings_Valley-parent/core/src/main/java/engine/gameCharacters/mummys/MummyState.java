@@ -1,11 +1,5 @@
 package engine.gameCharacters.mummys;
 
-import java.util.Iterator;
-
-import engine.level.LevelObject;
-import engine.level.Pyramid;
-import util.GameRules;
-
 /**
  * Clase abstracta que representa el estado de la momia (patron state)
  * 
@@ -47,7 +41,7 @@ public abstract class MummyState
 	public MummyState(Mummy mummy, int state)
 	{
 		this.mummy = mummy;
-		mummy.setState(state);
+		mummy.setRenderMode(state);
 		mummy.resetAnimationDelta();
 	}
 

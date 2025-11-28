@@ -11,13 +11,13 @@ public class DoorStateHide extends DoorState
 {
 
 	/**
-	 * Constructor de clase, llama a super(door, Door.HIDE);
+	 * Constructor de clase, llama a super(door);
 	 * 
 	 * @param door Contexto del patron state
 	 */
 	public DoorStateHide(Door door)
 	{
-		super(door, Door.HIDE);
+		super(door);
 
 	}
 
@@ -57,5 +57,12 @@ public class DoorStateHide extends DoorState
 	{
 
 		return false;
+	}
+
+	@Override
+	public int getRenderMode()
+	{
+
+		return Door.HIDE;
 	}
 }

@@ -45,17 +45,22 @@ public class Dagger extends LevelObject
 	}
 
 	/**
-	 * Retorna un codigo numerido indicando el estado de la espada (no confundir con
-	 * el patron state). puede tomar los valores: DaggerState.ST_STUCKED = 0;
-	 * DaggerState.ST_THROWING_HORIZONTAL = 1; DaggerState.ST_FALLING = 2;
-	 * DaggerState.ST_THROWING_UP = 3; DaggerState.ST_BOUNCING = 4;
-	 * DaggerState.ST_PICKUPED = 5;
+	 * Retorna un codigo numerico que indica como sera la renderizacion de acuerdo
+	 * al estado de la espada.<br>
+	 * Lo delega a su estado mediante:<br>
+	 * return this.daggerState.getRenderMode();<br>
+	 * DaggerState.ST_STUCKED = 0; <br>
+	 * DaggerState.ST_THROWING_HORIZONTAL = 1;<br>
+	 * DaggerState.ST_FALLING = 2;<br>
+	 * DaggerState.ST_THROWING_UP = 3;<br>
+	 * DaggerState.ST_BOUNCING = 4; <br>
+	 * DaggerState.ST_PICKUPED = 5;<br>
 	 * 
 	 * @return el valor del atributo this.daggerState.getState();
 	 */
-	public int getState()
+	public int getRenderMode()
 	{
-		return this.daggerState.getState();
+		return this.daggerState.getRenderMode();
 	}
 
 	/**

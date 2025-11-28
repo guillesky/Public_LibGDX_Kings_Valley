@@ -15,11 +15,11 @@ public class GameStateDying extends GameState
 {
 
 	/**
-	 * Contructor de clase Llama a super(Game.ST_GAME_DYING);
+	 * Contructor de clase Llama a super();
 	 */
 	public GameStateDying()
 	{
-		super(Game.ST_GAME_DYING);
+		super();
 	}
 
 	/**
@@ -63,6 +63,13 @@ public class GameStateDying extends GameState
 	@Override
 	protected void dying()
 	{
+	}
+
+	@Override
+	public int getRenderMode()
+	{
+		
+		return Game.ST_GAME_DYING;
 	}
 
 }

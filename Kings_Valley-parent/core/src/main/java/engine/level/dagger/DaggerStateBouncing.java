@@ -18,7 +18,7 @@ public class DaggerStateBouncing extends DaggerState
 	private float y;
 
 	/**
-	 * Constructor de clase. Llama a super(dagger, DaggerState.ST_BOUNCING);<br>
+	 * Constructor de clase. Llama a super(dagger);<br>
 	 * Dispara el evento Game.getInstance().eventFired(KVEventListener.SWORD_CLASH,
 	 * dagger);
 	 * 
@@ -27,7 +27,7 @@ public class DaggerStateBouncing extends DaggerState
 	 */
 	public DaggerStateBouncing(Dagger dagger)
 	{
-		super(dagger, DaggerState.ST_BOUNCING);
+		super(dagger);
 
 		this.y = dagger.y;
 		Game.getInstance().eventFired(KVEventListener.SWORD_CLASH, dagger);
@@ -89,6 +89,13 @@ public class DaggerStateBouncing extends DaggerState
 	protected void throwVertical()
 	{
 
+	}
+
+	@Override
+	public int getRenderMode()
+	{
+		
+		return  DaggerState.ST_BOUNCING;
 	}
 
 }

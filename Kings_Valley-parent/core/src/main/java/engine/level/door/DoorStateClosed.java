@@ -11,14 +11,14 @@ public class DoorStateClosed extends DoorState
 {
 
 	/**
-	 * Constructor de clase. Llama a super(door, Door.CLOSED);
+	 * Constructor de clase. Llama a super(door);
 	 * 
 	 * @param door Contexto del patron state
 	 * 
 	 */
 	public DoorStateClosed(Door door)
 	{
-		super(door, Door.CLOSED);
+		super(door);
 
 	}
 
@@ -61,6 +61,13 @@ public class DoorStateClosed extends DoorState
 	{
 
 		return false;
+	}
+
+	@Override
+	public int getRenderMode()
+	{
+		
+		return Door.CLOSED;
 	}
 
 }

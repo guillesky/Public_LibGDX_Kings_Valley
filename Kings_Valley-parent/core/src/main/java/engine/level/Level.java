@@ -139,7 +139,7 @@ public class Level
 		&& gameCharacter.x < trapMechanism.getX() + GameRules.getInstance().getLevelTileWidthUnits());
 	boolean condicionY = gameCharacter.y + gameCharacter.height > trapMechanism.getY()
 		&& gameCharacter.y < trapMechanism.getY();
-	return gameCharacter.getState() != GameCharacter.ST_JUMPING && condicionX && condicionY;
+	return gameCharacter.getRenderMode() != GameCharacter.ST_JUMPING && condicionX && condicionY;
 
     }
 

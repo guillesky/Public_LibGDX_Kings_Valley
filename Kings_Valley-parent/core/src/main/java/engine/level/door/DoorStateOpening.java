@@ -13,14 +13,14 @@ public class DoorStateOpening extends DoorState
 {
 
 	/**
-	 * Constructor de clase, llama a super(door, Door.OPENING); y dispara el evento
+	 * Constructor de clase, llama a super(door); y dispara el evento
 	 * Game.getInstance().eventFired(KVEventListener.OPENING_DOOR, this.door);
 	 * 
 	 * @param door Contexto del patron state
 	 */
 	public DoorStateOpening(Door door)
 	{
-		super(door, Door.OPENING);
+		super(door);
 		Game.getInstance().eventFired(KVEventListener.OPENING_DOOR, this.door);
 
 	}
@@ -63,5 +63,12 @@ public class DoorStateOpening extends DoorState
 	{
 
 		return false;
+	}
+	
+	@Override
+	public int getRenderMode()
+	{
+		
+		return Door.OPENING;
 	}
 }

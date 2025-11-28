@@ -14,14 +14,14 @@ public class DaggerStatePickuped extends DaggerState
 {
 
 	/**
-	 * Constructor de clase. Llama a super(dagger, DaggerState.ST_PICKUPED);
+	 * Constructor de clase. Llama a super(dagger);
 	 * 
 	 * @param dagger Contexto del patron state
 	 * 
 	 */
 	public DaggerStatePickuped(Dagger dagger)
 	{
-		super(dagger, DaggerState.ST_PICKUPED);
+		super(dagger);
 
 	}
 
@@ -63,6 +63,13 @@ public class DaggerStatePickuped extends DaggerState
 	{
 		this.dagger.setDaggerState(new DaggerStateThrowingVertical(this.dagger));
 
+	}
+	
+	@Override
+	public int getRenderMode()
+	{
+		
+		return  DaggerState.ST_PICKUPED;
 	}
 
 }

@@ -21,14 +21,13 @@ public class DaggerStateThrowingHorizontal extends DaggerState
 {
 
 	/**
-	 * Constructor de clase. Llama a super(dagger,
-	 * DaggerState.ST_THROWING_HORIZONTAL);
+	 * Constructor de clase. Llama a super(dagger);
 	 * 
 	 * @param dagger Contexto del patron state
 	 */
 	public DaggerStateThrowingHorizontal(Dagger dagger)
 	{
-		super(dagger, DaggerState.ST_THROWING_HORIZONTAL);
+		super(dagger);
 
 	}
 
@@ -63,8 +62,8 @@ public class DaggerStateThrowingHorizontal extends DaggerState
 				mummy = itMummy.next();
 
 		} while (itMummy.hasNext() && !dagger.isColision(mummy));
-		if (mummy.getState() != Mummy.ST_APPEARING && mummy.getState() != Mummy.ST_DYING
-				&& mummy.getState() != Mummy.ST_LIMBUS && dagger.isColision(mummy))
+		if (mummy.getRenderMode() != Mummy.ST_APPEARING && mummy.getRenderMode() != Mummy.ST_DYING
+				&& mummy.getRenderMode() != Mummy.ST_LIMBUS && dagger.isColision(mummy))
 		{
 			dagger.setDaggerState(new DaggerStateBouncing(dagger));
 			Game.getInstance().eventFired(KVEventListener.MUMMY_KILLED_BY_SWORD, mummy);
@@ -114,6 +113,13 @@ public class DaggerStateThrowingHorizontal extends DaggerState
 	protected void throwVertical()
 	{
 
+	}
+	
+	@Override
+	public int getRenderMode()
+	{
+		
+		return  DaggerState.ST_THROWING_HORIZONTAL;
 	}
 
 }

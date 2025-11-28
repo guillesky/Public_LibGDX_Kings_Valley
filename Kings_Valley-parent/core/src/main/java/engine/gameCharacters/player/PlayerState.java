@@ -28,7 +28,7 @@ public abstract class PlayerState
 	public PlayerState(Player player, int state)
 	{
 		this.player = player;
-		player.setState(state);
+		player.setRenderMode(state);
 		this.player.resetAnimationDelta();
 	}
 

@@ -467,7 +467,7 @@ public class TileMapGrafica2D implements IMyApplicationListener
 	    animatedTrapKV2.updateElement();
 
 	}
-	if (Game.getInstance().getState() == Game.ST_GAME_PLAYING)
+	if (Game.getInstance().getRenderMode() == Game.ST_GAME_PLAYING)
 	{
 	    Iterator<AbstractAnimatedDoor2D> itDoors = this.animatedDoor2D.iterator();
 	    while (itDoors.hasNext())
@@ -493,20 +493,20 @@ public class TileMapGrafica2D implements IMyApplicationListener
 	    animatedEntity2D.render(spriteBatch);
 	}
 
-	if (Game.getInstance().getState() == Game.ST_GAME_PLAYING
-		|| Game.getInstance().getState() == Game.ST_GAME_DYING)
+	if (Game.getInstance().getRenderMode() == Game.ST_GAME_PLAYING
+		|| Game.getInstance().getRenderMode() == Game.ST_GAME_DYING)
 	{
 
 	    this.playerAnimated2D.updateElement(Game.getInstance().getDelta());
 	    this.playerAnimated2D.render(spriteBatch);
-	} else if (Game.getInstance().getState() != Game.ST_ENDING)
+	} else if (Game.getInstance().getRenderMode() != Game.ST_ENDING)
 	{
 	    this.animatedEnteringDoor2D.updateElement();
 	    this.animatedEnteringDoor2D.drawBack(spriteBatch);
 	    this.playerAnimated2D.updateElement(Game.getInstance().getDelta());
-	    if ((Game.getInstance().getState() == Game.ST_GAME_ENTERING
+	    if ((Game.getInstance().getRenderMode() == Game.ST_GAME_ENTERING
 		    && Game.getInstance().getDelta() <= this.getTimeToExitLevel())
-		    || Game.getInstance().getState() == Game.ST_GAME_EXITING)
+		    || Game.getInstance().getRenderMode() == Game.ST_GAME_EXITING)
 	    {
 		this.playerAnimated2D.render(spriteBatch);
 		this.animatedEnteringDoor2D.drawFront(spriteBatch);
@@ -598,12 +598,12 @@ public class TileMapGrafica2D implements IMyApplicationListener
 
 	font24.draw(spriteBatch, layout, x, y);
 
-	if (Game.getInstance().getState() == Game.ST_GAME_ENTERING || Game.getInstance().getState() == Game.ST_ENDING)
+	if (Game.getInstance().getRenderMode() == Game.ST_GAME_ENTERING || Game.getInstance().getRenderMode() == Game.ST_ENDING)
 	{
 	    font24.setColor(1, 1, 0, 1);
 	    String textToShow;
 
-	    if (Game.getInstance().getState() == Game.ST_GAME_ENTERING)
+	    if (Game.getInstance().getRenderMode() == Game.ST_GAME_ENTERING)
 	    {
 		if (Game.getInstance().isGoingBack())
 		    textToShow = Messages.GOING_BACK.getValue();

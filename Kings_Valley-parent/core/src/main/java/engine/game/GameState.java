@@ -31,16 +31,35 @@ public abstract class GameState
 	/**
 	 * Constructor de clase. Gestiona la doble referencia del patron state. Resetea
 	 * el delta del juego.
-	 * 
-	 * @param state indica el codigo numerico del estado del juego.
-	 */
-	public GameState(int state)
+	  */
+	public GameState()
 	{
 		this.game = Game.getInstance();
-		this.game.state = state;
 		this.game.resetDelta();
 	}
 
+	/**
+	 * Retorna un codigo numerico que indica como sera la renderizacion de acuerdo
+	 * al estado del juego <br>
+	 * ST_GAME_PLAYING = 0 <br>
+	 * ST_GAME_ENTERING = 1<br>
+	 * ST_GAME_EXITING = 2<br>
+	 * ST_GAME_DYING = 3<br>
+	 * ST_NOT_IN_GAME = 100<br>
+	 * ST_ENDING = 99<br>
+	 * 
+	 * @return codigo numerico que indica como sera la renderizacion de acuerdo al
+	 *         estado del juego<br>
+	 *         ST_GAME_PLAYING = 0 <br>
+	 *         ST_GAME_ENTERING = 1<br>
+	 *         ST_GAME_EXITING = 2<br>
+	 *         ST_GAME_DYING = 3<br>
+	 *         ST_NOT_IN_GAME = 100<br>
+	 *         ST_ENDING = 99<br>
+	 */
+	public abstract int getRenderMode();
+	
+	
 	/**
 	 * Llamado al iniciar un nuevo juego
 	 */

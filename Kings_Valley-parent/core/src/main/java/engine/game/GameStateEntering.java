@@ -11,12 +11,13 @@ public class GameStateEntering extends GameState
 {
 
 	/**
-	 * Llama a super(Game.ST_GAME_ENTERING); Dispara el evento:
-	 * this.game.eventFired(KVEventListener.ENTERING_LEVEL, null);
+	 * Llama a super(); <br>
+	 * Dispara el evento: this.game.eventFired(KVEventListener.ENTERING_LEVEL,
+	 * null);
 	 */
 	public GameStateEntering()
 	{
-		super(Game.ST_GAME_ENTERING);
+		super();
 		this.game.eventFired(KVEventListener.ENTERING_LEVEL, this.game.getCurrentLevel());
 	}
 
@@ -48,6 +49,13 @@ public class GameStateEntering extends GameState
 	@Override
 	protected void dying()
 	{
+	}
+
+	@Override
+	public int getRenderMode()
+	{
+		
+		return Game.ST_GAME_ENTERING;
 	}
 
 }
