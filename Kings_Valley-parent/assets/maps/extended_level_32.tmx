@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="32" height="22" tilewidth="64" tileheight="64" infinite="0" nextlayerid="4" nextobjectid="20">
  <tileset firstgid="1" source="tiles_new.tsx"/>
- <tileset firstgid="287" source="../../../../LibGDX_Kings_Valley/Kings_Valley-parent/assets/maps/tiles_new.tsx"/>
- <layer id="1" name="back" width="32" height="22">
+  <layer id="1" name="back" width="32" height="22">
   <data encoding="csv">
 57,58,55,56,57,58,55,56,57,58,55,56,57,58,55,56,57,58,55,56,57,58,55,56,57,58,55,56,57,58,55,56,
 75,76,73,74,75,76,73,74,75,76,73,74,75,76,73,74,75,99,100,74,75,76,73,74,75,76,73,74,75,76,73,74,
@@ -166,7 +165,7 @@
     <property name="p0" value="137"/>
    </properties>
   </object>
-  <object id="17" type="Door" gid="413" x="256" y="64" width="64" height="64">
+  <object id="17" type="Door" gid="127" x="256" y="64" width="64" height="64">
    <properties>
     <property name="p0" value="0"/>
    </properties>
@@ -176,7 +175,7 @@
     <property name="p0" value="1"/>
    </properties>
   </object>
-  <object id="19" type="Door" gid="413" x="1408" y="64" width="64" height="64">
+  <object id="19" type="Door" gid="127" x="1408" y="64" width="64" height="64">
    <properties>
     <property name="p0" value="1"/>
    </properties>
