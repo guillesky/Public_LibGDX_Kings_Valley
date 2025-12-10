@@ -512,7 +512,7 @@ public class UI2D implements IView, ApplicationListener
     /**
      * Setea los textos de la ventana. Llamado internamente por updateLanguage
      */
-    void setText()
+    private void setText()
 
     {
 	// table main
@@ -562,7 +562,8 @@ public class UI2D implements IView, ApplicationListener
 	tooltipStyle.background = this.backgroundBlackTransparent;
 
 	this.arrayEpisodesMessages.clear();
-	for (int i = 1; i <= 4; i++)
+	int limit=4;
+	for (int i = 1; i <= limit; i++)
 	    this.arrayEpisodesMessages.add(Messages.EPISODE.getValue() + i);
 	this.arrayGameTypeMessage.clear();
 	this.arrayGameTypeMessage.add(Messages.CLASSIC_VERSION.getValue());
@@ -722,7 +723,6 @@ public class UI2D implements IView, ApplicationListener
 	    }
 	});
 	this.setTextOfSelectBox();
-
 	Table t = new Table();
 	t.add(buttonNewGame).width(350).left().padRight(10);
 	t.add(selectBoxGameType).width(400).padRight(10);
