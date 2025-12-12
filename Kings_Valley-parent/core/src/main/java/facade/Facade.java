@@ -436,7 +436,7 @@ public class Facade implements ApplicationListener
     }
 
     /**
-     * Metodo que se invoca al volve el menu principal
+     * Metodo que se invoca al volver el menu principal
      */
     public void mainMenu()
     {

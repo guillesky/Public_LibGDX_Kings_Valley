@@ -312,6 +312,7 @@ public class UI2D implements IView, ApplicationListener
     {
 
 	stage.addActor(backgroundImage);
+	this.setText();
 	this.tableMainActual = this.tableMainInUi;
 	this.stage.addActor(this.tableMainInUi);
 	stage.addActor(tableVersion);
@@ -723,7 +724,7 @@ public class UI2D implements IView, ApplicationListener
 
 	    }
 	});
-	this.setTextOfSelectBox();
+	//this.setTextOfSelectBox();
 	Table t = new Table();
 	t.add(buttonNewGame).width(350).left().padRight(10);
 	t.add(selectBoxGameType).width(400).padRight(10);

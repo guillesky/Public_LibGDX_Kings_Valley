@@ -254,6 +254,7 @@ public class Controler2D extends AbstractControler implements KVEventListener
     private void doFinishEpisode(int episodeFinished)
     {
 	Facade.getInstance().finishEpisode(episodeFinished);
+	
     }
 
     /**
