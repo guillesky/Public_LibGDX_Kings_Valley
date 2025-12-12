@@ -179,54 +179,14 @@ public class AudioManager implements KVEventListener
 	    sound.play(Game.getInstance().getGameConfig().getMasterVolume()
 		    * Game.getInstance().getGameConfig().getSoundsVolume());
 
-	if (eventCode == KVEventListener.THROW_DAGGER)
-	{
-	    int i = Game.random.nextInt(this.throwSwordSounds.length);
-	    this.throwSwordSounds[i].play(Game.getInstance().getGameConfig().getMasterVolume()
-		    * Game.getInstance().getGameConfig().getSoundsVolume());
-	}
-
-	if (eventCode == KVEventListener.THROW_DAGGER)
-	{
-	    this.playRandomSound(throwSwordSounds);
-	}
-
-	if (eventCode == KVEventListener.PLAYER_DIE)
-	{
-	    this.playRandomSound(this.playerDeathSounds);
-	    this.fadeOutMusic = true;
-	}
-
-	if (eventCode == KVEventListener.GAME_ENDING)
-	{
-	    this.fadeOutMusic = true;
-	}
-
-	if (eventCode == KVEventListener.MUMMY_KILLED_BY_SWORD)
-	{
-	    this.playRandomSound(this.mummyDeathSounds);
-
-	}
-
-	if (eventCode == KVEventListener.OPENING_DOOR || eventCode == KVEventListener.CLOSING_DOOR
-		|| eventCode == KVEventListener.EXITING_LEVEL)
-	{
-	    this.playRandomSound(this.doorOpenCloseSounds);
-	}
-
 	switch (eventCode)
 	{
-	case KVEventListener.FINISH_ALL_LEVELS:
-
-	    break;
-
-	case KVEventListener.MUMMY_KILLED_BY_SWORD:
-
-	    break;
 
 	case KVEventListener.EXITING_LEVEL:
+	    this.playRandomSound(this.doorOpenCloseSounds);
 	    this.fadeOutMusic = true;
 	    break;
+
 	case KVEventListener.ENTER_LEVEL:
 	    this.endFade();
 	    this.musicMain.setVolume(Game.getInstance().getGameConfig().getMasterVolume()
@@ -237,6 +197,30 @@ public class AudioManager implements KVEventListener
 
 	case KVEventListener.GAME_OVER:
 	    this.musicMain.stop();
+	    break;
+
+	case KVEventListener.MUMMY_KILLED_BY_SWORD:
+	    this.playRandomSound(this.mummyDeathSounds);
+
+	    break;
+
+	case KVEventListener.GAME_ENDING:
+	    this.fadeOutMusic = true;
+	    break;
+
+	case KVEventListener.PLAYER_DIE:
+
+	    this.playRandomSound(this.playerDeathSounds);
+	    this.fadeOutMusic = true;
+	    break;
+
+	case KVEventListener.THROW_DAGGER:
+	    this.playRandomSound(throwSwordSounds);
+	    break;
+	case KVEventListener.OPENING_DOOR:
+	case KVEventListener.CLOSING_DOOR:
+
+	    this.playRandomSound(this.doorOpenCloseSounds);
 	    break;
 
 	}

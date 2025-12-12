@@ -13,8 +13,8 @@ public class ConsoleKVEventListener implements KVEventListener
 {
 
     /**
-     * HashMap que relaciona cada codigo de evento un String representativo para mostrarlo por
-     * consola (utiliza el mismo nombre de la variable del evento)
+     * HashMap que relaciona cada codigo de evento un String representativo para
+     * mostrarlo por consola (utiliza el mismo nombre de la variable del evento)
      */
     private HashMap<Integer, String> messages = new HashMap<Integer, String>();
 
@@ -61,6 +61,7 @@ public class ConsoleKVEventListener implements KVEventListener
 	this.messages.put(SWORD_CLASH_FLESH, "SWORD_CLASH_FLESH");
 	this.messages.put(PAUSED_IS_CHANGED, "PAUSED_IS_CHANGED");
 	this.messages.put(FINISH_ALL_LEVELS, "FINISH_ALL_LEVELS");
+	this.messages.put(FINISH_EPISODE, "FINISH_EPISODE");
 	this.messages.put(GAME_OVER, "GAME_OVER");
 	this.messages.put(GAME_ENDING, "GAME_ENDING");
 

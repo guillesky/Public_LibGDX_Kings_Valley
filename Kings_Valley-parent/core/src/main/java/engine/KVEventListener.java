@@ -181,6 +181,12 @@ public interface KVEventListener
 	 * Codigo del evento: termino el juego
 	 */
 
+	int FINISH_EPISODE = 101;
+	/**
+	 * Codigo del evento: Termino un nuevo episodio
+	 */
+
+	
 	int GAME_OVER = 200;
 	/**
 	 * Codigo del evento: El juego esta terminando

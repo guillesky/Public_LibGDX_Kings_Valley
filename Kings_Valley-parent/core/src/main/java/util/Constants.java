@@ -219,7 +219,7 @@ public class Constants
 	 * Indica el numero actual de version de juego y fecha de release
 	 */
 	public static final String VERSION = "v 1.0.2 r 2025-10-25";
-	private static final int LAST_EXTENDED_LEVEL = 42;
+	private static final int LAST_EXTENDED_LEVEL = 60;
 	private static final int LAST_CLASSIC_LEVEL = 15;
 
 	static
@@ -268,7 +268,7 @@ public class Constants
 			}
 		}
 
-		
+		extendedLevelFileName.put(LAST_EXTENDED_LEVEL+1, "maps/goal.tmx");
 		
 		
 		

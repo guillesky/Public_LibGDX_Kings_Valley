@@ -39,6 +39,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import controler.AbstractControler;
 import controler.IView;
+import facade.Facade;
 import i18n.Messages;
 import util.Constants;
 
@@ -315,7 +316,7 @@ public class UI2D implements IView, ApplicationListener
 	this.stage.addActor(this.tableMainInUi);
 	stage.addActor(tableVersion);
 	Gdx.input.setCursorCatched(false);
-	if (this.controler.isFinishedOneTime())
+	if (Facade.getInstance().getGameConfig().isEnabledSelectDificultLevel())
 	{
 	    this.slDificultLevel.setVisible(true);
 	    this.slDificultLevel.setTouchable(Touchable.enabled);
@@ -562,7 +563,7 @@ public class UI2D implements IView, ApplicationListener
 	tooltipStyle.background = this.backgroundBlackTransparent;
 
 	this.arrayEpisodesMessages.clear();
-	int limit=4;
+	int limit=Facade.getInstance().getGameConfig().getBestExtendedEpisodeFinished()+1;
 	for (int i = 1; i <= limit; i++)
 	    this.arrayEpisodesMessages.add(Messages.EPISODE.getValue() + i);
 	this.arrayGameTypeMessage.clear();
@@ -740,7 +741,7 @@ public class UI2D implements IView, ApplicationListener
 	this.addExpandableRow(tableMainInUi, this.slDificultLevel);
 	this.addExpandableRow(tableMainInUi, this.buttonExit);
 
-	if (!this.controler.isFinishedOneTime())
+	if (!Facade.getInstance().getGameConfig().isEnabledSelectDificultLevel())
 	{
 	    this.slDificultLevel.setVisible(false);
 	    this.slDificultLevel.setTouchable(Touchable.disabled);
