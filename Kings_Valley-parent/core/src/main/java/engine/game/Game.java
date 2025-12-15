@@ -80,7 +80,7 @@ public class Game implements KVEventListener
     private int score = 0;
     private int lives;
     private GameConfig gameConfig;
-    private boolean goingBack;
+    
     private int nextExtraLife = GameRules.getInstance().getScoreForFirstExtraLife();
     private boolean isExtendedVersion;
     
