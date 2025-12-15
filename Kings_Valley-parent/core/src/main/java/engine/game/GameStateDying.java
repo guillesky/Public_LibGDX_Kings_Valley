@@ -53,7 +53,7 @@ public class GameStateDying extends GameState
 	 * Se sobreescribe como metodo vacio (no hace nada)
 	 */
 	@Override
-	public void startNewGame()
+	public void startNewGame(boolean isExtendedVersion, int episode)
 	{
 	}
 

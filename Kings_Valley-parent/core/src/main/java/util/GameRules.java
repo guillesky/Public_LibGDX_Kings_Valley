@@ -41,8 +41,7 @@ public class GameRules
     private boolean godMode = false;
 
     private int initialNumberOfLives = 3;
-    private int firstLevel = 1;
-
+   
     private float minMummySpawnDistanceToPlayer;
     private float mummyTimeInLimbus;
     private float mummyTimeDying;
@@ -585,15 +584,7 @@ public class GameRules
 	return scoreForExtraLife;
     }
 
-    /**
-     * retorna el identificador del primer nivel del juego (usualmente, 1)
-     * 
-     * @return El identificador del primer nivel del juego (usualmente, 1)
-     */
-    public int getFirstLevel()
-    {
-	return firstLevel;
-    }
+   
 
     /**
      * Indica si el juego esta en modo Dios (Si es asi, las momias no mataran al

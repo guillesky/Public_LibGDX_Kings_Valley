@@ -160,7 +160,7 @@ public class TileMapGrafica2D implements IMyApplicationListener
 	} else if (element.getType() == Constants.DRAWABLE_TRAP)
 	{
 	    TrapMechanism trapMech = (TrapMechanism) element.getDrawable();
-	    
+
 	    AnimatedTrapKV2D atrapKV = new AnimatedTrapKV2D(trapMech, this.spriteBatch);
 	    this.hashMapTrapAnimation.put(trapMech, atrapKV);
 	    this.animatedTraps.add(atrapKV);
@@ -598,36 +598,44 @@ public class TileMapGrafica2D implements IMyApplicationListener
 
 	font24.draw(spriteBatch, layout, x, y);
 
-	if (Game.getInstance().getRenderMode() == Game.ST_GAME_ENTERING || Game.getInstance().getRenderMode() == Game.ST_ENDING)
+	if (Game.getInstance().getRenderMode() == Game.ST_GAME_ENTERING
+		|| Game.getInstance().getRenderMode() == Game.ST_ENDING)
 	{
 	    font24.setColor(1, 1, 0, 1);
-	    String textToShow;
 
 	    if (Game.getInstance().getRenderMode() == Game.ST_GAME_ENTERING)
 	    {
-		if (Game.getInstance().isGoingBack())
-		    textToShow = Messages.GOING_BACK.getValue();
-		else
-		    textToShow = Messages.ENTERING.getValue();
-		textToShow += currentPyramid;
+
+		String textToEnterLevel = Game.getInstance().getTextToEnterLevel();
+		String[] textsToShow = textToEnterLevel.split("\n");
+		for (int i = 0; i < textsToShow.length; i++)
+		    this.drawLineOfText(textsToShow[i], i, layout);
+
 	    } else
 	    {
-		textToShow = Messages.GAME_OVER.getValue();
+		this.drawLineOfText(Messages.GAME_OVER.getValue(), 0, layout);
+
 	    }
-	    layout.setText(font24, textToShow);
-	    x = (Gdx.graphics.getWidth() - layout.width) / 2;
-	    y = (Gdx.graphics.getHeight() - layout.height) / 2;
 
-	    float rx = (Gdx.graphics.getWidth() - layout.width * 1.2f) / 2;
-	    float ry = (Gdx.graphics.getHeight() - layout.height * 1.2f) / 2;
-	    ry -= layout.height * 1.2f;
-	    spriteBatch.setColor(0, 0, 0, 0.5f); // negro con 50% opacidad
-	    spriteBatch.draw(pixel, rx, ry, layout.width * 1.2f, layout.height * 1.2f);
-
-	    font24.draw(spriteBatch, layout, x, y);
-	    font24.setColor(1, 1, 1, 1);
 	}
 	this.spriteBatch.end();
+    }
+
+    private void drawLineOfText(String textToShow, int i, GlyphLayout layout)
+    {
+	float x = (Gdx.graphics.getWidth() - layout.width) / 2;
+	float y = Gdx.graphics.getHeight() - layout.height;
+
+	layout.setText(font24, textToShow);
+	x = (Gdx.graphics.getWidth() - layout.width) / 2;
+	y = (Gdx.graphics.getHeight() - layout.height) / 2 - layout.height * i * 1.5f;
+	float rx = x - layout.height * 0.2f;
+	float ry = y - layout.height * 0.2f;
+	ry -= layout.height * 1.2f;
+	spriteBatch.setColor(0, 0, 0, 0.5f); // negro con 50% opacidad
+	spriteBatch.draw(pixel, rx, ry, layout.width + layout.height * .4f, layout.height * 1.4f);
+
+	font24.draw(spriteBatch, layout, x, y);
     }
 
     /**

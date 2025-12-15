@@ -17,7 +17,7 @@ public class UIExtendedMap extends UIAbstractMap
     {
 	int p = 0;
 	int w = 1;
-	int h = 1;
+	int h = 0;
 	int direction = 1;
 	int lastRow = this.getMatrixDimension() - 1;
 
@@ -25,7 +25,7 @@ public class UIExtendedMap extends UIAbstractMap
 	{
 	    w = 1;
 	    direction = 1;
-
+	    h++;
 	    for (int i = 0; i < 15; i++)
 	    {
 		p++;
@@ -39,8 +39,11 @@ public class UIExtendedMap extends UIAbstractMap
 		    w += direction;
 		}
 	    }
-	    h++;
+	   
 	}
+	
+	this.pyramidsInMap.put(61, new CellInMap(w, lastRow - h));
+
     }
 
 }

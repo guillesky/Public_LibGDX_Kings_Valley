@@ -131,7 +131,7 @@ public class UI2D implements IView, ApplicationListener
 	manager.load(this.uiConfig.getBackgroundFile(), Texture.class);
 	manager.load(this.uiConfig.getClassicMapFile(), Texture.class);
 	manager.load(this.uiConfig.getExtendedMapFile(), Texture.class);
-	
+
 	manager.load(this.uiConfig.getPyramidActualFile(), Texture.class);
 	manager.load(this.uiConfig.getPyramidCompletedFile(), Texture.class);
 
@@ -310,7 +310,7 @@ public class UI2D implements IView, ApplicationListener
      */
     public void doEnterUi()
     {
-
+	stage.clear();
 	stage.addActor(backgroundImage);
 	this.setText();
 	this.tableMainActual = this.tableMainInUi;
@@ -564,7 +564,7 @@ public class UI2D implements IView, ApplicationListener
 	tooltipStyle.background = this.backgroundBlackTransparent;
 
 	this.arrayEpisodesMessages.clear();
-	int limit=Facade.getInstance().getGameConfig().getBestExtendedEpisodeFinished()+1;
+	int limit = Facade.getInstance().getGameConfig().getBestExtendedEpisodeFinished() + 1;
 	for (int i = 1; i <= limit; i++)
 	    this.arrayEpisodesMessages.add(Messages.EPISODE.getValue() + i);
 	this.arrayGameTypeMessage.clear();
@@ -724,7 +724,7 @@ public class UI2D implements IView, ApplicationListener
 
 	    }
 	});
-	//this.setTextOfSelectBox();
+	// this.setTextOfSelectBox();
 	Table t = new Table();
 	t.add(buttonNewGame).width(350).left().padRight(10);
 	t.add(selectBoxGameType).width(400).padRight(10);

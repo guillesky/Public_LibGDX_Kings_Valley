@@ -3,6 +3,7 @@ package engine.game;
 import engine.KVEventListener;
 import engine.level.LevelReader;
 import engine.level.door.Door;
+import i18n.Messages;
 import util.Constants;
 
 /**
@@ -61,8 +62,13 @@ public abstract class GameState
 
     /**
      * Llamado al iniciar un nuevo juego
+     * 
+     * @param episode           numero de epsiodio seleccionado (si es la version
+     *                          extendida)
+     * @param isExtendedVersion true si es la version extendida, false si es la
+     *                          version clasica.
      */
-    public abstract void startNewGame();
+    public abstract void startNewGame(boolean isExtendedVersion, int episode);
 
     /**
      * Llamado al terminar el juego
@@ -85,9 +91,8 @@ public abstract class GameState
      */
     protected void startNewLevel(Door door, boolean fromDeath)
     {
-
-	this.game.setGoingBack((door != null && door.getLevelConnected() == Door.TO_PREVIUS));
-
+	boolean finishAllLevels=false;
+	
 	LevelReader levelReader = new LevelReader();
 	if (this.game.level != null)
 	    this.game.level.dispose();
@@ -95,7 +100,7 @@ public abstract class GameState
 	if (this.game.levelFileName.get(this.game.getIdCurrentLevel()) == null)
 	{
 	    this.game.eventFired(KVEventListener.FINISH_ALL_LEVELS, null);
-
+	    finishAllLevels=true;
 	}
 	if (this.game.isExtendedVersion() && (this.game.getIdCurrentLevel() == 16 || this.game.getIdCurrentLevel() == 31
 		|| this.game.getIdCurrentLevel() == 46))
@@ -107,6 +112,16 @@ public abstract class GameState
 		this.game.completedLevels.get(this.game.getIdCurrentLevel()), door, fromDeath, this.game.getInterfaz());
 	this.game.stateGame = new GameStateEntering();
 	this.game.getInterfaz().inicialize();
+	
+	
+	String textToEnterLevel;
+	if ((door != null && door.getLevelConnected() == Door.TO_PREVIUS))
+	    textToEnterLevel = Messages.GOING_BACK.getValue();
+	else
+	    textToEnterLevel = Messages.ENTERING.getValue();
+	textToEnterLevel += this.game.getCurrentLevel().getId();
+	
+	this.game.setTextToEnterLevel(textToEnterLevel);
 
     }
 
