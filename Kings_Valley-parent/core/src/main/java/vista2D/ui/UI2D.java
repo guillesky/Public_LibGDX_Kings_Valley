@@ -33,8 +33,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.TooltipManager;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import controler.AbstractControler;
@@ -128,18 +130,6 @@ public class UI2D implements IView, ApplicationListener
 	;
 	this.manager = manager;
 
-	manager.load(this.uiConfig.getBackgroundFile(), Texture.class);
-	manager.load(this.uiConfig.getClassicMapFile(), Texture.class);
-	manager.load(this.uiConfig.getExtendedMapFile(), Texture.class);
-
-	manager.load(this.uiConfig.getPyramidActualFile(), Texture.class);
-	manager.load(this.uiConfig.getPyramidCompletedFile(), Texture.class);
-
-	manager.load(this.uiConfig.getSkinFile(), Skin.class);
-	manager.load(this.uiConfig.getSfxClickFile(), Sound.class);
-	manager.load(this.uiConfig.getSfxFocusFile(), Sound.class);
-	manager.load(this.uiConfig.getSlideSoundFile(), Sound.class);
-
 	this.inputListenerSounds = new InputListener()
 	{
 
@@ -184,7 +174,6 @@ public class UI2D implements IView, ApplicationListener
 	this.prepareFonts();
 
 	this.calulateBackground(backgroundImage, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-
 	TextButton.TextButtonStyle buttonStyle = skin.get("default", TextButton.TextButtonStyle.class);
 
 	buttonStyle.font = skin.getFont(this.fontSmallName);
@@ -244,7 +233,8 @@ public class UI2D implements IView, ApplicationListener
 	this.focusSound = manager.get(this.uiConfig.getSfxFocusFile(), Sound.class);
 	this.slideSound = manager.get(this.uiConfig.getSlideSoundFile(), Sound.class);
 	this.backgroundImage = new Image(backgroundText);
-
+	// backgroundImage.setFillParent(true);
+	backgroundImage.setScaling(Scaling.stretch);
 	this.skin = manager.get(this.uiConfig.getSkinFile(), Skin.class);
 
 	Pixmap pixmap = new Pixmap(Gdx.files.internal(this.uiConfig.getCursorFile()));
@@ -475,13 +465,14 @@ public class UI2D implements IView, ApplicationListener
     @Override
     public void pause()
     {
-
+	
     }
 
     @Override
     public void resume()
     {
 
+	
     }
 
     /**
@@ -493,8 +484,9 @@ public class UI2D implements IView, ApplicationListener
      */
     private void calulateBackground(Image image, float width, float height)
     {
+	Texture texture = ((TextureRegionDrawable) image.getDrawable()).getRegion().getTexture();
 
-	float imageRatio = image.getWidth() / (float) image.getHeight();
+	float imageRatio = texture.getWidth() / (float) texture.getHeight();
 	float stageRatio = width / height;
 
 	if (imageRatio < stageRatio)

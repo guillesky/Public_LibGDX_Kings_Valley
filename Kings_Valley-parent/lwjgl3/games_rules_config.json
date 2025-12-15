@@ -37,7 +37,7 @@ mummyPinkSpeedWalkFactor: 0.5
 mummyPinkSpeedStairFactor: 2
 mummyPinkTimeToDecide: 1.5
 mummyPinkTimeDeciding: 1
-mummyYellowSpeedWalkFactor: 1
+mummyYellowSpeedWalkFactor: 1.1
 mummyYellowSpeedStairFactor: 0.5
 mummyYellowTimeToDecide: 1.5
 mummyYellowTimeDeciding: 1

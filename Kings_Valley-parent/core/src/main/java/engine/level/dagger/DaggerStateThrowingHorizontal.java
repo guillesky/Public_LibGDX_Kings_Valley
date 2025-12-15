@@ -52,6 +52,7 @@ public class DaggerStateThrowingHorizontal extends DaggerState
 		if (cell != null)
 		{
 			dagger.setDaggerState(new DaggerStateBouncing(dagger));
+			Game.getInstance().eventFired(KVEventListener.SWORD_CLASH, dagger);
 
 		}
 		Iterator<Mummy> itMummy = mummys.iterator();

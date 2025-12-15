@@ -19,8 +19,7 @@ public class DaggerStateBouncing extends DaggerState
 
 	/**
 	 * Constructor de clase. Llama a super(dagger);<br>
-	 * Dispara el evento Game.getInstance().eventFired(KVEventListener.SWORD_CLASH,
-	 * dagger);
+	 
 	 * 
 	 * 
 	 * @param dagger Contexto del patron state
@@ -30,7 +29,7 @@ public class DaggerStateBouncing extends DaggerState
 		super(dagger);
 
 		this.y = dagger.y;
-		Game.getInstance().eventFired(KVEventListener.SWORD_CLASH, dagger);
+		
 	}
 
 	/**

@@ -6,7 +6,10 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Json;
 
 import audio.AudioManager;
@@ -319,9 +322,9 @@ public class Facade implements ApplicationListener
 	this.readCredits();
 	assetManager.load(uiConfig.getMusicUIName(), Music.class);
 	assetManager.load(uiConfig.getMusicIntroName(), Music.class);
-
+	this.loadUIAssets(uiConfig);
 	this.ui = new UI2D(this.assetManager, uiConfig);
-
+	
 	assetManager.finishLoading();// termina la primera carga
 
 	this.controler = new Controler2D(this.ui);
@@ -340,6 +343,21 @@ public class Facade implements ApplicationListener
 
 	this.mainMenu();
 
+    }
+
+    private void loadUIAssets(UIConfig uiConfig)
+    {
+	this.assetManager.load(uiConfig.getBackgroundFile(), Texture.class);
+	this.assetManager.load(uiConfig.getClassicMapFile(), Texture.class);
+	this.assetManager.load(uiConfig.getExtendedMapFile(), Texture.class);
+
+	this.assetManager.load(uiConfig.getPyramidActualFile(), Texture.class);
+	this.assetManager.load(uiConfig.getPyramidCompletedFile(), Texture.class);
+
+	this.assetManager.load(uiConfig.getSkinFile(), Skin.class);
+	this.assetManager.load(uiConfig.getSfxClickFile(), Sound.class);
+	this.assetManager.load(uiConfig.getSfxFocusFile(), Sound.class);
+	this.assetManager.load(uiConfig.getSlideSoundFile(), Sound.class);
     }
 
     /**
@@ -440,6 +458,7 @@ public class Facade implements ApplicationListener
      */
     public void mainMenu()
     {
+	
 	this.ui.doEnterUi();
 
 	this.musicActual = this.musicUI;
