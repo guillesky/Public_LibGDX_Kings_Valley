@@ -142,12 +142,12 @@ public class Facade implements ApplicationListener
      * dificultad pasado por parametro. Debra lego lamarse al metodo fireGame().
      * Esto para poder reproducir una musica de inicio u otro tiempo de espera.
      * 
-     * @param isExtendedVrsion
+     * @param isExtendedVersion true si se inicia un juego en version extendida, false si se inicia en version clasica
      * 
      * @param dificultLevel    Valor de la dificultad del nivel. Entre -4 y 4 donde
      *                         0 es la dificultad normal. Valores mayores a 4 seran
      *                         tomados como 4 y menores que -4 seran tomados como -4
-     * @param episode
+     * @param episode          Numero de episodio inicial (solo usado para version extendida)
      */
     public void startNewGame(boolean isExtendedVersion, int dificultLevel, int episode)
     {
@@ -499,10 +499,12 @@ public class Facade implements ApplicationListener
 	return showMap;
     }
 
+    
     /**
-     * Llamado cuando se finaliza un episodio. Si el pisodio terminado es mayor al
+     *Llamado cuando se finaliza un episodio. Si el pisodio terminado es mayor al
      * mejor episodio terminado se guarda en el archivo de configuracion.
      * 
+     * @param episodeFinished Numero de episodio terminado
      */
     public void finishEpisode(int episodeFinished)
     {

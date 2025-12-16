@@ -2,9 +2,22 @@ package vista2D.ui;
 
 import com.badlogic.gdx.graphics.Texture;
 
+/**
+ * Representa el mapa en la version Extendida del juego (60 niveles en 4 episodios + Tesoro)
+ * @author Guillermo Lazzurri
+ */
 public class UIExtendedMap extends UIAbstractMap
 {
-
+    /**
+     * Constructor de clase, llama a super(mapTexture, currentPyramidTexture,
+     * completedPyramidTexture, matrixDimension);
+     * 
+     * @param mapTexture              Texture del mapa en blanco
+     * @param currentPyramidTexture   Textura del resalatado para piramide actual
+     * @param completedPyramidTexture Textura para marcar las piramides completadas
+     * @param matrixDimension         Dimension de la matriz sobre la que se
+     *                                dibujaran las piramides en el mapa.
+     */
     public UIExtendedMap(Texture mapTexture, Texture currentPyramidTexture, Texture completedPyramidTexture,
 	    int matrixDimension)
     {

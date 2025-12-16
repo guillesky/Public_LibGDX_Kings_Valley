@@ -34,6 +34,8 @@ public class TrapMechanism extends Mechanism
      * @param pyramid   La piramide a la cual pertenece el muro trampa
      * @param wall      Donde comienza a bajar la pared
      * @param timeToEnd Timpo necesario para bajar un tile.
+     * @param nTile     Numero identificatorio del tile usado para renderizar el
+     *                  bloque de trampa
      */
     public TrapMechanism(Pyramid pyramid, LevelObject wall, float timeToEnd, int nTile)
     {
@@ -115,13 +117,12 @@ public class TrapMechanism extends Mechanism
 
     /**
      * Retorna el numero de tile utilizado para repreentar la pared
+     * 
      * @return El numero de tile utilizado para repreentar la pared
      */
     public int getnTile()
     {
-        return nTile;
+	return nTile;
     }
-    
-    
 
 }

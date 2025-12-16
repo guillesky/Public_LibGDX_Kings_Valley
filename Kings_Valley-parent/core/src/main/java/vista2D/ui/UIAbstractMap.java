@@ -26,27 +26,53 @@ public abstract class UIAbstractMap
     private OrthographicCamera cameraMap;
     private int matrixDimension;
 
+    /**
+     * HashMap que relaciona una celda de la matriz con el identificador de la
+     * piramide
+     */
     protected HashMap<Integer, CellInMap> pyramidsInMap = new HashMap<Integer, CellInMap>();
 
     private SpriteWithId currentPyramidSprite;
 
     private ArrayList<SpriteWithId> completedPyramidSprites = new ArrayList<SpriteWithId>();
 
+    /**
+     * Clase que representa una celda en la matriz sobre la que se dibujaran las
+     * piramides
+     * 
+     * @author Guillermo Lazzurri
+     */
     protected class CellInMap
     {
 	int col;
 	int row;
 
+	/**
+	 * Retorna la columna de la celda
+	 * 
+	 * @return La columna de la celda
+	 */
 	public int getCol()
 	{
 	    return col;
 	}
 
+	/**
+	 * Retorna la fila de la celda
+	 * 
+	 * @return Fila de la celda
+	 */
 	public int getRow()
 	{
 	    return row;
 	}
 
+	/**
+	 * Constructor de clase
+	 * 
+	 * @param col Columna de la celda
+	 * @param row Fila de la celda
+	 */
 	public CellInMap(int col, int row)
 	{
 	    super();
@@ -55,14 +81,25 @@ public abstract class UIAbstractMap
 	}
     }
 
+    /**
+     * Representa un Sprite con un numero identificatorio
+     * 
+     * @author Guillermo Lazzurri
+     */
     private class SpriteWithId extends Sprite
     {
 	private int id;
 
+	/**
+	 * Constructor de clase, llama a super(texture);
+
+	 * @param texture textura del Sprite
+	 * @param id Identificador del Sprite
+	 */
 	public SpriteWithId(Texture texture, int id)
 	{
 	    super(texture);
-	 
+
 	    this.id = id;
 	}
     }
@@ -73,7 +110,8 @@ public abstract class UIAbstractMap
      * @param mapTexture              Texture del mapa en blanco
      * @param currentPyramidTexture   Textura del resalatado para piramide actual
      * @param completedPyramidTexture Textura para marcar las piramides completadas
-     * @param matrixDimension
+     * @param matrixDimension         Dimension de la matriz sobre la que se
+     *                                dibujaran las piramides en el mapa.
      */
     public UIAbstractMap(Texture mapTexture, Texture currentPyramidTexture, Texture completedPyramidTexture,
 	    int matrixDimension)
@@ -166,7 +204,7 @@ public abstract class UIAbstractMap
     }
 
     /**
-     * Genera las celdas dondes estan las piramides
+     * Genera las celdas donde estan las piramides
      */
     protected abstract void generatePyramidsCellsInMaps();
 
@@ -211,6 +249,11 @@ public abstract class UIAbstractMap
 
     }
 
+    /**
+     * Retorna la dimension de la matriz
+     * 
+     * @return La dimension de la matriz
+     */
     protected int getMatrixDimension()
     {
 	return matrixDimension;
