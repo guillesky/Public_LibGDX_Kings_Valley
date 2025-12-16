@@ -91,7 +91,8 @@ public abstract class GameState
      */
     protected void startNewLevel(Door door, boolean fromDeath)
     {
-	boolean finishAllLevels=false;
+	
+	StringBuilder sb = new StringBuilder();
 	
 	LevelReader levelReader = new LevelReader();
 	if (this.game.level != null)
@@ -100,28 +101,45 @@ public abstract class GameState
 	if (this.game.levelFileName.get(this.game.getIdCurrentLevel()) == null)
 	{
 	    this.game.eventFired(KVEventListener.FINISH_ALL_LEVELS, null);
-	    finishAllLevels=true;
-	}
-	if (this.game.isExtendedVersion() && (this.game.getIdCurrentLevel() == 16 || this.game.getIdCurrentLevel() == 31
-		|| this.game.getIdCurrentLevel() == 46))
+	    sb.append(Messages.FINISH_GAME.getValue());
+	    sb.append("\n");
+	 }
+	if (this.game.isExtendedVersion())
+	{
+	    if (door != null && (this.game.getIdCurrentLevel() == 16 || this.game.getIdCurrentLevel() == 31
+		    || this.game.getIdCurrentLevel() == 46))
+	    {
+		this.game.eventFired(KVEventListener.FINISH_EPISODE, (int) (this.game.getIdCurrentLevel() / 15));
+		sb.append(Messages.FINISH_EPISODE.getValue());
+		sb.append("\n");
 
-	    this.game.eventFired(KVEventListener.FINISH_EPISODE, (int) (this.game.getIdCurrentLevel() / 15));
+	    } else if (this.game.getIdCurrentLevel() == 61)
+	    {
+		sb.append(Messages.ENTER_GOAL_LEVEL.getValue());
+		sb.append("\n");
+	    }
+	}
+	else {
+	    if (this.game.getIdCurrentLevel() == 16)
+	    {
+		sb.append(Messages.ENTER_GOAL_LEVEL.getValue());
+		sb.append("\n");
+	    }
+	}
 
 	this.game.level = levelReader.getLevel(this.game.getIdCurrentLevel(),
 		this.game.levelFileName.get(this.game.getIdCurrentLevel()), this.game.getDificultLevel(),
 		this.game.completedLevels.get(this.game.getIdCurrentLevel()), door, fromDeath, this.game.getInterfaz());
 	this.game.stateGame = new GameStateEntering();
 	this.game.getInterfaz().inicialize();
-	
-	
-	String textToEnterLevel;
+
 	if ((door != null && door.getLevelConnected() == Door.TO_PREVIUS))
-	    textToEnterLevel = Messages.GOING_BACK.getValue();
+	   sb.append(Messages.GOING_BACK.getValue());
 	else
-	    textToEnterLevel = Messages.ENTERING.getValue();
-	textToEnterLevel += this.game.getCurrentLevel().getId();
-	
-	this.game.setTextToEnterLevel(textToEnterLevel);
+	    sb.append(Messages.ENTERING.getValue());
+	    sb.append(this.game.getCurrentLevel().getId());
+
+	this.game.setTextToEnterLevel(sb.toString());
 
     }
 

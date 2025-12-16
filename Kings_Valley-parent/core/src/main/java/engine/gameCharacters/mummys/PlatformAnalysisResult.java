@@ -203,43 +203,66 @@ public class PlatformAnalysisResult
 
 	}
 	EndPlatform epf2 = null;
-	LevelObject nearestGiratory = this.getNearestGiratory(gameCharacter, toRight);
-	if (nearestGiratory != null && Math.abs(nearestGiratory.x - gameCharacter.x) < Math.abs(acum) * tileWidth)
+	if (!this.isColDesplaInMap(gameCharacter, acum))
 	{
-	    Rectangle r = null;
 	    if (toRight)
-		r = new Rectangle(nearestGiratory.x - gameCharacter.width * .2f, nearestGiratory.y,
-			GameRules.getInstance().getCharacterWidth(), GameRules.getInstance().getCharacterFeetHeight());
+		x = x - x % tileWidth + acum * tileWidth - 0.5f * GameRules.getInstance().getCharacterWidth();
 	    else
-		r = new Rectangle(
-			nearestGiratory.x + nearestGiratory.width * 1.2f - GameRules.getInstance().getCharacterWidth(),
-			nearestGiratory.y, GameRules.getInstance().getCharacterWidth(),
-			GameRules.getInstance().getCharacterFeetHeight());
-	    epf2 = new EndPlatform(EndPlatform.END_BLOCK, r);
+		x = x - x % tileWidth + (acum + 1) * tileWidth
+			- 0.5f * GameRules.getInstance().getCharacterWidth();
 
-	} else
-
+	    epf2 = new EndPlatform(EndPlatform.END_BLOCK,
+		    new Rectangle(x, gameCharacter.getLastFloorCoordinate(),
+			    GameRules.getInstance().getCharacterWidth(),
+			    GameRules.getInstance().getCharacterFeetHeight()));	} else
 	{
-	    type = this.typeEndPlatform(gameCharacter, x, acum);
-	    if (type == EndPlatform.END_CLIFF)
-	    {
-		if (toRight)
-		    x = x - x % tileWidth + acum * tileWidth - 0.1f * GameRules.getInstance().getCharacterWidth();
-		else
-		    x = x - x % tileWidth + (acum + 1) * tileWidth - 0.9f * GameRules.getInstance().getCharacterWidth();
 
-		epf2 = new EndPlatform(type, new Rectangle(x, gameCharacter.getLastFloorCoordinate(),
-			GameRules.getInstance().getCharacterWidth(), GameRules.getInstance().getCharacterFeetHeight()));
-		
+	    LevelObject nearestGiratory = this.getNearestGiratory(gameCharacter, toRight);
+	    if (nearestGiratory != null && Math.abs(nearestGiratory.x - gameCharacter.x) < Math.abs(acum) * tileWidth)
+	    {
+		Rectangle r = null;
+		if (toRight)
+		    r = new Rectangle(nearestGiratory.x - gameCharacter.width * .2f, nearestGiratory.y,
+			    GameRules.getInstance().getCharacterWidth(),
+			    GameRules.getInstance().getCharacterFeetHeight());
+		else
+		    r = new Rectangle(
+			    nearestGiratory.x + nearestGiratory.width * 1.2f
+				    - GameRules.getInstance().getCharacterWidth(),
+			    nearestGiratory.y, GameRules.getInstance().getCharacterWidth(),
+			    GameRules.getInstance().getCharacterFeetHeight());
+		epf2 = new EndPlatform(EndPlatform.END_BLOCK, r);
+
 	    } else
-	    {
-		if (toRight)
-		    x = x - x % tileWidth + acum * tileWidth - 0.5f * GameRules.getInstance().getCharacterWidth();
-		else
-		    x = x - x % tileWidth + (acum + 1) * tileWidth - 0.5f * GameRules.getInstance().getCharacterWidth();
 
-		epf2 = new EndPlatform(type, new Rectangle(x, gameCharacter.getLastFloorCoordinate(),
-			GameRules.getInstance().getCharacterWidth(), GameRules.getInstance().getCharacterFeetHeight()));
+	    {
+		type = this.typeEndPlatform(gameCharacter, x, acum);
+		if (type == EndPlatform.END_CLIFF)
+		{
+		    if (toRight)
+			x = x - x % tileWidth + acum * tileWidth - 0.1f * GameRules.getInstance().getCharacterWidth();
+		    else
+			x = x - x % tileWidth + (acum + 1) * tileWidth
+				- 0.9f * GameRules.getInstance().getCharacterWidth();
+
+		    epf2 = new EndPlatform(type,
+			    new Rectangle(x, gameCharacter.getLastFloorCoordinate(),
+				    GameRules.getInstance().getCharacterWidth(),
+				    GameRules.getInstance().getCharacterFeetHeight()));
+
+		} else
+		{
+		    if (toRight)
+			x = x - x % tileWidth + acum * tileWidth - 0.5f * GameRules.getInstance().getCharacterWidth();
+		    else
+			x = x - x % tileWidth + (acum + 1) * tileWidth
+				- 0.5f * GameRules.getInstance().getCharacterWidth();
+
+		    epf2 = new EndPlatform(type,
+			    new Rectangle(x, gameCharacter.getLastFloorCoordinate(),
+				    GameRules.getInstance().getCharacterWidth(),
+				    GameRules.getInstance().getCharacterFeetHeight()));
+		}
 	    }
 	}
 	return epf2;
@@ -294,9 +317,14 @@ public class PlatformAnalysisResult
      */
     private boolean isColDesplaInMap(GameCharacter gameCharacter, int col)
     {
+	float tileWidth = GameRules.getInstance().getLevelTileWidthUnits();
 
-	return gameCharacter.getColPosition() + col > 0
-		&& gameCharacter.getColPosition() + col < gameCharacter.getPyramid().getMapWidthInTiles() - 1;
+	float aux = gameCharacter.x + gameCharacter.width + col * tileWidth;
+	/*return gameCharacter.getColPosition() + col > 0
+		&& gameCharacter.getColPosition() + col < gameCharacter.getPyramid().getMapWidthInTiles() - 1;*/
+    return gameCharacter.getColPosition() + col > 0
+		&& aux<gameCharacter.getPyramid().getMapWidthInUnits()-tileWidth;
+    
     }
 
     /**
@@ -407,8 +435,10 @@ public class PlatformAnalysisResult
 
     /**
      * Indica si el caracter esta rentro de los limites de la plataforma
+     * 
      * @param character Caracter a analizar
-     * @return true si el player esta dentro de los limites de la plataforma, false en caso contrario
+     * @return true si el player esta dentro de los limites de la plataforma, false
+     *         en caso contrario
      */
     public boolean isCharacterReachable(GameCharacter character)
     {

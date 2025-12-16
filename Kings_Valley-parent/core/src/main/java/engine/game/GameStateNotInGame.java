@@ -39,6 +39,7 @@ public class GameStateNotInGame extends GameState
 	    this.game.setFirstLevel((episode - 1) * 15 + 1);
 	else
 	    this.game.setFirstLevel(1);
+
 	super.startNewLevel(null, false);
 
     }

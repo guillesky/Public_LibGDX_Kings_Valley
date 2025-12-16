@@ -35,5 +35,9 @@
 "CLASSIC_VERSION":"Version Clasica",
 "EXTENDED_VERSION":"Version Extendida",
 "EPISODE": "Episodio ",
-"ENABLED_EPISODE_MESSAGE":"Completa un episodio para desbloquear el siguiente"
+"ENABLED_EPISODE_MESSAGE":"Completa un episodio para desbloquear el siguiente",
+"FINISH_EPISODE":"Felicitaciones! Has completado un episodio.\nPodras comenzar desde aqui la proxima vez.",
+"ENTER_GOAL_LEVEL":"Has conquistado todos los niveles!\nEl tesoro es tuyo.",
+"FINISH_GAME":"Has dominado todos los niveles.\nTe atreves con una dificultad mayor?"
+
 }

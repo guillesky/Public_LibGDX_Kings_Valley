@@ -174,11 +174,13 @@ public enum Messages
 
     EPISODE("Episode "),
     /**
-     * Mensaje correspondiente a "Completa un episodio para desbloquear el siguiente"
+     * Mensaje correspondiente a "Completa un episodio para desbloquear el
+     * siguiente"
      */
-    ENABLED_EPISODE_MESSAGE("Finish an episode to unlock the next");
-    
-    
+    ENABLED_EPISODE_MESSAGE("Finish an episode to unlock the next"),
+    FINISH_EPISODE("Congratulations! You have completed an episode.\nYou can start from here next time."),
+    ENTER_GOAL_LEVEL("You have conquered all levels!\nThe treasure is yours."),
+    FINISH_GAME("You have mastered all levels.\nDare to face a higher difficulty?");
 
     private String value;
 
@@ -204,6 +206,7 @@ public enum Messages
 
     /**
      * Setea el valor texto del mensaje
+     * 
      * @param valor texto del mensaje
      */
     public void setValue(String valor)

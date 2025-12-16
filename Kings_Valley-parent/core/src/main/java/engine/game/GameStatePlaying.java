@@ -2,11 +2,14 @@ package engine.game;
 
 import com.badlogic.gdx.Input;
 
+import engine.DrawableElement;
 import engine.KVEventListener;
 import engine.control.Controls;
+import engine.gameCharacters.mummys.PlatformAnalysisResult;
 import engine.gameCharacters.player.Player;
 import engine.level.Level;
 import engine.level.door.Door;
+import util.Constants;
 import util.GameRules;
 
 /**
@@ -36,6 +39,9 @@ public class GameStatePlaying extends GameState
 	 * Actaliza el estado del player, las momias, los mecanismos, las dagas
 	 * lanzadas, chequea muertes, verifica salidas de nivel, etc.
 	 * 
+	 */
+	/**
+	 *
 	 */
 	@Override
 	public void updateframe(float deltaTime)
@@ -78,7 +84,7 @@ public class GameStatePlaying extends GameState
 		 * if (controles.getShot(Input.Keys.O)) this.game.dying();
 		 * 
 		 * if (controles.getShot(Input.Keys.S)) this.game.showPlayer();
-		 
+		
 		if (controles.getShot(Input.Keys.S))
 		{
 			this.game.getInterfaz().addGraphicElement(new DrawableElement(Constants.DRAWABLE_PLATFORM_ANALYSIS_RESULT,new PlatformAnalysisResult(player)));
