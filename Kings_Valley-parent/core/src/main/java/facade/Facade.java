@@ -13,13 +13,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Json;
 
 import audio.AudioManager;
-import engine.ConsoleKVEventListener;
 import engine.game.Game;
 import i18n.AllLanguages;
 import i18n.Language;
 import mainPackage.IMyApplicationListener;
 import util.GameConfig;
-import util.GameRules;
 import util.Utils;
 import vista2D.TileMapGrafica2D;
 import vista2D.ui.Controler2D;

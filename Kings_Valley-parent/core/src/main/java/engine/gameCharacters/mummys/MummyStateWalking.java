@@ -1,15 +1,7 @@
 package engine.gameCharacters.mummys;
 
-import java.util.Collection;
-import java.util.Iterator;
-
-import com.badlogic.gdx.math.Rectangle;
-
 import engine.game.Game;
 import engine.gameCharacters.abstractGameCharacter.GameCharacter;
-import engine.level.LevelObject;
-import engine.level.Pyramid;
-import util.GameRules;
 import util.ProbabilisticSelector;
 
 /**

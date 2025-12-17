@@ -1,10 +1,7 @@
 package engine.gameCharacters.abstractGameCharacter;
 
-import com.badlogic.gdx.math.Vector2;
-
 import engine.KVEventListener;
 import engine.game.Game;
-import engine.level.Stair;
 
 /**
  * Clase que representa del estado del caracter "cayendo"

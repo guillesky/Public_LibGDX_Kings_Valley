@@ -39,6 +39,9 @@ public class GameRules
     public static final int INDEX_TIME_DECIDING = 3;
 
     private boolean godMode = false;
+    private boolean debugMode = false;
+    private int firstLevelInDebugMode = 1;
+    
 
     private int initialNumberOfLives = 3;
    
@@ -658,5 +661,23 @@ public class GameRules
     {
 	return initialNumberOfLives;
     }
+
+	/**
+	 * Indica si el juego esta en modo Debug
+	 * @return true si el juego esta en modo Debug, false en caso contrario
+	 */
+	public boolean isDebugMode()
+	{
+		return debugMode;
+	}
+
+	/**
+	 * Retorna el nivel desde donde el juego debe comenzar en caso de estar en modo debug.
+	 * @return El nivel desde donde el juego debe comenzar en caso de estar en modo debug.
+	 */
+	public int getFirstLevelInDebugMode()
+	{
+		return firstLevelInDebugMode;
+	}
 
 }

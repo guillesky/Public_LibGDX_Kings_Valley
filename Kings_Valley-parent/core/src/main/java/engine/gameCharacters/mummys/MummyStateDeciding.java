@@ -1,16 +1,11 @@
 package engine.gameCharacters.mummys;
 
-import java.util.Iterator;
-
 import com.badlogic.gdx.math.Vector2;
 
 import engine.KVEventListener;
 import engine.game.Game;
 import engine.gameCharacters.abstractGameCharacter.GameCharacter;
-import engine.level.LevelObject;
-import engine.level.Pyramid;
 import engine.level.Stair;
-import util.GameRules;
 import util.ProbabilisticSelector;
 
 /**

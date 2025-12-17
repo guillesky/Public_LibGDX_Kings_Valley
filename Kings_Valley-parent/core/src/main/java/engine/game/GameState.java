@@ -4,7 +4,6 @@ import engine.KVEventListener;
 import engine.level.LevelReader;
 import engine.level.door.Door;
 import i18n.Messages;
-import util.Constants;
 
 /**
  * Clase abstracta que representa un estado del juego (patron State)
