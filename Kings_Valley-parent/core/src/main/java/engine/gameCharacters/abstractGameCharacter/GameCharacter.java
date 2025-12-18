@@ -250,36 +250,7 @@ public abstract class GameCharacter extends LevelObject
 		return lookRight;
 	}
 
-	/**
-	 * Devuelve el objeto de tipo de LevelObjet con el cual el caracter colisiona
-	 * desde una lista pasada por parametro. Si no colisiona con ninguno, retorna
-	 * null
-	 * 
-	 * @param levelObjects ArrayList con los objetos a verificar
-	 * @return El objeto de la lista con el cual el caracter colisiona, null si no
-	 *         hay colision.
-	 */
-	@SuppressWarnings(
-	{ "rawtypes", "unchecked" })
-	public LevelObject checkRectangleColision(Collection levelObjects)
-	{
-
-		Iterator<LevelObject> it = levelObjects.iterator();
-		LevelObject respuesta = null;
-		LevelObject item = null;
-		if (it.hasNext())
-			do
-			{
-				item = it.next();
-			} while (it.hasNext() && !this.isColision(item));
-
-		if (this.isColision(item))
-		{
-			respuesta = item;
-		}
-
-		return respuesta;
-	}
+	
 
 	/**
 	 * Verifica que el caracter colisione con una puerta giratoria. Si puede pasar

@@ -1,6 +1,9 @@
 package engine.gameCharacters.mummys;
 
+import com.badlogic.gdx.math.Rectangle;
+
 import engine.game.Game;
+import engine.level.LevelObject;
 import util.GameRules;
 
 /**
@@ -62,7 +65,6 @@ public class MummyStateLimbus extends MummyState
 		}
 	}
 
-	
 	/**
 	 * Calcula la distancia al cuadrado del player a las coordenadas x e y pasadas
 	 * por parametro, usado para calcular posibles destinos de teletransporte
@@ -79,21 +81,24 @@ public class MummyStateLimbus extends MummyState
 		return deltaX * deltaX + deltaY * deltaY;
 
 	}
-	
+
 	/**
 	 * Llamado para calcular un lugar de teletransportacion
 	 */
 	private void teleport()
 	{
 		float[] coords;
+		Rectangle giratory;
 		do
 		{
 			coords = this.getRandomCellInFloor();
-
+			Rectangle r = new Rectangle(coords[0], coords[1], this.mummy.width, this.mummy.height);
+			giratory = LevelObject.checkRectangleColision(r, this.mummy.getPyramid().getGiratories());
 		} while (this.distanceQuadToPlayer(coords[0], coords[1]) < GameRules.getInstance()
-				.getMinMummySpawnDistanceToPlayer());
+				.getMinMummySpawnDistanceToPlayer() || giratory != null);
 		this.mummy.x = coords[0];
 		this.mummy.y = coords[1];
+		
 
 	}
 
@@ -109,7 +114,8 @@ public class MummyStateLimbus extends MummyState
 			i = Game.random.nextInt(this.mummy.getPyramid().getMapHeightInTiles() - 2) + 1;
 			j = Game.random.nextInt(this.mummy.getPyramid().getMapWidthInTiles() - 2) + 1;
 
-		} while (this.mummy.getPyramid().getCellInTiledCoord(j, i) != null || this.mummy.getPyramid().getCellInTiledCoord(j, i + 1) != null);
+		} while (this.mummy.getPyramid().getCellInTiledCoord(j, i) != null
+				|| this.mummy.getPyramid().getCellInTiledCoord(j, i + 1) != null);
 
 		while (this.mummy.getPyramid().getCellInTiledCoord(j, i - 1) == null)
 			i--;
@@ -117,11 +123,7 @@ public class MummyStateLimbus extends MummyState
 		{ j * GameRules.getInstance().getLevelTileWidthUnits(), i * GameRules.getInstance().getLevelTileHeightUnits() };
 		return r;
 	}
-	
-	
-	
-	
-	
+
 	/**
 	 * Retorna false
 	 */
@@ -139,5 +141,4 @@ public class MummyStateLimbus extends MummyState
 	{
 	}
 
-	
 }
