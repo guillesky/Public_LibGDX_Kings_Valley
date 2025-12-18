@@ -45,6 +45,10 @@ public class PlatformAnalysisResult
      * Indica La escalera que baja mas cercana al caracter. Podria ser null.
      */
     private Stair nearestDownStair;
+    /**
+     * Indica el id del gameCharacter a partir del cual se genero el analisis
+     */
+    private int gameCharacterId;
 
     /**
      * Constructor de clase a partir del analisis de la plataforma desde la
@@ -55,6 +59,7 @@ public class PlatformAnalysisResult
      */
     public PlatformAnalysisResult(GameCharacter gameCharacter)
     {
+	this.gameCharacterId = gameCharacter.getId();
 	this.endPlatformLeft = this.endPlatform(gameCharacter, false);
 	this.endPlatformRight = this.endPlatform(gameCharacter, true);
 	this.upStairsInPlatform = this.getStairs(gameCharacter, true);
@@ -203,21 +208,21 @@ public class PlatformAnalysisResult
 
 	}
 	EndPlatform epf2 = null;
+/*
 	if (!this.isColDesplaInMap(gameCharacter, acum))
 	{
 	    if (toRight)
 		x = x - x % tileWidth + acum * tileWidth - 0.5f * GameRules.getInstance().getCharacterWidth();
 	    else
-		x = x - x % tileWidth + (acum + 1) * tileWidth
-			- 0.5f * GameRules.getInstance().getCharacterWidth();
+		x = x - x % tileWidth + (acum + 1) * tileWidth - 0.5f * GameRules.getInstance().getCharacterWidth();
 
-	    epf2 = new EndPlatform(EndPlatform.END_BLOCK,
-		    new Rectangle(x, gameCharacter.getLastFloorCoordinate(),
-			    GameRules.getInstance().getCharacterWidth(),
-			    GameRules.getInstance().getCharacterFeetHeight()));	} else
+	    epf2 = new EndPlatform(EndPlatform.END_BLOCK, new Rectangle(x, gameCharacter.getLastFloorCoordinate(),
+		    GameRules.getInstance().getCharacterWidth(), GameRules.getInstance().getCharacterFeetHeight()));
+	} else*/
 	{
 
 	    LevelObject nearestGiratory = this.getNearestGiratory(gameCharacter, toRight);
+	//    if (nearestGiratory != null)System.out.println("HAY UNA GIRATORIA");
 	    if (nearestGiratory != null && Math.abs(nearestGiratory.x - gameCharacter.x) < Math.abs(acum) * tileWidth)
 	    {
 		Rectangle r = null;
@@ -283,7 +288,7 @@ public class PlatformAnalysisResult
     {
 	LevelObject r = null;
 	LevelObject giratory = null;
-
+System.out.println("BUsco por "+toRight);
 	ArrayList<LevelObject> giratoriesCandidates = new ArrayList<LevelObject>();
 	Iterator<LevelObject> it = gameCharacter.getPyramid().getGiratories().iterator();
 	while (it.hasNext())
@@ -292,6 +297,9 @@ public class PlatformAnalysisResult
 	    boolean condicionDirection = (gameCharacter.x <= giratory.x) == toRight;
 	    if (giratory.y == gameCharacter.getLastFloorCoordinate() && condicionDirection)
 		giratoriesCandidates.add(giratory);
+	    
+	    System.out.println(giratory+"\n"+gameCharacter+"\nlastfloor "+gameCharacter.getLastFloorCoordinate()+"\nsize of candidates: "+giratoriesCandidates.size()+condicionDirection);
+
 	}
 
 	it = giratoriesCandidates.iterator();
@@ -320,11 +328,14 @@ public class PlatformAnalysisResult
 	float tileWidth = GameRules.getInstance().getLevelTileWidthUnits();
 
 	float aux = gameCharacter.x + gameCharacter.width + col * tileWidth;
-	/*return gameCharacter.getColPosition() + col > 0
-		&& gameCharacter.getColPosition() + col < gameCharacter.getPyramid().getMapWidthInTiles() - 1;*/
-    return gameCharacter.getColPosition() + col > 0
-		&& aux<gameCharacter.getPyramid().getMapWidthInUnits()-tileWidth;
-    
+	/*
+	 * return gameCharacter.getColPosition() + col > 0 &&
+	 * gameCharacter.getColPosition() + col <
+	 * gameCharacter.getPyramid().getMapWidthInTiles() - 1;
+	 */
+	return gameCharacter.getColPosition() + col > 0
+		&& aux < gameCharacter.getPyramid().getMapWidthInUnits() - tileWidth;
+
     }
 
     /**
@@ -444,6 +455,17 @@ public class PlatformAnalysisResult
     {
 	return this.endPlatformLeft.getRectangle().x <= character.x
 		&& character.x <= this.endPlatformRight.getRectangle().x + this.endPlatformRight.getRectangle().width;
+    }
+
+    
+    /**
+     * Retorna el id del GameCharacter a partir del cual se realizo el analisis
+     * 
+     * @return El id del GameCharacter a partir del cual se realizo el analisis
+     */
+    public int getGameCharacterId()
+    {
+        return gameCharacterId;
     }
 
 }

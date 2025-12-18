@@ -165,4 +165,13 @@ public class LevelObject extends Rectangle
 	return id == other.id;
     }
 
+    /**
+     * Retorna el identificador del objeto dentro del nivel.
+     * @return El identificador del objeto dentro del nivel.
+     */
+    public int getId()
+    {
+        return id;
+    }
+
 }

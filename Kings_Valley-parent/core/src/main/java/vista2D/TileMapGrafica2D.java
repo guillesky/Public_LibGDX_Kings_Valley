@@ -17,6 +17,7 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.Array;
@@ -24,6 +25,7 @@ import com.badlogic.gdx.utils.Array.ArrayIterator;
 
 import engine.DrawableElement;
 import engine.game.Game;
+import engine.gameCharacters.abstractGameCharacter.GameCharacter;
 import engine.gameCharacters.mummys.Mummy;
 import engine.gameCharacters.mummys.PlatformAnalysisResult;
 import engine.level.GiratoryMechanism;
@@ -114,8 +116,9 @@ public class TileMapGrafica2D implements IMyApplicationListener
     private OrthographicCamera cameraBack;
     private float factor;
     private float[] paramFloat = new float[4];
+    private ShapeRenderer shapeRenderer = null;
 
-    private PlatformAnalysisResultRender platformAnalysisResultRender = null;// solo para debug
+    private HashMap<Integer, PlatformAnalysisResultRender> platformAnalysisResultsRender;
 
     /**
      * Constructor de clase
@@ -133,6 +136,8 @@ public class TileMapGrafica2D implements IMyApplicationListener
 
 	this.graphicsFileLoader.createAnimations(timeDying);
 	this.factor = factor;
+	if (GameRules.getInstance().isDebugMode())
+	    this.shapeRenderer = new ShapeRenderer();
 
     }
 
@@ -200,11 +205,12 @@ public class TileMapGrafica2D implements IMyApplicationListener
 	    this.animatedEnteringDoor2D = new AnimatedEnteringDoor2D(door, this.graphicsFileLoader.getDoorPassage(),
 		    this.graphicsFileLoader.getDoorSingleLeft(), this.graphicsFileLoader.getDoorSingleRight(),
 		    this.graphicsFileLoader.getAnimationDoorLever());
-	} else if (element.getType() == Constants.DRAWABLE_PLATFORM_ANALYSIS_RESULT)
+	} else if (this.shapeRenderer != null && element.getType() == Constants.DRAWABLE_PLATFORM_ANALYSIS_RESULT)
 	{// solo para debug
 	    PlatformAnalysisResult a = (PlatformAnalysisResult) element.getDrawable();
-	    this.platformAnalysisResultRender = new PlatformAnalysisResultRender(a);
-
+	    this.platformAnalysisResultsRender.put(a.getGameCharacterId(),
+		    new PlatformAnalysisResultRender(a, this.shapeRenderer));
+	    
 	}
     }
 
@@ -251,6 +257,7 @@ public class TileMapGrafica2D implements IMyApplicationListener
 	this.animatedEntities = new Array<AnimatedEntity2D>();
 	this.hashMapLevelAnimation = new HashMap<LevelObject, AnimatedEntity2D>();
 	this.hashMapTrapAnimation = new HashMap<TrapMechanism, AnimatedTrapKV2D>();
+	this.platformAnalysisResultsRender = new HashMap<Integer, PlatformAnalysisResultRender>();
 	this.animatedTraps = new Array<AnimatedTrapKV2D>();
 	this.animatedDoor2D = new ArrayList<AbstractAnimatedDoor2D>();
 	this.spriteBatch = new SpriteBatch();
@@ -430,8 +437,13 @@ public class TileMapGrafica2D implements IMyApplicationListener
 	    this.drawPauseMessage();
 
 	}
-	if (this.platformAnalysisResultRender != null)
-	    this.platformAnalysisResultRender.render(camera.combined);
+	if (GameRules.getInstance().isDebugMode())
+	{
+	    Iterator<PlatformAnalysisResultRender> it = this.platformAnalysisResultsRender.values().iterator();
+	    shapeRenderer.setProjectionMatrix(camera.combined);
+	    while (it.hasNext())
+		it.next().render();
+	}
 	this.drawUI();
 
     }
@@ -670,8 +682,8 @@ public class TileMapGrafica2D implements IMyApplicationListener
 	this.font24.dispose();
 	this.pixel.dispose();
 	this.graphicsFileLoader.dispose();
-	if (this.platformAnalysisResultRender != null)
-	    this.platformAnalysisResultRender.dispose();
+	if (this.shapeRenderer != null)
+	    this.shapeRenderer.dispose();
 
     }
 
@@ -842,6 +854,7 @@ public class TileMapGrafica2D implements IMyApplicationListener
 
 	cameraBack.position.x = posCameraX;
 	cameraBack.position.y = pyramid.getMapHeightInUnits() * this.cameraOffsetY;
+
     }
 
 }

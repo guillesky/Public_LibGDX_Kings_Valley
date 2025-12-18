@@ -1,7 +1,11 @@
 package engine.gameCharacters.mummys;
 
+import engine.DrawableElement;
+import engine.game.Game;
 import engine.level.LevelObject;
 import engine.level.Stair;
+import util.Constants;
+import util.GameRules;
 
 /**
  * Clase que representa del estado de la momia "Buscando escalera"
@@ -72,6 +76,12 @@ public class MummyStateSearchingStair extends MummyStateWalking
 	    {
 		this.enterToStair = false;
 		this.platformAnalysisResult = new PlatformAnalysisResult(this.mummy);
+		
+		if (GameRules.getInstance().isDebugMode())
+		    Game.getInstance().getInterfaz()
+			    .addGraphicElement(new DrawableElement(Constants.DRAWABLE_PLATFORM_ANALYSIS_RESULT, this.platformAnalysisResult));
+		
+		
 	    }
 	    if (this.mummy.isFeetColision(this.beginStair))
 	    {

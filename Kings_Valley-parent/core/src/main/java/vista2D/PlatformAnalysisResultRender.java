@@ -36,7 +36,7 @@ import engine.level.Stair;
 public class PlatformAnalysisResultRender
 {
 
-    private ShapeRenderer shapeRenderer = new ShapeRenderer();
+    private ShapeRenderer shapeRenderer ;
     private Stair nearestUpStair;
     private Stair nearestDownStair;
     private ArrayList<Stair> upStairsInPlatform;
@@ -49,7 +49,7 @@ public class PlatformAnalysisResultRender
      * 
      * @param platformAnalysisResult Resultado del analisis que debe renderizarse
      */
-    public PlatformAnalysisResultRender(PlatformAnalysisResult platformAnalysisResult)
+    public PlatformAnalysisResultRender(PlatformAnalysisResult platformAnalysisResult,ShapeRenderer shapeRenderer)
     {
 	this.endPlatforms.add(platformAnalysisResult.getEndPlatformLeft());
 	this.endPlatforms.add(platformAnalysisResult.getEndPlatformRight());
@@ -57,6 +57,7 @@ public class PlatformAnalysisResultRender
 	this.nearestDownStair = platformAnalysisResult.getNearestDownStair();
 	this.downStairsInPlatform = platformAnalysisResult.getDownStairsInPlatform();
 	this.upStairsInPlatform = platformAnalysisResult.getUpStairsInPlatform();
+	this.shapeRenderer=shapeRenderer;
     }
 
     /**
@@ -64,9 +65,9 @@ public class PlatformAnalysisResultRender
      * 
      * @param combined Matriz de proyeccion, Usualmente camera.combined
      */
-    public void render(Matrix4 combined)
+    public void render()
     {
-	shapeRenderer.setProjectionMatrix(combined);
+	
 	shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
 	shapeRenderer.setColor(Color.RED);
 	for (EndPlatform e : endPlatforms)

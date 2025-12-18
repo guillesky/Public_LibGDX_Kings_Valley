@@ -1,7 +1,10 @@
 package engine.gameCharacters.mummys;
 
+import engine.DrawableElement;
 import engine.game.Game;
 import engine.gameCharacters.abstractGameCharacter.GameCharacter;
+import util.Constants;
+import util.GameRules;
 import util.ProbabilisticSelector;
 
 /**
@@ -73,7 +76,10 @@ public class MummyStateWalking extends MummyState
 	super(mummy, GameCharacter.ST_WALKING);
 	this.initValuesFromMummy(mummy);
 	this.platformAnalysisResult = new PlatformAnalysisResult(this.mummy);
-
+	if (GameRules.getInstance().isDebugMode())
+	    Game.getInstance().getInterfaz()
+		    .addGraphicElement(new DrawableElement(Constants.DRAWABLE_PLATFORM_ANALYSIS_RESULT, this.platformAnalysisResult));
+	
     }
 
     /**

@@ -2,10 +2,13 @@ package engine.gameCharacters.mummys;
 
 import com.badlogic.gdx.math.Vector2;
 
+import engine.DrawableElement;
 import engine.KVEventListener;
 import engine.game.Game;
 import engine.gameCharacters.abstractGameCharacter.GameCharacter;
 import engine.level.Stair;
+import util.Constants;
+import util.GameRules;
 import util.ProbabilisticSelector;
 
 /**
@@ -57,12 +60,15 @@ public class MummyStateDeciding extends MummyState
     }
 
     /**
-     * De acuerdo a la posicion del player marca el flag nextStatus para pasar a los estados
-     * MummyStateSearchingStair o MummyStateWalking
+     * De acuerdo a la posicion del player marca el flag nextStatus para pasar a los
+     * estados MummyStateSearchingStair o MummyStateWalking
      */
     private void changeStatus()
     {
 	PlatformAnalysisResult result = new PlatformAnalysisResult(mummy);
+	if (GameRules.getInstance().isDebugMode())
+	    Game.getInstance().getInterfaz()
+		    .addGraphicElement(new DrawableElement(Constants.DRAWABLE_PLATFORM_ANALYSIS_RESULT, result));
 	Stair playerStair = this.mummy.player.getStair();
 	boolean takedDecision = false;
 	// Si el player esta en una escalera a la que puede acceder la momia desde esta
