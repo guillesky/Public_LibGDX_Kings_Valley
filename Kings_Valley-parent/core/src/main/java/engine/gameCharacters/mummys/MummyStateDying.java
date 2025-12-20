@@ -26,6 +26,7 @@ public class MummyStateDying extends MummyState
 	{
 		super(mummy, GameCharacter.ST_DYING);
 		mummy.resetTimeInState();
+		
 		this.mustTeleport = mustTeleport;
 		this.timeToChange = GameRules.getInstance().getMummyTimeDying();
 		Game.getInstance().eventFired(KVEventListener.MUMMY_DIE, this);

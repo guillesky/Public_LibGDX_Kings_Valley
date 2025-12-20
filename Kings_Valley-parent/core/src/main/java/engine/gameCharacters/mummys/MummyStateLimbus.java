@@ -98,6 +98,7 @@ public class MummyStateLimbus extends MummyState
 				.getMinMummySpawnDistanceToPlayer() || giratory != null);
 		this.mummy.x = coords[0];
 		this.mummy.y = coords[1];
+		this.mummy.updateLastFloorCoordinate();
 		
 
 	}
