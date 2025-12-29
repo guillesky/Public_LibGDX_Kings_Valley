@@ -1,89 +1,115 @@
-INSTRUCTIONS – KINGS VALLEY
+HOW TO PLAY --- KINGS VALLEY
 
-GAME MODES
-You can choose between the classic version, consisting of 15 levels, or the extended version, which includes 60 levels divided into 4 episodes.
-After completing the game for the first time, the difficulty level selection is unlocked.
-In the extended version, after completing an episode of 15 levels, you can start the game from the next episode.
-During the game you can pause the game or open the map by pressing the ESCAPE key.
-If the explorer becomes trapped with no way to continue, you can restart the level at the cost of one life.
 
-GAME OBJECTIVE
-Explore the ruins of the Kings Valley and collect all hidden treasures in each level.
-To achieve this, you must dig tunnels, use your sword against the mummies, and avoid environmental traps.
-Once all treasures have been collected, reach the exit to advance to the next level.
+--- GAME MODES --- 
 
-CONTROLS
-LEFT / RIGHT ARROWS : Move the character
-DIAGONAL ARROWS : Climb up or down ladders
-BUTTON / SPACE BAR : Jump or use pickaxe or sword
+* You can choose between the classic version, consisting of 15 levels, or the extended version, which includes 60 levels divided into 4 episodes.
+* After completing the game for the first time, the difficulty level selection is unlocked.
+* In the extended version, after completing an episode of 15 levels, you can start the game from the next episode.
+* During the game you can pause the game or open the map by pressing the ESCAPE key.
+* If the explorer becomes trapped with no way to continue, you can restart the level at the cost of one life.
 
-THE EXPLORER
+
+--- GAME OBJECTIVE --- 
+
+Explore the ruins of the Kings Valley and collect all hidden treasures in each level. To achieve this, you must dig tunnels, use your sword against the mummies, and avoid environmental traps. Once all treasures have been collected, reach the exit to advance to the next level.
+
+
+--- CONTROLS --- 
+
+- LEFT / RIGHT ARROWS : Move the character
+- DIAGONAL ARROWS : Climb up or down ladders
+- BUTTON / SPACE BAR : Jump or use pickaxe or sword
+
+
+--- THE EXPLORER --- 
+
 The explorer can:
-Walk and jump across platforms
-Climb up and down ladders
-Dig terrain blocks using pickaxes
-Attack mummies with the sword
-The jump has a maximum height of two cells, which means poor planning can leave the explorer trapped with no escape.
+* Walk and jump across platforms
+* Climb up and down ladders
+* Dig terrain blocks using pickaxes
+* Attack mummies with the sword
+* The jump has a maximum height of two cells, which means poor planning can leave the explorer trapped with no escape.
 
-JUMPING AND FALLING
-The explorer can jump up to two cells high
-Taller obstacles cannot be cleared without digging or using ladders
-The explorer can fall from any height without taking damage
-The danger is not the fall itself, but where you land
-This rule allows long drops, but may lead to areas with no exit.
 
-PICKAXES AND DIGGING
-Pickaxes allow digging through diggable blocks
-Each use consumes one pickaxe, so use them carefully
-Digging is performed mainly in a vertical direction, allowing up to two cells to be destroyed downward
-Only when the explorer is completely enclosed, digging is performed sideways, opening a path to one side
-Digging permanently alters the level layout and must be planned carefully.
+--- JUMPING AND FALLING --- 
 
-SWORDS
-Swords allow you to defeat mummies
-They do not wear out with use
-If dropped or lost, they can be picked up again
+* The explorer can jump up to two cells high
+* Taller obstacles cannot be cleared without digging or using ladders
+* The explorer can fall from any height without taking damage
+* The danger is not the fall itself, but where you land
+* This rule allows long drops, but may lead to areas with no exit.
 
-MUMMIES AND ENEMIES
-Mummies patrol the ruins and pursue the explorer
-There are five different types of mummies, each with its own characteristics and difficulty level
-Direct contact with a mummy causes the loss of one life
-Mummies can be defeated using the sword
-After a period of time, defeated mummies reappear at the location where they were eliminated
-If a mummy cannot find the explorer, it may self destruct and respawn at a random position
 
-ROTATING DOORS
-Rotating doors appear in some levels
-They can only be crossed in one direction
-Attempting to cross from the wrong side blocks passage
-Mummies cannot pass through rotating doors in any direction
+--- PICKAXES AND DIGGING --- 
 
-TRAPS AND HAZARDS
-Some levels contain trap walls that descend from the ceiling
-These traps are activated by stepping on specific locations
-If the explorer is caught underneath, one life is lost
-Traps are not visible at first glance
+* Pickaxes allow digging through diggable blocks
+* Each use consumes one pickaxe, so use them carefully
+* Digging is performed mainly in a vertical direction, allowing up to two cells to be destroyed downward
+* Only when the explorer is completely enclosed, digging is performed sideways, opening a path to one side
+* Digging permanently alters the level layout and must be planned carefully.
 
-TREASURES
-Treasures are scattered throughout the level
-Some can only be reached by digging
-All treasures must be collected to activate the exit
 
-EXITS
-Exits are activated only when all treasures have been collected
-Reaching an exit completes the level
-Some exits allow you to return to a previous pyramid or take shortcuts
-These shortcuts are available only in the extended version
+--- SWORDS --- 
 
-LIVES AND GAME OVER
-The player starts with a limited number of lives
-Contact with enemies or traps reduces one life
-When all lives are lost, the game ends
-Earning points can grant extra lives
+* Swords allow you to defeat mummies
+* They do not wear out with use
+* If dropped or lost, they can be picked up again
 
-TIPS
-Always plan how you will escape before digging or jumping
-Do not underestimate the jump limitation
-Use long falls to descend quickly
-Watch for suspicious ceilings and passages
-Carefully plan the use of pickaxes and rotating doors
+
+--- MUMMIES AND ENEMIES --- 
+
+* Mummies patrol the ruins and pursue the explorer
+* There are five different types of mummies, each with its own characteristics and difficulty level
+* Direct contact with a mummy causes the loss of one life
+* Mummies can be defeated using the sword
+* After a period of time, defeated mummies reappear at the location where they were eliminated
+* If a mummy cannot find the explorer, it may self destruct and respawn at a random position
+
+
+--- ROTATING DOORS --- 
+
+* Rotating doors appear in some levels
+* They can only be crossed in one direction
+* Attempting to cross from the wrong side blocks passage
+* Mummies cannot pass through rotating doors in any direction
+
+
+--- TRAPS AND HAZARDS --- 
+
+* Some levels contain trap walls that descend from the ceiling
+* These traps are activated by stepping on specific locations
+* If the explorer is caught underneath, one life is lost
+* Traps are not visible at first glance
+
+
+--- TREASURES --- 
+
+* Treasures are scattered throughout the level
+* Some can only be reached by digging
+* All treasures must be collected to activate the exit
+
+
+--- EXITS --- 
+
+* Exits are activated only when all treasures have been collected
+* Reaching an exit completes the level
+* Some exits allow you to return to a previous pyramid or take shortcuts
+* These shortcuts are available only in the extended version
+
+
+--- LIVES AND GAME OVER --- 
+
+* The player starts with a limited number of lives
+* Contact with enemies or traps reduces one life
+* When all lives are lost, the game ends
+* Earning points can grant extra lives
+
+
+--- TIPS --- 
+
+* Always plan how you will escape before digging or jumping
+* Do not underestimate the jump limitation
+* Use long falls to descend quickly
+* Watch for suspicious ceilings and passages
+* Carefully plan the use of pickaxes and rotating doors

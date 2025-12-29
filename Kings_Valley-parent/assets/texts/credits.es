@@ -1,5 +1,5 @@
 Créditos del Juego
-Remake de King's Valley
+Remake de Kings Valley
 Desarrollado por: Guillermo Lazzurri
 Basado en el juego original de Konami para MSX (1985)
 

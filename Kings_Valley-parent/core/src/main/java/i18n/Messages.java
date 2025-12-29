@@ -47,6 +47,10 @@ public enum Messages
 
     CREDITS("Credits"),
     /**
+     * Mensaje correspondiente a "Instrucciones"
+     */
+    HOW_TO_PLAY("How to Play"),
+    /**
      * Mensaje correspondiente a "Salir"
      */
     EXIT("Exit"),
@@ -179,15 +183,18 @@ public enum Messages
      */
     ENABLED_EPISODE_MESSAGE("Finish an episode to unlock the next"),
     /**
-     * Mensaje correspondiente a "Felicitaciones! Has completado un episodio.Podras comenzar desde aqui la proxima vez."
+     * Mensaje correspondiente a "Felicitaciones! Has completado un episodio.Podras
+     * comenzar desde aqui la proxima vez."
      */
     FINISH_EPISODE("Congratulations! You have completed an episode.\nYou can start from here next time."),
     /**
-     * Mensaje correspondiente a "Has conquistado todos los niveles! El tesoro es tuyo."
+     * Mensaje correspondiente a "Has conquistado todos los niveles! El tesoro es
+     * tuyo."
      */
     ENTER_GOAL_LEVEL("You have conquered all levels!\nThe treasure is yours."),
     /**
-     * Mensaje correspondiente a "Has dominado todos los niveles. Te atreves con una dificultad mayor?"
+     * Mensaje correspondiente a "Has dominado todos los niveles. Te atreves con una
+     * dificultad mayor?"
      */
     FINISH_GAME("You have mastered all levels.\nDare to face a higher difficulty?");
 

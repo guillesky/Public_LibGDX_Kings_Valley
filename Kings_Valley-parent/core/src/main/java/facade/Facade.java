@@ -48,10 +48,10 @@ public class Facade implements ApplicationListener
     private String creditsEs;
 
 
-    private String instructionsEnFile = "texts/instructions.en";
-    private String instructionsEsFile = "texts/instructions.es";
-    private String instructionsEn;
-    private String instructionsEs;
+    private String howToPlayEnFile = "texts/instructions.en";
+    private String howToPlayEsFile = "texts/instructions.es";
+    private String howToPlayEn;
+    private String howToPlayEs;
 
     
     
@@ -290,10 +290,10 @@ public class Facade implements ApplicationListener
 	this.creditsEs = archivo.readString("UTF-8");
 	archivo = Gdx.files.internal(this.creditsEnFile);
 	this.creditsEn = archivo.readString("UTF-8");
-	archivo = Gdx.files.internal(this.instructionsEsFile);
-	this.instructionsEs = archivo.readString("UTF-8");
-	archivo = Gdx.files.internal(this.instructionsEnFile);
-	this.instructionsEn = archivo.readString("UTF-8");
+	archivo = Gdx.files.internal(this.howToPlayEsFile);
+	this.howToPlayEs = archivo.readString("UTF-8");
+	archivo = Gdx.files.internal(this.howToPlayEnFile);
+	this.howToPlayEn = archivo.readString("UTF-8");
 	
     }
 
@@ -320,13 +320,13 @@ public class Facade implements ApplicationListener
      * @return Texto correspondiente a las instrucciones, en ingles o espanol (cualquier
      *         otro posible idioma seleccionado retornara creditos en ingles)
      */
-    public String getInstructions()
+    public String getHowToPlay()
     {
 	String r;
 	if (this.gameConfig.getLanguage().equalsIgnoreCase("es"))
-	    r = this.instructionsEs;
+	    r = this.howToPlayEs;
 	else
-	    r = this.instructionsEn;
+	    r = this.howToPlayEn;
 	return r;
     }
 

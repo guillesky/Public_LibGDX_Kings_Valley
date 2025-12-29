@@ -66,6 +66,7 @@ public class UI2D implements IView, ApplicationListener
     private TextButton buttonNewGame;
     private TextButton buttonExit;
     private TextButton buttonCredits;
+    private TextButton buttonHowToPlay;
     private TextButton buttonOptions;
     private TextButton buttonRetry;
     private TextButton buttonExitInGame;
@@ -73,17 +74,17 @@ public class UI2D implements IView, ApplicationListener
     private TextButton buttonMainMenu;
     private TextButton buttonMap;
     private TextButton buttonBackFromOptions;
-    private TextButton buttonBackFromCredits;
+    private TextButton buttonBackFromLongText;
     private TextButton buttonBackFromMap;
     private Label labelTitleMain;
     private Label labelTitleOption;
-    private Label labelTitleCredits;
+    private Label labelTitleTextScreen;
     private Label labelLanguage;
-    private Label creditsLabel;
+    private Label longTextLabel;
     private Table tableMainInUi;
     private Table tableMainActual;
     private Table tableOption;
-    private Table tableCredits;
+    private Table tableLongText;
     private Table tableInGame;
     private Table tableVersion;
     private AssetManager manager;
@@ -98,7 +99,7 @@ public class UI2D implements IView, ApplicationListener
     private InputListener inputListenerSounds;
     private ChangeListener changeListenerSounds;
     private ScrollPane scrollPane;
-    private boolean inCredits = false;
+    private boolean inTextScreen = false;
     private SelectBox<String> selectBoxLanguage;
     private SelectBox<String> selectBoxGameType;
     private SelectBox<String> selectBoxEpisode;
@@ -201,7 +202,7 @@ public class UI2D implements IView, ApplicationListener
 	this.createInGameTable();
 	this.createTableVersion();
 
-	this.createCreditsTable();
+	this.createLongTextTable();
 	this.createMapTable();
 	this.addSounds();
 
@@ -265,7 +266,7 @@ public class UI2D implements IView, ApplicationListener
 	this.buttonBackFromOptions.addListener(inputListenerSounds);
 	buttonBackFromOptions.getLabel().setTouchable(Touchable.disabled);
 
-	this.buttonBackFromCredits.addListener(inputListenerSounds);
+	this.buttonBackFromLongText.addListener(inputListenerSounds);
 	buttonBackFromOptions.getLabel().setTouchable(Touchable.disabled);
 
 	this.buttonNewGame.addListener(inputListenerSounds);
@@ -276,6 +277,9 @@ public class UI2D implements IView, ApplicationListener
 
 	this.buttonCredits.addListener(inputListenerSounds);
 	buttonCredits.getLabel().setTouchable(Touchable.disabled);
+
+	this.buttonHowToPlay.addListener(inputListenerSounds);
+	buttonHowToPlay.getLabel().setTouchable(Touchable.disabled);
 
 	this.buttonExit.addListener(inputListenerSounds);
 	buttonExit.getLabel().setTouchable(Touchable.disabled);
@@ -327,28 +331,31 @@ public class UI2D implements IView, ApplicationListener
     }
 
     /**
-     * Llamado al volver a la Ventana desde opciones o creditos
+     * Llamado al volver a la Ventana desde opciones o Textos extensos
      */
     protected void doMainMenu()
     {
 	this.stage.getRoot().removeActor(this.tableOption);
-	this.stage.getRoot().removeActor(this.tableCredits);
+	this.stage.getRoot().removeActor(this.tableLongText);
 	this.tableMainActual = this.tableMainInUi;
 	this.stage.addActor(this.tableMainActual);
-	this.inCredits = false;
+	this.inTextScreen = false;
 
     }
 
     /**
-     * Llamado al cambiar a la ventana de creditos
+     * Llamado al cambiar a la ventana de Textos extensos (Instrucciones o Creditos)
+     * @param textTitle Texto del titulo de la pantalla
+     * @param longText Texto de la ventana
      */
-    private void doCredits(String titleLabel,String stringLabel)
+    private void doTextScreen(String textTitle, String longText)
     {
+	this.scrollPane.setScrollY(0);
 	this.stage.getRoot().removeActor(this.tableMainActual);
-	this.stage.addActor(this.tableCredits);
-	this.creditsLabel.setText(stringLabel);
-	this.labelTitleCredits.setText(titleLabel);
-	this.inCredits = true;
+	this.stage.addActor(this.tableLongText);
+	this.longTextLabel.setText(longText);
+	this.labelTitleTextScreen.setText(textTitle);
+	this.inTextScreen = true;
     }
 
     /**
@@ -439,7 +446,7 @@ public class UI2D implements IView, ApplicationListener
 	Gdx.gl.glClearColor(0, 0, 0, 1);
 	Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-	if (this.inCredits)
+	if (this.inTextScreen)
 	{
 	    float velocidadScroll = 30f;
 	    float nuevoScrollY = scrollPane.getScrollY() + velocidadScroll * Gdx.graphics.getDeltaTime();
@@ -467,14 +474,13 @@ public class UI2D implements IView, ApplicationListener
     @Override
     public void pause()
     {
-	
+
     }
 
     @Override
     public void resume()
     {
 
-	
     }
 
     /**
@@ -513,6 +519,7 @@ public class UI2D implements IView, ApplicationListener
     {
 	// table main
 	this.buttonCredits.setText(Messages.CREDITS.getValue());
+	this.buttonHowToPlay.setText(Messages.HOW_TO_PLAY.getValue());
 	this.buttonExit.setText(Messages.EXIT.getValue());
 	this.buttonOptions.setText(Messages.OPTIONS.getValue());
 	this.buttonNewGame.setText(Messages.NEW_GAME.getValue());
@@ -527,11 +534,10 @@ public class UI2D implements IView, ApplicationListener
 	this.slMusicVolume.setText(Messages.MUSIC_VOLUME.getValue());
 	this.slFXVolume.setText(Messages.FX_VOLUME.getValue());
 
-	// Table Credits
-	this.buttonBackFromCredits.setText(Messages.GO_BACK.getValue());
-	this.labelTitleCredits.setText(Messages.CREDITS.getValue());
-	//this.creditsLabel.setText(this.controler.getCredits());
-
+	// Table LongText
+	this.buttonBackFromLongText.setText(Messages.GO_BACK.getValue());
+	
+	
 	// Table InGame
 	this.buttonExitInGame.setText(Messages.EXIT.getValue());
 	this.buttonOptionsInGame.setText(Messages.OPTIONS.getValue());
@@ -685,13 +691,23 @@ public class UI2D implements IView, ApplicationListener
 	    }
 	});
 
+	this.buttonHowToPlay = new TextButton(Messages.HOW_TO_PLAY.getValue(), skin);
+	this.buttonHowToPlay.addListener(new ClickListener()
+	{
+	    @Override
+	    public void clicked(InputEvent event, float x, float y)
+	    {
+		UI2D.this.doTextScreen(Messages.HOW_TO_PLAY.getValue(), Facade.getInstance().getHowToPlay());
+	    }
+	});
+
 	this.buttonCredits = new TextButton(Messages.CREDITS.getValue(), skin);
 	this.buttonCredits.addListener(new ClickListener()
 	{
 	    @Override
 	    public void clicked(InputEvent event, float x, float y)
 	    {
-		UI2D.this.doCredits(Messages.CREDITS.getValue(),Facade.getInstance().getCredits());
+		UI2D.this.doTextScreen(Messages.CREDITS.getValue(), Facade.getInstance().getCredits());
 	    }
 	});
 
@@ -732,6 +748,7 @@ public class UI2D implements IView, ApplicationListener
 	this.addExpandableRow(tableMainInUi, t);
 
 	this.addExpandableRow(tableMainInUi, this.buttonOptions);
+	this.addExpandableRow(tableMainInUi, this.buttonHowToPlay);
 	this.addExpandableRow(tableMainInUi, this.buttonCredits);
 	this.addExpandableRow(tableMainInUi, this.slDificultLevel);
 	this.addExpandableRow(tableMainInUi, this.buttonExit);
@@ -744,38 +761,37 @@ public class UI2D implements IView, ApplicationListener
     }
 
     /**
-     * Llamado por create. Crea la tabla de creditos
+     * Llamado por create. Crea la tabla de textos extensos (creditos e instrucciones)
      */
-    private void createCreditsTable()
+    private void createLongTextTable()
     {
-	this.tableCredits = new Table();
-	this.tableCredits.setFillParent(true);
-	this.tableCredits.top();
+	this.tableLongText = new Table();
+	this.tableLongText.setFillParent(true);
+	this.tableLongText.top();
 
-	this.labelTitleCredits = new Label(Messages.CREDITS.getValue(), skin, "myLabelStyleLarge");
-	this.labelTitleCredits.setAlignment(Align.center);
+	this.labelTitleTextScreen = new Label(Messages.CREDITS.getValue(), skin, "myLabelStyleLarge");
+	this.labelTitleTextScreen.setAlignment(Align.center);
 
 	float anchoTexto = stage.getWidth() * 0.8f;
 	float altoTexto = stage.getHeight() * 0.6f;
-	String textoCreditos = this.controler.getCredits();
 
-	this.creditsLabel = new Label(textoCreditos, skin);
-	creditsLabel.setWrap(true);
+	this.longTextLabel = new Label(Facade.getInstance().getCredits(), skin);
+	longTextLabel.setWrap(true);
 
-	creditsLabel.setAlignment(Align.topLeft);
+	longTextLabel.setAlignment(Align.topLeft);
 
 	Table contenedorTexto = new Table();
 
 	contenedorTexto.top(); // para que el texto quede arriba
-	contenedorTexto.add(creditsLabel).width(anchoTexto - 40).pad(10).left().expandX();
+	contenedorTexto.add(longTextLabel).width(anchoTexto - 40).pad(10).left().expandX();
 
 	this.scrollPane = new ScrollPane(contenedorTexto, skin);
 	scrollPane.setFadeScrollBars(false); // opcional: mantiene visibles las barras
 	scrollPane.setScrollingDisabled(true, false); // solo scroll vertical
 
-	this.buttonBackFromCredits = new TextButton(Messages.GO_BACK.getValue(), skin);
+	this.buttonBackFromLongText = new TextButton(Messages.GO_BACK.getValue(), skin);
 
-	this.buttonBackFromCredits.addListener(new ClickListener()
+	this.buttonBackFromLongText.addListener(new ClickListener()
 	{
 	    @Override
 	    public void clicked(InputEvent event, float x, float y)
@@ -784,14 +800,14 @@ public class UI2D implements IView, ApplicationListener
 	    }
 	});
 	contenedorTexto.background(backgroundBlackTransparent);
-	tableCredits.add(labelTitleCredits).colspan(3).expandX().fillX().row();
+	tableLongText.add(labelTitleTextScreen).colspan(3).expandX().fillX().row();
 
-	tableCredits.row();
+	tableLongText.row();
 
-	tableCredits.add(scrollPane).width(anchoTexto).height(altoTexto).pad(20).expand().center();
-	tableCredits.row();
-	tableCredits.add(this.buttonBackFromCredits).expandY().pad(10).left();
-	tableCredits.row();
+	tableLongText.add(scrollPane).width(anchoTexto).height(altoTexto).pad(20).expand().center();
+	tableLongText.row();
+	tableLongText.add(this.buttonBackFromLongText).expandY().pad(10).left();
+	tableLongText.row();
 
     }
 

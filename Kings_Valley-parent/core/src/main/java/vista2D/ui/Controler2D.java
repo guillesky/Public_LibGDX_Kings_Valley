@@ -314,15 +314,7 @@ public class Controler2D extends AbstractControler implements KVEventListener
 	Facade.getInstance().retry();
     }
 
-    /**
-     * Retorna los creditos del juego en el idioma correspondiente
-     * 
-     * @return Los creditos del juego en el idioma correspondiente
-     */
-    protected String getCredits()
-    {
-	return Facade.getInstance().getCredits();
-    }
+   
 
     /**
      * Retorna el volumen general
