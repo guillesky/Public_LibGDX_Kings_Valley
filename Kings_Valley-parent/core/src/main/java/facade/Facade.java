@@ -42,11 +42,19 @@ public class Facade implements ApplicationListener
     private boolean changeConfig = false;
     private final AssetManager assetManager;
     private AllLanguages allLanguages = new AllLanguages();
-    private String creditsEnFile = "credits/credits.en";
-    private String creditsEsFile = "credits/credits.es";
+    private String creditsEnFile = "texts/credits.en";
+    private String creditsEsFile = "texts/credits.es";
     private String creditsEn;
     private String creditsEs;
 
+
+    private String instructionsEnFile = "texts/instructions.en";
+    private String instructionsEsFile = "texts/instructions.es";
+    private String instructionsEn;
+    private String instructionsEs;
+
+    
+    
     private IMyApplicationListener gameAppListener;
     private Music musicActual;
     private Music musicUI;
@@ -274,7 +282,7 @@ public class Facade implements ApplicationListener
     }
 
     /**
-     * Lee el archivo de creditos correspondiente el idioma seleccionado.
+     * Lee los archivos de creditos e instrucciones en ingles y espanol.
      */
     private void readCredits()
     {
@@ -282,6 +290,11 @@ public class Facade implements ApplicationListener
 	this.creditsEs = archivo.readString("UTF-8");
 	archivo = Gdx.files.internal(this.creditsEnFile);
 	this.creditsEn = archivo.readString("UTF-8");
+	archivo = Gdx.files.internal(this.instructionsEsFile);
+	this.instructionsEs = archivo.readString("UTF-8");
+	archivo = Gdx.files.internal(this.instructionsEnFile);
+	this.instructionsEn = archivo.readString("UTF-8");
+	
     }
 
     /**
@@ -299,6 +312,26 @@ public class Facade implements ApplicationListener
 	    r = this.creditsEn;
 	return r;
     }
+    
+    
+    /**
+     * Retorna el texto de las instrucciones.
+     * 
+     * @return Texto correspondiente a las instrucciones, en ingles o espanol (cualquier
+     *         otro posible idioma seleccionado retornara creditos en ingles)
+     */
+    public String getInstructions()
+    {
+	String r;
+	if (this.gameConfig.getLanguage().equalsIgnoreCase("es"))
+	    r = this.instructionsEs;
+	else
+	    r = this.instructionsEn;
+	return r;
+    }
+
+    
+    
 
     /**
      * Inicializa los atributos una vez que esta listo el motor LibGDX

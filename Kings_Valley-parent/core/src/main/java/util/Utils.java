@@ -107,64 +107,6 @@ public class Utils
 		}
 	}
 
-	/**
-	 * <b>PRE: </b> Los archivos de configuracion ya han sido leidos<br>
-	 * Verifica que los niveles sean consistentes (De momento solamente verifica que
-	 * tileWidth y tileHeight, coincidan con lo indicado en el archivo
-	 * games_rules_config.json). Caso contario lanza una excepcion
-	 * 
-	 * @throws Exception Lanzada si se detecta inconsistencia en los niveles.
-	 *                   Contiene el mensaje de error correspondiente.
-	 */
-	public static void checkLevelIntegrity() throws Exception
-	{
 
-		TmxMapLoader mapLoader = new TmxMapLoader();
-		int i = 1;
-		while (Constants.classicLevelFileName.get(i) != null)
-		{
-			TiledMap map = mapLoader.load(Constants.classicLevelFileName.get(i));
-		
-			MapProperties properties = map.getProperties();
-			int tileWidth = properties.get("tilewidth", Integer.class);
-			int tileHeight = properties.get("tileheight", Integer.class);
-			if (tileWidth != GameRules.getInstance().getLevelTileWidthUnits()
-					|| tileHeight != GameRules.getInstance().getLevelTileHeightUnits())
-			{
-				String errorMsg = ("Invalid tileWidth or tileHeight size. Size of tile may be "
-						+ GameRules.getInstance().getLevelTileWidthUnits() + " * "
-						+ GameRules.getInstance().getLevelTileHeightUnits());
-				throw new Exception(errorMsg);
-
-			}
-			i++;
-		}
-/*
-		i = 1;
-		while (Constants.extendedLevelFileName.get(i) != null)
-		{
-			String fn = Constants.extendedLevelFileName.get(i);
-			System.out.println(fn);
-
-			TiledMap map = mapLoader.load(fn);
-			System.out.println("Cargado: " + fn);
-			MapProperties properties = map.getProperties();
-			int tileWidth = properties.get("tilewidth", Integer.class);
-			int tileHeight = properties.get("tileheight", Integer.class);
-
-			if (tileWidth != GameRules.getInstance().getLevelTileWidthUnits()
-					|| tileHeight != GameRules.getInstance().getLevelTileHeightUnits())
-			{
-				String errorMsg = ("Invalid tileWidth or tileHeight size. Size of tile may be "
-						+ GameRules.getInstance().getLevelTileWidthUnits() + " * "
-						+ GameRules.getInstance().getLevelTileHeightUnits());
-				throw new Exception(errorMsg);
-
-			}
-			System.out.println("llegue a i++");
-			i++;
-		}
-*/
-	}
 
 }

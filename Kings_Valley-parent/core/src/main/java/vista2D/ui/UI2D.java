@@ -342,10 +342,12 @@ public class UI2D implements IView, ApplicationListener
     /**
      * Llamado al cambiar a la ventana de creditos
      */
-    private void doCredits()
+    private void doCredits(String titleLabel,String stringLabel)
     {
 	this.stage.getRoot().removeActor(this.tableMainActual);
 	this.stage.addActor(this.tableCredits);
+	this.creditsLabel.setText(stringLabel);
+	this.labelTitleCredits.setText(titleLabel);
 	this.inCredits = true;
     }
 
@@ -528,7 +530,7 @@ public class UI2D implements IView, ApplicationListener
 	// Table Credits
 	this.buttonBackFromCredits.setText(Messages.GO_BACK.getValue());
 	this.labelTitleCredits.setText(Messages.CREDITS.getValue());
-	this.creditsLabel.setText(this.controler.getCredits());
+	//this.creditsLabel.setText(this.controler.getCredits());
 
 	// Table InGame
 	this.buttonExitInGame.setText(Messages.EXIT.getValue());
@@ -689,7 +691,7 @@ public class UI2D implements IView, ApplicationListener
 	    @Override
 	    public void clicked(InputEvent event, float x, float y)
 	    {
-		UI2D.this.doCredits();
+		UI2D.this.doCredits(Messages.CREDITS.getValue(),Facade.getInstance().getCredits());
 	    }
 	});
 
