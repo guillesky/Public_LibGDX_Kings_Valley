@@ -357,6 +357,9 @@ public abstract class Mummy extends GameCharacter
 	return whereIsPlayer;
     }
 
+    /**
+     * Actualiza la ultima coordenada del piso en la que estuvo la momia.
+     */
     protected void updateLastFloorCoordinate()
     {
 	this.lastFloorCoordinate = this.y;

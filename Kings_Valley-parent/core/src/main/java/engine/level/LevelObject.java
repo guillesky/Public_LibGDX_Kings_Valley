@@ -178,16 +178,16 @@ public class LevelObject extends Rectangle
 		return id;
 	}
 
+	
 	/**
 	 * Devuelve el objeto de tipo de LevelObjet con el cual el LevelObjet colisiona
 	 * desde una lista pasada por parametro. Si no colisiona con ninguno, retorna
 	 * null
 	 * 
-	 * @param levelObjects ArrayList con los objetos a verificar
+	 * @param collectionOfRectangles Coleccion de rectangulos a verificar
 	 * @return El objeto de la lista con el cual el caracter colisiona, null si no
 	 *         hay colision.
 	 */
-
 	public LevelObject checkRectangleColision(Collection collectionOfRectangles)
 	{
 		LevelObject respuesta = (LevelObject) checkRectangleColision(this, collectionOfRectangles);

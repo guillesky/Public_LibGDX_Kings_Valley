@@ -44,10 +44,11 @@ public class PlatformAnalysisResultRender
 
     private ArrayList<EndPlatform> endPlatforms = new ArrayList<EndPlatform>();
 
+    
     /**
      * Constructor de clase
-     * 
      * @param platformAnalysisResult Resultado del analisis que debe renderizarse
+     * @param shapeRenderer Objeto de tipo ShapeRenderer encargado de realizar el renderizado
      */
     public PlatformAnalysisResultRender(PlatformAnalysisResult platformAnalysisResult,ShapeRenderer shapeRenderer)
     {
@@ -62,8 +63,6 @@ public class PlatformAnalysisResultRender
 
     /**
      * Llamado al momento de renderizar
-     * 
-     * @param combined Matriz de proyeccion, Usualmente camera.combined
      */
     public void render()
     {
