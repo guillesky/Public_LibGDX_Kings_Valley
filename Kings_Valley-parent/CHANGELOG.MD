@@ -33,3 +33,15 @@
 * Se agregaron parametros en los archivos de configuracion para faciitar el debug del juego.
 * Se corrigio un bug en la pantalla de inicio.
 * Se agregaron las instrucciones del juego.
+
+
+
+"v 1.1.1 r 2026-01-05"
+
+* Se corrigio la cantidad inicial de vidas (5)
+* Se corrigio un bug que no disparaba un sonido cuando la espada golpeaba una giratoria.
+
+
+
+
+

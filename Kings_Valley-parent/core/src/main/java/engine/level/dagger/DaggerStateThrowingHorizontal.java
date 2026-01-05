@@ -86,6 +86,7 @@ public class DaggerStateThrowingHorizontal extends DaggerState
 		if (dagger.isColision(giratory))
 		{
 			dagger.setDaggerState(new DaggerStateBouncing(dagger));
+			Game.getInstance().eventFired(KVEventListener.SWORD_CLASH, dagger);
 		}
 	}
 

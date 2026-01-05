@@ -218,7 +218,7 @@ public class Constants
 	/**
 	 * Indica el numero actual de version de juego y fecha de release
 	 */
-	public static final String VERSION = "v 1.1.0 r 2026-01-02";
+	public static final String VERSION = "v 1.1.1 r 2026-01-05";
 	private static final int LAST_EXTENDED_LEVEL = 60;
 	private static final int LAST_CLASSIC_LEVEL = 15;
 
