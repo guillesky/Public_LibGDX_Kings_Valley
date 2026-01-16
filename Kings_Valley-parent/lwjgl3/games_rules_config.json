@@ -1,7 +1,7 @@
 {
-godMode: false
-debugMode: false
-firstLevelInDebugMode: 1
+godMode: true
+debugMode: true
+firstLevelInDebugMode: 15
 initialNumberOfLives: 5
 minMummySpawnDistanceToPlayer: 64
 mummyTimeInLimbus: 5
