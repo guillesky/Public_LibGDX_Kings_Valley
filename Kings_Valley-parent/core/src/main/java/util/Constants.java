@@ -218,7 +218,7 @@ public class Constants
     /**
      * Indica el numero actual de version de juego y fecha de release
      */
-    public static final String VERSION = "v 1.1.1 r 2026-01-05";
+    public static final String VERSION = "v 1.1.2 r 2026-01-21";
     private static final int LAST_EXTENDED_LEVEL = 60;
     private static final int LAST_CLASSIC_LEVEL = 15;
 
@@ -259,6 +259,12 @@ public class Constants
 
     }
 
+    /**
+     * Inicializa las constantes de los nombres de los archivos correspondientes a los niveles
+     * @param levelFileName El HashMap a inicializar (puede ser el correspondiente a los niveles extendidos o a los clasicos)
+     * @param prefix El String que indica el prefijo comun a todos los nombres de niveles del hashmap
+     * @param lastLevel ultimo nivel del hashmap
+     */
     private static void inicializeLevelsFile(HashMap<Integer, String> levelFileName, String prefix, int lastLevel)
     {
 	for (int i = 1; i <= lastLevel; i++)

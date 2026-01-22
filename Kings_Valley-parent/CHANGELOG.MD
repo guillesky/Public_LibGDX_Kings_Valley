@@ -43,5 +43,9 @@
 
 
 
+"v 1.1.2 r 2026-01-21"
+
+* Se corrigio un bug crasheaba el juego al llegar al nivel de bonus por no tener momias (null pointer exception)
+
 
 
