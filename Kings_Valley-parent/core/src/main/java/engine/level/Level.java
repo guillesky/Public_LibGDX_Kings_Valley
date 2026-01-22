@@ -255,6 +255,7 @@ public class Level
 
     /**
      * Retorna la puerta por la cual el Player ingreso al nivel.
+     * 
      * @return La puerta por la cual el Player ingreso al nivel.
      */
     public Door getDoorIn()
@@ -264,21 +265,25 @@ public class Level
 
     /**
      * Retorna true si una momia mato al Player, false en caso contrario.
+     * 
      * @return true si una momia mato al Player, false en caso contrario.
      */
     public boolean checkPlayerDieByMummy()
     {
+	boolean r = false;
+	if (!this.mummys.isEmpty())
+	{
+	    Iterator<Mummy> it = this.mummys.iterator();
 
-	Iterator<Mummy> it = this.mummys.iterator();
-
-	Mummy mummy = null;
-	if (it.hasNext())
-	    do
-	    {
-		mummy = it.next();
-	    } while (it.hasNext() && !(this.playerCoincideMummy(mummy) && this.player.isColision(mummy)));
-
-	return (this.playerCoincideMummy(mummy) && this.player.isColision(mummy));
+	    Mummy mummy = null;
+	    if (it.hasNext())
+		do
+		{
+		    mummy = it.next();
+		} while (it.hasNext() && !(this.playerCoincideMummy(mummy) && this.player.isColision(mummy)));
+	    r = (this.playerCoincideMummy(mummy) && this.player.isColision(mummy));
+	}
+	return r;
     }
 
     /**
