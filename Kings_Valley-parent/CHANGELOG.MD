@@ -47,5 +47,8 @@
 
 * Se corrigio un bug crasheaba el juego al llegar al nivel de bonus por no tener momias (null pointer exception)
 
+"v 1.1.3 r 2026-02-19"
+
+* Se corrigio el codigo de colision de las momias para intentar corregir un bug por el cual a veces la espada atravesaba a las momias sin matarlas.
 
 

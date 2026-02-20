@@ -36,7 +36,7 @@ public class MummyStateOnAir extends MummyState
      * Retorna true
      */
     @Override
-    protected boolean isDanger()
+    protected boolean isActive()
     {
 	return true;
     }

@@ -53,7 +53,7 @@ public class MummyStateDying extends MummyState
 	 * Retorna false
 	 */
 	@Override
-	protected boolean isDanger()
+	protected boolean isActive()
 	{
 		return false;
 	}

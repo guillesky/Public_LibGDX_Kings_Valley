@@ -257,15 +257,15 @@ public abstract class Mummy extends GameCharacter
     }
 
     /**
-     * Delega en el metodo this.mummyState.isDanger(); (patron state)
+     * Delega en el metodo this.mummyState.isActive(); (patron state)
      * 
-     * @return true si la momia es peligrosa, false en caso contrario (esta en el
+     * @return true si la momia esta activa (es peligrosa o vulnerable), false en caso contrario (esta en el
      *         limbo, apareciendo o muriendo)
      * 
      */
-    public boolean isDanger()
+    public boolean isActive()
     {
-	return this.mummyState.isDanger();
+	return this.mummyState.isActive();
     }
 
     /**

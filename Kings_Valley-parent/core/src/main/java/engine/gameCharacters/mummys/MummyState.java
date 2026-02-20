@@ -64,11 +64,11 @@ public abstract class MummyState
 	public abstract void update(float deltaTime);
 
 	/**
-	 * Retorna true si la momia es peligrosa, false en caso contrario
+	 * Retorna true si la momia esta esta activa (es peligrosa o vulnerable a las espadas), false en caso contrario
 	 * 
-	 * @return true si la momia es peligrosa, false en caso contrario
+	 * @return true si la momia esta activa, false en caso contrario
 	 */
-	protected abstract boolean isDanger();
+	protected abstract boolean isActive();
 
 	/**
 	 * Evento que podria pasar a modo muerto.

@@ -299,7 +299,7 @@ public class Level
 	boolean bothInStair = (this.player.isInStair() && mummy.isInStair());
 	boolean bothNotInStair = (!this.player.isInStair() && !mummy.isInStair());
 
-	return (mummy.isDanger() && (bothInStair || bothNotInStair));
+	return (mummy.isActive() && (bothInStair || bothNotInStair));
 
     }
 
