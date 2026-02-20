@@ -27,7 +27,6 @@ public class DaggerStateBouncing extends DaggerState
 	public DaggerStateBouncing(Dagger dagger)
 	{
 		super(dagger);
-
 		this.y = dagger.y;
 		
 	}

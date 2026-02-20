@@ -79,7 +79,7 @@ public class LevelObject extends Rectangle
 	public String toString()
 	{
 		return "LevelObject [id= " + this.id + " type=" + Constants.identificacion.get(type) + ", x=" + x + ", y=" + y
-				+ ", p0=" + p0 + "]";
+				+ ", p0=" + p0 + " width="+width+" height="+height+"]";
 	}
 
 	/**

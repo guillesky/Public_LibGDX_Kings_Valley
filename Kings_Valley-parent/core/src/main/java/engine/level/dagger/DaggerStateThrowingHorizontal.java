@@ -28,7 +28,7 @@ public class DaggerStateThrowingHorizontal extends DaggerState
     public DaggerStateThrowingHorizontal(Dagger dagger)
     {
 	super(dagger);
-
+	
     }
 
     /**

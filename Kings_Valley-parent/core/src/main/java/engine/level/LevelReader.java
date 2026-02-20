@@ -365,7 +365,7 @@ public class LevelReader
 
 	    }
 
-	    LevelObject levelObject;
+	    LevelObject levelObject = null;
 	    switch (type)
 	    {
 	    case Constants.IT_MUMMY:
@@ -398,8 +398,8 @@ public class LevelReader
 		GiratoryMechanism giratoryMechanism = new GiratoryMechanism(levelObject,
 			GameRules.getInstance().getTimeToEndGiratory());
 		this.hashGiratoryMechanisms.put(levelObject, giratoryMechanism);
-		
-		//Agrego las celdas del piso de la giratoria como NO picable
+
+		// Agrego las celdas del piso de la giratoria como NO picable
 		this.unpickableCells.add(this.getCell(map, levelObject.getX(),
 			levelObject.getY() - GameRules.getInstance().getLevelTileHeightUnits()));
 		this.unpickableCells.add(this.getCell(map, levelObject.getX() + levelObject.width,
@@ -420,7 +420,7 @@ public class LevelReader
 		break;
 
 	    }
-
+	   
 	}
 	this.createTraps();
     }
@@ -494,6 +494,7 @@ public class LevelReader
 	    Mummy mummy = this.mummyFactory.getMummy(mummyData.getX(), mummyData.getY(), mummyType, this.pyramid,
 		    player);
 	    this.mummys.add(mummy);
+	   
 	}
     }
 
