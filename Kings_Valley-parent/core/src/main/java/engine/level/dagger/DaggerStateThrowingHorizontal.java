@@ -62,7 +62,7 @@ public class DaggerStateThrowingHorizontal extends DaggerState
 	    if (itMummy.hasNext())
 		mummy = itMummy.next();
 
-	} while (itMummy.hasNext() && !dagger.isColision(mummy));
+	} while (itMummy.hasNext() && !(mummy.isActive() && dagger.isColision(mummy)));
 	if (mummy.isActive() && dagger.isColision(mummy))
 	{
 	    dagger.setDaggerState(new DaggerStateBouncing(dagger));
