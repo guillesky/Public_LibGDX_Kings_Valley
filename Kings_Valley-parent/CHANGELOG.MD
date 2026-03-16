@@ -47,8 +47,11 @@
 
 * Se corrigio un bug crasheaba el juego al llegar al nivel de bonus por no tener momias (null pointer exception)
 
-"v 1.1.3 r 2026-02-19"
+"v 1.1.3 r 2026-02-22"
 
 * Se corrigio el codigo de colision de las momias para intentar corregir un bug por el cual a veces la espada atravesaba a las momias sin matarlas.
 
+"v 1.1.4 r 2026-03-16"
+
+* Se ajusto el nivel de dificultad de los niveles 59 y 60 (version extendida) acorde al original. El comportamiento de las momias hacia practicamente imposible resolver estas pantallas.
 
