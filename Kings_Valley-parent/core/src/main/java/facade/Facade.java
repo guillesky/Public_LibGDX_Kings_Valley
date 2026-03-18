@@ -365,7 +365,7 @@ public class Facade implements ApplicationListener
 	this.musicUI = assetManager.get(uiConfig.getMusicUIName(), Music.class);
 	this.musicIntro = assetManager.get(uiConfig.getMusicIntroName(), Music.class);
 	this.audioManager.create();
-	gameAppListener = new TileMapGrafica2D(assetManager, .5f);
+	gameAppListener = new TileMapGrafica2D(assetManager, 0.5f);
 	Game.getInstance().setInterfaz(gameAppListener);
 	Game.getInstance().addKVEventListener(audioManager);
 
