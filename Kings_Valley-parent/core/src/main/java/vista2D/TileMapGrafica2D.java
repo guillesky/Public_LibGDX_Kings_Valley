@@ -397,7 +397,7 @@ public class TileMapGrafica2D implements IMyApplicationListener
 		if (height != 0)
 		{
 			cameraFront.setToOrtho(false, ancho, alto);
-			this.calculateCameraFull(this.cameraFront, 0);
+			this.calculateInitialCamera(this.cameraFront, 0);
 		}
 		this.prepareUI();
 
@@ -405,7 +405,7 @@ public class TileMapGrafica2D implements IMyApplicationListener
 		{
 
 			cameraBack.setToOrtho(false, ancho, alto);
-			this.calculateCameraFull(this.cameraBack, this.factor);
+			this.calculateInitialCamera(this.cameraBack, this.factor);
 		}
 		this.calculateTextureRegionSky(pyramid.getMapWidthInTiles());
 
@@ -761,7 +761,7 @@ public class TileMapGrafica2D implements IMyApplicationListener
 
 
 		if (playerY >= (camera.viewportHeight / 2)
-				&& playerY + (camera.viewportHeight / 2) <= pyramid.getMapHeightInUnits())
+				&& playerY + (camera.viewportHeight / 2) <= pyramid.getMapHeightInUnits()+GameRules.getInstance().getLevelTileHeightUnits()*2)
 			camera.position.y = aux_Y;
 
 		
@@ -776,19 +776,16 @@ public class TileMapGrafica2D implements IMyApplicationListener
 	 * 
 	 */
 
-	private void calculateCameraFull(OrthographicCamera camera, float factor)
+	private void calculateInitialCamera(OrthographicCamera camera, float factor)
 	{
 		Pyramid pyramid = Game.getInstance().getCurrentLevel().getPyramid();
-		float posCameraX = cameraCoordFull(Game.getInstance().getCurrentLevel().getPlayer().getX(),pyramid.getMapWidthInUnits(),camera.viewportWidth,factor);
-		float posCameraY = cameraCoordFull(Game.getInstance().getCurrentLevel().getPlayer().getY(),pyramid.getMapHeightInUnits(),camera.viewportHeight,factor);
-				
-		
+		float posCameraX = cameraInitialCoord(Game.getInstance().getCurrentLevel().getPlayer().getX(),pyramid.getMapWidthInUnits(),camera.viewportWidth,factor);
+		float posCameraY = cameraInitialCoord(Game.getInstance().getCurrentLevel().getPlayer().getY(),pyramid.getMapHeightInUnits()+GameRules.getInstance().getLevelTileHeightUnits()*2,camera.viewportHeight,factor);
 		camera.position.x = posCameraX;
-		//camera.position.y = pyramid.getMapHeightInUnits() * this.cameraOffsetY;
 		camera.position.y =posCameraY;
 	}
 
-	private float cameraCoordFull(float playerCoord, float mapSizeInUnits, float viewPortSize, float factor)
+	private float cameraInitialCoord(float playerCoord, float mapSizeInUnits, float viewPortSize, float factor)
 	{
 		float posCamera = 0;
 
