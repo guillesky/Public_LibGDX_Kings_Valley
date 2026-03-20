@@ -41,6 +41,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import controler.AbstractControler;
 import controler.IView;
+import engine.game.Game;
 import facade.Facade;
 import i18n.Messages;
 import util.Constants;
@@ -345,8 +346,9 @@ public class UI2D implements IView, ApplicationListener
 
     /**
      * Llamado al cambiar a la ventana de Textos extensos (Instrucciones o Creditos)
+     * 
      * @param textTitle Texto del titulo de la pantalla
-     * @param longText Texto de la ventana
+     * @param longText  Texto de la ventana
      */
     private void doTextScreen(String textTitle, String longText)
     {
@@ -536,8 +538,7 @@ public class UI2D implements IView, ApplicationListener
 
 	// Table LongText
 	this.buttonBackFromLongText.setText(Messages.GO_BACK.getValue());
-	
-	
+
 	// Table InGame
 	this.buttonExitInGame.setText(Messages.EXIT.getValue());
 	this.buttonOptionsInGame.setText(Messages.OPTIONS.getValue());
@@ -570,6 +571,7 @@ public class UI2D implements IView, ApplicationListener
 	this.arrayGameTypeMessage.clear();
 	this.arrayGameTypeMessage.add(Messages.CLASSIC_VERSION.getValue());
 	this.arrayGameTypeMessage.add(Messages.EXTENDED_VERSION.getValue());
+	this.arrayGameTypeMessage.add(Messages.GREAT_TEMPLE_VERSION.getValue());
 
 	if (this.selectBoxEpisode != null && this.selectBoxGameType != null)
 	{
@@ -761,7 +763,8 @@ public class UI2D implements IView, ApplicationListener
     }
 
     /**
-     * Llamado por create. Crea la tabla de textos extensos (creditos e instrucciones)
+     * Llamado por create. Crea la tabla de textos extensos (creditos e
+     * instrucciones)
      */
     private void createLongTextTable()
     {
@@ -1083,9 +1086,17 @@ public class UI2D implements IView, ApplicationListener
     }
 
     @Override
-    public boolean isExtendedVersion()
+    public int getGameType()
     {
-	return this.selectBoxGameType.getSelected().equalsIgnoreCase(Messages.EXTENDED_VERSION.getValue());
+	int r = 0;
+	if (this.selectBoxGameType.getSelected().equalsIgnoreCase(Messages.CLASSIC_VERSION.getValue()))
+	    r = Game.GAME_TYPE_CLASSIC;
+	else if (this.selectBoxGameType.getSelected().equalsIgnoreCase(Messages.EXTENDED_VERSION.getValue()))
+	    r = Game.GAME_TYPE_EXTENDED;
+	else if (this.selectBoxGameType.getSelected().equalsIgnoreCase(Messages.GREAT_TEMPLE_VERSION.getValue()))
+	    r = Game.GAME_TYPE_GREAT_TEMPLE;
+
+	return r;
     }
 
     @Override

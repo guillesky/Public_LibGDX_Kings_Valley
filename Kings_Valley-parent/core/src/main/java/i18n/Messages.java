@@ -173,9 +173,14 @@ public enum Messages
 
     EXTENDED_VERSION("Extended Version"),
     /**
+     * Mensaje correspondiente a "Gran Templo"
+     */
+    
+    GREAT_TEMPLE_VERSION("Great Teample"),
+    /**
      * Mensaje correspondiente a "Episodio"
      */
-
+    
     EPISODE("Episode "),
     /**
      * Mensaje correspondiente a "Completa un episodio para desbloquear el

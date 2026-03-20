@@ -53,11 +53,8 @@ public interface IView
      */
     void updateLanguage();
     
-    /**
-     * Indica si el nuevo juego sera version extendida o version clasica
-     * @return true si es version extendida, false si es version clasica
-     */
-    boolean isExtendedVersion();
+   
+    int getGameType();
     
     /**
      * En caso de jugar a la version extendida, indica el numero de episodio desde el que se inicia. Sera un numero del 1 al 4

@@ -52,6 +52,10 @@ public class Game implements KVEventListener
      * codigo del estado terminando el juego
      */
     public static final int ST_ENDING = 99;
+    public static final int GAME_TYPE_CLASSIC = 0;
+    public static final int GAME_TYPE_EXTENDED = 1;
+    public static final int GAME_TYPE_GREAT_TEMPLE = 2;
+
     private static Game instance = null;
     private Controls controles = new Controls();
     /**
@@ -80,10 +84,10 @@ public class Game implements KVEventListener
     private int score = 0;
     private int lives;
     private GameConfig gameConfig;
-    
+
     private int nextExtraLife = GameRules.getInstance().getScoreForFirstExtraLife();
     private boolean isExtendedVersion;
-    
+
     private String textToEnterLevel;
 
     /**
@@ -207,7 +211,7 @@ public class Game implements KVEventListener
      */
     protected void initNewGame()
     {
-	// this.idCurrentLevel = GameRules.getInstance().getFirstLevel();
+
 	this.score = 0;
 	this.resetCompletedLevels();
 	this.lives = GameRules.getInstance().getInitialNumberOfLives();
@@ -519,18 +523,24 @@ public class Game implements KVEventListener
      * @param dificultLevel     nivel de dificultad. Valor entre -4 y 4, siendo 0 el
      *                          valor normal. Si el valor es mayor 4 se tomara el
      *                          valor 4. Si es menor a -4 se tomara el valor -4
-     * @param isExtendedVersion true si se inicia una partida en version extendida,
-     *                          false en caso contrario
      */
-    public void startNewGame(boolean isExtendedVersion, int dificultLevel, int episode)
+    public void startNewGame(int gameType, int dificultLevel, int episode)
     {
 	this.dificultLevel = dificultLevel;
-	this.isExtendedVersion = isExtendedVersion;
+	this.isExtendedVersion = (gameType == Game.GAME_TYPE_EXTENDED);
 
-	if (this.isExtendedVersion)
-	    this.levelFileName = Constants.extendedLevelFileName;
-	else
+	switch (gameType)
+	{
+	case Game.GAME_TYPE_CLASSIC:
 	    this.levelFileName = Constants.classicLevelFileName;
+	    break;
+	case Game.GAME_TYPE_EXTENDED:
+	    this.levelFileName = Constants.extendedLevelFileName;
+	    break;
+	case Game.GAME_TYPE_GREAT_TEMPLE:
+	    this.levelFileName = Constants.greatTempleLevelFileName;
+	    break;
+	}
 	this.stateGame.startNewGame(isExtendedVersion, episode);
 
     }
@@ -544,8 +554,6 @@ public class Game implements KVEventListener
 	this.stateGame.endGame();
 
     }
-
-   
 
     /**
      * Verifica si debe incrementar una vida
@@ -592,6 +600,7 @@ public class Game implements KVEventListener
 
     /**
      * Setea el primer nivel del juego
+     * 
      * @param idCurrentLevel numero que indica el primer nivel del juego
      */
     protected void setFirstLevel(int idCurrentLevel)
@@ -602,21 +611,22 @@ public class Game implements KVEventListener
 
     /**
      * Setea el texto que se mostrara al iniciar el nivel
+     * 
      * @param textToEnterLevel Texto que se mostrara al iniciar el nivel
      */
     protected void setTextToEnterLevel(String textToEnterLevel)
     {
-	this.textToEnterLevel=textToEnterLevel;
+	this.textToEnterLevel = textToEnterLevel;
     }
 
     /**
      * Retorna el texto que se mostrara al iniciar el nivel
+     * 
      * @return Texto que se mostrara al iniciar el nivel
      */
     public String getTextToEnterLevel()
     {
-        return textToEnterLevel;
+	return textToEnterLevel;
     }
-    
 
 }

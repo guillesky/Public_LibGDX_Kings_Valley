@@ -63,8 +63,8 @@ public class Facade implements ApplicationListener
     private RenderState renderState;
     private boolean showMap;
     private int dificultLevel;
-    private boolean isExtendedVersion;
     private int episode;
+    private int gameType;
 
     /**
      * Retorna el assetManager
@@ -155,7 +155,7 @@ public class Facade implements ApplicationListener
      *                         tomados como 4 y menores que -4 seran tomados como -4
      * @param episode          Numero de episodio inicial (solo usado para version extendida)
      */
-    public void startNewGame(boolean isExtendedVersion, int dificultLevel, int episode)
+    public void startNewGame(int gameType, int dificultLevel, int episode)
     {
 
 	this.ui.doEnterGame();
@@ -168,7 +168,7 @@ public class Facade implements ApplicationListener
 
 	this.renderState.newGame();
 	this.dificultLevel = dificultLevel;
-	this.isExtendedVersion = isExtendedVersion;
+	this.gameType = gameType;
 	this.episode = episode;
 
     }
@@ -178,7 +178,7 @@ public class Facade implements ApplicationListener
      */
     protected void fireGame()
     {
-	Game.getInstance().startNewGame(this.isExtendedVersion, dificultLevel, this.episode);
+	Game.getInstance().startNewGame(this.gameType, dificultLevel, this.episode);
 	this.gameAppListener.create();
 
     }

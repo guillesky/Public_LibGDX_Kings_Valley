@@ -187,6 +187,11 @@ public class Constants
     public static final HashMap<Integer, String> extendedLevelFileName = new HashMap<Integer, String>();
 
     /**
+     * Contine los nombres de los archivos de cada nivel del juego (version Gran Templo)
+     */
+    public static final HashMap<Integer, String> greatTempleLevelFileName = new HashMap<Integer, String>();
+
+    /**
      * Puntaje correspondiente a matar una momia con la espada
      */
     public static final int MUMMY_KILLED_BY_SWORD_SCORE = 100;
@@ -219,8 +224,10 @@ public class Constants
      * Indica el numero actual de version de juego y fecha de release
      */
     public static final String VERSION = "v 1.1.4 r 2026-03-16";
+
     private static final int LAST_EXTENDED_LEVEL = 60;
     private static final int LAST_CLASSIC_LEVEL = 15;
+    private static final int LAST_GREAT_TEMPLE_LEVEL = 2;
 
     static
     {
@@ -246,6 +253,7 @@ public class Constants
 	stringToInteger.put("Activator", IT_TRAP_ACTIVATOR);
 	inicializeLevelsFile(classicLevelFileName, "maps/classic_level_", LAST_CLASSIC_LEVEL);
 	inicializeLevelsFile(extendedLevelFileName, "maps/extended_level_", LAST_EXTENDED_LEVEL);
+	inicializeLevelsFile(greatTempleLevelFileName, "maps/great_temple_level_", LAST_GREAT_TEMPLE_LEVEL);
 
 	Integer[] valuesPreviusToStair =
 	{ 19, 24, 27, 32, 37, 42, 45, 50 };
