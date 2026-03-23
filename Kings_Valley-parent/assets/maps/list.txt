@@ -1,9 +1,9 @@
-19/03/2026  20:04             7.375 classic_level_01.tmx
-*1* classic_level_02.tmx
+*1* classic_level_01.tmx
+*4* classic_level_02.tmx
 *3* classic_level_03.tmx
-*1* classic_level_04.tmx
+*4* classic_level_04.tmx
 04/11/2025  20:08             8.571 classic_level_05.tmx
-*1* classic_level_06.tmx
+*4* classic_level_06.tmx
 04/11/2025  20:08             8.124 classic_level_07.tmx
 *2* classic_level_08.tmx
 04/11/2025  20:08             8.254 classic_level_09.tmx
@@ -17,33 +17,33 @@
 
 
 R>01 extended_level_01.tmx
-*3* extended_level_02.tmx
+*3*  extended_level_02.tmx
 R>03 extended_level_03.tmx
 R>02 extended_level_04.tmx
-*3* extended_level_05.tmx
-21/11/2025  22:44            15.202 extended_level_06.tmx
-21/11/2025  22:46            23.749 extended_level_07.tmx
-04/11/2025  21:29             8.735 extended_level_08.tmx
-21/11/2025  22:49            15.499 extended_level_09.tmx
+*3*  extended_level_05.tmx
+*1*  extended_level_06.tmx
+*1*  extended_level_07.tmx
+R>05 extended_level_08.tmx
+R>04 extended_level_09.tmx
 24/11/2025  02:38             9.609 extended_level_10.tmx
-24/11/2025  02:39            14.937 extended_level_11.tmx
-04/11/2025  21:27             8.278 extended_level_12.tmx
+*5* extended_level_11.tmx
+R>07 extended_level_12.tmx
 24/11/2025  02:39            16.510 extended_level_13.tmx
 01/12/2025  20:43             9.465 extended_level_14.tmx
-04/11/2025  21:28             8.413 extended_level_15.tmx
-24/11/2025  02:40            20.438 extended_level_16.tmx
+R>09 extended_level_15.tmx
+*5* extended_level_16.tmx
 24/11/2025  02:40            16.276 extended_level_17.tmx
-01/12/2025  20:43             8.978 extended_level_18.tmx
-21/11/2025  22:53             8.708 extended_level_19.tmx
-01/12/2025  20:43            16.813 extended_level_20.tmx
+*5* extended_level_18.tmx
+R>11 extended_level_19.tmx
+R>06 extended_level_20.tmx
 01/12/2025  20:43             8.728 extended_level_21.tmx
 21/11/2025  21:08            16.665 extended_level_22.tmx
 01/12/2025  20:34            21.042 extended_level_23.tmx
 25/11/2025  01:40             8.580 extended_level_24.tmx
-30/11/2025  21:34            16.139 extended_level_25.tmx
-25/11/2025  21:14             9.052 extended_level_26.tmx
+R>08 extended_level_25.tmx
+R>13 extended_level_26.tmx
 30/11/2025  21:37            14.951 extended_level_27.tmx
-30/11/2025  22:06            21.972 extended_level_28.tmx
+*5*  extended_level_28.tmx
 01/12/2025  20:43            10.459 extended_level_29.tmx
 01/12/2025  20:43             9.100 extended_level_30.tmx
 01/12/2025  20:17            15.822 extended_level_31.tmx

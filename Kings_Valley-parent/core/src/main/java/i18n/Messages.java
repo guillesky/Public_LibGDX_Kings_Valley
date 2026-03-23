@@ -176,7 +176,7 @@ public enum Messages
      * Mensaje correspondiente a "Gran Templo"
      */
     
-    GREAT_TEMPLE_VERSION("Great Teample"),
+    GREAT_TEMPLE_CHALLENGE("Great Teample Challenge"),
     /**
      * Mensaje correspondiente a "Episodio"
      */

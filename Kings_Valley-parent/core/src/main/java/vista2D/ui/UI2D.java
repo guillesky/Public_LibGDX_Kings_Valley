@@ -571,7 +571,7 @@ public class UI2D implements IView, ApplicationListener
 	this.arrayGameTypeMessage.clear();
 	this.arrayGameTypeMessage.add(Messages.CLASSIC_VERSION.getValue());
 	this.arrayGameTypeMessage.add(Messages.EXTENDED_VERSION.getValue());
-	this.arrayGameTypeMessage.add(Messages.GREAT_TEMPLE_VERSION.getValue());
+	this.arrayGameTypeMessage.add(Messages.GREAT_TEMPLE_CHALLENGE.getValue());
 
 	if (this.selectBoxEpisode != null && this.selectBoxGameType != null)
 	{
@@ -1093,7 +1093,7 @@ public class UI2D implements IView, ApplicationListener
 	    r = Game.GAME_TYPE_CLASSIC;
 	else if (this.selectBoxGameType.getSelected().equalsIgnoreCase(Messages.EXTENDED_VERSION.getValue()))
 	    r = Game.GAME_TYPE_EXTENDED;
-	else if (this.selectBoxGameType.getSelected().equalsIgnoreCase(Messages.GREAT_TEMPLE_VERSION.getValue()))
+	else if (this.selectBoxGameType.getSelected().equalsIgnoreCase(Messages.GREAT_TEMPLE_CHALLENGE.getValue()))
 	    r = Game.GAME_TYPE_GREAT_TEMPLE;
 
 	return r;
