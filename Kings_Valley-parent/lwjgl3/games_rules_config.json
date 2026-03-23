@@ -1,5 +1,5 @@
 {
-godMode: false
+godMode: true
 debugMode: false
 firstLevelInDebugMode: 1
 initialNumberOfLives: 5
