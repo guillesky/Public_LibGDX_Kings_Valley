@@ -64,10 +64,10 @@ public abstract class GameState
      * 
      * @param episode           numero de epsiodio seleccionado (si es la version
      *                          extendida)
-     * @param isExtendedVersion true si es la version extendida, false si es la
+     * @param gameType true si es la version extendida, false si es la
      *                          version clasica.
      */
-    public abstract void startNewGame(boolean isExtendedVersion, int episode);
+    public abstract void startNewGame(int gameType, int episode);
 
     /**
      * Llamado al terminar el juego
@@ -103,7 +103,8 @@ public abstract class GameState
 	    sb.append(Messages.FINISH_GAME.getValue());
 	    sb.append("\n");
 	 }
-	if (this.game.isExtendedVersion())
+	if (this.game.getGameType()==Game.GAME_TYPE_EXTENDED)
+	
 	{
 	    if (door != null && (this.game.getIdCurrentLevel() == 16 || this.game.getIdCurrentLevel() == 31
 		    || this.game.getIdCurrentLevel() == 46))

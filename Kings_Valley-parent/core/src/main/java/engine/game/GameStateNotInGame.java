@@ -34,13 +34,13 @@ public class GameStateNotInGame extends GameState
 	 * 
 	 */
 	@Override
-	public void startNewGame(boolean isExtendedVersion, int episode)
+	public void startNewGame(int gameType, int episode)
 	{
 		if (GameRules.getInstance().isDebugMode())
 			this.game.setFirstLevel(GameRules.getInstance().getFirstLevelInDebugMode());
 		else
 		{
-			if (isExtendedVersion && episode > 1)
+			if (gameType!=Game.GAME_TYPE_CLASSIC && episode > 1)
 				this.game.setFirstLevel((episode - 1) * 15 + 1);
 			else
 				this.game.setFirstLevel(1);

@@ -86,9 +86,9 @@ public class Game implements KVEventListener
     private GameConfig gameConfig;
 
     private int nextExtraLife = GameRules.getInstance().getScoreForFirstExtraLife();
-    private boolean isExtendedVersion;
-
+    
     private String textToEnterLevel;
+	private int gameType;
 
     /**
      * Instancia de random para utilizar por todas las clases del juego
@@ -527,8 +527,8 @@ public class Game implements KVEventListener
     public void startNewGame(int gameType, int dificultLevel, int episode)
     {
 	this.dificultLevel = dificultLevel;
-	this.isExtendedVersion = (gameType == Game.GAME_TYPE_EXTENDED);
 
+this.gameType=gameType;
 	switch (gameType)
 	{
 	case Game.GAME_TYPE_CLASSIC:
@@ -541,7 +541,7 @@ public class Game implements KVEventListener
 	    this.levelFileName = Constants.greatTempleLevelFileName;
 	    break;
 	}
-	this.stateGame.startNewGame(isExtendedVersion, episode);
+	this.stateGame.startNewGame(this.gameType, episode);
 
     }
 
@@ -587,18 +587,14 @@ public class Game implements KVEventListener
 	this.lives--;
     }
 
-    /**
-     * Indica si se esta jugando en modo extendido o clasico
-     * 
-     * @return true si se esta jugando en modo extendido, false si se esta jugando
-     *         en modo clasico
-     */
-    public boolean isExtendedVersion()
-    {
-	return isExtendedVersion;
-    }
+   
 
-    /**
+    public int getGameType()
+	{
+		return gameType;
+	}
+
+	/**
      * Setea el primer nivel del juego
      * 
      * @param idCurrentLevel numero que indica el primer nivel del juego
