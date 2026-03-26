@@ -116,7 +116,7 @@ public class UI2D implements IView, ApplicationListener
 	private Dialog confirmGoMainMenuDialog;
 	private Drawable backgroundBlackTransparent;
 	private Array<String> arrayGameTypeMessage = new Array<String>();
-	private Array<String> arrayEpisodesMessages = new Array<String>();
+	private Array<String> arrayInitialLevelMessages = new Array<String>();
 	private Array<String> arrayTemplesMessages = new Array<String>();
 	private TextTooltip tooltip;
 
@@ -566,15 +566,15 @@ public class UI2D implements IView, ApplicationListener
 		tooltipStyle.label.font = skin.getFont(this.fontSmallName);
 		tooltipStyle.background = this.backgroundBlackTransparent;
 
-		this.arrayEpisodesMessages.clear();
+		this.arrayInitialLevelMessages.clear();
 		int limit = Facade.getInstance().getGameConfig().getBestExtendedEpisodeFinished() + 1;
 		for (int i = 1; i <= limit; i++)
-			this.arrayEpisodesMessages.add(Messages.EPISODE.getValue() + i);
+			this.arrayInitialLevelMessages.add(Messages.EPISODE.getValue() + i);
 
 		this.arrayTemplesMessages.clear();
-		limit = 6;
+		limit = Facade.getInstance().getGameConfig().getBestGreatTempleFinished() + 1;;
 		for (int i = 1; i <= limit; i++)
-			this.arrayTemplesMessages.add("Templo " + i);
+			this.arrayTemplesMessages.add(Messages.TEMPLE.getValue() + i);
 
 		this.arrayGameTypeMessage.clear();
 		this.arrayGameTypeMessage.add(Messages.CLASSIC_VERSION.getValue());
@@ -601,7 +601,7 @@ public class UI2D implements IView, ApplicationListener
 	{
 		Array<String> arrayItems;
 		if (this.selectBoxGameType.getSelected().equalsIgnoreCase(Messages.EXTENDED_VERSION.getValue()))
-			arrayItems = arrayEpisodesMessages;
+			arrayItems = arrayInitialLevelMessages;
 		else
 			arrayItems = arrayTemplesMessages;
 
@@ -1133,9 +1133,9 @@ public class UI2D implements IView, ApplicationListener
 	}
 
 	@Override
-	public int getEpisode()
+	public int getInitialLevel()
 	{
-		return this.arrayEpisodesMessages.indexOf(this.selectBoxEpisode.getSelected(), false) + 1;
+		return this.arrayInitialLevelMessages.indexOf(this.selectBoxEpisode.getSelected(), false) + 1;
 	}
 
 	/**

@@ -181,7 +181,7 @@ public class Controler2D extends AbstractControler implements KVEventListener
 	
 	this.ui.createMap(this.view.getGameType()==Game.GAME_TYPE_EXTENDED);
 	Facade.getInstance().startNewGame(this.view.getGameType(), this.view.getDificultLevel(),
-		this.view.getEpisode());
+		this.view.getInitialLevel());
 
     }
 
