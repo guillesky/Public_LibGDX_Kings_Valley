@@ -67,7 +67,7 @@ public abstract class GameState
      * @param gameType true si es la version extendida, false si es la
      *                          version clasica.
      */
-    public abstract void startNewGame(int gameType, int episode);
+    public abstract void startNewGame();
 
     /**
      * Llamado al terminar el juego

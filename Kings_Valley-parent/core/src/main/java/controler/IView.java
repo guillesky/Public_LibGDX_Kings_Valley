@@ -60,6 +60,8 @@ public interface IView
      * En caso de jugar a la version extendida, indica el numero de episodio desde el que se inicia. Sera un numero del 1 al 4
      * @return El numero de episodio de inicio del juego
      */
-    int getInitialLevel();
+    int getInitialEpisode();
+    int getInitialTemple();
+    
 
 }

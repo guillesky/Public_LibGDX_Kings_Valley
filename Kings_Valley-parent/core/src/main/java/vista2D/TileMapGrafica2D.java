@@ -586,8 +586,12 @@ public class TileMapGrafica2D implements IMyApplicationListener
 
 		GlyphLayout layout = new GlyphLayout(font24, cartel);
 		float x = (Gdx.graphics.getWidth() - layout.width) / 2;
-		float y = Gdx.graphics.getHeight() - layout.height;
+		float y = Gdx.graphics.getHeight() ;
 
+		spriteBatch.setColor(0, 0, 0, 0.5f); // negro con 50% opacidad
+		spriteBatch.draw(pixel, 0, Gdx.graphics.getHeight()-layout.height*2, Gdx.graphics.getWidth(),layout.height*2);
+		
+		
 		font24.draw(spriteBatch, layout, x, y);
 
 		if (Game.getInstance().getRenderMode() == Game.ST_GAME_ENTERING

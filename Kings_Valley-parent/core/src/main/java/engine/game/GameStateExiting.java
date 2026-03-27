@@ -59,7 +59,7 @@ public class GameStateExiting extends GameState
 	 * Se sobreescribe como metodo vacio (no hace nada)
 	 */
 	@Override
-	public void startNewGame(int gameType, int episode)
+	public void startNewGame()
 	{
 
 	}

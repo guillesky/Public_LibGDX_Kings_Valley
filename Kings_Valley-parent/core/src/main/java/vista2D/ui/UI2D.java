@@ -104,7 +104,7 @@ public class UI2D implements IView, ApplicationListener
 	private boolean inTextScreen = false;
 	private SelectBox<String> selectBoxLanguage;
 	private SelectBox<String> selectBoxGameType;
-	private SelectBox<String> selectBoxEpisode;
+	private SelectBox<String> selectBoxGenericInitialChallenge;
 	private UIConfig uiConfig;
 	private Cursor cursor;
 	private Table tableMap;
@@ -116,7 +116,7 @@ public class UI2D implements IView, ApplicationListener
 	private Dialog confirmGoMainMenuDialog;
 	private Drawable backgroundBlackTransparent;
 	private Array<String> arrayGameTypeMessage = new Array<String>();
-	private Array<String> arrayInitialLevelMessages = new Array<String>();
+	private Array<String> arrayEpisodesMessages = new Array<String>();
 	private Array<String> arrayTemplesMessages = new Array<String>();
 	private TextTooltip tooltip;
 
@@ -260,8 +260,8 @@ public class UI2D implements IView, ApplicationListener
 		this.selectBoxLanguage.addListener(inputListenerSounds);
 		this.selectBoxLanguage.addListener(changeListenerSounds);
 
-		this.selectBoxEpisode.addListener(inputListenerSounds);
-		this.selectBoxEpisode.addListener(changeListenerSounds);
+		this.selectBoxGenericInitialChallenge.addListener(inputListenerSounds);
+		this.selectBoxGenericInitialChallenge.addListener(changeListenerSounds);
 
 		this.selectBoxGameType.addListener(inputListenerSounds);
 		this.selectBoxGameType.addListener(changeListenerSounds);
@@ -566,10 +566,10 @@ public class UI2D implements IView, ApplicationListener
 		tooltipStyle.label.font = skin.getFont(this.fontSmallName);
 		tooltipStyle.background = this.backgroundBlackTransparent;
 
-		this.arrayInitialLevelMessages.clear();
+		this.arrayEpisodesMessages.clear();
 		int limit = Facade.getInstance().getGameConfig().getBestExtendedEpisodeFinished() + 1;
 		for (int i = 1; i <= limit; i++)
-			this.arrayInitialLevelMessages.add(Messages.EPISODE.getValue() + i);
+			this.arrayEpisodesMessages.add(Messages.EPISODE.getValue() + i);
 
 		this.arrayTemplesMessages.clear();
 		limit = Facade.getInstance().getGameConfig().getBestGreatTempleFinished() + 1;;
@@ -581,7 +581,7 @@ public class UI2D implements IView, ApplicationListener
 		this.arrayGameTypeMessage.add(Messages.EXTENDED_VERSION.getValue());
 		this.arrayGameTypeMessage.add(Messages.GREAT_TEMPLE_CHALLENGE.getValue());
 
-		if (this.selectBoxEpisode != null && this.selectBoxGameType != null)
+		if (this.selectBoxGenericInitialChallenge != null && this.selectBoxGameType != null)
 		{
 
 			this.selectBoxGameType.setItems(arrayGameTypeMessage);
@@ -589,7 +589,7 @@ public class UI2D implements IView, ApplicationListener
 
 			this.setItemsInSelectBoxEpisodes();
 			this.tooltip = new TextTooltip(Messages.ENABLED_EPISODE_MESSAGE.getValue(), tooltipStyle);
-			this.selectBoxEpisode.addListener(tooltip);
+			this.selectBoxGenericInitialChallenge.addListener(tooltip);
 		/*	this.selectBoxEpisode.setVisible(false);
 			if (this.tooltip != null)
 				this.selectBoxEpisode.removeListener(this.tooltip);*/
@@ -601,12 +601,12 @@ public class UI2D implements IView, ApplicationListener
 	{
 		Array<String> arrayItems;
 		if (this.selectBoxGameType.getSelected().equalsIgnoreCase(Messages.EXTENDED_VERSION.getValue()))
-			arrayItems = arrayInitialLevelMessages;
+			arrayItems = arrayEpisodesMessages;
 		else
 			arrayItems = arrayTemplesMessages;
 
-		this.selectBoxEpisode.setItems(arrayItems);
-		this.selectBoxEpisode.setSelected(arrayItems.first());
+		this.selectBoxGenericInitialChallenge.setItems(arrayItems);
+		this.selectBoxGenericInitialChallenge.setSelected(arrayItems.first());
 		
 
 	}
@@ -745,7 +745,7 @@ public class UI2D implements IView, ApplicationListener
 		});
 
 		this.selectBoxGameType = new SelectBox<String>(skin);
-		this.selectBoxEpisode = new SelectBox<String>(skin);
+		this.selectBoxGenericInitialChallenge = new SelectBox<String>(skin);
 
 		this.selectBoxGameType.addListener(new ChangeListener()
 		{
@@ -761,7 +761,7 @@ public class UI2D implements IView, ApplicationListener
 		Table t = new Table();
 		t.add(buttonNewGame).width(350).left().padRight(10);
 		t.add(selectBoxGameType).width(400).padRight(10);
-		t.add(selectBoxEpisode).width(300).padRight(10);
+		t.add(selectBoxGenericInitialChallenge).width(300).padRight(10);
 
 		labelTitleMain.setAlignment(Align.center);
 
@@ -787,10 +787,10 @@ public class UI2D implements IView, ApplicationListener
 	{
 		if (selected.equalsIgnoreCase(Messages.CLASSIC_VERSION.getValue()))
 		{
-			this.selectBoxEpisode.setVisible(false);
+			this.selectBoxGenericInitialChallenge.setVisible(false);
 		} else
 		{
-			this.selectBoxEpisode.setVisible(true);
+			this.selectBoxGenericInitialChallenge.setVisible(true);
 			this.setItemsInSelectBoxEpisodes();
 		}
 	}
@@ -1132,11 +1132,7 @@ public class UI2D implements IView, ApplicationListener
 		return r;
 	}
 
-	@Override
-	public int getInitialLevel()
-	{
-		return this.arrayInitialLevelMessages.indexOf(this.selectBoxEpisode.getSelected(), false) + 1;
-	}
+	
 
 	/**
 	 * Crea el mapa que se muestra con las piramides (actual y completadas),
@@ -1160,4 +1156,16 @@ public class UI2D implements IView, ApplicationListener
 		}
 
 	}
+
+	@Override
+	public int getInitialEpisode()
+	{
+		return this.arrayEpisodesMessages.indexOf(this.selectBoxGenericInitialChallenge.getSelected(), false) + 1;
+	}
+	
+	@Override
+	public int getInitialTemple()
+	{
+		return this.arrayTemplesMessages.indexOf(this.selectBoxGenericInitialChallenge.getSelected(), false) + 1;
+		}
 }

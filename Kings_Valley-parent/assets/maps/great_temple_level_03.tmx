@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="64" height="66" tilewidth="64" tileheight="64" infinite="0" nextlayerid="4" nextobjectid="104">
+<map version="1.10" tiledversion="1.12.0" orientation="orthogonal" renderorder="right-down" width="64" height="66" tilewidth="64" tileheight="64" infinite="0" nextlayerid="4" nextobjectid="108">
  <tileset firstgid="1" source="tiles_new.tsx"/>
  <layer id="1" name="back" width="64" height="66">
   <data encoding="csv">
@@ -168,7 +168,7 @@
 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-1,0,0,0,0,1,1,23,24,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,23,24,1,1,1,1,1,1,1,1,1,1,1,1,
+1,0,0,0,0,1,1,23,24,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,23,24,1,1,1,1,1,1,1,1,1,1,1,1,
 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
 1,0,0,0,1,23,24,1,1,1,1,1,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,1,1,1,23,24,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
@@ -377,7 +377,7 @@
     <property name="p0" value="133"/>
    </properties>
   </object>
-  <object id="59" type="Mummy" gid="122" x="1216" y="1600" width="64" height="64">
+  <object id="59" type="Mummy" gid="122" x="1344" y="1792" width="64" height="64">
    <properties>
     <property name="p0" value="0"/>
    </properties>
@@ -507,7 +507,7 @@
     <property name="p0" value="0"/>
    </properties>
   </object>
-  <object id="99" type="Mummy" gid="122" x="1216" y="2944" width="64" height="64">
+  <object id="99" type="Mummy" gid="122" x="864" y="2944" width="64" height="64">
    <properties>
     <property name="p0" value="0"/>
    </properties>
@@ -530,6 +530,26 @@
   <object id="103" type="Picker" gid="138" x="3136" y="2624" width="64" height="64">
    <properties>
     <property name="p0" value="138"/>
+   </properties>
+  </object>
+  <object id="104" type="Giratory" gid="107" x="992" y="2944" width="64" height="64">
+   <properties>
+    <property name="p0" value="0"/>
+   </properties>
+  </object>
+  <object id="105" type="Giratory" gid="108" x="1440" y="2944" width="64" height="64">
+   <properties>
+    <property name="p0" value="1"/>
+   </properties>
+  </object>
+  <object id="106" type="Giratory" gid="107" x="672" y="1600" width="64" height="64">
+   <properties>
+    <property name="p0" value="0"/>
+   </properties>
+  </object>
+  <object id="107" type="Giratory" gid="108" x="1184" y="1600" width="64" height="64">
+   <properties>
+    <property name="p0" value="1"/>
    </properties>
   </object>
  </objectgroup>
