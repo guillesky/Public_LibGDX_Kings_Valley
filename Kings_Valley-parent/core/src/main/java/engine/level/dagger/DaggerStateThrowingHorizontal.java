@@ -54,24 +54,27 @@ public class DaggerStateThrowingHorizontal extends DaggerState
 	    Game.getInstance().eventFired(KVEventListener.SWORD_CLASH, dagger);
 
 	}
-	Iterator<Mummy> itMummy = mummys.iterator();
-	Mummy mummy = null;
-	do
+	/* Chequeo de colision con las momias. */
+	if (!mummys.isEmpty())
 	{
-	    if (itMummy.hasNext())
-		mummy = itMummy.next();
+	    Iterator<Mummy> itMummy = mummys.iterator();
+	    Mummy mummy = null;
+	    do
+	    {
+		if (itMummy.hasNext())
+		    mummy = itMummy.next();
 
-	} while (itMummy.hasNext() && !(mummy.isActive() && dagger.isColision(mummy)));
-	if (mummy.isActive() && dagger.isColision(mummy))
-	{
-	    dagger.setDaggerState(new DaggerStateBouncing(dagger));
-	    Game.getInstance().eventFired(KVEventListener.MUMMY_KILLED_BY_SWORD, mummy);
-	    Game.getInstance().eventFired(KVEventListener.SWORD_CLASH_FLESH, this.dagger);
+	    } while (itMummy.hasNext() && !(mummy.isActive() && dagger.isColision(mummy)));
+	    if (mummy.isActive() && dagger.isColision(mummy))
+	    {
+		dagger.setDaggerState(new DaggerStateBouncing(dagger));
+		Game.getInstance().eventFired(KVEventListener.MUMMY_KILLED_BY_SWORD, mummy);
+		Game.getInstance().eventFired(KVEventListener.SWORD_CLASH_FLESH, this.dagger);
 
-	    mummy.die(false);
+		mummy.die(false);
 
+	    }
 	}
-
 	LevelObject giratory = null;
 	Iterator<LevelObject> itgiratorys = pyramid.getGiratories().iterator();
 	do

@@ -3,7 +3,7 @@ language: es
 masterVolume: 1
 musicVolume: 0.17
 soundsVolume: 1
-enabledSelectDificultLevel: false
+enabledSelectDificultLevel: true
 bestExtendedEpisodeFinished: 2
 bestGreatTempleFinished: 16
 }
