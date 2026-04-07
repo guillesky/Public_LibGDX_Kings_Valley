@@ -48,14 +48,10 @@ R>13 extended_level_26.tmx
 *10* extended_level_30.tmx
 R>10 extended_level_31.tmx
 *10* extended_level_32.tmx
-
 *13* extended_level_33.tmx
-
 R>15 extended_level_34.tmx
 R>12 extended_level_35.tmx
-
-(es doble) extended_level_36.tmx
-
+*13* extended_level_36.tmx
 *10* extended_level_37.tmx
 
 (es doble) extended_level_38.tmx
