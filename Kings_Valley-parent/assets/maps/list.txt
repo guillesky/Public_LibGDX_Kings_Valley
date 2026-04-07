@@ -29,50 +29,58 @@ R>04 extended_level_09.tmx
 *5* extended_level_11.tmx
 R>07 extended_level_12.tmx
 *6* extended_level_13.tmx
-01/12/2025  20:43             9.465 extended_level_14.tmx
+*9* extended_level_14.tmx
 R>09 extended_level_15.tmx
 *5* extended_level_16.tmx
 *6* extended_level_17.tmx
 *5* extended_level_18.tmx
 R>11 extended_level_19.tmx
 R>06 extended_level_20.tmx
-01/12/2025  20:43             8.728 extended_level_21.tmx
+*9* extended_level_21.tmx
 *8* extended_level_22.tmx
 *7* extended_level_23.tmx
-25/11/2025  01:40             8.580 extended_level_24.tmx
+*9* extended_level_24.tmx
 R>08 extended_level_25.tmx
 R>13 extended_level_26.tmx
 *8* extended_level_27.tmx
-*5*  extended_level_28.tmx
-01/12/2025  20:43            10.459 extended_level_29.tmx
-01/12/2025  20:43             9.100 extended_level_30.tmx
+*5* extended_level_28.tmx
+*10* extended_level_29.tmx
+*10* extended_level_30.tmx
 R>10 extended_level_31.tmx
-01/12/2025  20:23             9.438 extended_level_32.tmx
-(es doble) extended_level_33.tmx
+*10* extended_level_32.tmx
+
+*13* extended_level_33.tmx
+
 R>15 extended_level_34.tmx
 R>12 extended_level_35.tmx
+
 (es doble) extended_level_36.tmx
-(es triple) extended_level_37.tmx
+
+*10* extended_level_37.tmx
+
 (es doble) extended_level_38.tmx
-01/12/2025  20:43            10.519 extended_level_39.tmx
+
+*11* extended_level_39.tmx
 R>14 extended_level_40.tmx
-07/12/2025  01:48             8.712 extended_level_41.tmx
-01/12/2025  20:43             9.386 extended_level_42.tmx
-(es doble) extended_level_43.tmx
-04/12/2025  21:53             7.840 extended_level_44.tmx
-07/12/2025  01:45             9.671 extended_level_45.tmx
-(es doble) extended_level_46.tmx
-07/12/2025  01:39            10.894 extended_level_47.tmx
-(es doble) extended_level_48.tmx
-07/12/2025  01:33             8.950 extended_level_49.tmx
+*11* extended_level_41.tmx
+*11* extended_level_42.tmx
+*11* extended_level_43.tmx
+*11* extended_level_44.tmx
+
+*12* extended_level_45.tmx
+*12* extended_level_46.tmx
+*12* extended_level_47.tmx
+*12* extended_level_48.tmx
+
+                         extended_level_49.tmx
 07/12/2025  01:31             7.870 extended_level_50.tmx
 (es doble) extended_level_51.tmx
 17/12/2025  21:30             8.967 extended_level_52.tmx
 (es doble) extended_level_53.tmx
-07/12/2025  01:13             9.656 extended_level_54.tmx
-05/12/2025  22:55             8.378 extended_level_55.tmx
+*15* extended_level_54.tmx
+*15* extended_level_55.tmx
 (es doble) extended_level_56.tmx
-05/12/2025  22:51             9.333 extended_level_57.tmx
-11/12/2025  21:55            10.454 extended_level_58.tmx
-(es triple) extended_level_59.tmx
-16/03/2026  00:04             7.811 extended_level_60.tmx
+*15* extended_level_57.tmx
+*15* extended_level_58.tmx
+*9* extended_level_59.tmx
+*15* extended_level_60.tmx
