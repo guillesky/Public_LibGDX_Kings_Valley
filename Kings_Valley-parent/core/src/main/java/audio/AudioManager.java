@@ -85,7 +85,7 @@ public class AudioManager implements KVEventListener
 	this.assetManager.load(audioConfig.getMummyDeath3File(), Sound.class);
 	this.assetManager.load(audioConfig.getPickingFile(), Sound.class);
 	this.assetManager.load(audioConfig.getPickupJewelFile(), Sound.class);
-	this.assetManager.load(audioConfig.getPickupLastJewelFile(), Sound.class);
+	this.assetManager.load(audioConfig.getPickupAllJewelsFile(), Sound.class);
 	
 	this.assetManager.load(audioConfig.getPickupPickerFile(), Sound.class);
 	this.assetManager.load(audioConfig.getPickupSwordFile(), Sound.class);
@@ -130,7 +130,7 @@ public class AudioManager implements KVEventListener
 	this.hashMapSounds.put(KVEventListener.PICKUP_JEWEL,
 		this.assetManager.get(audioConfig.getPickupJewelFile(), Sound.class));
 	this.hashMapSounds.put(KVEventListener.PICKUP_ALL_JEWEL,
-			this.assetManager.get(audioConfig.getPickupLastJewelFile(), Sound.class));
+			this.assetManager.get(audioConfig.getPickupAllJewelsFile(), Sound.class));
 		
 	this.hashMapSounds.put(KVEventListener.PLAYER_JUMP,
 		this.assetManager.get(audioConfig.getPlayerJumpFile(), Sound.class));

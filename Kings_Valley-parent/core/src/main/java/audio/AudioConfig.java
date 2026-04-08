@@ -22,7 +22,7 @@ public class AudioConfig
     private String pickupPickerFile = "sfx/Pickup_Picker.wav";
     private String pickupSwordFile = "sfx/Sword_Pickup.wav";
     private String pickupJewelFile = "sfx/Pickup_Gem.wav";
-    private String pickupLastJewelFile = "sfx/Pickup_Last_Gem.wav";
+    private String pickupAllJewelsFile = "sfx/Pickup_All_Gem.wav";
     
     
     private String swordThrow1File = "sfx/Sword_Throw1.wav";
@@ -153,9 +153,9 @@ public class AudioConfig
      * 
      * @return nombre del archivo con el sonido de recolectar la ultima gema
      */
-    public String getPickupLastJewelFile()
+    public String getPickupAllJewelsFile()
     {
-	return pickupLastJewelFile;
+	return pickupAllJewelsFile;
     }
     
     

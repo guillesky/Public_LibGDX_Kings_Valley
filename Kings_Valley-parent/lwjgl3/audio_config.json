@@ -8,7 +8,7 @@ pickingFile: sfx/Picking.wav
 pickupPickerFile: sfx/Pickup_Picker.wav
 pickupSwordFile: sfx/Sword_Pickup.wav
 pickupJewelFile: sfx/Pickup_Gem.wav
-pickupLastJewelFile: sfx/Pickup_Last_Gem.wav
+pickupAllJewelsFile: sfx/Pickup_All_Gem.wav
 swordThrow1File: sfx/Sword_Throw1.wav
 swordThrow2File: sfx/Sword_Throw2.wav
 swordThrow3File: sfx/Sword_Throw3.wav
