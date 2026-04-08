@@ -225,9 +225,9 @@ public class Constants
      */
     public static final String VERSION = "v 1.1.4 r 2026-03-16";
 
-    private static final int LAST_EXTENDED_LEVEL = 60;
-    private static final int LAST_CLASSIC_LEVEL = 15;
-    private static final int LAST_GREAT_TEMPLE_LEVEL = 9;
+    public static final int LAST_EXTENDED_LEVEL = 60;
+    public static final int LAST_CLASSIC_LEVEL = 15;
+    public static final int LAST_GREAT_TEMPLE_LEVEL = 9;
 
     static
     {

@@ -177,16 +177,22 @@ public interface KVEventListener
 	 */
 
 	int FINISH_ALL_LEVELS = 100;
+	
+	/**
+	 * Codigo del evento: Termino un episodio
+	 */
+	int FINISH_EPISODE = 101;
+	
+	/**
+	 * Codigo del evento: Termino un gran templo
+	 */
+	int FINISH_GREAT_TEMPLE = 102;
+	
+	
+
 	/**
 	 * Codigo del evento: termino el juego
 	 */
-
-	int FINISH_EPISODE = 101;
-	/**
-	 * Codigo del evento: Termino un nuevo episodio
-	 */
-
-	
 	int GAME_OVER = 200;
 	/**
 	 * Codigo del evento: El juego esta terminando

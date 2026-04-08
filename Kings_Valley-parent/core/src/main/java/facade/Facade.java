@@ -542,7 +542,7 @@ public class Facade implements ApplicationListener
 	}
 
 	/**
-	 * Llamado cuando se finaliza un episodio. Si el pisodio terminado es mayor al
+	 * Llamado cuando se finaliza un episodio. Si el episodio terminado es mayor al
 	 * mejor episodio terminado se guarda en el archivo de configuracion.
 	 * 
 	 * @param episodeFinished Numero de episodio terminado
@@ -552,6 +552,23 @@ public class Facade implements ApplicationListener
 		if (this.gameConfig.getBestExtendedEpisodeFinished() < episodeFinished)
 		{
 			this.gameConfig.setBestExtendedEpisodeFinished(episodeFinished);
+			this.changeConfig = true;
+			this.saveGameOption();
+		}
+	}
+	
+	
+	/**
+	 * Llamado cuando se finaliza un gran templo. Si el gran templo terminado es mayor al
+	 * mejor gran templo terminado se guarda en el archivo de configuracion.
+	 * 
+	 * @param greatTempleFinished Numero de gran templo terminado
+	 */
+	public void finishGreatTemple(int greatTempleFinished)
+	{
+		if (this.gameConfig.getBestGreatTempleFinished() < greatTempleFinished)
+		{
+			this.gameConfig.setBestGreatTempleFinished(greatTempleFinished);
 			this.changeConfig = true;
 			this.saveGameOption();
 		}

@@ -62,6 +62,7 @@ public class ConsoleKVEventListener implements KVEventListener
 	this.messages.put(PAUSED_IS_CHANGED, "PAUSED_IS_CHANGED");
 	this.messages.put(FINISH_ALL_LEVELS, "FINISH_ALL_LEVELS");
 	this.messages.put(FINISH_EPISODE, "FINISH_EPISODE");
+	this.messages.put(FINISH_GREAT_TEMPLE, "FINISH_GREAT_TEMPLE");
 	this.messages.put(GAME_OVER, "GAME_OVER");
 	this.messages.put(GAME_ENDING, "GAME_ENDING");
 

@@ -336,11 +336,6 @@
     <property name="p0" value="7"/>
    </properties>
   </object>
-  <object id="42" type="Door" gid="127" x="64" y="832" width="64" height="64">
-   <properties>
-    <property name="p0" value="1"/>
-   </properties>
-  </object>
   <object id="43" type="Giratory" gid="107" x="2912" y="704" width="64" height="64">
    <properties>
     <property name="p0" value="0"/>
@@ -483,7 +478,7 @@
   </object>
   <object id="73" type="Door" gid="127" x="832" y="1920" width="64" height="64">
    <properties>
-    <property name="p0" value="0"/>
+    <property name="p0" value="2"/>
    </properties>
   </object>
   <object id="74" type="Mummy" gid="122" x="576" y="2048" width="64" height="64">
