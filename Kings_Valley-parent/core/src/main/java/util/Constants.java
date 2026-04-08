@@ -187,7 +187,8 @@ public class Constants
     public static final HashMap<Integer, String> extendedLevelFileName = new HashMap<Integer, String>();
 
     /**
-     * Contine los nombres de los archivos de cada nivel del juego (version Gran Templo)
+     * Contine los nombres de los archivos de cada nivel del juego (version Gran
+     * Templo)
      */
     public static final HashMap<Integer, String> greatTempleLevelFileName = new HashMap<Integer, String>();
 
@@ -227,7 +228,7 @@ public class Constants
 
     public static final int LAST_EXTENDED_LEVEL = 60;
     public static final int LAST_CLASSIC_LEVEL = 15;
-    public static final int LAST_GREAT_TEMPLE_LEVEL = 9;
+    public static final int LAST_GREAT_TEMPLE_LEVEL = 15;
 
     static
     {
@@ -268,10 +269,14 @@ public class Constants
     }
 
     /**
-     * Inicializa las constantes de los nombres de los archivos correspondientes a los niveles
-     * @param levelFileName El HashMap a inicializar (puede ser el correspondiente a los niveles extendidos o a los clasicos)
-     * @param prefix El String que indica el prefijo comun a todos los nombres de niveles del hashmap
-     * @param lastLevel ultimo nivel del hashmap
+     * Inicializa las constantes de los nombres de los archivos correspondientes a
+     * los niveles
+     * 
+     * @param levelFileName El HashMap a inicializar (puede ser el correspondiente a
+     *                      los niveles extendidos o a los clasicos)
+     * @param prefix        El String que indica el prefijo comun a todos los
+     *                      nombres de niveles del hashmap
+     * @param lastLevel     ultimo nivel del hashmap
      */
     private static void inicializeLevelsFile(HashMap<Integer, String> levelFileName, String prefix, int lastLevel)
     {

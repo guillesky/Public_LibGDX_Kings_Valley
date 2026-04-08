@@ -22,8 +22,11 @@
 "RETRY":"Retry",
 "MAIN_MENU":"Main Menu",
 "MAP":"Map",
-"GOING_BACK":"Back to Pyramid ",
-"ENTERING":"Entering Pyramid ",
+"GOING_BACK_PYRAMID":"Back to Pyramid ",
+"GOING_BACK_GREAT_TEMPLE":"Back to Great Temple ",
+
+"ENTERING_PYRAMID":"Entering Pyramid ",
+"ENTERING_GREAT_TEMPLE":"Entering to Great Temple ",
 "GAME_OVER":"Game Over",
 "DIALOG_RETRY_TEXT":"Are you sure you want to retry the level? (You will lose a life)",
 "DIALOG_RETRY_TITLE":"Confirm Retry", 
