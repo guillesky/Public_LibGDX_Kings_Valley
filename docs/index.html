@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kings Valley Remake</title>
+
+<link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+
+<div class="juego">
+
+    <!-- HEADER -->
+    <div class="header">
+        <h1>Kings Valley Remake</h1>
+
+        <div class="idioma">
+            <button onclick="cambiarIdioma('es')">ES</button>
+            <button onclick="cambiarIdioma('en')">EN</button>
+        </div>
+    </div>
+
+    <!-- GAMEPLAY -->
+    <div class="pantalla">
+        <img src="img/gameplay.png" alt="Gameplay">
+    </div>
+
+    <!-- DESCARGA -->
+    <div class="descarga-container">
+        <a id="btn-descarga" class="descarga"
+           href="https://github.com/guillesky/pruebaEclipse/releases/latest/download/juego.zip">
+            DESCARGAR
+        </a>
+    </div>
+
+    <!-- MENU -->
+    <div class="menu">
+        <button id="btn-inicio" onclick="mostrar('inicio')">> INICIO</button>
+        <button id="btn-inst" onclick="mostrar('inst')">> COMO JUGAR</button>
+        <button id="btn-cred" onclick="mostrar('cred')">> CREDITOS</button>
+    </div>
+
+    <!-- CONTENIDO -->
+    <div id="inicio" class="seccion activa">
+        <p>Remake del clásico Kings Valley de MSX.</p>
+    </div>
+
+    <div id="inst" class="seccion">
+        <div id="inst-es">(PEGAR INSTRUCCIONES ES)</div>
+        <div id="inst-en" style="display:none;">(PASTE INSTRUCTIONS EN)</div>
+    </div>
+
+    <div id="cred" class="seccion">
+        <div id="cred-es">(PEGAR CREDITOS ES)</div>
+        <div id="cred-en" style="display:none;">(PASTE CREDITS EN)</div>
+    </div>
+
+</div>
+
+<script src="js/script.js"></script>
+
+</body>
+</html>
