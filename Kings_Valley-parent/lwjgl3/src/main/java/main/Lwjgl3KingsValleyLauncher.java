@@ -45,7 +45,7 @@ public class Lwjgl3KingsValleyLauncher
 	//// cause screen tearing.
 	// configuration.setWindowedMode(800,600);
 	configuration.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayMode());
-	//configuration.setWindowedMode(1600, 600);
+	//configuration.setWindowedMode(1920, 1080);
 
 	//// You can change these files; they are in lwjgl3/src/main/resources/ .
 	configuration.setWindowIcon("libgdx128.png", "libgdx64.png", "libgdx32.png", "libgdx16.png");
