@@ -20,10 +20,9 @@ public class UIClassicMap extends UIAbstractMap
      * @param matrixDimension         Dimension de la matriz sobre la que se
      *                                dibujaran las piramides en el mapa.
      */
-    public UIClassicMap(Texture mapTexture, Texture currentPyramidTexture, Texture completedPyramidTexture,
-	    int matrixDimension)
+    public UIClassicMap(Texture mapTexture, Texture currentPyramidTexture, Texture completedPyramidTexture)
     {
-	super(mapTexture, currentPyramidTexture, completedPyramidTexture, matrixDimension);
+	super(mapTexture, currentPyramidTexture, completedPyramidTexture, 6);
 
     }
 

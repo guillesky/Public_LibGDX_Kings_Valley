@@ -572,7 +572,8 @@ public class UI2D implements IView, ApplicationListener
 			this.arrayEpisodesMessages.add(Messages.EPISODE.getValue() + i);
 
 		this.arrayTemplesMessages.clear();
-		limit = Facade.getInstance().getGameConfig().getBestGreatTempleFinished() + 1;;
+		limit = Facade.getInstance().getGameConfig().getBestGreatTempleFinished() + 1;
+		;
 		for (int i = 1; i <= limit; i++)
 			this.arrayTemplesMessages.add(Messages.TEMPLE.getValue() + i);
 
@@ -590,9 +591,10 @@ public class UI2D implements IView, ApplicationListener
 			this.setItemsInSelectBoxEpisodes();
 			this.tooltip = new TextTooltip(Messages.ENABLED_EPISODE_MESSAGE.getValue(), tooltipStyle);
 			this.selectBoxGenericInitialChallenge.addListener(tooltip);
-		/*	this.selectBoxEpisode.setVisible(false);
-			if (this.tooltip != null)
-				this.selectBoxEpisode.removeListener(this.tooltip);*/
+			/*
+			 * this.selectBoxEpisode.setVisible(false); if (this.tooltip != null)
+			 * this.selectBoxEpisode.removeListener(this.tooltip);
+			 */
 		}
 
 	}
@@ -607,7 +609,6 @@ public class UI2D implements IView, ApplicationListener
 
 		this.selectBoxGenericInitialChallenge.setItems(arrayItems);
 		this.selectBoxGenericInitialChallenge.setSelected(arrayItems.first());
-		
 
 	}
 
@@ -1132,27 +1133,42 @@ public class UI2D implements IView, ApplicationListener
 		return r;
 	}
 
-	
-
 	/**
-	 * Crea el mapa que se muestra con las piramides (actual y completadas),
-	 * dependendiendo del parametro se crea la version extendida o clasica
+	 * Crea el mapa que se muestra con las piramides o templos (actual y
+	 * completadas), dependendiendo del parametro se crea la version clasica,
+	 * extendida o gran templo
 	 * 
-	 * @param isExtendedVersion true si es la version extendida, false si es la
-	 *                          clasica.
+	 * @param gameType puede tomar los valores correspondientes a:<br>
+	 *                 Game.GAME_TYPE_CLASSIC = 0;<br>
+	 *                 Game.GAME_TYPE_EXTENDED = 1;<br>
+	 *                 Game.GAME_TYPE_GREAT_TEMPLE = 2;<br>
 	 */
-	public void createMap(boolean isExtendedVersion)
+	public void createMap(int gameType)
 	{
-		if (isExtendedVersion)
+		switch (gameType)
 		{
-			this.uiMap = new UIExtendedMap(manager.get(this.uiConfig.getExtendedMapFile(), Texture.class),
-					manager.get(this.uiConfig.getPyramidActualFile(), Texture.class),
-					manager.get(this.uiConfig.getPyramidCompletedFile(), Texture.class), 10);
-		} else
+		case Game.GAME_TYPE_CLASSIC:
 		{
 			this.uiMap = new UIClassicMap(manager.get(this.uiConfig.getClassicMapFile(), Texture.class),
 					manager.get(this.uiConfig.getPyramidActualFile(), Texture.class),
-					manager.get(this.uiConfig.getPyramidCompletedFile(), Texture.class), 6);
+					manager.get(this.uiConfig.getPyramidCompletedFile(), Texture.class));
+			break;
+		}
+		case Game.GAME_TYPE_EXTENDED:
+		{
+			this.uiMap = new UIExtendedMap(manager.get(this.uiConfig.getExtendedMapFile(), Texture.class),
+					manager.get(this.uiConfig.getPyramidActualFile(), Texture.class),
+					manager.get(this.uiConfig.getPyramidCompletedFile(), Texture.class));
+			break;
+		}
+
+		case Game.GAME_TYPE_GREAT_TEMPLE:
+		{
+			this.uiMap = new UIGreatTempleMap(manager.get(this.uiConfig.getClassicMapFile(), Texture.class),
+					manager.get(this.uiConfig.getPyramidActualFile(), Texture.class),
+					manager.get(this.uiConfig.getPyramidCompletedFile(), Texture.class));
+			break;
+		}
 		}
 
 	}
@@ -1162,10 +1178,10 @@ public class UI2D implements IView, ApplicationListener
 	{
 		return this.arrayEpisodesMessages.indexOf(this.selectBoxGenericInitialChallenge.getSelected(), false) + 1;
 	}
-	
+
 	@Override
 	public int getInitialTemple()
 	{
 		return this.arrayTemplesMessages.indexOf(this.selectBoxGenericInitialChallenge.getSelected(), false) + 1;
-		}
+	}
 }

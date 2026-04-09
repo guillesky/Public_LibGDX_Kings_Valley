@@ -18,10 +18,9 @@ public class UIExtendedMap extends UIAbstractMap
      * @param matrixDimension         Dimension de la matriz sobre la que se
      *                                dibujaran las piramides en el mapa.
      */
-    public UIExtendedMap(Texture mapTexture, Texture currentPyramidTexture, Texture completedPyramidTexture,
-	    int matrixDimension)
+    public UIExtendedMap(Texture mapTexture, Texture currentPyramidTexture, Texture completedPyramidTexture)
     {
-	super(mapTexture, currentPyramidTexture, completedPyramidTexture, matrixDimension);
+	super(mapTexture, currentPyramidTexture, completedPyramidTexture, 10);
 
     }
 
