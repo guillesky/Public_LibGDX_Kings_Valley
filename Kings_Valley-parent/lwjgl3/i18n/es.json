@@ -3,6 +3,7 @@
 "LANGUAGE": "Idioma",
 "GAME_PAUSED": "Juego Pausado",
 "CURRENT_PYRAMID":"Piramide Actual: ", 
+"CURRENT_GREAT_TEMPLE":"Gran Templo Actual: ",
 "SCORE": "Puntaje: ", 
 "LIVES": "Vidas: ",
 "NEW_GAME": "Juego Nuevo", 

@@ -3,6 +3,7 @@
 "LANGUAGE": "Language",
 "GAME_PAUSED": "Game Paused",
 "CURRENT_PYRAMID":"Current Pyramid: ", 
+"CURRENT_GREAT_TEMPLE":"Current Great Temple: ",
 "SCORE": "Score: ", 
 "LIVES": "Lives: ",
 "NEW_GAME": "New Game", 

@@ -17,8 +17,6 @@ public class UIClassicMap extends UIAbstractMap
      * @param mapTexture              Texture del mapa en blanco
      * @param currentPyramidTexture   Textura del resalatado para piramide actual
      * @param completedPyramidTexture Textura para marcar las piramides completadas
-     * @param matrixDimension         Dimension de la matriz sobre la que se
-     *                                dibujaran las piramides en el mapa.
      */
     public UIClassicMap(Texture mapTexture, Texture currentPyramidTexture, Texture completedPyramidTexture)
     {

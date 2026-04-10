@@ -11,6 +11,7 @@ public class UIConfig
 	private String backgroundFile;
 	private String classicMapFile;
 	private String extendedMapFile;
+	private String greatTempleMapFile;
 	private String pyramidActualFile;
 	private String pyramidCompletedFile;
 
@@ -105,7 +106,15 @@ public class UIConfig
 	
 	
 	
-	
+	/**
+	 * Retorna el nombre del archivo de la imagen de fondo del mapa base para la version Gran Templo de 17 niveles (templos y flechas conectoras)
+	 * @return Nombre del archivo de la imagen de fondo del mapa base para la version Gran Templo de 17 niveles (templos y flechas conectoras)
+	 */
+	public String getGreatTempleMapFile()
+	{
+		return greatTempleMapFile;
+	}
+
 	/**
 	 * Retorna el nombre del archivo de la imagen de fondo del mapa base para la version extendida de 60 niveles (piramides y flechas conectoras)
 	 * @return Nombre del archivo de la imagen de fondo del mapa base para la version extendida de 60 niveles (piramides y flechas conectoras)

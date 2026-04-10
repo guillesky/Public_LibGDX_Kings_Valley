@@ -2,6 +2,7 @@
 backgroundFile: ui/background.jpg
 classicMapFile: ui/classicBaseMap.png
 extendedMapFile: ui/extendedBaseMap.png
+greatTempleMapFile: ui/greatTempleBaseMap.png
 pyramidActualFile: ui/actualPyramid.png
 pyramidCompletedFile: ui/completedPyramid.png
 cursorFile: ui/cursor.png

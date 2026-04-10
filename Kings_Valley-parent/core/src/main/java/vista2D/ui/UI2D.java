@@ -1164,7 +1164,7 @@ public class UI2D implements IView, ApplicationListener
 
 		case Game.GAME_TYPE_GREAT_TEMPLE:
 		{
-			this.uiMap = new UIGreatTempleMap(manager.get(this.uiConfig.getClassicMapFile(), Texture.class),
+			this.uiMap = new UIGreatTempleMap(manager.get(this.uiConfig.getGreatTempleMapFile(), Texture.class),
 					manager.get(this.uiConfig.getPyramidActualFile(), Texture.class),
 					manager.get(this.uiConfig.getPyramidCompletedFile(), Texture.class));
 			break;

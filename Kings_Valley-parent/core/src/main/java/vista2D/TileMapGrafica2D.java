@@ -579,19 +579,29 @@ public class TileMapGrafica2D implements IMyApplicationListener
 		spriteBatch.setProjectionMatrix(cameraUI.combined);
 		int currentPyramid = Game.getInstance().getCurrentLevel().getId();
 		String scoreWithZeros = String.format("%06d", Game.getInstance().getScore());
+		String cartel = "";
+		switch (Game.getInstance().getGameType())
+		{
+		case Game.GAME_TYPE_CLASSIC:
+		case Game.GAME_TYPE_EXTENDED:
+			cartel = Messages.CURRENT_PYRAMID.getValue() + currentPyramid;
+			break;
+		case Game.GAME_TYPE_GREAT_TEMPLE:
+			cartel = Messages.CURRENT_GREAT_TEMPLE.getValue() + currentPyramid;
+			break;
 
-		String cartel = Messages.CURRENT_PYRAMID.getValue() + currentPyramid;
+		}
 		cartel += "    " + Messages.LIVES.getValue() + Game.getInstance().getLives();
 		cartel += "    " + Messages.SCORE.getValue() + scoreWithZeros;
 
 		GlyphLayout layout = new GlyphLayout(font24, cartel);
 		float x = (Gdx.graphics.getWidth() - layout.width) / 2;
-		float y = Gdx.graphics.getHeight() ;
+		float y = Gdx.graphics.getHeight();
 
 		spriteBatch.setColor(0, 0, 0, 0.5f); // negro con 50% opacidad
-		spriteBatch.draw(pixel, 0, Gdx.graphics.getHeight()-layout.height*2, Gdx.graphics.getWidth(),layout.height*2);
-		
-		
+		spriteBatch.draw(pixel, 0, Gdx.graphics.getHeight() - layout.height * 2, Gdx.graphics.getWidth(),
+				layout.height * 2);
+
 		font24.draw(spriteBatch, layout, x, y);
 
 		if (Game.getInstance().getRenderMode() == Game.ST_GAME_ENTERING
@@ -747,8 +757,7 @@ public class TileMapGrafica2D implements IMyApplicationListener
 		Pyramid pyramid = Game.getInstance().getCurrentLevel().getPyramid();
 		float playerX = Game.getInstance().getCurrentLevel().getPlayer().getX();
 		float playerY = Game.getInstance().getCurrentLevel().getPlayer().getY();
-		
-		
+
 		float medioX = pyramid.getMapWidthInUnits() / 2;
 		float dif_X = (medioX - playerX) * factor;
 		float aux_X = playerX + dif_X;
@@ -756,20 +765,16 @@ public class TileMapGrafica2D implements IMyApplicationListener
 		float medioY = pyramid.getMapHeightInUnits() / 2;
 		float dif_Y = (medioY - playerY) * factor;
 		float aux_Y = playerY + dif_Y;
-		
-		
-		
+
 		if (playerX >= (camera.viewportWidth / 2)
 				&& playerX + (camera.viewportWidth / 2) <= pyramid.getMapWidthInUnits())
 			camera.position.x = aux_X;
 
-
 		if (playerY >= (camera.viewportHeight / 2)
-				&& playerY + (camera.viewportHeight / 2) <= pyramid.getMapHeightInUnits()+GameRules.getInstance().getLevelTileHeightUnits()*2)
+				&& playerY + (camera.viewportHeight / 2) <= pyramid.getMapHeightInUnits()
+						+ GameRules.getInstance().getLevelTileHeightUnits() * 2)
 			camera.position.y = aux_Y;
 
-		
-		
 	}
 
 	/**
@@ -783,10 +788,13 @@ public class TileMapGrafica2D implements IMyApplicationListener
 	private void calculateInitialCamera(OrthographicCamera camera, float factor)
 	{
 		Pyramid pyramid = Game.getInstance().getCurrentLevel().getPyramid();
-		float posCameraX = cameraInitialCoord(Game.getInstance().getCurrentLevel().getPlayer().getX(),pyramid.getMapWidthInUnits(),camera.viewportWidth,factor);
-		float posCameraY = cameraInitialCoord(Game.getInstance().getCurrentLevel().getPlayer().getY(),pyramid.getMapHeightInUnits()+GameRules.getInstance().getLevelTileHeightUnits()*2,camera.viewportHeight,factor);
+		float posCameraX = cameraInitialCoord(Game.getInstance().getCurrentLevel().getPlayer().getX(),
+				pyramid.getMapWidthInUnits(), camera.viewportWidth, factor);
+		float posCameraY = cameraInitialCoord(Game.getInstance().getCurrentLevel().getPlayer().getY(),
+				pyramid.getMapHeightInUnits() + GameRules.getInstance().getLevelTileHeightUnits() * 2,
+				camera.viewportHeight, factor);
 		camera.position.x = posCameraX;
-		camera.position.y =posCameraY;
+		camera.position.y = posCameraY;
 	}
 
 	private float cameraInitialCoord(float playerCoord, float mapSizeInUnits, float viewPortSize, float factor)

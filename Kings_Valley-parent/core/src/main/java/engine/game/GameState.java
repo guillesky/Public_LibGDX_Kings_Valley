@@ -63,9 +63,6 @@ public abstract class GameState
     /**
      * Llamado al iniciar un nuevo juego
      * 
-     * @param episode  numero de epsiodio seleccionado (si es la version extendida)
-     * @param gameType true si es la version extendida, false si es la version
-     *                 clasica.
      */
     public abstract void startNewGame();
 

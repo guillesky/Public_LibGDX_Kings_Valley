@@ -29,7 +29,7 @@ public class UIGreatTempleMap extends UIAbstractMap
 	@Override
 	protected void generatePyramidsCellsInMaps()
 	{
-		int p = 0;
+		int currentPyramid = 0;
 		
 		int h = 0;
 		
@@ -39,16 +39,16 @@ public class UIGreatTempleMap extends UIAbstractMap
 		{
 		
 			h++;
-			for (int i = 1; i < 4; i++)
+			for (int i = 1; i <= 4; i++)
 			{
-				p++;
-				this.pyramidsInMap.put(p, new CellInMap(i, lastRow - h));
+				currentPyramid++;
+				this.pyramidsInMap.put(currentPyramid, new CellInMap(i, lastRow - h));
 			}
 			h++;
 			for (int i = 5; i >= 2; i--)
 			{
-				p++;
-				this.pyramidsInMap.put(p, new CellInMap(i, lastRow - h));
+				currentPyramid++;
+				this.pyramidsInMap.put(currentPyramid, new CellInMap(i, lastRow - h));
 			}
 
 		}

@@ -226,9 +226,18 @@ public class Constants
      */
     public static final String VERSION = "v 1.1.4 r 2026-03-16";
 
+    /**
+     * Indica el utlimo nivel en la version extendida
+     */
     public static final int LAST_EXTENDED_LEVEL = 60;
+    /**
+     * Indica el utlimo nivel en la version clasica
+     */
     public static final int LAST_CLASSIC_LEVEL = 15;
-    public static final int LAST_GREAT_TEMPLE_LEVEL = 15;
+    /**
+     * Indica el utlimo nivel en la version "desafio de gran templo"
+     */
+    public static final int LAST_GREAT_TEMPLE_LEVEL = 17;
 
     static
     {
