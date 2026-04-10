@@ -17,8 +17,6 @@ public class UIGreatTempleMap extends UIAbstractMap
 	 * @param mapTexture              Texture del mapa en blanco
 	 * @param currentPyramidTexture   Textura del resalatado para piramide actual
 	 * @param completedPyramidTexture Textura para marcar las piramides completadas
-	 * @param matrixDimension         Dimension de la matriz sobre la que se
-	 *                                dibujaran las piramides en el mapa.
 	 */
 	public UIGreatTempleMap(Texture mapTexture, Texture currentPyramidTexture, Texture completedPyramidTexture)
 	{
@@ -27,34 +25,34 @@ public class UIGreatTempleMap extends UIAbstractMap
 	}
 
 	@Override
-	protected void generatePyramidsCellsInMaps()
+	protected void generateLevelCellsInMaps()
 	{
-		int currentPyramid = 0;
+		int levelId = 0;
 		
-		int h = 0;
+		int row = 0;
 		
 		int lastRow = this.getMatrixDimension() - 1;
 
 		for (int count = 0; count < 2; count++)
 		{
 		
-			h++;
+			row++;
 			for (int i = 1; i <= 4; i++)
 			{
-				currentPyramid++;
-				this.pyramidsInMap.put(currentPyramid, new CellInMap(i, lastRow - h));
+				levelId++;
+				this.levelsInMap.put(levelId, new CellInMap(i, lastRow - row));
 			}
-			h++;
+			row++;
 			for (int i = 5; i >= 2; i--)
 			{
-				currentPyramid++;
-				this.pyramidsInMap.put(currentPyramid, new CellInMap(i, lastRow - h));
+				levelId++;
+				this.levelsInMap.put(levelId, new CellInMap(i, lastRow - row));
 			}
 
 		}
 
-		this.pyramidsInMap.put(17, new CellInMap(2, 1));
-		this.pyramidsInMap.put(18, new CellInMap(4, 1));
+		this.levelsInMap.put(17, new CellInMap(2, 1));
+		this.levelsInMap.put(18, new CellInMap(4, 1));
 		
 
 	}

@@ -30,7 +30,7 @@ public abstract class UIAbstractMap
      * HashMap que relaciona una celda de la matriz con el identificador de la
      * piramide
      */
-    protected HashMap<Integer, CellInMap> pyramidsInMap = new HashMap<Integer, CellInMap>();
+    protected HashMap<Integer, CellInMap> levelsInMap = new HashMap<Integer, CellInMap>();
 
     private SpriteWithId currentPyramidSprite;
 
@@ -125,7 +125,7 @@ public abstract class UIAbstractMap
 	this.cameraMap.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	this.mapSprite = new Sprite(mapTexture);
 	this.matrixDimension = matrixDimension;
-	this.generatePyramidsCellsInMaps();
+	this.generateLevelCellsInMaps();
     }
 
     /**
@@ -198,15 +198,15 @@ public abstract class UIAbstractMap
     private void recalculateSpriteWithId(SpriteWithId spriteWithId, float cellSize, float offsetX, float offsetY)
     {
 	spriteWithId.setSize(cellSize, cellSize);
-	float cellOffsetX = this.pyramidsInMap.get(spriteWithId.id).getCol() * cellSize + offsetX;
-	float cellOffsetY = this.pyramidsInMap.get(spriteWithId.id).getRow() * cellSize + offsetY;
+	float cellOffsetX = this.levelsInMap.get(spriteWithId.id).getCol() * cellSize + offsetX;
+	float cellOffsetY = this.levelsInMap.get(spriteWithId.id).getRow() * cellSize + offsetY;
 	spriteWithId.setPosition(cellOffsetX, cellOffsetY);
     }
 
     /**
-     * Genera las celdas donde estan las piramides
+     * Genera las celdas donde estan las piramides (Considerar que las fila 0 esta abajo y crece hacia arriba)
      */
-    protected abstract void generatePyramidsCellsInMaps();
+    protected abstract void generateLevelCellsInMaps();
 
     /**
      * Dibuja todo el conjunto del mapa

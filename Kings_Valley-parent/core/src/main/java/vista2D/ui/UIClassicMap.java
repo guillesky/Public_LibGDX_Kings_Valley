@@ -25,23 +25,23 @@ public class UIClassicMap extends UIAbstractMap
     }
 
     @Override
-    protected void generatePyramidsCellsInMaps()
+    protected void generateLevelCellsInMaps()
     {
-	int p = 1;
-	int w = 1;
-	int h = 1;
+	int levelId = 1;
+	int col = 1;
+	int row = 1;
 	int direction = 1;
 	int lastRow = this.getMatrixDimension() - 1;
-	while (p <= 16)
+	while (levelId <= 16)
 	{
-	    this.pyramidsInMap.put(p, new CellInMap(w, lastRow - h));
-	    p++;
-	    w += direction;
-	    if (w == 0 || w == lastRow)
+	    this.levelsInMap.put(levelId, new CellInMap(col, lastRow - row));
+	    levelId++;
+	    col += direction;
+	    if (col == 0 || col == lastRow)
 	    {
-		h++;
+		row++;
 		direction *= -1;
-		w += direction;
+		col += direction;
 	    }
 	}
     }

@@ -19,7 +19,6 @@ public class GameConfig
     private boolean enabledSelectDificultLevel = false;
     private int bestExtendedEpisodeFinished = 0;
     private int bestGreatTempleFinished = 0;
-    
 
     private static final String GAME_CONFIG_FILE = "game_config.json";
     private static final Json json = new Json();
@@ -200,14 +199,26 @@ public class GameConfig
 		+ ", bestExtendedEpisodeFinished=" + bestExtendedEpisodeFinished + "]";
     }
 
-	public int getBestGreatTempleFinished()
-	{
-		return bestGreatTempleFinished;
-	}
+    /**
+     * Indica cual fue el Gran Templo mas alto terminado en la version "Gran Templo"
+     * 
+     * @return cual fue el Gran Templo mas alto terminado en la version "Gran
+     *         Templo".
+     */
+    public int getBestGreatTempleFinished()
+    {
+	return bestGreatTempleFinished;
+    }
 
-	public void setBestGreatTempleFinished(int bestGreatTempleFinished)
-	{
-		this.bestGreatTempleFinished = bestGreatTempleFinished;
-	}
+    /**
+     * Setea cual es el gran templo mas alto terminado en la version Gran Templo
+     * 
+     * @param bestGreatTempleFinished el gran templo mas alto terminado en la
+     *                                version Gran Templo
+     */
+    public void setBestGreatTempleFinished(int bestGreatTempleFinished)
+    {
+	this.bestGreatTempleFinished = bestGreatTempleFinished;
+    }
 
 }

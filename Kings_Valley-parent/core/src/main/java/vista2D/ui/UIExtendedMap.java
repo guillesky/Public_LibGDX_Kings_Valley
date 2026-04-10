@@ -15,8 +15,7 @@ public class UIExtendedMap extends UIAbstractMap
      * @param mapTexture              Texture del mapa en blanco
      * @param currentPyramidTexture   Textura del resalatado para piramide actual
      * @param completedPyramidTexture Textura para marcar las piramides completadas
-     * @param matrixDimension         Dimension de la matriz sobre la que se
-     *                                dibujaran las piramides en el mapa.
+     *                              
      */
     public UIExtendedMap(Texture mapTexture, Texture currentPyramidTexture, Texture completedPyramidTexture)
     {
@@ -25,36 +24,36 @@ public class UIExtendedMap extends UIAbstractMap
     }
 
     @Override
-    protected void generatePyramidsCellsInMaps()
+    protected void generateLevelCellsInMaps()
     {
-	int p = 0;
-	int w = 1;
-	int h = 0;
+	int levelId = 0;
+	int col = 1;
+	int row = 0;
 	int direction = 1;
 	int lastRow = this.getMatrixDimension() - 1;
 
 	for (int count = 0; count < 4; count++)
 	{
-	    w = 1;
+	    col = 1;
 	    direction = 1;
-	    h++;
+	    row++;
 	    for (int i = 0; i < 15; i++)
 	    {
-		p++;
-		this.pyramidsInMap.put(p, new CellInMap(w, lastRow - h));
+		levelId++;
+		this.levelsInMap.put(levelId, new CellInMap(col, lastRow - row));
 
-		w += direction;
-		if (w == lastRow)
+		col += direction;
+		if (col == lastRow)
 		{
-		    h++;
+		    row++;
 		    direction *= -1;
-		    w += direction;
+		    col += direction;
 		}
 	    }
 	   
 	}
 	
-	this.pyramidsInMap.put(61, new CellInMap(w, lastRow - h));
+	this.levelsInMap.put(61, new CellInMap(col, lastRow - row));
 
     }
 
