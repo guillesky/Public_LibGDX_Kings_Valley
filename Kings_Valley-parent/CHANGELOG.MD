@@ -55,3 +55,8 @@
 
 * Se ajusto el nivel de dificultad de los niveles 59 y 60 (version extendida) acorde al original. El comportamiento de las momias hacia practicamente imposible resolver estas pantallas.
 
+"v 1.2.0 r 2026-04-10"
+
+* Se agrego el modo Gran Templo. Se corrigieron algunos bugs.
+
+
