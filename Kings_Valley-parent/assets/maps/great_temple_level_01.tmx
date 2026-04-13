@@ -251,11 +251,6 @@
     <property name="p0" value="4"/>
    </properties>
   </object>
-  <object id="25" type="Mummy" gid="125" x="3008" y="448" width="64" height="64">
-   <properties>
-    <property name="p0" value="3"/>
-   </properties>
-  </object>
   <object id="26" type="Wall" gid="128" x="5248" y="256" width="64" height="64">
    <properties>
     <property name="p0" value="0"/>
@@ -444,11 +439,6 @@
   <object id="65" type="Mummy" gid="124" x="4928" y="2240" width="64" height="64">
    <properties>
     <property name="p0" value="2"/>
-   </properties>
-  </object>
-  <object id="67" type="Mummy" gid="126" x="3328" y="1920" width="64" height="64">
-   <properties>
-    <property name="p0" value="4"/>
    </properties>
   </object>
   <object id="68" type="Dagger" gid="137" x="960" y="2432" width="64" height="64">

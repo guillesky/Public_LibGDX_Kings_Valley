@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.0" orientation="orthogonal" renderorder="right-down" width="96" height="44" tilewidth="64" tileheight="64" infinite="0" nextlayerid="4" nextobjectid="95">
+<map version="1.10" tiledversion="1.12.0" orientation="orthogonal" renderorder="right-down" width="96" height="44" tilewidth="64" tileheight="64" infinite="0" nextlayerid="4" nextobjectid="97">
  <tileset firstgid="1" source="tiles_new.tsx"/>
  <layer id="1" name="back" width="96" height="44">
   <data encoding="csv">
@@ -266,11 +266,6 @@
     <property name="p0" value="1"/>
    </properties>
   </object>
-  <object id="26" type="Mummy" gid="126" x="640" y="2304" width="64" height="64">
-   <properties>
-    <property name="p0" value="4"/>
-   </properties>
-  </object>
   <object id="27" type="Mummy" gid="122" x="1216" y="1792" width="64" height="64">
    <properties>
     <property name="p0" value="0"/>
@@ -416,11 +411,6 @@
     <property name="p0" value="134"/>
    </properties>
   </object>
-  <object id="74" type="Mummy" gid="126" x="3712" y="384" width="64" height="64">
-   <properties>
-    <property name="p0" value="4"/>
-   </properties>
-  </object>
   <object id="75" type="Mummy" gid="123" x="2880" y="1088" width="64" height="64">
    <properties>
     <property name="p0" value="1"/>
@@ -491,11 +481,6 @@
     <property name="p0" value="4"/>
    </properties>
   </object>
-  <object id="91" type="Mummy" gid="125" x="5376" y="320" width="64" height="64">
-   <properties>
-    <property name="p0" value="3"/>
-   </properties>
-  </object>
   <object id="92" type="Giratory" gid="107" x="2016" y="1344" width="64" height="64">
    <properties>
     <property name="p0" value="0"/>
@@ -509,6 +494,16 @@
   <object id="94" type="Giratory" gid="107" x="4064" y="1152" width="64" height="64">
    <properties>
     <property name="p0" value="0"/>
+   </properties>
+  </object>
+  <object id="95" type="Mummy" gid="122" x="3712" y="384" width="64" height="64">
+   <properties>
+    <property name="p0" value="0"/>
+   </properties>
+  </object>
+  <object id="96" type="Mummy" gid="124" x="640" y="2304" width="64" height="64">
+   <properties>
+    <property name="p0" value="2"/>
    </properties>
   </object>
  </objectgroup>
