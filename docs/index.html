@@ -40,11 +40,13 @@
         <button id="btn-inicio" onclick="mostrar('inicio')">> INICIO</button>
         <button id="btn-inst" onclick="mostrar('inst')">> COMO JUGAR</button>
         <button id="btn-cred" onclick="mostrar('cred')">> CREDITOS</button>
+        <button id="btn-videos" onclick="mostrar('videos')">> VIDEOS</button>
     </div>
 
     <!-- CONTENIDO -->
     <div id="inicio" class="seccion activa">
-        <p>Remake del clásico Kings Valley de MSX.</p>
+        <p id="inicio-es">Remake del clásico Kings Valley de MSX.</p>
+        <p id="inicio-en" style="display:none;">Remake of the classic MSX game Kings Valley.</p>
     </div>
 
     <div id="inst" class="seccion">
@@ -55,6 +57,13 @@
     <div id="cred" class="seccion">
         <div id="cred-es">(PEGAR CREDITOS ES)</div>
         <div id="cred-en" style="display:none;">(PASTE CREDITS EN)</div>
+    </div>
+
+    <!-- VIDEOS -->
+    <div id="videos" class="seccion">
+        <h2 id="videos-titulo">Videos de Gameplay</h2>
+
+        <div id="videos-lista"></div>
     </div>
 
 </div>
