@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.0" orientation="orthogonal" renderorder="right-down" width="64" height="66" tilewidth="64" tileheight="64" infinite="0" nextlayerid="4" nextobjectid="112">
+<map version="1.10" tiledversion="1.12.0" orientation="orthogonal" renderorder="right-down" width="64" height="66" tilewidth="64" tileheight="64" infinite="0" nextlayerid="4" nextobjectid="114">
  <tileset firstgid="1" source="tiles_new.tsx"/>
  <layer id="1" name="back" width="64" height="66">
   <data encoding="csv">
@@ -392,7 +392,7 @@
     <property name="p0" value="138"/>
    </properties>
   </object>
-  <object id="38" type="Dagger" gid="137" x="1600" y="1600" width="64" height="64">
+  <object id="38" type="Dagger" gid="137" x="1984" y="1280" width="64" height="64">
    <properties>
     <property name="p0" value="137"/>
    </properties>
@@ -440,11 +440,6 @@
   <object id="47" type="Mummy" gid="122" x="1280" y="1792" width="64" height="64">
    <properties>
     <property name="p0" value="0"/>
-   </properties>
-  </object>
-  <object id="48" type="Mummy" gid="125" x="192" y="2560" width="64" height="64">
-   <properties>
-    <property name="p0" value="3"/>
    </properties>
   </object>
   <object id="50" type="Giratory" gid="107" x="1888" y="1280" width="64" height="64">
@@ -667,21 +662,6 @@
     <property name="p0" value="1"/>
    </properties>
   </object>
-  <object id="97" type="Mummy" gid="126" x="992" y="3648" width="64" height="64">
-   <properties>
-    <property name="p0" value="4"/>
-   </properties>
-  </object>
-  <object id="99" type="Giratory" gid="107" x="1248" y="2944" width="64" height="64">
-   <properties>
-    <property name="p0" value="0"/>
-   </properties>
-  </object>
-  <object id="100" type="Giratory" gid="108" x="736" y="2944" width="64" height="64">
-   <properties>
-    <property name="p0" value="1"/>
-   </properties>
-  </object>
   <object id="101" type="Dagger" gid="137" x="3072" y="3008" width="64" height="64">
    <properties>
     <property name="p0" value="137"/>
@@ -717,11 +697,6 @@
     <property name="p0" value="135"/>
    </properties>
   </object>
-  <object id="108" type="Mummy" gid="125" x="2816" y="3776" width="64" height="64">
-   <properties>
-    <property name="p0" value="3"/>
-   </properties>
-  </object>
   <object id="109" type="Mummy" gid="123" x="3584" y="3392" width="64" height="64">
    <properties>
     <property name="p0" value="1"/>
@@ -730,6 +705,16 @@
   <object id="111" type="Door" gid="127" x="2112" y="4032" width="64" height="64">
    <properties>
     <property name="p0" value="1"/>
+   </properties>
+  </object>
+  <object id="112" type="Mummy" gid="122" x="192" y="2560" width="64" height="64">
+   <properties>
+    <property name="p0" value="0"/>
+   </properties>
+  </object>
+  <object id="113" type="Mummy" gid="124" x="992" y="3648" width="64" height="64">
+   <properties>
+    <property name="p0" value="2"/>
    </properties>
   </object>
  </objectgroup>

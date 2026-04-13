@@ -450,11 +450,6 @@
     <property name="p0" value="2"/>
    </properties>
   </object>
-  <object id="9" type="Mummy" gid="126" x="800" y="7808" width="64" height="64">
-   <properties>
-    <property name="p0" value="4"/>
-   </properties>
-  </object>
   <object id="12" type="Door" gid="127" x="128" y="8000" width="64" height="64">
    <properties>
     <property name="p0" value="1"/>
@@ -675,11 +670,6 @@
     <property name="p0" value="0"/>
    </properties>
   </object>
-  <object id="59" type="Mummy" gid="125" x="672" y="5312" width="64" height="64">
-   <properties>
-    <property name="p0" value="3"/>
-   </properties>
-  </object>
   <object id="61" type="Giratory" gid="107" x="1760" y="5568" width="64" height="64">
    <properties>
     <property name="p0" value="0"/>
@@ -733,16 +723,6 @@
   <object id="71" type="Dagger" gid="137" x="1856" y="3904" width="64" height="64">
    <properties>
     <property name="p0" value="137"/>
-   </properties>
-  </object>
-  <object id="73" type="Mummy" gid="122" x="1376" y="3264" width="64" height="64">
-   <properties>
-    <property name="p0" value="0"/>
-   </properties>
-  </object>
-  <object id="74" type="Mummy" gid="125" x="800" y="3200" width="64" height="64">
-   <properties>
-    <property name="p0" value="3"/>
    </properties>
   </object>
   <object id="76" type="Giratory" gid="107" x="1760" y="4160" width="64" height="64">
@@ -855,16 +835,6 @@
     <property name="p0" value="1"/>
    </properties>
   </object>
-  <object id="100" type="Giratory" gid="107" x="1376" y="2944" width="64" height="64">
-   <properties>
-    <property name="p0" value="0"/>
-   </properties>
-  </object>
-  <object id="101" type="Giratory" gid="108" x="928" y="2944" width="64" height="64">
-   <properties>
-    <property name="p0" value="1"/>
-   </properties>
-  </object>
   <object id="102" type="Door" gid="127" x="64" y="64" width="64" height="64">
    <properties>
     <property name="p0" value="0"/>
@@ -938,11 +908,6 @@
   <object id="116" type="Mummy" gid="122" x="1760" y="192" width="64" height="64">
    <properties>
     <property name="p0" value="0"/>
-   </properties>
-  </object>
-  <object id="117" type="Mummy" gid="124" x="160" y="832" width="64" height="64">
-   <properties>
-    <property name="p0" value="2"/>
    </properties>
   </object>
   <object id="119" type="Giratory" gid="107" x="416" y="1600" width="64" height="64">

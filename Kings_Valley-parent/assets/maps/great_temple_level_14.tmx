@@ -332,19 +332,9 @@
     <property name="p0" value="138"/>
    </properties>
   </object>
-  <object id="25" type="Mummy" gid="125" x="3264" y="1088" width="64" height="64">
-   <properties>
-    <property name="p0" value="3"/>
-   </properties>
-  </object>
   <object id="27" type="Mummy" gid="122" x="608" y="384" width="64" height="64">
    <properties>
     <property name="p0" value="0"/>
-   </properties>
-  </object>
-  <object id="28" type="Mummy" gid="126" x="1056" y="1088" width="64" height="64">
-   <properties>
-    <property name="p0" value="4"/>
    </properties>
   </object>
   <object id="29" type="Picker" gid="138" x="3776" y="1536" width="64" height="64">

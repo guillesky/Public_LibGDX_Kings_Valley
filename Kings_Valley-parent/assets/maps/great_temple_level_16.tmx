@@ -674,11 +674,6 @@
     <property name="p0" value="138"/>
    </properties>
   </object>
-  <object id="370" type="Mummy" gid="125" x="3680" y="1472" width="64" height="64">
-   <properties>
-    <property name="p0" value="3"/>
-   </properties>
-  </object>
   <object id="371" type="Mummy" gid="124" x="1632" y="1856" width="64" height="64">
    <properties>
     <property name="p0" value="2"/>
