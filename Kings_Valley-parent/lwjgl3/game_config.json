@@ -1,9 +1,9 @@
 {
 language: es
 masterVolume: 1
-musicVolume: 0.06
+musicVolume: 0.75
 soundsVolume: 1
-enabledSelectDificultLevel: true
-bestExtendedEpisodeFinished: 2
-bestGreatTempleFinished: 16
+enabledSelectDificultLevel: false
+bestExtendedEpisodeFinished: 0
+bestGreatTempleFinished: 0
 }
