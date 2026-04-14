@@ -1,18 +1,18 @@
-KING'S VALLEY ó INSTRUCCIONES
+KING'S VALLEY - INSTRUCCIONES
 
 --- MODOS DE JUEGO ---
 
 Puedes elegir entre tres modos de juego diferentes:
 
-1) VersiÛn Cl·sica. Incluye 15 niveles. Corresponde a la experiencia original de Kingís Valley de 1985.
-2) VersiÛn Extendida. Incluye 60 niveles divididos en 4 episodios. Basada en la versiÛn de 1988 de Konami Game Collection Vol. 1.
-3) DesafÌo del Gran Templo. Presenta 17 niveles de gran tamaÒo (tanto horizontal como verticalmente), ofreciendo un desafÌo considerablemente mayor, recomendado solo para jugadores experimentados.
+1) Versi√≥n Cl√°sica. Incluye 15 niveles. Corresponde a la experiencia original de King's Valley de 1985.
+2) Versi√≥nÔøΩn Extendida. Incluye 60 niveles divididos en 4 episodios. Basada en la versi√≥n de 1988 de Konami Game Collection Vol. 1.
+3) Desaf√≠o del Gran Templo. Presenta 17 niveles de gran tama√±o (tanto horizontal como verticalmente), ofreciendo un desaf√≠o considerablemente mayor, recomendado solo para jugadores experimentados.
 
---- CARACTERÕSTICAS GENERALES ---
+--- CARACTER√çSTICAS GENERALES ---
 
-* La selecciÛn de dificultad se desbloquea al completar el juego por primera vez.
-* En la VersiÛn Extendida, al completar un episodio (15 niveles), se habilita el acceso al siguiente.
-* En el DesafÌo del Gran Templo, al completar un nivel podr·s comenzar desde el siguiente.
+* La selecci√≥n de dificultad se desbloquea al completar el juego por primera vez.
+* En la Versi√≥n Extendida, al completar un episodio (15 niveles), se habilita el acceso al siguiente.
+* En el Desaf√≠o del Gran Templo, al completar un nivel podr√°s comenzar desde el siguiente.
 * Durante la partida, presiona la tecla ESCAPE para pausar el juego o consultar el mapa.
 * Si el explorador queda atrapado sin posibilidad de continuar, puedes reiniciar el nivel a costa de una vida.
 
