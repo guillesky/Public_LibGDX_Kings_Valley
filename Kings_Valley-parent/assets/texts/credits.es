@@ -1,15 +1,15 @@
-Créditos del Juego
+Creditos del Juego
 Remake de Kings Valley
 Desarrollado por: Guillermo Lazzurri
 Basado en el juego original de Konami para MSX (1985)
 
-Música
+Musica
 Tema principal del juego
-Composición de Bart Roijmans (youtube.com/@garlicsaucer)
+Composicion de Bart Roijmans (youtube.com/@garlicsaucer)
 Utilizado con permiso del autor.
 Fuente original: https://youtu.be/fnMw5JK0-Ps?si=R3UfeAPR9NzAXMpn
 
-Música de fondo de la interfaz
+Musica de fondo de la interfaz
 Composición de Hooman Voice (youtube.com/@hoomanvoice)
 Egyptian & Middle Eastern – The Legend of Narmer, por Wombat Noises Audio
 Fuente original: https://youtu.be/xNNVAVnQfwo?si=O2HyOPxjxINu8BhS
@@ -20,19 +20,19 @@ IDE: Eclipse
 
 Editor de mapas: Tiled
 
-Editor de gráficos: GIMP y herramientas propias en Java para pegado de bloques
+Editor de graficos: GIMP y herramientas propias en Java para pegado de bloques
 
-Imágenes de personajes y fondos: Generadas con ChatGPT y Leonardo AI
+Imagenes de personajes y fondos: Generadas con ChatGPT y Leonardo AI
 Animaciones de caracteres creadas con DragonBones
 
-Imágenes adicionales: Extraídas de bancos de imágenes royalty-free
+Imagenes adicionales: Extraidas de bancos de imagenes royalty-free
 
 Efectos de sonido: Descargados desde freesound.org
 
 Editor de Audio: Audacity
 
 Agradecimientos
-A la comunidad retro, por mantener viva la pasión por los clásicos
+A la comunidad retro, por mantener viva la pasion por los clasicos
 
 A los creadores de contenido libre, que comparten sus obras para que otros puedan crear
 

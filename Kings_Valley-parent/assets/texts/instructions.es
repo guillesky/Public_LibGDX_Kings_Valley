@@ -4,15 +4,15 @@ KING'S VALLEY - INSTRUCCIONES
 
 Puedes elegir entre tres modos de juego diferentes:
 
-1) Versión Clásica. Incluye 15 niveles. Corresponde a la experiencia original de King's Valley de 1985.
-2) Versión�n Extendida. Incluye 60 niveles divididos en 4 episodios. Basada en la versión de 1988 de Konami Game Collection Vol. 1.
-3) Desafío del Gran Templo. Presenta 17 niveles de gran tamaño (tanto horizontal como verticalmente), ofreciendo un desafío considerablemente mayor, recomendado solo para jugadores experimentados.
+1) Version Clasica. Incluye 15 niveles. Corresponde a la experiencia original de King's Valley de 1985.
+2) Version Extendida. Incluye 60 niveles divididos en 4 episodios. Basada en la version de 1988 de Konami Game Collection Vol. 1.
+3) Desafio del Gran Templo. Presenta 17 niveles de gran tama�o (tanto horizontal como verticalmente), ofreciendo un desafío considerablemente mayor, recomendado solo para jugadores experimentados.
 
---- CARACTERÍSTICAS GENERALES ---
+--- CARACTERISTICAS GENERALES ---
 
-* La selección de dificultad se desbloquea al completar el juego por primera vez.
-* En la Versión Extendida, al completar un episodio (15 niveles), se habilita el acceso al siguiente.
-* En el Desafío del Gran Templo, al completar un nivel podrás comenzar desde el siguiente.
+* La seleccion de dificultad se desbloquea al completar el juego por primera vez.
+* En la Version Extendida, al completar un episodio (15 niveles), se habilita el acceso al siguiente.
+* En el Desafio del Gran Templo, al completar un nivel podras comenzar desde el siguiente.
 * Durante la partida, presiona la tecla ESCAPE para pausar el juego o consultar el mapa.
 * Si el explorador queda atrapado sin posibilidad de continuar, puedes reiniciar el nivel a costa de una vida.
 
@@ -42,7 +42,7 @@ El explorador puede:
 
 * El explorador puede saltar hasta dos celdas de altura
 * No es posible superar obstaculos mas altos sin cavar o usar escaleras
-* El explorador puede caer desde cualquier altura sin sufrir daño
+* El explorador puede caer desde cualquier altura sin sufrir da�o
 * El peligro no esta en la caida, sino en el lugar donde se aterriza
 * Esta regla permite descensos largos, pero puede llevar a zonas sin salida.
 

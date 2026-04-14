@@ -1,7 +1,7 @@
 {
 language: es
 masterVolume: 1
-musicVolume: 0.75
+musicVolume: 0.5
 soundsVolume: 1
 enabledSelectDificultLevel: false
 bestExtendedEpisodeFinished: 0
