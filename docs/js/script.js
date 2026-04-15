@@ -24,6 +24,9 @@ function cambiarIdioma(lang) {
         document.getElementById("btn-videos").innerText = "> VIDEOS";
         document.getElementById("btn-descarga").innerText = "DESCARGAR";
         document.getElementById("videos-titulo").innerText = "Videos de Gameplay";
+	document.getElementById("btn-encuesta").innerText = "> COMPLETA LA ENCUESTA";
+
+
     } else {
         document.getElementById("btn-inicio").innerText = "> START";
         document.getElementById("btn-inst").innerText = "> HOW TO PLAY";
@@ -31,6 +34,9 @@ function cambiarIdioma(lang) {
         document.getElementById("btn-videos").innerText = "> VIDEOS";
         document.getElementById("btn-descarga").innerText = "DOWNLOAD";
         document.getElementById("videos-titulo").innerText = "Gameplay Videos";
+ 	document.getElementById("btn-encuesta").innerText = "> TAKE THE SURVEY";
+
+
     }
 }
 
@@ -61,3 +67,7 @@ function cargarVideos() {
 }
 
 window.onload = cargarVideos;
+
+function abrirEncuesta() {
+    window.open("https://forms.gle/LE89CsxJQHYsVrsA9", "_blank");
+}
