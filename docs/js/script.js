@@ -25,6 +25,7 @@ function cambiarIdioma(lang) {
         document.getElementById("btn-descarga").innerText = "DESCARGAR";
         document.getElementById("videos-titulo").innerText = "Videos de Gameplay";
 	document.getElementById("btn-encuesta").innerText = "> COMPLETA LA ENCUESTA";
+        document.getElementById("btn-source").innerText = "> CODIGO FUENTE";
 
 
     } else {
@@ -35,6 +36,10 @@ function cambiarIdioma(lang) {
         document.getElementById("btn-descarga").innerText = "DOWNLOAD";
         document.getElementById("videos-titulo").innerText = "Gameplay Videos";
  	document.getElementById("btn-encuesta").innerText = "> TAKE THE SURVEY";
+	document.getElementById("btn-source").innerText = "> SOURCE CODE";
+
+
+
 
 
     }
@@ -70,4 +75,8 @@ window.onload = cargarVideos;
 
 function abrirEncuesta() {
     window.open("https://forms.gle/LE89CsxJQHYsVrsA9", "_blank");
+}
+
+function abrirFuente() {
+    window.open("https://github.com/guillesky/Public_LibGDX_Kings_Valley", "_blank");
 }
