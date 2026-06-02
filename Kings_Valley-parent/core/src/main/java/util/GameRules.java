@@ -104,7 +104,7 @@ public class GameRules
     private float mummyRedTimeDeciding;
 
     private static GameRules instance = null;
-    private static final String GAMES_RULES_CONFIG_FILE = "games_rules_config.json";
+    private static final String GAMES_RULES_CONFIG_FILE = "config/games_rules_config.json";
     private static final Json json = new Json();
 
     /**
@@ -127,7 +127,7 @@ public class GameRules
      */
     private static GameRules loadConfig()
     {
-	FileHandle file = Gdx.files.local(GAMES_RULES_CONFIG_FILE);
+	FileHandle file = Gdx.files.internal(GAMES_RULES_CONFIG_FILE);
 
 	return json.fromJson(GameRules.class, file);
 

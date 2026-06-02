@@ -11,6 +11,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.ObjectMap;
 
 import audio.AudioManager;
 import engine.game.Game;
@@ -33,7 +34,7 @@ import vista2D.ui.UIConfig;
 public class Facade implements ApplicationListener
 {
 	private static Facade instance = null;
-	private final static String CONFIG_UI_FILE = "ui_config.json";
+	private final static String CONFIG_UI_FILE = "config/ui_config.json";
 
 	private static final Json json = new Json();
 
@@ -142,7 +143,6 @@ public class Facade implements ApplicationListener
 		this.changeConfig = true;
 	}
 
-	
 	/**
 	 * Prepara las condiciones para iniciar un nuevo juego con el nivel de
 	 * dificultad pasado por parametro. Debera luego llamarse al metodo fireGame().
@@ -234,28 +234,15 @@ public class Facade implements ApplicationListener
 	 */
 	private void readLanguageFiles()
 	{
-		FileHandle inputFolder = Gdx.files.local("i18n/");
-		FileHandle[] allFiles = inputFolder.list();
-		ArrayList<FileHandle> jsonFiles = new ArrayList<FileHandle>();
+		FileHandle languagesJson = Gdx.files.internal("i18n/languages.json");
+		Json json = new Json();
+		String[] languages = json.fromJson(String[].class, languagesJson);
+		for (String prefix : languages)
+		{
+			Language language = Utils.i18nToLanguage(prefix);
+			this.allLanguages.addLanguaje(language);
+		}
 
-		for (FileHandle file : allFiles)
-		{
-			if (file.extension().toLowerCase().equals("json"))
-			{
-				jsonFiles.add(file);
-			}
-		}
-		if (jsonFiles.isEmpty())
-		{
-			System.out.println("No se encontraron archivos JSON en la carpeta i18n/");
-		} else
-		{
-			for (FileHandle file : jsonFiles)
-			{
-				Language language = Utils.i18nToLanguage(file.nameWithoutExtension());
-				this.allLanguages.addLanguaje(language);
-			}
-		}
 	}
 
 	/**
@@ -477,12 +464,8 @@ public class Facade implements ApplicationListener
 	private static UIConfig loadConfig()
 	{
 		UIConfig r;
-		FileHandle file = Gdx.files.local(CONFIG_UI_FILE);
-		if (file.exists())
-		{
-			r = json.fromJson(UIConfig.class, file);
-		} else
-			r = new UIConfig();
+		FileHandle file = Gdx.files.internal(CONFIG_UI_FILE);
+		r = json.fromJson(UIConfig.class, file);
 		return r;
 	}
 

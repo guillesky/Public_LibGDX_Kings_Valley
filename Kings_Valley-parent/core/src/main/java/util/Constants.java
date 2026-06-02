@@ -11,6 +11,11 @@ import java.util.HashMap;
  */
 public class Constants
 {
+	 /**
+     * Indica el numero actual de version de juego y fecha de release
+     */
+    public static final String VERSION = "v 1.2.1 r 2026-06-01";
+    
     /**
      * Codigo identificatorio del player
      */
@@ -221,10 +226,7 @@ public class Constants
 
     public static ArrayList<Integer> tilesPreviusToStairs;
 
-    /**
-     * Indica el numero actual de version de juego y fecha de release
-     */
-    public static final String VERSION = "v 1.2.0 r 2026-04-14";
+   
 
     /**
      * Indica el utlimo nivel en la version extendida

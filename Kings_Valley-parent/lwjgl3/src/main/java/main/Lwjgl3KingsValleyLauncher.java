@@ -48,7 +48,7 @@ public class Lwjgl3KingsValleyLauncher
 	//configuration.setWindowedMode(1920, 1080);
 
 	//// You can change these files; they are in lwjgl3/src/main/resources/ .
-	configuration.setWindowIcon("libgdx128.png", "libgdx64.png", "libgdx32.png", "libgdx16.png");
+	configuration.setWindowIcon("kingsvalley_256.png","kingsvalley_128.png", "kingsvalley_64.png","kingsvalley_48.png","kingsvalley_32.png","kingsvalley_16.png");
 	return configuration;
     }
 }
