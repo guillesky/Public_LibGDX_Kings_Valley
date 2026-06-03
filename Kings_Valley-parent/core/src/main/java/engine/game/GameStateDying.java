@@ -2,7 +2,7 @@ package engine.game;
 
 import com.badlogic.gdx.Input;
 
-import engine.control.Controls;
+import engine.IGameControl;
 import engine.gameCharacters.player.Player;
 import engine.level.Level;
 
@@ -33,9 +33,9 @@ public class GameStateDying extends GameState
 	{
 		super.updateframe(deltaTime);
 		Level currentLevel = this.game.getCurrentLevel();
-		Controls controles = this.game.getControles();
+		IGameControl controles = this.game.getControles();
 		Player player = currentLevel.getPlayer();
-		player.update(controles.getNuevoRumbo(), controles.getShot(Input.Keys.SPACE), deltaTime);
+		player.update(controles.getMovementDirection(), controles.getShot(IGameControl.ACTION), deltaTime);
 
 		currentLevel.update(deltaTime);
 

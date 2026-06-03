@@ -71,14 +71,14 @@ public class Player extends GameCharacter
      * Llamado para actualizar al player. Delega el metodo en
      * this.playerState.update(v, b, deltaTime);
      * 
-     * @param v         Indica la direccion pretendida.
-     * @param b         true si intenta realizar una accion, false en caso contrario
+     * @param movementDirection         Indica la direccion pretendida.
+     * @param action         true si intenta realizar una accion, false en caso contrario
      * @param deltaTime Tiempo transcurrido desde la ultima actualizacion
      */
-    public void update(Vector2 v, boolean b, float deltaTime)
+    public void update(Vector2 movementDirection, boolean action, float deltaTime)
     {
 	this.incAnimationDelta(deltaTime);
-	this.playerState.update(v, b, deltaTime);
+	this.playerState.update(movementDirection, action, deltaTime);
     }
 
     /**

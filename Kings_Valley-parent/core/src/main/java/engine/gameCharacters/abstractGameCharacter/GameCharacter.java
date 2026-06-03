@@ -162,14 +162,15 @@ public abstract class GameCharacter extends LevelObject
      * Delega en su atributo de estado: this.gameCharacterState.move(v, b,
      * deltaTime);
      * 
-     * @param v         vector de direccion pretendida
-     * @param b         realzar accion (true o false) puede ser saltar, lanzar daga,
-     *                  o intentar picar
-     * @param deltaTime tiempo transcurrido desde el ultimo frame en segundos
+     * @param movementDirection vector de direccion pretendida
+     * @param action            realzar accion (true o false) puede ser saltar,
+     *                          lanzar daga, o intentar picar
+     * @param deltaTime         tiempo transcurrido desde el ultimo frame en
+     *                          segundos
      */
-    protected void move(Vector2 v, boolean b, float deltaTime)
+    protected void move(Vector2 movementDirection, boolean action, float deltaTime)
     {
-	this.gameCharacterState.move(v, b, deltaTime);
+	this.gameCharacterState.move(movementDirection, action, deltaTime);
 	if (!this.isInStair())
 	    this.checkGiratory();
     }
@@ -549,7 +550,5 @@ public abstract class GameCharacter extends LevelObject
     {
 	return speedJump;
     }
-
-   
 
 }

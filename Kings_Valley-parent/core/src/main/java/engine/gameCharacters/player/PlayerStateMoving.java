@@ -36,9 +36,9 @@ public class PlayerStateMoving extends PlayerState
 	}
 
 	@Override
-	public void update(Vector2 v, boolean b, float deltaTime)
+	public void update(Vector2 movementDirection, boolean action, float deltaTime)
 	{
-		this.player.move(v, b, deltaTime);
+		this.player.move(movementDirection, action, deltaTime);
 
 	}
 

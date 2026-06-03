@@ -47,8 +47,8 @@ public abstract class GameCharacterStateOnFloor extends GameCharacterState
 	    beginStair = stair.getDownStair();
 	else
 	    beginStair = stair.getUpStair();
-	float middleBeginStair=beginStair.x+beginStair.width*.5f;
-	this.gameCharacter.x=middleBeginStair-this.gameCharacter.width*.5f;
+	float middleBeginStair = beginStair.x + beginStair.width * .5f;
+	this.gameCharacter.x = middleBeginStair - this.gameCharacter.width * .5f;
 
     }
 

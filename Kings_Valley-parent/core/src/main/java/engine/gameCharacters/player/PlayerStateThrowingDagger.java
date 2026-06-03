@@ -41,7 +41,7 @@ public class PlayerStateThrowingDagger extends PlayerState
 	 * 
 	 */
 	@Override
-	public void update(Vector2 v, boolean b, float deltaTime)
+	public void update(Vector2 movementDirection, boolean action, float deltaTime)
 	{
 
 		if (this.player.getAnimationDelta() >= GameRules.getInstance().getTimeToEndThrowDagger()) // termino de LANZAR
@@ -49,7 +49,7 @@ public class PlayerStateThrowingDagger extends PlayerState
 																									// DAGA
 		{
 			int state;
-			if (v.x == 0)
+			if (movementDirection.x == 0)
 				state = GameCharacter.ST_IDDLE;
 			else
 				state = GameCharacter.ST_WALKING;

@@ -6,9 +6,10 @@ import java.util.Random;
 
 import com.badlogic.gdx.Input;
 
+import engine.IGameControl;
 import engine.IGraphic;
 import engine.KVEventListener;
-import engine.control.Controls;
+import engine.control.KeyboardGameControl;
 import engine.level.Level;
 import engine.level.door.Door;
 import util.Constants;
@@ -66,7 +67,7 @@ public class Game implements KVEventListener
     public static final int GAME_TYPE_GREAT_TEMPLE = 2;
 
     private static Game instance = null;
-    private Controls controles = new Controls();
+    private IGameControl controles = new KeyboardGameControl();
     /**
      * niveles que ya han sido completados
      */
@@ -268,7 +269,7 @@ public class Game implements KVEventListener
 	if (deltaTime > maxDeltaTime)
 	    deltaTime = maxDeltaTime;
 
-	if (controles.getShot(Input.Keys.P) || controles.getShot(Input.Keys.ESCAPE))
+	if (controles.getShot(IGameControl.PAUSE))
 	{
 	    this.pressPause();
 	}
@@ -294,21 +295,21 @@ public class Game implements KVEventListener
     }
 
     /**
-     * retorna el objeto de tipo Controls para controlar el juego (teclado)
+     * retorna el objeto de tipo Controls para controlar el juego (Joystick, Teclado, GamePad, etc.)
      * 
-     * @return Objeto de tipo Controls para controlar el juego (teclado)
+     * @return Objeto de tipo Controls para controlar el juego (Joystick, Teclado, GamePad, etc.)
      */
-    public Controls getControles()
+    public IGameControl getControles()
     {
 	return controles;
     }
 
     /**
-     * Setea el objeto de tipo Controls para controlar el juego (teclado)
+     * Setea el objeto de tipo Controls para controlar el juego (Joystick, Teclado, GamePad, etc.)
      * 
-     * @param controles Objeto de tipo Controls para controlar el juego (teclado)
+     * @param controles Objeto de tipo Controls para controlar el juego (Joystick, Teclado, GamePad, etc.)
      */
-    public void setControles(Controls controles)
+    public void setControles(IGameControl controles)
     {
 	this.controles = controles;
     }

@@ -12,88 +12,88 @@ import engine.level.Stair;
 public class GameCharacterStateWalking extends GameCharacterStateOnFloor
 {
 
-	/**
-	 * Constructor encadenado. Llama a <br>
-	 * super(gameCharacter, GameCharacter.ST_WALKING); <br>
-	 * this.gameCharacter.resetAnimationDelta(); <br>
-	 * 
-	 * @param gameCharacter Contexto del patron state
-	 */
-	public GameCharacterStateWalking(GameCharacter gameCharacter)
+    /**
+     * Constructor encadenado. Llama a <br>
+     * super(gameCharacter, GameCharacter.ST_WALKING); <br>
+     * this.gameCharacter.resetAnimationDelta(); <br>
+     * 
+     * @param gameCharacter Contexto del patron state
+     */
+    public GameCharacterStateWalking(GameCharacter gameCharacter)
+    {
+	super(gameCharacter, GameCharacter.ST_WALKING);
+	this.gameCharacter.resetAnimationDelta();
+    }
+
+    /**
+     * Verifica colisiones laterales y puede marcar los siguientes cambios de estado
+     */
+    @Override
+    protected void beforeScaling(Vector2 movementDirection, boolean action, float deltaTime)
+    {
+
+	this.gameCharacter.motionVector.x = movementDirection.x * this.gameCharacter.getSpeedWalk();
+	if (movementDirection.x != 0)
+	    this.gameCharacter.lookRight = movementDirection.x > 0;
+
+	if (action)
+	    this.gameCharacter.doAction();
+	else
 	{
-		super(gameCharacter, GameCharacter.ST_WALKING);
-		this.gameCharacter.resetAnimationDelta();
-	}
 
-	/**
-	 * Verifica colisiones laterales y puede marcar los siguientes cambios de estado
-	 */
-	@Override
-	protected void beforeScaling(Vector2 v, boolean b, float deltaTime)
+	    if (movementDirection.x == 0)
+		this.nextState = GameCharacter.ST_IDDLE;
+
+	    if (movementDirection.y != 0 && movementDirection.x != 0)
+		this.checkEnterStair(movementDirection);
+	    if (!this.isFloorDown())
+		this.nextState = GameCharacter.ST_FALLING;
+	}
+    }
+
+    /**
+     * Verifica si el caracter esta entrando a una escalera. De ser asi, llama a
+     * this.gameCharacter.enterStair(stair);
+     * 
+     * @param movementDirection Indica la direccion pretendida
+     */
+    protected void checkEnterStair(Vector2 movementDirection)
+    {
+	Stair stair = null;
+	if (movementDirection.y > 0)
 	{
+	    if (movementDirection.x > 0)
+	    {
+		stair = this.gameCharacter.checkStairsFeetColision(true, true);
 
-		this.gameCharacter.motionVector.x = v.x * this.gameCharacter.getSpeedWalk();
-		if (v.x != 0)
-			this.gameCharacter.lookRight = v.x > 0;
-
-		if (b)
-			this.gameCharacter.doAction();
-		else
-		{
-
-			if (v.x == 0)
-				this.nextState = GameCharacter.ST_IDDLE;
-
-			if (v.y != 0 && v.x != 0)
-				this.checkEnterStair(v);
-			if (!this.isFloorDown())
-				this.nextState = GameCharacter.ST_FALLING;
-		}
-	}
-
-	/**
-	 * Verifica si el caracter esta entrando a una escalera. De ser asi, llama a
-	 * this.gameCharacter.enterStair(stair);
-	 * 
-	 * @param v Indica la direccion pretendida
-	 */
-	protected void checkEnterStair(Vector2 v)
+	    } else
+	    {
+		stair = this.gameCharacter.checkStairsFeetColision(false, true);
+	    }
+	} else
 	{
-		Stair stair = null;
-		if (v.y > 0)
-		{
-			if (v.x > 0)
-			{
-				stair = this.gameCharacter.checkStairsFeetColision(true, true);
+	    if (movementDirection.x > 0)
+	    {
+		stair = this.gameCharacter.checkStairsFeetColision(false, false);
 
-			} else
-			{
-				stair = this.gameCharacter.checkStairsFeetColision(false, true);
-			}
-		} else
-		{
-			if (v.x > 0)
-			{
-				stair = this.gameCharacter.checkStairsFeetColision(false, false);
+	    } else
+	    {
+		stair = this.gameCharacter.checkStairsFeetColision(true, false);
 
-			} else
-			{
-				stair = this.gameCharacter.checkStairsFeetColision(true, false);
-
-			}
-		}
-		if (stair != null)
-			this.gameCharacter.enterStair(stair);
-
+	    }
 	}
+	if (stair != null)
+	    this.gameCharacter.enterStair(stair);
 
-	/**
-	 * llama a this.colisionForWalk(escalado);
-	 */
-	@Override
-	protected void afterScaling(Vector2 escalado)
-	{
-		this.colisionForWalk(escalado);
-	}
+    }
+
+    /**
+     * llama a this.colisionForWalk(escalado);
+     */
+    @Override
+    protected void afterScaling(Vector2 escalado)
+    {
+	this.colisionForWalk(escalado);
+    }
 
 }

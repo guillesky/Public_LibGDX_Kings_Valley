@@ -175,9 +175,9 @@ public abstract class Mummy extends GameCharacter
      * 
      */
     @Override
-    protected void move(Vector2 v, boolean b, float deltaTime)
+    protected void move(Vector2 movementDirection, boolean action, float deltaTime)
     {
-	super.move(v, b, deltaTime);
+	super.move(movementDirection, action, deltaTime);
 
     }
 

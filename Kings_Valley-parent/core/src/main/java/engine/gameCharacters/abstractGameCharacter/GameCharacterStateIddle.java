@@ -10,45 +10,43 @@ import com.badlogic.gdx.math.Vector2;
 public class GameCharacterStateIddle extends GameCharacterStateOnFloor
 {
 
-	/**
-	 * Constructor de clase que llama a super(gameCharacter,
-	 * GameCharacter.ST_IDDLE);
-	 * 
-	 * @param gameCharacter Contexto del patron state
-	 */
-	public GameCharacterStateIddle(GameCharacter gameCharacter)
+    /**
+     * Constructor de clase que llama a super(gameCharacter,
+     * GameCharacter.ST_IDDLE);
+     * 
+     * @param gameCharacter Contexto del patron state
+     */
+    public GameCharacterStateIddle(GameCharacter gameCharacter)
+    {
+	super(gameCharacter, GameCharacter.ST_IDDLE);
+	this.gameCharacter.resetAnimationDelta();
+
+    }
+
+    /**
+     * Realiza los calculos y eventualemente maraca el siguiente cambio de estado.
+     */
+    @Override
+    protected void beforeScaling(Vector2 movementDirection, boolean action, float deltaTime)
+    {
+
+	if (action)
 	{
-		super(gameCharacter, GameCharacter.ST_IDDLE);
-		this.gameCharacter.resetAnimationDelta();
+	    if (movementDirection.x != 0)
+		this.gameCharacter.motionVector.x = movementDirection.x * this.gameCharacter.getSpeedWalk();
+	    this.gameCharacter.doAction();
 
-	}
+	} else if (movementDirection.x != 0)
+	    this.nextState = GameCharacter.ST_WALKING;
+    }
 
-	/**
-	 * Realiza los calculos y eventualemente maraca el siguiente cambio de estado.
-	 */
-	@Override
-	protected void beforeScaling(Vector2 v, boolean b, float deltaTime)
-	{
+    /**
+     * Se sobreescribe como metodo vacio (no hace nada)
+     */
+    @Override
+    protected void afterScaling(Vector2 escalado)
+    {
 
-		if (b)
-		{
-			if (v.x != 0)
-				this.gameCharacter.motionVector.x = v.x * this.gameCharacter.getSpeedWalk();
-			this.gameCharacter.doAction();
-
-		} else if (v.x != 0)
-			this.nextState = GameCharacter.ST_WALKING;
-	}
-
-	/**
-	 * Se sobreescribe como metodo vacio (no hace nada)
-	 */
-	@Override
-	protected void afterScaling(Vector2 escalado)
-	{
-
-	}
-
-	
+    }
 
 }

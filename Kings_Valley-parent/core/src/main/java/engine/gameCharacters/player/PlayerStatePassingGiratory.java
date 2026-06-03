@@ -34,7 +34,7 @@ public class PlayerStatePassingGiratory extends PlayerState
      * 
      */
     @Override
-    public void update(Vector2 v, boolean b, float deltaTime)
+    public void update(Vector2 movementDirection, boolean action, float deltaTime)
     {
 	float direction;
 	float speedWalkStairs = this.player.getSpeedWalkStairs();
@@ -47,7 +47,7 @@ public class PlayerStatePassingGiratory extends PlayerState
 	if (!this.player.isColision(this.passingGiratory.getLevelObject()))
 	{
 	    int state;
-	    if (v.x == 0)
+	    if (movementDirection.x == 0)
 		state = GameCharacter.ST_IDDLE;
 	    else
 		state = GameCharacter.ST_WALKING;

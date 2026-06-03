@@ -32,7 +32,7 @@ public class PlayerStateDying extends PlayerState
 	 * Se sobreescribe como metodo vacio (no hace nada)
 	 */
 	@Override
-	public void update(Vector2 v, boolean b, float deltaTime)
+	public void update(Vector2 movementDirection, boolean action, float deltaTime)
 	{
 	}
 

@@ -3,8 +3,8 @@ package engine.game;
 import com.badlogic.gdx.Input;
 
 import engine.DrawableElement;
+import engine.IGameControl;
 import engine.KVEventListener;
-import engine.control.Controls;
 import engine.gameCharacters.mummys.PlatformAnalysisResult;
 import engine.gameCharacters.player.Player;
 import engine.level.Level;
@@ -48,9 +48,9 @@ public class GameStatePlaying extends GameState
 	{
 		super.updateframe(deltaTime);
 		Level currentLevel = this.game.getCurrentLevel();
-		Controls controles = this.game.getControles();
+		IGameControl controles = this.game.getControles();
 		Player player = currentLevel.getPlayer();
-		player.update(controles.getNuevoRumbo(), controles.getShot(Input.Keys.SPACE), deltaTime);
+		player.update(controles.getMovementDirection(), controles.getShot(IGameControl.ACTION), deltaTime);
 
 		if (currentLevel.isReadyToExit() && !this.readyToExit)
 		{
@@ -64,7 +64,7 @@ public class GameStatePlaying extends GameState
 		{
 			currentLevel.checkLevers();
 			Door door = currentLevel.checkPassages();
-			if (door != null && controles.getNuevoRumbo().y > 0)
+			if (door != null && controles.getMovementDirection().y > 0)
 			{
 				this.game.stateGame = new GameStateExiting(door);
 			}
@@ -86,7 +86,7 @@ public class GameStatePlaying extends GameState
 		 * if (controles.getShot(Input.Keys.S)) this.game.showPlayer();
 		*/
 		
-		if (GameRules.getInstance().isDebugMode() && controles.getShot(Input.Keys.S))
+		if (GameRules.getInstance().isDebugMode() && controles.getShot(IGameControl.AUX_BUTTON1))
 		{
 			this.game.getInterfaz().addGraphicElement(new DrawableElement(Constants.DRAWABLE_PLATFORM_ANALYSIS_RESULT,new PlatformAnalysisResult(player)));
 		}
