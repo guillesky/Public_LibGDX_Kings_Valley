@@ -107,6 +107,11 @@ public class Utils
 		}
 	}
 
-
+	/**
+	 * Constructor de clase privado. Esta clase no deberia instanciarse.
+	 */
+	private Utils()
+	{
+	}
 
 }

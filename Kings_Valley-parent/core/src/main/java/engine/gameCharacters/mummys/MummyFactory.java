@@ -33,6 +33,11 @@ public class MummyFactory
 	 */
 	public static final int RED_MUMMY = 4;
 
+	
+	/**
+	 * Constructor de clase.
+	 */
+	public MummyFactory() {}
 	/**
 	 * Metodo que retornara una momia de acuerdo a si tipo
 	 * 

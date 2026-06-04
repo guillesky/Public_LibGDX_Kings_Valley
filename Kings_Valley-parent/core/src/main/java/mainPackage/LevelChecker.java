@@ -16,22 +16,25 @@ import util.Constants;
  */
 public class LevelChecker extends ApplicationAdapter
 {
+	/**
+	 * Constructor de clase
+	 */
+	public LevelChecker()
+	{
+	}
 
 	@Override
 	public void create()
 	{
 		TmxMapLoader mapLoader = new TmxMapLoader();
-		
+
 		for (String archi : Constants.extendedLevelFileName.values())
 		{
 			System.out.println(archi);
-			TiledMap map= mapLoader.load(archi);
-			
-			
+			TiledMap map = mapLoader.load(archi);
+
 		}
 		Gdx.app.exit();
 	}
-
-	
 
 }

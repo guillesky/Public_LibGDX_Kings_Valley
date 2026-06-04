@@ -10,8 +10,20 @@ import java.util.Iterator;
  */
 public class AllLanguages
 {
+
+	
+
 	private HashMap<String, Language> languages = new HashMap<String, Language>();
 
+	
+	
+	
+	/**
+	 * Constructor de clase. La clase no contiene ningun lenguaje. 
+	 */
+	public AllLanguages()
+	{
+	}
 	/**
 	 * Agrega un idioma a la lista
 	 * 

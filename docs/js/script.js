@@ -22,10 +22,12 @@ function cambiarIdioma(lang) {
         document.getElementById("btn-inst").innerText = "> COMO JUGAR";
         document.getElementById("btn-cred").innerText = "> CREDITOS";
         document.getElementById("btn-videos").innerText = "> VIDEOS";
-        document.getElementById("btn-descarga").innerText = "DESCARGAR";
         document.getElementById("videos-titulo").innerText = "Videos de Gameplay";
 	document.getElementById("btn-encuesta").innerText = "> COMPLETA LA ENCUESTA";
         document.getElementById("btn-source").innerText = "> CODIGO FUENTE";
+	document.getElementById("titulo-descargas").innerText = "DESCARGAS";
+	document.getElementById("btn-windows").innerText ="🪟 Instalador MSI para Windows (Recomendado)";
+	document.getElementById("btn-linux").innerText =   "🐧 JAR Portable para Linux";
 
 
     } else {
@@ -33,10 +35,12 @@ function cambiarIdioma(lang) {
         document.getElementById("btn-inst").innerText = "> HOW TO PLAY";
         document.getElementById("btn-cred").innerText = "> CREDITS";
         document.getElementById("btn-videos").innerText = "> VIDEOS";
-        document.getElementById("btn-descarga").innerText = "DOWNLOAD";
         document.getElementById("videos-titulo").innerText = "Gameplay Videos";
  	document.getElementById("btn-encuesta").innerText = "> TAKE THE SURVEY";
 	document.getElementById("btn-source").innerText = "> SOURCE CODE";
+	document.getElementById("titulo-descargas").innerText = "DOWNLOADS";
+	document.getElementById("btn-windows").innerText ="🪟 MSI Installer for Windows (Recommended)";
+	document.getElementById("btn-linux").innerText = "🐧 Portable JAR for Linux";
 
 
 
