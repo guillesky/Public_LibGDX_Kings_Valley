@@ -1,4 +1,4 @@
-package mainPackage;
+package toolsForDevelop;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;

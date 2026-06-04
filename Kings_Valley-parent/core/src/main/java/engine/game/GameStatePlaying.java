@@ -1,7 +1,5 @@
 package engine.game;
 
-import com.badlogic.gdx.Input;
-
 import engine.DrawableElement;
 import engine.IGameControl;
 import engine.KVEventListener;

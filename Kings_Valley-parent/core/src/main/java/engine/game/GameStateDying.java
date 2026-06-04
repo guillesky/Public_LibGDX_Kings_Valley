@@ -1,7 +1,5 @@
 package engine.game;
 
-import com.badlogic.gdx.Input;
-
 import engine.IGameControl;
 import engine.gameCharacters.player.Player;
 import engine.level.Level;

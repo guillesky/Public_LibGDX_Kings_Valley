@@ -1,9 +1,32 @@
 package engine;
 
 /**
- * Interfaz que debera ser implementada por la clase encargada de la
- * representacion grafica del juego.
- * 
+ * Define el contrato de comunicacion entre la logica del juego y la capa de
+ * representacion visual.
+ *
+ * <p>
+ * Esta interfaz constituye el principal mecanismo de desacoplamiento entre el
+ * modelo del juego y la implementacion grafica concreta. Las clases de la
+ * logica interactuan exclusivamente con esta abstraccion, evitando dependencias
+ * directas respecto de bibliotecas o motores de renderizado. La logica del
+ * juego conoce la existencia de esta interfaz, pero desconoce completamente la
+ * implementacion grafica concreta utilizada por el sistema.
+ * </p>
+ *
+ * <p>
+ * Ademas de operaciones relacionadas con la incorporacion y eliminacion de
+ * elementos visuales, la interfaz provee acceso a temporizaciones asociadas a
+ * animaciones y transiciones graficas. Esto permite coordinar determinados
+ * comportamientos del juego sin exponer detalles de implementacion de la capa
+ * visual.
+ * </p>
+ *
+ * <p>
+ * Desde el punto de vista arquitectonico, esta interfaz materializa el
+ * principio de separacion de responsabilidades y favorece el desacoplamiento
+ * entre el dominio del juego y su representacion grafica.
+ * </p>
+ *
  * @author Guillermo Lazzurri
  */
 public interface IGraphic

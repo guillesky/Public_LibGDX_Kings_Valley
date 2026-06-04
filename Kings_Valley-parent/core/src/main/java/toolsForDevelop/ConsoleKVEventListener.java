@@ -1,6 +1,8 @@
-package engine;
+package toolsForDevelop;
 
 import java.util.HashMap;
+
+import engine.KVEventListener;
 
 /**
  * Clase usada solo para debug. Muestra por consola los eventos disparados en el
@@ -80,7 +82,7 @@ public class ConsoleKVEventListener implements KVEventListener
     }
 
     @Override
-    public void updateframe(float deltaTime)
+    public void updateFrame(float deltaTime)
     {
 
     }

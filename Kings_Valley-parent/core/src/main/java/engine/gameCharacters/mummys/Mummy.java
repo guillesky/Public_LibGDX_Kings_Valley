@@ -12,8 +12,49 @@ import engine.level.Stair;
 import util.GameRules;
 
 /**
- * Clase abstracta que representa un momia
- * 
+ * Representa una momia enemiga dentro del juego.
+ *
+ * <p>
+ * Esta clase extiende la funcionalidad provista por GameCharacter incorporando
+ * los comportamientos especificos asociados a los enemigos encargados de
+ * perseguir al jugador a traves del escenario.
+ * </p>
+ *
+ * <p>
+ * Las momias constituyen los principales agentes autonomos del juego y son
+ * responsables de generar desafio mediante la exploracion del entorno y la
+ * persecucion del personaje controlado por el usuario.
+ * </p>
+ *
+ * <p>
+ * Mummy reutiliza la infraestructura comun de movimiento, colision e
+ * interaccion definida en GameCharacter, incorporando unicamente las
+ * responsabilidades especificas asociadas al comportamiento de los enemigos.
+ * </p>
+ *
+ * <p>
+ * Esta clase constituye un ejemplo practico de aplicacion de herencia,
+ * polimorfismo y patron State en el modelado de comportamientos dinamicos.
+ * </p>
+ *
+ * <p>
+ * El comportamiento dinamico de las momias se implementa mediante el patron
+ * State, permitiendo encapsular las distintas reglas de movimiento y
+ * simplificando la gestion de transiciones entre estados.
+ * </p>
+ *
+ * <p>
+ * La toma de decisiones puede incorporar mecanismos probabilisticos para evitar
+ * comportamientos excesivamente deterministas y favorecer una mayor
+ * variabilidad en las acciones de los enemigos.
+ * </p>
+ *
+ * <p>
+ * Desde el punto de vista arquitectonico, esta clase especializa la abstraccion
+ * GameCharacter para representar entidades autonomas capaces de actuar
+ * independientemente de la entrada del usuario.
+ * </p>
+ *
  * @author Guillermo Lazzurri
  */
 @SuppressWarnings("serial")
@@ -259,8 +300,8 @@ public abstract class Mummy extends GameCharacter
     /**
      * Delega en el metodo this.mummyState.isActive(); (patron state)
      * 
-     * @return true si la momia esta activa (es peligrosa o vulnerable), false en caso contrario (esta en el
-     *         limbo, apareciendo o muriendo)
+     * @return true si la momia esta activa (es peligrosa o vulnerable), false en
+     *         caso contrario (esta en el limbo, apareciendo o muriendo)
      * 
      */
     public boolean isActive()
@@ -365,7 +406,5 @@ public abstract class Mummy extends GameCharacter
 	this.lastFloorCoordinate = this.y;
 
     }
-
-  
 
 }

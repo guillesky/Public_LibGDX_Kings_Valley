@@ -278,7 +278,7 @@ public class Controler2D extends AbstractControler implements KVEventListener
     }
 
     @Override
-    public void updateframe(float deltaTime)
+    public void updateFrame(float deltaTime)
     {
 
     }

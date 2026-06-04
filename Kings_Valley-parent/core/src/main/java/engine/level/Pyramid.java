@@ -21,10 +21,33 @@ import util.Constants;
 import util.GameRules;
 
 /**
- * Clase que representa una piramide. Tiene informacion sobre las celdas,
- * escaleras, joyas, picos, espadas, puertas giratorias, puertas de salida y las
- * trampas. No incluye informacion sobre el player o las o las momias
- * 
+ * Representa la estructura fisica y logica de un nivel del juego.
+ *
+ * <p>
+ * Esta clase encapsula la informacion espacial del escenario y administra los
+ * distintos elementos que forman parte de la piramide, incluyendo puertas,
+ * escaleras, joyas, mecanismos, trampas y otros objetos interactivos presentes
+ * en el nivel.
+ * </p>
+ *
+ * <p>
+ * Ademas de almacenar la configuracion del escenario, la clase proporciona
+ * servicios de consulta y manipulacion necesarios para la interaccion de los
+ * personajes con el entorno del juego.
+ * </p>
+ *
+ * <p>
+ * Desde el punto de vista arquitectonico, Pyramid actua como agregador de los
+ * principales componentes estructurales del nivel, centralizando la informacion
+ * correspondiente al estado del escenario.
+ * </p>
+ *
+ * <p>
+ * La definicion de los niveles se obtiene a partir de mapas externos,
+ * permitiendo separar la estructura del escenario de la logica del juego y
+ * favoreciendo una arquitectura basada en datos.
+ * </p>
+ *
  * @author Guillermo Lazzurri
  */
 public class Pyramid implements IGraphic
@@ -135,6 +158,7 @@ public class Pyramid implements IGraphic
 
     /**
      * Retorna todos los objetos del mapa. Picos, Joyas, Dagas y Giratorias
+     * 
      * @return Todos los objetos del mapa. Picos, Joyas, Dagas y Giratorias
      */
     public Iterator<LevelObject> getLevelObjects()
@@ -152,6 +176,7 @@ public class Pyramid implements IGraphic
 
     /**
      * Retorna el ancho del mapa en unidades
+     * 
      * @return Ancho del mapa en unidades
      */
     public int getMapWidthInUnits()
@@ -161,6 +186,7 @@ public class Pyramid implements IGraphic
 
     /**
      * Retorna el alto del mapa en unidades
+     * 
      * @return Alto del mapa en unidades
      */
     public int getMapHeightInUnits()
@@ -170,6 +196,7 @@ public class Pyramid implements IGraphic
 
     /**
      * Retorna las joyas de la piramide
+     * 
      * @return Las joyas de la piramide
      */
     public ArrayList<LevelObject> getJewels()
@@ -179,6 +206,7 @@ public class Pyramid implements IGraphic
 
     /**
      * Retorna los picos de la piramide
+     * 
      * @return Los picos de la piramide
      */
     public ArrayList<LevelObject> getPickers()
@@ -188,6 +216,7 @@ public class Pyramid implements IGraphic
 
     /**
      * Retorna las puertas giratorias
+     * 
      * @return Las puertas giratorias
      */
     public Collection<LevelObject> getGiratories()
@@ -197,6 +226,7 @@ public class Pyramid implements IGraphic
 
     /**
      * retorna los activadores de los muros trampa
+     * 
      * @return Los activadores de los muros trampa
      */
     public ArrayList<LevelObject> getActivators()
@@ -213,7 +243,7 @@ public class Pyramid implements IGraphic
     {
 	this.activators.remove(activator);
 	LevelObject wall = this.hashTraps.get(activator);
-	TrapMechanism trap = new TrapMechanism(this, wall, GameRules.getInstance().getTimeToEndTrapMechanism(),2);
+	TrapMechanism trap = new TrapMechanism(this, wall, GameRules.getInstance().getTimeToEndTrapMechanism(), 2);
 	this.trapMechanisms.add(trap);
     }
 
@@ -316,6 +346,7 @@ public class Pyramid implements IGraphic
 
     /**
      * Retorna los muros trampas activos de la piramide
+     * 
      * @return Los muros trampas activos de la piramide
      */
     protected ArrayList<TrapMechanism> getTrapMechanisms()
@@ -325,6 +356,7 @@ public class Pyramid implements IGraphic
 
     /**
      * Retorna los mecanismos giratorios de la piramide
+     * 
      * @return Los mecanismos giratorios de la piramide
      */
     protected Collection<GiratoryMechanism> getGiratoryMechanisms()
@@ -334,6 +366,7 @@ public class Pyramid implements IGraphic
 
     /**
      * Retorna las dagas clavadas en el piso de la piramide
+     * 
      * @return Las dagas clavadas en el piso de la piramide
      */
     public ArrayList<Dagger> getStuckedDaggers()
@@ -404,6 +437,7 @@ public class Pyramid implements IGraphic
 
     /**
      * Retorna las escaleras con pendiente positiva
+     * 
      * @return Las escaleras con pendiente positiva
      */
     public ArrayList<Stair> getPositiveStairs()
@@ -413,6 +447,7 @@ public class Pyramid implements IGraphic
 
     /**
      * Retorna las escaleras con pendiente negativa
+     * 
      * @return Las escaleras con pendiente negativa
      */
 
@@ -423,6 +458,7 @@ public class Pyramid implements IGraphic
 
     /**
      * Retorna las puertas de entrada y salida de la piramide
+     * 
      * @return Las puertas de entrada y salida de la piramide
      */
     public ArrayList<Door> getDoors()
@@ -494,6 +530,7 @@ public class Pyramid implements IGraphic
 
     /**
      * Retorna todas las escaleras de la piramide
+     * 
      * @return Todas las escaleras de la piramide
      */
     public ArrayList<Stair> getAllStairs()

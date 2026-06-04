@@ -16,9 +16,43 @@ import util.GameRules;
 import util.Constants;
 
 /**
- * Clase que representa un nivel, con informacion la piramide, las momias, el
- * player, la puerta en la cual aparecio el player y un identificador numerico
- * 
+ * Representa una instancia completa de un nivel del juego.
+ *
+ * <p>
+ * Esta clase actua como contenedor de los principales componentes del dominio
+ * involucrados en una partida, incluyendo el escenario, el jugador y los
+ * enemigos presentes en el nivel.
+ * </p>
+ *
+ * <p>
+ * Level coordina la interaccion entre dichos componentes y centraliza la logica
+ * asociada al estado general del nivel, incluyendo las condiciones de
+ * completitud, fracaso y transicion hacia nuevas etapas del juego.
+ * </p>
+ *
+ * <p>
+ * Desde el punto de vista arquitectonico, esta clase constituye el principal
+ * agregador de entidades del dominio, actuando como punto de acceso a los
+ * elementos que conforman una instancia de juego.
+ * </p>
+ *
+ * <p>
+ * La estructura del nivel se encuentra representada por una instancia de
+ * Pyramid, mientras que los elementos dinamicos son modelados mediante el
+ * jugador y el conjunto de enemigos presentes en el escenario.
+ * </p>
+ *
+ * <p>
+ * Esta organizacion permite mantener separadas las responsabilidades
+ * correspondientes a la representacion del escenario, el comportamiento de los
+ * personajes y las reglas generales de la partida.
+ * </p>
+ *
+ * <p>
+ * Level constituye el principal punto de entrada para la actualizacion
+ * periodica de la logica del juego durante la ejecucion de una partida.
+ * </p>
+ *
  * @author Guillermo Lazzurri
  */
 public class Level

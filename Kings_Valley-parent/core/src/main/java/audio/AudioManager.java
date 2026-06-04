@@ -259,7 +259,7 @@ public class AudioManager implements KVEventListener
 	 * caso de ser necesario
 	 */
 	@Override
-	public void updateframe(float deltaTime)
+	public void updateFrame(float deltaTime)
 	{
 		if (this.fadeOutMusic)
 		{

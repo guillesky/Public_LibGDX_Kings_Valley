@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
-import com.badlogic.gdx.Input;
-
 import engine.IGameControl;
 import engine.IGraphic;
 import engine.KVEventListener;
@@ -17,12 +15,42 @@ import util.GameConfig;
 import util.GameRules;
 
 /**
- * Clase que representa el Juego. Aplica el patron Singleton y el patron State.
+ * 
+ * Representa el nucleo del modelo del juego y coordina la ejecucion de una
+ * partida.
+ *
+ * <p>
+ * Esta clase centraliza el estado global del juego, administra el nivel activo
+ * y coordina las principales transiciones de estado de la aplicacion. Asimismo,
+ * actua como punto de acceso a los componentes principales del modelo.
+ * </p>
+ *
+ * <p>
+ * La clase implementa el patron Singleton para garantizar la existencia de una
+ * unica instancia del juego durante la ejecucion. Adicionalmente, utiliza el
+ * patron State para encapsular los distintos estados globales de la partida y
+ * sus correspondientes comportamientos.
+ * </p>
+ *
+ * <p>
+ * Tambien incorpora un mecanismo de notificacion basado en eventos que permite
+ * desacoplar la generacion de eventos del juego de los componentes encargados
+ * de procesarlos.
+ * </p>
+ *
+ * <p>
+ * Desde el punto de vista arquitectonico, esta clase constituye el punto de
+ * coordinacion principal entre los distintos elementos que conforman el modelo
+ * del dominio.
+ * </p>
+ * <p>
  * Internamente implementa KVEventListener para manejar eventos internos.
+ * </p>
  * 
  * @author Guillermo Lazzurri
- * 
  */
+
+
 public class Game implements KVEventListener
 {
     /**
@@ -263,7 +291,7 @@ public class Game implements KVEventListener
      *                  valor Game.maxDeltaTime para evitar errores de fisica en las
      *                  colisiones. ( Game.maxDeltaTime=0.015f )
      */
-    public void updateframe(float deltaTime)
+    public void updateFrame(float deltaTime)
     {
 
 	if (deltaTime > maxDeltaTime)
@@ -280,7 +308,7 @@ public class Game implements KVEventListener
 
 	}
 	for (KVEventListener kvEventListner : this.kvEventListeners)
-	    kvEventListner.updateframe(deltaTime);
+	    kvEventListner.updateFrame(deltaTime);
 
     }
 
@@ -295,9 +323,11 @@ public class Game implements KVEventListener
     }
 
     /**
-     * retorna el objeto de tipo Controls para controlar el juego (Joystick, Teclado, GamePad, etc.)
+     * retorna el objeto de tipo Controls para controlar el juego (Joystick,
+     * Teclado, GamePad, etc.)
      * 
-     * @return Objeto de tipo Controls para controlar el juego (Joystick, Teclado, GamePad, etc.)
+     * @return Objeto de tipo Controls para controlar el juego (Joystick, Teclado,
+     *         GamePad, etc.)
      */
     public IGameControl getControles()
     {
@@ -305,9 +335,11 @@ public class Game implements KVEventListener
     }
 
     /**
-     * Setea el objeto de tipo Controls para controlar el juego (Joystick, Teclado, GamePad, etc.)
+     * Setea el objeto de tipo Controls para controlar el juego (Joystick, Teclado,
+     * GamePad, etc.)
      * 
-     * @param controles Objeto de tipo Controls para controlar el juego (Joystick, Teclado, GamePad, etc.)
+     * @param controles Objeto de tipo Controls para controlar el juego (Joystick,
+     *                  Teclado, GamePad, etc.)
      */
     public void setControles(IGameControl controles)
     {

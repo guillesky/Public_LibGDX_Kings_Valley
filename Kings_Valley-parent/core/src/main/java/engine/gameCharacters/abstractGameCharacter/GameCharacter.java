@@ -1,6 +1,5 @@
 package engine.gameCharacters.abstractGameCharacter;
 
-import java.util.Collection;
 import java.util.Iterator;
 
 import com.badlogic.gdx.math.Rectangle;
@@ -13,11 +12,38 @@ import engine.level.Stair;
 import util.GameRules;
 
 /**
- * Clase abstracta que representa un caracter del juego (puede ser player o
- * momia) y se encarga de manejar la fisica de colisiones y movimientos
- * generales.<br>
- * Aplica el patron State
- * 
+ * Clase base abstracta para todas las entidades moviles del juego.
+ *
+ * <p>
+ * GameCharacter encapsula el comportamiento y los atributos comunes a los
+ * distintos personajes presentes en el escenario, tales como posicion,
+ * movimiento, deteccion de colisiones e interaccion con el entorno.
+ * </p>
+ *
+ * <p>
+ * Esta abstraccion permite modelar de manera uniforme entidades como el
+ * jugador y los enemigos, favoreciendo la reutilizacion de codigo y la
+ * aplicacion de principios de herencia y polimorfismo.
+ * </p>
+ *
+ * <p>
+ * La existencia de esta clase permite que gran parte de la logica de
+ * movimiento y colision sea independiente del tipo concreto de personaje
+ * involucrado.
+ * </p>
+ *
+ * <p>
+ * El comportamiento dinamico de los personajes se implementa mediante el
+ * patron State, delegando en objetos de estado las reglas especificas de
+ * movimiento y las transiciones entre distintas situaciones posibles.
+ * </p>
+ *
+ * <p>
+ * Desde el punto de vista arquitectonico, esta clase representa la
+ * abstraccion principal para las entidades capaces de desplazarse dentro
+ * del escenario del juego.
+ * </p>
+ *
  * @author Guillermo Lazzurri
  */
 @SuppressWarnings("serial")

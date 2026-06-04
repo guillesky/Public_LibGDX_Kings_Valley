@@ -17,8 +17,40 @@ import util.GameRules;
 import util.Constants;
 
 /**
- * Representa al Player
- * 
+ * Representa al personaje controlado por el jugador.
+ *
+ * <p>
+ * Esta clase extiende la funcionalidad provista por GameCharacter
+ * incorporando los comportamientos especificos asociados al protagonista
+ * del juego, incluyendo la interaccion con objetos del escenario, la
+ * recoleccion de joyas, el uso de armas y la resolucion de condiciones
+ * necesarias para completar un nivel.
+ * </p>
+ *
+ * <p>
+ * El jugador constituye la entidad central de la experiencia de juego,
+ * siendo responsable de la exploracion del escenario y de la ejecucion de
+ * las acciones que permiten alcanzar los objetivos de cada nivel.
+ * </p>
+ *
+ * <p>
+ * Player reutiliza la infraestructura comun de movimiento, colision e
+ * interaccion definida en GameCharacter, incorporando unicamente las
+ * responsabilidades propias del personaje principal.
+ * </p>
+ *
+ * <p>
+ * El comportamiento dinamico del personaje se implementa mediante el
+ * patron State, permitiendo encapsular las distintas situaciones posibles
+ * del jugador y simplificando la gestion de transiciones entre estados.
+ * </p>
+ *
+ * <p>
+ * Desde el punto de vista arquitectonico, esta clase especializa la
+ * abstraccion GameCharacter para representar al unico personaje controlado
+ * directamente por el usuario.
+ * </p>
+ *
  * @author Guillermo Lazzurri
  */
 @SuppressWarnings("serial")

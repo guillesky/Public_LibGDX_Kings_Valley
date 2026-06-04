@@ -2,10 +2,7 @@ package facade;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.math.Vector2;
 
-import engine.IGameControl;
 import engine.game.Game;
 import vista2D.ui.UI2D;
 
@@ -112,7 +109,7 @@ public class RenderStateInGame extends RenderState
     {
 	Game.getInstance().getControles().updateControl();
 
-	Game.getInstance().updateframe(Gdx.graphics.getDeltaTime());
+	Game.getInstance().updateFrame(Gdx.graphics.getDeltaTime());
 
     }
 
