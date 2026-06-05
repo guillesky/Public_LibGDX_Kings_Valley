@@ -14,18 +14,47 @@ import audio.AudioManager;
 import engine.game.Game;
 import i18n.AllLanguages;
 import i18n.Language;
+import i18n.LanguageUtils;
 import mainPackage.IMyApplicationListener;
 import util.Constants;
 import util.GameConfig;
-import util.Utils;
 import vista2D.TileMapGrafica2D;
 import vista2D.ui.Controler2D;
 import vista2D.ui.UI2D;
 import vista2D.ui.UIConfig;
 
 /**
- * Clase que implementa el patron Facade y el patron Singleton.
+ * Representa la fachada principal del sistema de juego.
+ *
+ * <p>
+ * Esta clase implementa los patrones Facade y Singleton, actuando como punto
+ * unico de entrada y coordinacion global de todos los subsistemas del juego.
+ * </p>
+ *
  * 
+ * Centraliza la inicializacion y el control de alto nivel de los modulos de:
+ * <ul>
+ * <li>Renderizado (RenderState)</li>
+ * <li>Interfaz de usuario (UI2D)</li>
+ * <li>Audio (AudioManager y Music)</li>
+ * <li>Logica de juego (Game)</li>
+ * <li>Recursos (AssetManager)</li>
+ * <li>Configuracion (GameConfig)</li>
+ * <li>Internacionalizacion (AllLanguages)</li>
+ * </ul>
+ * 
+ *
+ * <p>
+ * Tambien implementa ApplicationListener, integrandose directamente con el
+ * ciclo de vida de LibGDX.
+ * </p>
+ *
+ * <p>
+ * Desde el punto de vista arquitectonico, esta clase funciona como orquestador
+ * global del sistema, delegando la logica especifica a subsistemas
+ * especializados y manteniendo el control de los estados globales del juego.
+ * </p>
+ *
  * @author Guillermo Lazzurri
  */
 public class Facade implements ApplicationListener
@@ -236,7 +265,7 @@ public class Facade implements ApplicationListener
 		String[] languages = json.fromJson(String[].class, languagesJson);
 		for (String prefix : languages)
 		{
-			Language language = Utils.i18nToLanguage(prefix);
+			Language language = LanguageUtils.i18nToLanguage(prefix);
 			this.allLanguages.addLanguaje(language);
 		}
 
@@ -262,7 +291,7 @@ public class Facade implements ApplicationListener
 	public void changeLanguage(String languageName)
 	{
 		Language language = allLanguages.getLanguage(languageName);
-		Utils.i18n(language);
+		LanguageUtils.i18n(language);
 		this.gameConfig.setLanguage(language.getFileCode());
 		this.changeConfig = true;
 	}
@@ -329,7 +358,13 @@ public class Facade implements ApplicationListener
 	}
 
 	/**
-	 * Inicializa los atributos una vez que esta listo el motor LibGDX
+	 * Inicializa completamente el sistema de juego una vez que el motor grafico
+	 * (LibGDX) esta disponible.
+	 *
+	 * <p>
+	 * Este metodo realiza la carga de configuracion, recursos, idiomas, audio, UI y
+	 * la logica principal del juego, estableciendo el estado inicial del sistema.
+	 * </p>
 	 */
 	@Override
 	public void create()
@@ -337,11 +372,8 @@ public class Facade implements ApplicationListener
 		UIConfig uiConfig = Facade.loadConfig();
 
 		this.gameConfig = GameConfig.loadConfig();
-		/*
-		 * try { Utils.checkLevelIntegrity(); } catch (Exception e) {
-		 * System.out.println(e.getMessage()); Gdx.app.exit(); }
-		 */
-		Utils.i18n(this.gameConfig.getLanguage());
+
+		LanguageUtils.i18n(this.gameConfig.getLanguage());
 		Game.getInstance().setGameConfig(gameConfig);
 
 		this.readLanguageFiles();
@@ -388,7 +420,12 @@ public class Facade implements ApplicationListener
 	}
 
 	/**
-	 * Llama al metodo render del atributo renderState (patron State)
+	 * Delegacion del ciclo de renderizado al estado actual del sistema.
+	 *
+	 * <p>
+	 * El comportamiento visual depende del RenderState activo, que define si el
+	 * sistema se encuentra en menu, juego o transiciones.
+	 * </p>
 	 */
 	@Override
 	public void render()
@@ -398,7 +435,8 @@ public class Facade implements ApplicationListener
 	}
 
 	/**
-	 * Llama al metodo resize del atributo renderState (patron State)
+	 * Delega el control del ciclo de vida de la aplicacion al estado actual de
+	 * renderizado.
 	 */
 
 	@Override
@@ -408,7 +446,8 @@ public class Facade implements ApplicationListener
 	}
 
 	/**
-	 * Llama al metodo pause del atributo renderState (patron State)
+	 * Delega el control del ciclo de vida de la aplicacion al estado actual de
+	 * renderizado.
 	 */
 
 	@Override
@@ -418,7 +457,8 @@ public class Facade implements ApplicationListener
 	}
 
 	/**
-	 * Llama al metodo resume del atributo renderState (patron State)
+	 * Delega el control del ciclo de vida de la aplicacion al estado actual de
+	 * renderizado.
 	 */
 
 	@Override

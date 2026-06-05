@@ -1,8 +1,37 @@
 package engine.gameCharacters.mummys;
 
 /**
- * Clase abstracta que representa el estado de la momia (patron state)
- * 
+ * Clase base para los distintos estados de comportamiento de una momia.
+ *
+ * <p>
+ * Esta clase implementa el patron State para encapsular las diferentes
+ * conductas que puede adoptar una momia durante el juego, tales como perseguir
+ * al jugador, reaparecer, permanecer temporalmente inactiva o gestionar su
+ * destruccion.
+ * </p>
+ *
+ * <p>
+ * A diferencia de GameCharacterState, que modela los distintos modos de
+ * movimiento de un personaje (caminar, saltar, caer, subir escaleras, etc.),
+ * MummyState representa el comportamiento especifico de la IA de las momias y
+ * las reglas asociadas a su ciclo de vida.
+ * </p>
+ *
+ * <p>
+ * Cada estado concreto define sus propias reglas de actualizacion, transiciones
+ * y condiciones de activacion, permitiendo desacoplar los distintos
+ * comportamientos de las momias en componentes independientes.
+ * </p>
+ * <p>
+ ** Las decisiones de movimiento concreto continúan siendo responsabilidad de los
+ * estados derivados de GameCharacterState. Esta jerarquia modela exclusivamente
+ * el comportamiento general y las decisiones propias de las momias.
+ * </p>
+ * <p>
+ * El contexto asociado al patron State es la clase Mummy, que delega en el
+ * estado actual la responsabilidad de actualizar su comportamiento.
+ * </p>
+ *
  * @author Guillermo Lazzurri
  */
 public abstract class MummyState
@@ -19,13 +48,12 @@ public abstract class MummyState
 	 */
 	protected static final int LEFT = -1;
 
+	
 	/**
-	 * Codigo indicando que hay un bloqueo por ladrillos
+	 * Tiempo restante, expresado en segundos, antes de efectuar una transicion a
+	 * otro estado.
 	 */
-	protected static final int BLOCK_BRICK = 1;
-	/**
-	 * Inica cuanto tiempo debe permanecer en este estado antes de cambiar
-	 */
+
 	protected float timeToChange;
 	/**
 	 * Contexto asociado al patron State.
@@ -33,10 +61,10 @@ public abstract class MummyState
 	protected Mummy mummy;
 
 	/**
-	 * Contructor de clase
-	 * 
-	 * @param mummy Momia a la que pertences el estado (patron state)
-	 * @param state tipo de estado
+	 * Constructor de la clase.
+	 *
+	 * @param mummy contexto asociado al patron State.
+	 * @param state codigo de renderizacion asociado al estado concreto.
 	 */
 	public MummyState(Mummy mummy, int state)
 	{
@@ -48,7 +76,7 @@ public abstract class MummyState
 	/**
 	 * Contructor de clase
 	 * 
-	 * @param mummy Contexto del patron state
+	 * @param mummy Contexto asociado al patron State
 	 */
 	public MummyState(Mummy mummy)
 	{
@@ -57,26 +85,33 @@ public abstract class MummyState
 	}
 
 	/**
-	 * Metodo llamado al actualizar la momia
-	 * 
-	 * @param deltaTime tiempo transcurrido desde la ultima actualizacion
+	 * Actualiza el comportamiento correspondiente al estado actual.
+	 *
+	 * @param deltaTime tiempo transcurrido, expresado en segundos, desde la ultima
+	 *                  actualizacion.
 	 */
 	public abstract void update(float deltaTime);
 
 	/**
-	 * Retorna true si la momia esta esta activa (es peligrosa o vulnerable a las espadas), false en caso contrario
-	 * 
-	 * @return true si la momia esta activa, false en caso contrario
+	 * Indica si la momia se encuentra activa dentro del juego.
+	 *
+	 * <p>
+	 * Una momia activa puede interactuar normalmente con el entorno, representar
+	 * una amenaza para el jugador y resultar vulnerable a determinados ataques.
+	 * </p>
+	 *
+	 * @return true si la momia esta activa, false en caso contrario.
 	 */
 	protected abstract boolean isActive();
 
 	/**
-	 * Evento que podria pasar a modo muerto.
-	 * 
-	 * @param mustTeleport true si la momia debe teletransportarse al reaparecer,
-	 *                     false en caso contrarioF
+	 * Gestiona la transicion al estado asociado a la destruccion o desactivacion de
+	 * la momia.
+	 *
+	 * @param mustTeleport indica si la momia debera reaparecer mediante
+	 *                     teletransportacion o utilizando el mecanismo normal de
+	 *                     reaparicion.
 	 */
 	protected abstract void die(boolean mustTeleport);
 
-	
 }

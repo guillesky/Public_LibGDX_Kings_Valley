@@ -7,8 +7,26 @@ import engine.level.Pyramid;
 import util.GameRules;
 
 /**
- * Clase que representa los estados de la daga (patron state)
- * 
+ * Representa la clase base de los estados de comportamiento de una daga.
+ *
+ * <p>
+ * Esta clase implementa el patron State para encapsular los distintos
+ * comportamientos dinamicos de una daga dentro del juego, incluyendo su
+ * movimiento, interaccion con el entorno, colisiones y transiciones de estado.
+ * </p>
+ *
+ * <p>
+ * Cada estado concreto define reglas especificas de actualizacion y puede
+ * modificar el comportamiento de la daga de acuerdo a su situacion actual
+ * (clavada, lanzada, en caida, rebotando o recolectada).
+ * </p>
+ *
+ * <p>
+ * El estado tambien define el modo de renderizado asociado a cada
+ * comportamiento, permitiendo que la representacion visual sea consistente con
+ * la logica interna.
+ * </p>
+ *
  * @author Guillermo Lazzurri
  */
 public abstract class DaggerState
@@ -56,7 +74,7 @@ public abstract class DaggerState
 	 * Constructor de clase.
 	 * 
 	 * @param dagger Contexto del patron state
-	
+	 * 
 	 */
 	public DaggerState(Dagger dagger)
 	{
@@ -66,20 +84,26 @@ public abstract class DaggerState
 	}
 
 	/**
-	 * Llamado para actualizar la daga
-	 * 
-	 * @param deltaTime Tiempo transcurrido desde la ultima llamada
-	 * @param pyramid   Piramide donde esta la daga
-	 * @param mummys    coleccion de momias para calcular colisiones
+	 * Actualiza el comportamiento de la daga en su estado actual.
+	 *
+	 * <p>
+	 * Este metodo es invocado en cada frame y es responsable de ejecutar la logica
+	 * especifica del estado, incluyendo movimiento, colisiones y transiciones.
+	 * </p>
+	 *
+	 * @param deltaTime tiempo transcurrido desde la ultima actualizacion
+	 * @param pyramid   estructura del nivel
+	 * @param mummys    lista de momias para deteccion de colisiones
 	 */
 	public abstract void updateDagger(float deltaTime, Pyramid pyramid, ArrayList<Mummy> mummys);
 
 	/**
-	 * Utilizado para calcular donde debe clavarse la espada
-	 * 
-	 * @param value  coordenada original
-	 * @param factor Factor de redondeo. Puede ser el ancho o el alto del tile
-	 * @return retorna el valor en el medio del tile
+	 * Ajusta una coordenada al centro del tile mas cercano.
+	 *
+	 * <p>
+	 * Se utiliza para alinear la daga a la grilla del nivel cuando se clava en una
+	 * posicion valida.
+	 * </p>
 	 */
 	private float roundCoord(float value, float factor)
 	{
@@ -90,7 +114,7 @@ public abstract class DaggerState
 	}
 
 	/**
-	 * reubica la coordenada x de la espada
+	 * Alinea la posicion X de la daga al sistema de grilla del nivel.
 	 */
 	protected void roundX()
 	{
@@ -100,7 +124,7 @@ public abstract class DaggerState
 	}
 
 	/**
-	 * reubica la coordenada y de la espada
+	 * Alinea la posicion Y de la daga al sistema de grilla del nivel.
 	 */
 	protected void roundY()
 	{
@@ -125,11 +149,11 @@ public abstract class DaggerState
 	public abstract int getRenderMode();
 
 	/**
-	 * desplaza la coordenada x de acuerdo al parametro delta y a la direccion de la
-	 * espada
-	 * 
-	 * @param delta desplazamiento
+	 * Actualiza la posicion horizontal de la daga segun su direccion actual.
+	 *
+	 * @param delta desplazamiento a aplicar en el eje X
 	 */
+
 	protected void updateX(float delta)
 	{
 		if (this.dagger.isRight())
@@ -140,9 +164,9 @@ public abstract class DaggerState
 	}
 
 	/**
-	 * Incrementa el tiempo que la daga esta en el presente estado
-	 * 
-	 * @param inc incremento.
+	 * Incrementa el tiempo acumulado en el estado actual.
+	 *
+	 * @param inc tiempo a sumar al estado actual
 	 */
 	protected void incDelta(float inc)
 	{
@@ -150,17 +174,17 @@ public abstract class DaggerState
 	}
 
 	/**
-	 * Llamado para cambiar al estado DaggerStateThrowingHorizontal
+	 * Cambia al estado de lanzamiento horizontal.
 	 */
 	protected abstract void throwHorizontal();
 
 	/**
-	 * Llamado para cambiar al estado DaggerStatePickuped
+	 * Cambia al estado de recoleccion de la daga.
 	 */
 	protected abstract void hasPickuped();
 
 	/**
-	 * Llamado para cambiar al estado DaggerStateThrowingVertical
+	 * Cambia al estado de lanzamiento vertical.
 	 */
 	protected abstract void throwVertical();
 

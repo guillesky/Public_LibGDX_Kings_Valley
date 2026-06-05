@@ -10,6 +10,7 @@ import engine.level.LevelObject;
 import engine.level.Pyramid;
 import engine.level.Stair;
 import util.GameRules;
+import util.CollisionDetector;
 
 /**
  * Clase base abstracta para todas las entidades moviles del juego.
@@ -252,7 +253,7 @@ public abstract class GameCharacter extends LevelObject
     {
 	this.feet.x = this.x + (this.width - GameRules.getInstance().getCharacterFeetWidth()) / 2;
 	this.feet.y = this.y;
-	return LevelObject.rectangleColision(this.feet, another);
+	return CollisionDetector.rectangleColision(this.feet, another);
     }
 
     /**

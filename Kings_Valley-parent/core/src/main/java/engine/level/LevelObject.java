@@ -1,16 +1,34 @@
 package engine.level;
 
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.Objects;
 
 import com.badlogic.gdx.math.Rectangle;
 
 import util.Constants;
 import util.GameRules;
+import util.CollisionDetector;
 
 /**
- * Clase que representa un objeto del nivel que tenga una posicion y un tamano.
+ * Representa un objeto del nivel con posicion, dimensiones y propiedades
+ * basicas de identificacion.
+ *
+ * <p>
+ * Esta clase constituye la unidad base de representacion espacial dentro del
+ * mundo del juego, siendo utilizada para modelar elementos como items,
+ * enemigos, mecanismos del escenario y otros objetos interactuables.
+ * </p>
+ *
+ * <p>
+ * LevelObject extiende Rectangle para proporcionar soporte directo de
+ * colisiones y posicionamiento en el espacio del nivel.
+ * </p>
+ *
+ * <p>
+ * Ademas de su representacion geometrica, cada instancia posee un identificador
+ * unico y un tipo logico utilizado por el motor de juego para interpretar su
+ * comportamiento.
+ * </p>
  * 
  * @author Guillermo Lazzurri
  */
@@ -37,14 +55,15 @@ public class LevelObject extends Rectangle
 	private int p0;
 
 	/**
-	 * Constructor de clase
-	 * 
-	 * @param type   entero que indica el tipo de objeto
-	 * @param x      (posicion x en el mapa)
-	 * @param y      (posicion y en el mapa)
-	 * @param p0     (parametro extra en caso de ser necesario)
-	 * @param width  (ancho del objeto)
-	 * @param height (alto del objeto)
+	 * Crea un nuevo objeto del nivel con tipo, posicion, dimensiones y parametro
+	 * adicional.
+	 *
+	 * @param type   tipo logico del objeto
+	 * @param x      posicion horizontal en el mundo
+	 * @param y      posicion vertical en el mundo
+	 * @param p0     parametro extra para configuracion especifica del objeto
+	 * @param width  ancho del objeto
+	 * @param height alto del objeto
 	 */
 	public LevelObject(int type, float x, float y, int p0, float width, float height)
 	{
@@ -56,9 +75,10 @@ public class LevelObject extends Rectangle
 	}
 
 	/**
-	 * Retorna el tipo del objeto (solo deberia usarse para renderizar)
-	 * 
-	 * @return tipo del objeto (solo deberia usarse para renderizar)
+	 * Retorna el tipo logico del objeto, utilizado principalmente para
+	 * interpretacion por parte del motor del juego.
+	 *
+	 * @return tipo logico del objeto (solo deberia usarse para renderizar)
 	 */
 	public int getType()
 	{
@@ -79,40 +99,18 @@ public class LevelObject extends Rectangle
 	public String toString()
 	{
 		return "LevelObject [id= " + this.id + " type=" + Constants.identificacion.get(type) + ", x=" + x + ", y=" + y
-				+ ", p0=" + p0 + " width="+width+" height="+height+"]";
+				+ ", p0=" + p0 + " width=" + width + " height=" + height + "]";
 	}
 
 	/**
-	 * Calcula si existe colision rectangular entre este objeto y otro rectangulo
-	 * 
-	 * @param another Rectangulo contra el que quiero verificar colision
-	 * @return true si hay colision, false en caso contrario
+	 * Determina si este objeto colisiona con otro rectangulo.
+	 *
+	 * @param another rectangulo contra el cual se verifica la colision
+	 * @return true si existe interseccion geometrica, false en caso contrario
 	 */
 	public boolean isColision(Rectangle another)
 	{
-		return LevelObject.rectangleColision(this, another);
-	}
-
-	/**
-	 * Indica si existe colision entre dos rectangulos
-	 * 
-	 * @param rectangleA primer rectangulo
-	 * @param rectangleB segundo rectangulo
-	 * @return true si el prmer rectangulo colisiona con el segundo, false en caso
-	 *         contrario
-	 */
-	public static boolean rectangleColision(Rectangle rectangleA, Rectangle rectangleB)
-	{
-		boolean respuesta = false;
-		if (rectangleA != null && rectangleB != null)
-		{
-			float overlapX = Math.min(rectangleA.x + rectangleA.width, rectangleB.x + rectangleB.width)
-					- Math.max(rectangleA.x, rectangleB.x);
-			float overlapY = Math.min(rectangleA.y + rectangleA.height, rectangleB.y + rectangleB.height)
-					- Math.max(rectangleA.y, rectangleB.y);
-			respuesta = (overlapX > 0 && overlapY > 0);
-		}
-		return respuesta;
+		return CollisionDetector.rectangleColision(this, another);
 	}
 
 	/**
@@ -178,52 +176,20 @@ public class LevelObject extends Rectangle
 		return id;
 	}
 
-	
 	/**
-	 * Devuelve el objeto de tipo de LevelObjet con el cual el LevelObjet colisiona
-	 * desde una lista pasada por parametro. Si no colisiona con ninguno, retorna
-	 * null
-	 * 
-	 * @param collectionOfRectangles Coleccion de rectangulos a verificar
-	 * @return El objeto de la lista con el cual el caracter colisiona, null si no
-	 *         hay colision.
+	 * Busca el primer objeto de una coleccion que colisiona con el rectangulo dado.
+	 *
+	 * <p>
+	 * Este metodo es utilizado para detectar interacciones entre el jugador y
+	 * objetos del nivel como items, activadores o enemigos.
+	 * </p>
+	 *
+	 * @param collectionOfRectangles conjunto de posibles colisiones
+	 * @return el primer objeto colisionante o null si no hay colision
 	 */
 	public LevelObject checkRectangleColision(Collection collectionOfRectangles)
 	{
-		LevelObject respuesta = (LevelObject) checkRectangleColision(this, collectionOfRectangles);
-		return respuesta;
-	}
-
-	/**
-	 * Metodo estatico que retorna un el rectangulo de la coleccion que colisiona
-	 * con el rectangulo pasado como primer parametro. Si ningun rectangulo de la
-	 * coleccio colisiona con el primero, se devuelve null.
-	 * 
-	 * @param rectangle              Rectangulo a analizar contra cada uno de los
-	 *                               rectangulos de la coleccion.
-	 * @param collectionOfRectangles Coleccion de rectangulos que se debe comparar
-	 *                               con el primero.
-	 * @return El rectangulo de la coleccion que colisiona con el rectangulo pasado
-	 *         como primer parametro. Si ningun rectangulo de la coleccio colisiona
-	 *         con el primero, se devuelve null.
-	 */
-	public static Rectangle checkRectangleColision(Rectangle rectangle, Collection collectionOfRectangles)
-	{
-
-		Iterator<Rectangle> it = collectionOfRectangles.iterator();
-		Rectangle respuesta = null;
-		Rectangle item = null;
-		if (it.hasNext())
-			do
-			{
-				item = it.next();
-			} while (it.hasNext() && !rectangleColision(rectangle, item));
-
-		if (rectangleColision(rectangle, item))
-		{
-			respuesta = item;
-		}
-
+		LevelObject respuesta = (LevelObject) CollisionDetector.checkRectangleColision(this, collectionOfRectangles);
 		return respuesta;
 	}
 

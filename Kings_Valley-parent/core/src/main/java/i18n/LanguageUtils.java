@@ -1,4 +1,4 @@
-package util;
+package i18n;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -8,15 +8,12 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.ObjectMap;
 
-import i18n.Language;
-import i18n.Messages;
-
 /**
- * Contiene metodos estaticos utilizados internamente por el juego.
+ * Contiene metodos estaticos utilizados internamente por el subsitema de internacionalizacion del juego.
  * 
  * @author Guillermo Lazzurri
  */
-public class Utils
+public class LanguageUtils
 {
 
 	/**
@@ -107,7 +104,7 @@ public class Utils
 	/**
 	 * Constructor de clase privado. Esta clase no deberia instanciarse.
 	 */
-	private Utils()
+	private LanguageUtils()
 	{
 	}
 

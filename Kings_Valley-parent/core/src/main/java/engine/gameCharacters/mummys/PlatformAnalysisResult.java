@@ -12,19 +12,38 @@ import engine.level.Stair;
 import util.GameRules;
 
 /**
- * Representa el resultado del analisis de una plataforma desde la perspectiva
- * de un caracter
- * 
+ * Representa un snapshot del analisis del entorno de una momia sobre la
+ * plataforma actual.
+ *
+ * <p>
+ * Esta clase actua como sistema de percepcion de la IA, encapsulando toda la
+ * informacion relevante del entorno necesario para la toma de decisiones de los
+ * estados de la momia.
+ * </p>
+ *
+ * <p>
+ * Incluye informacion sobre los limites de la plataforma, escaleras
+ * disponibles, estructuras especiales y condiciones de accesibilidad del
+ * entorno.
+ * </p>
+ *
+ * <p>
+ * Este resultado es utilizado por los distintos estados de la FSM de la momia
+ * para evaluar transiciones y comportamientos.
+ * </p>
+ *
  * @author Guillermo Lazzurri
  */
 public class PlatformAnalysisResult
 {
 	/**
-	 * Indica el final izquierdo de la plataforma
+	 * Representa el extremo izquierdo de una plataforma y su tipo de terminacion
+	 * (cliff, step o block).
 	 */
 	private EndPlatform endPlatformLeft;
 	/**
-	 * Indica el final derecho de la plataforma
+	 * Representa el extremo derecho de una plataforma y su tipo de terminacion
+	 * (cliff, step o block).
 	 */
 	private EndPlatform endPlatformRight;
 	/**
@@ -208,17 +227,7 @@ public class PlatformAnalysisResult
 
 		}
 		EndPlatform epf2 = null;
-		/*
-		 * if (!this.isColDesplaInMap(gameCharacter, acum)) { if (toRight) x = x - x %
-		 * tileWidth + acum * tileWidth - 0.5f *
-		 * GameRules.getInstance().getCharacterWidth(); else x = x - x % tileWidth +
-		 * (acum + 1) * tileWidth - 0.5f * GameRules.getInstance().getCharacterWidth();
-		 * 
-		 * epf2 = new EndPlatform(EndPlatform.END_BLOCK, new Rectangle(x,
-		 * gameCharacter.getLastFloorCoordinate(),
-		 * GameRules.getInstance().getCharacterWidth(),
-		 * GameRules.getInstance().getCharacterFeetHeight())); } else
-		 */
+
 		{
 
 			LevelObject nearestGiratory = this.getNearestGiratory(gameCharacter, toRight);
@@ -447,10 +456,12 @@ public class PlatformAnalysisResult
 	}
 
 	/**
-	 * Indica si el caracter esta rentro de los limites de la plataforma
+	 * 
+	 * Determina si un GameCharacter se encuentra dentro de los limites horizontales
+	 * de la plataforma actual.
 	 * 
 	 * @param character Caracter a analizar
-	 * @return true si el player esta dentro de los limites de la plataforma, false
+	 * @return true si el caracter esta dentro de los limites de la plataforma, false
 	 *         en caso contrario
 	 */
 	public boolean isCharacterReachable(GameCharacter character)

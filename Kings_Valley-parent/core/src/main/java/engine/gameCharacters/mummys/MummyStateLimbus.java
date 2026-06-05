@@ -3,8 +3,8 @@ package engine.gameCharacters.mummys;
 import com.badlogic.gdx.math.Rectangle;
 
 import engine.game.Game;
-import engine.level.LevelObject;
 import util.GameRules;
+import util.CollisionDetector;
 
 /**
  * Clase que representa del estado de la momia "En el Limbo"
@@ -93,7 +93,7 @@ public class MummyStateLimbus extends MummyState
 		{
 			coords = this.getRandomCellInFloor();
 			Rectangle r = new Rectangle(coords[0], coords[1], this.mummy.width, this.mummy.height);
-			giratory = LevelObject.checkRectangleColision(r, this.mummy.getPyramid().getGiratories());
+			giratory = CollisionDetector.checkRectangleColision(r, this.mummy.getPyramid().getGiratories());
 		} while (this.distanceQuadToPlayer(coords[0], coords[1]) < GameRules.getInstance()
 				.getMinMummySpawnDistanceToPlayer() || giratory != null);
 		this.mummy.x = coords[0];

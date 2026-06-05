@@ -8,257 +8,320 @@ import util.GameRules;
 import util.ProbabilisticSelector;
 
 /**
- * Clase que representa del estado de la momia "Caminando"
+ * /** Estado de la momia encargado del desplazamiento horizontal activo y la
+ * evaluacion continua del entorno durante el movimiento.
+ *
+ * <p>
+ * Este estado implementa la logica de locomocion basica de la momia, incluyendo
+ * deteccion de bordes de plataforma, reaccion a colisiones, gestion de saltos,
+ * caidas y rebotes, asi como la acumulacion de stress que puede derivar en la
+ * muerte del personaje.
+ * </p>
+ *
  * 
+ * Durante su ejecucion, el estado combina:
+ * <ul>
+ * <li>Movimiento continuo en la direccion actual</li>
+ * <li>Analisis de extremos de plataforma</li>
+ * <li>Decisiones probabilisticas de accion (saltar, caer o rebotar)</li>
+ * <li>Sistema de stress que afecta la supervivencia de la momia</li>
+ * </ul>
+ * 
+ *
+ * <p>
+ * Este estado puede transicionar hacia estados de decision (Deciding), estados
+ * de aire (OnAir) o destruccion (Dying) dependiendo de las condiciones del
+ * entorno y del nivel de stress.
+ * </p>
+ *
  * @author Guillermo Lazzurri
  */
 public class MummyStateWalking extends MummyState
 {
-    /**
-     * Indica el estado al que debe pasar
-     */
-    protected int nextState;
+	/**
+	 * Indica el estado al que debe pasar
+	 */
+	protected int nextState;
 
-    /**
-     * Analisis de la plataforma actual
-     */
-    protected PlatformAnalysisResult platformAnalysisResult;
-    private boolean doJump = false;
-    private boolean mustDecide = true;
+	/**
+	 * Analisis de la plataforma actual
+	 */
+	protected PlatformAnalysisResult platformAnalysisResult;
+	private boolean doJump = false;
+	private boolean mustDecide = true;
 
-    private static final int DO_JUMP = 100;
-    private static final int DO_FALL = 101;
-    private static final int DO_BOUNCE = 102;
-    private static final int ST_ON_AIR = 1000;
+	private static final int DO_JUMP = 100;
+	private static final int DO_FALL = 101;
+	private static final int DO_BOUNCE = 102;
+	private static final int ST_ON_AIR = 1000;
 
-    /**
-     * indica donde esta el player con respecto a la momia. Puede tomar los
-     * valores:<br>
-     * MummyState.PLAYER_IS_UP; <br>
-     * MummyState.PLAYER_IS_DOWN;<br>
-     * MummyState.PLAYER_IS_SOME_LEVEL
-     */
-    protected int whereIsPlayer;
+	/**
+	 * indica donde esta el player con respecto a la momia. Puede tomar los
+	 * valores:<br>
+	 * MummyState.PLAYER_IS_UP; <br>
+	 * MummyState.PLAYER_IS_DOWN;<br>
+	 * MummyState.PLAYER_IS_SOME_LEVEL
+	 */
+	protected int whereIsPlayer;
 
-    /**
-     * Constructor de clase. LLama a super(mummy, GameCharacter.ST_WALKING);
-     * 
-     * @param mummy                  Contexto del patron state
-     * @param platformAnalysisResult Analisis de la plataforma actual
-     * @param directionX             indica la direccion hacia donde debe caminar la
-     *                               momia. Puede tomar los valores:<br>
-     *                               MummyState.RIGHT <br>
-     *                               MummyState.LEFT
-     */
-    public MummyStateWalking(Mummy mummy, PlatformAnalysisResult platformAnalysisResult, int directionX)
-    {
-	super(mummy, GameCharacter.ST_WALKING);
-
-	this.initValuesFromMummy(mummy);
-
-	mummy.resetTimeInState();
-	this.platformAnalysisResult = platformAnalysisResult;
-	this.mummy.getDirection().x = directionX;
-
-    }
-
-    /**
-     * Constructor de clase. Es Llamado cuando la momia pasa a estado caminata
-     * luego. Llama a super(mummy, GameCharacter.ST_WALKING);
-     * 
-     * de haber saltado o caido, debe recalcular el platformAnalysisResult y no debe
-     * resetear el tiempo en el estado actual
-     * 
-     * @param mummy Contexto del patron state
-     */
-    public MummyStateWalking(Mummy mummy)
-    {
-	super(mummy, GameCharacter.ST_WALKING);
-	this.initValuesFromMummy(mummy);
-	this.platformAnalysisResult = new PlatformAnalysisResult(this.mummy);
-	if (GameRules.getInstance().isDebugMode())
-	    Game.getInstance().getInterfaz()
-		    .addGraphicElement(new DrawableElement(Constants.DRAWABLE_PLATFORM_ANALYSIS_RESULT, this.platformAnalysisResult));
-	
-    }
-
-    /**
-     * Inicializa atributos a partir de la momia pasada por parametro
-     * 
-     * @param mummy Momia a partir de la cual se obtienen los valores.
-     */
-    private void initValuesFromMummy(Mummy mummy)
-    {
-	this.whereIsPlayer = this.mummy.whereIsPlayer();
-	this.timeToChange = this.mummy.getTimeToDecide();
-	this.nextState = Mummy.ST_NO_CHANGE;
-    }
-
-    /**
-     * Dedice la direccion de la momia de acuerdo a la posicion relativa del player
-     */
-    protected void setDirection()
-    {
-	if (mummy.getX() < this.mummy.player.getX())
-	    this.mummy.getDirection().x = 1;
-	else
-	    this.mummy.getDirection().x = -1;
-
-    }
-
-    @Override
-    public void update(float deltaTime)
-    {
-
-	if (this.mummy.getRenderMode() == GameCharacter.ST_WALKING || this.mummy.getRenderMode() == GameCharacter.ST_IDDLE)
-
+	/**
+	 * Constructor de clase. LLama a super(mummy, GameCharacter.ST_WALKING);
+	 * 
+	 * @param mummy                  Contexto del patron state
+	 * @param platformAnalysisResult Analisis de la plataforma actual
+	 * @param directionX             indica la direccion hacia donde debe caminar la
+	 *                               momia. Puede tomar los valores:<br>
+	 *                               MummyState.RIGHT <br>
+	 *                               MummyState.LEFT
+	 */
+	public MummyStateWalking(Mummy mummy, PlatformAnalysisResult platformAnalysisResult, int directionX)
 	{
-	    if (!this.mummy.isInStair())
-	    {
-		if (this.mummy.getTimeInState() >= this.timeToChange)
-		    this.nextState = Mummy.ST_IDDLE;
+		super(mummy, GameCharacter.ST_WALKING);
 
-		if (this.mustDecide)
-		    this.checkEndOfPlataform();
+		this.initValuesFromMummy(mummy);
 
-		if (this.mummy.getStressLevel() >= 9)
+		mummy.resetTimeInState();
+		this.platformAnalysisResult = platformAnalysisResult;
+		this.mummy.getDirection().x = directionX;
 
-		    this.nextState = Mummy.ST_DYING;
-
-		if (this.mummy.getStressLevel() > 0)
-		    this.mummy.calmStress(deltaTime / 6);
-	    }
-	    this.mummy.move(this.mummy.getDirection(), doJump, deltaTime);
-	    this.doJump = false; // Si esta vez decidio saltar, no deberia volver a saltar el proximo ciclo
-
-	} else
-	{
-	    this.nextState = ST_ON_AIR;
 	}
-	this.checkChangeStatus();
 
-    }
-
-    /**
-     * Retorna true
-     */
-    @Override
-    protected boolean isActive()
-    {
-	return true;
-    }
-
-    /**
-     * Si pasa el tiempo correspondiente a this.timeToChange, entonces el estado
-     * cambia a new MummyStateDeciding(this.mummy)
-     */
-    private void checkChangeStatus()
-    {
-	if (this.nextState != Mummy.ST_NO_CHANGE)
-	    switch (this.nextState)
-	    {
-	    case Mummy.ST_IDDLE:
-		this.mummy.mummyState = new MummyStateDeciding(this.mummy);
-		break;
-	    case Mummy.ST_DYING:
-		this.die(true);
-		break;
-	    case ST_ON_AIR:
-		this.mummy.mummyState = new MummyStateOnAir(this.mummy);
-		break;
-	    }
-
-    }
-
-    /**
-     * Llamado para que la momia rebote contra la pared e incrememnte su nivel de
-     * stress (si es mu alto la momia muere)
-     */
-    private void bounces()
-    {
-	this.mummy.getDirection().x *= -1;
-	this.mummy.stressing();
-    }
-
-    /**
-     * Cambia el estado a new MummyStateDying(this.mummy, mustTeleport);
-     */
-    @Override
-    protected void die(boolean mustTeleport)
-    {
-
-	this.mummy.mummyState = new MummyStateDying(this.mummy, mustTeleport);
-
-    }
-
-    /**
-     * Chequea si llega al final de la plataforma y actua en consecuencia. Puede
-     * llamar a this.doInCrashToWallOrGiratory, o a this.doInBorderCliff()
-     */
-    private void checkEndOfPlataform()
-    {
-	if (this.mummy.isColision(this.platformAnalysisResult.getEndPlatformLeft().getRectangle())
-		&& this.mummy.getDirection().x == MummyState.LEFT)
-	    this.analizeEndPlatform(this.platformAnalysisResult.getEndPlatformLeft());
-	else if (this.mummy.isColision(this.platformAnalysisResult.getEndPlatformRight().getRectangle())
-		&& this.mummy.getDirection().x == MummyState.RIGHT)
-	    this.analizeEndPlatform(this.platformAnalysisResult.getEndPlatformRight());
-
-    }
-
-    /**
-     * Analiza los limites de la plataforma y decide en consecuencia.
-     * 
-     * @param endPlatform
-     */
-    private void analizeEndPlatform(EndPlatform endPlatform)
-    {
-
-	if (endPlatform.getType() == EndPlatform.END_BLOCK) // Si hay un bloqueo
-	    this.bounces(); // Hay que rebotar (no queda otra)
-	else
+	/**
+	 * Constructor de clase. Es Llamado cuando la momia pasa a estado caminata
+	 * luego. Llama a super(mummy, GameCharacter.ST_WALKING);
+	 * 
+	 * de haber saltado o caido, debe recalcular el platformAnalysisResult y no debe
+	 * resetear el tiempo en el estado actual
+	 * 
+	 * @param mummy Contexto del patron state
+	 */
+	public MummyStateWalking(Mummy mummy)
 	{
-	    ProbabilisticSelector selector = new ProbabilisticSelector(Game.random);
+		super(mummy, GameCharacter.ST_WALKING);
+		this.initValuesFromMummy(mummy);
+		this.platformAnalysisResult = new PlatformAnalysisResult(this.mummy);
+		if (GameRules.getInstance().isDebugMode())
+			Game.getInstance().getInterfaz().addGraphicElement(
+					new DrawableElement(Constants.DRAWABLE_PLATFORM_ANALYSIS_RESULT, this.platformAnalysisResult));
 
-	    boolean canJump = this.mummy.canJump();
-	    selector.add(0.1, DO_BOUNCE); // agrega la posibilidad de rebotar
-	    if (endPlatform.getType() == EndPlatform.END_STEP) // Si es un bloque escalon, es decir se puede saltar
-	    {
-		if (canJump) // Si la momia puede saltar
-		    selector.add(0.5, DO_JUMP); // agrega la posibilidad de saltar
+	}
 
-	    } else // La unica opcion que queda es que sea una cornisa
-	    {
-		if (whereIsPlayer == Mummy.PLAYER_IS_DOWN)
+	/**
+	 * Inicializa atributos a partir de la momia pasada por parametro
+	 * 
+	 * @param mummy Momia a partir de la cual se obtienen los valores.
+	 */
+	private void initValuesFromMummy(Mummy mummy)
+	{
+		this.whereIsPlayer = this.mummy.whereIsPlayer();
+		this.timeToChange = this.mummy.getTimeToDecide();
+		this.nextState = Mummy.ST_NO_CHANGE;
+	}
+
+	/**
+	 * Dedice la direccion de la momia de acuerdo a la posicion relativa del player
+	 */
+	protected void setDirection()
+	{
+		if (mummy.getX() < this.mummy.player.getX())
+			this.mummy.getDirection().x = 1;
+		else
+			this.mummy.getDirection().x = -1;
+
+	}
+
+	/**
+	 * Actualiza el comportamiento de locomocion y evaluacion de entorno de la
+	 * momia.
+	 *
+	 * <p>
+	 * Durante este estado, la momia se desplaza continuamente mientras evalua: el
+	 * tiempo en estado, el nivel de stress, la proximidad a bordes de plataforma y
+	 * las condiciones para transiciones a otros estados.
+	 * </p>
+	 *
+	 * <p>
+	 * Si la momia no se encuentra en escalera, se ejecutan chequeos de bordes de
+	 * plataforma que pueden derivar en acciones como saltar, caer o rebotar.
+	 * </p>
+	 */
+	@Override
+	public void update(float deltaTime)
+	{
+
+		if (this.mummy.getRenderMode() == GameCharacter.ST_WALKING
+				|| this.mummy.getRenderMode() == GameCharacter.ST_IDDLE)
+
 		{
-		    if (canJump) // Si la momia puede saltar
-			selector.add(0.25, DO_JUMP); // agrega la posibilidad de saltar
-		    selector.add(0.5, DO_FALL);
+			if (!this.mummy.isInStair())
+			{
+				if (this.mummy.getTimeInState() >= this.timeToChange)
+					this.nextState = Mummy.ST_IDDLE;
+
+				if (this.mustDecide)
+					this.checkEndOfPlataform();
+
+				if (this.mummy.getStressLevel() >= 9)
+
+					this.nextState = Mummy.ST_DYING;
+
+				if (this.mummy.getStressLevel() > 0)
+					this.mummy.calmStress(deltaTime / 6);
+			}
+			this.mummy.move(this.mummy.getDirection(), doJump, deltaTime);
+			this.doJump = false; // Si esta vez decidio saltar, no deberia volver a saltar el proximo ciclo
+
 		} else
 		{
-		    if (canJump) // Si la momia puede saltar
-			selector.add(0.5, DO_JUMP); // agrega la posibilidad de saltar
-		    selector.add(0.25, DO_FALL);
+			this.nextState = ST_ON_AIR;
 		}
+		this.checkChangeStatus();
 
-	    }
-	    int valor = (int) selector.getValue();
-	    switch (valor)
-	    {
-	    case DO_JUMP:
-		this.doJump = true;
-		break;
-	    case DO_BOUNCE:
-		this.bounces();
-		break;
-	    case DO_FALL:
-		this.mustDecide = false; // Si la momia decide caer, no debe volver a detectar la colision con el borde
-					 // porque podria tomar decision, lo cual disminuirira las probabilidades de
-					 // caer de forma exponencial
-		break;
-
-	    }
 	}
 
-    }
+	/**
+	 * Retorna true
+	 */
+	@Override
+	protected boolean isActive()
+	{
+		return true;
+	}
+
+	/**
+	 * Si pasa el tiempo correspondiente a this.timeToChange, entonces el estado
+	 * cambia a new MummyStateDeciding(this.mummy)
+	 */
+	private void checkChangeStatus()
+	{
+		if (this.nextState != Mummy.ST_NO_CHANGE)
+			switch (this.nextState)
+			{
+			case Mummy.ST_IDDLE:
+				this.mummy.mummyState = new MummyStateDeciding(this.mummy);
+				break;
+			case Mummy.ST_DYING:
+				this.die(true);
+				break;
+			case ST_ON_AIR:
+				this.mummy.mummyState = new MummyStateOnAir(this.mummy);
+				break;
+			}
+
+	}
+
+	/**
+	 * Invierte la direccion de movimiento de la momia y aumenta su nivel de stress.
+	 *
+	 * <p>
+	 * Este comportamiento representa una colision contra un obstaculo o limite sin
+	 * posibilidad de avance.
+	 * </p>
+	 */
+	private void bounces()
+	{
+		this.mummy.getDirection().x *= -1;
+		this.mummy.stressing();
+	}
+
+	/**
+	 * Cambia el estado a new MummyStateDying(this.mummy, mustTeleport);
+	 */
+	@Override
+	protected void die(boolean mustTeleport)
+	{
+
+		this.mummy.mummyState = new MummyStateDying(this.mummy, mustTeleport);
+
+	}
+
+	/**
+	 * Detecta si la momia ha alcanzado el limite de la plataforma actual y delega
+	 * la resolucion del evento al analisis del tipo de borde.
+	 *
+	 * <p>
+	 * Este metodo actua como sistema de deteccion de "edge events" dentro del
+	 * comportamiento de la IA.
+	 * </p>
+	 */
+	private void checkEndOfPlataform()
+	{
+		if (this.mummy.isColision(this.platformAnalysisResult.getEndPlatformLeft().getRectangle())
+				&& this.mummy.getDirection().x == MummyState.LEFT)
+			this.analizeEndPlatform(this.platformAnalysisResult.getEndPlatformLeft());
+		else if (this.mummy.isColision(this.platformAnalysisResult.getEndPlatformRight().getRectangle())
+				&& this.mummy.getDirection().x == MummyState.RIGHT)
+			this.analizeEndPlatform(this.platformAnalysisResult.getEndPlatformRight());
+
+	}
+
+	/**
+	 * Analiza el tipo de extremo de plataforma alcanzado y determina la accion a
+	 * ejecutar en base a reglas y seleccion probabilistica.
+	 *
+	 * <p>
+	 * Las acciones posibles incluyen:
+	 * <ul>
+	 * <li>Rebote contra pared o bloqueo</li>
+	 * <li>Salto hacia siguiente plataforma</li>
+	 * <li>Caida voluntaria</li>
+	 * </ul>
+	 *
+	 * <p>
+	 * La decision final depende del tipo de borde, la capacidad de salto de la
+	 * momia y la posicion relativa del jugador.
+	 * </p>
+	 * 
+	 * @param endPlatform
+	 */
+	private void analizeEndPlatform(EndPlatform endPlatform)
+	{
+
+		if (endPlatform.getType() == EndPlatform.END_BLOCK) // Si hay un bloqueo
+			this.bounces(); // Hay que rebotar (no queda otra)
+		else
+		{
+			ProbabilisticSelector selector = new ProbabilisticSelector(Game.random);
+
+			boolean canJump = this.mummy.canJump();
+			selector.add(0.1, DO_BOUNCE); // agrega la posibilidad de rebotar
+			if (endPlatform.getType() == EndPlatform.END_STEP) // Si es un bloque escalon, es decir se puede saltar
+			{
+				if (canJump) // Si la momia puede saltar
+					selector.add(0.5, DO_JUMP); // agrega la posibilidad de saltar
+
+			} else // La unica opcion que queda es que sea una cornisa
+			{
+				if (whereIsPlayer == Mummy.PLAYER_IS_DOWN)
+				{
+					if (canJump) // Si la momia puede saltar
+						selector.add(0.25, DO_JUMP); // agrega la posibilidad de saltar
+					selector.add(0.5, DO_FALL);
+				} else
+				{
+					if (canJump) // Si la momia puede saltar
+						selector.add(0.5, DO_JUMP); // agrega la posibilidad de saltar
+					selector.add(0.25, DO_FALL);
+				}
+
+			}
+			int valor = (int) selector.getValue();
+			switch (valor)
+			{
+			case DO_JUMP:
+				this.doJump = true;
+				break;
+			case DO_BOUNCE:
+				this.bounces();
+				break;
+			case DO_FALL:
+				this.mustDecide = false; // Si la momia decide caer, no debe volver a detectar la colision con el borde
+				// porque podria tomar decision, lo cual disminuirira las probabilidades de
+				// caer de forma exponencial
+				break;
+
+			}
+		}
+
+	}
 }
