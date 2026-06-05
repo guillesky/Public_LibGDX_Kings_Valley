@@ -15,7 +15,7 @@ public class Constants
 	/**
 	 * Indica el numero actual de version de juego y fecha de release
 	 */
-	public static final String VERSION = "v 1.2.1 r 2026-06-04";
+	public static final String VERSION = "v 1.2.1 r 2026-06-05";
 
 	/**
 	 * Codigo identificatorio del player
