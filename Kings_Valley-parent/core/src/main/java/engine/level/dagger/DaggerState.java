@@ -43,7 +43,7 @@ public abstract class DaggerState
 	public static final int ST_PICKUPED = 5;
 
 	/**
-	 * Sujeto del patron state
+	 * Contexto asociado al patron State.
 	 */
 	protected Dagger dagger;
 

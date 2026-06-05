@@ -28,7 +28,7 @@ public abstract class MummyState
 	 */
 	protected float timeToChange;
 	/**
-	 * Corresponde al sujeto del patron state
+	 * Contexto asociado al patron State.
 	 */
 	protected Mummy mummy;
 

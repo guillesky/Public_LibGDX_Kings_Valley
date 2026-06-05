@@ -7,22 +7,60 @@ import i18n.Messages;
 import util.Constants;
 
 /**
- * Clase abstracta que representa un estado del juego (patron State)
- * 
+ * Clase base para los distintos estados globales del juego.
+ *
+ * <p>
+ * Esta clase forma parte de la implementacion del patron State utilizado para
+ * modelar las distintas etapas por las que puede atravesar una partida, tales
+ * como ingreso a un nivel, juego activo, muerte del jugador, salida de un nivel
+ * o finalizacion del juego.
+ * </p>
+ *
+ * <p>
+ * Cada subclase representa un estado concreto y encapsula el comportamiento
+ * especifico asociado a dicha situacion, permitiendo evitar estructuras
+ * complejas basadas en condicionales para gestionar el flujo general del juego.
+ * </p>
+ *
+ * <p>
+ * Ademas de definir el comportamiento comun a todos los estados, esta clase
+ * mantiene una referencia al objeto Game, que actua como contexto del patron
+ * State y almacena la informacion global de la partida.
+ * </p>
+ *
+ * <p>
+ * Las transiciones entre estados se realizan mediante la sustitucion de la
+ * instancia actual por otra subclase de GameState, delegando en cada estado la
+ * responsabilidad de determinar la evolucion del ciclo de vida del juego.
+ * </p>
+ *
+ * <p>
+ * Esta clase tambien proporciona implementaciones comunes utilizadas por
+ * multiples estados concretos, incluyendo la gestion de niveles y ciertas
+ * transiciones del flujo general de la partida.
+ * </p>
+ *
+ * <p>
+ * Desde el punto de vista arquitectonico, esta clase contribuye a separar las
+ * reglas asociadas a cada etapa de la partida, favoreciendo una implementacion
+ * modular, extensible y facil de mantener.
+ * </p>
+ *
  * @author Guillermo Lazzurri
  */
+
 public abstract class GameState
 {
     /**
-     * Sujeto del patron state
+     * Contexto asociado al patron State.
      */
     protected Game game;
 
     /**
-     * Actualiza un fram del juego.
-     * 
-     * @param deltaTime indica cuanto tiempo transcurrio desde la ultima
-     *                  actualizacion medido en segundos
+     * Actualiza la logica asociada al estado actual del juego.
+     *
+     * @param deltaTime tiempo transcurrido, expresado en segundos, desde la ultima
+     *                  actualizacion.
      */
     public void updateframe(float deltaTime)
     {
@@ -30,8 +68,12 @@ public abstract class GameState
     }
 
     /**
-     * Constructor de clase. Gestiona la doble referencia del patron state. Resetea
-     * el delta del juego.
+     * Constructor de la clase.
+     *
+     * <p>
+     * Inicializa la referencia al contexto del patron State y reinicia el
+     * acumulador de tiempo utilizado por el juego.
+     * </p>
      */
     public GameState()
     {
@@ -40,34 +82,24 @@ public abstract class GameState
     }
 
     /**
-     * Retorna un codigo numerico que indica como sera la renderizacion de acuerdo
-     * al estado del juego <br>
-     * ST_GAME_PLAYING = 0 <br>
-     * ST_GAME_ENTERING = 1<br>
-     * ST_GAME_EXITING = 2<br>
-     * ST_GAME_DYING = 3<br>
-     * ST_NOT_IN_GAME = 100<br>
-     * ST_ENDING = 99<br>
-     * 
-     * @return codigo numerico que indica como sera la renderizacion de acuerdo al
-     *         estado del juego<br>
-     *         ST_GAME_PLAYING = 0 <br>
-     *         ST_GAME_ENTERING = 1<br>
-     *         ST_GAME_EXITING = 2<br>
-     *         ST_GAME_DYING = 3<br>
-     *         ST_NOT_IN_GAME = 100<br>
-     *         ST_ENDING = 99<br>
+     * Retorna el modo de renderizacion asociado al estado actual.
+     *
+     * <p>
+     * El valor devuelto determina la forma en que la capa grafica debe representar
+     * la transicion o situacion actual del juego.
+     * </p>
+     *
+     * @return codigo de renderizacion definido por Game.
      */
     public abstract int getRenderMode();
 
     /**
-     * Llamado al iniciar un nuevo juego
-     * 
+     * Inicializa el comportamiento asociado al comienzo de una nueva partida.
      */
     public abstract void startNewGame();
 
     /**
-     * Llamado al terminar el juego
+     * Finaliza la partida y realiza la transicion al estado de cierre del juego.
      */
     public void endGame()
     {
@@ -76,14 +108,19 @@ public abstract class GameState
     }
 
     /**
-     * Metodo llamado para iniciar un nivel
-     * 
-     * @param door      Indica la puerta de origen, es decir, la puerta por la que
-     *                  el player salio del nivel que termino. En caso de no venir
-     *                  de un nivel anterior o de morir, este paremtro podria ser
-     *                  null.
-     * @param fromDeath Indica true si el player acaba de morir y esta reiniciando
-     *                  el nivel, false en caso contrario
+     * Inicializa y carga un nuevo nivel del juego.
+     *
+     * <p>
+     * Este metodo se encarga de liberar el nivel actual, cargar la nueva
+     * instancia correspondiente, generar los eventos asociados a la
+     * transicion y configurar el estado inicial de ingreso al nivel.
+     * </p>
+     *
+     * @param door puerta utilizada para acceder al nuevo nivel. Puede ser
+     *             null cuando no existe un nivel previo o cuando el jugador
+     *             reaparece luego de morir.
+     * @param fromDeath indica si la carga del nivel se produce como
+     *                  consecuencia de la muerte del jugador.
      */
     protected void startNewLevel(Door door, boolean fromDeath)
     {
@@ -157,7 +194,8 @@ public abstract class GameState
     }
 
     /**
-     * Llamado al morir el player
+     * Gestiona el comportamiento asociado a la muerte del jugador dentro
+     * del estado actual.
      */
     protected abstract void dying();
 

@@ -13,7 +13,7 @@ import engine.level.GiratoryMechanism;
 public abstract class PlayerState
 {
     /**
-     * Sujeto del patron State
+     * Contexto asociado al patron State.
      */
     protected Player player;
 

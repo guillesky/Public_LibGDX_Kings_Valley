@@ -9,8 +9,39 @@ import util.Constants;
 import util.GameRules;
 
 /**
- * Clase que aplica el patron state. Representa el estado el caracter.
- * 
+ * Clase base para los distintos estados de movimiento de un GameCharacter.
+ *
+ * <p>
+ * Esta clase implementa el patron State para encapsular los distintos
+ * comportamientos que puede adoptar un personaje durante el juego, tales como
+ * permanecer quieto, caminar, subir escaleras, saltar o caer.
+ * </p>
+ *
+ * <p>
+ * Cada estado concreto define las reglas de movimiento, las transiciones
+ * posibles y el tratamiento de las colisiones correspondientes a una situacion
+ * particular del personaje.
+ * </p>
+ *
+ * <p>
+ * El contexto del patron State es la clase GameCharacter, que delega en el
+ * estado actual la responsabilidad de calcular el comportamiento asociado a
+ * cada actualizacion.
+ * </p>
+ *
+ * <p>
+ * Ademas de modelar el comportamiento dinamico del personaje, esta clase
+ * proporciona funcionalidades comunes utilizadas por multiples estados,
+ * incluyendo calculo de colisiones, deteccion de aterrizajes, validacion de
+ * movimientos y gestion de transiciones entre estados.
+ * </p>
+ *
+ * <p>
+ * Esta estrategia permite desacoplar las reglas asociadas a cada forma de
+ * movimiento, evitando estructuras complejas basadas en condicionales y
+ * favoreciendo una implementacion modular y extensible.
+ * </p>
+ *
  * @author Guillermo Lazzurri
  */
 public abstract class GameCharacterState
@@ -21,15 +52,20 @@ public abstract class GameCharacterState
      */
     protected int nextState;
     /**
-     * Corresponde al contexto del patron state
+     * Contexto asociado al patron State.
      */
     protected GameCharacter gameCharacter;
 
     /**
-     * Constructor de clase
-     * 
-     * @param gameCharacter Corresponde al contexto del patron state
-     * @param state         valor entero que representa el estado
+     * Constructor de la clase.
+     *
+     * <p>
+     * Inicializa la referencia al contexto del patron State y establece el modo de
+     * renderizacion asociado al estado concreto.
+     * </p>
+     *
+     * @param gameCharacter contexto asociado al patron State.
+     * @param state         codigo de renderizacion correspondiente al estado.
      */
     public GameCharacterState(GameCharacter gameCharacter, int state)
     {
@@ -60,11 +96,10 @@ public abstract class GameCharacterState
     protected abstract void afterScaling(Vector2 escalado);
 
     /**
-     * Metodo llamado para calcular las colisiones al intentar moverse de acuerdo a
-     * la trayectoria pasada por parametro. Se realizan las correciones necesarias.
-     * 
-     * @param vectMove Objeto de tipo Vector2 que representa la trayectoria
-     *                 pretendida.
+     * Evalua las colisiones asociadas al desplazamiento solicitado y
+     * corrige la trayectoria cuando resulta necesario.
+     *
+     * @param vectMove trayectoria pretendida.
      */
     protected void colision(Vector2 vectMove)
     {
@@ -89,11 +124,10 @@ public abstract class GameCharacterState
     }
 
     /**
-     * Calcula las colisiones al intentar moverse en la trayectoria pretendida
-     * durante una caminata
-     * 
-     * @param vectMove Objeto de tipo Vector2 que representa la trayectoria
-     *                 pretendida.
+     * Variante especializada del calculo de colisiones utilizada durante
+     * desplazamientos horizontales sobre el suelo.
+     *
+     * @param vectMove trayectoria pretendida.
      */
     protected void colisionForWalk(Vector2 vectMove)
     {
@@ -250,10 +284,10 @@ public abstract class GameCharacterState
     }
 
     /**
-     * Corrige la trayectoria pretendida en caso de colision por abajo
-     * 
-     * @param vectMove Objeto de tipo Vector2 que representa la trayectoria
-     *                 pretendida.
+     * Ajusta la posicion del personaje al aterrizar sobre una superficie
+     * solida y realiza las acciones asociadas al fin de un salto o caida.
+     *
+     * @param vectMove trayectoria pretendida.
      */
 
     private void correctDown(Vector2 vectMove)
@@ -272,18 +306,22 @@ public abstract class GameCharacterState
     }
 
     /**
-     * Metodo que decide si la colision fue lateral o por debajo, en caso de que la
-     * colision solo se detecta en un vertice inferior del caracter. Es invocado por
-     * el metodo checkLanding. Utiliza un calculo de funcion lineal.
-     * 
-     * @param x        desplazamiento en x necesario para decidir el vertice a
-     *                 evaluar
-     * @param y        desplazamiento en y necesario para decidir el vertice a
-     *                 evaluar
-     * @param vectMove Objeto de tipo Vector2 que representa la trayectoria
-     *                 pretendida.
-     * @return un valor indicando el tipo de tipo de colision. Puede ser:
-     *         Constantes.DOWN; Constantes.RIGHT; Constantes.LEFT
+     * Determina si una colision detectada sobre un vertice inferior debe
+     * interpretarse como una colision lateral o como un aterrizaje.
+     *
+     * <p>
+     * Para ello se analiza geometricamente la trayectoria recorrida por
+     * el personaje y se calcula el primer borde de la celda que habria
+     * sido intersectado.
+     * </p>
+     *
+     * @param x desplazamiento horizontal utilizado para seleccionar el
+     *          vertice a evaluar.
+     * @param y desplazamiento vertical utilizado para seleccionar el
+     *          vertice a evaluar.
+     * @param vectMove trayectoria pretendida.
+     *
+     * @return direccion desde la que se considera producida la colision.
      */
     private int buscarColisionPorVertice(float x, float y, Vector2 vectMove)
     {
@@ -428,10 +466,15 @@ public abstract class GameCharacterState
     }
 
     /**
-     * Retorna la escalera sobre la que esta parado el caracter. Podria ser null
-     * 
-     * @return objeto de tipo Stair sobre la que esta el caracter. Si no esta en
-     *         ninguna escalera retorna null
+     * Retorna la escalera actualmente asociada al personaje.
+     *
+     * <p>
+     * La implementacion por defecto no considera ninguna escalera
+     * asociada y retorna null. Los estados que gestionan movimiento
+     * sobre escaleras pueden redefinir este comportamiento.
+     * </p>
+     *
+     * @return escalera asociada al personaje o null si no existe.
      */
     protected Stair getStair()
     {
