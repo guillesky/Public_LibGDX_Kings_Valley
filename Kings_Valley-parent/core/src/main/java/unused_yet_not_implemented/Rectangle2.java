@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class Rectangle2 extends Rectangle
 {
+    private static final long serialVersionUID = 1L;
     public Color color;
 
     public Rectangle2(float x, float y, float width, float height,Color color)

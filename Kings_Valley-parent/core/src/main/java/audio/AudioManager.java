@@ -39,6 +39,7 @@ public class AudioManager implements KVEventListener
 	/**
 	 * @param config Graba el archivo de configuracion de audio en audio_config.json
 	 */
+	@SuppressWarnings("unused")
 	private static void saveConfig(AudioConfig config)
 	{
 		FileHandle file = Gdx.files.local(CONFIG_AUDIO_FILE);

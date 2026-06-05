@@ -34,6 +34,7 @@ public class CollisionDetector
 	 *         como primer parametro. Si ningun rectangulo de la coleccio colisiona
 	 *         con el primero, se devuelve null.
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static Rectangle checkRectangleColision(Rectangle rectangle, Collection collectionOfRectangles)
 	{
 

@@ -187,6 +187,7 @@ public class LevelObject extends Rectangle
 	 * @param collectionOfRectangles conjunto de posibles colisiones
 	 * @return el primer objeto colisionante o null si no hay colision
 	 */
+	@SuppressWarnings("rawtypes")
 	public LevelObject checkRectangleColision(Collection collectionOfRectangles)
 	{
 		LevelObject respuesta = (LevelObject) CollisionDetector.checkRectangleColision(this, collectionOfRectangles);

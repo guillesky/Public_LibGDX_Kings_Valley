@@ -113,6 +113,8 @@ public class GameRules
      * 
      * @param config Objeto que debe grabarse
      */
+   
+    @SuppressWarnings("unused")
     private static void saveConfig(GameRules gameRules)
     {
 	FileHandle file = Gdx.files.local(GAMES_RULES_CONFIG_FILE);
@@ -601,6 +603,7 @@ public class GameRules
     }
 
     // Usado en etapa de desarrollo para generar ewl archivo json
+    @SuppressWarnings("unused")
     private void setFactors(float levelTileWidthUnits, float levelTileHeightUnits)
     {
 	this.levelTileWidthUnits = levelTileWidthUnits;

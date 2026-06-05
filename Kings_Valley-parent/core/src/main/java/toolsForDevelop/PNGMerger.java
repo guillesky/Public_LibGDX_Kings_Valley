@@ -78,6 +78,7 @@ public class PNGMerger extends ApplicationAdapter
 
 	}
 
+	@SuppressWarnings("unused")
 	private void arrayDeImagenesIguales(ArrayList<FileHandle> pngFiles, boolean isHorizontal)
 	{
 		// Asumimos que todos los PNG tienen las mismas dimensiones
@@ -117,6 +118,7 @@ public class PNGMerger extends ApplicationAdapter
 
 	}
 
+	@SuppressWarnings("unused")
 	private void arrayDeImagenesVariables(ArrayList<FileHandle> pngFiles)
 	{
 		// Asumimos que todos los PNG tienen las mismas dimensiones

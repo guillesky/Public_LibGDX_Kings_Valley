@@ -58,6 +58,7 @@ public class GraphicsFileLoader
 	 * 
 	 * @param config Objeto de a guardar
 	 */
+	@SuppressWarnings("unused")
 	private static void saveConfig(GraphicsFileConfig config)
 	{
 		FileHandle file = Gdx.files.local(CONFIG_FILE);
