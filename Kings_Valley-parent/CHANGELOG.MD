@@ -59,4 +59,12 @@
 
 * Se agrego el modo Gran Templo. Se corrigieron algunos bugs.
 
+"v 1.2.1 r 2026-06-05"
+
+* Se cambio la ubicacion de algunos archivos de configuración para soportar instalador MSI bajo Windows
+* Se pulieron detalles de código y documentación.
+
+
+
+
 
