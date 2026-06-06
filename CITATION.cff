@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+title: "King's Valley Remake"
+message: "If you use this software, please cite it using the metadata below."
+type: software
+
+authors:
+  - family-names: "Lazzurri"
+    given-names: "Guillermo"
+
+version: "1.2.1"
+date-released: 2026-06-05
+
+doi: "10.5281/zenodo.XXXXXXX"
+
+repository-code: "https://github.com/guillesky/Public_LibGDX_Kings_Valley.git"
+
+license: "GPL-3.0"
