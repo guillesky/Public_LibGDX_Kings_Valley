@@ -61,10 +61,6 @@
 
 "v 1.2.1 r 2026-06-05"
 
-* Se cambio la ubicacion de algunos archivos de configuración para soportar instalador MSI bajo Windows
-* Se pulieron detalles de código y documentación.
-
-
-
-
+* Se cambio la ubicacion de algunos archivos de configuracion para soportar instalador MSI bajo Windows
+* Se pulieron detalles de codigo y documentacion.
 
