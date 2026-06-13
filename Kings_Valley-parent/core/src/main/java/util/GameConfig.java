@@ -1,9 +1,10 @@
 package util;
 
-import java.io.File;
-
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import com.badlogic.gdx.utils.Json;
 
 /**
@@ -21,6 +22,7 @@ public class GameConfig
     private boolean enabledSelectDificultLevel = false;
     private int bestExtendedEpisodeFinished = 0;
     private int bestGreatTempleFinished = 0;
+    private boolean fullScreenMode=true;
 
     private static final String GAME_CONFIG_FILE = "game_config.json";
     private static final Json json = new Json();
@@ -34,6 +36,7 @@ public class GameConfig
      * this.enabledSelectDificultLevel = false;<br>
      * this.bestExtendedEpisodeFinished = 0;<br>
      * this.bestGreatTempleFinished = 0;<br>
+     * this.fullScreenMode=true;<br>
      * 
      */
     public GameConfig()
@@ -46,12 +49,22 @@ public class GameConfig
      * 
      * @param config Objeto a guardar
      */
+
     public static void saveConfig(GameConfig config)
     {
-	FileHandle file = GameConfig.getConfigFile();
+	Path file = GameConfig.getConfigFile();
+
 	json.setUsePrototypes(false);
-	file.writeString(json.prettyPrint(config), false);
+
+	try
+	{
+	    Files.write(file, json.prettyPrint(config).getBytes(StandardCharsets.UTF_8));
+	} catch (IOException e)
+	{
+	    throw new RuntimeException("No se pudo guardar la configuración en " + file, e);
+	}
     }
+    
 
     /**
      * Crea y retorna un objeto de tipo GameConfig a partir de los datos leidos
@@ -59,20 +72,28 @@ public class GameConfig
      * 
      * @return Objeto leido del archivo "game_config.json"
      */
+
     public static GameConfig loadConfig()
     {
-	GameConfig gameConfig;
-	FileHandle file = GameConfig.getConfigFile();
-	if (file.exists())
+	Path file = GameConfig.getConfigFile();
+
+	if (!Files.exists(file))
 	{
-	    gameConfig = json.fromJson(GameConfig.class, file);
-	} else
-	{
-	    gameConfig = new GameConfig();
-	    saveConfig(gameConfig);
+	    return new GameConfig();
 	}
-	return gameConfig; // Valores por defecto
+
+	try
+	{
+	    String jsonText = new String(Files.readAllBytes(file), StandardCharsets.UTF_8);
+
+	    return json.fromJson(GameConfig.class, jsonText);
+	} catch (IOException e)
+	{
+	    throw new RuntimeException("No se pudo leer la configuración desde " + file, e);
+	}
     }
+
+  
 
     /**
      * Retorna el codigo del idioma utilizado en el juego. Por ejemplo "es" para
@@ -247,27 +268,42 @@ public class GameConfig
      * 
      * @return El archivo de configuracion dentro de la carpeta APPDATA del sistema
      */
-    private static FileHandle getConfigFile()
+
+    private static Path getConfigFile()
     {
-	String appData = System.getenv("APPDATA");
-	FileHandle configDir;
-	if (appData != null)
+	try
 	{
-	    // Windows
-	    configDir = Gdx.files.absolute(appData + File.separator + "KingsValley");
-	} else
-	{
-	    // Linux y otros sistemas
-	    String home = System.getProperty("user.home");
-	    configDir = Gdx.files.absolute(
-		    home + File.separator + ".local" + File.separator + "share" + File.separator + "KingsValley");
-	}
+	    Path configDir;
 
-	if (!configDir.exists())
-	{
-	    configDir.mkdirs();
-	}
+	    String appData = System.getenv("APPDATA");
 
-	return configDir.child(GAME_CONFIG_FILE);
+	    if (appData != null)
+	    {
+		configDir = Paths.get(appData, "KingsValley");
+	    } else
+	    {
+		configDir = Paths.get(System.getProperty("user.home"), ".local", "share", "KingsValley");
+	    }
+
+	    Files.createDirectories(configDir);
+
+	    return configDir.resolve(GAME_CONFIG_FILE);
+	} catch (IOException e)
+	{
+	    throw new RuntimeException("No se pudo crear el directorio de configuración", e);
+	}
     }
+
+    public boolean isFullScreenMode()
+    {
+        return fullScreenMode;
+    }
+
+    public void setFullScreenMode(boolean fullScreenMode)
+    {
+        this.fullScreenMode = fullScreenMode;
+    }
+
+   
+
 }

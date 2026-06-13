@@ -127,6 +127,7 @@ public class Facade implements ApplicationListener
      */
     private Facade()
     {
+	this.gameConfig = GameConfig.loadConfig();
 	assetManager = new AssetManager();
 
     }
@@ -378,8 +379,6 @@ public class Facade implements ApplicationListener
     {
 	UIConfig uiConfig = Facade.loadConfig();
 
-	this.gameConfig = GameConfig.loadConfig();
-
 	LanguageUtils.i18n(this.gameConfig.getLanguage());
 	Game.getInstance().setGameConfig(gameConfig);
 
@@ -619,7 +618,7 @@ public class Facade implements ApplicationListener
 	}
 
 	PixmapIO.writePNG(this.getScreenshotFile(), flipped);
-	
+
 	pixmap.dispose();
 	flipped.dispose();
     }
@@ -656,6 +655,16 @@ public class Facade implements ApplicationListener
 	String fileName = "screenshot_" + timestamp + ".png";
 
 	return screenshotDir.child(fileName);
+    }
+
+    public boolean isFullScreenMode()
+    {
+	return this.gameConfig.isFullScreenMode();
+    }
+
+    public void setFullScreenMode(boolean fullScreenMode)
+    {
+	this.gameConfig.setFullScreenMode(fullScreenMode);
     }
 
 }

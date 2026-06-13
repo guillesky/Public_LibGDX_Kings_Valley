@@ -12,6 +12,7 @@ public class Lwjgl3KingsValleyLauncher
     {
 	if (StartupHelper.startNewJvmIfRequired())
 	    return; // This handles macOS support and helps on Windows.
+
 	createApplication();
     }
 
@@ -19,12 +20,13 @@ public class Lwjgl3KingsValleyLauncher
     {
 	return new Lwjgl3Application(Facade.getInstance(), getDefaultConfiguration());
 	// return new Lwjgl3Application(new PNGMerger(), getDefaultConfiguration());
-	
-	//return new Lwjgl3Application(new LevelChecker(), getDefaultConfiguration());
+
+	// return new Lwjgl3Application(new LevelChecker(), getDefaultConfiguration());
     }
 
     private static Lwjgl3ApplicationConfiguration getDefaultConfiguration()
     {
+	boolean isFullScreen = Facade.getInstance().isFullScreenMode();
 	Lwjgl3ApplicationConfiguration configuration = new Lwjgl3ApplicationConfiguration();
 	configuration.setTitle("Kings_Valley_Remake");
 	//// Vsync limits the frames per second to what your hardware can display, and
@@ -43,12 +45,16 @@ public class Lwjgl3KingsValleyLauncher
 	//// hardware.
 	//// You may also need to configure GPU drivers to fully disable Vsync; this can
 	//// cause screen tearing.
-	// configuration.setWindowedMode(800,600);
-	configuration.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayMode());
-	//configuration.setWindowedMode(1920, 1080);
+	if (isFullScreen)
+	    configuration.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayMode());
+	else
+	    configuration.setWindowedMode(1280, 720);
+	
+	//
 
 	//// You can change these files; they are in lwjgl3/src/main/resources/ .
-	configuration.setWindowIcon("kingsvalley_256.png","kingsvalley_128.png", "kingsvalley_64.png","kingsvalley_48.png","kingsvalley_32.png","kingsvalley_16.png");
+	configuration.setWindowIcon("kingsvalley_256.png", "kingsvalley_128.png", "kingsvalley_64.png",
+		"kingsvalley_48.png", "kingsvalley_32.png", "kingsvalley_16.png");
 	return configuration;
     }
 }
