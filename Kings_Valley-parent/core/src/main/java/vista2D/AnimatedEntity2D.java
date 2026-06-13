@@ -67,7 +67,6 @@ public class AnimatedEntity2D
      */
     public void render(SpriteBatch batch)
     {
-
 	sprite.draw(batch);
     }
 
