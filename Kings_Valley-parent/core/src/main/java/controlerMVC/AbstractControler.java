@@ -1,4 +1,4 @@
-package controler;
+package controlerMVC;
 
 /**
  * Clase abstracta Controlador en el patron MVC. Se utiliza para controlar la

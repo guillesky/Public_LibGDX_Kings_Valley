@@ -1,4 +1,4 @@
-package engine.control;
+package keyboardGameControl;
 
 import java.util.HashMap;
 
@@ -34,7 +34,6 @@ public class KeyboardGameControl implements IGameControl
 	this.registerKey(Input.Keys.P, IGameControl.PAUSE);
 	this.registerKey(Input.Keys.ESCAPE, IGameControl.PAUSE);
 	this.registerKey(Input.Keys.S, IGameControl.AUX_BUTTON1);
-	this.registerKey(Input.Keys.PRINT_SCREEN, IGameControl.AUX_BUTTON2);
 	
 
 	this.hashMapActionBooleans.put(IGameControl.ACTION, false);

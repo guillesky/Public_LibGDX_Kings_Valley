@@ -221,6 +221,12 @@ public interface KVEventListener
      */
 
     int GAME_ENDING = 201;
+    
+    /**
+     * Codigo del evento: Se solicito una captura de pantalla
+     */
+
+    int SCREENSHOT_REQUIRED = 300;
 
     /**
      * Metodo invocado cuando se dispara un evento del sistema.

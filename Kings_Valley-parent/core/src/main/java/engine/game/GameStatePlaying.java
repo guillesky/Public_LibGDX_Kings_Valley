@@ -88,8 +88,7 @@ public class GameStatePlaying extends GameState
 		{
 			this.game.getIGraphic().addGraphicElement(new DrawableElement(Constants.DRAWABLE_PLATFORM_ANALYSIS_RESULT,new PlatformAnalysisResult(player)));
 		}
-		if(controles.getShot(IGameControl.AUX_BUTTON2))this.game.getIGraphic().takeScreenshot();
-
+		
 	}
 
 	/**

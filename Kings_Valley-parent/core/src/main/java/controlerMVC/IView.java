@@ -1,4 +1,4 @@
-package controler;
+package controlerMVC;
 
 /**
  * Interfaz que declara los metodos que debera implementar la interfaz de

@@ -9,8 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
-import controler.AbstractControler;
-import controler.IView;
+import controlerMVC.AbstractControler;
+import controlerMVC.IView;
 import engine.KVEventListener;
 import engine.game.Game;
 import facade.Facade;

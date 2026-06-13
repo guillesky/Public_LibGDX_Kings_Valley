@@ -39,8 +39,8 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
-import controler.AbstractControler;
-import controler.IView;
+import controlerMVC.AbstractControler;
+import controlerMVC.IView;
 import engine.game.Game;
 import facade.Facade;
 import i18n.Messages;

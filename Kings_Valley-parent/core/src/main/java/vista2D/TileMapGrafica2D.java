@@ -833,28 +833,5 @@ public class TileMapGrafica2D implements IMyApplicationListener
 
     }
 
-    @Override
-    public void takeScreenshot()
-    {
-	Pixmap pixmap = Pixmap.createFromFrameBuffer(0, 0, Gdx.graphics.getBackBufferWidth(),
-		Gdx.graphics.getBackBufferHeight());
-
-	 Pixmap flipped = new Pixmap(pixmap.getWidth(), pixmap.getHeight(), pixmap.getFormat());
-
-	    for (int y = 0; y < pixmap.getHeight(); y++)
-	    {
-	        flipped.drawPixmap(
-	        	pixmap,
-	                0, y,
-	                0, pixmap.getHeight() - y - 1,
-	                pixmap.getWidth(), 1);
-	    }
-	
-	
-	
-	PixmapIO.writePNG(Gdx.files.local("screenshot.png"), flipped);
-	System.out.println("screenshot.png");
-	pixmap.dispose();
-	flipped.dispose();
-    }
+  
 }
