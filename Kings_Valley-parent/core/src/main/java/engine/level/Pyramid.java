@@ -50,7 +50,7 @@ import util.GameRules;
  *
  * @author Guillermo Lazzurri
  */
-public class Pyramid implements IGraphic
+public class Pyramid 
 {
     private TiledMap map;
 
@@ -72,8 +72,7 @@ public class Pyramid implements IGraphic
 
     private HashMap<LevelObject, LevelObject> hashTraps = new HashMap<LevelObject, LevelObject>();
     private HashMap<LevelObject, GiratoryMechanism> hashGiratoryMechanisms = new HashMap<LevelObject, GiratoryMechanism>();
-    private IGraphic interfaz = null;
-
+   
     /**
      * Crea una piramide de acuerdo a los datos suministrdos por parametro. Este
      * constructor es llamado por la clase LevelReader.
@@ -96,11 +95,10 @@ public class Pyramid implements IGraphic
     public Pyramid(TiledMap map, ArrayList<Door> doors, ArrayList<LevelObject> jewels, ArrayList<Stair> positiveStairs,
 	    ArrayList<Stair> negativeStairs, ArrayList<LevelObject> pickers, ArrayList<Dagger> stuckedDaggers,
 	    HashSet<Cell> unpickableCells, HashMap<LevelObject, LevelObject> hashTraps,
-	    HashMap<LevelObject, GiratoryMechanism> hashGiratoryMechanisms, IGraphic interfaz)
+	    HashMap<LevelObject, GiratoryMechanism> hashGiratoryMechanisms)
     {
 
 	this.map = map;
-	this.interfaz = interfaz;
 	MapProperties properties = map.getProperties();
 	int tileWidth = properties.get("tilewidth", Integer.class);
 	int tileHeight = properties.get("tileheight", Integer.class);
@@ -385,8 +383,7 @@ public class Pyramid implements IGraphic
     public void removePicker(LevelObject picker)
     {
 	this.pickers.remove(picker);
-	this.removeGraphicElement(new DrawableElement(Constants.DRAWABLE_LEVEL_ITEM, picker));
-
+	
     }
 
     /**
@@ -399,29 +396,9 @@ public class Pyramid implements IGraphic
     public void removeJewel(LevelObject jewel)
     {
 	this.jewels.remove(jewel);
-	this.removeGraphicElement(new DrawableElement(Constants.DRAWABLE_LEVEL_ITEM, jewel));
-
     }
 
-    /**
-     * Invoca a this.interfaz.addGraphicElement(element);
-     */
-    @Override
-    public void addGraphicElement(DrawableElement element)
-    {
-	this.interfaz.addGraphicElement(element);
-    }
-
-    /**
-     * Incova a this.interfaz.removeGraphicElement(element);
-     * 
-     */
-    @Override
-    public void removeGraphicElement(DrawableElement element)
-    {
-	this.interfaz.removeGraphicElement(element);
-
-    }
+    
 
     /**
      * Elimina los mecanismos y las puertas giratorias. Llamado al recolectar todas
@@ -431,7 +408,7 @@ public class Pyramid implements IGraphic
     {
 	Iterator<LevelObject> it = this.hashGiratoryMechanisms.keySet().iterator();
 	while (it.hasNext())
-	    this.removeGraphicElement(new DrawableElement(Constants.DRAWABLE_GYRATORY, it.next()));
+	    Game.getInstance().getIGraphic().removeGraphicElement(new DrawableElement(Constants.DRAWABLE_GYRATORY, it.next()));
 	this.hashGiratoryMechanisms.clear();
     }
 
@@ -466,14 +443,7 @@ public class Pyramid implements IGraphic
 	return doors;
     }
 
-    /**
-     * Invoca a this.interfaz.reset();
-     */
-    @Override
-    public void inicialize()
-    {
-	this.interfaz.inicialize();
-    }
+   
 
     /**
      * Llamado al recolectar todas las joyas, elimina las puertas giratorias y
@@ -500,33 +470,8 @@ public class Pyramid implements IGraphic
 	this.map.dispose();
     }
 
-    /**
-     * Invoca a return this.interfaz.getTimeToExitLevel();
-     */
-    @Override
-    public float getTimeToExitLevel()
-    {
-	return this.interfaz.getTimeToExitLevel();
-    }
-
-    /**
-     * Invoca a return this.interfaz.getTimeToEnterLevel();
-     */
-    @Override
-    public float getTimeToEnterLevel()
-    {
-
-	return this.interfaz.getTimeToEnterLevel();
-    }
-
-    /**
-     * Invoca a return this.interfaz.getTimeDying();
-     */
-    @Override
-    public float getTimeDying()
-    {
-	return this.interfaz.getTimeDying();
-    }
+   
+    
 
     /**
      * Retorna todas las escaleras de la piramide
@@ -538,14 +483,5 @@ public class Pyramid implements IGraphic
 	return allStairs;
     }
 
-    /**
-     * Invoca a return this.interfaz.getTimeToEndGame();
-     */
-    @Override
-    public float getTimeToEndGame()
-    {
-
-	return this.interfaz.getTimeToEndGame();
-    }
-
+  
 }

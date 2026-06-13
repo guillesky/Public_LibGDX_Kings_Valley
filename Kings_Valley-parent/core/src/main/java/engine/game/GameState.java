@@ -179,9 +179,9 @@ public abstract class GameState
 
 	this.game.level = levelReader.getLevel(this.game.getIdCurrentLevel(),
 		this.game.levelFileName.get(this.game.getIdCurrentLevel()), this.game.getDificultLevel(),
-		this.game.completedLevels.get(this.game.getIdCurrentLevel()), door, fromDeath, this.game.getInterfaz());
+		this.game.completedLevels.get(this.game.getIdCurrentLevel()), door, fromDeath);
 	this.game.stateGame = new GameStateEntering();
-	this.game.getInterfaz().inicialize();
+	this.game.getIGraphic().inicialize();
 
 	if ((door != null && door.getLevelConnected() == Door.TO_PREVIUS))
 	    sb.append(entering_prior);

@@ -48,7 +48,7 @@ public class GameStateEndingGame extends GameState
 	public void updateframe(float deltaTime)
 	{
 		super.updateframe(deltaTime);
-		if (this.game.getDelta() >= this.game.getInterfaz().getTimeToEndGame())
+		if (this.game.getDelta() >= this.game.getIGraphic().getTimeToEndGame())
 		{
 			this.game.stateGame = new GameStateNotInGame();
 			this.game.initNewGame();

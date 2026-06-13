@@ -138,7 +138,7 @@ public class Level
 	    if (!mechanism.isActive())
 	    {
 		it.remove();
-		this.pyramid.removeGraphicElement(new DrawableElement(Constants.DRAWABLE_TRAP, mechanism));
+		Game.getInstance().getIGraphic().removeGraphicElement(new DrawableElement(Constants.DRAWABLE_TRAP, mechanism));
 		Game.getInstance().eventFired(KVEventListener.TRAP_END_DOWN, mechanism);
 
 	    }

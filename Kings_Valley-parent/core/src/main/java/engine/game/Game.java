@@ -108,7 +108,7 @@ public class Game implements KVEventListener
     private int idCurrentLevel;
     private int dificultLevel = 0;
     private float delta = 0;
-    private IGraphic interfaz = null;
+    private IGraphic iGraphic = null;
     private ArrayList<KVEventListener> kvEventListeners = new ArrayList<KVEventListener>();
     /**
      * Estado del juego (patron state)
@@ -214,21 +214,21 @@ public class Game implements KVEventListener
      * @return El objeto que implementa la interfaz IGraphic usado para representar
      *         el juego
      */
-    public IGraphic getInterfaz()
+    public IGraphic getIGraphic()
     {
-	return interfaz;
+	return iGraphic;
     }
 
     /**
      * Setea el objeto que implementa la interfaz IGraphic usado para representar el
      * juego
      * 
-     * @param interfaz objeto que implementa la interfaz IGraphic usado para
+     * @param iGraphic objeto que implementa la interfaz IGraphic usado para
      *                 repreentar el juego
      */
-    public void setInterfaz(IGraphic interfaz)
+    public void setIGraphic(IGraphic iGraphic)
     {
-	this.interfaz = interfaz;
+	this.iGraphic = iGraphic;
     }
 
     /**

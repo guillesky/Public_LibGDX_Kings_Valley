@@ -31,7 +31,7 @@ public class GameStateExiting extends GameState
 	{
 		super();
 		this.door = door;
-		this.game.getInterfaz().addGraphicElement(new DrawableElement(Constants.DRAWABLE_EXIT_DOOR, door));
+		this.game.getIGraphic().addGraphicElement(new DrawableElement(Constants.DRAWABLE_EXIT_DOOR, door));
 		this.game.eventFired(KVEventListener.EXITING_LEVEL, this.game.getCurrentLevel());
 	}
 
@@ -46,7 +46,7 @@ public class GameStateExiting extends GameState
 	public void updateframe(float deltaTime)
 	{
 		super.updateframe(deltaTime);
-		if (this.game.getDelta() >= this.game.getInterfaz().getTimeToExitLevel())
+		if (this.game.getDelta() >= this.game.getIGraphic().getTimeToExitLevel())
 		{
 			this.game.eventFired(KVEventListener.EXIT_LEVEL, this.game.getCurrentLevel());
 

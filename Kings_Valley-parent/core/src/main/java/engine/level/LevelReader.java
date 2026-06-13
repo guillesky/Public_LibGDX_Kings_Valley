@@ -95,7 +95,7 @@ public class LevelReader
 	 * @return Objeto de tipo Level coherente con los parametros.
 	 */
 	public Level getLevel(int id, String mapFile, int dificultLevel, boolean isCompleted, Door doorFrom,
-			boolean fromDeath, IGraphic interfaz)
+			boolean fromDeath)
 	{
 		TiledMap map = this.mapLoader.load(mapFile);
 		this.resetAll();
@@ -107,7 +107,7 @@ public class LevelReader
 			this.hashGiratoryMechanisms.clear();
 		}
 		this.pyramid = new Pyramid(map, doors, jewels, positiveStairs, negativeStairs, pickers, stuckedDaggers,
-				unpickableCells, hashTraps, hashGiratoryMechanisms, interfaz);
+				unpickableCells, hashTraps, hashGiratoryMechanisms);
 
 		if (isCompleted)
 			this.pyramid.prepareToExit();

@@ -101,7 +101,7 @@ public class MummyStateWalking extends MummyState
 		this.initValuesFromMummy(mummy);
 		this.platformAnalysisResult = new PlatformAnalysisResult(this.mummy);
 		if (GameRules.getInstance().isDebugMode())
-			Game.getInstance().getInterfaz().addGraphicElement(
+			Game.getInstance().getIGraphic().addGraphicElement(
 					new DrawableElement(Constants.DRAWABLE_PLATFORM_ANALYSIS_RESULT, this.platformAnalysisResult));
 
 	}

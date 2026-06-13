@@ -101,7 +101,7 @@ public class MummyStateSearchingStair extends MummyStateWalking
 				this.platformAnalysisResult = new PlatformAnalysisResult(this.mummy);
 
 				if (GameRules.getInstance().isDebugMode())
-					Game.getInstance().getInterfaz().addGraphicElement(new DrawableElement(
+					Game.getInstance().getIGraphic().addGraphicElement(new DrawableElement(
 							Constants.DRAWABLE_PLATFORM_ANALYSIS_RESULT, this.platformAnalysisResult));
 
 			}

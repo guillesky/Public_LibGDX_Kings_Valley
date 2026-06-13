@@ -393,7 +393,7 @@ public class Facade implements ApplicationListener
 		this.musicIntro = assetManager.get(uiConfig.getMusicIntroName(), Music.class);
 		this.audioManager.create();
 		gameAppListener = new TileMapGrafica2D(assetManager, 0.5f);
-		Game.getInstance().setInterfaz(gameAppListener);
+		Game.getInstance().setIGraphic(gameAppListener);
 		Game.getInstance().addKVEventListener(audioManager);
 
 		// solo para debug

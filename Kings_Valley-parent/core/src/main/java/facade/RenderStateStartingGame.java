@@ -44,7 +44,7 @@ public class RenderStateStartingGame extends RenderState
 
 		this.ui.render();
 
-		if (7 - this.introMusic.getPosition() <= Game.getInstance().getInterfaz().getTimeToEnterLevel())
+		if (7 - this.introMusic.getPosition() <= Game.getInstance().getIGraphic().getTimeToEnterLevel())
 		{
 			Facade.getInstance().fireGame();
 			Facade.getInstance().setRenderState(new RenderStateInGame(this.ui, this.gameInterface));

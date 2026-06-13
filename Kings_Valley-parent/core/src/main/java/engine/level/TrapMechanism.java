@@ -46,8 +46,7 @@ public class TrapMechanism extends Mechanism
 	this.x = wall.getColPosition();
 	this.y = wall.getRowPosition();
 	this.tile = pyramid.getMap().getTileSets().getTileSet(0).getTile(this.nTile);
-
-	pyramid.addGraphicElement(new DrawableElement(Constants.DRAWABLE_TRAP, this));
+	Game.getInstance().getIGraphic().addGraphicElement(new DrawableElement(Constants.DRAWABLE_TRAP, this));
 	Game.getInstance().eventFired(KVEventListener.ACTIVATE_TRAP, this);
 
     }

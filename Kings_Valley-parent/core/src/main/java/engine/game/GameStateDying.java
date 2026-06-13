@@ -37,7 +37,7 @@ public class GameStateDying extends GameState
 
 		currentLevel.update(deltaTime);
 
-		if (this.game.getDelta() >= this.game.getInterfaz().getTimeDying())
+		if (this.game.getDelta() >= this.game.getIGraphic().getTimeDying())
 		{
 			this.game.loseLive();
 			if (this.game.getLives() >= 0)

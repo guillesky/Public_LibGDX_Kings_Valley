@@ -86,9 +86,9 @@ public class GameStatePlaying extends GameState
 		
 		if (GameRules.getInstance().isDebugMode() && controles.getShot(IGameControl.AUX_BUTTON1))
 		{
-			this.game.getInterfaz().addGraphicElement(new DrawableElement(Constants.DRAWABLE_PLATFORM_ANALYSIS_RESULT,new PlatformAnalysisResult(player)));
+			this.game.getIGraphic().addGraphicElement(new DrawableElement(Constants.DRAWABLE_PLATFORM_ANALYSIS_RESULT,new PlatformAnalysisResult(player)));
 		}
-		if(controles.getShot(IGameControl.AUX_BUTTON2))this.game.getInterfaz().takeScreenshot();
+		if(controles.getShot(IGameControl.AUX_BUTTON2))this.game.getIGraphic().takeScreenshot();
 
 	}
 

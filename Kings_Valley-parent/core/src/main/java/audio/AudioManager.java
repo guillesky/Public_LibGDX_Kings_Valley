@@ -270,7 +270,7 @@ public class AudioManager implements KVEventListener
 				this.initFade = false;
 			}
 
-			float timeToDie = Game.getInstance().getInterfaz().getTimeDying();
+			float timeToDie = Game.getInstance().getIGraphic().getTimeDying();
 			float factorFade = deltaTime / timeToDie;
 
 			float volume = this.musicMain.getVolume() - this.volimueInitialForFade * factorFade;

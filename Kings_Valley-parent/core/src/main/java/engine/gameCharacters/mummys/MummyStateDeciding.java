@@ -109,7 +109,7 @@ public class MummyStateDeciding extends MummyState
 	{
 		PlatformAnalysisResult result = new PlatformAnalysisResult(mummy);
 		if (GameRules.getInstance().isDebugMode())
-			Game.getInstance().getInterfaz()
+			Game.getInstance().getIGraphic()
 					.addGraphicElement(new DrawableElement(Constants.DRAWABLE_PLATFORM_ANALYSIS_RESULT, result));
 		Stair playerStair = this.mummy.player.getStair();
 		boolean takedDecision = false;
