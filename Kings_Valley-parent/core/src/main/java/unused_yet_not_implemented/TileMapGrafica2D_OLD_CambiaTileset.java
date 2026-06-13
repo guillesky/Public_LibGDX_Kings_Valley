@@ -806,4 +806,11 @@ public class TileMapGrafica2D_OLD_CambiaTileset implements IMyApplicationListene
 		cameraBack.position.y = pyramid.getMapHeightInUnits() * this.cameraOffsetY;
 	}
 
+	@Override
+	public void takeScreenshot()
+	{
+	    // TODO Auto-generated method stub
+	    
+	}
+
 }

@@ -82,4 +82,6 @@ public interface IGraphic
      */
     float getTimeToEndGame();
 
+    void takeScreenshot();
+
 }
