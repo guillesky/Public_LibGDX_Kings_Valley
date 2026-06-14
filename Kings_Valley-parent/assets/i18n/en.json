@@ -45,7 +45,8 @@
 "ENABLED_EPISODE_MESSAGE":"Finish an challenge to unlock the next",
 "FINISH_EPISODE":"Congratulations! You have completed an episode.\nYou can start from here next time.",
 "ENTER_GOAL_LEVEL":"You have conquered all levels!\nThe treasure is yours.",
-"FINISH_GAME":"You have mastered all levels.\nDare to face a higher difficulty?"
-
-
+"FINISH_GAME":"You have mastered all levels.\nDare to face a higher difficulty?",
+"DISPLAY_MODE":"Display Mode",
+"FULL_SCREEN":"Full Screen",
+"WINDOWED":"Windowed"
 }
