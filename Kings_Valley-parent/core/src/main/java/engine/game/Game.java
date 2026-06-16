@@ -113,7 +113,7 @@ public class Game implements KVEventListener
     /**
      * Estado del juego (patron state)
      */
-    protected GameState stateGame;
+    protected GameState gameState;
 
     /**
      * Nombres de los archivos correspondientes a los niveles del juego
@@ -277,7 +277,7 @@ public class Game implements KVEventListener
 	if (instance == null)
 	{
 	    instance = new Game();
-	    instance.stateGame = new GameStateNotInGame();
+	    instance.gameState = new GameStateNotInGame();
 	}
 	return instance;
     }
@@ -304,7 +304,7 @@ public class Game implements KVEventListener
 
 	if (!this.paused)
 	{
-	    this.stateGame.updateframe(deltaTime);
+	    this.gameState.updateframe(deltaTime);
 
 	}
 	for (KVEventListener kvEventListner : this.kvEventListeners)
@@ -386,7 +386,7 @@ public class Game implements KVEventListener
      */
     public void start(Door door, boolean fromDeath)
     {
-	this.stateGame.startNewLevel(door, fromDeath);
+	this.gameState.startNewLevel(door, fromDeath);
 
     }
 
@@ -482,7 +482,7 @@ public class Game implements KVEventListener
      */
     public int getRenderMode()
     {
-	return this.stateGame.getRenderMode();
+	return this.gameState.getRenderMode();
     }
 
     /**
@@ -490,7 +490,7 @@ public class Game implements KVEventListener
      */
     public void dying()
     {
-	this.stateGame.dying();
+	this.gameState.dying();
 
     }
 
@@ -568,7 +568,7 @@ public class Game implements KVEventListener
 	this.dificultLevel = dificultLevel;
 	this.levelFileName = Constants.classicLevelFileName;
 	this.setFirstLevel(1);
-	this.stateGame.startNewGame();
+	this.gameState.startNewGame();
 
     }
 
@@ -587,7 +587,7 @@ public class Game implements KVEventListener
 	this.dificultLevel = dificultLevel;
 	this.levelFileName = Constants.greatTempleLevelFileName;
 	this.setFirstLevel(initialTemple);
-	this.stateGame.startNewGame();
+	this.gameState.startNewGame();
 
     }
 
@@ -607,7 +607,7 @@ public class Game implements KVEventListener
 	this.dificultLevel = dificultLevel;
 	this.levelFileName = Constants.extendedLevelFileName;
 	this.setFirstLevel((initialEpisode - 1) * 15 + 1);
-	this.stateGame.startNewGame();
+	this.gameState.startNewGame();
 
     }
 
@@ -617,7 +617,7 @@ public class Game implements KVEventListener
     public void endGame()
     {
 	this.lives = 0;
-	this.stateGame.endGame();
+	this.gameState.endGame();
 
     }
 

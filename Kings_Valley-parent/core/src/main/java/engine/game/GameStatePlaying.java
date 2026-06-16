@@ -64,7 +64,7 @@ public class GameStatePlaying extends GameState
 			Door door = currentLevel.checkPassages();
 			if (door != null && controles.getMovementDirection().y > 0)
 			{
-				this.game.stateGame = new GameStateExiting(door);
+				this.game.gameState = new GameStateExiting(door);
 			}
 		}
 
@@ -108,7 +108,7 @@ public class GameStatePlaying extends GameState
 	protected void dying()
 	{
 		this.game.level.getPlayer().die();
-		this.game.stateGame = new GameStateDying();
+		this.game.gameState = new GameStateDying();
 	}
 
 	@Override

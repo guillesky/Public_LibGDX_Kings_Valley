@@ -32,7 +32,7 @@ public class GameStateEntering extends GameState
 	{
 		super.updateframe(deltaTime);
 		if (this.game.getDelta() >= this.game.getIGraphic().getTimeToEnterLevel())
-			this.game.stateGame = new GameStatePlaying();
+			this.game.gameState = new GameStatePlaying();
 	}
 
 	/**

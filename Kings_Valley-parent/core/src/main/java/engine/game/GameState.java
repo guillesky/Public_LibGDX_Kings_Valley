@@ -104,7 +104,7 @@ public abstract class GameState
     public void endGame()
     {
 
-	this.game.stateGame = new GameStateEndingGame();
+	this.game.gameState = new GameStateEndingGame();
     }
 
     /**
@@ -180,7 +180,7 @@ public abstract class GameState
 	this.game.level = levelReader.getLevel(this.game.getIdCurrentLevel(),
 		this.game.levelFileName.get(this.game.getIdCurrentLevel()), this.game.getDificultLevel(),
 		this.game.completedLevels.get(this.game.getIdCurrentLevel()), door, fromDeath);
-	this.game.stateGame = new GameStateEntering();
+	this.game.gameState = new GameStateEntering();
 	this.game.getIGraphic().inicialize();
 
 	if ((door != null && door.getLevelConnected() == Door.TO_PREVIUS))
