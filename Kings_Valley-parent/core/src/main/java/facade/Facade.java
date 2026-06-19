@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
@@ -665,6 +666,24 @@ public class Facade implements ApplicationListener
     public void setFullScreenMode(boolean fullScreenMode)
     {
 	this.gameConfig.setFullScreenMode(fullScreenMode);
+	if (fullScreenMode)
+	{
+	    Graphics.DisplayMode displayMode =
+	        Gdx.graphics.getDisplayMode();
+
+	    Gdx.graphics.setFullscreenMode(displayMode);
+	}
+	else
+	{
+	    Gdx.graphics.setWindowedMode(1280, 720);
+	}
+	
+	
+	
+	this.changeConfig = true;
     }
 
+    
+    
+    
 }

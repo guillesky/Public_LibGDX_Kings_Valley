@@ -51,7 +51,7 @@ import util.Constants;
  * 
  * @author Guillermo Lazzurri
  */
-public class UI2D implements IView, ApplicationListener
+public class UI2D2_OLD implements IView, ApplicationListener
 {
 
 	private Texture backgroundText;
@@ -83,7 +83,7 @@ public class UI2D implements IView, ApplicationListener
 	private Label labelLanguage;
 	private Label longTextLabel;
 	private Table tableMainInUi;
-	private Actor actorActual;
+	private Table tableMainActual;
 	private Table tableOption;
 	private Table tableLongText;
 	private Table tableInGame;
@@ -127,7 +127,7 @@ public class UI2D implements IView, ApplicationListener
 	 * @param manager  manager de carga
 	 * @param uiConfig Objeto UIConfig con la configuracion de la ventana
 	 */
-	public UI2D(AssetManager manager, UIConfig uiConfig)
+	public UI2D2_OLD(AssetManager manager, UIConfig uiConfig)
 	{
 		this.uiConfig = uiConfig;
 
@@ -314,7 +314,7 @@ public class UI2D implements IView, ApplicationListener
 		stage.clear();
 		stage.addActor(backgroundImage);
 		this.setText();
-		this.actorActual = this.tableMainInUi;
+		this.tableMainActual = this.tableMainInUi;
 		this.stage.addActor(this.tableMainInUi);
 		stage.addActor(tableVersion);
 		Gdx.input.setCursorCatched(false);
@@ -326,14 +326,26 @@ public class UI2D implements IView, ApplicationListener
 
 	}
 
-	
+	/**
+	 * Llamado al cambiar a la ventana de opciones
+	 */
+	protected void doOptions()
+	{
+		this.stage.getRoot().removeActor(this.tableMainActual);
+		this.tableMainActual = this.tableOption;
+		this.stage.addActor(this.tableOption);
+
+	}
+
 	/**
 	 * Llamado al volver a la Ventana desde opciones o Textos extensos
 	 */
 	protected void doMainMenu()
 	{
-		this.swapActors(tableMainInUi, actorActual);
-		
+		this.stage.getRoot().removeActor(this.tableOption);
+		this.stage.getRoot().removeActor(this.tableLongText);
+		this.tableMainActual = this.tableMainInUi;
+		this.stage.addActor(this.tableMainActual);
 		this.inTextScreen = false;
 
 	}
@@ -347,8 +359,8 @@ public class UI2D implements IView, ApplicationListener
 	private void doTextScreen(String textTitle, String longText)
 	{
 		this.scrollPane.setScrollY(0);
-		this.swapActors(this.tableLongText, actorActual);
-		
+		this.stage.getRoot().removeActor(this.tableMainActual);
+		this.stage.addActor(this.tableLongText);
 		this.longTextLabel.setText(longText);
 		this.labelTitleTextScreen.setText(textTitle);
 		this.inTextScreen = true;
@@ -646,11 +658,11 @@ public class UI2D implements IView, ApplicationListener
 			{
 				if (!selectBoxLanguage.getSelected().equals(Messages.LANGUAGE_NAME.getValue()))
 					controler.changeLanguage(selectBoxLanguage.getSelected());
-				if (UI2D.this.selectBoxVideoMode.getSelected()
-						.equals(Messages.FULL_SCREEN.getValue()) != UI2D.this.controler.isFullScreenMode())
+				if (UI2D2_OLD.this.selectBoxVideoMode.getSelected()
+						.equals(Messages.FULL_SCREEN.getValue()) != UI2D2_OLD.this.controler.isFullScreenMode())
 					controler.setFullScreenMode(
-							UI2D.this.selectBoxVideoMode.getSelected().equals(Messages.FULL_SCREEN.getValue()));
-				if (UI2D.this.fromInGameTable)
+							UI2D2_OLD.this.selectBoxVideoMode.getSelected().equals(Messages.FULL_SCREEN.getValue()));
+				if (UI2D2_OLD.this.fromInGameTable)
 					doUiInGame();
 				else
 					doMainMenu();
@@ -738,8 +750,8 @@ public class UI2D implements IView, ApplicationListener
 			public void clicked(InputEvent event, float x, float y)
 			{
 
-				UI2D.this.swapActors(UI2D.this.tableOption, UI2D.this.actorActual);
-				UI2D.this.fromInGameTable = false;
+				doOptions();
+				UI2D2_OLD.this.fromInGameTable = false;
 			}
 		});
 
@@ -749,7 +761,7 @@ public class UI2D implements IView, ApplicationListener
 			@Override
 			public void clicked(InputEvent event, float x, float y)
 			{
-				UI2D.this.doTextScreen(Messages.HOW_TO_PLAY.getValue(), Facade.getInstance().getHowToPlay());
+				UI2D2_OLD.this.doTextScreen(Messages.HOW_TO_PLAY.getValue(), Facade.getInstance().getHowToPlay());
 			}
 		});
 
@@ -759,7 +771,7 @@ public class UI2D implements IView, ApplicationListener
 			@Override
 			public void clicked(InputEvent event, float x, float y)
 			{
-				UI2D.this.doTextScreen(Messages.CREDITS.getValue(), Facade.getInstance().getCredits());
+				UI2D2_OLD.this.doTextScreen(Messages.CREDITS.getValue(), Facade.getInstance().getCredits());
 			}
 		});
 
@@ -769,7 +781,7 @@ public class UI2D implements IView, ApplicationListener
 			@Override
 			public void clicked(InputEvent event, float x, float y)
 			{
-				UI2D.this.confirmExitDialog.show(stage);
+				UI2D2_OLD.this.confirmExitDialog.show(stage);
 			}
 		});
 
@@ -782,7 +794,7 @@ public class UI2D implements IView, ApplicationListener
 			public void changed(ChangeEvent event, Actor actor)
 			{
 				String selected = selectBoxGameType.getSelected();
-				UI2D.this.setVisibleSelecBoxInitialLevel(selected);
+				UI2D2_OLD.this.setVisibleSelecBoxInitialLevel(selected);
 
 			}
 		});
@@ -852,7 +864,7 @@ public class UI2D implements IView, ApplicationListener
 
 		this.scrollPane = new ScrollPane(contenedorTexto, skin);
 		scrollPane.setFadeScrollBars(false); // opcional: mantiene visibles las barras
-		scrollPane.setScrollingDisabled(false, false); // solo scroll vertical
+		scrollPane.setScrollingDisabled(true, false); // solo scroll vertical
 
 		this.buttonBackFromLongText = new TextButton(Messages.GO_BACK.getValue(), skin);
 
@@ -894,7 +906,7 @@ public class UI2D implements IView, ApplicationListener
 			@Override
 			public void clicked(InputEvent event, float x, float y)
 			{
-				UI2D.this.confirmRetryDialog.show(stage);
+				UI2D2_OLD.this.confirmRetryDialog.show(stage);
 			}
 		});
 
@@ -905,8 +917,8 @@ public class UI2D implements IView, ApplicationListener
 			public void clicked(InputEvent event, float x, float y)
 			{
 
-				UI2D.this.swapActors(tableOption, actorActual);
-				UI2D.this.fromInGameTable = true;
+				doOptions();
+				UI2D2_OLD.this.fromInGameTable = true;
 				// UI2D.this.confirmRetryDialog.show(stage);
 			}
 		});
@@ -917,7 +929,7 @@ public class UI2D implements IView, ApplicationListener
 			@Override
 			public void clicked(InputEvent event, float x, float y)
 			{
-				UI2D.this.confirmGoMainMenuDialog.show(stage);
+				UI2D2_OLD.this.confirmGoMainMenuDialog.show(stage);
 			}
 		});
 		this.buttonMap = new TextButton(Messages.MAP.getValue(), skin);
@@ -926,7 +938,7 @@ public class UI2D implements IView, ApplicationListener
 			@Override
 			public void clicked(InputEvent event, float x, float y)
 			{
-				UI2D.this.swapActors(UI2D.this.tableMap, UI2D.this.tableInGame);
+				doMap();
 			}
 		});
 		this.buttonMap.addListener(this.controler.getInputListener());
@@ -937,7 +949,7 @@ public class UI2D implements IView, ApplicationListener
 			@Override
 			public void clicked(InputEvent event, float x, float y)
 			{
-				UI2D.this.confirmExitDialog.show(stage);
+				UI2D2_OLD.this.confirmExitDialog.show(stage);
 			}
 		});
 
@@ -999,7 +1011,7 @@ public class UI2D implements IView, ApplicationListener
 	 */
 	public void doEnterGame()
 	{
-		this.stage.getRoot().removeActor(this.actorActual);
+		this.stage.getRoot().removeActor(this.tableMainActual);
 		Gdx.input.setCursorCatched(true);
 	}
 
@@ -1019,14 +1031,22 @@ public class UI2D implements IView, ApplicationListener
 	public void doUiInGame()
 	{
 		this.stage.getRoot().removeActor(this.backgroundImage);
-		//TODO
-		this.stage.getRoot().removeActor(this.actorActual);
-		this.actorActual = tableInGame;
+		this.stage.getRoot().removeActor(this.tableMainActual);
+		this.tableMainActual = tableInGame;
 		this.stage.addActor(tableInGame);
 		Gdx.input.setCursorCatched(false);
 	}
 
-	
+	/**
+	 * Llamado internamente cuando se pide mostrar el mapa
+	 */
+	private void doMap()
+	{
+		this.stage.getRoot().removeActor(this.tableInGame);
+		this.tableMainActual = this.tableMap;
+		this.stage.addActor(tableMainActual);
+	}
+
 	/**
 	 * Llamado cuando se esta entrando al nivel. Actualiza los niveles terminados en
 	 * el mapa
@@ -1204,12 +1224,4 @@ public class UI2D implements IView, ApplicationListener
 	{
 		return this.arrayTemplesMessages.indexOf(this.selectBoxGenericInitialChallenge.getSelected(), false) + 1;
 	}
-
-	private void swapActors(Actor newActor, Actor oldActor)
-	{
-		this.stage.getRoot().removeActor(oldActor);
-		this.actorActual = newActor;
-		this.stage.addActor(actorActual);
-	}
-
 }

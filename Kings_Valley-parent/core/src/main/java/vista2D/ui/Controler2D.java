@@ -366,4 +366,17 @@ public class Controler2D extends AbstractControler implements KVEventListener
 	return Facade.getInstance().getAllLanguages().getLanguagesName();
     }
 
+    
+    public boolean isFullScreenMode()
+    {
+        return Facade.getInstance().isFullScreenMode();
+    }
+
+    public void setFullScreenMode(boolean fullScreenMode)
+    {
+    	Facade.getInstance().setFullScreenMode(fullScreenMode);
+    }
+
+    
+    
 }

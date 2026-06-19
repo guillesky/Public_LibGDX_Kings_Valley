@@ -1,0 +1,5631 @@
+
+
+==============================
+FILE: src\main\java\engine\gameCharacters\abstractGameCharacter\GameCharacter.java
+==============================
+
+package engine.gameCharacters.abstractGameCharacter;
+
+import java.util.Iterator;
+
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+
+import engine.level.GiratoryMechanism;
+import engine.level.LevelObject;
+import engine.level.Pyramid;
+import engine.level.Stair;
+import util.GameRules;
+import util.CollisionDetector;
+
+/**
+ * Clase base abstracta para todas las entidades moviles del juego.
+ *
+ * <p>
+ * GameCharacter encapsula el comportamiento y los atributos comunes a los
+ * distintos personajes presentes en el escenario, tales como posicion,
+ * movimiento, deteccion de colisiones e interaccion con el entorno.
+ * </p>
+ *
+ * <p>
+ * Esta abstraccion permite modelar de manera uniforme entidades como el
+ * jugador y los enemigos, favoreciendo la reutilizacion de codigo y la
+ * aplicacion de principios de herencia y polimorfismo.
+ * </p>
+ *
+ * <p>
+ * La existencia de esta clase permite que gran parte de la logica de
+ * movimiento y colision sea independiente del tipo concreto de personaje
+ * involucrado.
+ * </p>
+ *
+ * <p>
+ * El comportamiento dinamico de los personajes se implementa mediante el
+ * patron State, delegando en objetos de estado las reglas especificas de
+ * movimiento y las transiciones entre distintas situaciones posibles.
+ * </p>
+ *
+ * <p>
+ * Desde el punto de vista arquitectonico, esta clase representa la
+ * abstraccion principal para las entidades capaces de desplazarse dentro
+ * del escenario del juego.
+ * </p>
+ *
+ * @author Guillermo Lazzurri
+ */
+@SuppressWarnings("serial")
+public abstract class GameCharacter extends LevelObject
+{
+
+    /**
+     * Codigo de estado sin cambios
+     */
+    public static final int ST_NO_CHANGE = -1;
+
+    /**
+     * Codigo de estado quieto en el piso
+     */
+    public static final int ST_IDDLE = 0;
+    /**
+     * Codigo de estado caminando
+     */
+    public static final int ST_WALKING = 1;
+    /**
+     * Codigo de estado en escalera
+     */
+    public static final int ST_ONSTAIRS = 2;
+
+    /**
+     * Codigo de estado saltando
+     */
+    public static final int ST_JUMPING = 5;
+
+    /**
+     * Codigo de estado cayendo
+     */
+    public static final int ST_FALLING = 7;
+
+    /**
+     * Codigo de estado muriendo
+     */
+    public static final int ST_DYING = 8;
+
+    /**
+     * Codigo numerico que indica como sera la renderizacion
+     */
+    protected int renderMode = GameCharacter.ST_IDDLE;
+
+    /**
+     * Indica la direccion pretendida
+     */
+    protected Vector2 motionVector = new Vector2();
+
+    /**
+     * Velocidad de caida
+     */
+    private float speedFall;
+    /**
+     * Velocidad de caminata
+     */
+    private float speedWalk;
+    /**
+     * Velocidad en las escaleras
+     */
+    private float speedWalkStairs;
+    /**
+     * Velocidad de impulso vertical del salto
+     */
+    private float speedJump;
+    /**
+     * La piramide en la que esta el caracter
+     */
+    protected Pyramid pyramid;
+    /**
+     * true si mira a la derecha, false en caso contrario
+     */
+    protected boolean lookRight = true;
+    /**
+     * Tiempo que esta en la misma animacion
+     */
+    protected float animationDelta = 0;
+    /**
+     * Rectangulo que representa los pies del caracter. Para determinadas colisiones
+     */
+    private Rectangle feet;
+    /**
+     * Estado del caracter (patron state)
+     */
+
+    protected GameCharacterState gameCharacterState;
+
+    /**
+     * Ultima coordena conocida de la plataforma que pisa el caracter
+     */
+    protected float lastFloorCoordinate;
+
+    /**
+     * Retorna la ultima coordena conocida de la plataforma que pisa el caracter
+     * 
+     * @return Ultima coordena conocida de la plataforma que pisa el caracter
+     */
+    public float getLastFloorCoordinate()
+    {
+	return lastFloorCoordinate;
+    }
+
+    /**
+     * Constructor de clase.<br>
+     * Llama a super(type, x, y, 0, width, height);
+     * 
+     * @param type            entero que indica el tipo de objeto (util para
+     *                        renderizar)
+     * @param x               (posicion x en el mapa)
+     * @param y               (posicion y en el mapa)
+     * @param width           Ancho del caracter
+     * @param height          Alto del caracter
+     * 
+     * @param speedWalk       velocidad de caminata
+     * @param speedWalkStairs velocidad de subir o bajar escaleras
+     * @param pyramid         objeto de tipo Pyramid a la cual pertenece
+     */
+    public GameCharacter(int type, float x, float y, float width, float height, float speedWalk, float speedWalkStairs,
+	    Pyramid pyramid)
+    {
+	super(type, x, y, 0, width, height);
+	float feetWidth;
+	float feetHeight;
+
+	this.speedFall = GameRules.getInstance().getCharacterSpeedFall();
+	this.speedWalk = speedWalk;
+	this.speedWalkStairs = speedWalkStairs;
+	this.speedJump = GameRules.getInstance().getCharacterVerticalSpeedJump();
+
+	feetHeight = GameRules.getInstance().getCharacterFeetHeight();
+	feetWidth = GameRules.getInstance().getCharacterFeetWidth();
+	this.pyramid = pyramid;
+
+	float mitad = this.x + this.width / 2;
+	mitad -= feetWidth / 2;
+	this.feet = new Rectangle(mitad, y, feetWidth, feetHeight);
+	this.gameCharacterState = new GameCharacterStateIddle(this);
+
+    }
+
+    /**
+     * Delega en su atributo de estado: this.gameCharacterState.move(v, b,
+     * deltaTime);
+     * 
+     * @param movementDirection vector de direccion pretendida
+     * @param action            realzar accion (true o false) puede ser saltar,
+     *                          lanzar daga, o intentar picar
+     * @param deltaTime         tiempo transcurrido desde el ultimo frame en
+     *                          segundos
+     */
+    protected void move(Vector2 movementDirection, boolean action, float deltaTime)
+    {
+	this.gameCharacterState.move(movementDirection, action, deltaTime);
+	if (!this.isInStair())
+	    this.checkGiratory();
+    }
+
+    /**
+     * Metodo llamado en caso de solicitar una accion
+     */
+    protected abstract void doAction();
+
+    /**
+     * Delega el metodo a this.gameCharacterState.doJump() Intenta saltar si el
+     * techo no lo bloquea. Si puede saltar el estado cambia a
+     * GameCharacterStateJumping
+     * 
+     * @return true si pudo saltar, false en caso contrario
+     */
+    protected boolean doJump()
+    {
+
+	return this.gameCharacterState.doJump();
+    }
+
+    /**
+     * Retorna un codigo numerico que indica como sera la renderizacion<br>
+     * ST_IDDLE = 0; <br>
+     * ST_WALKING = 1;<br>
+     * ST_ONSTAIRS = 2; <br>
+     * ST_JUMPING = 5; <br>
+     * ST_FALLING = 7;<br>
+     * ST_DYING = 8; <br>
+     * 
+     * @return un codigo numerico que indica como sera la renderizacion<br>
+     *         ST_IDDLE = 0; <br>
+     *         ST_WALKING = 1;<br>
+     *         ST_ONSTAIRS = 2; <br>
+     *         ST_JUMPING = 5; <br>
+     *         ST_FALLING = 7;<br>
+     *         ST_DYING = 8; <br>
+     */
+    public int getRenderMode()
+    {
+	return renderMode;
+    }
+
+    /**
+     * Indica si hay colision entre sus pies con otro objeto de tipo Rectangle (si
+     * lo esta pisando)
+     * 
+     * @param another Rectangulo con el cual calular colision
+     * @return true si hay colision, false en caso contrario
+     */
+    public boolean isFeetColision(Rectangle another)
+    {
+	this.feet.x = this.x + (this.width - GameRules.getInstance().getCharacterFeetWidth()) / 2;
+	this.feet.y = this.y;
+	return CollisionDetector.rectangleColision(this.feet, another);
+    }
+
+    /**
+     * Retorna el tiempo en segundos transcurrido desde que se inicio la animacion
+     * actual
+     * 
+     * @return tiempo en segundos transcurrido desde que se inicio la animacion
+     *         actual
+     */
+    public float getAnimationDelta()
+    {
+	return animationDelta;
+    }
+
+    /**
+     * Retorna true si el caracter mira a la derecha, false si mira a la izquierda
+     * 
+     * @return true si el caracter mira a la derecha, false si mira a la izquierda
+     */
+    public boolean isLookRight()
+    {
+	return lookRight;
+    }
+
+    /**
+     * Verifica que el caracter colisione con una puerta giratoria. Si puede pasar
+     * lo hace y en caso contrario es bloqueado.
+     * 
+     * @return devuelve true si el caracter colisiona con una puerta giratoria (ya
+     *         sea que pueda pasar o no). Retorna false en caso contrario
+     */
+    protected boolean checkGiratory()
+    {
+	boolean r = false;
+	LevelObject giratory = this.checkRectangleColision(this.pyramid.getGiratories());
+	if (giratory != null)
+	{
+	    GiratoryMechanism gm = this.pyramid.getGiratoryMechanism(giratory);
+
+	    if (this.canPassGiratoryMechanism(gm))
+	    {
+		this.passGiratoryMechanism(gm);
+
+	    } else
+	    {
+		this.blockGiratory(gm);
+		r = true;
+	    }
+	}
+	return r;
+    }
+
+    /**
+     * Retorna true si esta bloqueado por izquierda y por derecha (eso significa que
+     * no puede caminar hacia ninguno de ambos lados). Retorna false en caso
+     * contrario
+     * 
+     * @return true si esta bloqueado por izquierda y por derecha (eso significa que
+     *         no puede caminar hacia ninguno de ambos lados). Retorna false en caso
+     *         contrario
+     */
+    public boolean isLocked()
+    {
+
+	return this.isLockedRight() && this.isLockedLeft();
+    }
+
+    /**
+     * Retorna true si esta bloqueado por izquierda (eso significa que no puede
+     * caminar hacia la izquierda). Retorna false en caso contrario
+     * 
+     * @return true si esta bloqueado por izquierda (eso significa que no puede
+     *         caminar hacia la izquierda). Retorna false en caso contrario
+     */
+    protected boolean isLockedLeft()
+    {
+	return this.pyramid.getCell(this.x - GameRules.getInstance().getLevelTileWidthUnits(),
+		this.y + GameRules.getInstance().getLevelTileHeightUnits()) != null
+		|| this.pyramid.getCell(this.x - GameRules.getInstance().getLevelTileWidthUnits(), this.y) != null;
+
+    }
+
+    /**
+     * Retorna true si esta bloqueado por derecha (eso significa que no puede
+     * caminar hacia la derecha). Retorna false en caso contrario
+     * 
+     * @return true si esta bloqueado por derecha (eso significa que no puede
+     *         caminar hacia la derecha). Retorna false en caso contrario
+     */
+
+    protected boolean isLockedRight()
+    {
+	return this.pyramid.getCell(this.x + GameRules.getInstance().getLevelTileWidthUnits(),
+		this.y + GameRules.getInstance().getLevelTileHeightUnits()) != null
+		|| this.pyramid.getCell(this.x + GameRules.getInstance().getLevelTileWidthUnits(), this.y) != null;
+
+    }
+
+    /**
+     * Retorna true si esta libre arriba y podria saltar (esto es que no tenga un
+     * tile justo encima de la cabeza del caracter). Retorna false en caso
+     * contrario.
+     * 
+     * @return true si esta libre arriba y podria saltar (esto es que no tenga un
+     *         tile justo encima de la cabeza del caracter). Retorna false en caso
+     *         contrario.
+     */
+    protected boolean isFreeUp()
+    {
+	return this.pyramid.getCell(this.x, this.y, 0, 2) == null
+		&& this.pyramid.getCell(this.x + this.width, this.y, 0, 2) == null;
+
+    }
+
+    /**
+     * Verifica si el caracter puede pasar a traves de una puerta giratoria pasada
+     * por parametro
+     * 
+     * @param giratoryMechanism La puerta giratoria que debe ser evaluada.
+     * @return Retorna true si el caracter puede pasar a traves de la puerta
+     *         giratoria pasada por parametro. Retorna false en caso contrario.
+     */
+    protected abstract boolean canPassGiratoryMechanism(GiratoryMechanism giratoryMechanism);
+
+    /**
+     * Raliza las acciones necesarias al pasar por la puerta giratoria pasada como
+     * parametro.
+     * 
+     * @param giratoryMechanism Puerta giratoria por la que esta pasando el
+     *                          caracter.
+     */
+    protected abstract void passGiratoryMechanism(GiratoryMechanism giratoryMechanism);
+
+    /**
+     * Bloquea el paso del caracter por la puerta giratoria pasada por paramentro.
+     * 
+     * @param giratoryMechanism La puerta giratoria que bloque al caracter
+     */
+    protected void blockGiratory(GiratoryMechanism giratoryMechanism)
+    {
+	LevelObject g = giratoryMechanism.getLevelObject();
+	float lado = g.x - this.x;
+
+	this.motionVector.x = 0;
+	if (lado < 0)
+	{
+	    this.x = g.x + g.width;
+	} else
+
+	{
+	    this.x = g.x - this.width;
+	}
+
+    }
+
+    /**
+     * setea un Codigo numerico que indica como sera la renderizacion. Estan
+     * contemplados los tipos:<br>
+     * ST_IDDLE = 0; <br>
+     * ST_WALKING = 11; <br>
+     * ST_ONSTAIRS = 2; <br>
+     * ST_JUMPING = 5; <br>
+     * ST_FALLING = 7; <br>
+     * ST_DYING = 8; <br>
+     * 
+     * @param renderMode un Codigo numerico que indica como sera la renderizacion.
+     *                   Estan contemplados los tipos:<br>
+     *                   ST_IDDLE = 0; <br>
+     *                   ST_WALKING = 11; <br>
+     *                   ST_ONSTAIRS = 2; <br>
+     *                   ST_JUMPING = 5; <br>
+     *                   ST_FALLING = 7; <br>
+     *                   ST_DYING = 8; <br>
+     */
+    protected void setRenderMode(int renderMode)
+    {
+	this.renderMode = renderMode;
+    }
+
+    /**
+     * this.animationDelta = 0;
+     */
+    protected void resetAnimationDelta()
+    {
+	this.animationDelta = 0;
+    }
+
+    /**
+     * this.animationDelta += delta;
+     * 
+     * @param delta El valor en segundos que debe incrementarse el atributo
+     *              this.animationDelta
+     */
+    protected void incAnimationDelta(float delta)
+    {
+	this.animationDelta += delta;
+    }
+
+    /**
+     * Retorna la piramide a la cual pertence el caracter
+     * 
+     * @return La piramide a la cual pertence el caracter
+     */
+    public Pyramid getPyramid()
+    {
+	return pyramid;
+    }
+
+    /**
+     * Retorna true si el caracter esta ascendiendo o descendiendo de una escalera.
+     * Retorna false en caso contrario.
+     * 
+     * @return true si el caracter esta ascendiendo o descendiendo de una escalera.
+     *         Retorna false en caso contrario.
+     */
+    public boolean isInStair()
+    {
+	return this.gameCharacterState.getStair() != null;
+    }
+
+    /**
+     * Retorna la escalera en la cual el caracter esta ascendiendo o descendiendo.
+     * Si no esta en una escalera retorna null
+     * 
+     * @return La escalera en la cual el caracter esta ascendiendo o descendiendo.
+     *         Si no esta en una escalera retorna null
+     */
+    public Stair getStair()
+    {
+	return this.gameCharacterState.getStair();
+    }
+
+    /**
+     * Retorna la escalera (positiva o negativa segun parametro) a traves de la cual
+     * es caracter pretende subir o bajar (segun parametro)
+     * 
+     * @param positiveStairs true si se pretende acceder a una escalera positiva,
+     *                       false en caso contrario.
+     * @param isUpping       true si se intenta subir, false en caso contrario.
+     * @return La escalera la escalera (positiva o negativa segun parametro) a
+     *         traves de la cual es caracter pretende subir o bajar (segun
+     *         parametro). Si no hay una escalera accesible segun las condicione,
+     *         retorna null
+     */
+    protected Stair checkStairsFeetColision(boolean positiveStairs, boolean isUpping)
+    {
+
+	Iterator<Stair> it;
+	if (positiveStairs)
+	    it = this.getPyramid().getPositiveStairs().iterator();
+	else
+	    it = this.getPyramid().getNegativeStairs().iterator();
+	Stair respuesta = null;
+	Stair stair = null;
+	LevelObject item = null;
+	if (it.hasNext())
+	    do
+	    {
+		stair = it.next();
+		if (isUpping)
+		    item = stair.getDownStair();
+		else
+		    item = stair.getUpStair();
+	    } while (it.hasNext() && !this.isFeetColision(item));
+
+	if (this.isFeetColision(item))
+	{
+	    respuesta = stair;
+	}
+
+	return respuesta;
+    }
+
+    /**
+     * Delega el metodo a this.gameCharacterState.enterStair(stair); Llamado cuando
+     * el caracter entra a una escalera pasada por parametro
+     * 
+     * @param stair Escalera a la cual entro el caracter
+     */
+    protected void enterStair(Stair stair)
+    {
+	this.gameCharacterState.enterStair(stair);
+    }
+
+    /**
+     * Retorna la velocidad de caminata
+     * 
+     * @return La velocidad de caminata
+     */
+    public float getSpeedWalk()
+    {
+	return speedWalk;
+    }
+
+    /**
+     * Retorna la velocidad de caminata en escaleras
+     * 
+     * @return La velocidad de caminata en escaleras
+     */
+    public float getSpeedWalkStairs()
+    {
+	return speedWalkStairs;
+    }
+
+    /**
+     * Retorna la velocidad maxima de caida
+     * 
+     * @return La velocidad maxima de caida
+     */
+    public float getSpeedFall()
+    {
+	return speedFall;
+    }
+
+    /**
+     * Retorna la velocidad de de empuje vertical en salto
+     * 
+     * @return La velocidad de de empuje vertical en salto
+     */
+    public float getSpeedJump()
+    {
+	return speedJump;
+    }
+
+}
+
+
+==============================
+FILE: src\main\java\engine\gameCharacters\abstractGameCharacter\GameCharacterState.java
+==============================
+
+package engine.gameCharacters.abstractGameCharacter;
+
+import com.badlogic.gdx.math.Vector2;
+
+import engine.KVEventListener;
+import engine.game.Game;
+import engine.level.Stair;
+import util.Constants;
+import util.GameRules;
+
+/**
+ * Clase base para los distintos estados de movimiento de un GameCharacter.
+ *
+ * <p>
+ * Esta clase implementa el patron State para encapsular los distintos
+ * comportamientos que puede adoptar un personaje durante el juego, tales como
+ * permanecer quieto, caminar, subir escaleras, saltar o caer.
+ * </p>
+ *
+ * <p>
+ * Cada estado concreto define las reglas de movimiento, las transiciones
+ * posibles y el tratamiento de las colisiones correspondientes a una situacion
+ * particular del personaje.
+ * </p>
+ *
+ * <p>
+ * El contexto del patron State es la clase GameCharacter, que delega en el
+ * estado actual la responsabilidad de calcular el comportamiento asociado a
+ * cada actualizacion.
+ * </p>
+ *
+ * <p>
+ * Ademas de modelar el comportamiento dinamico del personaje, esta clase
+ * proporciona funcionalidades comunes utilizadas por multiples estados,
+ * incluyendo calculo de colisiones, deteccion de aterrizajes, validacion de
+ * movimientos y gestion de transiciones entre estados.
+ * </p>
+ *
+ * <p>
+ * Esta estrategia permite desacoplar las reglas asociadas a cada forma de
+ * movimiento, evitando estructuras complejas basadas en condicionales y
+ * favoreciendo una implementacion modular y extensible.
+ * </p>
+ *
+ * @author Guillermo Lazzurri
+ */
+public abstract class GameCharacterState
+{
+
+    /**
+     * Indica el estado al que debe pasar
+     */
+    protected int nextState;
+    /**
+     * Contexto asociado al patron State.
+     */
+    protected GameCharacter gameCharacter;
+
+    /**
+     * Constructor de la clase.
+     *
+     * <p>
+     * Inicializa la referencia al contexto del patron State y establece el modo de
+     * renderizacion asociado al estado concreto.
+     * </p>
+     *
+     * @param gameCharacter contexto asociado al patron State.
+     * @param state         codigo de renderizacion correspondiente al estado.
+     */
+    public GameCharacterState(GameCharacter gameCharacter, int state)
+    {
+	this.nextState = GameCharacter.ST_NO_CHANGE;
+	this.gameCharacter = gameCharacter;
+	this.gameCharacter.setRenderMode(state);
+    }
+
+    /**
+     * Metodo llamado durante los calculos de movimiento antes de realizar el
+     * escalado por valor delta.
+     * 
+     * @param movementDirection Objecto de tipo Vector2 que representa la
+     *                          trayectoria pretendida.
+     * @param action            true si se pretende realizar una accion, false en
+     *                          caso contrario
+     * @param deltaTime         tiempo en segundos desde la ultima actualizacion
+     */
+    protected abstract void beforeScaling(Vector2 movementDirection, boolean action, float deltaTime);
+
+    /**
+     * Metodo llamado durante los calculos de movimiento despues de realizar el
+     * escalado por valor delta.
+     * 
+     * @param escalado Objeto de tipo Vector2 que representa la trayectoria
+     *                 pretendida.
+     */
+    protected abstract void afterScaling(Vector2 escalado);
+
+    /**
+     * Evalua las colisiones asociadas al desplazamiento solicitado y
+     * corrige la trayectoria cuando resulta necesario.
+     *
+     * @param vectMove trayectoria pretendida.
+     */
+    protected void colision(Vector2 vectMove)
+    {
+	int r = -1;
+	if (vectMove.x <= 0)
+	{
+	    if (this.colisionMiddleLeft(vectMove) || this.colisionDownLeftForLanding(vectMove))
+		r = Constants.LEFT;
+	    else if (this.colisionMiddleRight(vectMove) || this.colisionDownRightForLanding(vectMove))
+		r = Constants.RIGHT;
+	} else
+	{
+	    if (this.colisionMiddleRight(vectMove) || this.colisionDownRightForLanding(vectMove))
+		r = Constants.RIGHT;
+	    else if (this.colisionMiddleLeft(vectMove) || this.colisionDownLeftForLanding(vectMove))
+		r = Constants.LEFT;
+
+	}
+
+	this.corrigeDirecciones(r, vectMove);
+
+    }
+
+    /**
+     * Variante especializada del calculo de colisiones utilizada durante
+     * desplazamientos horizontales sobre el suelo.
+     *
+     * @param vectMove trayectoria pretendida.
+     */
+    protected void colisionForWalk(Vector2 vectMove)
+    {
+	int r = -1;
+	if (this.colisionMiddleRight(vectMove) || this.colisionDownRightForLanding(vectMove)
+		|| this.colisionUpRight(vectMove))
+	    r = Constants.RIGHT;
+	else if (this.colisionMiddleLeft(vectMove) || this.colisionDownLeftForLanding(vectMove)
+		|| this.colisionUpLeft(vectMove))
+	    r = Constants.LEFT;
+	this.corrigeDirecciones(r, vectMove);
+    }
+
+    /**
+     * Indica si existira colision en el medio del caracter a la derecha. Usado por
+     * los metodos colision y colisionForWalk
+     * 
+     * @param vectMove Objeto de tipo Vector2 que representa la trayectoria
+     *                 pretendida.
+     * @return true si existira colision, false en caso contrario.
+     */
+    private boolean colisionMiddleRight(Vector2 vectMove)
+    {
+	return isCellBlocked(this.gameCharacter.x + vectMove.x + this.gameCharacter.getWidth(),
+		this.gameCharacter.y + vectMove.y + this.gameCharacter.getHeight() * .55f);
+    }
+
+    /**
+     * Indica si existira colision en el medio del caracter a la izquierda. Usado
+     * por los metodos colision y colisionForWalk
+     * 
+     * @param vectMove Objeto de tipo Vector2 que representa la trayectoria
+     *                 pretendida.
+     * @return true si existira colision, false en caso contrario.
+     */
+
+    private boolean colisionMiddleLeft(Vector2 vectMove)
+    {
+	return isCellBlocked(this.gameCharacter.x + vectMove.x,
+		this.gameCharacter.y + vectMove.y + this.gameCharacter.getHeight() * .55f);
+    }
+
+    /**
+     * Indica si existira colision en el en la esquina superior derecha del caracter
+     * a la derecha. Usado por el metodo colisionForWalk
+     * 
+     * @param vectMove Objeto de tipo Vector2 que representa la trayectoria
+     *                 pretendida.
+     * @return true si existira colision, false en caso contrario.
+     */
+
+    private boolean colisionUpRight(Vector2 vectMove)
+    {
+	return isCellBlocked(this.gameCharacter.x + vectMove.x + this.gameCharacter.getWidth(),
+		this.gameCharacter.y + vectMove.y + this.gameCharacter.getHeight());
+    }
+
+    /**
+     * Indica si existira colision en el en la esquina superior izquierda del
+     * caracter a la derecha. Usado por el metodo colisionForWalk
+     * 
+     * @param vectMove Objeto de tipo Vector2 que representa la trayectoria
+     *                 pretendida.
+     * @return true si existira colision, false en caso contrario.
+     */
+
+    private boolean colisionUpLeft(Vector2 vectMove)
+    {
+	return isCellBlocked(this.gameCharacter.x + vectMove.x,
+		this.gameCharacter.y + vectMove.y + this.gameCharacter.getHeight());
+    }
+
+    /**
+     * Indica si existira colision en el en la esquina inferior izquierda del
+     * caracter a la derecha. Usado por los metodos colision, colisionForWalk, y
+     * checkLanding
+     * 
+     * @param vectMove Objeto de tipo Vector2 que representa la trayectoria
+     *                 pretendida.
+     * @return true si existira colision, false en caso contrario.
+     */
+    private boolean colisionDownLeftForLanding(Vector2 vectMove)
+    {
+	return colisionDown(this.gameCharacter.x, vectMove);
+    }
+
+    /**
+     * Indica si existira colision en el en la esquina inferior derecha del caracter
+     * a la derecha. Usado por los metodos colision, colisionForWalk, y checkLanding
+     * 
+     * @param vectMove Objeto de tipo Vector2 que representa la trayectoria
+     *                 pretendida.
+     * @return true si existira colision, false en caso contrario.
+     */
+
+    private boolean colisionDownRightForLanding(Vector2 vectMove)
+    {
+	return colisionDown(this.gameCharacter.x + this.gameCharacter.width, vectMove);
+    }
+
+    /**
+     * Indica si existira colision en el en la esquina inferior derecha del caracter
+     * a la derecha. Usado por los metodos colisionDownRightForLanding, y
+     * colisionDownLeftForLanding
+     * 
+     * @param x        indica un desplazamiento para calcular una u otra esquina
+     * @param vectMove Objeto de tipo Vector2 que representa la trayectoria
+     *                 pretendida.
+     * @return
+     */
+    private boolean colisionDown(float x, Vector2 vectMove)
+    {
+	boolean respuesta = false;
+	if (isCellBlocked(x, this.gameCharacter.y + vectMove.y))
+	{
+	    float tileY = (int) ((this.gameCharacter.y + vectMove.y)
+		    / GameRules.getInstance().getLevelTileHeightUnits());
+	    tileY = (tileY + 1) * GameRules.getInstance().getLevelTileHeightUnits();
+	    respuesta = (this.gameCharacter.y > tileY && this.gameCharacter.y + vectMove.y <= tileY);
+	}
+	return respuesta;
+    }
+
+    /**
+     * Corrige la trayectoria pretendida en caso de colision por derecha
+     * 
+     * @param vectMove Objeto de tipo Vector2 que representa la trayectoria
+     *                 pretendida.
+     */
+    private void correctRight(Vector2 vectMove)
+    {
+	float epsilon = 0.002f * GameRules.getInstance().getLevelTileWidthUnits();
+	float aux = (int) ((this.gameCharacter.x + this.gameCharacter.getWidth() + vectMove.x)
+		/ GameRules.getInstance().getLevelTileWidthUnits());
+	vectMove.x = (aux) * GameRules.getInstance().getLevelTileWidthUnits()
+		- (this.gameCharacter.getWidth() + epsilon + this.gameCharacter.x);
+	this.gameCharacter.motionVector.x = 0;
+
+    }
+
+    /**
+     * Corrige la trayectoria pretendida en caso de colision por izquierda
+     * 
+     * @param vectMove Objeto de tipo Vector2 que representa la trayectoria
+     *                 pretendida.
+     */
+    private void correctLeft(Vector2 vectMove)
+    {
+	float epsilon = 0.002f * GameRules.getInstance().getLevelTileWidthUnits();
+	float aux = (int) ((this.gameCharacter.x + vectMove.x) / GameRules.getInstance().getLevelTileWidthUnits());
+	vectMove.x = (aux + 1) * GameRules.getInstance().getLevelTileWidthUnits() + epsilon - this.gameCharacter.x;
+	this.gameCharacter.motionVector.x = 0;
+
+    }
+
+    /**
+     * Ajusta la posicion del personaje al aterrizar sobre una superficie
+     * solida y realiza las acciones asociadas al fin de un salto o caida.
+     *
+     * @param vectMove trayectoria pretendida.
+     */
+
+    private void correctDown(Vector2 vectMove)
+    {
+	float aux = (int) ((this.gameCharacter.y + vectMove.y) / GameRules.getInstance().getLevelTileHeightUnits());
+	vectMove.y = (aux + 1) * GameRules.getInstance().getLevelTileHeightUnits() - this.gameCharacter.y;
+	if (vectMove.x == 0)
+	    this.nextState = GameCharacter.ST_IDDLE;
+	else
+	{
+	    this.gameCharacter.lookRight = vectMove.x >= 0;
+	    this.nextState = GameCharacter.ST_WALKING;
+	}
+	this.gameCharacter.motionVector.y = 0;
+	Game.getInstance().eventFired(KVEventListener.CHARACTER_END_JUMP, this.gameCharacter);
+    }
+
+    /**
+     * Determina si una colision detectada sobre un vertice inferior debe
+     * interpretarse como una colision lateral o como un aterrizaje.
+     *
+     * <p>
+     * Para ello se analiza geometricamente la trayectoria recorrida por
+     * el personaje y se calcula el primer borde de la celda que habria
+     * sido intersectado.
+     * </p>
+     *
+     * @param x desplazamiento horizontal utilizado para seleccionar el
+     *          vertice a evaluar.
+     * @param y desplazamiento vertical utilizado para seleccionar el
+     *          vertice a evaluar.
+     * @param vectMove trayectoria pretendida.
+     *
+     * @return direccion desde la que se considera producida la colision.
+     */
+    private int buscarColisionPorVertice(float x, float y, Vector2 vectMove)
+    {
+
+	x += vectMove.x;
+	y += vectMove.y;
+	int r;
+	if (this.gameCharacter.motionVector.x == 0)
+	{
+	    r = Constants.DOWN;
+	}
+
+	else
+	{
+
+	    float m = this.gameCharacter.motionVector.y / this.gameCharacter.motionVector.x;
+	    float b = y - x * m;
+	    float valorX;
+	    int tileX = (int) (x / GameRules.getInstance().getLevelTileWidthUnits());
+	    int tileY = (int) (y / GameRules.getInstance().getLevelTileHeightUnits());
+
+	    int respuestaLateral = 0;
+	    if (this.gameCharacter.motionVector.x > 0)
+	    {
+		valorX = tileX * GameRules.getInstance().getLevelTileWidthUnits();
+		respuestaLateral = Constants.RIGHT;
+	    } else
+	    {
+		valorX = (tileX + 1) * GameRules.getInstance().getLevelTileWidthUnits();
+		respuestaLateral = Constants.LEFT;
+	    }
+
+	    if (this.gameCharacter.motionVector.y >= 0)
+		r = respuestaLateral;
+	    else
+	    {
+		float yBuscado = m * valorX + b;
+		float abajo = tileY * GameRules.getInstance().getLevelTileHeightUnits();
+		float arriba = (tileY + 1) * GameRules.getInstance().getLevelTileHeightUnits();
+		if (abajo <= yBuscado && yBuscado <= arriba)
+		    r = respuestaLateral;
+		else
+		    r = Constants.DOWN;
+	    }
+	}
+	return r;
+
+    }
+
+    /**
+     * Corrige la trayectoria pretendida en caso de colision. Es llamado por los
+     * metodos colision, colisionForWalk, y checkLanding
+     * 
+     * @param direction indica la direccion desde la que se produjo la colision.
+     *                  Puede tomar los valores: Constantes.DOWN; Constantes.RIGHT;
+     *                  Constantes.LEFT
+     * @param vectMove  Objeto de tipo Vector2 que representa la trayectoria
+     *                  pretendida.
+     */
+    private void corrigeDirecciones(int direction, Vector2 vectMove)
+    {
+	switch (direction)
+	{
+
+	case Constants.LEFT:
+	    this.correctLeft(vectMove);
+	    break;
+	case Constants.DOWN:
+	    this.correctDown(vectMove);
+
+	    break;
+	case Constants.RIGHT:
+	    this.correctRight(vectMove);
+	    break;
+
+	}
+
+    }
+
+    /**
+     * Indica si una celda de la piramide esta bloqueada, es decir, sea diferente de
+     * null
+     * 
+     * @param x valor float de la coordenada x a evaluar
+     * @param y valor float de la coordenada y a evaluar
+     * @return retorna true si la celda esta bloqueada, false en caso contrario
+     */
+    protected boolean isCellBlocked(float x, float y)
+    {
+	return this.gameCharacter.pyramid.getCell(x, y) != null;
+    }
+
+    /**
+     * Verifica si el caracter ha aterrizado.
+     * 
+     * @param vectMove Objeto de tipo Vector2 que representa la trayectoria
+     *                 pretendida.
+     */
+    protected void checkLanding(Vector2 vectMove)
+    {
+	int r = -1;
+
+	if (this.colisionDownLeftForLanding(vectMove))
+	{
+	    if (this.colisionDownRightForLanding(vectMove)) // ambas esquinas bajas colisionan
+		this.correctDown(vectMove);
+	    else // solo colisiona esquina baja izq
+	    {
+		if (vectMove.x >= 0)
+		    r = Constants.DOWN;
+		else
+		    r = this.buscarColisionPorVertice(this.gameCharacter.x, this.gameCharacter.y, vectMove);
+	    }
+	} else if (this.colisionDownRightForLanding(vectMove))
+	{
+	    if (vectMove.x <= 0)
+		r = Constants.DOWN;
+	    else
+		r = this.buscarColisionPorVertice(this.gameCharacter.x + this.gameCharacter.width, this.gameCharacter.y,
+			vectMove);
+	}
+	this.corrigeDirecciones(r, vectMove);
+	if (r != -1)
+	    this.checkLanding(vectMove);
+    }
+
+    /**
+     * Indica si hay piso bajo los pies del caracter
+     * 
+     * @return true si hay piso bajo el caracter, false en caso contrario.
+     */
+    protected boolean isFloorDown()
+    {
+	float epsilon = 0.000001f * GameRules.getInstance().getLevelTileHeightUnits();
+	return ((isCellBlocked(this.gameCharacter.x + this.gameCharacter.getWidth(),
+		this.gameCharacter.y - epsilon * this.gameCharacter.height)
+		&& isCellBlocked(this.gameCharacter.x + this.gameCharacter.getWidth(),
+			this.gameCharacter.y - this.gameCharacter.height * 0.25f))
+		|| (isCellBlocked(this.gameCharacter.x, this.gameCharacter.y - 0.00001f * this.gameCharacter.height)
+			&& isCellBlocked(this.gameCharacter.x,
+				this.gameCharacter.y - this.gameCharacter.height * 0.25f)));
+    }
+
+    /**
+     * Retorna la escalera actualmente asociada al personaje.
+     *
+     * <p>
+     * La implementacion por defecto no considera ninguna escalera
+     * asociada y retorna null. Los estados que gestionan movimiento
+     * sobre escaleras pueden redefinir este comportamiento.
+     * </p>
+     *
+     * @return escalera asociada al personaje o null si no existe.
+     */
+    protected Stair getStair()
+    {
+	return null;
+    }
+
+    /**
+     * Metodo invocado para mover el caracter.
+     * 
+     * @param movementDirection Objeto de tipo Vector2 que representa la trayectoria
+     *                          pretendida.
+     * @param action            Indica si se pretenda realizar una accion (puede ser
+     *                          saltar, arrojar espada o picar)
+     * @param deltaTime         indica el deltaTime desde la ultima actualizacion
+     */
+    public void move(Vector2 movementDirection, boolean action, float deltaTime)
+    {
+	this.beforeScaling(movementDirection, action, deltaTime);
+	Vector2 escalado = this.gameCharacter.motionVector.cpy().scl(deltaTime);
+	this.afterScaling(escalado);
+
+	this.gameCharacter.x += escalado.x;
+	this.gameCharacter.y += escalado.y;
+	this.checkOutLevel();
+	this.checkChangeStatus();
+    }
+
+    /**
+     * Corrige posibles salidas del caracter fuera de la piramide
+     */
+    private void checkOutLevel()
+    {
+	float epsilon = .1f * GameRules.getInstance().getLevelTileWidthUnits();
+
+	if (this.gameCharacter.x < GameRules.getInstance().getLevelTileWidthUnits())
+	{
+	    this.gameCharacter.x = GameRules.getInstance().getLevelTileWidthUnits();
+	} else
+
+	{
+	    if (this.gameCharacter.x + epsilon
+		    + this.gameCharacter.width > (this.gameCharacter.pyramid.getMapWidthInTiles() - 1)
+			    * GameRules.getInstance().getLevelTileWidthUnits())
+
+		this.gameCharacter.x = (this.gameCharacter.pyramid.getMapWidthInTiles() - 1)
+			* GameRules.getInstance().getLevelTileWidthUnits() - (this.gameCharacter.width + epsilon);
+	}
+
+    }
+
+    /**
+     * Metodo llamado al entrar en una escalera
+     * 
+     * @param stair Objeto de tipo Stair que indica la escalera a la qu se esta
+     *              entrando
+     */
+    protected abstract void enterStair(Stair stair);
+
+    /**
+     * Metodo llamado al intentar un salto
+     * 
+     * @return true si el salto pudo realizarse, fale en caso contrario
+     */
+    protected abstract boolean doJump();
+
+    /**
+     * Verifica si debe realizar un cambio de estado
+     */
+    protected abstract void checkChangeStatus();
+}
+
+
+==============================
+FILE: src\main\java\engine\gameCharacters\abstractGameCharacter\GameCharacterStateFalling.java
+==============================
+
+package engine.gameCharacters.abstractGameCharacter;
+
+import engine.KVEventListener;
+import engine.game.Game;
+
+/**
+ * Clase que representa del estado del caracter "cayendo"
+ * 
+ * @author Guillermo Lazzurri
+ */
+public class GameCharacterStateFalling extends GameCharacterStateOnAir
+{
+
+	/**
+	 * Constructor encadenado. Llama a <br>
+	 * super(gameCharacter, GameCharacter.ST_FALLING); <br>
+	 * this.gameCharacter.motionVector.x=0;<br>
+	 * 
+	 * Dispara el evento:
+	 * Game.getInstance().eventFired(KVEventListener.CHARACTER_BEGIN_FALL,
+	 * this.gameCharacter);
+	 * 
+	 * @param gameCharacter correspondiente al contexto del patron state.
+	 */
+	public GameCharacterStateFalling(GameCharacter gameCharacter)
+	{
+		super(gameCharacter, GameCharacter.ST_FALLING);
+		this.gameCharacter.motionVector.x = 0;
+		Game.getInstance().eventFired(KVEventListener.CHARACTER_BEGIN_FALL, this.gameCharacter);
+
+	}
+
+	/**
+	 * Si hay un cambio de estado, Dispara el evento:
+	 * Game.getInstance().eventFired(KVEventListener.CHARACTER_END_FALL,
+	 * this.gameCharacter); <br>
+	 * Llama a super.checkChangeStatus();
+	 * 
+	 */
+	@Override
+	protected void checkChangeStatus()
+	{
+		if (this.nextState != GameCharacter.ST_NO_CHANGE)
+			Game.getInstance().eventFired(KVEventListener.CHARACTER_END_FALL, this.gameCharacter);
+
+		super.checkChangeStatus();
+	}
+
+}
+
+
+==============================
+FILE: src\main\java\engine\gameCharacters\abstractGameCharacter\GameCharacterStateIddle.java
+==============================
+
+package engine.gameCharacters.abstractGameCharacter;
+
+import com.badlogic.gdx.math.Vector2;
+
+/**
+ * Clase que representa del estado del caracter "quieto en el piso"
+ * 
+ * @author Guillermo Lazzurri
+ */
+public class GameCharacterStateIddle extends GameCharacterStateOnFloor
+{
+
+    /**
+     * Constructor de clase que llama a super(gameCharacter,
+     * GameCharacter.ST_IDDLE);
+     * 
+     * @param gameCharacter Contexto del patron state
+     */
+    public GameCharacterStateIddle(GameCharacter gameCharacter)
+    {
+	super(gameCharacter, GameCharacter.ST_IDDLE);
+	this.gameCharacter.resetAnimationDelta();
+
+    }
+
+    /**
+     * Realiza los calculos y eventualemente maraca el siguiente cambio de estado.
+     */
+    @Override
+    protected void beforeScaling(Vector2 movementDirection, boolean action, float deltaTime)
+    {
+
+	if (action)
+	{
+	    if (movementDirection.x != 0)
+		this.gameCharacter.motionVector.x = movementDirection.x * this.gameCharacter.getSpeedWalk();
+	    this.gameCharacter.doAction();
+
+	} else if (movementDirection.x != 0)
+	    this.nextState = GameCharacter.ST_WALKING;
+    }
+
+    /**
+     * Se sobreescribe como metodo vacio (no hace nada)
+     */
+    @Override
+    protected void afterScaling(Vector2 escalado)
+    {
+
+    }
+
+}
+
+
+==============================
+FILE: src\main\java\engine\gameCharacters\abstractGameCharacter\GameCharacterStateJumping.java
+==============================
+
+package engine.gameCharacters.abstractGameCharacter;
+
+import com.badlogic.gdx.math.Vector2;
+
+import engine.KVEventListener;
+import engine.game.Game;
+import util.GameRules;
+
+/**
+ * Clase que representa del estado del caracter "Saltando" (ya sea subiendo o
+ * bajando)
+ * 
+ * @author Guillermo Lazzurri
+ */
+public class GameCharacterStateJumping extends GameCharacterStateOnAir
+{
+    private float initialMotionX;
+
+    /**
+     * Constructor encadenado. Llama a <br>
+     * super(gameCharacter, GameCharacter.ST_JUMPING);<br>
+     * this.gameCharacter.motionVector.y = this.gameCharacter.speedJump;<br>
+     * this.initialMotionX = this.gameCharacter.motionVector.x;<br>
+     * * Dispara el
+     * evento:Game.getInstance().eventFired(KVEventListener.CHARACTER_JUMP,
+     * gameCharacter);
+     * 
+     * @param gameCharacter  correspondiente al contexto del patron state.
+     * @param initialMotionX indica la direccion de movimiento horizontal pretendida
+     *                       (Si salta hacia el costado estando bloqueado)
+     */
+    public GameCharacterStateJumping(GameCharacter gameCharacter, float initialMotionX)
+    {
+	super(gameCharacter, GameCharacter.ST_JUMPING);
+	this.gameCharacter.lookRight = initialMotionX > 0;
+	this.gameCharacter.motionVector.y = this.gameCharacter.getSpeedJump();
+	this.gameCharacter.motionVector.x = Math.signum(initialMotionX)
+		* GameRules.getInstance().getCharacterHorizontalSpeedJump();
+	this.initialMotionX = this.gameCharacter.motionVector.x;
+	Game.getInstance().eventFired(KVEventListener.CHARACTER_JUMP, gameCharacter);
+
+    }
+
+    /**
+     * Calcula las colisione durante el salto. En caso de que el player se
+     * desbloquee horizontalmente durante el salto podra desplazarse para el costado
+     * para salir de un pozo.
+     */
+    @Override
+    protected void beforeScaling(Vector2 movementDirection, boolean action, float deltaTime)
+    {
+
+	if (this.hasBlocked() && this.gameCharacter.motionVector.y > 0)
+	    this.tryUnblock(deltaTime);
+	super.beforeScaling(movementDirection, action, deltaTime);
+    }
+
+    /**
+     * Llama a super para verificar si llego al suelo y ademas calcula posibles
+     * colisiones laterales
+     */
+    @Override
+    protected void afterScaling(Vector2 escalado)
+    {
+
+	super.afterScaling(escalado);
+	this.colision(escalado);
+    }
+
+    /**
+     * Intenta desplazarse hacia el costado en caso de ser necesario
+     */
+
+    private void tryUnblock(float deltaTime)
+    {
+	int offset;
+	if (this.initialMotionX > 0)
+	    offset = 1;
+	else
+	    offset = -1;
+
+	if (this.gameCharacter.pyramid.getCell(this.gameCharacter.x,
+		this.gameCharacter.y + this.gameCharacter.motionVector.y * deltaTime, offset, 0) == null)
+	    this.gameCharacter.motionVector.x = this.initialMotionX;
+    }
+
+    /**
+     * Indica si el caracter esta bloqueado para desplazamiento horizontal
+     * 
+     * @return true si esta bloqueado horizontalemente, false en caso contrario
+     */
+    private boolean hasBlocked()
+    {
+	return this.initialMotionX != 0 && this.gameCharacter.motionVector.x == 0;
+    }
+
+    /**
+     * Si hay un cambio de estado, Dispara el evento:
+     * Game.getInstance().eventFired(KVEventListener.CHARACTER_END_JUMP,
+     * this.gameCharacter); <br>
+     * Llama a super.checkChangeStatus();
+     * 
+     */
+    @Override
+    protected void checkChangeStatus()
+    {
+	if (this.nextState != GameCharacter.ST_NO_CHANGE)
+	    Game.getInstance().eventFired(KVEventListener.CHARACTER_END_JUMP, this.gameCharacter);
+
+	super.checkChangeStatus();
+    }
+
+}
+
+
+==============================
+FILE: src\main\java\engine\gameCharacters\abstractGameCharacter\GameCharacterStateOnAir.java
+==============================
+
+package engine.gameCharacters.abstractGameCharacter;
+
+import com.badlogic.gdx.math.Vector2;
+
+import engine.level.Stair;
+
+/**
+ * Clase abstracta que representa el estado de estar en el aire. Podra
+ * extenderse a GameCharacterStateJumping, o GameCharacterStateFaling
+ * 
+ * @author Guillermo Lazzurri
+ */
+public abstract class GameCharacterStateOnAir extends GameCharacterState
+{
+
+    /**
+     * Constructor de clase que llama a super(gameCharacter, state);
+     * 
+     * @param gameCharacter Contexto del patron state
+     * @param state         valor entero que representa el estado
+     */
+    public GameCharacterStateOnAir(GameCharacter gameCharacter, int state)
+    {
+	super(gameCharacter, state);
+	this.gameCharacter.resetAnimationDelta();
+    }
+
+    /**
+     * Se sobreescribe como metodo vacio (no hace nada)
+     */
+    @Override
+    protected void enterStair(Stair stair)
+    {
+
+    }
+
+    /**
+     * Se sobreescribe como metodo vacio (no hace nada) y retorna false
+     */
+    @Override
+    protected boolean doJump()
+    {
+	return false;
+    }
+
+    /**
+     * Sobrescribe el metodo de la superclase haciendo caer al caracter
+     * 
+     */
+    @Override
+    protected void beforeScaling(Vector2 movementDirection, boolean action, float deltaTime)
+    {
+
+	this.gameCharacter.motionVector.y += this.gameCharacter.getSpeedFall() * deltaTime;
+
+	if (this.gameCharacter.motionVector.y < this.gameCharacter.getSpeedFall())
+	    this.gameCharacter.motionVector.y = this.gameCharacter.getSpeedFall();
+
+    }
+
+    /**
+     * llama a this.checkLanding(escalado);
+     */
+    @Override
+    protected void afterScaling(Vector2 escalado)
+    {
+	this.checkLanding(escalado);
+
+    }
+
+    /**
+     * En caso de tocar el suelo pasara a estado GameCharacterStateIddle, o
+     * GameCharacterStateWalking
+     */
+    protected void checkChangeStatus()
+    {
+	switch (this.nextState)
+	{
+	case GameCharacter.ST_IDDLE:
+	    this.gameCharacter.gameCharacterState = new GameCharacterStateIddle(this.gameCharacter);
+	    break;
+	case GameCharacter.ST_WALKING:
+	    this.gameCharacter.gameCharacterState = new GameCharacterStateWalking(this.gameCharacter);
+	    break;
+	}
+
+    }
+}
+
+
+==============================
+FILE: src\main\java\engine\gameCharacters\abstractGameCharacter\GameCharacterStateOnFloor.java
+==============================
+
+package engine.gameCharacters.abstractGameCharacter;
+
+import engine.level.LevelObject;
+import engine.level.Stair;
+
+/**
+ * Clase abstracta que representa el estado de estar en el piso. Podra
+ * extenderse a GameCharacterStateIddle, o GameCharacterStateWalking
+ * 
+ * @author Guillermo Lazzurri
+ */
+public abstract class GameCharacterStateOnFloor extends GameCharacterState
+{
+    /**
+     * Indica a escalera a la que se entrara
+     */
+    protected Stair stairToEnter = null;
+    private float initialMotionX;
+
+    /**
+     * Constructor de clase que llama a:<br>
+     * super(gameCharacter, state);<br>
+     * this.gameCharacter.motionVector.y = 0;<br>
+     * this.gameCharacter.lastFloorCoordinate = this.gameCharacter.y; Este estado
+     * actualiza el atributo this.gameCharacter.lastFloorCoordinate
+     * 
+     * @param gameCharacter Contexto del patron state
+     * @param state         valor entero que representa el estado
+     */
+    public GameCharacterStateOnFloor(GameCharacter gameCharacter, int state)
+    {
+	super(gameCharacter, state);
+	this.gameCharacter.motionVector.y = 0;
+	this.gameCharacter.lastFloorCoordinate = this.gameCharacter.y;
+    }
+
+    /**
+     * Marca el siguiente cambia de estado a GameCharacterStateOnStair
+     */
+    @Override
+    protected void enterStair(Stair stair)
+    {
+	this.stairToEnter = stair;
+	this.nextState = GameCharacter.ST_ONSTAIRS;
+	LevelObject beginStair;
+	if (this.gameCharacter.lastFloorCoordinate == stair.getDownStair().y)
+	    beginStair = stair.getDownStair();
+	else
+	    beginStair = stair.getUpStair();
+	float middleBeginStair = beginStair.x + beginStair.width * .5f;
+	this.gameCharacter.x = middleBeginStair - this.gameCharacter.width * .5f;
+
+    }
+
+    /**
+     * Si el salto se puede realizar se cambia el estado a GameCharacterStateJumping
+     */
+    @Override
+    protected boolean doJump()
+    {
+	boolean r = false;
+	if (this.gameCharacter.isFreeUp())
+	{
+	    this.nextState = GameCharacter.ST_JUMPING;
+	    this.initialMotionX = this.gameCharacter.motionVector.x;
+
+	    r = true;
+	}
+	return r;
+    }
+
+    protected void checkChangeStatus()
+    {
+	switch (this.nextState)
+	{
+	case GameCharacter.ST_IDDLE:
+	    this.gameCharacter.gameCharacterState = new GameCharacterStateIddle(this.gameCharacter);
+	    break;
+	case GameCharacter.ST_WALKING:
+	    this.gameCharacter.gameCharacterState = new GameCharacterStateWalking(this.gameCharacter);
+	    break;
+	case GameCharacter.ST_FALLING:
+	    this.gameCharacter.gameCharacterState = new GameCharacterStateFalling(this.gameCharacter);
+	    break;
+	case GameCharacter.ST_JUMPING:
+	    this.gameCharacter.gameCharacterState = new GameCharacterStateJumping(this.gameCharacter,
+		    this.initialMotionX);
+	    break;
+
+	case GameCharacter.ST_ONSTAIRS:
+
+	    this.gameCharacter.gameCharacterState = new GameCharacterStateOnStair(this.gameCharacter,
+		    this.stairToEnter);
+	    break;
+
+	}
+
+    }
+
+}
+
+
+==============================
+FILE: src\main\java\engine\gameCharacters\abstractGameCharacter\GameCharacterStateOnStair.java
+==============================
+
+package engine.gameCharacters.abstractGameCharacter;
+
+import com.badlogic.gdx.math.Vector2;
+
+import engine.KVEventListener;
+import engine.game.Game;
+import engine.level.LevelObject;
+import engine.level.Stair;
+
+/**
+ * Clase que representa del estado del caracter "En escalera"
+ * 
+ * @author Guillermo Lazzurri
+ */
+public class GameCharacterStateOnStair extends GameCharacterState
+{
+    /**
+     * Indica la escalera en la que esta el caracter
+     */
+    private Stair stair;
+
+    /**
+     * Llama a super(gameCharacter, GameCharacter.ST_WALKING);<br>
+     * this.stair = stair;<br>
+     * Game.getInstance().eventFired(KVEventListener.CHARACTER_ENTER_STAIR,
+     * this.gameCharacter);
+     * 
+     * 
+     * @param gameCharacter Contexto del patron state
+     * @param stair         indica la escalera en la que esta el caracter (debe ser
+     *                      distinto de null)
+     */
+    public GameCharacterStateOnStair(GameCharacter gameCharacter, Stair stair)
+    {
+	super(gameCharacter, GameCharacter.ST_WALKING);
+	this.stair = stair;
+	Game.getInstance().eventFired(KVEventListener.CHARACTER_ENTER_STAIR, this.gameCharacter);
+
+    }
+
+    /**
+     * Movera el caracter por la escalera dependiendo de su direccion horizontal
+     */
+    @Override
+    protected void beforeScaling(Vector2 movementDirection, boolean action, float deltaTime)
+    {
+	this.gameCharacter.motionVector.x = movementDirection.x * this.gameCharacter.getSpeedWalkStairs();
+	int sign;
+	if (this.stair.isPositive())
+	{
+	    sign = 1;
+
+	} else
+	{
+	    sign = -1;
+	}
+	this.gameCharacter.motionVector.y = movementDirection.x * this.gameCharacter.getSpeedWalkStairs() * sign;
+	if (movementDirection.x != 0)
+	{
+
+	    this.checkExitStair(movementDirection);
+	    this.gameCharacter.lookRight = movementDirection.x > 0;
+	    if (this.gameCharacter.renderMode != GameCharacter.ST_WALKING)
+	    {
+		this.gameCharacter.resetAnimationDelta();
+		this.gameCharacter.renderMode = GameCharacter.ST_WALKING;
+	    }
+	} else
+	{
+	    if (this.gameCharacter.renderMode != GameCharacter.ST_IDDLE)
+	    {
+		this.gameCharacter.resetAnimationDelta();
+		this.gameCharacter.renderMode = GameCharacter.ST_IDDLE;
+	    }
+	}
+
+    }
+
+    /**
+     * Verifica si debe salir de la escalera y en ese caso llama a exitStair
+     * 
+     * @param movementDirection indica la direcion pretendida
+     */
+    private void checkExitStair(Vector2 movementDirection)
+    {
+	if (this.stair.isPositive())
+	{
+	    if (movementDirection.x > 0)
+	    {
+		if (this.gameCharacter.y >= this.stair.getUpStair().y)
+		    this.exitStair(this.stair.getUpStair());
+
+	    } else
+	    {
+		if (this.gameCharacter.y <= this.stair.getDownStair().y + this.stair.getDownStair().getHeight())
+		    this.exitStair(this.stair.getDownStair());
+	    }
+	} else
+	{
+	    if (movementDirection.x > 0)
+	    {
+		if (this.gameCharacter.y <= this.stair.getDownStair().y + this.stair.getDownStair().getHeight())
+		    this.exitStair(this.stair.getDownStair());
+	    } else
+	    {
+		if (this.gameCharacter.y >= this.stair.getUpStair().y)
+		    this.exitStair(this.stair.getUpStair());
+
+	    }
+
+	}
+
+    }
+
+    /**
+     * Llamado al salir de la escalera. Marca el siguiente cambio de estado mediante
+     * this.nextState = GameCharacter.ST_WALKING;
+     * 
+     * @param endStair indica el pie o cabecera de la escalera por la que el
+     *                 caracter sale de la misma. Sirve para setear la posicion y
+     *                 del caracter
+     */
+    private void exitStair(LevelObject endStair)
+    {
+	this.gameCharacter.y = endStair.y;
+	this.gameCharacter.motionVector.y = 0;
+	this.nextState = GameCharacter.ST_WALKING;
+	this.stair = null;
+    }
+
+    /**
+     * Se sobreescribe como metodo vacio (no hace nada)
+     */
+
+    @Override
+    protected void afterScaling(Vector2 escalado)
+    {
+
+    }
+
+    /**
+     * Retorna la escalera sobre la que esta el caracter. En este caso no puede ser
+     * null (si lo puede ser en otro tipo de estado)
+     */
+    @Override
+    protected Stair getStair()
+    {
+	return this.stair;
+    }
+
+    /**
+     * Se sobreescribe como metodo vacio (no hace nada)
+     */
+    @Override
+    protected void enterStair(Stair stair)
+    {
+
+    }
+
+    /**
+     * Retorna false (no se puede saltar en la escalera)
+     */
+    @Override
+    protected boolean doJump()
+    {
+	return false;
+    }
+
+    /**
+     * Si hay un cambio de estado, Dispara el evento:
+     * Game.getInstance().eventFired(KVEventListener.CHARACTER_EXIT_STAIR,
+     * this.gameCharacter); <br>
+     * Llama a this.gameCharacter.gameCharacterState = new
+     * GameCharacterStateWalking(this.gameCharacter); (AL salir de una escalera solo
+     * se puede pasar a modo caminata)
+     * 
+     */
+    @Override
+    protected void checkChangeStatus()
+    {
+	if (this.nextState == GameCharacter.ST_WALKING)
+	{
+	    Game.getInstance().eventFired(KVEventListener.CHARACTER_EXIT_STAIR, this.gameCharacter);
+	    this.gameCharacter.gameCharacterState = new GameCharacterStateWalking(this.gameCharacter);
+
+	}
+
+    }
+
+}
+
+
+==============================
+FILE: src\main\java\engine\gameCharacters\abstractGameCharacter\GameCharacterStateWalking.java
+==============================
+
+package engine.gameCharacters.abstractGameCharacter;
+
+import com.badlogic.gdx.math.Vector2;
+
+import engine.level.Stair;
+
+/**
+ * Clase que representa del estado del caracter "caminando"
+ * 
+ * @author Guillermo Lazzurri
+ */
+public class GameCharacterStateWalking extends GameCharacterStateOnFloor
+{
+
+    /**
+     * Constructor encadenado. Llama a <br>
+     * super(gameCharacter, GameCharacter.ST_WALKING); <br>
+     * this.gameCharacter.resetAnimationDelta(); <br>
+     * 
+     * @param gameCharacter Contexto del patron state
+     */
+    public GameCharacterStateWalking(GameCharacter gameCharacter)
+    {
+	super(gameCharacter, GameCharacter.ST_WALKING);
+	this.gameCharacter.resetAnimationDelta();
+    }
+
+    /**
+     * Verifica colisiones laterales y puede marcar los siguientes cambios de estado
+     */
+    @Override
+    protected void beforeScaling(Vector2 movementDirection, boolean action, float deltaTime)
+    {
+
+	this.gameCharacter.motionVector.x = movementDirection.x * this.gameCharacter.getSpeedWalk();
+	if (movementDirection.x != 0)
+	    this.gameCharacter.lookRight = movementDirection.x > 0;
+
+	if (action)
+	    this.gameCharacter.doAction();
+	else
+	{
+
+	    if (movementDirection.x == 0)
+		this.nextState = GameCharacter.ST_IDDLE;
+
+	    if (movementDirection.y != 0 && movementDirection.x != 0)
+		this.checkEnterStair(movementDirection);
+	    if (!this.isFloorDown())
+		this.nextState = GameCharacter.ST_FALLING;
+	}
+    }
+
+    /**
+     * Verifica si el caracter esta entrando a una escalera. De ser asi, llama a
+     * this.gameCharacter.enterStair(stair);
+     * 
+     * @param movementDirection Indica la direccion pretendida
+     */
+    protected void checkEnterStair(Vector2 movementDirection)
+    {
+	Stair stair = null;
+	if (movementDirection.y > 0)
+	{
+	    if (movementDirection.x > 0)
+	    {
+		stair = this.gameCharacter.checkStairsFeetColision(true, true);
+
+	    } else
+	    {
+		stair = this.gameCharacter.checkStairsFeetColision(false, true);
+	    }
+	} else
+	{
+	    if (movementDirection.x > 0)
+	    {
+		stair = this.gameCharacter.checkStairsFeetColision(false, false);
+
+	    } else
+	    {
+		stair = this.gameCharacter.checkStairsFeetColision(true, false);
+
+	    }
+	}
+	if (stair != null)
+	    this.gameCharacter.enterStair(stair);
+
+    }
+
+    /**
+     * llama a this.colisionForWalk(escalado);
+     */
+    @Override
+    protected void afterScaling(Vector2 escalado)
+    {
+	this.colisionForWalk(escalado);
+    }
+
+}
+
+
+==============================
+FILE: src\main\java\engine\gameCharacters\mummys\EndPlatform.java
+==============================
+
+package engine.gameCharacters.mummys;
+
+import com.badlogic.gdx.math.Rectangle;
+
+/**
+ * Representa el final de una plataforma. Se usa para que la momia tome
+ * decisiones al respecto
+ * 
+ * @author Guillermo Lazzurri
+ */
+public class EndPlatform
+{
+	/**
+	 * Representa una plataforma bloqueada (por pared o giratoria)
+	 */
+	public static final int END_BLOCK = 0;
+	/**
+	 * Representa una cornisa por la que se puede caer
+	 */
+	public static final int END_CLIFF = 1;
+	/**
+	 * Representa un escalon que se podria saltar
+	 */
+	public static final int END_STEP = 2;
+
+	private int type;
+	private Rectangle rectangle;
+
+	/**
+	 * Constructor de clase.
+	 * 
+	 * @param type      Codigo numerico para indicar el tipo de final de plataforma.
+	 *                  Puede tomar los valores:<br>
+	 *                  END_BLOCK = 0 (final de plataforma bloqueado (por pared o
+	 *                  giratoria)<br>
+	 *                  END_CLIFF = 1 (Representa una cornisa por la que se puede
+	 *                  caer)<br>
+	 *                  END_STEP = 2;(Representa un escalon que se podria
+	 *                  saltar)<br>
+	 * 
+	 * @param rectangle Rectangulo del final de plataforma. Necesario para calcular
+	 *                  colisiones.
+	 */
+	public EndPlatform(int type, Rectangle rectangle)
+	{
+
+		this.type = type;
+		this.rectangle = rectangle;
+	}
+
+	/**
+	 * Retorna del tipo de final de plataforma. Puede tomar los valores:<br>
+	 * END_BLOCK = 0 (final de plataforma bloqueado (por pared o giratoria)<br>
+	 * END_CLIFF = 1 (Representa una cornisa por la que se puede caer)<br>
+	 * END_STEP = 2;(Representa un escalon que se podria saltar)<br>
+	 * 
+	 * @return tipo de plataforma Codigo numerico que indica el final de plataforma
+	 */
+	public int getType()
+	{
+		return type;
+	}
+
+	/**
+	 * Retorna el rectangulo donde esta el final de plaforma. Necesario para
+	 * calcular colisiones
+	 * 
+	 * @return El rectangulo donde esta el final de plaforma. Necesario para
+	 *         calcular colisiones
+	 */
+	public Rectangle getRectangle()
+	{
+		return rectangle;
+	}
+
+	@Override
+	public String toString()
+	{
+		return "EndPlatform2 [type=" + type + ", rectangle=" + rectangle + "]";
+	}
+
+}
+
+
+==============================
+FILE: src\main\java\engine\gameCharacters\mummys\Mummy.java
+==============================
+
+package engine.gameCharacters.mummys;
+
+import com.badlogic.gdx.math.Vector2;
+
+import engine.KVEventListener;
+import engine.game.Game;
+import engine.gameCharacters.abstractGameCharacter.GameCharacter;
+import engine.gameCharacters.player.Player;
+import engine.level.GiratoryMechanism;
+import engine.level.Pyramid;
+import engine.level.Stair;
+import util.GameRules;
+
+/**
+ * Representa una momia enemiga dentro del juego.
+ *
+ * <p>
+ * Esta clase extiende la funcionalidad provista por GameCharacter incorporando
+ * los comportamientos especificos asociados a los enemigos encargados de
+ * perseguir al jugador a traves del escenario.
+ * </p>
+ *
+ * <p>
+ * Las momias constituyen los principales agentes autonomos del juego y son
+ * responsables de generar desafio mediante la exploracion del entorno y la
+ * persecucion del personaje controlado por el usuario.
+ * </p>
+ *
+ * <p>
+ * Mummy reutiliza la infraestructura comun de movimiento, colision e
+ * interaccion definida en GameCharacter, incorporando unicamente las
+ * responsabilidades especificas asociadas al comportamiento de los enemigos.
+ * </p>
+ *
+ * <p>
+ * Esta clase constituye un ejemplo practico de aplicacion de herencia,
+ * polimorfismo y patron State en el modelado de comportamientos dinamicos.
+ * </p>
+ *
+ * <p>
+ * El comportamiento dinamico de las momias se implementa mediante el patron
+ * State, permitiendo encapsular las distintas reglas de movimiento y
+ * simplificando la gestion de transiciones entre estados.
+ * </p>
+ *
+ * <p>
+ * La toma de decisiones puede incorporar mecanismos probabilisticos para evitar
+ * comportamientos excesivamente deterministas y favorecer una mayor
+ * variabilidad en las acciones de los enemigos.
+ * </p>
+ *
+ * <p>
+ * Desde el punto de vista arquitectonico, esta clase especializa la abstraccion
+ * GameCharacter para representar entidades autonomas capaces de actuar
+ * independientemente de la entrada del usuario.
+ * </p>
+ *
+ * @author Guillermo Lazzurri
+ */
+@SuppressWarnings("serial")
+public abstract class Mummy extends GameCharacter
+{
+
+    /**
+     * Codigo que indica Player al mismo nivel que la momia
+     */
+    protected static final int PLAYER_IS_SOME_LEVEL = 0;
+    /**
+     * Codigo que indica Player a esta arriba de la momia
+     */
+
+    protected static final int PLAYER_IS_UP = 1;
+
+    /**
+     * Codigo que indica Player a esta abajo de la momia
+     */
+    protected static final int PLAYER_IS_DOWN = -1;
+
+    /**
+     * Codigo de estado En el limbo
+     */
+    public static final int ST_LIMBUS = 101;
+
+    /**
+     * Codigo de estado Apareciendo
+     */
+    public static final int ST_APPEARING = 102;
+    /**
+     * Codigo de estado Teletransportandose
+     */
+    public static final int ST_TELEPORTING = 104;
+
+    /**
+     * Tiempo que tarda en tomar la proxima decicion
+     */
+    private float timeToDecide;
+    /**
+     * Tiempo que tarda en decidir cuando esta en modo decidiendo
+     */
+    private float timeDeciding;
+    /**
+     * Contador de tiempo en el presente estado
+     */
+    private float timeInState = 0;
+
+    /**
+     * Indica la direccion pretendida de la momia
+     */
+    private Vector2 direction = new Vector2();
+    /**
+     * Estado de la momia (patron state)
+     */
+    protected MummyState mummyState;
+    /**
+     * Nivel de stress de la momia (si es muy alto la momia muere)
+     */
+    private float stressLevel = 0;
+    /**
+     * Referencia al player a perseguir
+     */
+    protected Player player;
+
+    /**
+     * Constructor de clase, llama a <br>
+     * super(type, x,
+     * y,GameRules.getInstance().getCharacterWidth(),GameRules.getInstance().getMummyHeight(),
+     * parameters[GameRules.INDEX_SPEED_WALK],
+     * parameters[GameRules.INDEX_SPEED_STAIR], pyramid);
+     * 
+     * 
+     * @param type       Indica el tipo de momia (solo deberia utilizarse para
+     *                   elegir modelos de visualizacion)
+     * @param x          Coordenada x
+     * @param y          Coordenada y
+     * @param parameters array de float que indica los parametros de la momia
+     * @param pyramid    piramide en la que esta ubicada la momia
+     * @param player     referencia al player que la momia persigue
+     */
+    public Mummy(int type, float x, float y, float[] parameters, Pyramid pyramid, Player player)
+    {
+	super(type, x, y, GameRules.getInstance().getCharacterWidth(), GameRules.getInstance().getMummyHeight(),
+		parameters[GameRules.INDEX_SPEED_WALK], parameters[GameRules.INDEX_SPEED_STAIR], pyramid);
+	this.timeToDecide = parameters[GameRules.INDEX_TIME_TO_DECIDE];
+	this.timeDeciding = parameters[GameRules.INDEX_TIME_DECIDING];
+
+	this.mummyState = new MummyStateLimbus(this, 1);
+	this.player = player;
+    }
+
+    /**
+     * Llama a this.doJump(); (las momias solo pueden saltar) y dispara el evento
+     * Game.getInstance().eventFired(KVEventListener.MUMMY_JUMP, this);
+     * 
+     */
+    @Override
+    protected void doAction()
+    {
+	this.doJump();
+	Game.getInstance().eventFired(KVEventListener.MUMMY_JUMP, this);
+
+    }
+
+    /**
+     * retorna el tiempo que tarda la momia en tomar la proxima decision
+     * 
+     * @return tiempo que tarda la momia en tomar la proxima decision
+     */
+    protected float getTimeToDecide()
+    {
+	return this.timeToDecide;
+    }
+
+    /**
+     * Retorna el tiempo que tarda la momia en dudar, para tomar la decision
+     * 
+     * @return tiempo que tarda la momia en dudar, para tomar la decision
+     */
+    protected float getTimeDeciding()
+    {
+	return this.timeDeciding;
+    }
+
+    /**
+     * Siempre retorna false (las momias no pueden utilizar giratorias)
+     */
+    @Override
+    protected boolean canPassGiratoryMechanism(GiratoryMechanism giratoryMechanism)
+    {
+	return false;
+    }
+
+    /**
+     * Se sobreescribe como metodo vacio (no hace nada)
+     */
+    @Override
+    protected void passGiratoryMechanism(GiratoryMechanism giratoryMechanism)
+    {
+
+    }
+
+    /**
+     * Llamado para actualizar la momia
+     * 
+     * @param deltaTime tiempo desde la ultima llamada
+     */
+    public void update(float deltaTime)
+    {
+	this.incAnimationDelta(deltaTime);
+	this.incTimeInState(deltaTime);
+	this.mummyState.update(deltaTime);
+
+    }
+
+    /**
+     * llama a super.move(v, b, deltaTime);
+     * 
+     */
+    @Override
+    protected void move(Vector2 movementDirection, boolean action, float deltaTime)
+    {
+	super.move(movementDirection, action, deltaTime);
+
+    }
+
+    /**
+     * Retorna la direccion hacia la que se dirige la momia
+     * 
+     * @return La direccion hacia la que se dirige la momia
+     */
+    public Vector2 getDirection()
+    {
+	return direction;
+    }
+
+    @Override
+    protected void setRenderMode(int renderMode)
+    {
+	super.setRenderMode(renderMode);
+    }
+
+    /**
+     * Incrementa el nivel de stress de la momia (si es muy alto la momia muere)
+     */
+    protected void stressing()
+    {
+	this.stressLevel++;
+    }
+
+    /**
+     * Calma el nivel de stress de la momia
+     * 
+     * @param cant cantidad de stress que debe restar
+     */
+    protected void calmStress(float cant)
+    {
+	this.stressLevel -= cant;
+    }
+
+    /**
+     * Retorna el nivel de stress de la momia
+     * 
+     * @return nivel de stress de la momia
+     */
+    protected float getStressLevel()
+    {
+	return stressLevel;
+    }
+
+    /**
+     * pone el nivel de stress en cero
+     */
+    protected void resetStress()
+    {
+	this.stressLevel = 0;
+
+    }
+
+    /**
+     * llama a super.resetAnimationDelta(); (su unico objetivo es hacer visible el
+     * metodo dentro del paquete)
+     */
+    @Override
+    protected void resetAnimationDelta()
+    {
+	super.resetAnimationDelta();
+    }
+
+    /**
+     * Delega en el metodo this.mummyState.die(mustTeleport); (patron state)
+     * 
+     * @param mustTeleport true si la momia debe teletransportarse al renacer, false
+     *                     en caso contrario.
+     */
+    public void die(boolean mustTeleport)
+    {
+
+	this.mummyState.die(mustTeleport);
+    }
+
+    /**
+     * Delega en el metodo this.mummyState.isActive(); (patron state)
+     * 
+     * @return true si la momia esta activa (es peligrosa o vulnerable), false en
+     *         caso contrario (esta en el limbo, apareciendo o muriendo)
+     * 
+     */
+    public boolean isActive()
+    {
+	return this.mummyState.isActive();
+    }
+
+    /**
+     * Llama super.enterStair(stair); (su unico objetivo es hacer visible el metodo
+     * dentro del paquete)
+     */
+    @Override
+    protected void enterStair(Stair stair)
+    {
+
+	super.enterStair(stair);
+    }
+
+    /**
+     * Retorna true si la momia puede saltar sin chocarse arriba, false en caso
+     * contrario
+     * 
+     * @return true si la momia puede saltar sin chocarse arriba, false en caso
+     *         contrario
+     */
+    protected boolean canJump()
+    {
+	float posX;
+	int offset;
+	if (this.lookRight)
+	{
+	    posX = this.x;
+	    offset = 1;
+	} else
+	{
+	    posX = this.x + this.width;
+	    offset = -1;
+	}
+	return (this.pyramid.getCell(posX, this.y, offset, 2) == null && this.isFreeUp());
+
+    }
+
+    /**
+     * Retorna el tiempo que permacio en el estado actual
+     * 
+     * @return El tiempo que permacio en el estado actual
+     */
+    protected float getTimeInState()
+    {
+	return timeInState;
+    }
+
+    /**
+     * Pone en cero el tiempo en el estado actual
+     */
+    protected void resetTimeInState()
+    {
+	this.timeInState = 0;
+    }
+
+    /**
+     * Incrementa el tiempo en el estaco actual
+     * 
+     * @param delta tiempo de incremento
+     */
+    protected void incTimeInState(float delta)
+    {
+	this.timeInState += delta;
+    }
+
+    /**
+     * Retorna la posicion relativa del player a la momia actual
+     * 
+     * @return codigo numerico indicando la posicion relativa del player a la momia.
+     *         Puede tomar los valores: <br>
+     *         Mummy.PLAYER_IS_UP;<br>
+     *         Mummy.PLAYER_IS_DOWN;<br>
+     *         Mummy.PLAYER_IS_SOME_LEVEL;<br>
+     */
+    protected int whereIsPlayer()
+    {
+	int whereIsPlayer;
+	if (this.player.getLastFloorCoordinate() > this.getLastFloorCoordinate())// player esta arriba
+	{
+	    whereIsPlayer = Mummy.PLAYER_IS_UP;
+
+	} else if (this.player.getLastFloorCoordinate() < this.getLastFloorCoordinate())// player esta
+	// abajo
+	{
+	    whereIsPlayer = Mummy.PLAYER_IS_DOWN;
+	} else
+
+	    whereIsPlayer = Mummy.PLAYER_IS_SOME_LEVEL; // Player esta a la misma altura.
+	return whereIsPlayer;
+    }
+
+    /**
+     * Actualiza la ultima coordenada del piso en la que estuvo la momia.
+     */
+    protected void updateLastFloorCoordinate()
+    {
+	this.lastFloorCoordinate = this.y;
+
+    }
+
+}
+
+
+==============================
+FILE: src\main\java\engine\gameCharacters\mummys\MummyBlue.java
+==============================
+
+package engine.gameCharacters.mummys;
+
+import engine.gameCharacters.player.Player;
+import engine.level.Pyramid;
+import util.GameRules;
+
+/**
+ * Representa una momia azul
+ * 
+ * @author Guillermo Lazzurri
+ */
+@SuppressWarnings("serial")
+public class MummyBlue extends Mummy
+{
+
+	/**
+	 * 
+	 * Llama a super(MummyFactory.BLUE_MUMMY, x, y,
+	 * Config.getInstance().getMummyBlueParameters(), pyramid,player);
+	 * 
+	 * @param x       Coordenada x
+	 * @param y       Coordenada y
+	 * @param pyramid piramide en la que esta ubicada la momia
+	 * @param player  referencia al player que la momia persigue
+	 * 
+	 */
+	public MummyBlue(float x, float y, Pyramid pyramid, Player player)
+	{
+		super(MummyFactory.BLUE_MUMMY, x, y, GameRules.getInstance().getMummyBlueParameters(), pyramid, player);
+
+	}
+
+	/**
+	 * Retorna una cadena de texto que representa la momia (solo para debug)
+	 */
+	@Override
+	public String toString()
+	{
+		return "MummyBlue " + super.toString();
+	}
+
+}
+
+
+==============================
+FILE: src\main\java\engine\gameCharacters\mummys\MummyFactory.java
+==============================
+
+package engine.gameCharacters.mummys;
+
+import engine.gameCharacters.player.Player;
+import engine.level.Pyramid;
+
+/**
+ * Fabrica responsable de la creacion de instancias de momias.
+ *
+ * <p>
+ * Esta clase encapsula la logica necesaria para construir enemigos del juego,
+ * centralizando el proceso de inicializacion y configuracion de las distintas
+ * variantes de momias disponibles en el sistema.
+ * </p>
+ *
+ * <p>
+ * La utilizacion de una fabrica permite desacoplar la creacion de objetos de
+ * los componentes que los utilizan, evitando que otras clases deban conocer
+ * detalles concretos sobre la construccion e inicializacion de los enemigos.
+ * </p>
+ *
+ * <p>
+ * Desde el punto de vista arquitectonico, esta clase implementa el patron
+ * Factory, delegando en un componente especializado la responsabilidad de crear
+ * y configurar las instancias correspondientes.
+ * </p>
+ *
+ * <p>
+ * La informacion necesaria para construir cada enemigo es recibida como
+ * parametro, permitiendo que la logica de creacion permanezca separada de los
+ * mecanismos encargados de obtener o interpretar los datos del nivel.
+ * </p>
+ *
+ * <p>
+ * Esta estrategia facilita la incorporacion de nuevos tipos de enemigos o
+ * variantes de comportamiento sin afectar a los componentes que consumen dichas
+ * instancias.
+ * </p>
+ *
+ * @author Guillermo Lazzurri
+ */
+public class MummyFactory
+{
+    /**
+     * Codigo de momia blanca
+     */
+    public static final int WHITE_MUMMY = 0;
+    /**
+     * Codigo de momia rosa
+     */
+
+    public static final int PINK_MUMMY = 1;
+
+    /**
+     * Codigo de momia amarilla
+     */
+    public static final int YELLOW_MUMMY = 2;
+    /**
+     * Codigo de momia azul
+     */
+    public static final int BLUE_MUMMY = 3;
+    /**
+     * Codigo de momia roja
+     */
+    public static final int RED_MUMMY = 4;
+
+    /**
+     * Constructor de clase.
+     */
+    public MummyFactory()
+    {
+    }
+
+    /**
+     * Metodo que retornara una momia de acuerdo a si tipo
+     * 
+     * @param x         coordenada x
+     * @param y         coordenada x
+     * @param mummyType tipo de momia que debe crearse. Puede tomar los valores:
+     *                  WHITE_MUMMY; PINK_MUMMY; YELLOW_MUMMY; BLUE_MUMMY; RED_MUMMY
+     * @param pyramid   Piramide a la que pertenece la momia
+     * @param player    Player que debera perseguir la momia
+     * @return Una momia concreta.
+     */
+    public Mummy getMummy(float x, float y, int mummyType, Pyramid pyramid, Player player)
+    {
+	Mummy respuesta = null;
+
+	switch (mummyType)
+	{
+
+	case WHITE_MUMMY:
+	    respuesta = new MummyWhite(x, y, pyramid, player);
+	    break;
+
+	case BLUE_MUMMY:
+	    respuesta = new MummyBlue(x, y, pyramid, player);
+	    break;
+	case YELLOW_MUMMY:
+	    respuesta = new MummyYellow(x, y, pyramid, player);
+	    break;
+	case PINK_MUMMY:
+	    respuesta = new MummyPink(x, y, pyramid, player);
+	    break;
+
+	case RED_MUMMY:
+	    respuesta = new MummyRed(x, y, pyramid, player);
+	    break;
+
+	}
+	return respuesta;
+    }
+}
+
+
+==============================
+FILE: src\main\java\engine\gameCharacters\mummys\MummyPink.java
+==============================
+
+package engine.gameCharacters.mummys;
+
+import engine.gameCharacters.player.Player;
+import engine.level.Pyramid;
+import util.GameRules;
+
+/**
+ * Representa una momia rosa
+ * 
+ * @author Guillermo Lazzurri
+ */
+@SuppressWarnings("serial")
+public class MummyPink extends Mummy
+{
+
+	/**
+	 * 
+	 * 
+	 * Llama a super(MummyFactory.PINK_MUMMY, x,
+	 * y,Config.getInstance().getMummyPinkParameters(), pyramid,player);
+	 * 
+	 * 
+	 * @param x       Coordenada x
+	 * @param y       Coordenada y
+	 * @param pyramid piramide en la que esta ubicada la momia
+	 * @param player  referencia al player que la momia persigue
+	 * 
+	 */
+
+	public MummyPink(float x, float y, Pyramid pyramid, Player player)
+	{
+		super(MummyFactory.PINK_MUMMY, x, y, GameRules.getInstance().getMummyPinkParameters(), pyramid, player);
+
+	}
+
+	/**
+	 * Retorna una cadena de texto que representa la momia (solo para debug)
+	 */
+	@Override
+	public String toString()
+	{
+		return "MummyPink " + super.toString();
+	}
+
+}
+
+
+==============================
+FILE: src\main\java\engine\gameCharacters\mummys\MummyRed.java
+==============================
+
+package engine.gameCharacters.mummys;
+
+import engine.gameCharacters.player.Player;
+import engine.level.Pyramid;
+import util.GameRules;
+
+/**
+ * Representa una momia roja
+ * 
+ * @author Guillermo Lazzurri
+ */
+@SuppressWarnings("serial")
+public class MummyRed extends Mummy
+{
+	/**
+	 * 
+	 * 
+	 * Llama a super(MummyFactory.RED_MUMMY, x, y,
+	 * Config.getInstance().getMummyRedParameters(), pyramid,player);
+	 * 
+	 * 
+	 * @param x       Coordenada x
+	 * @param y       Coordenada y
+	 * @param pyramid piramide en la que esta ubicada la momia
+	 * @param player  referencia al player que la momia persigue
+	 * 
+	 */
+
+	public MummyRed(float x, float y, Pyramid pyramid, Player player)
+	{
+		super(MummyFactory.RED_MUMMY, x, y, GameRules.getInstance().getMummyRedParameters(), pyramid, player);
+
+	}
+
+	/**
+	 * Retorna una cadena de texto que representa la momia (solo para debug)
+	 */
+	@Override
+	public String toString()
+	{
+		return "MummyRed " + super.toString();
+	}
+}
+
+
+==============================
+FILE: src\main\java\engine\gameCharacters\mummys\MummyState.java
+==============================
+
+package engine.gameCharacters.mummys;
+
+/**
+ * Clase base para los distintos estados de comportamiento de una momia.
+ *
+ * <p>
+ * Esta clase implementa el patron State para encapsular las diferentes
+ * conductas que puede adoptar una momia durante el juego, tales como perseguir
+ * al jugador, reaparecer, permanecer temporalmente inactiva o gestionar su
+ * destruccion.
+ * </p>
+ *
+ * <p>
+ * A diferencia de GameCharacterState, que modela los distintos modos de
+ * movimiento de un personaje (caminar, saltar, caer, subir escaleras, etc.),
+ * MummyState representa el comportamiento especifico de la IA de las momias y
+ * las reglas asociadas a su ciclo de vida.
+ * </p>
+ *
+ * <p>
+ * Cada estado concreto define sus propias reglas de actualizacion, transiciones
+ * y condiciones de activacion, permitiendo desacoplar los distintos
+ * comportamientos de las momias en componentes independientes.
+ * </p>
+ * <p>
+ ** Las decisiones de movimiento concreto continúan siendo responsabilidad de los
+ * estados derivados de GameCharacterState. Esta jerarquia modela exclusivamente
+ * el comportamiento general y las decisiones propias de las momias.
+ * </p>
+ * <p>
+ * El contexto asociado al patron State es la clase Mummy, que delega en el
+ * estado actual la responsabilidad de actualizar su comportamiento.
+ * </p>
+ *
+ * @author Guillermo Lazzurri
+ */
+public abstract class MummyState
+
+{
+
+	/**
+	 * Codigo que indica direccion derecha
+	 */
+
+	protected static final int RIGHT = 1;
+	/**
+	 * Codigo que indica direccion izquierda
+	 */
+	protected static final int LEFT = -1;
+
+	
+	/**
+	 * Tiempo restante, expresado en segundos, antes de efectuar una transicion a
+	 * otro estado.
+	 */
+
+	protected float timeToChange;
+	/**
+	 * Contexto asociado al patron State.
+	 */
+	protected Mummy mummy;
+
+	/**
+	 * Constructor de la clase.
+	 *
+	 * @param mummy contexto asociado al patron State.
+	 * @param state codigo de renderizacion asociado al estado concreto.
+	 */
+	public MummyState(Mummy mummy, int state)
+	{
+		this.mummy = mummy;
+		mummy.setRenderMode(state);
+		mummy.resetAnimationDelta();
+	}
+
+	/**
+	 * Contructor de clase
+	 * 
+	 * @param mummy Contexto asociado al patron State
+	 */
+	public MummyState(Mummy mummy)
+	{
+		this.mummy = mummy;
+		mummy.resetAnimationDelta();
+	}
+
+	/**
+	 * Actualiza el comportamiento correspondiente al estado actual.
+	 *
+	 * @param deltaTime tiempo transcurrido, expresado en segundos, desde la ultima
+	 *                  actualizacion.
+	 */
+	public abstract void update(float deltaTime);
+
+	/**
+	 * Indica si la momia se encuentra activa dentro del juego.
+	 *
+	 * <p>
+	 * Una momia activa puede interactuar normalmente con el entorno, representar
+	 * una amenaza para el jugador y resultar vulnerable a determinados ataques.
+	 * </p>
+	 *
+	 * @return true si la momia esta activa, false en caso contrario.
+	 */
+	protected abstract boolean isActive();
+
+	/**
+	 * Gestiona la transicion al estado asociado a la destruccion o desactivacion de
+	 * la momia.
+	 *
+	 * @param mustTeleport indica si la momia debera reaparecer mediante
+	 *                     teletransportacion o utilizando el mecanismo normal de
+	 *                     reaparicion.
+	 */
+	protected abstract void die(boolean mustTeleport);
+
+}
+
+
+==============================
+FILE: src\main\java\engine\gameCharacters\mummys\MummyStateAppearing.java
+==============================
+
+package engine.gameCharacters.mummys;
+
+import engine.KVEventListener;
+import engine.game.Game;
+import util.GameRules;
+
+/**
+ * Clase que representa del estado de la momia "Apareciendo"
+ * 
+ * @author Guillermo Lazzurri
+ */
+public class MummyStateAppearing extends MummyState
+{
+    /**
+     * Constructor de clase. Llama a:<br>
+     * super(mummy, Mummy.ST_APPEARING);<br>
+     * mummy.resetTimeInState();<br>
+     * this.timeToChange = GameRules.getInstance().getMummyTimeAppearing();<br>
+     * Game.getInstance().eventFired(KVEventListener.MUMMY_APPEAR, this.mummy);<br>
+     * 
+     * @param mummy Contexto del patron state
+     */
+    public MummyStateAppearing(Mummy mummy)
+    {
+	super(mummy, Mummy.ST_APPEARING);
+	mummy.resetTimeInState();
+	this.timeToChange = GameRules.getInstance().getMummyTimeAppearing();
+	Game.getInstance().eventFired(KVEventListener.MUMMY_APPEAR, this.mummy);
+
+    }
+
+    /**
+     * Al pasar el tiempo correspondiente a this.timeToChange, pasa al estado
+     * MummyStateDeciding
+     */
+    @Override
+    public void update(float deltaTime)
+    {
+
+	if (this.mummy.getTimeInState() >= this.timeToChange)
+	{
+
+	    this.mummy.mummyState = new MummyStateDeciding(this.mummy);
+
+	}
+
+    }
+
+    /**
+     * Retorna false
+     */
+    @Override
+    protected boolean isActive()
+    {
+	return false;
+    }
+
+    /**
+     * Se sobreescribe como metodo vacio (no hace nada)
+     */
+    @Override
+    protected void die(boolean mustTeleport)
+    {
+    }
+
+}
+
+
+==============================
+FILE: src\main\java\engine\gameCharacters\mummys\MummyStateDeciding.java
+==============================
+
+package engine.gameCharacters.mummys;
+
+import com.badlogic.gdx.math.Vector2;
+
+import engine.DrawableElement;
+import engine.KVEventListener;
+import engine.game.Game;
+import engine.gameCharacters.abstractGameCharacter.GameCharacter;
+import engine.level.Stair;
+import util.Constants;
+import util.GameRules;
+import util.ProbabilisticSelector;
+
+/**
+ * Estado de la momia encargado de la evaluación del entorno y la seleccion del
+ * proximo comportamiento dentro de la maquina de estados.
+ *
+ * <p>
+ * Durante este estado, la momia permanece temporalmente quieta mientras acumula
+ * tiempo de decision. Una vez alcanzado el umbral definido, se analiza el
+ * entorno del jugador y la estructura de la plataforma actual para determinar
+ * el siguiente estado de la IA.
+ * </p>
+ *
+ * 
+ * La decision puede basarse en:
+ * <ul>
+ * <li>Posicion relativa del jugador</li>
+ * <li>Accesibilidad del jugador dentro de la plataforma actual</li>
+ * <li>Presencia de escaleras accesibles (ascenso o descenso)</li>
+ * <li>Seleccion probabilística cuando no existe una decision determinista
+ * clara</li>
+ * </ul>
+ * 
+ *
+ * <p>
+ * Este estado actua como un punto de transicion dentro de la FSM, pudiendo
+ * derivar en estados de movimiento (Walking), busqueda de escaleras
+ * (SearchingStair) o destruccion (Dying).
+ * </p>
+ * 
+ * @author Guillermo Lazzurri
+ * 
+ */
+public class MummyStateDeciding extends MummyState
+{
+
+	/**
+	 * Codigo que indica subir escalera
+	 */
+	private static final int GO_UP_STAIR = 3;
+	/**
+	 * Codigo que indica bajar escalera
+	 */
+
+	private static final int GO_DOWN_STAIR = 4;
+
+	/**
+	 * Constructor de clase, llama a super(mummy, Mummy.ST_IDDLE);
+	 * 
+	 * @param mummy Contexto del patron state
+	 */
+	public MummyStateDeciding(Mummy mummy)
+	{
+		super(mummy, Mummy.ST_IDDLE);
+		mummy.resetTimeInState();
+		this.timeToChange = this.mummy.getTimeDeciding();
+
+	}
+
+	/**
+	 * Actualiza el estado de decision de la momia.
+	 *
+	 * <p>
+	 * Durante la fase activa del estado, la momia permanece sin desplazamiento
+	 * mientras acumula tiempo de analisis. Una vez superado el tiempo definido, se
+	 * evalua el entorno y se selecciona el siguiente estado de comportamiento.
+	 * </p>
+	 */
+	@Override
+	public void update(float deltaTime)
+	{
+		this.mummy.move(new Vector2(), false, deltaTime);
+
+		if (this.mummy.getTimeInState() >= this.timeToChange && (this.mummy.getRenderMode() == GameCharacter.ST_WALKING
+				|| this.mummy.getRenderMode() == GameCharacter.ST_IDDLE))
+		{
+			this.changeStatus();
+		}
+
+	}
+
+	/**
+	 * Evalua el entorno de la momia y determina el proximo estado de la maquina de
+	 * estados.
+	 *
+	 * <p>
+	 * El proceso combina logica determinista y probabilistica para seleccionar el
+	 * comportamiento mas adecuado, considerando la posicion del jugador, la
+	 * accesibilidad de escaleras y la configuracion de la plataforma actual.
+	 * </p>
+	 *
+	 * <p>
+	 * En caso de no existir ninguna accion posible, la momia se considera encerrada
+	 * y se dispara su destruccion.
+	 * </p>
+	 */
+	private void changeStatus()
+	{
+		PlatformAnalysisResult result = new PlatformAnalysisResult(mummy);
+		if (GameRules.getInstance().isDebugMode())
+			Game.getInstance().getIGraphic()
+					.addGraphicElement(new DrawableElement(Constants.DRAWABLE_PLATFORM_ANALYSIS_RESULT, result));
+		Stair playerStair = this.mummy.player.getStair();
+		boolean takedDecision = false;
+		// Si el player esta en una escalera a la que puede acceder la momia desde esta
+		// plataforma, va hacia la escalera
+		if (playerStair != null && (result.getDownStairsInPlatform().contains(playerStair)
+				|| result.getUpStairsInPlatform().contains(playerStair)))
+		{
+			this.mummy.mummyState = new MummyStateSearchingStair(this.mummy, result, playerStair);
+			takedDecision = true;
+		} else // El player no esta en una escalera accesible desde la plataforma
+		{
+
+			ProbabilisticSelector selector = new ProbabilisticSelector(Game.random);
+			int whereIsPlayer = this.mummy.whereIsPlayer();
+			if (whereIsPlayer == Mummy.PLAYER_IS_SOME_LEVEL && result.isCharacterReachable(mummy.player))
+			// Si el player es alcanzable en la plataforma seguro tomare una decision
+			// deterministica
+			{
+				takedDecision = true;
+				if (this.mummy.x > this.mummy.player.x) // Si el player esta a la izquierda voy hacia alli
+					this.mummy.mummyState = new MummyStateWalking(this.mummy, result, LEFT);
+				else // Sino voy hacia la derecha
+					this.mummy.mummyState = new MummyStateWalking(this.mummy, result, RIGHT);
+
+			}
+
+			else
+			{
+
+				this.addLeftAndRightProbability(result, selector, whereIsPlayer);
+
+				if (result.getNearestUpStair() != null) // Si hay una escalera cercana que suba
+
+				{
+					switch (whereIsPlayer)
+					{
+					case Mummy.PLAYER_IS_UP:
+						if (this.mummy.player.getLastFloorCoordinate() >= result.getNearestUpStair().getUpStair().y)
+						{
+							// Si el player esta mas arriba o a la misma altura que la parte superior de la
+							// escalera, busco la escalera.
+							this.mummy.mummyState = new MummyStateSearchingStair(this.mummy, result,
+									result.getNearestUpStair());
+							takedDecision = true;
+						} else // Si no, entonces considero la posibilidad de tomar la escalera
+						{
+							selector.add(0.5, GO_UP_STAIR);
+						}
+						break;
+					case Mummy.PLAYER_IS_DOWN:
+						selector.add(0.15, GO_UP_STAIR);
+						break;
+					case Mummy.PLAYER_IS_SOME_LEVEL:
+						selector.add(0.25, GO_UP_STAIR);
+						break;
+					}
+				}
+
+				if (result.getNearestDownStair() != null) // Si hay una escalera cercana que baje
+
+				{
+					switch (whereIsPlayer)
+					{
+					case Mummy.PLAYER_IS_DOWN:
+						if (this.mummy.player.getLastFloorCoordinate() <= result.getNearestDownStair().getDownStair().y)
+						{
+							// Si el player esta mas abajo o a la misma altura que la parte superior de la
+							// escalera, busco la escalera.
+							this.mummy.mummyState = new MummyStateSearchingStair(this.mummy, result,
+									result.getNearestDownStair());
+							takedDecision = true;
+						} else // Si no, entonces considero la posibilidad de tomar la escalera
+						{
+							selector.add(0.5, GO_DOWN_STAIR);
+						}
+						break;
+					case Mummy.PLAYER_IS_UP:
+						selector.add(0.15, GO_DOWN_STAIR);
+						break;
+					case Mummy.PLAYER_IS_SOME_LEVEL:
+						selector.add(0.25, GO_DOWN_STAIR);
+						break;
+					}
+				}
+				if (!takedDecision) // Si no pude tomar una decision con seguridad voy a elegir una opcion al azar
+				// de entre las posibles
+				{
+					Integer decision = (Integer) selector.getValue();
+					if (decision != null) // Si hay alguna opcion, es decir, no estoy encerrado con el player fuera de
+					// mi
+					// alcance
+					{
+						switch (decision)
+						{
+						case GO_UP_STAIR:
+							this.mummy.mummyState = new MummyStateSearchingStair(this.mummy, result,
+									result.getNearestUpStair());
+
+							break;
+						case GO_DOWN_STAIR:
+							this.mummy.mummyState = new MummyStateSearchingStair(this.mummy, result,
+									result.getNearestDownStair());
+							break;
+						case LEFT:
+							this.mummy.mummyState = new MummyStateWalking(this.mummy, result, LEFT);
+
+							break;
+						case RIGHT:
+							this.mummy.mummyState = new MummyStateWalking(this.mummy, result, RIGHT);
+
+							break;
+						}
+
+					} else // estoy encerrado con el player fuera de mi alcance, la momia muere y se
+					// teletransporta
+					{
+						this.mummy.die(true);
+					}
+
+				}
+
+			}
+		}
+
+	}
+
+	/**
+	 * Retorna true
+	 */
+	@Override
+	protected boolean isActive()
+	{
+		return true;
+	}
+
+	/**
+	 * Llamado cuando la momia muere. Cambia el estado a new
+	 * MummyStateDying(this.mummy, mustTeleport); Ademas dispara el evento:
+	 * Game.getInstance().eventFired(KVEventListener.MUMMY_DIE, this);
+	 */
+	@Override
+	protected void die(boolean mustTeleport)
+	{
+		this.mummy.mummyState = new MummyStateDying(this.mummy, mustTeleport);
+		Game.getInstance().eventFired(KVEventListener.MUMMY_DIE, this);
+	}
+
+	private double getProbabilityOfEndPlatform(EndPlatform endPlatform, int whereIsPlayer)
+	{
+		double r = 0;
+		switch (whereIsPlayer)
+		{
+		case Mummy.PLAYER_IS_UP:
+			switch (endPlatform.getType())
+			{
+			case EndPlatform.END_STEP:
+				r = 0.5;
+				break;
+			case EndPlatform.END_CLIFF:
+				r = 0.25;
+				break;
+			}
+			break;
+
+		case Mummy.PLAYER_IS_DOWN:
+			switch (endPlatform.getType())
+			{
+			case EndPlatform.END_STEP:
+				r = 0.25;
+				break;
+			case EndPlatform.END_CLIFF:
+				r = 0.50;
+				break;
+			}
+			break;
+
+		case Mummy.PLAYER_IS_SOME_LEVEL:
+			switch (endPlatform.getType())
+			{
+			case EndPlatform.END_STEP:
+				r = 0.50;
+				break;
+			case EndPlatform.END_CLIFF:
+				r = 0.50;
+				break;
+			}
+			break;
+
+		}
+		return r;
+	}
+
+	/**
+	 * Agrega al selector las probabilidades de ir hacia la derecha o hacia la
+	 * izquierda. Si la momia esta encerrada en una plataforma sin salida, no se
+	 * agrega ninguna probabilidad.
+	 * 
+	 * @param result        Resultado del analisis de la plataforma
+	 * @param selector      Selector donde se agregarian las probabilidadades
+	 * @param whereIsPLayer Codigo que indica posicion relativa vertical del player
+	 */
+	private void addLeftAndRightProbability(PlatformAnalysisResult result, ProbabilisticSelector selector,
+			int whereIsPLayer)
+	{
+		double leftProbability = this.getProbabilityOfEndPlatform(result.getEndPlatformLeft(), whereIsPLayer);
+		double rightProbability = this.getProbabilityOfEndPlatform(result.getEndPlatformRight(), whereIsPLayer);
+		if (leftProbability == rightProbability)
+		{
+			if (mummy.x > mummy.player.x)
+				leftProbability *= 2;
+			else
+				rightProbability *= 2;
+		}
+		if (leftProbability > 0)
+			selector.add(leftProbability, LEFT);
+		if (rightProbability > 0)
+			selector.add(rightProbability, RIGHT);
+
+	}
+
+}
+
+
+==============================
+FILE: src\main\java\engine\gameCharacters\mummys\MummyStateDying.java
+==============================
+
+package engine.gameCharacters.mummys;
+
+import engine.KVEventListener;
+import engine.game.Game;
+import engine.gameCharacters.abstractGameCharacter.GameCharacter;
+import util.GameRules;
+
+/**
+ * Clase que representa del estado de la momia "Muriendo"
+ * 
+ * @author Guillermo Lazzurri
+ */
+public class MummyStateDying extends MummyState
+{
+	private boolean mustTeleport;
+
+	/**
+	 * Constructor de clase. Llama a super(mummy, GameCharacter.ST_DYING); y dispara
+	 * el evento Game.getInstance().eventFired(KVEventListener.MUMMY_DIE, this);
+	 * 
+	 * @param mummy        Contexto del patron state
+	 * @param mustTeleport true si la momia debera teletransoportarse al reaparecer,
+	 *                     false en caso contrario
+	 */
+	public MummyStateDying(Mummy mummy, boolean mustTeleport)
+	{
+		super(mummy, GameCharacter.ST_DYING);
+		mummy.resetTimeInState();
+		
+		this.mustTeleport = mustTeleport;
+		this.timeToChange = GameRules.getInstance().getMummyTimeDying();
+		Game.getInstance().eventFired(KVEventListener.MUMMY_DIE, this);
+
+	}
+
+	/**
+	 * Al pasar el tiempo indicado en this.timeToChange, se cambiara al estado new
+	 * MummyStateLimbus(this.mummy, this.mustTeleport);
+	 */
+	@Override
+	public void update(float deltaTime)
+	{
+
+		if (this.mummy.getTimeInState() >= this.timeToChange)
+		{
+			this.mummy.mummyState = new MummyStateLimbus(this.mummy, this.mustTeleport);
+			this.mummy = null;
+		}
+
+	}
+
+	/**
+	 * Retorna false
+	 */
+	@Override
+	protected boolean isActive()
+	{
+		return false;
+	}
+
+	/**
+	 * Se sobreescribe como metodo vacio (no hace nada)
+	 */
+	@Override
+	protected void die(boolean mustTeleport)
+	{
+
+	}
+
+	
+}
+
+
+==============================
+FILE: src\main\java\engine\gameCharacters\mummys\MummyStateLimbus.java
+==============================
+
+package engine.gameCharacters.mummys;
+
+import com.badlogic.gdx.math.Rectangle;
+
+import engine.game.Game;
+import util.GameRules;
+import util.CollisionDetector;
+
+/**
+ * Clase que representa del estado de la momia "En el Limbo"
+ * 
+ * @author Guillermo Lazzurri
+ */
+public class MummyStateLimbus extends MummyState
+{
+	private boolean mustTeleport = false;
+
+	/**
+	 * Contructor de clase llamado cada vez que la momia muere durante los cambios
+	 * de estado, llama a this(mummy, Config.getInstance().getMummyTimeInLimbus());
+	 * 
+	 * @param mummy        Contexto del patron state
+	 * @param mustTeleport true si la momia se debera teletransoportar, flase en
+	 *                     caso contrario
+	 */
+	public MummyStateLimbus(Mummy mummy, boolean mustTeleport)
+	{
+		this(mummy, GameRules.getInstance().getMummyTimeInLimbus());
+		mummy.resetTimeInState();
+		this.mustTeleport = mustTeleport;
+		this.mummy.resetStress();
+	}
+
+	/**
+	 * Constructor de clase llamado la primera vez que se crea la momia. Estado por
+	 * defecto. Llama a super(mummy, Mummy.ST_LIMBUS);
+	 * 
+	 * @param mummy        Correspondiente al sujeto del patron state
+	 * @param timeToChange Indica cuanto tiempo debe estar la momia en el limbo
+	 *                     (esto es necesario porque las momias estaran mas tiempo
+	 *                     en el limbo si mueren durante el juego que en su primer
+	 *                     aparacion)
+	 */
+	public MummyStateLimbus(Mummy mummy, float timeToChange)
+	{
+		super(mummy, Mummy.ST_LIMBUS);
+		this.timeToChange = timeToChange;
+
+	}
+
+	/**
+	 * Al pasar el tiempo hasta his.timeToChange, se cambiara al estado new
+	 * MummyStateAppearing(this.mummy);
+	 */
+	@Override
+	public void update(float deltaTime)
+
+	{
+		if (this.mummy.getTimeInState() >= this.timeToChange)
+		{
+			if (this.mustTeleport)
+				this.teleport();
+			this.mummy.mummyState = new MummyStateAppearing(this.mummy);
+			this.mummy = null;
+		}
+	}
+
+	/**
+	 * Calcula la distancia al cuadrado del player a las coordenadas x e y pasadas
+	 * por parametro, usado para calcular posibles destinos de teletransporte
+	 * 
+	 * @param paramX coordenada x de destino
+	 * @param paramY coordenada y de destino
+	 * @return distancia al cuadrado
+	 */
+	private float distanceQuadToPlayer(float paramX, float paramY)
+	{
+		float deltaX = paramX - this.mummy.player.getX();
+		float deltaY = paramY - this.mummy.player.getY();
+
+		return deltaX * deltaX + deltaY * deltaY;
+
+	}
+
+	/**
+	 * Llamado para calcular un lugar de teletransportacion
+	 */
+	private void teleport()
+	{
+		float[] coords;
+		Rectangle giratory;
+		do
+		{
+			coords = this.getRandomCellInFloor();
+			Rectangle r = new Rectangle(coords[0], coords[1], this.mummy.width, this.mummy.height);
+			giratory = CollisionDetector.checkRectangleColision(r, this.mummy.getPyramid().getGiratories());
+		} while (this.distanceQuadToPlayer(coords[0], coords[1]) < GameRules.getInstance()
+				.getMinMummySpawnDistanceToPlayer() || giratory != null);
+		this.mummy.x = coords[0];
+		this.mummy.y = coords[1];
+		this.mummy.updateLastFloorCoordinate();
+		
+
+	}
+
+	/**
+	 * @return retorna al azar una celda candidata para teletransporte
+	 */
+	private float[] getRandomCellInFloor()
+	{
+		int i;
+		int j;
+		do
+		{
+			i = Game.random.nextInt(this.mummy.getPyramid().getMapHeightInTiles() - 2) + 1;
+			j = Game.random.nextInt(this.mummy.getPyramid().getMapWidthInTiles() - 2) + 1;
+
+		} while (this.mummy.getPyramid().getCellInTiledCoord(j, i) != null
+				|| this.mummy.getPyramid().getCellInTiledCoord(j, i + 1) != null);
+
+		while (this.mummy.getPyramid().getCellInTiledCoord(j, i - 1) == null)
+			i--;
+		float[] r =
+		{ j * GameRules.getInstance().getLevelTileWidthUnits(), i * GameRules.getInstance().getLevelTileHeightUnits() };
+		return r;
+	}
+
+	/**
+	 * Retorna false
+	 */
+	@Override
+	protected boolean isActive()
+	{
+		return false;
+	}
+
+	/**
+	 * Se sobreescribe como metodo vacio (no hace nada)
+	 */
+	@Override
+	protected void die(boolean mustTeleport)
+	{
+	}
+
+}
+
+
+==============================
+FILE: src\main\java\engine\gameCharacters\mummys\MummyStateOnAir.java
+==============================
+
+package engine.gameCharacters.mummys;
+
+import engine.gameCharacters.abstractGameCharacter.GameCharacter;
+
+/**
+ * Representa el estado de una momia saltando o cayendo
+ * 
+ * @author Guillermo Lazzurri
+ */
+public class MummyStateOnAir extends MummyState
+{
+
+    /**
+     * Constructor de clase (no resetea el tiempo de la momia en el presente estado,
+     * al aterrizar continuara con el contador anterior)
+     * 
+     * @param mummy Contexto del patron State
+     */
+    public MummyStateOnAir(Mummy mummy)
+    {
+	super(mummy);
+    }
+
+    /**
+     * Si la momia toca el suelo pasa a estado Walking
+     */
+    @Override
+    public void update(float deltaTime)
+    {
+	this.mummy.move(this.mummy.getDirection(), false, deltaTime);
+	if (this.mummy.getRenderMode() == GameCharacter.ST_WALKING || this.mummy.getRenderMode() == GameCharacter.ST_IDDLE)
+	    this.mummy.mummyState = new MummyStateWalking(this.mummy);
+    }
+
+    /**
+     * Retorna true
+     */
+    @Override
+    protected boolean isActive()
+    {
+	return true;
+    }
+
+    /**
+     * Cambia el estado a new MummyStateDying(this.mummy, mustTeleport);
+     */
+    @Override
+    protected void die(boolean mustTeleport)
+    {
+
+	this.mummy.mummyState = new MummyStateDying(this.mummy, mustTeleport);
+
+    }
+
+}
+
+
+==============================
+FILE: src\main\java\engine\gameCharacters\mummys\MummyStateSearchingStair.java
+==============================
+
+package engine.gameCharacters.mummys;
+
+import engine.DrawableElement;
+import engine.game.Game;
+import engine.level.LevelObject;
+import engine.level.Stair;
+import util.Constants;
+import util.GameRules;
+
+/**
+ * Estado de la momia encargado de la aproximacion y alineacion hacia una
+ * escalera objetivo dentro de la plataforma actual.
+ *
+ * <p>
+ * Este estado extiende el comportamiento de movimiento horizontal (Walking),
+ * incorporando logica adicional para detectar, alcanzar y entrar a una escalera
+ * cuando la momia se encuentra en su posicion.
+ * </p>
+ *
+ * <p>
+ * Una vez alcanzada la base de la escalera, la momia realiza la transicion al
+ * sistema de movimiento vertical asociado a la misma.
+ * </p>
+ *
+ * <p>
+ * Este estado actua como un puente entre el desplazamiento en plataforma y la
+ * interaccion con estructuras verticales del nivel.
+ * </p>
+ * 
+ * @author Guillermo Lazzurri
+ */
+public class MummyStateSearchingStair extends MummyStateWalking
+{
+	private Stair stair;
+	private LevelObject beginStair;
+	boolean enterToStair = false;
+
+	/**
+	 * Constructor de clase, llama a super(mummy, nearStairResult.getDirectionX(),
+	 * whereIsPlayer);
+	 * 
+	 * @param mummy                  Contexto del patron state
+	 * @param platformAnalysisResult Analisis de la plataforma donde estan los
+	 *                               limites de la misma
+	 * @param stair                  Indica la escalera mas cercana
+	 */
+	public MummyStateSearchingStair(Mummy mummy, PlatformAnalysisResult platformAnalysisResult, Stair stair)
+	{
+
+		super(mummy, platformAnalysisResult, decideDirection(mummy, stair));
+		this.stair = stair;
+
+		if (stair.getDownStair().y == this.mummy.getLastFloorCoordinate())
+			this.beginStair = stair.getDownStair();
+		else
+			this.beginStair = stair.getUpStair();
+
+	}
+
+	/**
+	 * /** Determina la direccion horizontal inicial hacia la escalera objetivo.
+	 *
+	 * <p>
+	 * La direccion se calcula en base a la posicion relativa entre la momia y el
+	 * punto de entrada de la escalera (superior o inferior segun corresponda).
+	 * </p>
+	 * 
+	 * 
+	 * @param mummy Momia que busca al escalera
+	 * @param stair Escalera buscada
+	 * @return la direccion de la direccion a la que se dirigue la momia: RIGHT=1 o
+	 *         LEFT=-1
+	 */
+	private static int decideDirection(Mummy mummy, Stair stair)
+	{
+		LevelObject beginStair;
+		if (stair.getDownStair().y == mummy.getLastFloorCoordinate())
+			beginStair = stair.getDownStair();
+		else
+			beginStair = stair.getUpStair();
+
+		int direccion = (int) Math.signum(beginStair.x - mummy.x);
+		if (direccion == 0)
+			direccion = RIGHT;
+		return direccion;
+	}
+
+	/**
+	 * llama a super.update(deltaTime); y luego decide la direccion de la momia de
+	 * acuerdo al tipo de escalera y ubicacion del player
+	 */
+	@Override
+	public void update(float deltaTime)
+	{
+
+		if (!this.mummy.isInStair())
+		{
+			if (this.enterToStair)
+			{
+				this.enterToStair = false;
+				this.platformAnalysisResult = new PlatformAnalysisResult(this.mummy);
+
+				if (GameRules.getInstance().isDebugMode())
+					Game.getInstance().getIGraphic().addGraphicElement(new DrawableElement(
+							Constants.DRAWABLE_PLATFORM_ANALYSIS_RESULT, this.platformAnalysisResult));
+
+			}
+			if (this.mummy.isFeetColision(this.beginStair))
+			{
+				this.enterToStair = true;
+				this.mummy.enterStair(stair);
+				if (this.beginStair == this.stair.getDownStair())
+					this.mummy.getDirection().x = this.stair.directionUp();
+				else
+					this.mummy.getDirection().x = this.stair.directionDown();
+
+			}
+
+		}
+		super.update(deltaTime);
+
+	}
+
+}
+
+
+==============================
+FILE: src\main\java\engine\gameCharacters\mummys\MummyStateWalking.java
+==============================
+
+package engine.gameCharacters.mummys;
+
+import engine.DrawableElement;
+import engine.game.Game;
+import engine.gameCharacters.abstractGameCharacter.GameCharacter;
+import util.Constants;
+import util.GameRules;
+import util.ProbabilisticSelector;
+
+/**
+ * /** Estado de la momia encargado del desplazamiento horizontal activo y la
+ * evaluacion continua del entorno durante el movimiento.
+ *
+ * <p>
+ * Este estado implementa la logica de locomocion basica de la momia, incluyendo
+ * deteccion de bordes de plataforma, reaccion a colisiones, gestion de saltos,
+ * caidas y rebotes, asi como la acumulacion de stress que puede derivar en la
+ * muerte del personaje.
+ * </p>
+ *
+ * 
+ * Durante su ejecucion, el estado combina:
+ * <ul>
+ * <li>Movimiento continuo en la direccion actual</li>
+ * <li>Analisis de extremos de plataforma</li>
+ * <li>Decisiones probabilisticas de accion (saltar, caer o rebotar)</li>
+ * <li>Sistema de stress que afecta la supervivencia de la momia</li>
+ * </ul>
+ * 
+ *
+ * <p>
+ * Este estado puede transicionar hacia estados de decision (Deciding), estados
+ * de aire (OnAir) o destruccion (Dying) dependiendo de las condiciones del
+ * entorno y del nivel de stress.
+ * </p>
+ *
+ * @author Guillermo Lazzurri
+ */
+public class MummyStateWalking extends MummyState
+{
+	/**
+	 * Indica el estado al que debe pasar
+	 */
+	protected int nextState;
+
+	/**
+	 * Analisis de la plataforma actual
+	 */
+	protected PlatformAnalysisResult platformAnalysisResult;
+	private boolean doJump = false;
+	private boolean mustDecide = true;
+
+	private static final int DO_JUMP = 100;
+	private static final int DO_FALL = 101;
+	private static final int DO_BOUNCE = 102;
+	private static final int ST_ON_AIR = 1000;
+
+	/**
+	 * indica donde esta el player con respecto a la momia. Puede tomar los
+	 * valores:<br>
+	 * MummyState.PLAYER_IS_UP; <br>
+	 * MummyState.PLAYER_IS_DOWN;<br>
+	 * MummyState.PLAYER_IS_SOME_LEVEL
+	 */
+	protected int whereIsPlayer;
+
+	/**
+	 * Constructor de clase. LLama a super(mummy, GameCharacter.ST_WALKING);
+	 * 
+	 * @param mummy                  Contexto del patron state
+	 * @param platformAnalysisResult Analisis de la plataforma actual
+	 * @param directionX             indica la direccion hacia donde debe caminar la
+	 *                               momia. Puede tomar los valores:<br>
+	 *                               MummyState.RIGHT <br>
+	 *                               MummyState.LEFT
+	 */
+	public MummyStateWalking(Mummy mummy, PlatformAnalysisResult platformAnalysisResult, int directionX)
+	{
+		super(mummy, GameCharacter.ST_WALKING);
+
+		this.initValuesFromMummy(mummy);
+
+		mummy.resetTimeInState();
+		this.platformAnalysisResult = platformAnalysisResult;
+		this.mummy.getDirection().x = directionX;
+
+	}
+
+	/**
+	 * Constructor de clase. Es Llamado cuando la momia pasa a estado caminata
+	 * luego. Llama a super(mummy, GameCharacter.ST_WALKING);
+	 * 
+	 * de haber saltado o caido, debe recalcular el platformAnalysisResult y no debe
+	 * resetear el tiempo en el estado actual
+	 * 
+	 * @param mummy Contexto del patron state
+	 */
+	public MummyStateWalking(Mummy mummy)
+	{
+		super(mummy, GameCharacter.ST_WALKING);
+		this.initValuesFromMummy(mummy);
+		this.platformAnalysisResult = new PlatformAnalysisResult(this.mummy);
+		if (GameRules.getInstance().isDebugMode())
+			Game.getInstance().getIGraphic().addGraphicElement(
+					new DrawableElement(Constants.DRAWABLE_PLATFORM_ANALYSIS_RESULT, this.platformAnalysisResult));
+
+	}
+
+	/**
+	 * Inicializa atributos a partir de la momia pasada por parametro
+	 * 
+	 * @param mummy Momia a partir de la cual se obtienen los valores.
+	 */
+	private void initValuesFromMummy(Mummy mummy)
+	{
+		this.whereIsPlayer = this.mummy.whereIsPlayer();
+		this.timeToChange = this.mummy.getTimeToDecide();
+		this.nextState = Mummy.ST_NO_CHANGE;
+	}
+
+	/**
+	 * Dedice la direccion de la momia de acuerdo a la posicion relativa del player
+	 */
+	protected void setDirection()
+	{
+		if (mummy.getX() < this.mummy.player.getX())
+			this.mummy.getDirection().x = 1;
+		else
+			this.mummy.getDirection().x = -1;
+
+	}
+
+	/**
+	 * Actualiza el comportamiento de locomocion y evaluacion de entorno de la
+	 * momia.
+	 *
+	 * <p>
+	 * Durante este estado, la momia se desplaza continuamente mientras evalua: el
+	 * tiempo en estado, el nivel de stress, la proximidad a bordes de plataforma y
+	 * las condiciones para transiciones a otros estados.
+	 * </p>
+	 *
+	 * <p>
+	 * Si la momia no se encuentra en escalera, se ejecutan chequeos de bordes de
+	 * plataforma que pueden derivar en acciones como saltar, caer o rebotar.
+	 * </p>
+	 */
+	@Override
+	public void update(float deltaTime)
+	{
+
+		if (this.mummy.getRenderMode() == GameCharacter.ST_WALKING
+				|| this.mummy.getRenderMode() == GameCharacter.ST_IDDLE)
+
+		{
+			if (!this.mummy.isInStair())
+			{
+				if (this.mummy.getTimeInState() >= this.timeToChange)
+					this.nextState = Mummy.ST_IDDLE;
+
+				if (this.mustDecide)
+					this.checkEndOfPlataform();
+
+				if (this.mummy.getStressLevel() >= 9)
+
+					this.nextState = Mummy.ST_DYING;
+
+				if (this.mummy.getStressLevel() > 0)
+					this.mummy.calmStress(deltaTime / 6);
+			}
+			this.mummy.move(this.mummy.getDirection(), doJump, deltaTime);
+			this.doJump = false; // Si esta vez decidio saltar, no deberia volver a saltar el proximo ciclo
+
+		} else
+		{
+			this.nextState = ST_ON_AIR;
+		}
+		this.checkChangeStatus();
+
+	}
+
+	/**
+	 * Retorna true
+	 */
+	@Override
+	protected boolean isActive()
+	{
+		return true;
+	}
+
+	/**
+	 * Si pasa el tiempo correspondiente a this.timeToChange, entonces el estado
+	 * cambia a new MummyStateDeciding(this.mummy)
+	 */
+	private void checkChangeStatus()
+	{
+		if (this.nextState != Mummy.ST_NO_CHANGE)
+			switch (this.nextState)
+			{
+			case Mummy.ST_IDDLE:
+				this.mummy.mummyState = new MummyStateDeciding(this.mummy);
+				break;
+			case Mummy.ST_DYING:
+				this.die(true);
+				break;
+			case ST_ON_AIR:
+				this.mummy.mummyState = new MummyStateOnAir(this.mummy);
+				break;
+			}
+
+	}
+
+	/**
+	 * Invierte la direccion de movimiento de la momia y aumenta su nivel de stress.
+	 *
+	 * <p>
+	 * Este comportamiento representa una colision contra un obstaculo o limite sin
+	 * posibilidad de avance.
+	 * </p>
+	 */
+	private void bounces()
+	{
+		this.mummy.getDirection().x *= -1;
+		this.mummy.stressing();
+	}
+
+	/**
+	 * Cambia el estado a new MummyStateDying(this.mummy, mustTeleport);
+	 */
+	@Override
+	protected void die(boolean mustTeleport)
+	{
+
+		this.mummy.mummyState = new MummyStateDying(this.mummy, mustTeleport);
+
+	}
+
+	/**
+	 * Detecta si la momia ha alcanzado el limite de la plataforma actual y delega
+	 * la resolucion del evento al analisis del tipo de borde.
+	 *
+	 * <p>
+	 * Este metodo actua como sistema de deteccion de "edge events" dentro del
+	 * comportamiento de la IA.
+	 * </p>
+	 */
+	private void checkEndOfPlataform()
+	{
+		if (this.mummy.isColision(this.platformAnalysisResult.getEndPlatformLeft().getRectangle())
+				&& this.mummy.getDirection().x == MummyState.LEFT)
+			this.analizeEndPlatform(this.platformAnalysisResult.getEndPlatformLeft());
+		else if (this.mummy.isColision(this.platformAnalysisResult.getEndPlatformRight().getRectangle())
+				&& this.mummy.getDirection().x == MummyState.RIGHT)
+			this.analizeEndPlatform(this.platformAnalysisResult.getEndPlatformRight());
+
+	}
+
+	/**
+	 * Analiza el tipo de extremo de plataforma alcanzado y determina la accion a
+	 * ejecutar en base a reglas y seleccion probabilistica.
+	 *
+	 * <p>
+	 * Las acciones posibles incluyen:
+	 * <ul>
+	 * <li>Rebote contra pared o bloqueo</li>
+	 * <li>Salto hacia siguiente plataforma</li>
+	 * <li>Caida voluntaria</li>
+	 * </ul>
+	 *
+	 * <p>
+	 * La decision final depende del tipo de borde, la capacidad de salto de la
+	 * momia y la posicion relativa del jugador.
+	 * </p>
+	 * 
+	 * @param endPlatform
+	 */
+	private void analizeEndPlatform(EndPlatform endPlatform)
+	{
+
+		if (endPlatform.getType() == EndPlatform.END_BLOCK) // Si hay un bloqueo
+			this.bounces(); // Hay que rebotar (no queda otra)
+		else
+		{
+			ProbabilisticSelector selector = new ProbabilisticSelector(Game.random);
+
+			boolean canJump = this.mummy.canJump();
+			selector.add(0.1, DO_BOUNCE); // agrega la posibilidad de rebotar
+			if (endPlatform.getType() == EndPlatform.END_STEP) // Si es un bloque escalon, es decir se puede saltar
+			{
+				if (canJump) // Si la momia puede saltar
+					selector.add(0.5, DO_JUMP); // agrega la posibilidad de saltar
+
+			} else // La unica opcion que queda es que sea una cornisa
+			{
+				if (whereIsPlayer == Mummy.PLAYER_IS_DOWN)
+				{
+					if (canJump) // Si la momia puede saltar
+						selector.add(0.25, DO_JUMP); // agrega la posibilidad de saltar
+					selector.add(0.5, DO_FALL);
+				} else
+				{
+					if (canJump) // Si la momia puede saltar
+						selector.add(0.5, DO_JUMP); // agrega la posibilidad de saltar
+					selector.add(0.25, DO_FALL);
+				}
+
+			}
+			int valor = (int) selector.getValue();
+			switch (valor)
+			{
+			case DO_JUMP:
+				this.doJump = true;
+				break;
+			case DO_BOUNCE:
+				this.bounces();
+				break;
+			case DO_FALL:
+				this.mustDecide = false; // Si la momia decide caer, no debe volver a detectar la colision con el borde
+				// porque podria tomar decision, lo cual disminuirira las probabilidades de
+				// caer de forma exponencial
+				break;
+
+			}
+		}
+
+	}
+}
+
+
+==============================
+FILE: src\main\java\engine\gameCharacters\mummys\MummyWhite.java
+==============================
+
+package engine.gameCharacters.mummys;
+
+import engine.gameCharacters.player.Player;
+import engine.level.Pyramid;
+import util.GameRules;
+
+/**
+ * Representa una momia blanca
+ * 
+ * @author Guillermo Lazzurri
+ */
+@SuppressWarnings("serial")
+public class MummyWhite extends Mummy
+{
+	/**
+	 * 
+	 * 
+	 * Llama a super(MummyFactory.WHITE_MUMMY, x, y,
+	 * Config.getInstance().getMummyWhiteParameters(), pyramid, player);
+	 * 
+	 * 
+	 * @param x       Coordenada x
+	 * @param y       Coordenada y
+	 * @param pyramid piramide en la que esta ubicada la momia
+	 * @param player  referencia al player que la momia persigue
+	 * 
+	 */
+
+	public MummyWhite(float x, float y, Pyramid pyramid, Player player)
+	{
+		super(MummyFactory.WHITE_MUMMY, x, y, GameRules.getInstance().getMummyWhiteParameters(), pyramid, player);
+
+	}
+
+	/**
+	 * Retorna una cadena de texto que representa la momia (solo para debug)
+	 */
+	@Override
+	public String toString()
+	{
+		return "MummyWhite " + super.toString();
+	}
+
+}
+
+
+==============================
+FILE: src\main\java\engine\gameCharacters\mummys\MummyYellow.java
+==============================
+
+package engine.gameCharacters.mummys;
+
+import engine.gameCharacters.player.Player;
+import engine.level.Pyramid;
+import util.GameRules;
+
+/**
+ * Representa una momia amarilla
+ * 
+ * @author Guillermo Lazzurri
+ */
+@SuppressWarnings("serial")
+public class MummyYellow extends Mummy
+{
+	/**
+	 * 
+	 * 
+	 * Llama a super(MummyFactory.YELLOW_MUMMY, x, y,
+	 * Config.getInstance().getMummyYellowParameters(), pyramid, player);
+	 * 
+	 * 
+	 * @param x       Coordenada x
+	 * @param y       Coordenada y
+	 * @param pyramid piramide en la que esta ubicada la momia
+	 * @param player  referencia al player que la momia persigue
+	 * 
+	 */
+
+	public MummyYellow(float x, float y, Pyramid pyramid, Player player)
+	{
+		super(MummyFactory.YELLOW_MUMMY, x, y, GameRules.getInstance().getMummyYellowParameters(), pyramid, player);
+
+	}
+
+	/**
+	 * Retorna una cadena de texto que representa la momia (solo para debug)
+	 */
+	@Override
+	public String toString()
+	{
+		return "MummyYellow " + super.toString();
+	}
+}
+
+
+==============================
+FILE: src\main\java\engine\gameCharacters\mummys\PlatformAnalysisResult.java
+==============================
+
+package engine.gameCharacters.mummys;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+
+import com.badlogic.gdx.math.Rectangle;
+
+import engine.gameCharacters.abstractGameCharacter.GameCharacter;
+import engine.level.LevelObject;
+import engine.level.Pyramid;
+import engine.level.Stair;
+import util.GameRules;
+
+/**
+ * Representa un snapshot del analisis del entorno de una momia sobre la
+ * plataforma actual.
+ *
+ * <p>
+ * Esta clase actua como sistema de percepcion de la IA, encapsulando toda la
+ * informacion relevante del entorno necesario para la toma de decisiones de los
+ * estados de la momia.
+ * </p>
+ *
+ * <p>
+ * Incluye informacion sobre los limites de la plataforma, escaleras
+ * disponibles, estructuras especiales y condiciones de accesibilidad del
+ * entorno.
+ * </p>
+ *
+ * <p>
+ * Este resultado es utilizado por los distintos estados de la FSM de la momia
+ * para evaluar transiciones y comportamientos.
+ * </p>
+ *
+ * @author Guillermo Lazzurri
+ */
+public class PlatformAnalysisResult
+{
+	/**
+	 * Representa el extremo izquierdo de una plataforma y su tipo de terminacion
+	 * (cliff, step o block).
+	 */
+	private EndPlatform endPlatformLeft;
+	/**
+	 * Representa el extremo derecho de una plataforma y su tipo de terminacion
+	 * (cliff, step o block).
+	 */
+	private EndPlatform endPlatformRight;
+	/**
+	 * Indica las escaleras que suben en la plataforma (podria ser un ArrayList
+	 * vacio)
+	 */
+	private ArrayList<Stair> upStairsInPlatform;
+	/**
+	 * Indica las escaleras que bajan en la plataforma (podria ser un ArrayList
+	 * vacio)
+	 */
+	private ArrayList<Stair> downStairsInPlatform;
+	/**
+	 * Indica La escalera que sube mas cercana al caracter. Podria ser null.
+	 */
+	private Stair nearestUpStair;
+	/**
+	 * Indica La escalera que baja mas cercana al caracter. Podria ser null.
+	 */
+	private Stair nearestDownStair;
+	/**
+	 * Indica el id del gameCharacter a partir del cual se genero el analisis
+	 */
+	private int gameCharacterId;
+
+	/**
+	 * Constructor de clase a partir del analisis de la plataforma desde la
+	 * perspectiva del GameCharacter pasado por parametro
+	 * 
+	 * @param gameCharacter GameCharacter desde el cual debe realizarse el analisis
+	 *                      de la plataforma
+	 */
+	public PlatformAnalysisResult(GameCharacter gameCharacter)
+	{
+		this.gameCharacterId = gameCharacter.getId();
+		this.endPlatformLeft = this.endPlatform(gameCharacter, false);
+		this.endPlatformRight = this.endPlatform(gameCharacter, true);
+		this.upStairsInPlatform = this.getStairs(gameCharacter, true);
+		this.downStairsInPlatform = this.getStairs(gameCharacter, false);
+		this.nearestUpStair = this.getNearStair(gameCharacter, true);
+		this.nearestDownStair = this.getNearStair(gameCharacter, false);
+
+	}
+
+	/**
+	 * Retorna un ArrayList de escaleras que suben o bajan (segun el parametro toUp)
+	 * que estan en la plataforma en la que esta parado el gameCharacter
+	 * 
+	 * @param gameCharacter    Se buscan las escalera sobre las que esta parado este
+	 *                         gameCharacter
+	 * @param endPlatFormLeft  Final Izquierdo de la plataforma
+	 * @param endPlatFormRight Final derecho de la plataforma
+	 * @param toUp             true si se busca una escalera que suba, false si
+	 *                         busco una escalera que baje
+	 * @return ArrayList de escaleras que suben o bajan (segun el parametro toUp)
+	 *         que estan en la plataforma en la que esta parado el gameCharacter
+	 */
+	private ArrayList<Stair> getStairs(GameCharacter gameCharacter, boolean toUp)
+	{
+		Pyramid pyramid = gameCharacter.getPyramid();
+		ArrayList<Stair> candidatesStairs = new ArrayList<Stair>();
+		LevelObject beginOfStair;
+
+		Iterator<Stair> it = pyramid.getAllStairs().iterator();
+		while (it.hasNext())
+		{
+			Stair stair = it.next();
+			if (toUp)
+				beginOfStair = stair.getDownStair();
+			else
+				beginOfStair = stair.getUpStair();
+			if (beginOfStair.y == gameCharacter.getLastFloorCoordinate()
+					&& this.endPlatformLeft.getRectangle().x < beginOfStair.x
+					&& endPlatformRight.getRectangle().x + endPlatformRight.getRectangle().width > beginOfStair.x)
+				candidatesStairs.add(stair);
+		}
+		return candidatesStairs;
+	}
+
+	/**
+	 * Retorna el resultado de buscar una escalera cercana que suba o baje (podria
+	 * retornar null si el ArrayList candidatesStairs es vacio)
+	 * 
+	 * @param gameCharacter    El caracter a partir del cual se busca la escalera
+	 *                         mas cercana
+	 * @param endPlatformLeft  Final izquierdo de la plataforma
+	 * @param endPlatformRight Final derecho de la plataforma
+	 * @param candidatesStairs ArrayList con las escaleras de que suben o bajan de
+	 *                         la plataforma
+	 * @param toUp             true si se busca una escalera que suba, false si
+	 *                         busco una escalera que baje
+	 * @return El resultado de la escalera buscada, si no hay una escalera con las
+	 *         caracteristicas pedidas, retorna null
+	 */
+	private Stair getNearStair(GameCharacter gameCharacter, boolean toUp)
+	{
+		ArrayList<Stair> candidatesStairs;
+		if (toUp)
+			candidatesStairs = this.upStairsInPlatform;
+		else
+			candidatesStairs = this.downStairsInPlatform;
+
+		Stair r = null;
+		if (!candidatesStairs.isEmpty())
+		{
+			float posX = gameCharacter.x + gameCharacter.width * 0.5f;
+			Iterator<Stair> it = candidatesStairs.iterator();
+			Rectangle beginOfStair;
+			Stair stair = it.next();
+			r = stair;
+			if (toUp)
+				beginOfStair = stair.getDownStair();
+			else
+				beginOfStair = stair.getUpStair();
+
+			float aux = posX - (beginOfStair.x + beginOfStair.width * 0.5f);
+			if (aux < 0)
+				aux *= -1;
+			float min = aux;
+			while (it.hasNext())
+			{
+				stair = it.next();
+				if (toUp)
+					beginOfStair = stair.getDownStair();
+				else
+					beginOfStair = stair.getUpStair();
+
+				aux = posX - (beginOfStair.x + beginOfStair.width * 0.5f);
+				if (aux < 0)
+					aux *= -1;
+
+				if (aux < min)
+				{
+					min = aux;
+
+					r = stair;
+				}
+			}
+
+		}
+
+		return r;
+
+	}
+
+	/**
+	 * Crea y retorna un objeto de tipo EndPlatform indicando el tipo de final de
+	 * plataforma buscado
+	 * 
+	 * @param toRight true si se busca el final de plataforma hacia la derecha,
+	 *                false si se lo busca por izquierda
+	 * @return Objeto de tipo EndPlatform que indica el tipo de final de plataforma
+	 */
+	private EndPlatform endPlatform(GameCharacter gameCharacter, boolean toRight)
+	{
+		int inc;
+		int acum = 0;
+		int type;
+		float tileWidth = GameRules.getInstance().getLevelTileWidthUnits();
+
+		float x;
+		Pyramid pyramid = gameCharacter.getPyramid();
+		x = gameCharacter.x;
+		if (toRight)
+		{
+			inc = 1;
+			x += gameCharacter.width;
+		} else
+
+		{
+			inc = -1;
+
+		}
+
+		while (pyramid.getCell(x, gameCharacter.getLastFloorCoordinate(), acum, 0) == null
+				&& pyramid.getCell(x, gameCharacter.getLastFloorCoordinate(), acum, 1) == null
+				&& pyramid.getCell(x, gameCharacter.getLastFloorCoordinate(), acum, -1) != null
+				&& this.isColDesplaInMap(gameCharacter, acum))
+		{
+			acum += inc;
+
+		}
+		EndPlatform epf2 = null;
+
+		{
+
+			LevelObject nearestGiratory = this.getNearestGiratory(gameCharacter, toRight);
+			if (nearestGiratory != null && Math.abs(nearestGiratory.x - gameCharacter.x) < Math.abs(acum) * tileWidth)
+			{
+				Rectangle r = null;
+				if (toRight)
+					r = new Rectangle(nearestGiratory.x - gameCharacter.width * .2f, nearestGiratory.y,
+							GameRules.getInstance().getCharacterWidth(),
+							GameRules.getInstance().getCharacterFeetHeight());
+				else
+					r = new Rectangle(
+							nearestGiratory.x + nearestGiratory.width * 1.2f
+									- GameRules.getInstance().getCharacterWidth(),
+							nearestGiratory.y, GameRules.getInstance().getCharacterWidth(),
+							GameRules.getInstance().getCharacterFeetHeight());
+				epf2 = new EndPlatform(EndPlatform.END_BLOCK, r);
+
+			} else
+
+			{
+				type = this.typeEndPlatform(gameCharacter, x, acum);
+				if (type == EndPlatform.END_CLIFF)
+				{
+					if (toRight)
+						x = x - x % tileWidth + acum * tileWidth - 0.1f * GameRules.getInstance().getCharacterWidth();
+					else
+						x = x - x % tileWidth + (acum + 1) * tileWidth
+								- 0.9f * GameRules.getInstance().getCharacterWidth();
+
+					epf2 = new EndPlatform(type,
+							new Rectangle(x, gameCharacter.getLastFloorCoordinate(),
+									GameRules.getInstance().getCharacterWidth(),
+									GameRules.getInstance().getCharacterFeetHeight()));
+
+				} else
+				{
+					if (toRight)
+						x = x - x % tileWidth + acum * tileWidth - 0.5f * GameRules.getInstance().getCharacterWidth();
+					else
+						x = x - x % tileWidth + (acum + 1) * tileWidth
+								- 0.5f * GameRules.getInstance().getCharacterWidth();
+
+					epf2 = new EndPlatform(type,
+							new Rectangle(x, gameCharacter.getLastFloorCoordinate(),
+									GameRules.getInstance().getCharacterWidth(),
+									GameRules.getInstance().getCharacterFeetHeight()));
+				}
+			}
+		}
+		return epf2;
+
+	}
+
+	/**
+	 * LLamado internamente por endPlatform. Retorna la puerta giratoria mas cercana
+	 * al caracter que este en la misma plataforma. Si no existe retorna null
+	 * 
+	 * @param gameCharacter Caracter a partir del cual de busca la puerta giratoria
+	 * @param toRight       true si busco la giratoria hacia la derecha, false si la
+	 *                      busco hacia la izquierda
+	 * @return La puerta giratoria mas cercana al caracter que este en la misma
+	 *         plataforma. Si no existe retorna null
+	 */
+	private LevelObject getNearestGiratory(GameCharacter gameCharacter, boolean toRight)
+	{
+		LevelObject r = null;
+		LevelObject giratory = null;
+
+		ArrayList<LevelObject> giratoriesCandidates = new ArrayList<LevelObject>();
+		Iterator<LevelObject> it = gameCharacter.getPyramid().getGiratories().iterator();
+		while (it.hasNext())
+		{
+			giratory = it.next();
+			boolean condicionDirection = (gameCharacter.x <= giratory.x) == toRight;
+			if (giratory.y == gameCharacter.getLastFloorCoordinate() && condicionDirection)
+				giratoriesCandidates.add(giratory);
+		}
+
+		it = giratoriesCandidates.iterator();
+		if (it.hasNext())
+		{
+			r = it.next();
+			while (it.hasNext())
+			{
+				giratory = it.next();
+				if (Math.abs(gameCharacter.x - giratory.x) < Math.abs(gameCharacter.x - r.x))
+					r = giratory;
+			}
+		}
+		return r;
+	}
+
+	/**
+	 * Metodo llamado internadmente por this.endPlatform. Evita que durante los
+	 * calculos se busque fuera de la piramide
+	 * 
+	 * @param col cantidad de desplazamiento
+	 * @return true si se esta dentro del mapa, false en caso contrario.
+	 */
+	private boolean isColDesplaInMap(GameCharacter gameCharacter, int col)
+	{
+		float tileWidth = GameRules.getInstance().getLevelTileWidthUnits();
+
+		float aux = gameCharacter.x + gameCharacter.width + col * tileWidth;
+		/*
+		 * return gameCharacter.getColPosition() + col > 0 &&
+		 * gameCharacter.getColPosition() + col <
+		 * gameCharacter.getPyramid().getMapWidthInTiles() - 1;
+		 */
+		return gameCharacter.getColPosition() + col > 0
+				&& aux < gameCharacter.getPyramid().getMapWidthInUnits() - tileWidth;
+
+	}
+
+	/**
+	 * Indica el tipo de fin de plataforma que existe de acuerdo a la posicionX y al
+	 * desplazamiento en x pasado por parametro
+	 * 
+	 * @param gameCharacter Caracter que se esta evaluando
+	 * @param positionX     coordenada x desde donde se inica la busqueda
+	 * @param iDeltaX       Desplazamiento en x
+	 * @return Valor entero que representa el tipo de final de plataforma. Puede
+	 *         tomar los valores:<br>
+	 *         EndPlatform.END_CLIFF;<br>
+	 *         EndPlatform.END_STEP;<br>
+	 *         EndPlatform.END_BLOCK
+	 */
+	private int typeEndPlatform(GameCharacter gameCharacter, float positionX, int iDeltaX)
+	{
+		int type = -1;
+		Pyramid pyramid = gameCharacter.getPyramid();
+
+		if (!this.isColDesplaInMap(gameCharacter, iDeltaX))
+		{
+			type = EndPlatform.END_BLOCK;
+		}
+
+		else if (pyramid.getCell(positionX, gameCharacter.getLastFloorCoordinate(), iDeltaX, 0) == null
+				&& pyramid.getCell(positionX, gameCharacter.getLastFloorCoordinate(), iDeltaX, 1) == null
+				&& pyramid.getCell(positionX, gameCharacter.getLastFloorCoordinate(), iDeltaX, -1) == null)
+			type = EndPlatform.END_CLIFF;
+		else if ((pyramid.getCell(positionX, gameCharacter.getLastFloorCoordinate(), iDeltaX, 1) != null
+				&& pyramid.getCell(positionX, gameCharacter.getLastFloorCoordinate(), iDeltaX, 2) == null
+				&& pyramid.getCell(positionX, gameCharacter.getLastFloorCoordinate(), iDeltaX, 3) == null)
+				|| (pyramid.getCell(positionX, gameCharacter.getLastFloorCoordinate(), iDeltaX, 0) != null
+						&& pyramid.getCell(positionX, gameCharacter.getLastFloorCoordinate(), iDeltaX, 1) == null
+						&& pyramid.getCell(positionX, gameCharacter.getLastFloorCoordinate(), iDeltaX, 2) == null))
+			type = EndPlatform.END_STEP;
+		else
+			type = EndPlatform.END_BLOCK;
+		return type;
+	}
+
+	/**
+	 * Retorna el final izquierdo de la plataforma
+	 * 
+	 * @return El final izquierdo de la plataforma
+	 */
+	public EndPlatform getEndPlatformLeft()
+	{
+		return endPlatformLeft;
+	}
+
+	/**
+	 * Retorna el final derecho de la plataforma
+	 * 
+	 * @return El final derecho de la plataforma
+	 */
+	public EndPlatform getEndPlatformRight()
+	{
+		return endPlatformRight;
+	}
+
+	/**
+	 * Retorna la escalera que sube mas cercana. Si no hay escaleras en la
+	 * plataforma retorna null.
+	 * 
+	 * @return La escalera que sube mas cercana. Si no hay escaleras en la
+	 *         plataforma retorna null.
+	 */
+	public Stair getNearestUpStair()
+	{
+		return nearestUpStair;
+	}
+
+	/**
+	 * Retorna la escalera que baja mas cercana. Si no hay escaleras en la
+	 * plataforma retorna null.
+	 * 
+	 * @return La escalera que baja mas cercana. Si no hay escaleras en la
+	 *         plataforma retorna null.
+	 */
+
+	public Stair getNearestDownStair()
+	{
+		return nearestDownStair;
+	}
+
+	/**
+	 * Retorna las escaleras que suben en la plataforma
+	 * 
+	 * @return las escaleras que suben en la plataforma
+	 */
+	public ArrayList<Stair> getUpStairsInPlatform()
+	{
+		return upStairsInPlatform;
+	}
+
+	/**
+	 * Retorna las escaleras que bajan en la plataforma
+	 * 
+	 * @return las escaleras que bajan en la plataforma
+	 */
+
+	public ArrayList<Stair> getDownStairsInPlatform()
+	{
+		return downStairsInPlatform;
+	}
+
+	@Override
+	public String toString()
+	{
+		return "PlatFormAnalisys [endEndPlatformLeft=" + endPlatformLeft + ", endEndPlatformRight=" + endPlatformRight
+				+ ", nearestUpStair=" + nearestUpStair + ", nearestDownStair=" + nearestDownStair + "]";
+	}
+
+	/**
+	 * 
+	 * Determina si un GameCharacter se encuentra dentro de los limites horizontales
+	 * de la plataforma actual.
+	 * 
+	 * @param character Caracter a analizar
+	 * @return true si el caracter esta dentro de los limites de la plataforma, false
+	 *         en caso contrario
+	 */
+	public boolean isCharacterReachable(GameCharacter character)
+	{
+		return this.endPlatformLeft.getRectangle().x <= character.x
+				&& character.x <= this.endPlatformRight.getRectangle().x + this.endPlatformRight.getRectangle().width;
+	}
+
+	/**
+	 * Retorna el id del GameCharacter a partir del cual se realizo el analisis
+	 * 
+	 * @return El id del GameCharacter a partir del cual se realizo el analisis
+	 */
+	public int getGameCharacterId()
+	{
+		return gameCharacterId;
+	}
+
+}
+
+
+==============================
+FILE: src\main\java\engine\gameCharacters\player\Player.java
+==============================
+
+package engine.gameCharacters.player;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+
+import com.badlogic.gdx.math.Vector2;
+
+import engine.DrawableElement;
+import engine.KVEventListener;
+import engine.game.Game;
+import engine.gameCharacters.abstractGameCharacter.GameCharacter;
+import engine.level.GiratoryMechanism;
+import engine.level.LevelObject;
+import engine.level.Pyramid;
+import engine.level.dagger.Dagger;
+import engine.level.dagger.DaggerState;
+import util.GameRules;
+import util.Constants;
+
+/**
+ * Representa al personaje controlado por el jugador.
+ *
+ * <p>
+ * Esta clase extiende la funcionalidad provista por GameCharacter incorporando
+ * los comportamientos especificos asociados al protagonista del juego,
+ * incluyendo la interaccion con objetos del escenario, la recoleccion de joyas,
+ * el uso de armas y la resolucion de condiciones necesarias para completar un
+ * nivel.
+ * </p>
+ *
+ * <p>
+ * El jugador constituye la entidad central de la experiencia de juego, siendo
+ * responsable de la exploracion del escenario y de la ejecucion de las acciones
+ * que permiten alcanzar los objetivos de cada nivel.
+ * </p>
+ *
+ * <p>
+ * Player reutiliza la infraestructura comun de movimiento, colision e
+ * interaccion definida en GameCharacter, incorporando unicamente las
+ * responsabilidades propias del personaje principal.
+ * </p>
+ *
+ * <p>
+ * El comportamiento dinamico del personaje se implementa mediante el patron
+ * State, permitiendo encapsular las distintas situaciones posibles del jugador
+ * y simplificando la gestion de transiciones entre estados.
+ * </p>
+ *
+ * <p>
+ * Desde el punto de vista arquitectonico, esta clase especializa la abstraccion
+ * GameCharacter para representar al unico personaje controlado directamente por
+ * el usuario.
+ * </p>
+ *
+ * @author Guillermo Lazzurri
+ */
+@SuppressWarnings("serial")
+public class Player extends GameCharacter
+{
+    /**
+     * Codigo numerico para el estado de estar lanzando la espada
+     */
+    public static final int ST_THROWING_DAGGER = 20;
+
+    /**
+     * Codigo numerico para el estado de estar picando
+     */
+
+    public static final int ST_PICKING = 21;
+
+    /**
+     * El item que el player porta (pico, espada, o null)
+     */
+    protected LevelObject item = null;
+
+    /**
+     * Estado del Player (Patron State)
+     */
+    private PlayerState playerState = null;
+
+    /**
+     * Constructor de clase. Llama a <br>
+     * super(Constants.PLAYER, x,
+     * y,GameRules.getInstance().getCharacterWidth(),GameRules.getInstance().getPlayerHeight(),
+     * GameRules.getInstance().getPlayerSpeedWalk(),
+     * GameRules.getInstance().getPlayerSpeedWalkStairs(), pyramid); <br>
+     * Dispara el evento
+     * Game.getInstance().eventFired(KVEventListener.PLAYER_RESPAWN, this);
+     * 
+     * @param x       coordenada x original del Player
+     * @param y       coordenada y original del Player
+     * @param pyramid piramide a la cual pertenece el player
+     */
+    public Player(float x, float y, Pyramid pyramid)
+    {
+	super(Constants.PLAYER, x, y, GameRules.getInstance().getCharacterWidth(),
+		GameRules.getInstance().getPlayerHeight(), GameRules.getInstance().getPlayerSpeedWalk(),
+		GameRules.getInstance().getPlayerSpeedWalkStairs(), pyramid);
+	this.playerState = new PlayerStateMoving(this, GameCharacter.ST_IDDLE);
+	Game.getInstance().eventFired(KVEventListener.PLAYER_RESPAWN, this);
+    }
+
+    /**
+     * Llamado para actualizar al player. Delega el metodo en
+     * this.playerState.update(v, b, deltaTime);
+     * 
+     * @param movementDirection Indica la direccion pretendida.
+     * @param action            true si intenta realizar una accion, false en caso
+     *                          contrario
+     * @param deltaTime         Tiempo transcurrido desde la ultima actualizacion
+     */
+    public void update(Vector2 movementDirection, boolean action, float deltaTime)
+    {
+	this.incAnimationDelta(deltaTime);
+	this.playerState.update(movementDirection, action, deltaTime);
+    }
+
+    /**
+     * Retorna el item que porta el player (espada o pico). Si no porta ningun item
+     * retorna null
+     * 
+     * @return el item que porta el player (espada o pico). Si no porta ningun item
+     *         retorna null
+     */
+    public LevelObject getItem()
+    {
+	return item;
+    }
+
+    /**
+     * Ejecuta la accion principal del jugador segun el item actualmente equipado.
+     *
+     * <p>
+     * Las acciones posibles incluyen:
+     * <ul>
+     * <li>Salto (sin item)</li>
+     * <li>Uso de pico</li>
+     * <li>Lanzamiento de daga</li>
+     * </ul>
+     *
+     * <p>
+     * Cada accion puede disparar eventos globales del juego.
+     * </p>
+     */
+    @Override
+    protected void doAction()
+    {
+	if (this.item == null)
+	{
+	    if (this.doJump())
+		Game.getInstance().eventFired(KVEventListener.PLAYER_JUMP, this);
+
+	} else if (this.item.getType() == Constants.IT_PICKER)
+	{
+	    this.playerState.doPicker();
+	} else if (this.item.getType() == Constants.IT_DAGGER)
+	{
+	    this.playerState.throwDagger();
+	}
+
+    }
+
+    /**
+     * El player podra pasar por una puerta giratoria dependiendo la posicion del
+     * mismo y la de orientaci de la puerta giratoria.
+     */
+    @Override
+    protected boolean canPassGiratoryMechanism(GiratoryMechanism giratoryMechanism)
+    {
+
+	return (this.renderMode == GameCharacter.ST_WALKING && this.isLookRight() && giratoryMechanism.isRight())
+		|| (this.renderMode == GameCharacter.ST_WALKING && !this.isLookRight() && !giratoryMechanism.isRight());
+    }
+
+    /**
+     * Delega el metodo a this.playerState.passGiratoryMechanism(giratoryMechanism);
+     * (patron state)
+     */
+
+    @Override
+    protected void passGiratoryMechanism(GiratoryMechanism giratoryMechanism)
+    {
+	this.playerState.passGiratoryMechanism(giratoryMechanism);
+    }
+
+    @Override
+    protected void setRenderMode(int renderMode)
+    {
+	super.setRenderMode(renderMode);
+    }
+
+    /**
+     * Cambia el estado del player (patron state)
+     * 
+     * @param playerState nuevo estado del player (patron state)
+     */
+    protected void setPlayerState(PlayerState playerState)
+    {
+	this.playerState = playerState;
+    }
+
+    @Override
+    protected void resetAnimationDelta()
+    {
+	super.resetAnimationDelta();
+    }
+
+    /**
+     * Incrementa la coordenada x del caracter (admite valores positivos y
+     * negativos)
+     * 
+     * @param cant cantidad a incrementar
+     */
+    protected void incX(float cant)
+    {
+	this.x += cant;
+    }
+
+    /**
+     * llama a super.move(v, b, deltaTime); Luego verifica si se recolectan items,
+     * se pasa por giratorias o se activan trampas
+     */
+    @Override
+    protected void move(Vector2 v, boolean b, float deltaTime)
+    {
+	super.move(v, b, deltaTime);
+	this.pickupCollectables();
+
+	LevelObject activator = this.checkRectangleColision(this.pyramid.getActivators());
+	if (activator != null)
+	    this.pyramid.activateWall(activator);
+
+    }
+
+    /**
+     * Gestiona la recoleccion de objetos del escenario por parte del jugador.
+     *
+     * <p>
+     * Incluye la deteccion de colisiones con:
+     * <ul>
+     * <li>Joyas</li>
+     * <li>Dagas clavadas</li>
+     * <li>Herramientas (pico)</li>
+     * </ul>
+     *
+     * <p>
+     * Al recolectar un objeto, se actualiza el estado del mundo y se disparan los
+     * eventos correspondientes del sistema.
+     * </p>
+     *
+     * Game.getInstance().eventFired(KVEventListener.PICKUP_JEWEL,jewel);<br>
+     * *Game.getInstance().eventFired(KVEventListener.PICKUP_PICKER,picker);<br>
+     * *Game.getInstance().eventFired(KVEventListener.PICKUP_DAGGER,dagger);<br>
+     ***/
+
+    private void pickupCollectables()
+    {
+	if (!this.isInStair())
+	{
+	    LevelObject jewel = this.checkItemFeetColision(this.pyramid.getJewels());
+	    if (jewel != null)
+	    {
+		this.pyramid.removeJewel(jewel);
+		Game.getInstance().getIGraphic()
+			.removeGraphicElement(new DrawableElement(Constants.DRAWABLE_LEVEL_ITEM, jewel));
+
+		Game.getInstance().eventFired(KVEventListener.PICKUP_JEWEL, jewel);
+
+	    }
+	    if (this.item == null)
+	    {
+
+		Dagger dagger = (Dagger) this.checkRectangleColision(this.pyramid.getStuckedDaggers());
+		if (dagger != null && dagger.getRenderMode() == DaggerState.ST_STUCKED)
+		{
+		    this.item = dagger;
+		    dagger.hasPickuped();
+		    Game.getInstance().eventFired(KVEventListener.PICKUP_DAGGER, dagger);
+
+		}
+	    }
+	    if (this.item == null)
+	    {
+
+		LevelObject picker = this.checkRectangleColision(this.pyramid.getPickers());
+		if (picker != null)
+		{
+		    this.item = picker;
+		    this.pyramid.removePicker(picker);
+		    Game.getInstance().getIGraphic()
+			    .removeGraphicElement(new DrawableElement(Constants.DRAWABLE_LEVEL_ITEM, picker));
+
+		    Game.getInstance().eventFired(KVEventListener.PICKUP_PICKER, picker);
+
+		}
+
+	    }
+	}
+    }
+
+    /**
+     * Llamado internamente por this.pickupCollectables(), verifica colision entre
+     * los objetos pasados por parametro y los pies del player
+     * 
+     * @param levelObjects conjunto de objetos que deben verificarse
+     * @return primer objeto con el que se detecta colision. Si no colisiona con
+     *         ninguno, retorna null
+     */
+    private LevelObject checkItemFeetColision(ArrayList<LevelObject> levelObjects)
+    {
+
+	Iterator<LevelObject> it = levelObjects.iterator();
+	LevelObject respuesta = null;
+	LevelObject item = null;
+	if (it.hasNext())
+	    do
+	    {
+		item = it.next();
+	    } while (it.hasNext() && !this.isFeetColision(item));
+
+	if (this.isFeetColision(item))
+	{
+	    respuesta = item;
+	}
+
+	return respuesta;
+    }
+
+    /**
+     * Llamado cuando el player muere. Delega el metodo en this.playerState.die();
+     */
+    public void die()
+    {
+	this.playerState.die();
+    }
+
+}
+
+
+==============================
+FILE: src\main\java\engine\gameCharacters\player\PlayerState.java
+==============================
+
+package engine.gameCharacters.player;
+
+import com.badlogic.gdx.math.Vector2;
+
+import engine.level.GiratoryMechanism;
+
+/**
+ * Clase abstracta que representa el estado del Player (patron State).
+ *
+ * <p>
+ * Esta jerarquia encapsula los distintos comportamientos posibles del personaje
+ * controlado por el jugador, tales como movimiento, salto, uso de herramientas
+ * y combate.
+ * </p>
+ *
+ * <p>
+ * A diferencia de la IA de los enemigos (MummyState), que toma decisiones
+ * autonomas basadas en el entorno, PlayerState traduce el input del usuario en
+ * acciones concretas dentro del mundo del juego.
+ * </p>
+ *
+ * <p>
+ * Esta clase define una maquina de estados reactiva que controla el flujo de
+ * comportamiento del jugador, delegando en cada estado concreto la
+ * interpretacion del input y la ejecucion de acciones asociadas.
+ * </p>
+ *
+ * <p>
+ * Desde el punto de vista arquitectonico, PlayerState actua como capa de
+ * control entre el input del usuario y la logica de GameCharacter.
+ * </p>
+ *
+ * @author Guillermo Lazzurri
+ */
+public abstract class PlayerState
+{
+	/**
+	 * Contexto asociado al patron State.
+	 */
+	protected Player player;
+
+	/**
+	 * Constructor de clase.
+	 *
+	 * <p>
+	 * Inicializa el estado del Player y configura el modo de renderizacion asociado
+	 * al estado concreto.
+	 * </p>
+	 *
+	 * @param player contexto asociado al patron State
+	 * @param state  codigo de estado visual asociado al comportamiento actual.Puede
+	 *               tomar los valores:<br>
+	 *               Player.ST_DYING;<br>
+	 *               Player.ST_WALKING;<br>
+	 *               Player.ST_PICKING;<br>
+	 *               Player.ST_THROWING_DAGGER;<br>
+	 *               GameCharacter.ST_IDDLE<br>
+	 */
+	public PlayerState(Player player, int state)
+	{
+		this.player = player;
+		player.setRenderMode(state);
+		this.player.resetAnimationDelta();
+	}
+
+	/**
+	 *
+	 * Actualiza el comportamiento del Player en funcion del input del usuario.
+	 *
+	 * <p>
+	 * Cada estado concreto interpreta la entrada de movimiento y accion para
+	 * generar el comportamiento correspondiente dentro del juego.
+	 * </p>
+	 *
+	 * @param movementDirection direccion de movimiento solicitada por el usuario
+	 * @param action            indica si el usuario esta ejecutando una accion
+	 * @param deltaTime         tiempo transcurrido desde la ultima actualizacion
+	 */
+
+	public abstract void update(Vector2 movementDirection, boolean action, float deltaTime);
+
+	/**
+	 * Gestiona la transicion del Player al estado de muerte.
+	 */
+	protected abstract void die();
+
+	/**
+	 * Gestiona la interaccion del Player con mecanismos giratorios del escenario.
+	 *
+	 * @param giratoryMechanism mecanismo con el que interactua el jugador
+	 */
+	protected abstract void passGiratoryMechanism(GiratoryMechanism giratoryMechanism);
+
+	/**
+	 * Ejecuta la accion de picar, si el estado actual lo permite.
+	 */
+	protected abstract void doPicker();
+
+	/**
+	 * Ejecuta el lanzamiento de la daga, si el estado actual lo permite.
+	 */
+	protected abstract void throwDagger();
+
+}
+
+
+==============================
+FILE: src\main\java\engine\gameCharacters\player\PlayerStateDying.java
+==============================
+
+package engine.gameCharacters.player;
+
+import com.badlogic.gdx.math.Vector2;
+
+import engine.KVEventListener;
+import engine.game.Game;
+import engine.level.GiratoryMechanism;
+
+/**
+ * Representa el estado del player "muriendo"
+ * 
+ * @author Guillermo Lazzurri
+ */
+public class PlayerStateDying extends PlayerState
+{
+
+	/**
+	 * Constructor de clase. Llama a super(player, Player.ST_DYING);<br>
+	 * Dispara el evento Game.getInstance().eventFired(KVEventListener.PLAYER_DIE,
+	 * this.player);
+	 * 
+	 * @param player Contexto del patron state
+	 */
+	public PlayerStateDying(Player player)
+	{
+		super(player, Player.ST_DYING);
+		Game.getInstance().eventFired(KVEventListener.PLAYER_DIE, this.player);
+
+	}
+
+	/**
+	 * Se sobreescribe como metodo vacio (no hace nada)
+	 */
+	@Override
+	public void update(Vector2 movementDirection, boolean action, float deltaTime)
+	{
+	}
+
+	/**
+	 * Se sobreescribe como metodo vacio (no hace nada)
+	 */
+	@Override
+	protected void die()
+	{
+
+	}
+
+	/**
+	 * Se sobreescribe como metodo vacio (no hace nada)
+	 */
+	@Override
+	protected void passGiratoryMechanism(GiratoryMechanism giratoryMechanism)
+	{
+
+	}
+
+	/**
+	 * Se sobreescribe como metodo vacio (no hace nada)
+	 */
+	@Override
+	protected void doPicker()
+	{
+
+	}
+
+	/**
+	 * Se sobreescribe como metodo vacio (no hace nada)
+	 */
+	@Override
+	protected void throwDagger()
+	{
+
+	}
+
+}
+
+
+==============================
+FILE: src\main\java\engine\gameCharacters\player\PlayerStateMoving.java
+==============================
+
+package engine.gameCharacters.player;
+
+import java.util.ArrayList;
+
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
+import com.badlogic.gdx.math.Vector2;
+
+import engine.KVEventListener;
+import engine.game.Game;
+import engine.level.GiratoryMechanism;
+import engine.level.PairInt;
+import engine.level.dagger.Dagger;
+import util.GameRules;
+
+/**
+ * 
+ * Representa el estado "moviendose" (tambien esta en este estado si el player
+ * esta en modo descanso)
+ * 
+ * @author Guillermo Lazzurri
+ */
+public class PlayerStateMoving extends PlayerState
+{
+
+	/**
+	 * Constructor de clase, llama a super(player, state);
+	 * 
+	 * @param player Contexto del patron state
+	 * @param state  Indica el tipo de estado. En este caso puede tomar los valores
+	 *               GameCharacter.ST_IDDLE; o GameCharacter.ST_WALKING;
+	 */
+	public PlayerStateMoving(Player player, int state)
+	{
+		super(player, state);
+	}
+
+	@Override
+	public void update(Vector2 movementDirection, boolean action, float deltaTime)
+	{
+		this.player.move(movementDirection, action, deltaTime);
+
+	}
+
+	/**
+	 * Se realiza el cambio de estado mediante this.player.setPlayerState(new
+	 * PlayerStateDying(this.player));
+	 * 
+	 */
+	@Override
+	protected void die()
+	{
+		this.player.setPlayerState(new PlayerStateDying(this.player));
+	}
+
+	/**
+	 * Llamado al pasar exitosamente por la giratoria. Dispara el evento
+	 * Game.getInstance().eventFired(KVEventListener.ENTER_GIRATORY, this);
+	 * 
+	 */
+
+	@Override
+	protected void passGiratoryMechanism(GiratoryMechanism giratoryMechanism)
+	{
+		this.player.setPlayerState(new PlayerStatePassingGiratory(this.player, giratoryMechanism));
+		giratoryMechanism.activate();
+		Game.getInstance().eventFired(KVEventListener.ENTER_GIRATORY, giratoryMechanism);
+
+	}
+
+	/**
+	 * Llamado al intentar picar, podria llamar al metodo privado picking donde se
+	 * realizan los cambios de estado
+	 */
+	@Override
+	protected void doPicker()
+	{
+		float px, py;
+
+		if (this.player.isLocked())
+		{
+			if (this.player.isLookRight())
+			{
+				px = this.player.x + GameRules.getInstance().getLevelTileWidthUnits();
+			} else
+			{
+				px = this.player.x - GameRules.getInstance().getLevelTileWidthUnits();
+			}
+			py = this.player.y + GameRules.getInstance().getLevelTileHeightUnits();
+			if (this.player.getPyramid().getCell(px, py) != null)
+			{
+				int tileY = (int) (py / GameRules.getInstance().getLevelTileHeightUnits());
+				int tileX = (int) (px / GameRules.getInstance().getLevelTileWidthUnits());
+				if (this.picking(tileX, tileY, 2, true, new ArrayList<PairInt>()))
+					this.player.item = null;
+
+			} else
+			{
+				int tileY = (int) (this.player.y / GameRules.getInstance().getLevelTileHeightUnits());
+				int tileX = (int) (px / GameRules.getInstance().getLevelTileWidthUnits());
+				if (this.picking(tileX, tileY, 1, true, new ArrayList<PairInt>()))
+					this.player.item = null;
+			}
+		} else
+
+		{
+
+			if (this.player.isLookRight())
+			{
+				px = this.player.x + GameRules.getInstance().getLevelTileWidthUnits();
+				py = this.player.y - GameRules.getInstance().getLevelTileHeightUnits();
+
+			} else
+			{
+				px = this.player.x + this.player.width - GameRules.getInstance().getLevelTileWidthUnits();
+				py = this.player.y - GameRules.getInstance().getLevelTileHeightUnits();
+
+			}
+
+			int tileY = (int) (py / GameRules.getInstance().getLevelTileHeightUnits());
+			int tileX = (int) (px / GameRules.getInstance().getLevelTileWidthUnits());
+
+			if (this.picking(tileX, tileY, 2, false, new ArrayList<PairInt>()))
+				this.player.item = null;
+		}
+	}
+
+	/**
+	 * Llamado para picar una celda concreta. Realiza el cambio de estado llamando a
+	 * this.player.setPlayerState(new PlayerStatePicking(this.player, coordToPick));
+	 * 
+	 * @param x           coordenada matricial x del player
+	 * @param y           coordenada matricial y del player
+	 * @param cont        Indica la cantidad de celdas que faltan picar (en caso de
+	 *                    necesitar picar dos celdas)
+	 * @param locked      true si el player esta encerrado, false en caso contrario
+	 * @param coordToPick array que indica las coordenadas matriciales con las
+	 *                    celdas a picar
+	 * @return true si pudo picar, false en caso contrario
+	 */
+	private boolean picking(int x, int y, int cont, boolean locked, ArrayList<PairInt> coordToPick)
+	{
+		boolean respuesta = false;
+
+		TiledMapTileLayer layer = (TiledMapTileLayer) this.player.getPyramid().getMap().getLayers().get("front");
+		Cell cell = layer.getCell(x, y);
+		Cell celdaArriba = layer.getCell(x, y + 1);
+
+		if (x != 0 && x != this.player.getPyramid().getMapWidthInTiles() - 1 && y != 0
+				&& this.player.getPyramid().isPickable(cell) && cell != null && (celdaArriba == null || locked))
+		{
+
+			PairInt pairInt = new PairInt(x, y);
+			coordToPick.add(pairInt);
+			// this.state = Player.ST_PICKING;
+			this.player.setPlayerState(new PlayerStatePicking(this.player, coordToPick));
+
+			respuesta = true;
+			if (cont == 2)
+				this.picking(x, y - 1, 1, true, coordToPick);
+		}
+		return respuesta;
+	}
+
+	/**
+	 * Llamado al intentar lanzar la espada. Si se lanza, se realiza el cambio de
+	 * estado mediante this.player.setPlayerState(new
+	 * PlayerStateThrowingDagger(this.player));
+	 */
+	protected void throwDagger()
+	{
+		Dagger dagger = (Dagger) this.player.item;
+		int direccion;
+		if (this.player.isLookRight())
+			direccion = 1;
+		else
+			direccion = -1;
+		if (this.player.getPyramid().getCell(this.player.x+ this.player.width / 2, this.player.y, direccion, 1) == null)
+		{
+			dagger.x = this.player.x + direccion * GameRules.getInstance().getLevelTileHeightUnits() * 0.2f;
+			dagger.y = this.player.y + GameRules.getInstance().getLevelTileHeightUnits();
+
+			dagger.throwHorizontal(this.player.isLookRight());
+			this.player.setPlayerState(new PlayerStateThrowingDagger(this.player));
+		} else if (this.player.getPyramid().getCell(this.player.x, this.player.y, direccion, 2) == null)
+		{
+			if (this.player.isLookRight())
+				dagger.x = this.player.x;
+			else
+				dagger.x = this.player.x - this.player.width / 2;
+			dagger.y = this.player.y + GameRules.getInstance().getLevelTileHeightUnits();
+			dagger.throwVertical(this.player.isLookRight());
+
+			this.player.setPlayerState(new PlayerStateThrowingDagger(this.player));
+
+		}
+
+	}
+
+}
+
+
+==============================
+FILE: src\main\java\engine\gameCharacters\player\PlayerStatePassingGiratory.java
+==============================
+
+package engine.gameCharacters.player;
+
+import com.badlogic.gdx.math.Vector2;
+
+import engine.KVEventListener;
+import engine.game.Game;
+import engine.gameCharacters.abstractGameCharacter.GameCharacter;
+import engine.level.GiratoryMechanism;
+
+/**
+ * Representa el estado "Pasando por puerta giratoria"
+ * 
+ * @author Guillermo Lazzurri
+ */
+public class PlayerStatePassingGiratory extends PlayerState
+{
+    private GiratoryMechanism passingGiratory;
+
+    /**
+     * Constructor de clase, llama a super(player, Player.ST_WALKING);
+     * 
+     * @param player          Contexto del patron state
+     * @param passingGiratory Indica la puerta giratoria por la que se esta pasando
+     */
+    public PlayerStatePassingGiratory(Player player, GiratoryMechanism passingGiratory)
+    {
+	super(player, Player.ST_WALKING);
+	this.passingGiratory = passingGiratory;
+    }
+
+    /**
+     * Al terminar de pasar por la girtoria se realiza el cambio de estado mediante
+     * this.player.setPlayerState(new PlayerStateMoving(this.player,state));
+     * 
+     */
+    @Override
+    public void update(Vector2 movementDirection, boolean action, float deltaTime)
+    {
+	float direction;
+	float speedWalkStairs = this.player.getSpeedWalkStairs();
+	if (this.passingGiratory.isRight())
+	    direction = 1;
+	else
+	    direction = -1;
+
+	this.player.incX(direction * speedWalkStairs * 0.5f * deltaTime);
+	if (!this.player.isColision(this.passingGiratory.getLevelObject()))
+	{
+	    int state;
+	    if (movementDirection.x == 0)
+		state = GameCharacter.ST_IDDLE;
+	    else
+		state = GameCharacter.ST_WALKING;
+	    Game.getInstance().eventFired(KVEventListener.EXIT_GIRATORY, this.passingGiratory);
+
+	    this.player.setPlayerState(new PlayerStateMoving(this.player, state));
+	}
+
+    }
+
+    /**
+     * Se realiza el cambio de estado mediante this.player.setPlayerState(new
+     * PlayerStateDying(this.player));
+     * 
+     */
+    @Override
+    protected void die()
+    {
+	this.player.setPlayerState(new PlayerStateDying(this.player));
+
+    }
+
+    /**
+     * Se sobreescribe como metodo vacio (no hace nada)
+     */
+    @Override
+    protected void passGiratoryMechanism(GiratoryMechanism giratoryMechanism)
+    {
+
+    }
+
+    /**
+     * Se sobreescribe como metodo vacio (no hace nada)
+     */
+    @Override
+    protected void doPicker()
+    {
+
+    }
+
+    /**
+     * Se sobreescribe como metodo vacio (no hace nada)
+     */
+    @Override
+    protected void throwDagger()
+    {
+
+    }
+
+}
+
+
+==============================
+FILE: src\main\java\engine\gameCharacters\player\PlayerStatePicking.java
+==============================
+
+package engine.gameCharacters.player;
+
+import java.util.ArrayList;
+
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.Vector2;
+
+import engine.DrawableElement;
+import engine.KVEventListener;
+import engine.game.Game;
+import engine.gameCharacters.abstractGameCharacter.GameCharacter;
+import engine.level.GiratoryMechanism;
+import engine.level.PairInt;
+import engine.level.Pyramid;
+import util.GameRules;
+import util.Constants;
+
+/**
+ * Representa el esta "picando"
+ * 
+ * @author Guillermo Lazzurri
+ */
+public class PlayerStatePicking extends PlayerState
+{
+    private ArrayList<PairInt> coordToPick = new ArrayList<PairInt>();
+    private float timePicking = 0;
+
+    /**
+     * Constructor de clase, llama a super(player, Player.ST_PICKING);
+     * 
+     * @param player      Contexto del patron state
+     * @param coordToPick Contiene las coordenadas que deben picarse
+     */
+    public PlayerStatePicking(Player player, ArrayList<PairInt> coordToPick)
+    {
+	super(player, Player.ST_PICKING);
+	this.coordToPick = coordToPick;
+
+    }
+
+    /**
+     * Si recien comienza a picar agrega el objeto grafico
+     * this.player.getPyramid().addGraphicElement(new
+     * DrawableElement(Constantes.DRAWABLE_PICKING_CELL, pairInt)); (para repreenta
+     * la celda que se esta picando) y dispara el evento
+     * Game.getInstance().eventFired(KVEventListener.PLAYER_PICKING,
+     * this.player);<br>
+     * Si termino de picar elimina el objeto grafico this.player.getPyramid()
+     * .removeGraphicElement(new DrawableElement(Constantes.DRAWABLE_PICKING_CELL,
+     * pairInt));<br>
+     * Si ya no hay que picar mas se realiza el cambio de estado mediante
+     * this.player.setPlayerState(new PlayerStateMoving(this.player, state));
+     * 
+     */
+    @Override
+    public void update(Vector2 movementDirection, boolean action, float deltaTime)
+    {
+	Pyramid pyramid = this.player.getPyramid();
+	PairInt pairInt = coordToPick.get(0);
+	if (this.getTimePicking() == 0)// Recien comienza a picar
+	{
+	    Game.getInstance().getIGraphic()
+		    .addGraphicElement(new DrawableElement(Constants.DRAWABLE_PICKING_CELL, pairInt));
+	    Game.getInstance().eventFired(KVEventListener.PLAYER_PICKING, this.player);
+	}
+	this.incTimePicking(deltaTime);
+
+	if (this.getTimePicking() >= GameRules.getInstance().getTimeToEndPicking()) // termino de picar una celda
+	{
+
+	    TiledMapTileLayer layer = (TiledMapTileLayer) pyramid.getMap().getLayers().get("front");
+	    layer.setCell(pairInt.getX(), pairInt.getY(), null);
+	    coordToPick.remove(0);
+	    Game.getInstance().getIGraphic()
+		    .removeGraphicElement(new DrawableElement(Constants.DRAWABLE_PICKING_CELL, pairInt));
+	    if (coordToPick.isEmpty())
+	    {
+		int state;
+		if (movementDirection.x == 0)
+		    state = GameCharacter.ST_IDDLE;
+		else
+		    state = GameCharacter.ST_WALKING;
+		this.player.setPlayerState(new PlayerStateMoving(this.player, state));
+
+	    }
+	    this.resetTimePicking();
+	}
+
+    }
+
+    /**
+     * Se realiza el cambio de estado mediante this.player.setPlayerState(new
+     * PlayerStateDying(this.player));
+     * 
+     */
+    @Override
+    protected void die()
+    {
+	this.player.setPlayerState(new PlayerStateDying(this.player));
+
+    }
+
+    /**
+     * Retorna el tiempo transcurrido desde que comenzo a picar
+     * 
+     * @return el tiempo transcurrido desde que comenzo a picar
+     */
+    protected float getTimePicking()
+    {
+	return timePicking;
+    }
+
+    /**
+     * incrementa el tiempo que el player esta picando
+     * 
+     * @param delta tiempo que transcurrio desde la ultima vez que estaba picando
+     */
+    protected void incTimePicking(float delta)
+    {
+	this.timePicking += delta;
+    }
+
+    /**
+     * Pone en cero el tiempo de picado
+     */
+    protected void resetTimePicking()
+    {
+	this.timePicking = 0;
+    }
+
+    /**
+     * Se sobreescribe como metodo vacio (no hace nada)
+     */
+    @Override
+    protected void passGiratoryMechanism(GiratoryMechanism giratoryMechanism)
+    {
+
+    }
+
+    /**
+     * Se sobreescribe como metodo vacio (no hace nada)
+     */
+    @Override
+    protected void doPicker()
+    {
+
+    }
+
+    /**
+     * Se sobreescribe como metodo vacio (no hace nada)
+     */
+    @Override
+    protected void throwDagger()
+    {
+
+    }
+}
+
+
+==============================
+FILE: src\main\java\engine\gameCharacters\player\PlayerStateThrowingDagger.java
+==============================
+
+package engine.gameCharacters.player;
+
+import com.badlogic.gdx.math.Vector2;
+
+import engine.KVEventListener;
+import engine.game.Game;
+import engine.gameCharacters.abstractGameCharacter.GameCharacter;
+import engine.level.GiratoryMechanism;
+import util.GameRules;
+
+/**
+ * Representa el estado "Lanzando daga"
+ * 
+ * @author Guillermo Lazzurri
+ */
+public class PlayerStateThrowingDagger extends PlayerState
+{
+
+	/**
+	 * Contructor de clase, llama a super(player, Player.ST_THROWING_DAGGER);<br>
+	 * dispara el evento Game.getInstance().eventFired(KVEventListener.THROW_DAGGER,
+	 * this.player.item);
+	 * 
+	 * 
+	 * @param player Contexto del patron state
+	 */
+	public PlayerStateThrowingDagger(Player player)
+	{
+		super(player, Player.ST_THROWING_DAGGER);
+
+		Game.getInstance().eventFired(KVEventListener.THROW_DAGGER, this.player.item);
+		this.player.item = null;
+
+	}
+
+	/**
+	 * Si pasa el tiempo correspondiente a
+	 * Config.getInstance().getTimeToEndThrowDagger() se realiza el cambio de estado
+	 * mediante this.player.setPlayerState(new PlayerStateMoving(this.player,
+	 * state));
+	 * 
+	 */
+	@Override
+	public void update(Vector2 movementDirection, boolean action, float deltaTime)
+	{
+
+		if (this.player.getAnimationDelta() >= GameRules.getInstance().getTimeToEndThrowDagger()) // termino de LANZAR
+																									// LA
+																									// DAGA
+		{
+			int state;
+			if (movementDirection.x == 0)
+				state = GameCharacter.ST_IDDLE;
+			else
+				state = GameCharacter.ST_WALKING;
+			this.player.setPlayerState(new PlayerStateMoving(this.player, state));
+		}
+	}
+
+	/**
+	 * Se realiza el cambio de estado mediante this.player.setPlayerState(new
+	 * PlayerStateDying(this.player));
+	 * 
+	 */
+	@Override
+	protected void die()
+	{
+		this.player.setPlayerState(new PlayerStateDying(this.player));
+
+	}
+
+	/**
+	 * Se sobreescribe como metodo vacio (no hace nada)
+	 */
+	@Override
+	protected void passGiratoryMechanism(GiratoryMechanism giratoryMechanism)
+	{
+
+	}
+
+	/**
+	 * Se sobreescribe como metodo vacio (no hace nada)
+	 */
+	@Override
+	protected void doPicker()
+	{
+
+	}
+
+	/**
+	 * Se sobreescribe como metodo vacio (no hace nada)
+	 */
+	@Override
+	protected void throwDagger()
+	{
+
+	}
+}
