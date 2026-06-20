@@ -668,22 +668,17 @@ public class Facade implements ApplicationListener
 	this.gameConfig.setFullScreenMode(fullScreenMode);
 	if (fullScreenMode)
 	{
-	    Graphics.DisplayMode displayMode =
-	        Gdx.graphics.getDisplayMode();
+	    Graphics.DisplayMode displayMode = Gdx.graphics.getDisplayMode();
 
 	    Gdx.graphics.setFullscreenMode(displayMode);
-	}
-	else
+	} else
 	{
 	    Gdx.graphics.setWindowedMode(1280, 720);
 	}
-	
-	
-	
+
+	this.ui.create();
+
 	this.changeConfig = true;
     }
 
-    
-    
-    
 }
