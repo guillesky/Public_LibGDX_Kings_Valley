@@ -1,7 +1,6 @@
 audio
-controler
+controlerMVC
 engine
-engine.control
 engine.game
 engine.gameCharacters.abstractGameCharacter
 engine.gameCharacters.mummys
@@ -11,6 +10,7 @@ engine.level.dagger
 engine.level.door
 facade
 i18n
+keyboardGameControl
 mainPackage
 util
 vista2D

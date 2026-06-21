@@ -12,7 +12,6 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 
 import engine.DrawableElement;
-import engine.IGraphic;
 import engine.KVEventListener;
 import engine.game.Game;
 import engine.level.dagger.Dagger;
@@ -90,7 +89,6 @@ public class Pyramid
      * @param hashGiratoryMechanisms HashMap de mecanismos giratorios, el objeto
      *                               clase es la puerta giratoria de tipo
      *                               LevelObject
-     * @param interfaz               Interfaz grafica asociada.
      */
     public Pyramid(TiledMap map, ArrayList<Door> doors, ArrayList<LevelObject> jewels, ArrayList<Stair> positiveStairs,
 	    ArrayList<Stair> negativeStairs, ArrayList<LevelObject> pickers, ArrayList<Dagger> stuckedDaggers,

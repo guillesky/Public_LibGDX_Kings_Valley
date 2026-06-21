@@ -367,11 +367,19 @@ public class Controler2D extends AbstractControler implements KVEventListener
     }
 
     
+    /**
+     * Indica si la configuracion esta en modo pantalla completa
+     * @return true si esta en modo pantalla completa, false si esta en modo ventana
+     */
     public boolean isFullScreenMode()
     {
         return Facade.getInstance().isFullScreenMode();
     }
 
+    /**
+     * Cambia la configuracion de modo pantalla completa
+     * @param fullScreenMode true para pantalla completa, false para modo ventana
+     */
     public void setFullScreenMode(boolean fullScreenMode)
     {
     	Facade.getInstance().setFullScreenMode(fullScreenMode);

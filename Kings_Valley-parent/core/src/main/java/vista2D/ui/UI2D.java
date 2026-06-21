@@ -209,8 +209,8 @@ public class UI2D implements IView, ApplicationListener
 	this.createLongTextTable();
 	this.createMapTable();
 	this.addSounds();
-	tableMainInUi.setDebug(true);
-	this.tableOption.setDebug(true);
+	// tableMainInUi.setDebug(true);
+	// this.tableOption.setDebug(true);
 	stage.clear();
 	stage.addActor(backgroundImage);
 	this.setText();
@@ -324,7 +324,7 @@ public class UI2D implements IView, ApplicationListener
 	}
 	this.actorActual = this.tableMainInUi;
 	this.stage.addActor(this.tableMainInUi);
-	
+
 	Gdx.input.setCursorCatched(false);
 	if (Facade.getInstance().getGameConfig().isEnabledSelectDificultLevel())
 	{
@@ -366,7 +366,7 @@ public class UI2D implements IView, ApplicationListener
      */
     private void prepareFonts()
     {
-	int fontSize = (int) (Gdx.graphics.getHeight() * (1.f / 18.f));
+	int fontSize = (int) (Gdx.graphics.getHeight() * (1.f / 20.f));
 
 	FreeTypeFontGenerator.FreeTypeFontParameter parameterLarge = new FreeTypeFontGenerator.FreeTypeFontParameter();
 	parameterLarge.size = fontSize;
@@ -375,7 +375,7 @@ public class UI2D implements IView, ApplicationListener
 	fontLarge = fontGenerator.generateFont(parameterLarge);
 
 	FreeTypeFontGenerator.FreeTypeFontParameter parameterSmall = new FreeTypeFontGenerator.FreeTypeFontParameter();
-	parameterSmall.size = (int) (fontSize * .6);
+	parameterSmall.size = (int) (Gdx.graphics.getHeight() * (1.f / 30.f));
 	parameterSmall.color = Color.WHITE;
 	parameterSmall.borderColor = Color.BLACK;
 	parameterSmall.borderWidth = 1;
@@ -676,14 +676,6 @@ public class UI2D implements IView, ApplicationListener
 	selectBoxLanguage.setItems(array);
 	selectBoxLanguage.setSelected(Messages.LANGUAGE_NAME.getValue());
 	this.selectBoxVideoMode = new SelectBox<String>(skin);
-	/*
-	 * array.clear(); array.add(Messages.FULL_SCREEN.getValue());
-	 * selectBoxVideoMode.setItems(array);
-	 * 
-	 * selectBoxVideoMode.setSelected("FullScreen");
-	 * 
-	 * array.add(Messages.WINDOWED.getValue());
-	 */
 
 	labelTitleOption.setAlignment(Align.center);
 
@@ -691,24 +683,20 @@ public class UI2D implements IView, ApplicationListener
 
 	tableOption.row();
 	Table tableLanguage = new Table();
-	tableLanguage.add(labelLanguage).width(350).left().padRight(10);
-	tableLanguage.add(selectBoxLanguage).width(300).padRight(10);
-	/*
-	 * Table tableVideoMode = new Table();
-	 * tableVideoMode.add(this.labelVideoMode).width(350).left().padRight(10);
-	 * tableVideoMode.add(this.selectBoxVideoMode).width(300).padRight(10);
-	 */
+	float width = Gdx.graphics.getWidth();
+	tableLanguage.add(labelLanguage).width(width * (350f / 1920f)).left().padRight(10);
 
-	Table tableVideoMode = new Table();
-	tableVideoMode.add(slMusicVolume).left().padRight(120);
-	tableVideoMode.add(this.labelVideoMode).width(300).padRight(10);
-	tableVideoMode.add(this.selectBoxVideoMode).width(400).padRight(10);
+	tableLanguage.add(selectBoxLanguage).growX().minWidth(width * (350f / 1920f)).padRight(10);
 
-	this.addExpandableRow(tableOption, tableVideoMode);
+	Table tableFirstRow = new Table();
+	tableFirstRow.add(slMusicVolume).left().padRight(width * (100f / 1920f));
+	tableFirstRow.add(this.labelVideoMode).width(width * (300f / 1920f)).padRight(10);
+	tableFirstRow.add(this.selectBoxVideoMode).width(width * (400f / 1920f)).padRight(10);
+
+	this.addExpandableRow(tableOption, tableFirstRow);
 	this.addExpandableRow(tableOption, slFXVolume);
 	this.addExpandableRow(tableOption, slMasterVolume);
 	this.addExpandableRow(tableOption, tableLanguage);
-//	this.addExpandableRow(tableOption, tableVideoMode);
 
 	this.addExpandableRow(tableOption, buttonBackFromOptions);
 
@@ -793,24 +781,33 @@ public class UI2D implements IView, ApplicationListener
 
 	    }
 	});
-	// this.setTextOfSelectBox();
-	Table t = new Table();
-	t.add(buttonNewGame).width(350).left().padRight(10);
-	t.add(selectBoxGameType).width(400).padRight(10);
-	t.add(selectBoxGenericInitialChallenge).width(300).padRight(10);
+	float width = Gdx.graphics.getWidth();
+	//tableLanguage.add(labelLanguage).width(width * (350f / 1920f)).left().padRight(10);
+
+	
+	
+	Table tableFirstRow = new Table();
+	tableFirstRow.add(buttonNewGame).width(width* (350f / 1920f)).left().padRight(10);
+	tableFirstRow.add(selectBoxGameType).width(width* (400f / 1920f)).padRight(10);
+	tableFirstRow.add(selectBoxGenericInitialChallenge).width(width* (300f / 1920f)).padRight(10);
 
 	labelTitleMain.setAlignment(Align.center);
 
 	tableMainInUi.add(labelTitleMain).colspan(3).expandX().fillX().row();
 
 	tableMainInUi.row();
-	this.addExpandableRow(tableMainInUi, t);
+	
+	Table tableLastRow = new Table();
+	tableLastRow.add(this.buttonExit).padRight(width* (180f / 1920f));
+	tableLastRow.add(this.slDificultLevel);
+	
+	
+	this.addExpandableRow(tableMainInUi, tableFirstRow);
 
 	this.addExpandableRow(tableMainInUi, this.buttonOptions);
 	this.addExpandableRow(tableMainInUi, this.buttonHowToPlay);
 	this.addExpandableRow(tableMainInUi, this.buttonCredits);
-	this.addExpandableRow(tableMainInUi, this.slDificultLevel);
-	this.addExpandableRow(tableMainInUi, this.buttonExit);
+	this.addExpandableRow(tableMainInUi, tableLastRow);
 
 	if (!Facade.getInstance().getGameConfig().isEnabledSelectDificultLevel())
 	{

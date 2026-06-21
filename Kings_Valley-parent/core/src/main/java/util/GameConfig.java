@@ -22,7 +22,7 @@ public class GameConfig
     private boolean enabledSelectDificultLevel = false;
     private int bestExtendedEpisodeFinished = 0;
     private int bestGreatTempleFinished = 0;
-    private boolean fullScreenMode=true;
+    private boolean fullScreenMode = true;
 
     private static final String GAME_CONFIG_FILE = "game_config.json";
     private static final Json json = new Json();
@@ -61,10 +61,9 @@ public class GameConfig
 	    Files.write(file, json.prettyPrint(config).getBytes(StandardCharsets.UTF_8));
 	} catch (IOException e)
 	{
-	    throw new RuntimeException("No se pudo guardar la configuración en " + file, e);
+	    throw new RuntimeException("No se pudo guardar la configuracion en " + file, e);
 	}
     }
-    
 
     /**
      * Crea y retorna un objeto de tipo GameConfig a partir de los datos leidos
@@ -89,11 +88,9 @@ public class GameConfig
 	    return json.fromJson(GameConfig.class, jsonText);
 	} catch (IOException e)
 	{
-	    throw new RuntimeException("No se pudo leer la configuración desde " + file, e);
+	    throw new RuntimeException("No se pudo leer la configuracion desde " + file, e);
 	}
     }
-
-  
 
     /**
      * Retorna el codigo del idioma utilizado en el juego. Por ejemplo "es" para
@@ -290,20 +287,28 @@ public class GameConfig
 	    return configDir.resolve(GAME_CONFIG_FILE);
 	} catch (IOException e)
 	{
-	    throw new RuntimeException("No se pudo crear el directorio de configuración", e);
+	    throw new RuntimeException("No se pudo crear el directorio de configuracion", e);
 	}
     }
 
+    /**
+     * Indica si la configuracion esta en modo pantalla completa
+     * 
+     * @return true si esta en modo pantalla completa, false si esta en modo ventana
+     */
     public boolean isFullScreenMode()
     {
-        return fullScreenMode;
+	return fullScreenMode;
     }
 
+    /**
+     * Cambia la configuracion de modo pantalla completa
+     * 
+     * @param fullScreenMode true para pantalla completa, false para modo ventana
+     */
     public void setFullScreenMode(boolean fullScreenMode)
     {
-        this.fullScreenMode = fullScreenMode;
+	this.fullScreenMode = fullScreenMode;
     }
-
-   
 
 }

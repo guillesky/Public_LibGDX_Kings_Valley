@@ -14,7 +14,6 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 
-import engine.IGraphic;
 import engine.game.Game;
 import engine.gameCharacters.mummys.Mummy;
 import engine.gameCharacters.mummys.MummyFactory;
@@ -34,7 +33,6 @@ public class LevelReader
 {
 
 	private ArrayList<Door> doors = null;
-
 	private ArrayList<LevelObject> jewels = new ArrayList<LevelObject>();
 	private ArrayList<LevelObject> pickers = new ArrayList<LevelObject>();
 	private ArrayList<Dagger> stuckedDaggers = new ArrayList<Dagger>();
@@ -90,8 +88,6 @@ public class LevelReader
 	 * @param fromDeath     true si el player murio y esta reviviendo, false en caso
 	 *                      contrario. Si el player esta reviviendo, lo hara en la
 	 *                      puerta por la cual entro al nivel.
-	 * @param interfaz      Objeto que implementa la interfaz IGraphic y que se
-	 *                      pasara por parametro a la piramide.
 	 * @return Objeto de tipo Level coherente con los parametros.
 	 */
 	public Level getLevel(int id, String mapFile, int dificultLevel, boolean isCompleted, Door doorFrom,
