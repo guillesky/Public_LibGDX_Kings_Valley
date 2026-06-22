@@ -6,9 +6,9 @@ A modern Java and libGDX remake of \*King's Valley\* (Konami, 1985), developed a
 
 
 
-Current version: **1.2.1**
+Current version: **1.2.2**
 
-DOI: https://doi.org/10.5281/zenodo.20603674
+DOI: 
 
 
 \## 🕹️ About the Project
@@ -143,7 +143,7 @@ Useful Gradle flags:
 
 
 
-Current version: \*\*1.2.1\*\*
+Current version: \*\*1.2.2\*\*
 
 
 
@@ -159,11 +159,11 @@ The project is actively maintained and continues to evolve as both a playable re
 
 If you use this software for educational, research, or academic purposes, please cite the archived software record:
 
-DOI: https://doi.org/10.5281/zenodo.20603674
+DOI: 
 
 Suggested citation:
 
-Lazzurri, G. (2026). *King's Valley Remake* (Version 1.2.1) [Computer software]. Zenodo. https://doi.org/10.5281/zenodo.20603493
+Lazzurri, G. (2026). *King's Valley Remake* (Version 1.2.2) [Computer software]. Zenodo. 
 
 A machine-readable citation is also provided through the CITATION.cff file.
 
